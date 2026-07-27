@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>敢不敢 · Yoda Research</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;min-height:100%;font-family:-apple-system,'PingFang TC','Noto Sans TC',sans-serif;background:#000}
+#g3{width:100%;min-height:100vh;position:relative;overflow:hidden}
+.sc{width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:2.5rem 1.5rem}
+
+.k-start{background:linear-gradient(180deg,#0a0a1a 0%,#2a0510 40%,#6a0f1a 80%,#8a1a20 100%)}
+.k-blood{background:linear-gradient(180deg,#1a0505 0%,#4d0808 40%,#8a1010 100%)}
+.k-blood2{background:linear-gradient(180deg,#160303 0%,#3d0606 45%,#6a0d0d 100%)}
+.k-wake{background:linear-gradient(180deg,#0d1b2a 0%,#1a3a4a 45%,#3a6a7a 100%)}
+.k-wake2{background:linear-gradient(180deg,#0d1f2a 0%,#1a4050 45%,#4a7a8a 100%)}
+.k-clarity{background:linear-gradient(180deg,#0d2535 0%,#1a4a5a 45%,#4f9aae 100%)}
+.k-battle{background:linear-gradient(180deg,#1a0d2a 0%,#3a1a4a 45%,#6a3a7a 100%)}
+.k-battle2{background:linear-gradient(180deg,#20102e 0%,#40205a 45%,#70407a 100%)}
+.k-choice{background:linear-gradient(180deg,#2d2438 0%,#4a3a58 45%,#8a6a9a 100%)}
+.k-reborn{background:linear-gradient(180deg,#013a5b 0%,#026a8a 40%,#29b6c6 100%)}
+.k-result{background:linear-gradient(180deg,#014a3b 0%,#02785a 40%,#28c68a 100%)}
+.k-dark{background:linear-gradient(180deg,#050208,#0f0510,#180818)}
+
+.mtn{position:absolute;bottom:0;left:0;right:0;height:200px;pointer-events:none}
+.ov{position:relative;z-index:10;text-align:center;max-width:640px;width:100%}
+.t-m{color:#fff}.t-s{color:rgba(255,255,255,0.82)}.t-l{color:rgba(255,255,255,0.5)}
+.k-wake .t-s,.k-wake2 .t-s,.k-clarity .t-s,.k-reborn .t-s,.k-result .t-s{color:rgba(230,245,255,0.85)}
+
+.lbl{font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:0.5rem}
+.ttl{font-size:26px;font-weight:300;margin-bottom:1rem;line-height:1.35}
+.txt{font-size:15px;line-height:1.9;margin-bottom:1.5rem;max-width:520px;margin:0 auto 1.5rem;white-space:pre-line;word-break:normal;overflow-wrap:break-word;text-wrap:pretty}
+.q{font-size:17px;margin-bottom:1.5rem;line-height:1.6;color:#fff;text-wrap:balance;word-break:normal;overflow-wrap:break-word}
+.chs{display:flex;flex-direction:column;gap:0.75rem;width:100%;max-width:480px;margin:0 auto}
+.cbtn{background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.28);color:#fff;padding:0.95rem 1.25rem;border-radius:8px;cursor:pointer;font-size:14px;line-height:1.7;text-align:left;transition:all 0.22s;backdrop-filter:blur(6px);word-break:normal;overflow-wrap:break-word}
+.cbtn:hover{background:rgba(0,0,0,0.48);border-color:rgba(255,255,255,0.6);transform:translateX(4px)}
+.cont{background:transparent;border:1px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.78);padding:0.6rem 2rem;border-radius:4px;cursor:pointer;font-size:13px;margin-top:1.5rem;letter-spacing:1px;transition:all 0.2s}
+.cont:hover{border-color:rgba(255,255,255,0.9);color:#fff}
+.tq{font-size:17px;text-align:center;max-width:420px;line-height:2.1;font-style:italic;letter-spacing:0.3px;color:rgba(240,230,235,0.85);text-wrap:balance;word-break:keep-all}
+
+.card-wrap{perspective:1000px;width:280px;height:180px;margin:1rem auto;cursor:pointer}
+.card{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform 0.7s}
+.card.flipped{transform:rotateY(180deg)}
+.card-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;text-align:center}
+.card-front{background:linear-gradient(135deg,rgba(255,255,255,0.15),rgba(255,255,255,0.05));border:1px solid rgba(255,255,255,0.3)}
+.card-back{background:linear-gradient(135deg,rgba(0,0,0,0.5),rgba(30,10,10,0.6));border:1px solid rgba(255,255,255,0.35);transform:rotateY(180deg)}
+.card-hint{font-size:12px;color:rgba(255,255,255,0.6);margin-top:0.75rem}
+
+.sl-wrap{max-width:440px;margin:1.5rem auto}
+.sl-big{font-size:44px;font-weight:200;color:#fff;margin-bottom:0.25rem}
+.sl-cap{font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:1.5rem}
+input[type=range].sl{width:100%;-webkit-appearance:none;appearance:none;background:transparent;height:24px}
+input[type=range].sl::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;cursor:pointer;margin-top:-8px;box-shadow:0 2px 6px rgba(0,0,0,0.4)}
+input[type=range].sl::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:rgba(255,255,255,0.2)}
+input[type=range].sl::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#fff;cursor:pointer;border:none}
+
+.bc{width:100%;max-width:500px;margin:0 auto}
+.bi{display:flex;align-items:center;gap:1rem;margin-bottom:1.1rem}
+.blab{font-size:13px;min-width:96px;text-align:right}
+.bpct{font-size:14px;font-weight:500;min-width:40px;text-align:right}
+input[type=range].bsl{flex:1;-webkit-appearance:none;appearance:none;background:transparent;height:20px}
+input[type=range].bsl::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;cursor:pointer;margin-top:-6px;box-shadow:0 1px 5px rgba(0,0,0,0.35)}
+input[type=range].bsl::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:rgba(255,255,255,0.18)}
+input[type=range].bsl::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;cursor:pointer;border:none}
+.btot{font-size:13px;text-align:center;margin-top:0.5rem;padding:0.45rem 1rem;border-radius:4px;display:inline-block}
+.bw{color:#ffcc80;background:rgba(255,150,0,0.18)}
+.bo{color:#a5d6a7;background:rgba(80,200,100,0.18)}
+
+.ric{font-size:52px;margin-bottom:0.75rem}
+.rty{font-size:24px;font-weight:300;margin-bottom:0.75rem;color:#fff}
+.rd{font-size:14px;line-height:1.9;max-width:430px;margin:0 auto 1.5rem;color:rgba(230,245,255,0.85)}
+.rcfg{border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.5rem;max-width:340px;margin-left:auto;margin-right:auto}
+.rcr{display:flex;justify-content:space-between;font-size:13px;padding:0.32rem 0;border-bottom:1px solid rgba(255,255,255,0.1)}
+.rcr:last-child{border-bottom:none}
+.ybtn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);border:none;color:#fff;padding:0.9rem 2.5rem;border-radius:6px;font-size:15px;cursor:pointer;letter-spacing:0.5px;text-decoration:none;transition:opacity 0.2s;margin-bottom:0.5rem}
+.ybtn:hover{opacity:0.87}
+.share-btn{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.35);color:rgba(255,255,255,0.85);padding:0.6rem 1.5rem;border-radius:4px;cursor:pointer;font-size:13px;letter-spacing:1px;transition:all 0.2s}
+.share-btn:hover{background:rgba(255,255,255,0.22);border-color:rgba(255,255,255,0.7);color:#fff}
+.share-btn.copied{background:rgba(100,200,120,0.2);border-color:rgba(100,200,120,0.6);color:#a5d6a7}
+.progress-bar{position:fixed;top:0;left:0;height:2px;background:rgba(224,165,38,0.6);transition:width 0.4s;z-index:100}
+.mute-btn{position:fixed;top:14px;right:14px;z-index:101;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(6px);transition:all 0.2s;display:flex;align-items:center;justify-content:center;padding:0}
+.mute-btn:hover{background:rgba(0,0,0,0.55);border-color:rgba(255,255,255,0.5)}
+</style>
+</head>
+<body>
+<audio id="bgm" loop preload="auto"><source src="day_one.mp3" type="audio/mpeg"></audio>
+<button id="muteBtn" class="mute-btn" onclick="toggleMute()" aria-label="音樂開關">🔊</button>
+<div class="progress-bar" id="progress"></div>
+<div id="g3"></div>
+<script>
+(function(){
+const G=document.getElementById('g3');
+const PB=document.getElementById('progress');
+
+// ---- 背景音樂控制 ----
+const BGM=document.getElementById('bgm');
+const MUTEBTN=document.getElementById('muteBtn');
+let bgmStarted=false, bgmMuted=false;
+try{ bgmMuted=localStorage.getItem('yoda_bgm_muted')==='1'; }catch(e){}
+if(BGM){ BGM.volume=0.30; }
+function updateMuteIcon(){ if(MUTEBTN) MUTEBTN.textContent=bgmMuted?'🔇':'🔊'; }
+updateMuteIcon();
+function startBGM(){ if(bgmStarted||bgmMuted||!BGM)return; BGM.play().then(function(){bgmStarted=true;}).catch(function(){}); }
+window.toggleMute=function(){
+  bgmMuted=!bgmMuted;
+  try{ localStorage.setItem('yoda_bgm_muted',bgmMuted?'1':'0'); }catch(e){}
+  if(bgmMuted){ if(BGM)BGM.pause(); }else{ if(BGM){BGM.play().then(function(){bgmStarted=true;}).catch(function(){});} }
+  updateMuteIcon();
+};
+document.addEventListener('click',startBGM,{once:false});
+
+const CHAPTERS={
+  blood:{act:'第一幕',name:'血洗',sky:'k-blood'},
+  wake:{act:'第二幕',name:'清醒',sky:'k-wake'},
+  battle:{act:'第三幕',name:'交戰',sky:'k-battle'},
+  choice:{act:'第四幕',name:'抉擇',sky:'k-choice'},
+};
+
+let st={idx:-1,scores:[],trust:50,alloc:{cash:40,rebuy:20,core:30,dryPowder:10},flipped:false};
+
+function mtn(sky){
+  const dark=['k-blood','k-blood2','k-start','k-dark','k-battle','k-battle2','k-choice'].includes(sky);
+  const c1=dark?'rgba(12,4,8,0.9)':'rgba(20,25,50,0.42)';
+  const c2=dark?'rgba(6,2,4,0.97)':'rgba(10,12,35,0.62)';
+  return '<svg class="mtn" viewBox="0 0 1200 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,175 L100,92 L200,138 L320,64 L440,112 L560,44 L680,102 L800,54 L920,88 L1040,40 L1200,80 L1200,200 L0,200Z" fill="'+c1+'"/><path d="M0,205 L80,170 L180,185 L280,152 L380,172 L500,135 L620,160 L740,128 L860,152 L980,115 L1100,140 L1200,122 L1200,200 L0,200Z" fill="'+c2+'"/></svg>';
+}
+
+function fade(fn){G.style.transition='opacity 0.32s';G.style.opacity='0';setTimeout(function(){fn();G.style.opacity='1';},330);}
+function updateProgress(){PB.style.width=((st.idx)/SCENES.length*100)+'%';}
+
+const SCENES=[
+  {type:'start'},
+  // 1 血洗 卡片 - 追繳
+  {type:'card',ch:'blood',title:'追繳通知',
+   text:'這一週，市場急殺趕底。<br>你的融資維持率一路往下——140%、135%、跌破 130%。<br>手機震動，券商的追繳通知來了。\n\n翻開卡片，看看你的處境。',
+   front:'融資維持率',frontSub:'（點擊翻開）',
+   back:'128%\n低於維持標準',backSub:'再跌一點\n就要被強制斷頭',
+   q:'看到追繳通知的當下，你的心情是？',
+   choices:['恐慌，覺得自己完蛋了','痛，但還在想辦法撐住']},
+  // 2 血洗 A/B - 被迫斷頭
+  {type:'choice',ch:'blood',sky:'k-blood2',title:'血流成河',
+   text:'為了不被全部斷頭，你被迫砍掉一部分部位止血。<br>賣在最低點附近，帳面血流成河。<br>這一刀，砍在你重壓的AI硬體上。',
+   q:'砍完之後，你怎麼看這一刀？',
+   choices:['早知道就不要開這麼高的槓桿，是我自己害的','市場太兇殘了，這根本是逼人就範'],
+   trans:'被殺的只是你的部位。<br>不應該是你的判斷。'},
+  // 3 清醒 A/B - 查總經
+  {type:'choice',ch:'wake',title:'冷靜之後',
+   text:'血止住了。幾天後，情緒稍微平復，你開始冷靜查證。<br>你翻開總經數據——景氣循環指標顯示，擴張期還在往上，沒有反轉的跡象。<br>就業、消費、企業獲利，全都還在成長軌道上。',
+   q:'這個發現讓你？',
+   choices:['開始懷疑，那我這週到底在怕什麼','鬆一口氣，至少大方向沒錯'],
+   trans:null},
+  // 4 清醒 A/B - 製造業/AI
+  {type:'choice',ch:'wake',sky:'k-wake2',title:'再查一層',
+   text:'你不放心，再往下查。<br>製造業 PMI 還在擴張區間、AI 資本支出沒有放緩、雲端巨頭的財測依然強勁。<br>你重壓的那個賽道——基本面，一點都沒變。變的只有價格。',
+   q:'把所有證據攤開，你的結論是？',
+   choices:['這是一次洗盤、去槓桿，不是基本面崩壞','我不敢下結論，跌成這樣一定有我不知道的事'],
+   trans:null},
+  // 5 清醒 滑桿 - 你多相信這是洗盤
+  {type:'trust',ch:'clarity',title:'理智的刻度',
+   text:'總經在往上。製造業在擴張。AI 泡沫還沒破。<br>所有客觀證據都指向同一個結論——這是洗盤，不是崩盤。\n\n拉動滑桿，誠實標出：理智上，你有多相信這是洗盤？'},
+  // 6 交戰 卡片 - 理智vs傷口
+  {type:'card2',ch:'battle',title:'手在抖',
+   text:'你的理智已經算清楚了。<br>但當你打開下單App，準備重新進場的那一刻——<br>你發現自己的手在抖。\n\n翻開卡片，看看是什麼擋住了你。',
+   front:'擋住你的東西',frontSub:'（點擊翻開）',
+   back:'不是分析\n是上一次的傷',backSub:'理智說上車\n傷口說不敢',
+   q:'認出這個「抖」的來源後，你怎麼想？',
+   choices:['原來擋住我的不是判斷，是恐懼','手抖是身體在保護我，這次應該聽它的'],
+   trans:'基本面沒變。<br>變的是打折後的價格，<br>和你創傷後的解讀。'},
+  // 7 交戰 A/B - 兩個聲音
+  {type:'choice',ch:'battle',sky:'k-battle2',title:'兩個聲音',
+   text:'你的腦袋裡有兩個聲音在吵架。<br>一個說：「這是難得的機會，別人恐懼我貪婪。」<br>另一個說：「我才剛被打趴，我不敢再受一次傷。」',
+   q:'此刻，哪個聲音比較大？',
+   choices:['「我不敢再受傷」——傷還在痛，我沒辦法忽視它','「這是機會」——但我需要一個安全的方式執行'],
+   trans:null},
+  // 8 交戰 A/B - 分辨理智與創傷（頓悟1）
+  {type:'choice',ch:'battle',title:'恐懼的真面目',
+   text:'你靜下來，把兩個聲音分開檢查。<br>你發現一件事：讓你不敢的，其實不是任何新的分析<br>你的數據明明支持進場。<br>讓你不敢的，是上次爆倉的記憶，是還沒好的傷口。',
+   q:'認清這件事，對你意味著什麼？',
+   choices:['我可以分辨「恐懼在說話」和「判斷在說話」了','知道歸知道，但傷還在，我不確定做不做得到'],
+   trans:'勇敢不是不怕。<br>是怕，但還能分辨怕從哪來。'},
+  // 9 抉擇 A/B - 關鍵抉擇
+  {type:'choice',ch:'choice',title:'誰來做決定',
+   text:'現在，選擇擺在你面前。<br>你的判斷是對的——這是洗盤，該重新上車。但你的傷還在痛。\n\n問題只剩一個：<br>這個決定，你要讓清醒的理智做，還是讓還在痛的傷口做？',
+   q:'你的選擇是？',
+   choices:['讓理智做決定——但用我能承受的部位，慢慢來','讓傷口做決定——這次先完全退場，等不怕了再說'],
+   trans:'療傷需要時間。<br>但別讓傷口替你做決定。'},
+  // 10 收束 配置
+  {type:'balance',ch:'reborn',title:'療傷式上車'},
+];
+
+const TRANS_AFTER_TRUST=null;
+
+function showStart(){
+  st={idx:0,scores:[],trust:50,alloc:{cash:40,rebuy:20,core:30,dryPowder:10},flipped:false};
+  PB.style.width='0%';
+  G.innerHTML='<div class="sc k-start">'+mtn('k-start')+
+    '<div class="ov"><div class="lbl t-l">YODA RESEARCH</div>'+
+    '<div class="ttl t-m" style="font-size:34px;font-weight:200;letter-spacing:4px;margin-bottom:0.75rem">敢不敢</div>'+
+    '<div class="t-s" style="font-size:14px;font-style:italic;margin-bottom:0.4rem">這週急殺趕底，你受傷了</div>'+
+    '<div class="t-s" style="font-size:14px;font-style:italic;margin-bottom:1.5rem">但你心裡清楚，方向沒變。但...你還敢上車嗎？</div>'+
+    '<div class="t-l" style="font-size:12px;margin-bottom:2.5rem;letter-spacing:1px">寫給這輪受傷的人</div>'+
+    '<button class="cont" style="font-size:15px;padding:0.85rem 3.5rem;letter-spacing:2px" onclick="G3.next()">面對它</button></div></div>';
+}
+
+function render(){
+  const s=SCENES[st.idx];
+  if(!s){showResult();return;}
+  if(s.type==='start'){showStart();return;}
+  updateProgress();
+  const ch=CHAPTERS[s.ch]||{};
+  const sky=s.sky||ch.sky||'k-blood';
+  const head='<div class="lbl t-l">'+(ch.act||'')+(ch.name?' · '+ch.name:'')+'</div><div class="ttl t-m" style="font-size:21px;margin-bottom:1rem">'+s.title+'</div>';
+
+  if(s.type==='card'||s.type==='card2'){
+    st.flipped=false;
+    G.innerHTML='<div class="sc '+sky+'">'+mtn(sky)+'<div class="ov">'+head+
+      '<div class="txt t-s">'+s.text+'</div>'+
+      '<div class="card-wrap" onclick="G3.flip()"><div class="card" id="theCard">'+
+        '<div class="card-face card-front"><div style="font-size:16px;color:#fff">'+s.front+'</div><div class="card-hint">'+s.frontSub+'</div></div>'+
+        '<div class="card-face card-back"><div style="font-size:19px;color:#fff;white-space:pre-line;line-height:1.5">'+s.back+'</div><div class="card-hint" style="white-space:pre-line;margin-top:0.5rem">'+s.backSub+'</div></div>'+
+      '</div></div>'+
+      '<div id="cardQ" style="opacity:0;transition:opacity 0.5s"><div class="q" style="margin-top:1.5rem">'+s.q+'</div>'+
+      '<div class="chs">'+s.choices.map(function(c,i){return '<button class="cbtn" onclick="G3.choose('+i+')">'+c+'</button>';}).join('')+'</div></div>'+
+      '</div></div>';
+  }
+  else if(s.type==='choice'){
+    G.innerHTML='<div class="sc '+sky+'">'+mtn(sky)+'<div class="ov">'+head+
+      '<div class="txt t-s">'+s.text+'</div><div class="q">'+s.q+'</div>'+
+      '<div class="chs">'+s.choices.map(function(c,i){return '<button class="cbtn" onclick="G3.choose('+i+')">'+c+'</button>';}).join('')+'</div></div></div>';
+  }
+  else if(s.type==='trust'){renderTrust(s,sky,head);}
+  else if(s.type==='balance'){renderBalance();}
+}
+
+function renderTrust(s,sky,head){
+  function draw(){
+    const v=st.trust;
+    const label=v<=20?'幾乎不信，我覺得要崩了':v<=40?'半信半疑，還是很怕':v<=60?'大致相信，但不敢賭':v<=80?'相當相信，證據很清楚':'非常確信，這就是洗盤';
+    const color=v<=20?'#fc8181':v<=40?'#ffcc80':v<=60?'#ffe082':v<=80?'#a5d6a7':'#68d391';
+    G.innerHTML='<div class="sc '+sky+'">'+mtn(sky)+'<div class="ov">'+head+
+      '<div class="txt t-s">'+s.text+'</div>'+
+      '<div class="sl-wrap"><div class="sl-big" style="color:'+color+'">'+v+'%</div>'+
+      '<div class="sl-cap">理智上，你相信這是洗盤的程度</div>'+
+      '<input type="range" class="sl" min="0" max="100" step="5" value="'+v+'" oninput="G3.setTrust(this.value)">'+
+      '<div style="margin-top:1rem;font-size:15px;color:'+color+'">'+label+'</div>'+
+      '</div>'+
+      '<button class="cont" onclick="G3.trustDone()">繼續 ›</button></div></div>';
+  }
+  window._trustDraw=draw;draw();
+}
+
+function renderBalance(){
+  const items=[
+    {key:'cash',label:'現金／不進場',color:'#e0a526'},
+    {key:'rebuy',label:'小額試單',color:'#68d391'},
+    {key:'core',label:'核心持股',color:'#63b3ed'},
+    {key:'dryPowder',label:'預備加碼金',color:'#b794f6'},
+  ];
+  function draw(){
+    const total=items.reduce(function(a,it){return a+st.alloc[it.key];},0);
+    const ok=total===100;
+    G.innerHTML='<div class="sc k-reborn">'+mtn('k-reborn')+'<div class="ov">'+
+      '<div class="lbl t-l">收束 · 療傷式上車</div>'+
+      '<div class="ttl t-m" style="font-size:22px;margin-bottom:0.75rem">用你能承受的部位重新開始</div>'+
+      '<div class="txt t-s" style="margin-bottom:1.5rem">敢不敢，不是全有全無的問題。\n你不需要梭哈才叫勇敢。用你能承受的部位上車，就是勇敢。\n\n部位大小，是你和恐懼談判的籌碼。現在，分配你療傷期的資金。</div>'+
+      '<div class="bc">'+items.map(function(it){
+        return '<div class="bi"><div class="blab" style="color:'+it.color+'">'+it.label+'</div>'+
+          '<input type="range" class="bsl" min="0" max="70" step="5" value="'+st.alloc[it.key]+'" style="accent-color:'+it.color+'" data-k="'+it.key+'" oninput="G3.setAlloc(this.dataset.k,this.value)">'+
+          '<div class="bpct" style="color:'+it.color+'">'+st.alloc[it.key]+'%</div></div>';
+      }).join('')+
+      '<div style="text-align:center;margin-top:0.5rem"><span class="btot '+(ok?'bo':'bw')+'">總計：'+total+'%　'+(ok?'✓ 完成':'請調整至 100%')+'</span></div></div>'+
+      (ok?'<br><button class="cont" style="margin-top:0.75rem;font-size:14px;padding:0.7rem 2.5rem" onclick="G3.showResult()">揭示我的投資人格 →</button>':'')+
+      '</div></div>';
+  }
+  window._balDraw=draw;draw();
+}
+
+function calcPersonality(){
+  const get=function(r){var f=st.scores.find(function(x){return x.round===r;});return f?f.choice:0;};
+  const trust=st.trust;
+  const s7=get(7),s8=get(8),s9=get(9);
+  const rebuy=st.alloc.rebuy+st.alloc.dryPowder; // 願意重新進場的資金
+  // 重生型: 高信任 + 分清恐懼(s8=0) + 理智決定(s9=0) + 有實際進場部位
+  if(trust>=60 && s8===0 && s9===0 && rebuy>=20)
+    return {icon:'🔥',name:'重生型',desc:'你分清了理智與創傷，也沒有假裝傷口不存在。你用能承受的部位果斷執行判斷——這是受過傷的人最難得的成熟。你沒有被一次重擊擊垮，反而長出了新的紀律。<br><br>下一步：記住這次的感覺。真正的勇敢，是帶著傷還能理性行動。'};
+  // 驚弓型: 低信任 或 傷口決定(s9=1) + 幾乎不進場
+  if((trust<40 || s9===1) && rebuy<=15)
+    return {icon:'🩸',name:'驚弓型',desc:'傷還在淌血，理智的聲音被恐懼蓋過了。你選擇完全退場，這可以理解——但要小心，市場的殘忍在於，等你不怕了，機會通常也走了。<br><br>下一步：別急著逼自己勇敢。但可以先用一筆「不痛不癢」的小錢進場，讓身體慢慢記得，進場不一定會受傷。'};
+  // 死抱型: 中間信任但不做任何調整、凍住(s7=0且s9=1)
+  if(s9===1 && rebuy>=15)
+    return {icon:'🧟',name:'死抱型',desc:'你既沒有停損也沒有加碼，凍在原地。你用「不動」來逃避做決定的痛苦。但市場不會因為你不動就停下來——不做決定，本身也是一種決定。<br><br>下一步：先問自己一個問題——如果今天空手，我會用現在的部位重新買進嗎？答案會告訴你該怎麼做。'};
+  // 療傷型: 其他(承認還在痛，但開始小額試探)
+  return {icon:'🌱',name:'療傷型',desc:'你承認自己還在痛，沒有假裝堅強，但也沒有完全放棄。你開始用小部位慢慢試探，一邊療傷一邊上車。這是最真實、也最可持續的姿態。<br><br>下一步：保持這個節奏。隨著傷口癒合，慢慢把部位加回到你判斷該有的水位。'};
+}
+
+function showResult(){
+  PB.style.width='100%';
+  const p=calcPersonality();
+  const a=st.alloc;
+  const items=[
+    {key:'cash',label:'現金／不進場',color:'#e0a526'},
+    {key:'rebuy',label:'小額試單',color:'#68d391'},
+    {key:'core',label:'核心持股',color:'#63b3ed'},
+    {key:'dryPowder',label:'預備加碼金',color:'#b794f6'},
+  ];
+  G.innerHTML='<div class="sc k-result" style="padding:3rem 1.5rem;min-height:100vh">'+mtn('k-result')+'<div class="ov">'+
+    '<div class="lbl t-l" style="margin-bottom:1rem">你的修行結果</div>'+
+    '<div class="ric">'+p.icon+'</div><div class="rty">'+p.name+'</div>'+
+    '<div class="rd">'+p.desc+'</div>'+
+    '<div class="rcfg"><div style="font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.4);margin-bottom:0.6rem">你的療傷期配置</div>'+
+      items.map(function(it){return '<div class="rcr"><span class="t-s" style="font-size:13px">'+it.label+'</span><span style="color:'+it.color+';font-weight:500">'+a[it.key]+'%</span></div>';}).join('')+
+      '<div class="rcr" style="margin-top:0.3rem"><span class="t-s" style="font-size:13px">你對洗盤的信任度</span><span style="color:#68d391;font-weight:500">'+st.trust+'%</span></div>'+
+    '</div>'+
+    '<div class="t-s" style="font-size:13px;line-height:1.9;margin-bottom:1.25rem;max-width:400px;margin-left:auto;margin-right:auto">療傷需要時間，這很正常。但別讓還在痛的傷口，替清醒的你做決定。Yoda Research 每週追蹤總經循環與市場結構，幫你在受傷時仍看得清方向。</div>'+
+    '<a class="ybtn" href="https://yoda-research-next.vercel.app/" target="_blank">前往 Yoda Research →</a><br>'+
+    '<div style="display:flex;gap:0.75rem;justify-content:center;margin-top:1rem;flex-wrap:wrap">'+
+      '<button class="share-btn" id="shareBtn" onclick="G3.share()"><span>&#8679;</span> 分享這個遊戲</button>'+
+      '<button class="cont" style="font-size:12px;opacity:0.6;margin-top:0" onclick="G3.restart()">重新開始</button>'+
+    '</div>'+
+    '<div id="shareFeedback" style="font-size:12px;color:rgba(160,220,255,0.7);margin-top:0.6rem;height:18px;transition:opacity 0.3s"></div>'+
+    '<div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1.5rem;letter-spacing:0.3px">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" style="color:rgba(224,165,38,0.6);text-decoration:none">BiBiPiano</a>，版權為原作者所有</div>'+
+    '</div></div>';
+}
+
+function showTrans(text){
+  G.innerHTML='<div class="sc k-dark">'+mtn('k-dark')+'<div class="ov"><div class="tq">'+text+'</div>'+
+    '<button class="cont" onclick="G3.afterTrans()">繼續 ›</button></div></div>';
+}
+
+function advance(){st.idx++;if(st.idx>=SCENES.length){fade(showResult);return;}fade(render);}
+
+window.G3={
+  next:function(){st.idx=1;fade(render);},
+  flip:function(){if(st.flipped)return;st.flipped=true;var c=document.getElementById('theCard');if(c)c.classList.add('flipped');setTimeout(function(){var q=document.getElementById('cardQ');if(q)q.style.opacity='1';},600);},
+  choose:function(i){st.scores.push({round:st.idx,choice:i});var s=SCENES[st.idx];if(s.trans){fade(function(){showTrans(s.trans);});}else{advance();}},
+  setTrust:function(v){st.trust=parseInt(v);window._trustDraw&&window._trustDraw();},
+  trustDone:function(){advance();},
+  setAlloc:function(k,v){st.alloc[k]=parseInt(v);window._balDraw&&window._balDraw();},
+  showResult:function(){fade(showResult);},
+  afterTrans:function(){advance();},
+  restart:function(){fade(showStart);},
+  share:function(){
+    var url=window.location.href.split('?')[0];
+    var text='我剛玩完《敢不敢》——當你受傷後，還敢不敢執行對的判斷？來測測看你是哪種投資人格。';
+    var btn=document.getElementById('shareBtn'), fb=document.getElementById('shareFeedback');
+    if(navigator.share){navigator.share({title:'敢不敢 · Yoda Research',text:text,url:url}).catch(function(){});return;}
+    navigator.clipboard.writeText(url).then(function(){
+      btn.classList.add('copied');btn.innerHTML='&#10003; 網址已複製';
+      fb.textContent='貼到 LINE、Facebook 或任何地方分享吧';fb.style.opacity='1';
+      setTimeout(function(){btn.classList.remove('copied');btn.innerHTML='<span>&#8679;</span> 分享這個遊戲';fb.style.opacity='0';},3000);
+    }).catch(function(){
+      var box=document.createElement('input');box.value=url;document.body.appendChild(box);box.select();document.execCommand('copy');document.body.removeChild(box);
+      fb.textContent='網址已複製！';fb.style.opacity='1';setTimeout(function(){fb.style.opacity='0';},3000);
+    });
+  },
+};
+
+showStart();
+})();
+</script>
+</body>
+</html>
