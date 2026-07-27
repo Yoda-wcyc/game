@@ -84,15 +84,42 @@ input[type=range].bsl::-moz-range-thumb{width:20px;height:20px;border-radius:50%
 .share-btn:hover{background:rgba(255,255,255,0.22);border-color:rgba(255,255,255,0.7);color:#fff}
 .share-btn.copied{background:rgba(100,200,120,0.2);border-color:rgba(100,200,120,0.6);color:#a5d6a7}
 .progress-bar{position:fixed;top:0;left:0;height:2px;background:rgba(224,165,38,0.6);transition:width 0.4s;z-index:100}
+.mute-btn{position:fixed;top:14px;right:14px;z-index:101;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(6px);transition:all 0.2s;display:flex;align-items:center;justify-content:center;padding:0}
+.mute-btn:hover{background:rgba(0,0,0,0.55);border-color:rgba(255,255,255,0.5)}
 </style>
 </head>
 <body>
+<audio id="bgm" loop preload="auto"><source src="day_one.mp3" type="audio/mpeg"></audio>
+<button id="muteBtn" class="mute-btn" onclick="toggleMute()" aria-label="音樂開關">🔊</button>
 <div class="progress-bar" id="progress"></div>
 <div id="g2"></div>
 <script>
 (function(){
 const G=document.getElementById('g2');
 const PB=document.getElementById('progress');
+
+// ---- 背景音樂控制 ----
+const BGM=document.getElementById('bgm');
+const MUTEBTN=document.getElementById('muteBtn');
+let bgmStarted=false;
+let bgmMuted=false;
+try{ bgmMuted = localStorage.getItem('yoda_bgm_muted')==='1'; }catch(e){}
+if(BGM){ BGM.volume=0.30; }
+function updateMuteIcon(){ if(MUTEBTN) MUTEBTN.textContent = bgmMuted ? '🔇' : '🔊'; }
+updateMuteIcon();
+function startBGM(){
+  if(bgmStarted || bgmMuted || !BGM) return;
+  BGM.play().then(function(){ bgmStarted=true; }).catch(function(){});
+}
+window.toggleMute=function(){
+  bgmMuted=!bgmMuted;
+  try{ localStorage.setItem('yoda_bgm_muted', bgmMuted?'1':'0'); }catch(e){}
+  if(bgmMuted){ if(BGM) BGM.pause(); }
+  else{ if(BGM){ BGM.play().then(function(){bgmStarted=true;}).catch(function(){}); } }
+  updateMuteIcon();
+};
+document.addEventListener('click', startBGM, {once:false});
+
 
 const CHAPTERS={
   crash:{act:'第一幕',name:'崩塌',sky:'k-crash'},
@@ -117,46 +144,46 @@ function updateProgress(){PB.style.width=((st.idx)/SCENES.length*100)+'%';}
 const SCENES=[
   {type:'start'},
   {type:'card',ch:'crash',title:'第一擊',
-   text:'2026年7月。你重壓的AI硬體部位，今天單日 -4.4%。<br>SOXX半導體ETF領跌，你的帳戶數字紅得刺眼。\n\n這是你這輪押最重的方向。翻開卡片，看看你的帳戶。',
+   text:'2026年7月。你重壓的AI硬體部位，今天單日 -4.4%。SOXX半導體ETF領跌，你的帳戶數字紅得刺眼。\n\n這是你這輪押最重的方向。翻開卡片，看看你的帳戶。',
    front:'你的持股',frontSub:'（點擊翻開）',
    back:'單日 -4.4%\n本週累計 -11%',backSub:'槓桿讓這個數字\n變成你的 -22%',
    q:'看到這個數字的第一反應？',
    choices:['完蛋了，我是不是看錯賽道了','先冷靜，一天的波動說明不了什麼']},
   {type:'choice',ch:'crash',sky:'k-news',title:'消息面來了',
-   text:'就在同一週，中東地緣消息面爆發，美伊局勢升溫。<br>Brent油價跳漲，市場一片恐慌。<br>財經台紅字滾動，粉專開始喊「系統性風險來了」。',
+   text:'就在同一週，中東地緣消息面爆發，美伊局勢升溫。Brent油價跳漲，市場一片恐慌。財經台紅字滾動，粉專開始喊「系統性風險來了」。',
    q:'你怎麼判斷這個消息？',
    choices:['這是系統性風險的訊號，我要跟著減碼避險','這可能只是消息面雜訊，先看它有沒有改變基本面'],
    trans:'下跌不會殺死你。<br>撐不住下跌才會。'},
   {type:'sort',ch:'blame',title:'尋找戰犯',
-   text:'虧損讓你難受，你開始在腦海裡尋找原因。<br>把下面幾個「戰犯」，依照你心裡最想責怪的順序排列。',
+   text:'虧損讓你難受。你開始在腦海裡尋找原因。把下面幾個「戰犯」，依照你心裡最想責怪的順序排列。',
    items:[{id:'market',label:'市場太瘋狂、不理性'},{id:'news',label:'那些唱衰的消息面'},{id:'analyst',label:'推薦我買的分析師'},{id:'self',label:'我自己的決策'}],
-   trans:'找戰犯很容易。<br>自承犯錯，最難。'},
+   trans:'找戰犯很容易。<br>承認自己更難。'},
   {type:'choice',ch:'blame',title:'你打開了財報',
-   text:'冷靜下來，你去查了公司最新財報。營收成長、毛利穩定、在手訂單創新高。基本面……其實一點都沒變差。<br>台積電外資雖然月線賣超，但獲利數字依然強勁。',
+   text:'冷靜下來，你去查了公司最新財報。營收成長、毛利穩定、在手訂單創新高。基本面……其實一點都沒變差。台積電外資雖然月線賣超，但獲利數字依然強勁。',
    q:'這個發現讓你？',
    choices:['更困惑了，基本面好為什麼還跌','開始意識到，也許問題不在公司'],
    trans:null},
   {type:'choice',ch:'mirror',title:'你查了總經',
-   text:'你進一步查了宏觀數據。<br>景氣循環指標顯示——擴張期還沒結束。<br>就業穩定、消費未崩、企業獲利仍在成長軌道上。<br>這不是衰退，這比較像是一次過熱後的估值修正。',
+   text:'你進一步查了宏觀數據。景氣循環指標顯示——擴張期還沒結束。就業穩定、消費未崩、企業獲利仍在成長軌道上。這不是衰退，這比較像是一次過熱後的估值修正。',
    q:'那麼，這波下跌的本質是？',
    choices:['市場在打估值、去槓桿，不是基本面崩壞','我不管，跌成這樣一定有大事要發生'],
    trans:'方向對了，不代表你就能活到那一天。'},
   {type:'lever',ch:'mirror',title:'那到底是什麼讓你這麼痛？',
    text:'公司沒變差。總經還在擴張。方向，其實是對的。\n\n那為什麼你這麼痛、這麼想逃？\n\n拉動下面的滑桿，誠實面對——這輪你開了多少槓桿？'},
   {type:'card2',ch:'truth',title:'平行時空',
-   text:'假設一個平行時空裡的你，這次完全沒開槓桿，只用現股。<br>同樣的下跌，翻開看看那個你現在的處境。',
+   text:'假設一個平行時空裡的你，這次完全沒開槓桿，只用現股。同樣的下跌，翻開看看那個你現在的處境。',
    front:'沒開槓桿的你',frontSub:'（點擊翻開）',
    back:'帳面 -11%\n有點難受，但睡得著',backSub:'你會繼續持有\n因為你撐得住',
    q:'兩個版本的你，差別在哪？',
    choices:['差別不在方向，在我能不能撐到方向兌現','差別在運氣，他只是比較好運'],
-   trans:'槓桿放大的不是報酬<br>更不是你的能力，<br>而是你的情緒。'},
+   trans:'槓桿放大的不是報酬。<br>是你的情緒。'},
   {type:'choice',ch:'truth',title:'誰的問題',
    text:'方向對，公司對，循環也對。但你差點在對的方向上被洗出場。\n\n不是因為你判斷錯，而是因為你讓自己「沒有撐住的能力」。',
    q:'這是誰的問題？',
    choices:['是我的部位管理問題，不是我的判斷問題','是市場的問題，它不該這樣波動'],
    trans:null},
   {type:'choice',ch:'rebuild',title:'重新站上場',
-   text:'循環還沒走完，方向還在，機會其實還在那裡。<br>但這次，你想用什麼姿態重新站上場？',
+   text:'循環還沒走完。方向還在。機會其實還在那裡。但這次，你想用什麼姿態重新站上場？',
    q:'你的選擇是？',
    choices:['降低槓桿、留足現金，用能撐住波動的方式重新配置','等全部跌完、確定安全了再進場（但那通常已經漲回去了）'],
    trans:null},
@@ -324,13 +351,14 @@ function showResult(){
       items.map(function(it){return '<div class="rcr"><span class="t-s" style="font-size:13px">'+it.label+'</span><span style="color:'+it.color+';font-weight:500">'+a[it.key]+'%</span></div>';}).join('')+
       '<div class="rcr" style="margin-top:0.3rem"><span class="t-s" style="font-size:13px">最終槓桿</span><span style="color:#fc8181;font-weight:500">'+st.leverage.toFixed(1)+'x</span></div>'+
     '</div>'+
-    '<div class="t-s" style="font-size:13px;line-height:1.9;margin-bottom:1.25rem;max-width:400px;margin-left:auto;margin-right:auto">循環還沒走完，方向還在。<br>Yoda Research 每週追蹤總經循環、板塊輪動與部位風險，陪你走完這一輪。</div>'+
+    '<div class="t-s" style="font-size:13px;line-height:1.9;margin-bottom:1.25rem;max-width:400px;margin-left:auto;margin-right:auto">循環還沒走完，方向還在。Yoda Research 每週追蹤總經循環、板塊輪動與部位風險，陪你走完這一輪。</div>'+
     '<a class="ybtn" href="https://yoda-research-next.vercel.app/" target="_blank">前往 Yoda Research →</a><br>'+
     '<div style="display:flex;gap:0.75rem;justify-content:center;margin-top:1rem;flex-wrap:wrap">'+
       '<button class="share-btn" id="shareBtn" onclick="G2.share()"><span>&#8679;</span> 分享這個遊戲</button>'+
       '<button class="cont" style="font-size:12px;opacity:0.6;margin-top:0" onclick="G2.restart()">重新開始</button>'+
     '</div>'+
     '<div id="shareFeedback" style="font-size:12px;color:rgba(160,220,255,0.7);margin-top:0.6rem;height:18px;transition:opacity 0.3s"></div>'+
+    '<div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1.5rem;letter-spacing:0.3px">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" style="color:rgba(224,165,38,0.6);text-decoration:none">BiBiPiano</a>，版權為原作者所有</div>'+
     '</div></div>';
 }
 
