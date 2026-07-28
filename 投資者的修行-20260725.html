@@ -85,6 +85,24 @@ input[type=range].bslider::-moz-range-track{height:8px;border-radius:4px;backgro
 .share-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);border:none;color:#fff;width:190px;padding:0.85rem 0.6rem;border-radius:6px;font-size:14px;cursor:pointer;letter-spacing:0.5px;text-align:center;text-decoration:none;transition:opacity 0.2s;box-sizing:border-box}
 .share-btn:hover{opacity:0.87}
 .share-btn.copied{background:rgba(100,200,120,0.2);border-color:rgba(100,200,120,0.6);color:#a5d6a7}
+
+/* 卡片翻面 */
+.flip-reveal{max-width:480px;margin:0 auto;background:rgba(0,0,0,0.32);border:1px solid rgba(255,255,255,0.28);border-radius:10px;padding:1.4rem 1.5rem;backdrop-filter:blur(6px);animation:flipIn 0.5s ease}
+@keyframes flipIn{0%{opacity:0;transform:rotateX(-30deg) translateY(10px)}100%{opacity:1;transform:rotateX(0) translateY(0)}}
+.flip-tag{font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.5);margin-bottom:0.7rem}
+.flip-body{font-size:14px;line-height:1.9;color:rgba(255,255,255,0.9)}
+/* 重排清單（信任排序 / 傳導鏈） */
+.reorder-list{max-width:440px;margin:0 auto 1.1rem;display:flex;flex-direction:column;gap:0.55rem}
+.reorder-row{display:flex;align-items:center;gap:0.7rem;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.26);border-radius:8px;padding:0.7rem 0.85rem;backdrop-filter:blur(6px);transition:border-color 0.25s,background 0.25s;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+.reorder-row:active{cursor:grabbing}
+.reorder-row.dragging{cursor:grabbing;box-shadow:0 8px 24px rgba(0,0,0,0.45);border-color:rgba(255,255,255,0.6)}
+.reorder-row.slot-hint{border-color:rgba(224,165,38,0.7);background:rgba(224,165,38,0.12)}
+.drag-handle{color:rgba(255,255,255,0.45);font-size:16px;line-height:1;letter-spacing:-2px;padding-left:0.2rem;flex-shrink:0}
+.reorder-row.correct{border-color:rgba(120,220,140,0.75);background:rgba(80,200,110,0.16)}
+.reorder-rank{font-size:12px;color:rgba(255,255,255,0.5);min-width:20px;text-align:center}
+.reorder-label{flex:1;font-size:14px;line-height:1.5;color:#fff;text-align:left}
+.chain-arrow{text-align:center;color:rgba(255,255,255,0.4);font-size:12px;margin:-0.15rem 0}
+.slider-feedback{font-size:13px;line-height:1.75;max-width:420px;margin:0.5rem auto 0;min-height:42px}
 </style>
 </head>
 <body>
@@ -129,17 +147,17 @@ const CHAPTERS=[
 ];
 
 const ROUNDS=[
-  {ch:0,sky:'sky-dawn',title:'資訊的迷宮',text:'你訂閱了十個財經粉專。每天早上打開手機，A說升息要買債，B說現在是佈局科技股的好時機，C說要現金為王。三種聲音，三種邏輯，聽起來都有道理。',question:'你選擇相信誰？',choices:['找最多人推薦的那個，跟著大家走比較安全','先擱置，繼續學，等自己想清楚再說']},
-  {ch:0,sky:'sky-gray',title:'技術分析的誘惑',text:'你開始學K線。黃金交叉、死亡交叉、RSI超買超賣。<br>買了課，做了筆記，自以為看懂了圖。<br>第一次出手，照著型態買，結果隔天跳空下跌。',question:'你怎麼解讀這次失敗？',choices:['圖表分析本來就是騙人的，我不玩了','我的判斷有問題，要繼續研究，找出哪裡看錯了']},
-  {ch:0,sky:'sky-noon',title:'總經焦慮症',text:'你開始關注宏觀。Fed利率、CPI、PCE、殖利率曲線、PMI……每個數據公布，市場都在震盪。你試圖每個都追，每天花三個小時看報告，卻發現愈看愈焦慮，愈焦慮愈不敢動。',question:'你怎麼面對這種焦慮？',choices:['資訊太多了，我決定只看最重要的幾個指標，其他不管','繼續全追，資訊就是武器，我不能放棄任何一塊']},
+  {ch:0,sky:'sky-dawn',title:'資訊的迷宮',type:'rank',text:'你訂閱了十個財經粉專。<br>每天早上打開手機，三種聲音同時對你喊話，聽起來都有道理。',rankItems:['A：升息了，快去買債券','B：現在是佈局科技股的好時機','C：別傻了，現金為王'],reveal:'你排好了信任順序。但真相是——三種聲音都只對了一半：升息初期債券未必立刻漲、科技股可能還要修正、現金為王也可能錯過反彈。沒有一個能照單全收。',question:'看清楚這點以後，你會——',choices:['跟著我排第一、聲量最大的那個做','先擱置，繼續學，建立自己的判斷再說']},
+  {ch:0,sky:'sky-gray',title:'技術分析的誘惑',type:'flip',text:'你開始學K線。黃金交叉、死亡交叉、RSI超買超賣。<br>買了課，做了筆記，自以為看懂了圖。<br>第一次出手，照著型態買，結果隔天跳空下跌。',question:'你怎麼解讀這次失敗？',cards:[{label:'圖表是騙人的',text:'技術分析根本沒用，我不玩了',reveal:'半年後你錯過了三個教科書級的型態。問題其實不是圖表，是你只學了型態、沒學它失效的條件——你把工具丟了，卻留著同一套急躁。'},{label:'我看錯了',text:'判斷有問題，繼續研究哪裡錯',reveal:'你回頭覆盤，發現那天有一份財報在盤前爆雷。原來型態沒錯，是你漏看了基本面的訊號。你開始懂得：沒有單一工具能獨立成立。'}],choices:['圖表分析本來就是騙人的，我不玩了','我的判斷有問題，要繼續研究，找出哪裡看錯了']},
+  {ch:0,sky:'sky-noon',title:'總經焦慮症',type:'slider',text:'你開始關注宏觀。Fed利率、CPI、PCE、殖利率曲線、PMI……每個數據公布，市場都在震盪。你試圖每個都追，愈看愈焦慮，愈焦慮愈不敢動。',question:'你決定每天花多少時間追這些數據？',sliderKind:'hours',min:0,max:8,step:1,def:3,unit:' 小時／天',leftLabel:'幾乎不看',rightLabel:'全部都追',choices:['資訊太多了，我決定只看最重要的幾個指標，其他不管','繼續全追，資訊就是武器，我不能放棄任何一塊']},
   {ch:0,sky:'sky-afternoon',title:'好公司，壞時機',text:'你研究了一家公司半個月。財報漂亮、護城河深、管理層優秀。你買進了。然後股價五年都沒動，甚至還跌了15%。同期大盤漲了60%。',question:'你的結論是什麼？',choices:['基本面分析沒用，市場根本不在乎企業真實價值','好公司是必要條件，但進場時機同樣關鍵，我的功課還沒做完']},
   {ch:0,sky:'sky-dusk',title:'知道太多，動不了',text:'你學了技術分析、基本面、總體經濟。每次想出手，腦袋裡同時響起五個聲音：技術面說可以、基本面說還早、總經說不確定、新聞說要小心、內心說算了。最後你什麼都沒做。',question:'你意識到問題在哪裡？',choices:['問題是資訊還不夠，我需要更多確定性才能行動','問題是我沒有一個屬於自己的判斷框架，資訊沒有主軸']},
-  {ch:1,sky:'sky-valley',title:'第一次看見連結',text:'某天你在看一篇分析。作者說：Fed升息→美元走強→新興市場資金外逃→匯率貶值→央行被迫跟進升息→壓制內需→企業盈餘下修。你第一次感覺，原來這些事情不是各自獨立發生的。',question:'這個頓悟帶給你什麼感受？',choices:['原來要先搞懂宏觀，才能看懂個股在做什麼','這太複雜了，我寧願找個簡單的公式']},
+  {ch:1,sky:'sky-valley',title:'第一次看見連結',type:'chain',text:'某天你在看一篇分析。作者把六件事排成一條傳導鏈——<br>但你手上的順序被打亂了。<br>試著把它排回正確的因果順序。',chain:['Fed 升息','美元走強','新興市場資金外逃','當地貨幣貶值','央行被迫跟進升息','壓制內需、企業盈餘下修'],reveal:'你把鏈條接了起來。「牽一髮動全身」這句話，在你第一次親手看懂一條完整的傳導鏈之後，才真正有了重量。原來這些事，從來不是各自獨立發生的。',question:'這個頓悟帶給你什麼感受？',choices:['原來要先搞懂宏觀，才能看懂個股在做什麼','這太複雜了，我寧願找個簡單的公式']},
   {ch:1,sky:'sky-storm',title:'市場的節奏',text:'你開始研究景氣循環。擴張、高峰、收縮、谷底。你發現，歷史上每一次大跌，幾乎都能在總經數據裡找到先行警訊。市場不是隨機的，它有節奏，有慣性，有記憶。',question:'你對週期的理解是？',choices:['懂週期就能預測市場，我要開始用這個做決策','週期是地圖，不是時刻表。它告訴我方向，但不告訴我今天幾點']},
   {ch:1,sky:'sky-clouds',title:'三種工具的位置',text:'你開始思考：總經給你大方向，技術分析幫你找進出場時機，基本面讓你對標的有信心。這三者不是競爭關係，是分工關係。',question:'你的下一步是？',choices:['先精通一種，其他的以後再說','開始練習同時用三種視角看同一個市場']},
   {ch:1,sky:'sky-storm',title:'信仰的破綻',text:'你最信任的方法，在某個特定環境下完全失效了。信總經的人遇到了「Fed降息但股市反跌」；信技術的人遇到了「完美型態卻跳空崩潰」；信基本面的人持有的好公司股價持續創新低。',question:'這次的失效教會了你什麼？',choices:['每一種方法都有它的盲點，沒有萬能公式','我選錯方法了，要換一種試試']},
   {ch:2,sky:'sky-mountain',title:'你真正想要什麼',text:'你在投資上花了大量時間和精力。有時候你問自己：我為什麼要做這件事？是要財富自由？財富自由之後要做什麼？是要不用上班？還是要能夠掌控自己的時間？還是只是不想被錢追著跑？',question:'你最誠實的答案是？',choices:['我想要時間自由——能選擇自己要做什麼，不被工作綁架','我想要安全感——不再擔心錢的問題，生活有底氣']},
-  {ch:2,sky:'sky-mountain',title:'長線還是短線',text:'你站在一個岔路口。長線投資說：複利的力量，時間是你的朋友，耐心等待，讓好公司替你工作。短線交易說：現在就要有現金流，等三十年太遠，機會是抓住當下的。',question:'你傾向哪一條路？',choices:['長線——我相信複利，我願意等，我想睡得著','短線——我需要現在的成就感和現金流，等太久我撐不住']},
+  {ch:2,sky:'sky-mountain',title:'長線還是短線',type:'slider',sliderKind:'spectrum',text:'你站在一個岔路口。長線說：複利的力量，時間是你的朋友。短線說：現在就要有現金流，機會是抓住當下的。<br>這裡沒有對錯，只有適不適合你。',question:'把指針滑到你真實的傾向——',min:0,max:100,step:5,def:50,unit:'',leftLabel:'純長線',rightLabel:'純短線',choices:['長線——我相信複利，我願意等，我想睡得著','短線——我需要現在的成就感和現金流，等太久我撐不住']},
   {ch:2,sky:'sky-starry',title:'兩者能並行嗎',text:'選了長線的你：上週大盤跌12%，你的長線部位帳面虧損，你撐得住嗎？選了短線的你：要維持一定勝率需要每天花4-6小時盯盤，這是你願意付出的代價嗎？',question:'你的答案是？',choices:['也許長線和短線不是非此即彼，可以用不同資金分別執行','不，我必須選一個專注，分心只會兩頭都做不好']},
   {ch:3,sky:'sky-clear',title:'建立你的系統',text:'你已經走過了資訊的迷宮，看見了經濟的立體拼圖，也誠實面對了自己對財富的渴望。\n\n現在，調整屬於你的投資配重。沒有標準答案。只有適合你的那一個。',question:'',choices:[]}
 ];
@@ -243,33 +261,243 @@ function nextCQ(idx){
   }
 }
 
+const CHN=['修術','修道','修心','融合'];
+function roundHead(r){
+  return `<div class="chapter-label t-label">${CHAPTERS[r.ch].label} · ${CHN[r.ch]}</div>
+      <div class="chapter-title t-main" style="font-size:21px;margin-bottom:1rem">${r.title}</div>
+      <div class="round-text t-sub">${r.text}</div>`;
+}
+function scene(r,inner){
+  return `<div class="scene ${r.sky}">${mtn(r.sky)}<div class="overlay">${roundHead(r)}${inner}</div></div>`;
+}
+function sceneLight(r,inner){
+  return `<div class="scene ${r.sky}">${mtn(r.sky)}<div class="overlay">
+    <div class="chapter-label t-label">${CHAPTERS[r.ch].label} · ${CHN[r.ch]}</div>
+    <div class="chapter-title t-main" style="font-size:20px;margin-bottom:1.2rem">${r.title}</div>${inner}</div></div>`;
+}
 function showRound(ri){
   state.roundIndex=ri;
   updateProgress();
   const r=ROUNDS[ri];
   if(ri===12){showBalanceRound();return;}
-  const chNames=['修術','修道','修心','融合'];
-  G.innerHTML=`<div class="scene ${r.sky}">
-    ${mtn(r.sky)}
-    <div class="overlay">
-      <div class="chapter-label t-label">${CHAPTERS[r.ch].label} · ${chNames[r.ch]}</div>
-      <div class="chapter-title t-main" style="font-size:21px;margin-bottom:1rem">${r.title}</div>
-      <div class="round-text t-sub">${r.text}</div>
+  const t=r.type||'ab';
+  if(t==='rank')return renderRankRound(ri);
+  if(t==='flip')return renderFlipRound(ri);
+  if(t==='slider')return renderSliderRound(ri);
+  if(t==='chain')return renderChainRound(ri);
+  renderABRound(ri);
+}
+function renderABRound(ri){
+  const r=ROUNDS[ri];
+  G.innerHTML=scene(r,`
       <div class="round-question t-main">${r.question}</div>
       <div class="choices">
         ${r.choices.map((c,i)=>`<button class="choice-btn" onclick="choose(${ri},${i})">${c}</button>`).join('')}
-      </div>
-    </div>
-  </div>`;
+      </div>`);
 }
 
-function choose(ri,ci){
+/* ===== 新互動：信任排序 / 卡片翻面 / 光譜滑桿 / 傳導鏈重組 ===== */
+let work={};
+
+// 通用拖曳排序（滑鼠＋觸控，Pointer Events）
+function attachDrag(listSelector,getOrder,commit){
+  const list=document.querySelector(listSelector);
+  if(!list)return;
+  const rows=[].slice.call(list.querySelectorAll('.reorder-row'));
+  rows.forEach((row,from)=>{
+    row.addEventListener('pointerdown',function(e){
+      if(e.button&&e.button!==0)return;
+      e.preventDefault();
+      const order=getOrder().slice();
+      const rects=rows.map(r=>r.getBoundingClientRect());
+      const rect=rects[from];
+      const clone=row.cloneNode(true);
+      clone.classList.add('dragging');
+      clone.style.position='fixed';
+      clone.style.left=rect.left+'px';
+      clone.style.top=rect.top+'px';
+      clone.style.width=rect.width+'px';
+      clone.style.margin='0';
+      clone.style.zIndex='9999';
+      clone.style.pointerEvents='none';
+      document.body.appendChild(clone);
+      row.style.opacity='0.2';
+      const offY=e.clientY-rect.top;
+      let lastY=e.clientY;
+      function hint(y){
+        rows.forEach((r2,i)=>{
+          if(i===from){r2.classList.remove('slot-hint');return;}
+          const m=rects[i].top+rects[i].height/2;
+          r2.classList.toggle('slot-hint',Math.abs(y-m)<rects[i].height/2);
+        });
+      }
+      function move(ev){lastY=ev.clientY;clone.style.top=(lastY-offY)+'px';hint(lastY);}
+      function up(){
+        document.removeEventListener('pointermove',move);
+        document.removeEventListener('pointerup',up);
+        document.removeEventListener('pointercancel',up);
+        clone.remove();
+        rows.forEach(r2=>r2.classList.remove('slot-hint'));
+        const item=order[from];
+        const others=order.filter((_,i)=>i!==from);
+        const oRects=rects.filter((_,i)=>i!==from);
+        let ins=0;
+        for(let i=0;i<oRects.length;i++){
+          if(oRects[i].top+oRects[i].height/2<lastY)ins=i+1;
+        }
+        others.splice(ins,0,item);
+        commit(others);
+      }
+      document.addEventListener('pointermove',move);
+      document.addEventListener('pointerup',up);
+      document.addEventListener('pointercancel',up);
+    });
+  });
+}
+
+// R0 信任排序（拖曳）
+function renderRankRound(ri){
+  const r=ROUNDS[ri];
+  work.order=r.rankItems.map((_,i)=>i);
+  function rankRender(){
+    const rows=work.order.map((it,pos)=>`<div class="reorder-row" data-pos="${pos}">
+        <div class="reorder-rank">${pos+1}</div>
+        <div class="reorder-label">${r.rankItems[it]}</div>
+        <div class="drag-handle">⠿</div>
+      </div>`).join('');
+    G.innerHTML=scene(r,`
+      <div class="round-question t-main">拖曳排序：把你最信任的，拖到最上面</div>
+      <div class="reorder-list">${rows}</div>
+      <button class="continue-btn" onclick="rankReveal(${ri})">就這樣，看看真相 ›</button>`);
+    attachDrag('.reorder-list',()=>work.order,o=>{work.order=o;rankRender();});
+  }
+  window.rankRender=rankRender;rankRender();
+}
+function rankReveal(ri){
+  const r=ROUNDS[ri];
+  fade(()=>{G.innerHTML=sceneLight(r,`
+      <div class="flip-reveal"><div class="flip-tag">真相</div><div class="flip-body">${r.reveal}</div></div>
+      <div class="round-question t-main" style="margin-top:1.5rem">${r.question}</div>
+      <div class="choices">${r.choices.map((c,i)=>`<button class="choice-btn" onclick="choose(${ri},${i})">${c}</button>`).join('')}</div>`);});
+}
+
+// R1 卡片翻面
+function renderFlipRound(ri){
+  const r=ROUNDS[ri];
+  G.innerHTML=scene(r,`
+      <div class="round-question t-main">${r.question}</div>
+      <div class="choices">
+        ${r.cards.map((c,i)=>`<button class="choice-btn" onclick="flipCard(${ri},${i})"><b>${c.label}</b>　<span style="opacity:.8">${c.text}</span></button>`).join('')}
+      </div>`);
+}
+function flipCard(ri,ci){
+  const r=ROUNDS[ri],c=r.cards[ci];
+  fade(()=>{G.innerHTML=sceneLight(r,`
+      <div class="flip-reveal"><div class="flip-tag">你選了：${c.label}</div><div class="flip-body">${c.reveal}</div></div>
+      <button class="continue-btn" onclick="recordAndAdvance(${ri},${ci})">繼續 ›</button>`);});
+}
+
+// R2 / R10 光譜滑桿
+function renderSliderRound(ri){
+  const r=ROUNDS[ri];
+  if(work.sv===undefined||work.svRound!==ri){work.sv=r.def;work.svRound=ri;}
+  function fb(v){
+    if(r.sliderKind==='hours'){
+      if(v<=1)return '<span style="color:#ffcc80">幾乎不看——市場在說什麼，你聽不見。</span>';
+      if(v<=4)return '<span style="color:#a5d6a7">剛好。抓重點，又不被雜訊綁架。</span>';
+      if(v<=6)return '偏多了，開始被雜訊牽著走。';
+      return '<span style="color:#ffcc80">全部都追——愈看愈焦慮，愈焦慮愈不敢動。</span>';
+    }
+    if(v<=20)return '<span style="color:#63b3ed">偏長線。你要的是複利，和睡得著的夜晚。</span>';
+    if(v>=80)return '<span style="color:#fc8181">偏短線。你靠當下的節奏，感覺自己活著。</span>';
+    if(v>=40&&v<=60)return '<span style="color:#a5d6a7">你站在中間——也許長短線本來就能並行。</span>';
+    return '在兩端之間，你還在找自己的節奏。';
+  }
+  function sliderRender(){
+    const v=work.sv,disp=r.sliderKind==='hours'?(v+r.unit):(v+'%');
+    G.innerHTML=scene(r,`
+      <div class="round-question t-main">${r.question}</div>
+      <div class="balance-container">
+        <div class="balance-item">
+          <div class="balance-label t-sub" style="font-size:13px;min-width:52px">${r.leftLabel}</div>
+          <input type="range" class="bslider" min="${r.min}" max="${r.max}" step="${r.step}" value="${v}"
+            oninput="work.sv=parseInt(this.value);sliderRender()">
+          <div class="balance-pct" style="min-width:52px;text-align:left">${r.rightLabel}</div>
+        </div>
+        <div style="text-align:center;font-size:20px;font-weight:300;color:#fff;margin:-0.1rem 0 0.2rem">${disp}</div>
+        <div class="slider-feedback">${fb(v)}</div>
+      </div>
+      <button class="continue-btn" style="margin-top:0.4rem" onclick="sliderDone(${ri})">就這樣 ›</button>`);
+  }
+  window.sliderRender=sliderRender;sliderRender();
+}
+function sliderDone(ri){
+  const r=ROUNDS[ri],v=work.sv;
+  const ci=(r.sliderKind==='hours')?((v>=6)?1:0):((v>=50)?1:0);
+  work.sv=undefined;
+  recordAndAdvance(ri,ci);
+}
+
+// R5 傳導鏈重組（拖曳）
+function renderChainRound(ri){
+  const r=ROUNDS[ri];
+  if(!work.chain||work.chainRound!==ri){
+    const n=r.chain.length;
+    let s=[2,0,4,1,5,3].filter(x=>x<n);
+    if(s.length!==n)s=r.chain.map((_,i)=>i).reverse();
+    work.chain=s;work.chainRound=ri;work.chainChecked=false;work.chainRevealed=false;
+  }
+  window.chainCheck=function(){work.chainChecked=true;chainRender();};
+  window.chainGiveAnswer=function(){
+    work.chain=r.chain.map((_,i)=>i);
+    work.chainChecked=true;work.chainRevealed=true;chainRender();
+  };
+  function isCorrect(){return work.chain.every((v,i)=>v===i);}
+  function chainRender(){
+    const rows=work.chain.map((it,pos)=>{
+      const ok=work.chainChecked&&it===pos;
+      const arrow=pos<work.chain.length-1?'<div class="chain-arrow">↓</div>':'';
+      return `<div class="reorder-row ${ok?'correct':''}" data-pos="${pos}">
+        <div class="reorder-rank">${pos+1}</div>
+        <div class="reorder-label">${r.chain[it]}</div>
+        <div class="drag-handle">⠿</div>
+      </div>${arrow}`;
+    }).join('');
+    const done=isCorrect();
+    let msg='';
+    if(work.chainRevealed)msg='<span style="color:#a5d6a7">這就是那條傳導鏈——先看懂，再慢慢體會。</span>';
+    else if(work.chainChecked)msg=done?'<span style="color:#a5d6a7">完全正確——這就是那條傳導鏈。</span>':'<span style="color:#ffcc80">還沒對齊，再想想因果的先後。</span>';
+    const proceed=(done&&work.chainChecked)||work.chainRevealed;
+    G.innerHTML=scene(r,`
+      <div class="round-question t-main" style="font-size:15px;opacity:.9">拖曳排序，把六件事排回正確的因果順序</div>
+      <div class="reorder-list">${rows}</div>
+      <div class="slider-feedback" style="min-height:22px">${msg}</div>
+      ${proceed
+        ?`<button class="continue-btn" onclick="chainReveal(${ri})">看懂了 ›</button>`
+        :`<div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap">
+            <button class="continue-btn" style="margin-top:0" onclick="chainCheck()">檢查順序</button>
+            <button class="continue-btn" style="margin-top:0;opacity:0.7" onclick="chainGiveAnswer()">給我答案</button>
+          </div>`}`);
+    if(!proceed) attachDrag('.reorder-list',()=>work.chain,o=>{work.chain=o;work.chainChecked=false;chainRender();});
+  }
+  window.chainRender=chainRender;chainRender();
+}
+function chainReveal(ri){
+  const r=ROUNDS[ri];work.chain=undefined;
+  fade(()=>{G.innerHTML=sceneLight(r,`
+      <div class="flip-reveal"><div class="flip-tag">牽一髮動全身</div><div class="flip-body">${r.reveal}</div></div>
+      <div class="round-question t-main" style="margin-top:1.5rem">${r.question}</div>
+      <div class="choices">${r.choices.map((c,i)=>`<button class="choice-btn" onclick="choose(${ri},${i})">${c}</button>`).join('')}</div>`);});
+}
+
+function recordAndAdvance(ri,ci){
   state.scores.push({round:ri,choice:ci});
   updateProgress();
   const tr=TRANSITIONS[ri];
   if(tr){fade(()=>showTransition(tr,ri));}
   else{advanceFromRound(ri);}
 }
+function choose(ri,ci){recordAndAdvance(ri,ci);}
 
 function showTransition(text,fromRi){
   G.innerHTML=`<div class="scene sky-night" style="background:linear-gradient(180deg,#020408,#060d18,#0e1828)">
