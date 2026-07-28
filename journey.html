@@ -77,31 +77,60 @@ input[type=range].bslider::-moz-range-track{height:8px;border-radius:4px;backgro
 .result-config-title{font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.38);margin-bottom:0.6rem}
 .result-config-row{display:flex;justify-content:space-between;font-size:13px;padding:0.32rem 0;border-bottom:1px solid rgba(255,255,255,0.1)}
 .result-config-row:last-child{border-bottom:none}
-.yoda-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);border:none;color:#fff;padding:0.9rem 2.5rem;border-radius:6px;font-size:15px;cursor:pointer;letter-spacing:0.5px;text-decoration:none;transition:opacity 0.2s;margin-bottom:0.5rem}
+.yoda-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);border:none;color:#fff;width:190px;padding:0.85rem 0.6rem;border-radius:6px;font-size:14px;cursor:pointer;letter-spacing:0.5px;text-align:center;text-decoration:none;transition:opacity 0.2s;box-sizing:border-box}
 .yoda-btn:hover{opacity:0.87}
 .progress-bar{position:fixed;top:0;left:0;height:2px;background:rgba(224,165,38,0.6);transition:width 0.4s;z-index:100}
-.share-btn{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.35);color:rgba(255,255,255,0.85);padding:0.6rem 1.5rem;border-radius:4px;cursor:pointer;font-size:13px;letter-spacing:1px;transition:all 0.2s}
-.share-btn:hover{background:rgba(255,255,255,0.22);border-color:rgba(255,255,255,0.7);color:#fff}
+.mute-btn{position:fixed;top:14px;right:14px;z-index:101;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(6px);transition:all 0.2s;display:flex;align-items:center;justify-content:center;padding:0}
+.mute-btn:hover{background:rgba(0,0,0,0.55);border-color:rgba(255,255,255,0.5)}
+.share-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);border:none;color:#fff;width:190px;padding:0.85rem 0.6rem;border-radius:6px;font-size:14px;cursor:pointer;letter-spacing:0.5px;text-align:center;text-decoration:none;transition:opacity 0.2s;box-sizing:border-box}
+.share-btn:hover{opacity:0.87}
 .share-btn.copied{background:rgba(100,200,120,0.2);border-color:rgba(100,200,120,0.6);color:#a5d6a7}
 </style>
 </head>
 <body>
+<audio id="bgm" loop preload="auto"><source src="day_one.mp3" type="audio/mpeg"></audio>
+<button id="muteBtn" class="mute-btn" onclick="toggleMute()" aria-label="音樂開關">🔊</button>
 <div class="progress-bar" id="progress"></div>
 <div id="game"></div>
 <script>
 const G=document.getElementById('game');
 const PB=document.getElementById('progress');
 
+// ---- 背景音樂控制 ----
+const BGM=document.getElementById('bgm');
+const MUTEBTN=document.getElementById('muteBtn');
+let bgmStarted=false;
+let bgmMuted=false;
+try{ bgmMuted = localStorage.getItem('yoda_bgm_muted')==='1'; }catch(e){}
+if(BGM){ BGM.volume=0.30; }
+function updateMuteIcon(){ if(MUTEBTN) MUTEBTN.textContent = bgmMuted ? '🔇' : '🔊'; }
+updateMuteIcon();
+function startBGM(){
+  if(bgmStarted || bgmMuted || !BGM) return;
+  BGM.play().then(function(){ bgmStarted=true; }).catch(function(){});
+}
+function toggleMute(){
+  bgmMuted=!bgmMuted;
+  try{ localStorage.setItem('yoda_bgm_muted', bgmMuted?'1':'0'); }catch(e){}
+  if(bgmMuted){ if(BGM) BGM.pause(); }
+  else{ if(BGM){ BGM.play().then(function(){bgmStarted=true;}).catch(function(){}); } }
+  updateMuteIcon();
+}
+window.toggleMute=toggleMute;
+// 第一次任何點擊都嘗試啟動音樂（解鎖瀏覽器自動播放限制）
+document.addEventListener('click', startBGM, {once:false});
+
+
 const CHAPTERS=[
-  {label:'第一章',title:'修術',sky:'sky-dawn',quotes:['你買了課、追了粉專、做了筆記。但每次要下單，還是不知道從哪裡開始。']},
-  {label:'第二章',title:'修道',sky:'sky-valley',quotes:['有一天，你突然看見了。升息、美元、油價、債券——它們不是獨立的，它們在說同一件事。','市場不是隨機的。它有節奏。只是你還沒找到那個頻率。','經濟是一張立體拼圖。你以前只看到一塊。現在，你開始看見它們如何咬合。','牽一髮動全身。這句話在你第一次看懂一個完整的傳導鏈之後，才真正有了重量。','從這裡開始，你看市場的方式，會慢慢不一樣。']},
-  {label:'第三章',title:'修心',sky:'sky-mountain',quotes:['長線需要耐心。短線需要紀律。兩者都需要你足夠了解自己。','財富自由不是一個數字。是一種你不再被錢追著跑的狀態。','有些人用長線睡得著覺。有些人靠短線感覺活著。答案沒有對錯，只有適不適合。']},
-  {label:'第四章',title:'融合',sky:'sky-clear',quotes:['當你停止尋找唯一正確的答案，才開始建立自己的系統。','沒有哪一樣武器可以獨立戰鬥。總經是地圖，技術是指南針，基本面是糧草。','你走到這裡，不是為了得到答案。而是為了開始問對問題。','系統不是別人給你的。是你一次次選擇之後，留下來的東西。']}
+  {label:'第一章',title:'修術',sky:'sky-dawn',quotes:['你買了課、追了粉專、做了筆記。<br>但每次要下單，還是不知道從哪裡開始。']},
+  {label:'第二章',title:'修道',sky:'sky-valley',quotes:['有一天，你突然看見了。升息、美元、油價、債券——<br>它們不是獨立的，它們在說同一件事。','市場不是隨機的。它有節奏。只是你還沒找到那個頻率。<br>經濟是一張立體拼圖，你以前只看到一塊，<br>現在，你開始看見它們如何咬合。','牽一髮動全身。<br>這句話在你第一次看懂一個完整的傳導鏈之後，才真正有了重量。','從這裡開始，你看市場的方式，會慢慢不一樣。']},
+  {label:'第三章',title:'修心',sky:'sky-mountain',quotes:['長線需要耐心。短線需要紀律。兩者都需要你足夠了解自己。','有些人用長線睡得著覺。有些人靠短線感覺活著。<br>答案沒有對錯，只有適不適合。']},
+  {label:'第四章',title:'融合',sky:'sky-clear',quotes:['當你停止尋找唯一正確的答案，才開始建立自己的系統。','沒有哪一樣武器可以獨立戰鬥。<br>總經是地圖，技術是指南針，基本面是糧草。','你走到這裡，不是為了得到答案。而是為了開始問對問題。','系統不是別人給你的。是你一次次選擇之後，留下來的東西。']}
 ];
 
 const ROUNDS=[
   {ch:0,sky:'sky-dawn',title:'資訊的迷宮',text:'你訂閱了十個財經粉專。每天早上打開手機，A說升息要買債，B說現在是佈局科技股的好時機，C說要現金為王。三種聲音，三種邏輯，聽起來都有道理。',question:'你選擇相信誰？',choices:['找最多人推薦的那個，跟著大家走比較安全','先擱置，繼續學，等自己想清楚再說']},
-  {ch:0,sky:'sky-gray',title:'技術分析的誘惑',text:'你開始學K線。黃金交叉、死亡交叉、RSI超買超賣。買了課，做了筆記，自以為看懂了圖。第一次出手，照著型態買，結果隔天跳空下跌。',question:'你怎麼解讀這次失敗？',choices:['圖表分析本來就是騙人的，我不玩了','我的判斷有問題，要繼續研究，找出哪裡看錯了']},
+  {ch:0,sky:'sky-gray',title:'技術分析的誘惑',text:'你開始學K線。黃金交叉、死亡交叉、RSI超買超賣。<br>買了課，做了筆記，自以為看懂了圖。<br>第一次出手，照著型態買，結果隔天跳空下跌。',question:'你怎麼解讀這次失敗？',choices:['圖表分析本來就是騙人的，我不玩了','我的判斷有問題，要繼續研究，找出哪裡看錯了']},
   {ch:0,sky:'sky-noon',title:'總經焦慮症',text:'你開始關注宏觀。Fed利率、CPI、PCE、殖利率曲線、PMI……每個數據公布，市場都在震盪。你試圖每個都追，每天花三個小時看報告，卻發現愈看愈焦慮，愈焦慮愈不敢動。',question:'你怎麼面對這種焦慮？',choices:['資訊太多了，我決定只看最重要的幾個指標，其他不管','繼續全追，資訊就是武器，我不能放棄任何一塊']},
   {ch:0,sky:'sky-afternoon',title:'好公司，壞時機',text:'你研究了一家公司半個月。財報漂亮、護城河深、管理層優秀。你買進了。然後股價五年都沒動，甚至還跌了15%。同期大盤漲了60%。',question:'你的結論是什麼？',choices:['基本面分析沒用，市場根本不在乎企業真實價值','好公司是必要條件，但進場時機同樣關鍵，我的功課還沒做完']},
   {ch:0,sky:'sky-dusk',title:'知道太多，動不了',text:'你學了技術分析、基本面、總體經濟。每次想出手，腦袋裡同時響起五個聲音：技術面說可以、基本面說還早、總經說不確定、新聞說要小心、內心說算了。最後你什麼都沒做。',question:'你意識到問題在哪裡？',choices:['問題是資訊還不夠，我需要更多確定性才能行動','問題是我沒有一個屬於自己的判斷框架，資訊沒有主軸']},
@@ -116,18 +145,18 @@ const ROUNDS=[
 ];
 
 const TRANSITIONS=[
-  '你在找一個人告訴你答案。但那個人，最終只能是你自己。',
+  '你在找一個人告訴你答案。<br>但那個人，最終只能是你自己。',
   '技術分析是語言，不是預言。',
-  '總經是望遠鏡，不是放大鏡。它看的是方向，不是今天。',
-  '當所有聲音都很有道理，你需要的不是更多資訊。是一個主軸。',
-  '那種「突然看懂了」的感覺，只有經歷過迷茫的人才會有。',
+  '總經是望遠鏡，不是放大鏡。<br>它看的是方向，不是今天。',
+  '當所有聲音都很有道理，你需要的不是更多資訊，<br>而是一個主軸。',
+  '那種「突然看懂了」的感覺，<br>只有經歷過迷茫的人才會有。',
   '懂了週期，你就不會在每次崩跌時覺得世界末日。',
   null,
-  '開始思考「組合」的那一刻，你就跳出了選邊站的陷阱。',
-  '每一種方法都有它失效的環境。這不是缺陷，這是事實。',
+  '開始思考「組合」的那一刻，<br>你就跳出了選邊站的陷阱。',
+  '每一種方法都有它失效的環境。<br>這不是缺陷，這是事實。',
   '錢的問題，最後都會變成時間的問題。',
-  '長線給你方向，短線給你呼吸。兩者不是對立的，是節奏不同的存在。',
-  '並行，不是貪心。是你開始理解，不同的資金可以有不同的任務。',
+  '長線給你方向，短線給你呼吸。<br>兩者不是對立的，是節奏不同的存在。',
+  '並行，不是貪心。<br>是你開始理解，不同的資金可以有不同的任務。',
 ];
 
 const PERSONALITIES=[
@@ -338,15 +367,14 @@ function showResult(){
         Yoda Research 每週追蹤總體經濟、技術面與個股選股，<br>
         幫你把框架轉化為真實的決策。
       </div>
-      <a class="yoda-btn" href="https://yoda-research-next.vercel.app/" target="_blank">前往 Yoda Research →</a>
-      <br>
       <div style="display:flex;gap:0.75rem;justify-content:center;margin-top:1rem;flex-wrap:wrap">
-        <button class="share-btn" id="shareBtn" onclick="shareGame()">
-          <span id="shareIcon">&#8679;</span> 分享這個遊戲
-        </button>
-        <button class="continue-btn" style="font-size:12px;opacity:0.6;margin-top:0" onclick="restart()">重新開始</button>
+        <a class="yoda-btn" href="https://iamtwispin.substack.com/" target="_blank" rel="noopener">免費訂閱簡報 →</a>
+        <a class="yoda-btn" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">Yoda Research</a>
+        <button class="share-btn" id="shareBtn" onclick="shareGame()"><span id="shareIcon">&#8679;</span> 分享這個遊戲</button>
       </div>
+      <div style="margin-top:0.9rem"><button class="continue-btn" style="font-size:12px;opacity:0.6" onclick="restart()">重新開始</button></div>
       <div id="shareFeedback" style="font-size:12px;color:rgba(160,220,255,0.7);margin-top:0.6rem;height:18px;transition:opacity 0.3s"></div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1.5rem;letter-spacing:0.3px">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" style="color:rgba(224,165,38,0.6);text-decoration:none">BiBiPiano</a>，版權為原作者所有</div>
     </div>
   </div>`;
 }
