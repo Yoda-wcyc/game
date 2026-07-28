@@ -77,13 +77,13 @@ input[type=range].bslider::-moz-range-track{height:8px;border-radius:4px;backgro
 .result-config-title{font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.38);margin-bottom:0.6rem}
 .result-config-row{display:flex;justify-content:space-between;font-size:13px;padding:0.32rem 0;border-bottom:1px solid rgba(255,255,255,0.1)}
 .result-config-row:last-child{border-bottom:none}
-.yoda-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);border:none;color:#fff;padding:0.9rem 2.5rem;border-radius:6px;font-size:15px;cursor:pointer;letter-spacing:0.5px;text-decoration:none;transition:opacity 0.2s;margin-bottom:0.5rem}
+.yoda-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);border:none;color:#fff;width:190px;padding:0.85rem 0.6rem;border-radius:6px;font-size:14px;cursor:pointer;letter-spacing:0.5px;text-align:center;text-decoration:none;transition:opacity 0.2s;box-sizing:border-box}
 .yoda-btn:hover{opacity:0.87}
 .progress-bar{position:fixed;top:0;left:0;height:2px;background:rgba(224,165,38,0.6);transition:width 0.4s;z-index:100}
 .mute-btn{position:fixed;top:14px;right:14px;z-index:101;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(6px);transition:all 0.2s;display:flex;align-items:center;justify-content:center;padding:0}
 .mute-btn:hover{background:rgba(0,0,0,0.55);border-color:rgba(255,255,255,0.5)}
-.share-btn{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.35);color:rgba(255,255,255,0.85);padding:0.6rem 1.5rem;border-radius:4px;cursor:pointer;font-size:13px;letter-spacing:1px;transition:all 0.2s}
-.share-btn:hover{background:rgba(255,255,255,0.22);border-color:rgba(255,255,255,0.7);color:#fff}
+.share-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);border:none;color:#fff;width:190px;padding:0.85rem 0.6rem;border-radius:6px;font-size:14px;cursor:pointer;letter-spacing:0.5px;text-align:center;text-decoration:none;transition:opacity 0.2s;box-sizing:border-box}
+.share-btn:hover{opacity:0.87}
 .share-btn.copied{background:rgba(100,200,120,0.2);border-color:rgba(100,200,120,0.6);color:#a5d6a7}
 </style>
 </head>
@@ -367,14 +367,12 @@ function showResult(){
         Yoda Research 每週追蹤總體經濟、技術面與個股選股，<br>
         幫你把框架轉化為真實的決策。
       </div>
-      <a class="yoda-btn" href="https://yoda-research-next.vercel.app/" target="_blank">前往 Yoda Research →</a>
-      <br>
       <div style="display:flex;gap:0.75rem;justify-content:center;margin-top:1rem;flex-wrap:wrap">
-        <button class="share-btn" id="shareBtn" onclick="shareGame()">
-          <span id="shareIcon">&#8679;</span> 分享這個遊戲
-        </button>
-        <button class="continue-btn" style="font-size:12px;opacity:0.6;margin-top:0" onclick="restart()">重新開始</button>
+        <a class="yoda-btn" href="https://iamtwispin.substack.com/" target="_blank" rel="noopener">免費訂閱簡報 →</a>
+        <a class="yoda-btn" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">Yoda Research</a>
+        <button class="share-btn" id="shareBtn" onclick="shareGame()"><span id="shareIcon">&#8679;</span> 分享這個遊戲</button>
       </div>
+      <div style="margin-top:0.9rem"><button class="continue-btn" style="font-size:12px;opacity:0.6" onclick="restart()">重新開始</button></div>
       <div id="shareFeedback" style="font-size:12px;color:rgba(160,220,255,0.7);margin-top:0.6rem;height:18px;transition:opacity 0.3s"></div>
       <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1.5rem;letter-spacing:0.3px">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" style="color:rgba(224,165,38,0.6);text-decoration:none">BiBiPiano</a>，版權為原作者所有</div>
     </div>

@@ -90,13 +90,13 @@ input[type=range].bslider::-moz-range-track{height:8px;border-radius:4px;backgro
 .result-config-title{font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.38);margin-bottom:0.6rem}
 .result-config-row{display:flex;justify-content:space-between;font-size:13px;padding:0.32rem 0;border-bottom:1px solid rgba(255,255,255,0.1);text-align:left;gap:1rem}
 .result-config-row:last-child{border-bottom:none}
-.yoda-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);border:none;color:#fff;padding:0.9rem 2.5rem;border-radius:6px;font-size:15px;cursor:pointer;letter-spacing:0.5px;text-decoration:none;transition:opacity 0.2s;margin-bottom:0.5rem}
+.yoda-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);border:none;color:#fff;width:190px;padding:0.85rem 0.6rem;border-radius:6px;font-size:14px;cursor:pointer;letter-spacing:0.5px;text-align:center;text-decoration:none;transition:opacity 0.2s;box-sizing:border-box}
 .yoda-btn:hover{opacity:0.87}
 .progress-bar{position:fixed;top:0;left:0;height:2px;background:rgba(224,165,38,0.6);transition:width 0.4s;z-index:100}
 .mute-btn{position:fixed;top:14px;right:14px;z-index:101;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(6px);transition:all 0.2s;display:flex;align-items:center;justify-content:center;padding:0}
 .mute-btn:hover{background:rgba(0,0,0,0.55);border-color:rgba(255,255,255,0.5)}
-.share-btn{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.35);color:rgba(255,255,255,0.85);padding:0.6rem 1.5rem;border-radius:4px;cursor:pointer;font-size:13px;letter-spacing:1px;transition:all 0.2s}
-.share-btn:hover{background:rgba(255,255,255,0.22);border-color:rgba(255,255,255,0.7);color:#fff}
+.share-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);border:none;color:#fff;width:190px;padding:0.85rem 0.6rem;border-radius:6px;font-size:14px;cursor:pointer;letter-spacing:0.5px;text-align:center;text-decoration:none;transition:opacity 0.2s;box-sizing:border-box}
+.share-btn:hover{opacity:0.87}
 .share-btn.copied{background:rgba(100,200,120,0.2);border-color:rgba(100,200,120,0.6);color:#a5d6a7}
 </style>
 </head>
@@ -211,17 +211,18 @@ const BRAKE_OPTS=[
 const RESULTS=[
   { icon:'🗺️', name:'讀地圖的人',
     desc:'你不賭方向，你讀路況。訊號變了你就調整，看錯了你先止血，你要的不是誰的明牌，是一張能自己看懂的圖。<br><br>你知道投資最重要的不是每次都做對，是做錯的時候不會傷得太重。<br><br><b>那麼，歡迎你。</b>這裡就是為你準備的。',
-    cta:'進來看看這張地圖 →' },
+    cta:'免費訂閱簡報，收下這張地圖 →' },
   { icon:'🧭', name:'還在路上',
     desc:'你已經開始想「看路況」，但手還會不自覺伸向那顆「答案」按鈕。這很正常——大多數人都卡在這裡。<br><br>你缺的不是更多資訊，是一個屬於自己的判斷主軸：<br>什麼時候踩油門、什麼時候踩煞車。<br><br><b>下一步：</b>先練習「訊號變了就調整」，別死守一個預測等它兌現。<br>地圖，是練出來的。',
-    cta:'跟著地圖走一段 →' },
+    cta:'免費訂閱簡報，跟著地圖走 →' },
   { icon:'🎯', name:'還在找答案',
     desc:'你想要的是有人直接告訴你買什麼、什麼時候買。<br>誠實說：這裡沒有那個答案。<br><br>追消息、凹單、全押或空手、要明牌——<br>這四件事會讓你一直被市場牽著走。不是你不夠努力，是方向錯了。<br><br><b>下一步：</b>如果哪天你開始想要一張「地圖」而不是一個「答案」，<br>再回來，門會一直開著。',
-    cta:'那，先看看地圖長怎樣 →' }
+    cta:'哪天想要地圖了，訂起來 →' }
 ];
 
 // 串接網址（要換成你的正式站台就改這裡）
 const YODA_URL='https://yoda-research-next.vercel.app/';
+const SUBSCRIBE_URL='https://iamtwispin.substack.com/';
 
 let state={ idx:-1, scores:[], sliderVal:50, gas:null, brake:null };
 
@@ -475,14 +476,12 @@ function showResult(){
         追蹤美股與台股的強弱輪動——<br>
         給你的不是答案，是一張持續更新的地圖。
       </div>
-      <a class="yoda-btn" href="${YODA_URL}" target="_blank" rel="noopener">${p.cta}</a>
-      <br>
       <div style="display:flex;gap:0.75rem;justify-content:center;margin-top:1rem;flex-wrap:wrap">
-        <button class="share-btn" id="shareBtn" onclick="shareGame()">
-          <span id="shareIcon">&#8679;</span> 分享這個測驗
-        </button>
-        <button class="continue-btn" style="font-size:12px;opacity:0.6;margin-top:0" onclick="restart()">重玩一次</button>
+        <a class="yoda-btn" href="${SUBSCRIBE_URL}" target="_blank" rel="noopener">免費訂閱簡報 →</a>
+        <a class="yoda-btn" href="${YODA_URL}" target="_blank" rel="noopener">Yoda Research</a>
+        <button class="share-btn" id="shareBtn" onclick="shareGame()"><span id="shareIcon">&#8679;</span> 分享這個測驗</button>
       </div>
+      <div style="margin-top:0.9rem"><button class="continue-btn" style="font-size:12px;opacity:0.6" onclick="restart()">重玩一次</button></div>
       <div id="shareFeedback" style="font-size:12px;color:rgba(160,220,255,0.7);margin-top:0.6rem;height:18px;transition:opacity 0.3s"></div>
       <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1.5rem;letter-spacing:0.3px">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" style="color:rgba(224,165,38,0.6);text-decoration:none">BiBiPiano</a>，版權為原作者所有</div>
     </div>
