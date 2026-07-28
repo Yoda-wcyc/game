@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>答案，還是地圖 · Yoda Research</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;min-height:100%;font-family:-apple-system,'PingFang TC','Noto Sans TC',sans-serif;background:#000}
+#game{width:100%;min-height:100vh;position:relative;overflow:hidden}
+.scene{width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:3rem 1.5rem}
+
+.sky-start{background:linear-gradient(180deg,#0a0a1a 0%,#1a1a3e 40%,#8b5e00 80%,#c47a00 100%)}
+.sky-dawn{background:linear-gradient(180deg,#1a1a2e 0%,#e8b86d 60%,#f4a261 100%)}
+.sky-gray{background:linear-gradient(180deg,#2d3561 0%,#4a5568 50%,#a0aec0 100%)}
+.sky-noon{background:linear-gradient(180deg,#0d47a1 0%,#1976d2 50%,#bbdefb 100%)}
+.sky-afternoon{background:linear-gradient(180deg,#bf360c 0%,#f57c00 50%,#ffe0b2 100%)}
+.sky-dusk{background:linear-gradient(180deg,#1a0030 0%,#6a1b9a 40%,#e91e63 70%,#ff7043 100%)}
+.sky-night{background:linear-gradient(180deg,#000510 0%,#0d1b2a 60%,#1a2744 100%)}
+.sky-valley{background:linear-gradient(180deg,#1b2631 0%,#2e4057 40%,#5d7a8a 100%)}
+.sky-storm{background:linear-gradient(180deg,#0d0d0d 0%,#1a1a3e 40%,#3949ab 100%)}
+.sky-clouds{background:linear-gradient(180deg,#0d47a1 0%,#1565c0 40%,#90caf9 100%)}
+.sky-mountain{background:linear-gradient(180deg,#7b1fa2 0%,#c62828 40%,#ff8a65 100%)}
+.sky-starry{background:linear-gradient(180deg,#000510 0%,#0a0a2e 60%,#1a1a4e 100%)}
+.sky-clear{background:linear-gradient(180deg,#01579b 0%,#0288d1 40%,#4fc3f7 100%)}
+.sky-result{background:linear-gradient(180deg,#003459 0%,#00587a 40%,#0288d1 100%)}
+
+.mountains{position:absolute;bottom:0;left:0;right:0;height:220px;pointer-events:none}
+.overlay{position:relative;z-index:10;text-align:center;max-width:640px;width:100%}
+
+.sky-dawn .t-main,.sky-start .t-main{color:#fff7e6}
+.sky-dawn .t-sub,.sky-start .t-sub{color:rgba(255,240,200,0.78)}
+.sky-dawn .t-label,.sky-start .t-label{color:rgba(255,220,150,0.58)}
+.sky-gray .t-main{color:#e8eaf6}.sky-gray .t-sub{color:rgba(220,225,245,0.82)}.sky-gray .t-label{color:rgba(200,210,235,0.58)}
+.sky-noon .t-main{color:#e3f2fd}.sky-noon .t-sub{color:rgba(200,230,255,0.85)}.sky-noon .t-label{color:rgba(180,215,255,0.58)}
+.sky-afternoon .t-main{color:#fff3e0}.sky-afternoon .t-sub{color:rgba(255,240,200,0.85)}.sky-afternoon .t-label{color:rgba(255,220,150,0.58)}
+.sky-dusk .t-main{color:#fce4ec}.sky-dusk .t-sub{color:rgba(252,220,235,0.85)}.sky-dusk .t-label{color:rgba(240,180,210,0.58)}
+.sky-night .t-main,.sky-starry .t-main{color:#e8eaf6}.sky-night .t-sub,.sky-starry .t-sub{color:rgba(210,220,255,0.82)}.sky-night .t-label,.sky-starry .t-label{color:rgba(180,200,255,0.55)}
+.sky-valley .t-main{color:#eceff1}.sky-valley .t-sub{color:rgba(220,230,240,0.85)}.sky-valley .t-label{color:rgba(190,210,225,0.58)}
+.sky-storm .t-main{color:#e8eaf6}.sky-storm .t-sub{color:rgba(210,215,255,0.85)}.sky-storm .t-label{color:rgba(180,190,255,0.58)}
+.sky-clouds .t-main{color:#e3f2fd}.sky-clouds .t-sub{color:rgba(200,230,255,0.85)}.sky-clouds .t-label{color:rgba(180,215,255,0.58)}
+.sky-mountain .t-main{color:#fce4ec}.sky-mountain .t-sub{color:rgba(252,225,240,0.85)}.sky-mountain .t-label{color:rgba(240,190,220,0.58)}
+.sky-clear .t-main,.sky-result .t-main{color:#e1f5fe}.sky-clear .t-sub,.sky-result .t-sub{color:rgba(200,235,255,0.85)}.sky-clear .t-label,.sky-result .t-label{color:rgba(170,220,255,0.58)}
+
+.chapter-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:0.5rem}
+.chapter-title{font-size:28px;font-weight:300;margin-bottom:1rem;line-height:1.3}
+.chapter-quote{font-size:15px;line-height:1.95;margin-bottom:2rem;font-style:italic;max-width:480px;margin-left:auto;margin-right:auto}
+.round-text{font-size:15px;line-height:1.9;margin-bottom:1.5rem;max-width:520px;margin-left:auto;margin-right:auto}
+.round-question{font-size:17px;font-weight:400;margin-bottom:1.5rem;line-height:1.5}
+.transition-quote{font-size:17px;text-align:center;max-width:420px;line-height:2.1;font-style:italic;letter-spacing:0.3px;color:rgba(210,225,255,0.82)}
+
+.choices{display:flex;flex-direction:column;gap:0.75rem;width:100%;max-width:480px;margin:0 auto}
+.choice-btn{background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.28);color:#fff;padding:0.95rem 1.25rem;border-radius:8px;cursor:pointer;font-size:14px;line-height:1.6;text-align:left;transition:all 0.22s;backdrop-filter:blur(6px)}
+.choice-btn:hover{background:rgba(0,0,0,0.45);border-color:rgba(255,255,255,0.62);transform:translateX(4px)}
+.sky-afternoon .choice-btn{color:#fff3e0}
+
+.continue-btn{background:transparent;border:1px solid rgba(255,255,255,0.38);color:rgba(255,255,255,0.75);padding:0.6rem 2rem;border-radius:4px;cursor:pointer;font-size:13px;margin-top:1.5rem;letter-spacing:1px;transition:all 0.2s}
+.continue-btn:hover{border-color:rgba(255,255,255,0.9);color:#fff}
+
+/* 卡片翻面 */
+.flip-reveal{max-width:480px;margin:0 auto;background:rgba(0,0,0,0.32);border:1px solid rgba(255,255,255,0.28);border-radius:10px;padding:1.4rem 1.5rem;backdrop-filter:blur(6px);animation:flipIn 0.5s ease}
+@keyframes flipIn{0%{opacity:0;transform:rotateX(-30deg) translateY(10px)}100%{opacity:1;transform:rotateX(0) translateY(0)}}
+.flip-tag{font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.5);margin-bottom:0.7rem}
+.flip-body{font-size:14px;line-height:1.9;color:rgba(255,255,255,0.9)}
+
+/* 滑桿 */
+.balance-container{width:100%;max-width:500px;margin:0 auto}
+.balance-item{display:flex;align-items:center;gap:1rem;margin-bottom:1.1rem}
+.balance-label{font-size:14px;min-width:80px;text-align:right}
+.balance-pct{font-size:14px;font-weight:500;min-width:40px;text-align:right}
+input[type=range].bslider{flex:1;-webkit-appearance:none;appearance:none;background:transparent;height:20px}
+input[type=range].bslider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;cursor:pointer;margin-top:-6px;box-shadow:0 1px 5px rgba(0,0,0,0.35)}
+input[type=range].bslider::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:rgba(255,255,255,0.18)}
+input[type=range].bslider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;cursor:pointer;border:none;box-shadow:0 1px 5px rgba(0,0,0,0.35)}
+input[type=range].bslider::-moz-range-track{height:8px;border-radius:4px;background:rgba(255,255,255,0.18)}
+.slider-feedback{font-size:13px;line-height:1.8;max-width:420px;margin:0.6rem auto 0;min-height:44px;color:rgba(255,255,255,0.85)}
+
+/* 守則按鈕組 */
+.rule-block{max-width:500px;margin:0 auto 1.3rem;text-align:left}
+.rule-head{font-size:13px;letter-spacing:0.5px;margin-bottom:0.6rem;font-weight:500}
+.rule-row{display:flex;gap:0.6rem;flex-wrap:wrap}
+.rule-opt{flex:1;min-width:96px;background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.28);color:#fff;padding:0.7rem 0.6rem;border-radius:8px;cursor:pointer;font-size:13px;line-height:1.4;text-align:center;transition:all 0.2s;backdrop-filter:blur(6px)}
+.rule-opt:hover{border-color:rgba(255,255,255,0.6)}
+.rule-opt.sel{background:rgba(224,165,38,0.28);border-color:#e0a526;color:#fff}
+
+.result-icon{font-size:52px;margin-bottom:0.75rem}
+.result-type{font-size:24px;font-weight:300;margin-bottom:0.75rem}
+.result-desc{font-size:14px;line-height:1.9;max-width:420px;margin:0 auto 1.5rem}
+.result-config{border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.5rem;max-width:360px;margin-left:auto;margin-right:auto}
+.result-config-title{font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.38);margin-bottom:0.6rem}
+.result-config-row{display:flex;justify-content:space-between;font-size:13px;padding:0.32rem 0;border-bottom:1px solid rgba(255,255,255,0.1);text-align:left;gap:1rem}
+.result-config-row:last-child{border-bottom:none}
+.yoda-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);border:none;color:#fff;padding:0.9rem 2.5rem;border-radius:6px;font-size:15px;cursor:pointer;letter-spacing:0.5px;text-decoration:none;transition:opacity 0.2s;margin-bottom:0.5rem}
+.yoda-btn:hover{opacity:0.87}
+.progress-bar{position:fixed;top:0;left:0;height:2px;background:rgba(224,165,38,0.6);transition:width 0.4s;z-index:100}
+.mute-btn{position:fixed;top:14px;right:14px;z-index:101;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(6px);transition:all 0.2s;display:flex;align-items:center;justify-content:center;padding:0}
+.mute-btn:hover{background:rgba(0,0,0,0.55);border-color:rgba(255,255,255,0.5)}
+.share-btn{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.35);color:rgba(255,255,255,0.85);padding:0.6rem 1.5rem;border-radius:4px;cursor:pointer;font-size:13px;letter-spacing:1px;transition:all 0.2s}
+.share-btn:hover{background:rgba(255,255,255,0.22);border-color:rgba(255,255,255,0.7);color:#fff}
+.share-btn.copied{background:rgba(100,200,120,0.2);border-color:rgba(100,200,120,0.6);color:#a5d6a7}
+</style>
+</head>
+<body>
+<audio id="bgm" loop preload="auto"><source src="day_one.mp3" type="audio/mpeg"></audio>
+<button id="muteBtn" class="mute-btn" onclick="toggleMute()" aria-label="音樂開關">🔊</button>
+<div class="progress-bar" id="progress"></div>
+<div id="game"></div>
+<script>
+const G=document.getElementById('game');
+const PB=document.getElementById('progress');
+
+// ---- 背景音樂控制 ----
+const BGM=document.getElementById('bgm');
+const MUTEBTN=document.getElementById('muteBtn');
+let bgmStarted=false;
+let bgmMuted=false;
+try{ bgmMuted = localStorage.getItem('yoda_bgm_muted')==='1'; }catch(e){}
+if(BGM){ BGM.volume=0.30; }
+function updateMuteIcon(){ if(MUTEBTN) MUTEBTN.textContent = bgmMuted ? '🔇' : '🔊'; }
+updateMuteIcon();
+function startBGM(){
+  if(bgmStarted || bgmMuted || !BGM) return;
+  BGM.play().then(function(){ bgmStarted=true; }).catch(function(){});
+}
+function toggleMute(){
+  bgmMuted=!bgmMuted;
+  try{ localStorage.setItem('yoda_bgm_muted', bgmMuted?'1':'0'); }catch(e){}
+  if(bgmMuted){ if(BGM) BGM.pause(); }
+  else{ if(BGM){ BGM.play().then(function(){bgmStarted=true;}).catch(function(){}); } }
+  updateMuteIcon();
+}
+window.toggleMute=toggleMute;
+document.addEventListener('click', startBGM, {once:false});
+
+// ==== 開場逐句 ====
+const OPENING={label:'序',title:'市場不需要預言家',sky:'sky-dawn',quotes:[
+  '很多分析師告訴你「接下來會漲」「這波要跌」。',
+  '有時準，有時不準——但你永遠不知道這次算哪種。',
+  '這裡不做預言。只做一件事：告訴你現在該踩油門，還是踩煞車。',
+  '因為股市沒有答案，只有地圖。',
+  '接下來六個路口，看看你要的，是答案，還是地圖。'
+]};
+
+// ==== 六輪 ====
+// type: 'ab' | 'flip' | 'slider' | 'three' | 'rules'
+const ROUNDS=[
+  { type:'ab', sky:'sky-noon', label:'路口一', title:'消息面的誘惑',
+    text:'週五盤後，一則新聞跳出來：「Fed 官員暗示最快下季降息」。財經群組瞬間洗版，有人喊「這就是起漲點」，有人已經在曬進場截圖。你的手指，懸在下單鍵上。',
+    question:'你會怎麼做？',
+    choices:[
+      '機會稍縱即逝，先進場卡位再說，錯過就沒了',
+      '先等等——一句「暗示」還不是訊號，我要看數據怎麼走'
+    ], mapChoice:1 },
+
+  { type:'flip', sky:'sky-afternoon', label:'路口二', title:'看錯了以後',
+    text:'你買進的部位，跌了 18%。當初看好的理由好像還在，但價格就是一路往下。你打開對話框，跟自己說……',
+    question:'你決定——',
+    cards:[
+      { label:'繼續抱著', text:'長期一定會回來，現在賣掉就真的賠了',
+        reveal:'三個月後，它又跌了 25%。你早已麻木地看著帳戶。套牢的其實不只是錢，是你之後每一次判斷。' },
+      { label:'先退場邊', text:'看錯就先止血，對錯之後再說',
+        reveal:'你少賠了一大段。重點從來不是這一次對或錯——是你保住了下一次出手的資格。' }
+    ], mapChoice:1 },
+
+  { type:'slider', sky:'sky-storm', label:'路口三', title:'全押，還是空手',
+    text:'市場方向還不明朗。你習慣的狀態只有兩種：要嘛全押，要嘛空手——中間地帶讓你渾身不對勁。',
+    question:'如果非要你現在配置，股票部位你會放多少？',
+    unit:'%', min:0, max:100, step:5, def:50 },
+
+  { type:'ab', sky:'sky-valley', label:'路口四', title:'答案，還是地圖',
+    text:'有兩個人想幫你。第一個說：「跟著我買就對了，我報明牌，你照做。」第二個說：「我不給你答案，但我給你一張圖——告訴你現在在循環的哪裡、什麼訊號該加速、什麼訊號該踩煞車。」',
+    question:'你比較想要哪一個？',
+    choices:[
+      '給我明牌就好，我要的是能直接照做的答案',
+      '給我地圖，我想自己看懂路況、自己做決定'
+    ], mapChoice:1 },
+
+  { type:'three', sky:'sky-clouds', label:'路口五', title:'訊號變了',
+    text:'你手上有一套判斷。但這週市場走出來的樣子，跟你原本的預期不太一樣了。',
+    question:'你的反應是？',
+    choices:[
+      '我的判斷不會錯，市場只是還沒反應，繼續等它兌現',
+      '訊號變了就調整判斷——我跟著證據走，不是跟著預測走',
+      '又錯了嗎…那乾脆整套推翻，去找一個更準的方法'
+    ], mapChoice:1 },
+
+  { type:'rules', sky:'sky-clear', label:'路口六', title:'你的油門與煞車',
+    text:'這裡做的事，其實只有一件：告訴你該踩油門，還是踩煞車。\n現在換你——親手寫下屬於你的兩條規則。' }
+];
+
+const TRANSITIONS=[
+  '消息是雜訊，訊號是方向。分不清，就會一直被牽著走。',
+  '停損不是認輸。是保住你下一次判斷的資格。',
+  null,
+  '答案會過期。地圖不會。',
+  '成熟不是從不看錯，是看錯時，願意改。',
+  null
+];
+
+// 油門/煞車選項
+const GAS_OPTS=[
+  { t:'順勢加碼', mature:true },
+  { t:'維持部位', mature:true },
+  { t:'還是不敢動', mature:false }
+];
+const BRAKE_OPTS=[
+  { t:'立刻減碼止血', mature:true },
+  { t:'先觀察一下', mature:false },
+  { t:'不動，甚至攤平', mature:false }
+];
+
+// ==== 三種結局 ====
+const RESULTS=[
+  { icon:'🗺️', name:'讀地圖的人',
+    desc:'你不賭方向，你讀路況。訊號變了你就調整，看錯了你先止血，你要的不是誰的明牌，是一張能自己看懂的圖。<br><br>你知道投資最重要的不是每次都做對，是做錯的時候不會傷得太重。<br><br><b>那麼，歡迎你。</b>這裡就是為你準備的。',
+    cta:'進來看看這張地圖 →' },
+  { icon:'🧭', name:'還在路上',
+    desc:'你已經開始想「看路況」，但手還會不自覺伸向那顆「答案」按鈕。這很正常——大多數人都卡在這裡。<br><br>你缺的不是更多資訊，是一個屬於自己的判斷主軸：什麼時候踩油門、什麼時候踩煞車。<br><br><b>下一步：</b>先練習「訊號變了就調整」，別死守一個預測等它兌現。地圖，是練出來的。',
+    cta:'跟著地圖走一段 →' },
+  { icon:'🎯', name:'還在找答案',
+    desc:'你想要的是有人直接告訴你買什麼、什麼時候買。這裡老實說一句：這裡沒有那個答案。<br><br>追消息、凹單、全押或空手、要明牌——這四件事會讓你一直被市場牽著走。不是你不夠努力，是方向錯了。<br><br><b>下一步：</b>如果哪天你開始想要一張「地圖」而不是一個「答案」，再回來。門一直開著。',
+    cta:'那，先看看地圖長怎樣 →' }
+];
+
+// 串接網址（要換成你的正式站台就改這裡）
+const YODA_URL='https://yoda-research-next.vercel.app/';
+
+let state={ idx:-1, scores:[], sliderVal:50, gas:null, brake:null };
+
+function updateProgress(){
+  const total=ROUNDS.length;
+  const done=Math.max(0,state.idx);
+  PB.style.width=(done/total*100)+'%';
+}
+
+function mtn(sky){
+  const dark=['sky-night','sky-starry','sky-storm','sky-valley','sky-dawn','sky-start','sky-dusk'].includes(sky);
+  const c1=dark?'rgba(10,10,28,0.88)':'rgba(25,25,55,0.48)';
+  const c2=dark?'rgba(4,4,15,0.97)':'rgba(12,12,35,0.68)';
+  return `<svg class="mountains" viewBox="0 0 1200 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,180 L100,95 L200,140 L320,68 L440,115 L560,48 L680,105 L800,58 L920,92 L1040,44 L1200,82 L1200,220 L0,220Z" fill="${c1}"/>
+    <path d="M0,210 L80,172 L180,188 L280,155 L380,174 L500,138 L620,162 L740,130 L860,155 L980,118 L1100,142 L1200,125 L1200,220 L0,220Z" fill="${c2}"/>
+  </svg>`;
+}
+
+function fade(fn){
+  G.style.transition='opacity 0.32s';
+  G.style.opacity='0';
+  setTimeout(()=>{fn();G.style.opacity='1';},330);
+}
+
+// ---- 開場 ----
+function showStart(){
+  G.innerHTML=`<div class="scene sky-start">
+    ${mtn('sky-start')}
+    <div class="overlay">
+      <div class="chapter-label t-label" style="margin-bottom:1rem">YODA RESEARCH</div>
+      <div class="chapter-title t-main" style="font-size:34px;font-weight:200;letter-spacing:2px;margin-bottom:0.5rem">答案，還是地圖</div>
+      <div class="t-sub" style="font-size:14px;margin-bottom:0.4rem;font-style:italic">六個路口，測測你適不適合這裡</div>
+      <div class="t-label" style="font-size:12px;margin-bottom:3rem;letter-spacing:1px">約 2 分鐘 · 誠實作答就好</div>
+      <button class="continue-btn" style="font-size:15px;padding:0.85rem 3.5rem;border-radius:6px;letter-spacing:2px" onclick="fade(startOpening)">開始</button>
+    </div>
+  </div>`;
+}
+
+// ---- 開場逐句 ----
+let openIdx=0;
+function startOpening(){ openIdx=0; renderOpening(); }
+function renderOpening(){
+  const q=OPENING.quotes[openIdx];
+  const isLast=openIdx>=OPENING.quotes.length-1;
+  G.innerHTML=`<div class="scene ${OPENING.sky}">
+    ${mtn(OPENING.sky)}
+    <div class="overlay">
+      <div class="chapter-label t-label">${OPENING.label}</div>
+      <div class="chapter-title t-main">${OPENING.title}</div>
+      <div class="chapter-quote t-sub">${q}</div>
+      <button class="continue-btn" onclick="nextOpening()">${isLast?'進入第一個路口 ›':'繼續 ›'}</button>
+    </div>
+  </div>`;
+}
+function nextOpening(){
+  openIdx++;
+  if(openIdx>=OPENING.quotes.length){ fade(()=>showRound(0)); }
+  else{ fade(renderOpening); }
+}
+
+// ---- 路口分派 ----
+function showRound(i){
+  state.idx=i; updateProgress();
+  const r=ROUNDS[i];
+  if(r.type==='ab'||r.type==='three') renderChoice(r,i);
+  else if(r.type==='flip') renderFlip(r,i);
+  else if(r.type==='slider') renderSlider(r,i);
+  else if(r.type==='rules') renderRules(r,i);
+}
+
+function head(r){
+  return `<div class="chapter-label t-label">${r.label}</div>
+    <div class="chapter-title t-main" style="font-size:21px;margin-bottom:1rem">${r.title}</div>
+    <div class="round-text t-sub">${r.text.replace(/\n/g,'<br>')}</div>`;
+}
+
+// A/B 與三選一
+function renderChoice(r,i){
+  G.innerHTML=`<div class="scene ${r.sky}">
+    ${mtn(r.sky)}
+    <div class="overlay">
+      ${head(r)}
+      <div class="round-question t-main">${r.question}</div>
+      <div class="choices">
+        ${r.choices.map((c,ci)=>`<button class="choice-btn" onclick="pick(${i},${ci})">${c}</button>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+function pick(i,ci){
+  const r=ROUNDS[i];
+  const mapPt=(ci===r.mapChoice)?1:0;
+  state.scores.push({round:i,choice:ci,map:mapPt});
+  afterRound(i);
+}
+
+// 卡片翻面
+function renderFlip(r,i){
+  G.innerHTML=`<div class="scene ${r.sky}">
+    ${mtn(r.sky)}
+    <div class="overlay">
+      ${head(r)}
+      <div class="round-question t-main">${r.question}</div>
+      <div class="choices">
+        ${r.cards.map((c,ci)=>`<button class="choice-btn" onclick="flip(${i},${ci})"><b>${c.label}</b>　<span style="opacity:.8">${c.text}</span></button>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+function flip(i,ci){
+  const r=ROUNDS[i];
+  const mapPt=(ci===r.mapChoice)?1:0;
+  state.scores.push({round:i,choice:ci,map:mapPt});
+  const c=r.cards[ci];
+  G.innerHTML=`<div class="scene ${r.sky}">
+    ${mtn(r.sky)}
+    <div class="overlay">
+      <div class="chapter-label t-label">${r.label}</div>
+      <div class="chapter-title t-main" style="font-size:20px;margin-bottom:1.2rem">後來呢……</div>
+      <div class="flip-reveal">
+        <div class="flip-tag">你選了：${c.label}</div>
+        <div class="flip-body">${c.reveal}</div>
+      </div>
+      <button class="continue-btn" onclick="afterRound(${i})">繼續 ›</button>
+    </div>
+  </div>`;
+}
+
+// 滑桿
+function renderSlider(r,i){
+  function fb(v){
+    if(v<=10||v>=90) return '<span style="color:#ffcc80">全押是信仰，空手是恐懼。兩種都是把整場賭在一個方向上。</span>';
+    if(v>=30&&v<=70) return '<span style="color:#a5d6a7">你留了中間地帶。這代表就算看錯，你也還站得住、睡得著。</span>';
+    return '在極端和中庸之間。再往中間靠一點，你會發現決策沒那麼緊繃。';
+  }
+  function render(){
+    const v=state.sliderVal;
+    G.innerHTML=`<div class="scene ${r.sky}">
+      ${mtn(r.sky)}
+      <div class="overlay">
+        ${head(r)}
+        <div class="round-question t-main">${r.question}</div>
+        <div class="balance-container">
+          <div class="balance-item">
+            <div class="balance-label t-sub" style="font-size:13px">空手</div>
+            <input type="range" class="bslider" min="${r.min}" max="${r.max}" step="${r.step}" value="${v}"
+              oninput="state.sliderVal=parseInt(this.value);window.renderSld()">
+            <div class="balance-pct">全押</div>
+          </div>
+          <div style="text-align:center;font-size:22px;font-weight:300;color:#fff;margin:-0.3rem 0 0.2rem">${v}%</div>
+          <div class="slider-feedback">${fb(v)}</div>
+        </div>
+        <button class="continue-btn" style="margin-top:0.6rem" onclick="afterSlider(${i})">就這樣 ›</button>
+      </div>
+    </div>`;
+  }
+  window.renderSld=render;
+  render();
+}
+function afterSlider(i){
+  const v=state.sliderVal;
+  const mapPt=(v>=30&&v<=70)?1:0;
+  state.scores.push({round:i,choice:v,map:mapPt});
+  afterRound(i);
+}
+
+// 油門/煞車守則（建構式收束）
+function renderRules(r,i){
+  function render(){
+    const gsel=(k)=>state.gas===k?'sel':'';
+    const bsel=(k)=>state.brake===k?'sel':'';
+    const ready=state.gas!==null&&state.brake!==null;
+    G.innerHTML=`<div class="scene ${r.sky}">
+      ${mtn(r.sky)}
+      <div class="overlay">
+        ${head(r)}
+        <div class="rule-block">
+          <div class="rule-head t-main">🟢 當訊號<b>合乎預期</b>，我會——</div>
+          <div class="rule-row">
+            ${GAS_OPTS.map((o,k)=>`<button class="rule-opt ${gsel(k)}" onclick="setGas(${k})">${o.t}</button>`).join('')}
+          </div>
+        </div>
+        <div class="rule-block">
+          <div class="rule-head t-main">🔴 當價格<b>跌破底線</b>，我會——</div>
+          <div class="rule-row">
+            ${BRAKE_OPTS.map((o,k)=>`<button class="rule-opt ${bsel(k)}" onclick="setBrake(${k})">${o.t}</button>`).join('')}
+          </div>
+        </div>
+        <div class="slider-feedback" style="min-height:24px">${ready?'<span style="color:#a5d6a7">這就是你的地圖雛形——兩個方向，各有一個動作。</span>':'兩條規則都選好，才算完成。'}</div>
+        ${ready?`<button class="continue-btn" style="margin-top:0.4rem;padding:0.7rem 2.5rem;font-size:14px" onclick="fade(showResult)">看看我適不適合這裡 →</button>`:''}
+      </div>
+    </div>`;
+  }
+  window.renderRules=render;
+  render();
+}
+function setGas(k){ state.gas=k; window.renderRules(); }
+function setBrake(k){ state.brake=k; window.renderRules(); }
+
+// ---- 過場 / 推進 ----
+function afterRound(i){
+  const tr=TRANSITIONS[i];
+  if(tr){ fade(()=>showTransition(tr,i)); }
+  else{ advance(i); }
+}
+function showTransition(text,fromI){
+  G.innerHTML=`<div class="scene sky-night" style="background:linear-gradient(180deg,#020408,#060d18,#0e1828)">
+    ${mtn('sky-night')}
+    <div class="overlay">
+      <div class="transition-quote">${text}</div>
+      <button class="continue-btn" onclick="advance(${fromI})">繼續 ›</button>
+    </div>
+  </div>`;
+}
+function advance(fromI){
+  const next=fromI+1;
+  if(next>=ROUNDS.length){ return; } // rules 路口自行導向 result
+  fade(()=>showRound(next));
+}
+
+// ---- 結果 ----
+function calcResult(){
+  let map=state.scores.reduce((a,s)=>a+(s.map||0),0); // 0..5（不含守則）
+  if(state.brake!==null && BRAKE_OPTS[state.brake].mature) map+=1; // 有煞車紀律 +1
+  // map 範圍 0..6
+  if(map>=5) return 0;
+  if(map>=3) return 1;
+  return 2;
+}
+function showResult(){
+  PB.style.width='100%';
+  const ri=calcResult();
+  const p=RESULTS[ri];
+  const gasTxt=state.gas!==null?GAS_OPTS[state.gas].t:'—';
+  const brakeTxt=state.brake!==null?BRAKE_OPTS[state.brake].t:'—';
+  G.innerHTML=`<div class="scene sky-result" style="padding:3.5rem 1.5rem;min-height:100vh">
+    ${mtn('sky-result')}
+    <div class="overlay">
+      <div class="chapter-label t-label" style="margin-bottom:1rem">你的結果</div>
+      <div class="result-icon">${p.icon}</div>
+      <div class="result-type t-main">${p.name}</div>
+      <div class="result-desc t-sub">${p.desc}</div>
+      <div class="result-config">
+        <div class="result-config-title">你親手寫下的規則</div>
+        <div class="result-config-row"><span class="t-sub">🟢 合乎預期</span><span style="color:#a5d6a7;font-weight:500">${gasTxt}</span></div>
+        <div class="result-config-row"><span class="t-sub">🔴 跌破底線</span><span style="color:#ff8a80;font-weight:500">${brakeTxt}</span></div>
+      </div>
+      <div class="t-sub" style="font-size:13px;line-height:1.95;margin-bottom:1.5rem;max-width:400px;margin-left:auto;margin-right:auto">
+        Yoda Research 每月更新總經路徑、每週更新市場觀察，<br>
+        追蹤美股與台股的強弱輪動——<br>
+        給你的不是答案，是一張持續更新的地圖。
+      </div>
+      <a class="yoda-btn" href="${YODA_URL}" target="_blank" rel="noopener">${p.cta}</a>
+      <br>
+      <div style="display:flex;gap:0.75rem;justify-content:center;margin-top:1rem;flex-wrap:wrap">
+        <button class="share-btn" id="shareBtn" onclick="shareGame()">
+          <span id="shareIcon">&#8679;</span> 分享這個測驗
+        </button>
+        <button class="continue-btn" style="font-size:12px;opacity:0.6;margin-top:0" onclick="restart()">重玩一次</button>
+      </div>
+      <div id="shareFeedback" style="font-size:12px;color:rgba(160,220,255,0.7);margin-top:0.6rem;height:18px;transition:opacity 0.3s"></div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1.5rem;letter-spacing:0.3px">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" style="color:rgba(224,165,38,0.6);text-decoration:none">BiBiPiano</a>，版權為原作者所有</div>
+    </div>
+  </div>`;
+}
+
+function restart(){
+  state={ idx:-1, scores:[], sliderVal:50, gas:null, brake:null };
+  openIdx=0;
+  PB.style.width='0%';
+  fade(showStart);
+}
+
+function shareGame(){
+  const url=window.location.href.split('?')[0];
+  const text='我剛玩了《答案，還是地圖》——測測你要的是明牌，還是一張能自己看懂的市場地圖。你也來試試？';
+  const btn=document.getElementById('shareBtn');
+  const fb=document.getElementById('shareFeedback');
+  if(navigator.share){
+    navigator.share({title:'答案，還是地圖 · Yoda Research',text:text,url:url}).catch(()=>{});
+    return;
+  }
+  navigator.clipboard.writeText(url).then(()=>{
+    btn.classList.add('copied');
+    btn.innerHTML='&#10003; 網址已複製';
+    fb.textContent='貼到 LINE、Facebook 或任何地方分享吧';
+    fb.style.opacity='1';
+    setTimeout(()=>{
+      btn.classList.remove('copied');
+      btn.innerHTML='&#8679; 分享這個測驗';
+      fb.style.opacity='0';
+    },3000);
+  }).catch(()=>{
+    const box=document.createElement('input');
+    box.value=url;
+    document.body.appendChild(box);
+    box.select();
+    document.execCommand('copy');
+    document.body.removeChild(box);
+    fb.textContent='網址已複製！';
+    fb.style.opacity='1';
+    setTimeout(()=>{fb.style.opacity='0';},3000);
+  });
+}
+
+window.startOpening=startOpening;
+window.nextOpening=nextOpening;
+window.showRound=showRound;
+window.pick=pick;
+window.flip=flip;
+window.afterRound=afterRound;
+window.afterSlider=afterSlider;
+window.setGas=setGas;
+window.setBrake=setBrake;
+window.advance=advance;
+window.showResult=showResult;
+window.restart=restart;
+window.shareGame=shareGame;
+window.fade=fade;
+window.state=state;
+
+showStart();
+</script>
+</body>
+</html>
