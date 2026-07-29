@@ -185,7 +185,7 @@ const CHECK_ITEMS=[
 
 const TRANSITIONS=[
   '便宜不是底。賣壓宣洩，才是。',
-  '不預測消息，只稱重市場對消息的反應。',
+  '不預測消息，只秤重市場對消息的反應。',
   '壞消息殺不動，代表想賣的差不多賣完了。',
   '斷頭是散戶交出籌碼的聲音。<br>交完了，地板就近了。',
   '一把秤準不算數，兩把秤都倒向同一邊才算。',
@@ -195,8 +195,8 @@ const TRANSITIONS=[
 
 const RESULTS=[
   {icon:'⚖️',name:'讀秤的人',
-   desc:'你不接刀。<br>你等市場對利空無感、等融資籌碼被洗乾淨，<br>讓底部自己站上來，再分批跟進、留好退出線。<br><br>你稱的是反應與籌碼，不是猜「夠不夠便宜」。<br><br><b>那麼，歡迎你。</b>這正是市場觀察每週在做的事——替你稱這兩把秤。',
-   cta:'看 Yoda 怎麼稱這兩把秤 →'},
+   desc:'你不接刀。<br>你等市場對利空無感、等融資籌碼被洗乾淨，<br>讓底部自己站上來，再分批跟進、留好退出線。<br><br>你秤的是反應與籌碼，不是猜「夠不夠便宜」。<br><br><b>那麼，歡迎你。</b>這正是市場觀察每週在做的事——替你稱這兩把秤。',
+   cta:'看 Yoda 怎麼秤這兩把秤 →'},
   {icon:'🧭',name:'半山腰',
    desc:'你看得懂訊號，但手常常比腦快——天秤一偏多就想進，忘了等另一把秤（籌碼）也到位。<br><br>大多數人卡在這：不是不懂，是忍不住。<br><br><b>下一步：</b>兩把秤都亮再動，並且永遠先寫好退出線。慢，才是快。',
    cta:'跟著訊號走一段 →'},
@@ -458,7 +458,7 @@ function showResult(){
 function restart(){state={idx:-1,score:0,answered:0,checks:[false,false,false,false,false]};openIdx=0;PB.style.width='0%';fade(showStart);}
 function shareGame(originalText){
   const url=window.location.href.split('?')[0];
-  const text='我剛玩了《落底訊號》——用兩把秤（市場反應＋融資籌碼）判斷底部。你也來稱稱看？';
+  const text='我剛玩了《落底訊號》——用兩把秤（市場反應＋融資籌碼）判斷底部。你也來秤秤看？';
   const btn=document.getElementById('shareBtn'), fb=document.getElementById('shareFeedback');
   
   if(navigator.share){ navigator.share({title:'落底訊號 · Yoda Research',text:text,url:url}).catch(()=>{}); return; }
