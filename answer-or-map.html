@@ -90,14 +90,46 @@ input[type=range].bslider::-moz-range-track{height:8px;border-radius:4px;backgro
 .result-config-title{font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.38);margin-bottom:0.6rem}
 .result-config-row{display:flex;justify-content:space-between;font-size:13px;padding:0.32rem 0;border-bottom:1px solid rgba(255,255,255,0.1);text-align:left;gap:1rem}
 .result-config-row:last-child{border-bottom:none}
-.yoda-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);border:none;color:#fff;width:190px;padding:0.85rem 0.6rem;border-radius:6px;font-size:14px;cursor:pointer;letter-spacing:0.5px;text-align:center;text-decoration:none;transition:opacity 0.2s;box-sizing:border-box}
-.yoda-btn:hover{opacity:0.87}
 .progress-bar{position:fixed;top:0;left:0;height:2px;background:rgba(224,165,38,0.6);transition:width 0.4s;z-index:100}
 .mute-btn{position:fixed;top:14px;right:14px;z-index:101;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(6px);transition:all 0.2s;display:flex;align-items:center;justify-content:center;padding:0}
 .mute-btn:hover{background:rgba(0,0,0,0.55);border-color:rgba(255,255,255,0.5)}
-.share-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);border:none;color:#fff;width:190px;padding:0.85rem 0.6rem;border-radius:6px;font-size:14px;cursor:pointer;letter-spacing:0.5px;text-align:center;text-decoration:none;transition:opacity 0.2s;box-sizing:border-box}
-.share-btn:hover{opacity:0.87}
-.share-btn.copied{background:rgba(100,200,120,0.2);border-color:rgba(100,200,120,0.6);color:#a5d6a7}
+/* 雙按鈕容器 */
+.twin-btn-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+  max-width: 320px;
+  margin: 1.5rem auto 1rem;
+}
+/* 雙按鈕統一金色質感 */
+.twin-btn {
+  width: 100%;
+  text-align: center;
+  background: linear-gradient(135deg, #D4AF37 0%, #AA7700 100%);
+  color: #ffffff;
+  border: none;
+  padding: 0.95rem 1rem;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25);
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+.twin-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
+}
+.twin-btn.copied {
+  background: rgba(100,200,120,0.2);
+  border: 1px solid rgba(100,200,120,0.6);
+  color: #a5d6a7;
+  box-shadow: none;
+}
 </style>
 </head>
 <body>
@@ -459,35 +491,33 @@ function showResult(){
   const p=RESULTS[ri];
   const gasTxt=state.gas!==null?GAS_OPTS[state.gas].t:'—';
   const brakeTxt=state.brake!==null?BRAKE_OPTS[state.brake].t:'—';
-  G.innerHTML=`<div class="scene sky-result" style="padding:3.5rem 1.5rem;min-height:100vh">
-    ${mtn('sky-result')}
-    <div class="overlay">
-      <div class="chapter-label t-label" style="margin-bottom:1rem">你的結果</div>
-      <div class="result-icon">${p.icon}</div>
-      <div class="result-type t-main">${p.name}</div>
-      <div class="result-desc t-sub">${p.desc}</div>
-      <div class="result-config">
-        <div class="result-config-title">你親手寫下的規則</div>
-        <div class="result-config-row"><span class="t-sub">🟢 合乎預期</span><span style="color:#a5d6a7;font-weight:500">${gasTxt}</span></div>
-        <div class="result-config-row"><span class="t-sub">🔴 跌破底線</span><span style="color:#ff8a80;font-weight:500">${brakeTxt}</span></div>
-      </div>
-      <div class="t-sub" style="font-size:13px;line-height:1.95;margin-bottom:1.5rem;max-width:400px;margin-left:auto;margin-right:auto">
-        Yoda Research 每月更新總經路徑、每週更新市場觀察，<br>
-        追蹤美股與台股的強弱輪動——<br>
-        給你的不是答案，是一張持續更新的地圖。
-      </div>
-      <div style="display:flex;gap:0.75rem;justify-content:center;margin-top:1rem;flex-wrap:wrap">
-        <a class="yoda-btn" href="${SUBSCRIBE_URL}" target="_blank" rel="noopener">免費訂閱簡報 →</a>
-        <a class="yoda-btn" href="${YODA_URL}" target="_blank" rel="noopener">Yoda Research</a>
-        <button class="share-btn" id="shareBtn" onclick="shareGame()"><span id="shareIcon">&#8679;</span> 分享這個測驗</button>
-      </div>
-      <div style="margin-top:0.9rem"><button class="continue-btn" style="font-size:12px;opacity:0.6" onclick="restart()">重玩一次</button></div>
-      <div id="shareFeedback" style="font-size:12px;color:rgba(160,220,255,0.7);margin-top:0.6rem;height:18px;transition:opacity 0.3s"></div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1.5rem;letter-spacing:0.3px">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" style="color:rgba(224,165,38,0.6);text-decoration:none">BiBiPiano</a>，版權為原作者所有</div>
-    </div>
-  </div>`;
-}
 
+  // 【黃金四拍】動態溫度文案
+  const topBtnText = (ri === 0) ? '獲取 Yoda 的市場地圖' : '訂閱簡報，學習繪製你的地圖';
+  const bottomBtnText = (ri === 2) ? '分享測驗，問問朋友要的是答案還是地圖？' : '把這份地圖路徑，分享給還在找答案的朋友';
+
+  G.innerHTML=`<div class="scene sky-result" style="padding:3.5rem 1.5rem;min-height:100vh">${mtn('sky-result')}<div class="overlay">
+    <div class="chapter-label t-label" style="margin-bottom:1rem">你的結果</div>
+    <div class="result-icon">${p.icon}</div>
+    <div class="result-type t-main">${p.name}</div>
+    <div class="result-desc t-sub">${p.desc}</div>
+    <div class="result-config">
+      <div class="result-config-title">你親手寫下的規則</div>
+      <div class="result-config-row"><span class="t-sub">🟢 合乎預期</span><span style="color:#a5d6a7;font-weight:500">${gasTxt}</span></div>
+      <div class="result-config-row"><span class="t-sub">🔴 跌破底線</span><span style="color:#ff8a80;font-weight:500">${brakeTxt}</span></div>
+    </div>
+    
+    <!-- 替換為雙按鈕直列容器 -->
+    <div class="twin-btn-container">
+      <a class="twin-btn" href="${SUBSCRIBE_URL}" target="_blank" rel="noopener">${topBtnText}</a>
+      <button class="twin-btn" id="shareBtn" onclick="shareGame('${bottomBtnText}')">${bottomBtnText}</button>
+    </div>
+
+    <div style="margin-top:0.9rem"><button class="continue-btn" style="font-size:12px;opacity:0.6;margin-top:0" onclick="restart()">重玩一次</button></div>
+    <div id="shareFeedback" style="font-size:12px;color:rgba(160,220,255,0.7);margin-top:0.6rem;height:18px"></div>
+    <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1.5rem">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" style="color:rgba(224,165,38,0.6);text-decoration:none">BiBiPiano</a>，版權為原作者所有</div>
+  </div></div>`;
+}
 function restart(){
   state={ idx:-1, scores:[], sliderVal:50, gas:null, brake:null };
   openIdx=0;
@@ -495,38 +525,19 @@ function restart(){
   fade(showStart);
 }
 
-function shareGame(){
+function shareGame(originalText){
   const url=window.location.href.split('?')[0];
   const text='我剛玩了《答案，還是地圖》——測測你要的是明牌，還是一張能自己看懂的市場地圖。你也來試試？';
-  const btn=document.getElementById('shareBtn');
-  const fb=document.getElementById('shareFeedback');
-  if(navigator.share){
-    navigator.share({title:'答案，還是地圖 · Yoda Research',text:text,url:url}).catch(()=>{});
-    return;
-  }
+  const btn=document.getElementById('shareBtn'), fb=document.getElementById('shareFeedback');
+  
+  if(navigator.share){ navigator.share({title:'答案，還是地圖 · Yoda Research',text:text,url:url}).catch(()=>{}); return; }
+  
   navigator.clipboard.writeText(url).then(()=>{
-    btn.classList.add('copied');
-    btn.innerHTML='&#10003; 網址已複製';
-    fb.textContent='貼到 LINE、Facebook 或任何地方分享吧';
-    fb.style.opacity='1';
-    setTimeout(()=>{
-      btn.classList.remove('copied');
-      btn.innerHTML='&#8679; 分享這個測驗';
-      fb.style.opacity='0';
-    },3000);
-  }).catch(()=>{
-    const box=document.createElement('input');
-    box.value=url;
-    document.body.appendChild(box);
-    box.select();
-    document.execCommand('copy');
-    document.body.removeChild(box);
-    fb.textContent='網址已複製！';
-    fb.style.opacity='1';
-    setTimeout(()=>{fb.style.opacity='0';},3000);
-  });
+    btn.classList.add('copied'); btn.innerHTML='&#10003; 網址已複製';
+    fb.textContent='貼到 LINE、Facebook 或任何地方分享吧'; fb.style.opacity='1';
+    setTimeout(()=>{ btn.classList.remove('copied'); btn.innerHTML=originalText; fb.style.opacity='0'; },3000);
+  }).catch(()=>{ fb.textContent='請手動複製網址分享！'; fb.style.opacity='1'; setTimeout(()=>{fb.style.opacity='0';},3000); });
 }
-
 window.startOpening=startOpening;
 window.nextOpening=nextOpening;
 window.showRound=showRound;
