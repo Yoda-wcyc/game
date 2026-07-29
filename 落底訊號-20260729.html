@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>落底訊號 · Yoda Research</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;min-height:100%;font-family:-apple-system,'PingFang TC','Noto Sans TC',sans-serif;background:#000}
+#game{width:100%;min-height:100vh;position:relative;overflow:hidden}
+.scene{width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:3rem 1.5rem}
+.sky-start{background:linear-gradient(180deg,#0a0a1a 0%,#1a1a3e 40%,#3a2a5e 80%,#5e4a7a 100%)}
+.sky-dawn{background:linear-gradient(180deg,#1a1a2e 0%,#e8b86d 60%,#f4a261 100%)}
+.sky-gray{background:linear-gradient(180deg,#2d3561 0%,#4a5568 50%,#a0aec0 100%)}
+.sky-noon{background:linear-gradient(180deg,#0d47a1 0%,#1976d2 50%,#bbdefb 100%)}
+.sky-storm{background:linear-gradient(180deg,#0d0d0d 0%,#1a1a3e 40%,#3949ab 100%)}
+.sky-blood{background:linear-gradient(180deg,#1a0008 0%,#5a0a1a 45%,#a01020 100%)}
+.sky-valley{background:linear-gradient(180deg,#1b2631 0%,#2e4057 40%,#5d7a8a 100%)}
+.sky-dusk{background:linear-gradient(180deg,#1a0030 0%,#6a1b9a 40%,#e91e63 70%,#ff7043 100%)}
+.sky-clear{background:linear-gradient(180deg,#01579b 0%,#0288d1 40%,#4fc3f7 100%)}
+.sky-result{background:linear-gradient(180deg,#003459 0%,#00587a 40%,#0288d1 100%)}
+.mountains{position:absolute;bottom:0;left:0;right:0;height:200px;pointer-events:none}
+.overlay{position:relative;z-index:10;text-align:center;max-width:640px;width:100%}
+.t-main{color:#f2f5ff}.t-sub{color:rgba(225,232,245,0.82)}.t-label{color:rgba(200,210,235,0.55)}
+.sky-dawn .t-main,.sky-start .t-main{color:#fff7e6}.sky-dawn .t-sub,.sky-start .t-sub{color:rgba(255,240,210,0.8)}
+.sky-blood .t-sub{color:rgba(255,220,220,0.85)}.sky-noon .t-main{color:#e3f2fd}
+.chapter-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:0.5rem}
+.chapter-title{font-size:28px;font-weight:300;margin-bottom:1rem;line-height:1.3}
+.chapter-quote{font-size:15px;line-height:1.95;margin-bottom:2rem;font-style:italic;max-width:480px;margin:0 auto 2rem}
+.round-text{font-size:15px;line-height:1.9;margin-bottom:1.4rem;max-width:520px;margin:0 auto 1.4rem}
+.round-question{font-size:17px;font-weight:400;margin-bottom:1.4rem;line-height:1.5}
+.transition-quote{font-size:17px;text-align:center;max-width:430px;line-height:2.1;font-style:italic;letter-spacing:0.3px;color:rgba(215,228,255,0.85)}
+.choices{display:flex;flex-direction:column;gap:0.7rem;width:100%;max-width:480px;margin:0 auto}
+.choice-btn{background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.28);color:#fff;padding:0.9rem 1.2rem;border-radius:8px;cursor:pointer;font-size:14px;line-height:1.6;text-align:left;transition:all 0.22s;backdrop-filter:blur(6px)}
+.choice-btn:hover{background:rgba(0,0,0,0.45);border-color:rgba(255,255,255,0.62);transform:translateX(4px)}
+.continue-btn{background:transparent;border:1px solid rgba(255,255,255,0.38);color:rgba(255,255,255,0.78);padding:0.6rem 2rem;border-radius:4px;cursor:pointer;font-size:13px;margin-top:1.4rem;letter-spacing:1px;transition:all 0.2s}
+.continue-btn:hover{border-color:rgba(255,255,255,0.9);color:#fff}
+.flip-reveal{max-width:480px;margin:0 auto;background:rgba(0,0,0,0.34);border:1px solid rgba(255,255,255,0.28);border-radius:10px;padding:1.4rem 1.5rem;backdrop-filter:blur(6px);animation:fadeUp 0.5s ease}
+@keyframes fadeUp{0%{opacity:0;transform:translateY(12px)}100%{opacity:1;transform:translateY(0)}}
+.flip-tag{font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.5);margin-bottom:0.7rem}
+.flip-body{font-size:14px;line-height:1.9;color:rgba(255,255,255,0.92)}
+.feedback{font-size:13px;line-height:1.8;max-width:430px;margin:0.7rem auto 0;min-height:40px}
+/* 天秤 */
+.scale-wrap{margin:0 auto 0.5rem;max-width:420px}
+.pan-btns{display:flex;gap:0.8rem;justify-content:center;margin-top:0.3rem}
+.pan-btn{flex:1;max-width:180px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:8px;padding:0.7rem 0.6rem;cursor:pointer;font-size:13px;line-height:1.4;transition:all 0.2s;backdrop-filter:blur(6px)}
+.pan-btn:hover{border-color:rgba(255,255,255,0.65)}
+.pan-btn.sel{border-color:#e0a526;background:rgba(224,165,38,0.2)}
+/* 融資儀表 */
+.gauge-wrap{margin:0 auto 0.5rem;max-width:360px}
+/* 檢查表 */
+.check-list{max-width:460px;margin:0 auto 1rem;display:flex;flex-direction:column;gap:0.55rem;text-align:left}
+.check-item{display:flex;align-items:flex-start;gap:0.7rem;background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.24);border-radius:8px;padding:0.75rem 0.9rem;cursor:pointer;transition:all 0.2s;backdrop-filter:blur(6px)}
+.check-item:hover{border-color:rgba(255,255,255,0.5)}
+.check-item.on{border-color:#7cdc9a;background:rgba(80,200,110,0.14)}
+.check-box{width:20px;height:20px;border-radius:5px;border:1.5px solid rgba(255,255,255,0.5);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:#7cdc9a;margin-top:1px}
+.check-item.on .check-box{border-color:#7cdc9a}
+.check-text{font-size:13.5px;line-height:1.55;color:#fff}
+.check-key{font-size:11px;color:#e0a526;margin-left:0.3rem}
+.result-icon{font-size:52px;margin-bottom:0.6rem}
+.result-type{font-size:24px;font-weight:300;margin-bottom:0.75rem}
+.result-desc{font-size:14px;line-height:1.9;max-width:430px;margin:0 auto 1.4rem}
+.result-box{border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:0.9rem 1.2rem;margin:0 auto 1.4rem;max-width:380px;text-align:left}
+.result-box-title{font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.4);margin-bottom:0.5rem}
+.result-box-row{font-size:13px;padding:0.28rem 0;border-bottom:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.9)}
+.result-box-row:last-child{border-bottom:none}
+.yoda-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);border:none;color:#fff;padding:0.9rem 2.4rem;border-radius:6px;font-size:15px;cursor:pointer;letter-spacing:0.5px;text-decoration:none;transition:opacity 0.2s;margin-bottom:0.5rem}
+.yoda-btn:hover{opacity:0.88}
+.progress-bar{position:fixed;top:0;left:0;height:2px;background:rgba(224,165,38,0.65);transition:width 0.4s;z-index:100}
+.mute-btn{position:fixed;top:14px;right:14px;z-index:101;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center}
+.share-btn{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.35);color:rgba(255,255,255,0.85);padding:0.6rem 1.5rem;border-radius:4px;cursor:pointer;font-size:13px;letter-spacing:1px;transition:all 0.2s}
+.share-btn:hover{background:rgba(255,255,255,0.22);color:#fff}
+.share-btn.copied{background:rgba(100,200,120,0.2);border-color:rgba(100,200,120,0.6);color:#a5d6a7}
+</style>
+</head>
+<body>
+<audio id="bgm" loop preload="auto"><source src="day_one.mp3" type="audio/mpeg"></audio>
+<button id="muteBtn" class="mute-btn" onclick="toggleMute()" aria-label="音樂開關">🔊</button>
+<div class="progress-bar" id="progress"></div>
+<div id="game"></div>
+<script>
+const G=document.getElementById('game');
+const PB=document.getElementById('progress');
+const BGM=document.getElementById('bgm');
+const MUTEBTN=document.getElementById('muteBtn');
+let bgmStarted=false,bgmMuted=false;
+try{bgmMuted=localStorage.getItem('yoda_bgm_muted')==='1';}catch(e){}
+if(BGM)BGM.volume=0.30;
+function updateMuteIcon(){if(MUTEBTN)MUTEBTN.textContent=bgmMuted?'🔇':'🔊';}
+updateMuteIcon();
+function startBGM(){if(bgmStarted||bgmMuted||!BGM)return;BGM.play().then(()=>{bgmStarted=true;}).catch(()=>{});}
+function toggleMute(){bgmMuted=!bgmMuted;try{localStorage.setItem('yoda_bgm_muted',bgmMuted?'1':'0');}catch(e){}if(bgmMuted){if(BGM)BGM.pause();}else{if(BGM)BGM.play().then(()=>{bgmStarted=true;}).catch(()=>{});}updateMuteIcon();}
+window.toggleMute=toggleMute;
+document.addEventListener('click',startBGM);
+
+const OPENING={label:'序',title:'底部不是猜出來的',sky:'sky-dawn',quotes:[
+  '每一次崩跌，都家都想抄在最低點，這是人性。<br>「夠便宜了吧？」——然後接到半山腰，愈跌愈深。',
+  '這裡不猜底。底部不是猜出來的，是等訊號站上來的。',
+  '有兩把秤：一把稱市場對消息的反應，一把稱籌碼被洗出的程度。<br>兩把秤都倒向同一邊，底才算數。<br>來，學會讀這兩把秤。',
+  ''
+]};
+
+// type: ab | three | flip | scale | gauge | check
+const ROUNDS=[
+  {type:'ab',sky:'sky-blood',label:'訊號一',title:'接刀的誘惑',
+   text:'你追蹤很久的一檔股票，從 100 一路殺到 60。<br>「本益比都砍半了，夠便宜了吧？」你的手伸向下單鍵。',
+   question:'你會怎麼做？',
+   choices:['接，這種價位不常有','先等——便宜不是進場的理由'],map:1,
+   flipReveal:'兩個月後，它跌到 42。便宜從來不是底；便宜的東西，可以更便宜。真正的問題不是「多便宜」，是「賣壓宣洩了沒」。'},
+
+  {type:'three',sky:'sky-noon',label:'訊號二',title:'好消息，市場卻在哭',
+   text:'某權值股財報創新高，優於市場預期。<br>開盤卻跳空跌 7%，終場摜破季線收最低。',
+   question:'這代表什麼？',
+   choices:['市場錯了，這是加碼良機','利多出盡——買盤耗盡，偏空','財報好就是好，沒特別意義'],map:1,
+   fb:['市場錯了？價格才是最終公斷。好消息推不動價，是買盤已經無力了。','沒錯。消息是好的，秤卻倒向空方——這就是天秤在說話。','消息不是重點，市場「怎麼消化消息」才是。']},
+
+  {type:'scale',sky:'sky-storm',label:'訊號三',title:'市場天秤：利空出盡',
+   text:'深夜利空：某龍頭下修財測、外資調降評等。<br>隔天卻開低走高，爆量收長紅，把利空整根吞回去。',
+   question:'壞消息這麼重，價格卻跌不下去。你認為真正決定方向的是哪一端？',
+   map:1},
+
+  {type:'gauge',sky:'sky-blood',label:'訊號四',title:'融資維持率：斷頭潮',
+   text:'這波急殺，大盤融資維持率從 166% 一路往下掉，跌破 130% 的追繳線。券商追繳令滿天飛，隔天出現連續斷頭、爆量摜殺後拉回尾盤。',
+   question:'滿地斷頭，你怎麼讀這個訊號？',
+   choices:['太恐怖了，快逃','賣壓正在一次宣洩，接近洗盤尾聲','跟我無關，我沒開融資'],map:1,
+   fb:['恐慌是散戶的，斷頭潮恰恰是散戶被迫交出籌碼的時刻。','對。斷頭＝浮動籌碼被強制洗出，賣壓一次倒完，地板就在附近了。','有沒有開融資是一回事；別人被斷頭，正在幫你清掉上方賣壓。']},
+
+  {type:'flip',sky:'sky-valley',label:'訊號五',title:'陷阱：像底的假底',
+   text:'又一次利空不跌，看起來跟訊號三一模一樣。<br>但你多看了一眼籌碼：融資餘額還在高檔，維持率健康得很——<br>根本沒人被洗出去。',
+   question:'這次，你進場嗎？',
+   cards:[
+     {label:'像上次，進場',reveal:'它又破底了。天秤對了，但籌碼沒到齊——沒人斷頭，代表想賣的還沒賣完。一把秤準，另一把秤還沒。'},
+     {label:'再等籌碼出清',reveal:'你忍住了。三週後融資才真正崩落、維持率落底回穩，那時才是真訊號。兩把秤都倒向同一邊，底才算數。'}
+   ],map:1},
+
+  {type:'three',sky:'sky-dusk',label:'訊號六',title:'兩把秤，一起讀',
+   text:'現在的盤面：利空頻傳卻殺不出新低（天秤偏多）＋ 融資連五日大減、維持率落底回穩（籌碼出清）＋ 爆量長黑後三天守住不破前低。',
+   question:'落底成色如何？你怎麼動？',
+   choices:['還是假訊號，繼續空手','訊號到齊，落底成形——分批試單','全押，這是十年一次的底'],map:1,
+   fb:['該懷疑的是單一訊號；這裡三個訊號互相驗證了，過度謹慎會錯過。','對。到齊了就分批進、留退出線——慢即是快，讓部位跟著訊號長大。','全押違反存活底線。底可能對，但 All in 讓你沒有再錯一次的資格。']},
+
+  {type:'check',sky:'sky-clear',label:'收束',title:'你的落底檢查表',
+   text:'底不是一個「感覺」，是一張表一格一格亮起來。勾出這次到齊了哪些——'}
+];
+
+const CHECK_ITEMS=[
+  {t:'利空不跌／利空大漲（天秤偏多）',key:false},
+  {t:'融資斷頭潮、維持率落底回穩（籌碼出清）',key:false},
+  {t:'爆量長黑後止穩、不破前低',key:false},
+  {t:'市場廣度極端惡化後開始收斂',key:false},
+  {t:'我有分批計畫與明確退出線',key:true}
+];
+
+const TRANSITIONS=[
+  '便宜不是底。賣壓宣洩，才是。',
+  '不預測消息，只稱重市場對消息的反應。',
+  '壞消息殺不動，代表想賣的差不多賣完了。',
+  '斷頭是散戶交出籌碼的聲音。<br>交完了，地板就近了。',
+  '一把秤準不算數，兩把秤都倒向同一邊才算。',
+  null,
+  null
+];
+
+const RESULTS=[
+  {icon:'⚖️',name:'讀秤的人',
+   desc:'你不接刀。<br>你等市場對利空無感、等融資籌碼被洗乾淨，<br>讓底部自己站上來，再分批跟進、留好退出線。<br><br>你稱的是反應與籌碼，不是猜「夠不夠便宜」。<br><br><b>那麼，歡迎你。</b>這正是市場觀察每週在做的事——替你稱這兩把秤。',
+   cta:'看 Yoda 怎麼稱這兩把秤 →'},
+  {icon:'🧭',name:'半山腰',
+   desc:'你看得懂訊號，但手常常比腦快——天秤一偏多就想進，忘了等另一把秤（籌碼）也到位。<br><br>大多數人卡在這：不是不懂，是忍不住。<br><br><b>下一步：</b>兩把秤都亮再動，並且永遠先寫好退出線。慢，才是快。',
+   cta:'跟著訊號走一段 →'},
+  {icon:'🔪',name:'接刀派',
+   desc:'你憑「夠便宜了」進場，靠的是猜。你抓的往往不是底，是還在下墜的刀。<br><br>便宜可以更便宜，消息可以更壞。底不是猜出來的。<br><br><b>下一步：</b>把「便宜」換成「訊號」——先等賣壓說話、等籌碼出清，讓市場證明方向再跟。',
+   cta:'先看看這兩把秤長怎樣 →'}
+];
+
+const YODA_URL='https://yoda-research-next.vercel.app/';
+let state={idx:-1,score:0,answered:0,checks:[false,false,false,false,false]};
+
+function updateProgress(){PB.style.width=(Math.max(0,state.idx)/ROUNDS.length*100)+'%';}
+function mtn(sky){
+  const dark=['sky-storm','sky-blood','sky-valley','sky-dawn','sky-start','sky-dusk'].includes(sky);
+  const c1=dark?'rgba(10,8,20,0.9)':'rgba(25,25,55,0.5)';
+  const c2=dark?'rgba(4,3,12,0.97)':'rgba(12,12,35,0.7)';
+  return `<svg class="mountains" viewBox="0 0 1200 200" preserveAspectRatio="none"><path d="M0,170 L120,90 L240,135 L380,60 L520,110 L660,45 L800,100 L940,55 L1080,88 L1200,70 L1200,200 L0,200Z" fill="${c1}"/><path d="M0,195 L100,160 L220,180 L340,145 L470,168 L600,130 L740,158 L880,125 L1020,150 L1200,120 L1200,200 L0,200Z" fill="${c2}"/></svg>`;
+}
+function fade(fn){G.style.transition='opacity 0.32s';G.style.opacity='0';setTimeout(()=>{fn();G.style.opacity='1';},330);}
+function head(r){return `<div class="chapter-label t-label">${r.label}</div><div class="chapter-title t-main" style="font-size:21px;margin-bottom:1rem">${r.title}</div><div class="round-text t-sub">${r.text}</div>`;}
+function sceneEl(r,inner){return `<div class="scene ${r.sky}">${mtn(r.sky)}<div class="overlay">${head(r)}${inner}</div></div>`;}
+
+function showStart(){
+  G.innerHTML=`<div class="scene sky-start">${mtn('sky-start')}<div class="overlay">
+    <div class="chapter-label t-label" style="margin-bottom:1rem">YODA RESEARCH</div>
+    <div class="chapter-title t-main" style="font-size:34px;font-weight:200;letter-spacing:2px;margin-bottom:0.5rem">落底訊號</div>
+    <div class="t-sub" style="font-size:14px;margin-bottom:0.4rem;font-style:italic">兩把秤，教你把底「等」出來，而不是「猜」出來</div>
+    <div class="t-label" style="font-size:12px;margin-bottom:3rem;letter-spacing:1px">約 3 分鐘 · 誠實作答就好</div>
+    <button class="continue-btn" style="font-size:15px;padding:0.85rem 3.5rem;border-radius:6px;letter-spacing:2px" onclick="fade(startOpening)">開始</button>
+  </div></div>`;
+}
+let openIdx=0;
+function startOpening(){openIdx=0;renderOpening();}
+function renderOpening(){
+  const q=OPENING.quotes[openIdx],isLast=openIdx>=OPENING.quotes.length-1;
+  G.innerHTML=`<div class="scene ${OPENING.sky}">${mtn(OPENING.sky)}<div class="overlay">
+    <div class="chapter-label t-label">${OPENING.label}</div>
+    <div class="chapter-title t-main">${OPENING.title}</div>
+    <div class="chapter-quote t-sub">${q}</div>
+    <button class="continue-btn" onclick="nextOpening()">${isLast?'進入第一個訊號 ›':'繼續 ›'}</button>
+  </div></div>`;
+}
+function nextOpening(){openIdx++;if(openIdx>=OPENING.quotes.length)fade(()=>showRound(0));else fade(renderOpening);}
+
+function showRound(i){
+  state.idx=i;updateProgress();
+  const r=ROUNDS[i],t=r.type;
+  if(t==='ab')renderAB(i);
+  else if(t==='three')renderThree(i);
+  else if(t==='flip')renderFlip(i);
+  else if(t==='scale')renderScale(i);
+  else if(t==='gauge')renderGauge(i);
+  else if(t==='check')renderCheck(i);
+}
+
+// R1 A/B（答錯後也翻面給教訓）
+function renderAB(i){
+  const r=ROUNDS[i];
+  G.innerHTML=sceneEl(r,`<div class="round-question t-main">${r.question}</div>
+    <div class="choices">${r.choices.map((c,ci)=>`<button class="choice-btn" data-ci="${ci}" onclick="abPick(${i},${ci})">${c}</button>`).join('')}</div>`);
+}
+function abPick(i,ci){
+  const r=ROUNDS[i];
+  if(ci===r.map){state.score++;record(i);return;}
+  fade(()=>{G.innerHTML=`<div class="scene ${r.sky}">${mtn(r.sky)}<div class="overlay">
+    <div class="chapter-label t-label">${r.label}</div><div class="chapter-title t-main" style="font-size:20px;margin-bottom:1.2rem">後來呢……</div>
+    <div class="flip-reveal"><div class="flip-tag">你接了刀</div><div class="flip-body">${r.flipReveal}</div></div>
+    <button class="continue-btn" onclick="record(${i})">繼續 ›</button></div></div>`;});
+}
+
+// 三選一（帶即時回饋）
+function renderThree(i){
+  const r=ROUNDS[i];
+  G.innerHTML=sceneEl(r,`<div class="round-question t-main">${r.question}</div>
+    <div class="choices">${r.choices.map((c,ci)=>`<button class="choice-btn" data-ci="${ci}" onclick="threePick(${i},${ci})">${c}</button>`).join('')}</div>
+    <div class="feedback" id="fb3"></div>`);
+}
+function threePick(i,ci){
+  const r=ROUNDS[i];
+  if(ci===r.map)state.score++;
+  const correct=ci===r.map;
+  const col=correct?'#a5d6a7':'#ffcc80';
+  G.innerHTML=sceneEl(r,`<div class="round-question t-main">${r.question}</div>
+    <div class="feedback" style="color:${col}">${r.fb[ci]}</div>
+    <button class="continue-btn" onclick="record(${i})">繼續 ›</button>`);
+}
+
+// 卡片翻面
+function renderFlip(i){
+  const r=ROUNDS[i];
+  G.innerHTML=sceneEl(r,`<div class="round-question t-main">${r.question}</div>
+    <div class="choices">${r.cards.map((c,ci)=>`<button class="choice-btn" data-ci="${ci}" onclick="flipPick(${i},${ci})">${c.label}</button>`).join('')}</div>`);
+}
+function flipPick(i,ci){
+  const r=ROUNDS[i];if(ci===r.map)state.score++;
+  const c=r.cards[ci];
+  fade(()=>{G.innerHTML=`<div class="scene ${r.sky}">${mtn(r.sky)}<div class="overlay">
+    <div class="chapter-label t-label">${r.label}</div><div class="chapter-title t-main" style="font-size:20px;margin-bottom:1.2rem">後來呢……</div>
+    <div class="flip-reveal"><div class="flip-tag">你選了：${c.label}</div><div class="flip-body">${c.reveal}</div></div>
+    <button class="continue-btn" onclick="record(${i})">繼續 ›</button></div></div>`;});
+}
+
+// 天秤 SVG（tilt: -1 消息重 / 0 平 / 1 反應重）
+function scaleSVG(tilt){
+  const ang=tilt*13,rad=ang*Math.PI/180,half=115,dy=Math.sin(rad)*half;
+  const lx=250-half,rx=250+half,ly=80+(-dy),ry=80+(dy);
+  return `<svg viewBox="0 0 500 250" style="width:100%;max-width:400px">
+    <line x1="250" y1="215" x2="250" y2="80" stroke="rgba(255,255,255,0.55)" stroke-width="5"/>
+    <polygon points="250,215 220,245 280,245" fill="rgba(255,255,255,0.5)"/>
+    <line x1="${lx}" y1="${ly}" x2="${rx}" y2="${ry}" stroke="#e0a526" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="250" cy="80" r="8" fill="#e0a526"/>
+    <line x1="${lx}" y1="${ly}" x2="${lx}" y2="${ly+42}" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+    <line x1="${rx}" y1="${ry}" x2="${rx}" y2="${ry+42}" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+    <path d="M${lx-32},${ly+42} Q${lx},${ly+72} ${lx+32},${ly+42}" fill="none" stroke="rgba(120,170,255,0.9)" stroke-width="3"/>
+    <path d="M${rx-32},${ry+42} Q${rx},${ry+72} ${rx+32},${ry+42}" fill="none" stroke="rgba(120,255,170,0.9)" stroke-width="3"/>
+    <text x="${lx}" y="${ly+64}" fill="rgba(180,210,255,0.95)" font-size="13" text-anchor="middle">消息（利空）</text>
+    <text x="${rx}" y="${ry+64}" fill="rgba(160,255,190,0.95)" font-size="13" text-anchor="middle">反應（不跌反漲）</text>
+  </svg>`;
+}
+function renderScale(i){
+  const r=ROUNDS[i];
+  window.scaleState={i,picked:null};
+  drawScale(0,'');
+}
+function drawScale(tilt,fb){
+  const r=ROUNDS[window.scaleState.i],i=window.scaleState.i;
+  G.innerHTML=sceneEl(r,`<div class="round-question t-main" style="font-size:15px">${r.question}</div>
+    <div class="scale-wrap">${scaleSVG(tilt)}</div>
+    <div class="pan-btns">
+      <button class="pan-btn" onclick="scalePick(0)">消息這端<br><span style="opacity:.7;font-size:11px">利空很重</span></button>
+      <button class="pan-btn" onclick="scalePick(1)">反應這端<br><span style="opacity:.7;font-size:11px">價格不跌反漲</span></button>
+    </div>
+    <div class="feedback" id="fbS">${fb}</div>
+    ${window.scaleState.done?`<button class="continue-btn" onclick="record(${i})">繼續 ›</button>`:''}`);
+}
+function scalePick(side){
+  const s=window.scaleState,r=ROUNDS[s.i];
+  if(side===1){ // 反應端＝正解
+    if(s.picked===null)state.score++;
+    s.done=true;s.picked=1;
+    drawScale(1,'<span style="color:#a5d6a7">對——市場對利空無感，賣壓在衰竭。<br>價格才是最終公斷，這是落底特徵之一。</span>');
+  }else{
+    s.picked=0;
+    drawScale(-1,'<span style="color:#ffcc80">可是價格沒跟著跌…消息再重，殺不動就是殺不動。再想想：誰才是最終公斷？</span>');
+  }
+}
+
+// 融資維持率儀表
+function gaugeSVG(val){
+  // 半圓 100~180，val 對應角度；130 為紅線
+  const min=100,max=180;
+  const f=(v)=>Math.PI*(1-(v-min)/(max-min)); // v→弧度（π..0）
+  const pt=(v,rr)=>[250+rr*Math.cos(f(v)),200-rr*Math.sin(f(v))];
+  const R=150;
+  const a=pt(val,R),redA=f(130);
+  return `<svg viewBox="0 0 500 230" style="width:100%;max-width:340px">
+    <path d="M100,200 A150,150 0 0,1 400,200" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="16"/>
+    <path d="M100,200 A150,150 0 0,1 ${250+R*Math.cos(redA)},${200-R*Math.sin(redA)}" fill="none" stroke="rgba(229,57,53,0.75)" stroke-width="16"/>
+    <line x1="250" y1="200" x2="${a[0]}" y2="${a[1]}" stroke="#e0a526" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="250" cy="200" r="9" fill="#e0a526"/>
+    <text x="100" y="222" fill="rgba(255,255,255,0.55)" font-size="12" text-anchor="middle">100</text>
+    <text x="${250+R*Math.cos(redA)}" y="${200-R*Math.sin(redA)-8}" fill="#ff8a80" font-size="12" text-anchor="middle">130 追繳</text>
+    <text x="400" y="222" fill="rgba(255,255,255,0.55)" font-size="12" text-anchor="middle">180</text>
+    <text x="250" y="150" fill="#fff" font-size="30" font-weight="300" text-anchor="middle">${val}%</text>
+    <text x="250" y="175" fill="rgba(255,255,255,0.6)" font-size="12" text-anchor="middle">融資維持率</text>
+  </svg>`;
+}
+function renderGauge(i){
+  const r=ROUNDS[i];
+  G.innerHTML=sceneEl(r,`<div class="gauge-wrap" id="gaugeBox">${gaugeSVG(166)}</div>
+    <div class="round-question t-main" id="gq" style="opacity:0.4">指針正在下墜……</div>
+    <div class="choices" id="gc" style="opacity:0;pointer-events:none"></div>`);
+  // 指針動畫：166→128
+  let v=166;const iv=setInterval(()=>{
+    v-=2;if(v<=128){v=128;clearInterval(iv);gaugeReady(i);}
+    document.getElementById('gaugeBox').innerHTML=gaugeSVG(v);
+  },60);
+}
+function gaugeReady(i){
+  const r=ROUNDS[i];
+  const gq=document.getElementById('gq');gq.style.opacity='1';gq.textContent=r.question;
+  const gc=document.getElementById('gc');gc.style.opacity='1';gc.style.pointerEvents='auto';
+  gc.innerHTML=r.choices.map((c,ci)=>`<button class="choice-btn" data-ci="${ci}" onclick="gaugePick(${i},${ci})">${c}</button>`).join('');
+}
+function gaugePick(i,ci){
+  const r=ROUNDS[i];if(ci===r.map)state.score++;
+  const correct=ci===r.map,col=correct?'#a5d6a7':'#ffcc80';
+  G.innerHTML=sceneEl(r,`<div class="gauge-wrap">${gaugeSVG(128)}</div>
+    <div class="feedback" style="color:${col};min-height:auto">${r.fb[ci]}</div>
+    <button class="continue-btn" onclick="record(${i})">繼續 ›</button>`);
+}
+
+// 檢查表（建構式收束）
+function renderCheck(i){
+  const r=ROUNDS[i];
+  function draw(){
+    const rows=CHECK_ITEMS.map((it,k)=>`<div class="check-item ${state.checks[k]?'on':''}" onclick="toggleCheck(${k})">
+      <div class="check-box">${state.checks[k]?'✓':''}</div>
+      <div class="check-text">${it.t}${it.key?'<span class="check-key">← 風控關鍵</span>':''}</div></div>`).join('');
+    const anyKey=state.checks[4];
+    const n=state.checks.filter(Boolean).length;
+    let msg='';
+    if(n>=1)msg=anyKey?'<span style="color:#a5d6a7">底不是猜的，是這張表一格一格亮起來的。</span>':'<span style="color:#ffcc80">訊號勾了不少，但沒有退出線的抄底，還是賭。</span>';
+    G.innerHTML=sceneEl(r,`<div class="check-list">${rows}</div>
+      <div class="feedback" style="min-height:26px">${msg}</div>
+      <button class="continue-btn" onclick="fade(showResult)">看看我是哪種抄底者 →</button>`);
+  }
+  window.drawCheck=draw;draw();
+}
+function toggleCheck(k){state.checks[k]=!state.checks[k];window.drawCheck();}
+
+// 過場 / 推進
+function record(i){
+  state.answered++;
+  const tr=TRANSITIONS[i];
+  if(tr)fade(()=>showTransition(tr,i));
+  else advance(i);
+}
+function showTransition(text,fromI){
+  G.innerHTML=`<div class="scene sky-storm" style="background:linear-gradient(180deg,#020408,#0a0612,#141020)">${mtn('sky-storm')}<div class="overlay">
+    <div class="transition-quote">${text}</div>
+    <button class="continue-btn" onclick="advance(${fromI})">繼續 ›</button></div></div>`;
+}
+function advance(fromI){const n=fromI+1;if(n>=ROUNDS.length)return;fade(()=>showRound(n));}
+
+function showResult(){
+  PB.style.width='100%';
+  // 檢查表：勾退出線 +1
+  let sc=state.score+(state.checks[4]?1:0);
+  let ri; if(sc>=5)ri=0; else if(sc>=3)ri=1; else ri=2;
+  const p=RESULTS[ri];
+  const got=state.checks.filter(Boolean).length;
+  G.innerHTML=`<div class="scene sky-result" style="padding:3.5rem 1.5rem">${mtn('sky-result')}<div class="overlay">
+    <div class="chapter-label t-label" style="margin-bottom:1rem">你的結果</div>
+    <div class="result-icon">${p.icon}</div>
+    <div class="result-type t-main">${p.name}</div>
+    <div class="result-desc t-sub">${p.desc}</div>
+    <div class="result-box">
+      <div class="result-box-title">兩把秤 · 你讀懂了幾成</div>
+      <div class="result-box-row">訊號判讀得分：${sc} / 7</div>
+      <div class="result-box-row">落底檢查表：勾了 ${got} / 5 項${state.checks[4]?'（含退出線 ✓）':'（缺退出線）'}</div>
+    </div>
+    <div class="t-sub" style="font-size:13px;line-height:1.95;margin-bottom:1.4rem;max-width:410px;margin-left:auto;margin-right:auto">
+      Yoda Research 每週在市場觀察裡稱這兩把秤：<br>市場對消息的反應，加上融資籌碼的變化。<br>不猜底，等訊號站上來。</div>
+    <a class="yoda-btn" href="${YODA_URL}" target="_blank" rel="noopener">${p.cta}</a><br>
+    <div style="display:flex;gap:0.75rem;justify-content:center;margin-top:1rem;flex-wrap:wrap">
+      <button class="share-btn" id="shareBtn" onclick="shareGame()"><span id="shareIcon">&#8679;</span> 分享這個測驗</button>
+      <button class="continue-btn" style="font-size:12px;opacity:0.6;margin-top:0" onclick="restart()">重玩一次</button>
+    </div>
+    <div id="shareFeedback" style="font-size:12px;color:rgba(160,220,255,0.7);margin-top:0.6rem;height:18px"></div>
+    <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1.5rem">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" style="color:rgba(224,165,38,0.6);text-decoration:none">BiBiPiano</a>，版權為原作者所有</div>
+  </div></div>`;
+}
+function restart(){state={idx:-1,score:0,answered:0,checks:[false,false,false,false,false]};openIdx=0;PB.style.width='0%';fade(showStart);}
+function shareGame(){
+  const url=window.location.href.split('?')[0];
+  const text='我剛玩了《落底訊號》——用兩把秤（市場反應＋融資籌碼）判斷底部。你也來稱稱看？';
+  const btn=document.getElementById('shareBtn'),fb=document.getElementById('shareFeedback');
+  if(navigator.share){navigator.share({title:'落底訊號 · Yoda Research',text:text,url:url}).catch(()=>{});return;}
+  navigator.clipboard.writeText(url).then(()=>{
+    btn.classList.add('copied');btn.innerHTML='&#10003; 網址已複製';fb.textContent='貼到 LINE、FB 或任何地方分享吧';
+    setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML='&#8679; 分享這個測驗';fb.textContent='';},3000);
+  }).catch(()=>{fb.textContent='網址：'+url;});
+}
+window.startOpening=startOpening;window.nextOpening=nextOpening;window.showRound=showRound;
+window.abPick=abPick;window.threePick=threePick;window.flipPick=flipPick;window.scalePick=scalePick;
+window.gaugePick=gaugePick;window.toggleCheck=toggleCheck;window.record=record;window.advance=advance;
+window.showResult=showResult;window.restart=restart;window.shareGame=shareGame;window.fade=fade;window.state=state;
+showStart();
+</script>
+</body>
+</html>
