@@ -73,11 +73,40 @@ input[type=range].bsl::-moz-range-thumb{width:20px;height:20px;border-radius:50%
 .rcfg{border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.5rem;max-width:340px;margin-left:auto;margin-right:auto}
 .rcr{display:flex;justify-content:space-between;font-size:13px;padding:0.32rem 0;border-bottom:1px solid rgba(255,255,255,0.1)}
 .rcr:last-child{border-bottom:none}
-.ybtn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);border:none;color:#fff;width:190px;padding:0.85rem 0.6rem;border-radius:6px;font-size:14px;cursor:pointer;letter-spacing:0.5px;text-align:center;text-decoration:none;transition:opacity 0.2s;box-sizing:border-box}
-.ybtn:hover{opacity:0.87}
-.share-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);border:none;color:#fff;width:190px;padding:0.85rem 0.6rem;border-radius:6px;font-size:14px;cursor:pointer;letter-spacing:0.5px;text-align:center;text-decoration:none;transition:opacity 0.2s;box-sizing:border-box}
-.share-btn:hover{opacity:0.87}
-.share-btn.copied{background:rgba(100,200,120,0.2);border-color:rgba(100,200,120,0.6);color:#a5d6a7}
+.twin-btn-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+  max-width: 320px;
+  margin: 1rem auto 0;
+}
+.twin-btn {
+  width: 100%;
+  text-align: center;
+  background: linear-gradient(135deg, #D4AF37 0%, #AA7700 100%);
+  color: #ffffff;
+  border: none;
+  padding: 0.85rem 0.6rem;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+  box-sizing: border-box;
+  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.2);
+}
+.twin-btn:hover {
+  opacity: 0.87;
+}
+.twin-btn.copied {
+  background: rgba(100,200,120,0.2);
+  border: 1px solid rgba(100,200,120,0.6);
+  color: #a5d6a7;
+  box-shadow: none;
+}
 .progress-bar{position:fixed;top:0;left:0;height:2px;background:rgba(224,165,38,0.6);transition:width 0.4s;z-index:100}
 .mute-btn{position:fixed;top:14px;right:14px;z-index:101;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(6px);transition:all 0.2s;display:flex;align-items:center;justify-content:center;padding:0}
 .mute-btn:hover{background:rgba(0,0,0,0.55);border-color:rgba(255,255,255,0.5)}
@@ -304,6 +333,19 @@ function showResult(){
     {key:'core',label:'核心持股',color:'#63b3ed'},
     {key:'dryPowder',label:'預備加碼金',color:'#b794f6'},
   ];
+
+  // 【黃金四拍】動態溫度文案
+  let topBtnText = '';
+  let bottomBtnText = '';
+  
+  if (p.name === '驚弓型' || p.name === '死抱型') {
+    topBtnText = '傷還在痛，讓客觀數據陪你慢慢走';
+    bottomBtnText = '把這份懂你，傳給同樣在痛的朋友';
+  } else {
+    topBtnText = '帶著傷痕，我們一起把紀律找回來';
+    bottomBtnText = '告訴受傷的朋友，他們其實不孤單';
+  }
+
   G.innerHTML='<div class="sc k-result" style="padding:3rem 1.5rem;min-height:100vh">'+mtn('k-result')+'<div class="ov">'+
     '<div class="lbl t-l" style="margin-bottom:1rem">你的修行結果</div>'+
     '<div class="ric">'+p.icon+'</div><div class="rty">'+p.name+'</div>'+
@@ -313,18 +355,18 @@ function showResult(){
       '<div class="rcr" style="margin-top:0.3rem"><span class="t-s" style="font-size:13px">你對洗盤的信任度</span><span style="color:#68d391;font-weight:500">'+st.trust+'%</span></div>'+
     '</div>'+
     '<div class="t-s" style="font-size:13px;line-height:1.9;margin-bottom:1.25rem;max-width:400px;margin-left:auto;margin-right:auto">療傷需要時間，這很正常。但別讓還在痛的傷口，替清醒的你做決定。Yoda Research 每週追蹤總經循環與市場結構，幫你在受傷時仍看得清方向。</div>'+
-    '<div style="display:flex;gap:0.75rem;justify-content:center;margin-top:1rem;flex-wrap:wrap">'+
-      '<a class="ybtn" href="https://iamtwispin.substack.com/" target="_blank" rel="noopener">免費訂閱簡報 →</a>'+
-      '<a class="ybtn" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">Yoda Research</a>'+
-      '<button class="share-btn" id="shareBtn" onclick="G3.share()"><span>&#8679;</span> 分享這個遊戲</button>'+
+    
+    // 替換為雙按鈕直列容器 (套用溫度文案)
+    '<div class="twin-btn-container">'+
+      '<a class="twin-btn" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">'+topBtnText+'</a>'+
+      '<button class="twin-btn" id="shareBtn" onclick="G3.share()">'+bottomBtnText+'</button>'+
     '</div>'+
+    
     '<div style="margin-top:0.9rem"><button class="cont" style="font-size:12px;opacity:0.6" onclick="G3.restart()">重新開始</button></div>'+
     '<div id="shareFeedback" style="font-size:12px;color:rgba(160,220,255,0.7);margin-top:0.6rem;height:18px;transition:opacity 0.3s"></div>'+
     '<div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1.5rem;letter-spacing:0.3px">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" style="color:rgba(224,165,38,0.6);text-decoration:none">BiBiPiano</a>，版權為原作者所有</div>'+
     '</div></div>';
-}
-
-function showTrans(text){
+}function showTrans(text){
   G.innerHTML='<div class="sc k-dark">'+mtn('k-dark')+'<div class="ov"><div class="tq">'+text+'</div>'+
     '<button class="cont" onclick="G3.afterTrans()">繼續 ›</button></div></div>';
 }
@@ -341,22 +383,57 @@ window.G3={
   showResult:function(){fade(showResult);},
   afterTrans:function(){advance();},
   restart:function(){fade(showStart);},
-  share:function(){
+share:function(){
     var url=window.location.href.split('?')[0];
     var text='我剛玩完《敢不敢》——當你受傷後，還敢不敢執行對的判斷？來測測看你是哪種投資人格。';
-    var btn=document.getElementById('shareBtn'), fb=document.getElementById('shareFeedback');
-    if(navigator.share){navigator.share({title:'敢不敢 · Yoda Research',text:text,url:url}).catch(function(){});return;}
-    navigator.clipboard.writeText(url).then(function(){
-      btn.classList.add('copied');btn.innerHTML='&#10003; 網址已複製';
-      fb.textContent='貼到 LINE、Facebook 或任何地方分享吧';fb.style.opacity='1';
-      setTimeout(function(){btn.classList.remove('copied');btn.innerHTML='<span>&#8679;</span> 分享這個遊戲';fb.style.opacity='0';},3000);
-    }).catch(function(){
-      var box=document.createElement('input');box.value=url;document.body.appendChild(box);box.select();document.execCommand('copy');document.body.removeChild(box);
-      fb.textContent='網址已複製！';fb.style.opacity='1';setTimeout(function(){fb.style.opacity='0';},3000);
-    });
-  },
-};
+    var btn=document.getElementById('shareBtn');
+    var fb=document.getElementById('shareFeedback');
+    
+    // 記住動態文字
+    var originalText = btn.innerHTML;
 
+    if(navigator.share){
+      navigator.share({title:'敢不敢 · Yoda Research',text:text,url:url}).catch(function(){});
+      return;
+    }
+
+    var showSuccess = function() {
+      btn.classList.add('copied');
+      btn.innerHTML='&#10003; 網址已複製';
+      fb.textContent='貼到 LINE、Facebook 或任何地方分享吧';
+      fb.style.opacity='1';
+      setTimeout(function(){
+        btn.classList.remove('copied');
+        btn.innerHTML = originalText; // 還原為動態文字
+        fb.style.opacity='0';
+      },3000);
+    };
+
+    var fallbackCopy = function() {
+      try {
+        var box=document.createElement('input');
+        box.value=url;
+        box.style.position = 'fixed'; // 防止畫面跳動
+        box.style.opacity = '0';
+        document.body.appendChild(box);
+        box.select();
+        document.execCommand('copy');
+        document.body.removeChild(box);
+        showSuccess();
+      } catch(e) {
+        fb.textContent='請手動複製網址分享！';
+        fb.style.opacity='1';
+        setTimeout(function(){fb.style.opacity='0';},3000);
+      }
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(showSuccess).catch(fallbackCopy);
+    } else {
+      fallbackCopy();
+    }
+  },};
+window.showResult = showResult;
 showStart();
 })();
 </script>
