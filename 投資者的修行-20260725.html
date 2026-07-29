@@ -77,15 +77,43 @@ input[type=range].bslider::-moz-range-track{height:8px;border-radius:4px;backgro
 .result-config-title{font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.38);margin-bottom:0.6rem}
 .result-config-row{display:flex;justify-content:space-between;font-size:13px;padding:0.32rem 0;border-bottom:1px solid rgba(255,255,255,0.1)}
 .result-config-row:last-child{border-bottom:none}
-.yoda-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);border:none;color:#fff;width:190px;padding:0.85rem 0.6rem;border-radius:6px;font-size:14px;cursor:pointer;letter-spacing:0.5px;text-align:center;text-decoration:none;transition:opacity 0.2s;box-sizing:border-box}
-.yoda-btn:hover{opacity:0.87}
 .progress-bar{position:fixed;top:0;left:0;height:2px;background:rgba(224,165,38,0.6);transition:width 0.4s;z-index:100}
 .mute-btn{position:fixed;top:14px;right:14px;z-index:101;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(6px);transition:all 0.2s;display:flex;align-items:center;justify-content:center;padding:0}
 .mute-btn:hover{background:rgba(0,0,0,0.55);border-color:rgba(255,255,255,0.5)}
-.share-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);border:none;color:#fff;width:190px;padding:0.85rem 0.6rem;border-radius:6px;font-size:14px;cursor:pointer;letter-spacing:0.5px;text-align:center;text-decoration:none;transition:opacity 0.2s;box-sizing:border-box}
-.share-btn:hover{opacity:0.87}
-.share-btn.copied{background:rgba(100,200,120,0.2);border-color:rgba(100,200,120,0.6);color:#a5d6a7}
-
+.twin-btn-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+  max-width: 320px;
+  margin: 1rem auto 0;
+}
+.twin-btn {
+  width: 100%;
+  text-align: center;
+  background: linear-gradient(135deg, #D4AF37 0%, #AA7700 100%);
+  color: #ffffff;
+  border: none;
+  padding: 0.85rem 0.6rem;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+  box-sizing: border-box;
+  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.2);
+}
+.twin-btn:hover {
+  opacity: 0.87;
+}
+.twin-btn.copied {
+  background: rgba(100,200,120,0.2);
+  border: 1px solid rgba(100,200,120,0.6);
+  color: #a5d6a7;
+  box-shadow: none;
+}
 /* 卡片翻面 */
 .flip-reveal{max-width:480px;margin:0 auto;background:rgba(0,0,0,0.32);border:1px solid rgba(255,255,255,0.28);border-radius:10px;padding:1.4rem 1.5rem;backdrop-filter:blur(6px);animation:flipIn 0.5s ease}
 @keyframes flipIn{0%{opacity:0;transform:rotateX(-30deg) translateY(10px)}100%{opacity:1;transform:rotateX(0) translateY(0)}}
@@ -154,11 +182,11 @@ const ROUNDS=[
   {ch:0,sky:'sky-dusk',title:'知道太多，動不了',text:'你學了技術分析、基本面、總體經濟。每次想出手，腦袋裡同時響起五個聲音：技術面說可以、基本面說還早、總經說不確定、新聞說要小心、內心說算了。最後你什麼都沒做。',question:'你意識到問題在哪裡？',choices:['問題是資訊還不夠，我需要更多確定性才能行動','問題是我沒有一個屬於自己的判斷框架，資訊沒有主軸']},
   {ch:1,sky:'sky-valley',title:'第一次看見連結',type:'chain',text:'某天你在看一篇分析。作者把六件事排成一條傳導鏈——<br>但你手上的順序被打亂了。<br>試著把它排回正確的因果順序。',chain:['Fed 升息','美元走強','新興市場資金外逃','當地貨幣貶值','央行被迫跟進升息','壓制內需、企業盈餘下修'],reveal:'你把鏈條接了起來。「牽一髮動全身」這句話，在你第一次親手看懂一條完整的傳導鏈之後，才真正有了重量。原來這些事，從來不是各自獨立發生的。',question:'這個頓悟帶給你什麼感受？',choices:['原來要先搞懂宏觀，才能看懂個股在做什麼','這太複雜了，我寧願找個簡單的公式']},
   {ch:1,sky:'sky-storm',title:'市場的節奏',text:'你開始研究景氣循環。擴張、高峰、收縮、谷底。你發現，歷史上每一次大跌，幾乎都能在總經數據裡找到先行警訊。市場不是隨機的，它有節奏，有慣性，有記憶。',question:'你對週期的理解是？',choices:['懂週期就能預測市場，我要開始用這個做決策','週期是地圖，不是時刻表。它告訴我方向，但不告訴我今天幾點']},
-  {ch:1,sky:'sky-clouds',title:'三種工具的位置',text:'你開始思考：<br>總經給你大方向，<br>技術分析幫你找進出場時機，<br>基本面讓你對標的有信心。<br>這三者不是競爭關係，是分工關係。',question:'你的下一步是？',choices:['先精通一種，其他的以後再說','開始練習同時用三種視角看同一個市場']},
-  {ch:1,sky:'sky-storm',title:'信仰的破綻',text:'你最信任的方法，在某個特定環境下完全失效了。<br>信總經的人遇到了「Fed降息但股市反跌」；<br>信技術的人遇到了「完美型態卻跳空崩潰」；<br>信基本面的人持有的好公司股價持續創新低。',question:'這次的失效教會了你什麼？',choices:['每一種方法都有它的盲點，沒有萬能公式','我選錯方法了，要換一種試試']},
+  {ch:1,sky:'sky-clouds',title:'三種工具的位置',text:'你開始思考：總經給你大方向，技術分析幫你找進出場時機，基本面讓你對標的有信心。這三者不是競爭關係，是分工關係。',question:'你的下一步是？',choices:['先精通一種，其他的以後再說','開始練習同時用三種視角看同一個市場']},
+  {ch:1,sky:'sky-storm',title:'信仰的破綻',text:'你最信任的方法，在某個特定環境下完全失效了。信總經的人遇到了「Fed降息但股市反跌」；信技術的人遇到了「完美型態卻跳空崩潰」；信基本面的人持有的好公司股價持續創新低。',question:'這次的失效教會了你什麼？',choices:['每一種方法都有它的盲點，沒有萬能公式','我選錯方法了，要換一種試試']},
   {ch:2,sky:'sky-mountain',title:'你真正想要什麼',text:'你在投資上花了大量時間和精力。有時候你問自己：我為什麼要做這件事？是要財富自由？財富自由之後要做什麼？是要不用上班？還是要能夠掌控自己的時間？還是只是不想被錢追著跑？',question:'你最誠實的答案是？',choices:['我想要時間自由——能選擇自己要做什麼，不被工作綁架','我想要安全感——不再擔心錢的問題，生活有底氣']},
-  {ch:2,sky:'sky-mountain',title:'長線還是短線',type:'slider',sliderKind:'spectrum',text:'你站在一個岔路口。<br>長線說：複利的力量，時間是你的朋友。<br>短線說：現在就要有現金流，機會是抓住當下的。<br>這裡沒有對錯，只有適不適合你。',question:'把指針滑到你真實的傾向——',min:0,max:100,step:5,def:50,unit:'',leftLabel:'純長線',rightLabel:'純短線',choices:['長線——我相信複利，我願意等，我想睡得著','短線——我需要現在的成就感和現金流，等太久我撐不住']},
-  {ch:2,sky:'sky-starry',title:'兩者能並行嗎',text:'選了長線的你：上週大盤跌12%，你的長線部位帳面虧損，你撐得住嗎？<br>選了短線的你：要維持一定勝率需要每天花4-6小時盯盤，這是你願意付出的代價嗎？',question:'你的答案是？',choices:['也許長線和短線不是非此即彼，可以用不同資金分別執行','不，我必須選一個專注，分心只會兩頭都做不好']},
+  {ch:2,sky:'sky-mountain',title:'長線還是短線',type:'slider',sliderKind:'spectrum',text:'你站在一個岔路口。長線說：複利的力量，時間是你的朋友。短線說：現在就要有現金流，機會是抓住當下的。<br>這裡沒有對錯，只有適不適合你。',question:'把指針滑到你真實的傾向——',min:0,max:100,step:5,def:50,unit:'',leftLabel:'純長線',rightLabel:'純短線',choices:['長線——我相信複利，我願意等，我想睡得著','短線——我需要現在的成就感和現金流，等太久我撐不住']},
+  {ch:2,sky:'sky-starry',title:'兩者能並行嗎',text:'選了長線的你：上週大盤跌12%，你的長線部位帳面虧損，你撐得住嗎？選了短線的你：要維持一定勝率需要每天花4-6小時盯盤，這是你願意付出的代價嗎？',question:'你的答案是？',choices:['也許長線和短線不是非此即彼，可以用不同資金分別執行','不，我必須選一個專注，分心只會兩頭都做不好']},
   {ch:3,sky:'sky-clear',title:'建立你的系統',text:'你已經走過了資訊的迷宮，看見了經濟的立體拼圖，也誠實面對了自己對財富的渴望。\n\n現在，調整屬於你的投資配重。沒有標準答案。只有適合你的那一個。',question:'',choices:[]}
 ];
 
@@ -182,7 +210,7 @@ const PERSONALITIES=[
   {icon:'🧊',name:'分析癱瘓型',desc:'你懂得很多，但就是下不了手。你需要的不是更多資訊，而是一個「夠好就行」的決策標準。<br><br>下一步：設定3個條件都滿足就進場的規則，然後執行它。'},
   {icon:'🌿',name:'緩慢覺醒型',desc:'你走過了彎路，正在找到自己的節奏。你比大多數人更了解自己的盲點，這是最珍貴的資產。<br><br>下一步：把你的交易記錄下來，你會發現屬於自己的模式。'},
   {icon:'🏔️',name:'系統型',desc:'你已經開始用框架思考，而不是追單一個股。這是成熟投資者的標誌。<br><br>下一步：用小倉位測試你的系統，驗證之後再逐步放大。'},
-  {icon:'🔭',name:'融合型',desc:'你走過了三條路的掙扎，開始建立屬於自己的視角。<br>總經、技術、基本面，你不再選邊，而是開始整合。<br><br>下一步：找到你最擅長的那一塊，讓它成為系統的核心。'},
+  {icon:'🔭',name:'融合型',desc:'你走過了三條路的掙扎，開始建立屬於自己的視角。總經、技術、基本面，你不再選邊，而是開始整合。<br><br>下一步：找到你最擅長的那一塊，讓它成為系統的核心。'},
   {icon:'⚖️',name:'配重師',desc:'你懂得長短並行、工具互補，並且誠實面對了自己真正想要什麼。<br><br>下一步：你已經準備好了。去找一個能幫你把這套系統落地的框架。'}
 ];
 
@@ -575,6 +603,11 @@ function showResult(){
   const pi=calcPersonality();
   const p=PERSONALITIES[pi];
   const b=state.balance;
+
+  // 新增：根據人格動態生成按鈕文案
+  const topBtnText = p.name === '配重師' ? '來 Yoda 獲取進階長短線策略' : '尋找適合你的專屬投資框架';
+  const bottomBtnText = `分享我的「${p.name}」結果`;
+
   G.innerHTML=`<div class="scene sky-result" style="padding:3.5rem 1.5rem;min-height:100vh">
     ${mtn('sky-result')}
     <div class="overlay">
@@ -595,18 +628,19 @@ function showResult(){
         Yoda Research 每週追蹤總體經濟、技術面與個股選股，<br>
         幫你把框架轉化為真實的決策。
       </div>
-      <div style="display:flex;gap:0.75rem;justify-content:center;margin-top:1rem;flex-wrap:wrap">
-        <a class="yoda-btn" href="https://iamtwispin.substack.com/" target="_blank" rel="noopener">免費訂閱簡報 →</a>
-        <a class="yoda-btn" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">Yoda Research</a>
-        <button class="share-btn" id="shareBtn" onclick="shareGame()"><span id="shareIcon">&#8679;</span> 分享這個遊戲</button>
+      
+      <!-- 替換處：新的雙按鈕直列容器 -->
+      <div class="twin-btn-container">
+        <a class="twin-btn" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">${topBtnText}</a>
+        <button class="twin-btn" id="shareBtn" onclick="shareGame()">${bottomBtnText}</button>
       </div>
+
       <div style="margin-top:0.9rem"><button class="continue-btn" style="font-size:12px;opacity:0.6" onclick="restart()">重新開始</button></div>
       <div id="shareFeedback" style="font-size:12px;color:rgba(160,220,255,0.7);margin-top:0.6rem;height:18px;transition:opacity 0.3s"></div>
       <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1.5rem;letter-spacing:0.3px">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" style="color:rgba(224,165,38,0.6);text-decoration:none">BiBiPiano</a>，版權為原作者所有</div>
     </div>
   </div>`;
 }
-
 function restart(){
   state={chIndex:-1,roundIndex:-1,scores:[],balance:{index:25,stock:25,longterm:25,shortterm:25},quoteIndex:0};
   PB.style.width='0%';
@@ -618,31 +652,56 @@ function shareGame(){
   const text='我剛完成了《投資者的修行》，一個關於人性與投資智慧的互動體驗。你也來試試看你是哪種投資人格？';
   const btn=document.getElementById('shareBtn');
   const fb=document.getElementById('shareFeedback');
+  
+  // 記住目前的動態按鈕文字
+  const originalText = btn.innerHTML;
+
+  // 如果有手機原生分享，優先呼叫
   if(navigator.share){
     navigator.share({title:'投資者的修行 · Yoda Research',text:text,url:url}).catch(()=>{});
     return;
   }
-  navigator.clipboard.writeText(url).then(()=>{
+
+  // 統一的「複製成功」畫面回饋動作
+  const showSuccess = () => {
     btn.classList.add('copied');
     btn.innerHTML='&#10003; 網址已複製';
     fb.textContent='貼到 LINE、Facebook 或任何地方分享吧';
     fb.style.opacity='1';
     setTimeout(()=>{
       btn.classList.remove('copied');
-      btn.innerHTML='&#8679; 分享這個遊戲';
+      btn.innerHTML = originalText; // 還原為動態文字
       fb.style.opacity='0';
     },3000);
-  }).catch(()=>{
-    const box=document.createElement('input');
-    box.value=url;
-    document.body.appendChild(box);
-    box.select();
-    document.execCommand('copy');
-    document.body.removeChild(box);
-    fb.textContent='網址已複製！';
-    fb.style.opacity='1';
-    setTimeout(()=>{fb.style.opacity='0';},3000);
-  });
+  };
+
+  // 傳統備用複製法（給 file:/// 或舊瀏覽器用）
+  const fallbackCopy = () => {
+    try {
+      const box=document.createElement('input');
+      box.value=url;
+      box.style.position = 'fixed'; // 避免畫面跳動
+      box.style.opacity = '0';
+      document.body.appendChild(box);
+      box.select();
+      document.execCommand('copy');
+      document.body.removeChild(box);
+      showSuccess();
+    } catch(e) {
+      fb.textContent='請手動複製網址分享！';
+      fb.style.opacity='1';
+      setTimeout(()=>{fb.style.opacity='0';},3000);
+    }
+  };
+
+  // 安全檢查：確認 Clipboard API 存在才呼叫，否則使用備用法
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url)
+      .then(showSuccess)
+      .catch(fallbackCopy); // 如果 API 拒絕，也降級用備用法
+  } else {
+    fallbackCopy();
+  }
 }
 window.shareGame=shareGame;
 window.fade=fade;
