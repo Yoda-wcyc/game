@@ -64,13 +64,45 @@ html,body{width:100%;min-height:100%;font-family:-apple-system,'PingFang TC','No
 .result-box-title{font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.4);margin-bottom:0.5rem}
 .result-box-row{font-size:13px;padding:0.28rem 0;border-bottom:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.9)}
 .result-box-row:last-child{border-bottom:none}
-.yoda-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);border:none;color:#fff;padding:0.9rem 2.4rem;border-radius:6px;font-size:15px;cursor:pointer;letter-spacing:0.5px;text-decoration:none;transition:opacity 0.2s;margin-bottom:0.5rem}
-.yoda-btn:hover{opacity:0.88}
 .progress-bar{position:fixed;top:0;left:0;height:2px;background:rgba(224,165,38,0.65);transition:width 0.4s;z-index:100}
 .mute-btn{position:fixed;top:14px;right:14px;z-index:101;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center}
-.share-btn{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.35);color:rgba(255,255,255,0.85);padding:0.6rem 1.5rem;border-radius:4px;cursor:pointer;font-size:13px;letter-spacing:1px;transition:all 0.2s}
-.share-btn:hover{background:rgba(255,255,255,0.22);color:#fff}
-.share-btn.copied{background:rgba(100,200,120,0.2);border-color:rgba(100,200,120,0.6);color:#a5d6a7}
+/* 雙按鈕容器 */
+.twin-btn-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+  max-width: 320px;
+  margin: 1.5rem auto 1rem;
+}
+/* 雙按鈕統一金色質感 */
+.twin-btn {
+  width: 100%;
+  text-align: center;
+  background: linear-gradient(135deg, #D4AF37 0%, #AA7700 100%);
+  color: #ffffff;
+  border: none;
+  padding: 0.95rem 1rem;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25);
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+.twin-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
+}
+.twin-btn.copied {
+  background: rgba(100,200,120,0.2);
+  border: 1px solid rgba(100,200,120,0.6);
+  color: #a5d6a7;
+  box-shadow: none;
+}
 </style>
 </head>
 <body>
@@ -392,11 +424,15 @@ function advance(fromI){const n=fromI+1;if(n>=ROUNDS.length)return;fade(()=>show
 
 function showResult(){
   PB.style.width='100%';
-  // 檢查表：勾退出線 +1
   let sc=state.score+(state.checks[4]?1:0);
-  let ri; if(sc>=5)ri=0; else if(sc>=3)ri=1; else ri=2;
+  let ri = (sc>=5) ? 0 : (sc>=3) ? 1 : 2;
   const p=RESULTS[ri];
-  const got=state.checks.filter(Boolean).length;
+
+  // 【黃金四拍】動態溫度文案
+  // 針對落底主題的陪伴與解方
+  const topBtnText = (ri === 0) ? '獲取 Yoda 的市場稱重觀察' : '跟著訊號，練習把底等出來';
+  const bottomBtnText = (ri === 2) ? '分享測驗，提醒朋友別急著接刀' : '把這份讀秤邏輯，傳給還在猜底的朋友';
+
   G.innerHTML=`<div class="scene sky-result" style="padding:3.5rem 1.5rem">${mtn('sky-result')}<div class="overlay">
     <div class="chapter-label t-label" style="margin-bottom:1rem">你的結果</div>
     <div class="result-icon">${p.icon}</div>
@@ -405,31 +441,34 @@ function showResult(){
     <div class="result-box">
       <div class="result-box-title">兩把秤 · 你讀懂了幾成</div>
       <div class="result-box-row">訊號判讀得分：${sc} / 7</div>
-      <div class="result-box-row">落底檢查表：勾了 ${got} / 5 項${state.checks[4]?'（含退出線 ✓）':'（缺退出線）'}</div>
+      <div class="result-box-row">落底檢查表：勾了 ${state.checks.filter(Boolean).length} / 5 項</div>
     </div>
-    <div class="t-sub" style="font-size:13px;line-height:1.95;margin-bottom:1.4rem;max-width:410px;margin-left:auto;margin-right:auto">
-      Yoda Research 每週在市場觀察裡稱這兩把秤：<br>市場對消息的反應，加上融資籌碼的變化。<br>不猜底，等訊號站上來。</div>
-    <a class="yoda-btn" href="${YODA_URL}" target="_blank" rel="noopener">${p.cta}</a><br>
-    <div style="display:flex;gap:0.75rem;justify-content:center;margin-top:1rem;flex-wrap:wrap">
-      <button class="share-btn" id="shareBtn" onclick="shareGame()"><span id="shareIcon">&#8679;</span> 分享這個測驗</button>
-      <button class="continue-btn" style="font-size:12px;opacity:0.6;margin-top:0" onclick="restart()">重玩一次</button>
+    
+    <!-- 替換為雙按鈕直列容器 -->
+    <div class="twin-btn-container">
+      <a class="twin-btn" href="${YODA_URL}" target="_blank" rel="noopener">${topBtnText}</a>
+      <button class="twin-btn" id="shareBtn" onclick="shareGame('${bottomBtnText}')">${bottomBtnText}</button>
     </div>
+
+    <div style="margin-top:0.9rem"><button class="continue-btn" style="font-size:12px;opacity:0.6;margin-top:0" onclick="restart()">重玩一次</button></div>
     <div id="shareFeedback" style="font-size:12px;color:rgba(160,220,255,0.7);margin-top:0.6rem;height:18px"></div>
     <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1.5rem">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" style="color:rgba(224,165,38,0.6);text-decoration:none">BiBiPiano</a>，版權為原作者所有</div>
   </div></div>`;
 }
 function restart(){state={idx:-1,score:0,answered:0,checks:[false,false,false,false,false]};openIdx=0;PB.style.width='0%';fade(showStart);}
-function shareGame(){
+function shareGame(originalText){
   const url=window.location.href.split('?')[0];
   const text='我剛玩了《落底訊號》——用兩把秤（市場反應＋融資籌碼）判斷底部。你也來稱稱看？';
-  const btn=document.getElementById('shareBtn'),fb=document.getElementById('shareFeedback');
-  if(navigator.share){navigator.share({title:'落底訊號 · Yoda Research',text:text,url:url}).catch(()=>{});return;}
+  const btn=document.getElementById('shareBtn'), fb=document.getElementById('shareFeedback');
+  
+  if(navigator.share){ navigator.share({title:'落底訊號 · Yoda Research',text:text,url:url}).catch(()=>{}); return; }
+  
   navigator.clipboard.writeText(url).then(()=>{
-    btn.classList.add('copied');btn.innerHTML='&#10003; 網址已複製';fb.textContent='貼到 LINE、FB 或任何地方分享吧';
-    setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML='&#8679; 分享這個測驗';fb.textContent='';},3000);
-  }).catch(()=>{fb.textContent='網址：'+url;});
-}
-window.startOpening=startOpening;window.nextOpening=nextOpening;window.showRound=showRound;
+    btn.classList.add('copied'); btn.innerHTML='&#10003; 網址已複製';
+    fb.textContent='貼到 LINE、FB 或任何地方分享吧'; fb.style.opacity='1';
+    setTimeout(()=>{ btn.classList.remove('copied'); btn.innerHTML=originalText; fb.style.opacity='0'; },3000);
+  }).catch(()=>{ fb.textContent='請手動複製網址分享！'; fb.style.opacity='1'; setTimeout(()=>{fb.style.opacity='0';},3000); });
+}window.startOpening=startOpening;window.nextOpening=nextOpening;window.showRound=showRound;
 window.abPick=abPick;window.threePick=threePick;window.flipPick=flipPick;window.scalePick=scalePick;
 window.gaugePick=gaugePick;window.toggleCheck=toggleCheck;window.record=record;window.advance=advance;
 window.showResult=showResult;window.restart=restart;window.shareGame=shareGame;window.fade=fade;window.state=state;
