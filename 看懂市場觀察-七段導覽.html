@@ -96,7 +96,7 @@ const ROUNDS=[
     :v>=65?'<span style="color:#ffcc80">再想想：資金在抱現金流、砍高 Beta，這是「怕」不是「貪」，偏向防禦端。</span>'
     :'<span style="color:#ffcc80">靠近了。動能輸、低波抗跌、抱現金，比中性更偏「防禦」一點。</span>',
   correct:v=>v<=35,
-  fr_intro:'每個分數都配一個「燈號」。四表合起來，就是今天市場的溫度。',
+  fr_intro:'每個分數都配一個「燈號」。<br>四表合起來，就是今天市場的溫度。',
   fr_scores:[{n:'資金流',s:52,l:'謹慎偏弱',c:'#ffcc80'},{n:'情緒',s:44,l:'分歧',c:'#ffcc80'},{n:'風險偏好',s:15,l:'防禦',c:'#8fb3ff'},{n:'市場廣度',s:57,l:'中性偏健康',c:'#a5d6a7'}],
   fr_q:'把這四表合起來，今天市場整體偏？',
   fr_choices:['偏冒險、樂觀，可放心追高','偏防禦、謹慎——多數表在示警','完全健康，沒有風險'],
@@ -119,7 +119,7 @@ const ROUNDS=[
   reveal:'當錢從進攻（半導體、科技）流向防禦（必需消費、醫療、公用），代表市場在轉保守——換裝本身就是訊號，不必等大盤先跌。'},
 
  {type:'ab',sky:'sky-valley',bg:'range',label:'第 03 段 · 板塊動態圖',title:'會動的板塊圖',visual:'quadrant',
-  text:'把板塊強弱畫成一張「動態圖」：<b>橫軸＝現在強不強、縱軸＝正在轉強還轉弱</b>。每個板塊是一個點，後面拖一條尾巴＝最近怎麼移動。四象限：領先、改善、落後、轉弱。',
+  text:'把板塊強弱畫成一張「動態圖」：<br>橫軸＝現在強不強(相對於 SPY)<br>縱軸＝動能正在轉強還轉弱</b>。<br>每個板塊是一個點，後面拖一條尾巴＝最近怎麼移動。<br>四象限：領先、改善、落後、轉弱。',
   q:'一個板塊的點，從「改善」往「領先」移動，代表？',
   choices:['由弱轉強、動能在增強（值得留意的轉機）','已經最強、準備要崩了','沒意義，圖好看而已'],correct:0,
   fb:['對——改善→領先＝相對強度和動能同步上升，是「轉強確立」的軌跡。動態圖比單看排名，多了「往哪走」這個資訊。','「最強就要崩」是猜頂——動態圖只告訴你位置和方向，不預測崩盤。','很有意義——看「多數板塊聚在哪個象限」，就能判讀大盤整體是強是弱。']},
@@ -326,7 +326,7 @@ function showResult(){PB.style.width='100%';const s=state.score;
   <div class="chapter-label t-label" style="margin-bottom:0.8rem">整份報告讀完</div>
   <div class="result-icon">📖</div>
   <div class="result-type t-main">你會讀整份報告了</div>
-  <div class="result-desc t-sub">你剛走完市場觀察：<b>封面四表 → 核心指標 → 板塊輪動 → 板塊動態圖 → 市場廣度 → Gamma 防線 → 事件曆 → 完整研判</b>。<br><br>最重要的是你懂了：<b>報告是一條「因 → 果」的線索鏈，最後一段的結論，是前面一格一格推出來的。它給的是地圖，不是明牌。</b><br><br>判讀得分：${s} / 8（${tier}）</div>
+  <div class="result-desc t-sub">你剛走完市場觀察：<br>封面四表 → 核心指標 → 板塊輪動 → 板塊動態圖 → 市場廣度 → Gamma 防線 → 事件曆 → 完整研判</b>。<br><br>最重要的是你懂了：<b>報告是一條「因 → 果」的線索鏈，最後一段的結論，是前面一格一格推出來的。它給的是地圖，不是明牌。</b><br><br>判讀得分：${s} / 8（${tier}）</div>
   <div class="t-sub" style="font-size:13px;line-height:1.9;margin-bottom:1.3rem;max-width:410px;margin:0 auto 1.3rem">下一步，就是拿這套讀法，去讀這週真正的市場觀察。</div>
   <div style="display:flex;flex-direction:column;align-items:center;gap:0.65rem;max-width:340px;margin:0 auto">
     <a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">訂電子報，每週帶你讀懂這份報告 →</a>
