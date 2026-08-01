@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-TW"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>看懂簡報（四拍讀法）· Yoda Research</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;min-height:100%;font-family:-apple-system,'PingFang TC','Noto Sans TC',sans-serif;background:#000}
+#game{width:100%;min-height:100vh;position:relative;overflow:hidden}
+.scene{width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:3rem 1.5rem}
+.sky-start{background:linear-gradient(180deg,#0a0a1a,#1a1a3e 45%,#3a2a5e 100%)}
+.sky-dawn{background:linear-gradient(180deg,#1a1a2e,#e8b86d 60%,#f4a261)}
+.sky-noon{background:linear-gradient(180deg,#0d47a1,#1976d2 50%,#bbdefb)}
+.sky-valley{background:linear-gradient(180deg,#1b2631,#2e4057 42%,#5d7a8a)}
+.sky-clouds{background:linear-gradient(180deg,#0d47a1,#1565c0 42%,#90caf9)}
+.sky-result{background:linear-gradient(180deg,#003459,#00587a 42%,#0288d1)}
+.ink-bg{position:absolute;bottom:0;left:0;width:100%;height:170px;pointer-events:none}
+.overlay{position:relative;z-index:10;text-align:center;max-width:640px;width:100%}
+.t-main{color:#f2f5ff}.t-sub{color:rgba(228,234,247,0.84)}.t-label{color:rgba(205,214,236,0.58)}
+.sky-dawn .t-main,.sky-start .t-main{color:#fff7e6}.sky-dawn .t-sub,.sky-start .t-sub{color:rgba(255,242,214,0.82)}
+.chapter-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:0.5rem}
+.chapter-title{font-size:27px;font-weight:300;margin-bottom:1rem;line-height:1.3}
+.chapter-quote{font-size:15px;line-height:1.95;margin-bottom:2rem;font-style:italic;max-width:480px;margin:0 auto 2rem}
+.round-text{font-size:15px;line-height:1.9;margin-bottom:1.3rem;max-width:520px;margin:0 auto 1.3rem}
+.round-q{font-size:16px;font-weight:400;margin-bottom:1.3rem;line-height:1.5}
+.transition-quote{font-size:17px;max-width:430px;line-height:2.1;font-style:italic;color:rgba(216,228,255,0.86)}
+.choices{display:flex;flex-direction:column;gap:0.7rem;width:100%;max-width:480px;margin:0 auto}
+.choice-btn{background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.28);color:#fff;padding:0.9rem 1.2rem;border-radius:8px;cursor:pointer;font-size:14px;line-height:1.6;text-align:left;transition:all .2s;backdrop-filter:blur(6px)}
+.choice-btn:hover{background:rgba(0,0,0,0.45);border-color:rgba(255,255,255,0.6);transform:translateX(4px)}
+.continue-btn{background:transparent;border:1px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.8);padding:0.6rem 2rem;border-radius:4px;cursor:pointer;font-size:13px;margin-top:1.3rem;letter-spacing:1px;transition:all .2s}
+.continue-btn:hover{border-color:rgba(255,255,255,0.9);color:#fff}
+.feedback{font-size:13px;line-height:1.8;max-width:440px;margin:0.7rem auto 0;min-height:42px}
+/* 儀表滑桿 */
+.gauge-wrap{max-width:340px;margin:0 auto}
+input[type=range].gsl{width:100%;-webkit-appearance:none;appearance:none;background:transparent;height:22px;margin-top:0.2rem}
+input[type=range].gsl::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;cursor:pointer;margin-top:-7px;box-shadow:0 1px 6px rgba(0,0,0,.4)}
+input[type=range].gsl::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:linear-gradient(90deg,#5b8def,#e0a526,#e05353)}
+input[type=range].gsl::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:none;cursor:pointer}
+input[type=range].gsl::-moz-range-track{height:8px;border-radius:4px;background:linear-gradient(90deg,#5b8def,#e0a526,#e05353)}
+.gsl-ends{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,0.6);margin-top:0.3rem}
+/* 分類 */
+.cls-list{max-width:460px;margin:0 auto 0.8rem;display:flex;flex-direction:column;gap:0.5rem}
+.cls-row{display:flex;align-items:center;gap:0.6rem;background:rgba(0,0,0,0.26);border:1px solid rgba(255,255,255,0.22);border-radius:8px;padding:0.5rem 0.7rem}
+.cls-name{flex:1;text-align:left;font-size:14px;color:#fff}
+.cls-btn{border:1px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.2);color:#fff;border-radius:6px;padding:0.35rem 0.7rem;font-size:12px;cursor:pointer;transition:all .15s}
+.cls-btn.atk.on{background:rgba(224,83,83,0.32);border-color:#e05353}
+.cls-btn.def.on{background:rgba(91,141,239,0.32);border-color:#5b8def}
+.cls-row.right{border-color:rgba(120,220,140,0.7)}
+.cls-row.wrong{border-color:rgba(229,120,120,0.7)}
+.result-icon{font-size:50px;margin-bottom:0.5rem}
+.result-type{font-size:23px;font-weight:300;margin-bottom:0.7rem}
+.result-desc{font-size:14px;line-height:1.9;max-width:440px;margin:0 auto 1.3rem}
+.yoda-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);color:#fff;padding:0.85rem 2.2rem;border-radius:6px;font-size:14px;cursor:pointer;text-decoration:none;margin:0.3rem;transition:opacity .2s}
+.yoda-btn:hover{opacity:.88}
+.yoda-btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.85)}
+.progress-bar{position:fixed;top:0;left:0;height:2px;background:rgba(224,165,38,0.65);transition:width .4s;z-index:100}
+.mute-btn{position:fixed;top:14px;right:14px;z-index:101;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(6px)}
+.share-btn{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.35);color:rgba(255,255,255,0.85);padding:0.55rem 1.4rem;border-radius:4px;cursor:pointer;font-size:13px;letter-spacing:1px}
+.step-dots{display:flex;gap:6px;justify-content:center;margin-bottom:1rem}
+.step-dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.25)}
+.step-dots i.on{background:#e0a526}
+</style></head><body>
+<audio id="bgm" loop preload="auto"><source src="day_one.mp3" type="audio/mpeg"></audio>
+<button id="muteBtn" class="mute-btn" onclick="toggleMute()">🔊</button>
+<div class="progress-bar" id="progress"></div>
+<div id="game"></div>
+<script>
+const G=document.getElementById('game'),PB=document.getElementById('progress');
+const BGM=document.getElementById('bgm'),MUTEBTN=document.getElementById('muteBtn');
+let bgmStarted=false,bgmMuted=false;try{bgmMuted=localStorage.getItem('yoda_bgm_muted')==='1';}catch(e){}
+if(BGM)BGM.volume=0.30;
+function mIcon(){if(MUTEBTN)MUTEBTN.textContent=bgmMuted?'🔇':'🔊';}mIcon();
+function toggleMute(){bgmMuted=!bgmMuted;try{localStorage.setItem('yoda_bgm_muted',bgmMuted?'1':'0');}catch(e){}if(bgmMuted){if(BGM)BGM.pause();}else if(BGM)BGM.play().then(()=>bgmStarted=true).catch(()=>{});mIcon();}
+window.toggleMute=toggleMute;
+document.addEventListener('click',()=>{if(!bgmStarted&&!bgmMuted&&BGM)BGM.play().then(()=>bgmStarted=true).catch(()=>{});});
+
+// ===== 水墨背景 bg(type,sky) =====
+function inkCols(sky){const dark=['sky-storm','sky-valley','sky-dawn','sky-dusk','sky-night','sky-start'].includes(sky);
+  return dark?['rgba(210,220,245,0.10)','rgba(180,195,230,0.16)','rgba(222,232,252,0.32)']:['rgba(30,35,60,0.10)','rgba(25,30,55,0.16)','rgba(20,25,50,0.28)'];}
+const MOTIFS={
+ farhills:(f,n,l)=>`<path d="M0,70 C120,50 220,58 340,44 C460,32 560,52 700,40 C840,30 960,50 1080,42 L1200,46 L1200,120 L0,120Z" fill="${f}"/><path d="M0,86 C160,74 300,82 460,70 C640,58 780,76 940,68 C1060,62 1140,72 1200,70 L1200,120 L0,120Z" fill="${n}"/><path d="M0,70 C120,50 220,58 340,44 C460,32 560,52 700,40 C840,30 960,50 1080,42 L1200,46" fill="none" stroke="${l}" stroke-width="1.4"/>`,
+ range:(f,n,l)=>`<path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38 L1200,120 L0,120Z" fill="${f}"/><path d="M0,82 C160,66 320,76 480,60 C640,46 800,70 960,60 C1080,54 1160,64 1200,62 L1200,120 L0,120Z" fill="${n}"/><path d="M0,100 C220,90 420,96 640,86 C860,78 1020,92 1200,84 L1200,120 L0,120Z" fill="${n}"/><path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38" fill="none" stroke="${l}" stroke-width="1.2" opacity="0.85"/>`};
+function bg(type,sky){const m=MOTIFS[type];if(!m)return '';const[f,n,l]=inkCols(sky);return `<svg class="ink-bg" viewBox="0 0 1200 120" preserveAspectRatio="none">${m(f,n,l)}</svg>`;}
+
+const OPENING={sky:'sky-dawn',bg:'farhills',label:'序',title:'你只看標題就滑掉',quotes:[
+ '你每天收到簡報，卻常常只看一眼標題就滑掉。',
+ '或直接跳到最後，看它喊多還喊空。',
+ '但一則好簡報，其實就三拍：發生什麼、為什麼、該注意什麼。',
+ '學會這三拍，30 秒讀完一則，還讀得懂。'
+]};
+
+const ROUNDS=[
+ {type:'ab',sky:'sky-noon',bg:'farhills',label:'第 1 拍 · 發生什麼',title:'先讀那句「定調」',
+  text:'簡報最上面通常有一句「定調」——用一句話講今天市場的情緒與方向。這句先讀，就抓到框架了。<br><br>示例定調句：<b>「指數表面持平，底下卻在大換血——某類股領跌、資金換手到另一批。是換手，不是崩盤。」</b>',
+  q:'這句定調，最關鍵的訊息是？',
+  choices:['指數持平，所以今天沒事','表面沒動，但底下在換手——是換手不是崩盤','市場要崩了，快逃'],correct:1,
+  fb:['「持平」只是表面；定調句的重點在「底下在換手」，別被表面騙了。','對——定調句用一句話給你框架：不是崩盤，是資金換邊。先抓到這個，後面才讀得懂。','它明明說「是換手不是崩盤」——定調句要讀完整句，不是看到「跌」就恐慌。']},
+
+ {type:'ab',sky:'sky-valley',bg:'range',label:'第 2 拍 · 為什麼＋對我',title:'找那句「對我的意義」',
+  text:'定調之後，簡報給「為什麼」——通常是本週一兩件關鍵事。<br>但對你最有用的，是每件事後面那句「<b>對散戶的意義</b>」：它把新聞翻成「所以我該怎麼想」。<br><br>示例事件：<b>某類股被整批倒貨，資金換到防禦板塊。</b>',
+  q:'下面哪一句，才是這件事「對我的意義」？',
+  choices:['記住這個板塊的英文代號','這是有紀律的調倉、不是崩盤，別急著去接下跌那批的刀','趕快把手上的全部賣掉'],correct:1,
+  fb:['記代號沒用——你要的是「所以我該怎麼想」，不是背名詞。','對——「對我的意義」把新聞翻成行動含意：別接刀。這句才是簡報給你的價值。','它說的是「換手不是崩盤」，全賣是把換手誤讀成崩盤、過度反應了。']},
+
+ {type:'ab',sky:'sky-clouds',bg:'farhills',label:'第 3 拍 · 該注意什麼',title:'標好觀察點',
+  text:'最後，簡報給「該注意什麼」——一個關鍵價位、和未來幾天的大事件。這是前瞻：先知道盯哪裡、哪天可能有事。<br><br>示例：<b>「某指數 675 是多空分水嶺——站穩，換手續走；跌破 650 才算真轉弱。未來：今晚有利率決議。」</b>',
+  q:'這段「該注意什麼」要你做的是？',
+  choices:['現在就照 675 這個數字買賣','心裡先標好：675 站穩／跌破各代表什麼、利率決議當天留意','記不住，跳過'],correct:1,
+  fb:['它沒喊買賣——關鍵價位是「觀察點」，不是進出訊號。','對——前瞻就是先把「若站穩→這樣、若跌破→那樣」和事件日標記好，不被突襲。','別跳過——這格最實用：它幫你把注意力放對地方。']},
+
+ {type:'ab',sky:'sky-clear',bg:'range',label:'第 4 拍 · 橋接',title:'什麼時候該看完整報告？',
+  text:'你已經會讀簡報三拍了。<br>那什麼時候要往「完整報告」深入？<br><br>簡報給你「<b>結論＋一兩個關鍵理由</b>」，完整報告給你「<b>七格完整的證據鏈</b>」。',
+  q:'什麼情況，你該從簡報往完整報告深入？',
+  choices:['永遠只看簡報就好，報告太長','當你想知道「這個結論背後，每一格證據長怎樣、憑什麼」的時候','都不用看，直接問別人明牌'],correct:1,
+  fb:['簡報夠你快速掌握，但只看簡報，你會「知其然不知其所以然」，一遇分歧就慌。','對——簡報是入口、報告是深水區。想從「聽懂結論」升級成「自己判斷」，就往完整報告走。','問明牌＝要答案不要地圖。簡報和報告給的都是地圖，那才是能複製的能力。']}
+];
+const TRANSITIONS=[null,null,'三拍，你會了。那——什麼時候該往更深的地方走？',null];
+
+let state={idx:-1,score:0,gv:50,cls:[null,null,null,null,null,null],match:[null,null,null,null],mChecked:false};
+
+// 名詞白話＋答案（給我答案用）
+const ANS=[
+ {answer:'表面沒動、但底下在換手——是換手，不是崩盤。',terms:[
+   ['定調句','簡報開頭用一句話總結今天市場的情緒與方向；先讀它就抓到框架'],
+   ['換手（輪動）','錢從一批股票搬到另一批，不是整個離場——所以不等於崩盤'],
+   ['框架','先有一個「今天大概是什麼情況」的判斷，後面的細節才有地方擺']]},
+ {answer:'「這是有紀律的調倉、別急著接下跌那批的刀」——這句才是行動含意。',terms:[
+   ['對散戶的意義','把專業訊息翻成「你該怎麼想／該注意什麼」的一句話，是簡報最有價值的部分'],
+   ['接刀','在下跌途中買進、想撿便宜，常常越接越傷'],
+   ['調倉','把資金部位從一批換到另一批（例：從進攻換到防禦），是常態操作']]},
+ {answer:'心裡先標好觀察點：675 站穩／跌破各代表什麼、事件當天留意——不是照數字買賣。',terms:[
+   ['關鍵價位','一個當作「觀察分界」的價；站穩和跌破代表不同意義，不是買賣訊號'],
+   ['多空分水嶺','站上偏多、跌破偏空的那條線'],
+   ['利率決議（FOMC）','美國央行決定利率的會議，常牽動整個大盤，是重要事件日']]},
+ {answer:'當你想知道「這個結論背後，每一格證據長怎樣、憑什麼」的時候。',terms:[
+   ['簡報','濃縮版：結論＋一兩個關鍵理由，30 秒快速掌握'],
+   ['完整報告','七格完整的證據鏈；想「自己判斷」而不只是聽結論時才需要'],
+   ['知其然不知其所以然','只知道結論、不知道為什麼——一遇到反例或分歧就會慌']]}
+];
+function giveAnswer(i){const r=ROUNDS[i],a=ANS[i];
+ const gloss=`<div style="font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.5);margin:0.85rem 0 0.5rem">名詞白話</div>`+a.terms.map(t=>`<div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,0.9);margin-bottom:0.42rem;text-align:left"><b style="color:#e0a526">${t[0]}</b>：${t[1]}</div>`).join('');
+ const box=inner=>`<div style="max-width:470px;margin:0.5rem auto 0;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.28);border-radius:10px;padding:1rem 1.2rem;backdrop-filter:blur(6px)">${inner}</div>`;
+ const ansLine=`<div style="font-size:14px;line-height:1.7;color:#fff;text-align:left"><b style="color:#a5d6a7">答案：</b>${a.answer}</div>`;
+ if(r.type==='classify'){
+   r.items.forEach((it,k)=>state.cls[k]=it[1]);
+   const rows=r.items.map(it=>`<div class="cls-row right"><div class="cls-name">${it[0]}</div><button class="cls-btn ${it[1]} on" disabled>${it[1]==='atk'?'進攻':'防禦'}</button></div>`).join('');
+   G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main">${r.q}</div><div class="cls-list">${rows}</div>${box(ansLine+`<div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,0.86);margin-top:0.55rem;text-align:left">${r.reveal}</div>`+gloss)}<button class="continue-btn" onclick="record(${i})">懂了，繼續 ›</button>`);
+ }else if(r.type==='match'){
+   r.items.forEach((it,k)=>state.match[k]=it.a);
+   const rows=r.items.map(it=>`<div class="cls-row right"><div class="cls-name">${it.name}</div><button class="cls-btn on" style="border-color:#7cdc9a;background:rgba(80,200,110,0.18)" disabled>${it.a}</button></div>`).join('');
+   G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main">${r.q}</div><div class="cls-list">${rows}</div>${box(ansLine+`<div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,0.86);margin-top:0.55rem;text-align:left">${r.reveal}</div>`+gloss)}<button class="continue-btn" onclick="record(${i})">懂了，繼續 ›</button>`);
+ }else if(r.type==='gauge'){
+   G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="gauge-wrap">${gaugeSVG(18)}<div class="feedback" style="margin-top:0.6rem">${r.fb(18)}</div></div>${box(ansLine+gloss)}<button class="continue-btn" onclick="record(${i})">懂了，繼續 ›</button>`);
+ }else{
+   const ch=r.choices.map((c,k)=>`<div class="choice-btn" style="cursor:default;${k===r.correct?'border-color:#a5d6a7;background:rgba(80,200,110,0.14)':'opacity:0.45'}">${k===r.correct?'✓ ':''}${c}</div>`).join('');
+   G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}${r.visual?visualHTML(r.visual):''}<div class="choices">${ch}</div><div class="feedback" style="color:#a5d6a7;min-height:auto;font-size:14px">${r.fb[r.correct]}</div>${box(gloss)}<button class="continue-btn" onclick="record(${i})">懂了，繼續 ›</button>`);
+ }}
+
+// R1 四表逐一介紹（介紹完再互動）
+function renderGaugeIntro(i){const r=ROUNDS[i];
+ G.innerHTML=scene(r.sky,r.bg,`${dots(i)}<div class="chapter-label t-label">${r.label}</div><div class="chapter-title t-main" style="font-size:22px;margin-bottom:0.8rem">${r.title}</div>
+  <div class="round-text t-sub" style="margin-bottom:0.9rem">報告第一段給你四支「溫度計」。先一支一支認識它們：</div>
+  <div style="max-width:480px;margin:0 auto 0.6rem;text-align:left;font-size:13.5px;line-height:1.75;color:rgba(255,255,255,0.92)">
+   <div style="margin-bottom:0.55rem"><b style="color:#e0a526">① 資金流</b>：錢在流進來還是流出去——市場在加碼還是撤退。</div>
+   <div style="margin-bottom:0.55rem"><b style="color:#e0a526">② 情緒</b>：大家是貪還是怕——用波動大小、賭盤方向來量。</div>
+   <div style="margin-bottom:0.55rem"><b style="color:#e0a526">③ 風險偏好</b>：資金在冒險（敢衝）還是避險（抱穩、抱現金）。</div>
+   <div style="margin-bottom:0.55rem"><b style="color:#e0a526">④ 廣度</b>：上漲的是「多數股」，還是「少數大牛股」在撐。</div>
+  </div>
+  <div class="round-text t-sub" style="font-size:12.5px;margin-top:0.2rem;opacity:0.85">每一支都是很多細指標壓成的一個「溫度」。來，試讀第三支：風險偏好。</div>
+  <button class="continue-btn" onclick="renderGauge(${i})">試讀看看 ›</button>`);}
+function prog(){PB.style.width=(Math.max(0,state.idx)/ROUNDS.length*100)+'%';}
+function dots(i){return `<div class="step-dots">${ROUNDS.map((_,k)=>`<i class="${k<=i?'on':''}"></i>`).join('')}</div>`;}
+function fade(fn){G.style.transition='opacity .32s';G.style.opacity='0';setTimeout(()=>{fn();G.style.opacity='1';},330);}
+function scene(sky,bgtype,inner){return `<div class="scene ${sky}">${bg(bgtype,sky)}<div class="overlay">${inner}</div></div>`;}
+function head(r){return `<div class="chapter-label t-label">${r.label}</div><div class="chapter-title t-main" style="font-size:22px;margin-bottom:0.9rem">${r.title}</div><div class="round-text t-sub">${r.text}</div>`;}
+
+function showStart(){G.innerHTML=scene('sky-start','farhills',`
+  <div class="chapter-label t-label" style="margin-bottom:1rem">YODA RESEARCH</div>
+  <div class="chapter-title t-main" style="font-size:30px;font-weight:200;letter-spacing:1px;margin-bottom:0.4rem">看懂簡報</div>
+  <div class="t-sub" style="font-size:14px;margin-bottom:0.3rem;font-style:italic">四拍讀法：30 秒讀懂一則簡報</div>
+  <div class="t-label" style="font-size:12px;margin-bottom:2.6rem">約 2 分鐘 · 通用範例，非任何一日的實際研判</div>
+  <button class="continue-btn" style="font-size:15px;padding:0.85rem 3.2rem;border-radius:6px;letter-spacing:2px" onclick="fade(startOpening)">開始</button>`);}
+let oi=0;function startOpening(){oi=0;renderOpening();}
+function renderOpening(){const q=OPENING.quotes[oi],last=oi>=OPENING.quotes.length-1;
+ G.innerHTML=scene(OPENING.sky,OPENING.bg,`<div class="chapter-label t-label">${OPENING.label}</div><div class="chapter-title t-main">${OPENING.title}</div><div class="chapter-quote t-sub">${q}</div><button class="continue-btn" onclick="nextOpening()">${last?'開始第一拍 ›':'繼續 ›'}</button>`);}
+function nextOpening(){oi++;if(oi>=OPENING.quotes.length)fade(()=>showRound(0));else fade(renderOpening);}
+
+function showRound(i){state.idx=i;prog();const r=ROUNDS[i];
+ if(r.type==='gauge')renderGaugeIntro(i);else if(r.type==='classify')renderClassify(i);else if(r.type==='match')renderMatch(i);else renderAB(i);}
+
+// R1 儀表滑桿
+function gaugeSVG(val){const min=0,max=100,f=v=>Math.PI*(1-(v-min)/(max-min)),R=120,ax=250+R*Math.cos(f(val)),ay=170-R*Math.sin(f(val));
+ return `<svg viewBox="0 0 500 200" style="width:100%;max-width:320px"><path d="M130,170 A120,120 0 0,1 370,170" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="14"/><line x1="250" y1="170" x2="${ax}" y2="${ay}" stroke="#e0a526" stroke-width="5" stroke-linecap="round"/><circle cx="250" cy="170" r="8" fill="#e0a526"/><text x="250" y="128" fill="#fff" font-size="26" font-weight="300" text-anchor="middle">${val}</text><text x="130" y="192" fill="rgba(91,141,239,0.9)" font-size="12" text-anchor="middle">防禦</text><text x="370" y="192" fill="rgba(224,83,83,0.9)" font-size="12" text-anchor="middle">冒險</text></svg>`;}
+function renderGauge(i){const r=ROUNDS[i];state.gv=50;
+ function draw(){G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main" style="font-size:14.5px">${r.q}</div>
+   <div class="gauge-wrap">${gaugeSVG(state.gv)}<input type="range" class="gsl" min="0" max="100" value="${state.gv}" oninput="state.gv=parseInt(this.value);drawGauge()">
+   <div class="gsl-ends"><span>${r.left}</span><span>${r.right}</span></div><div class="feedback" id="fbg"></div></div>
+   <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap"><button class="continue-btn" onclick="gaugeDone(${i})">就這樣 ›</button><button class="continue-btn" style="opacity:0.72" onclick="giveAnswer(${i})">給我答案</button></div>`);}
+ window.drawGauge=draw;draw();}
+function gaugeDone(i){const r=ROUNDS[i];if(r.correct(state.gv))state.score++;
+ G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="gauge-wrap">${gaugeSVG(state.gv)}<div class="feedback" style="margin-top:0.8rem">${r.fb(state.gv)}</div></div><button class="continue-btn" onclick="record(${i})">繼續 ›</button>`);}
+
+// R2 分類
+function renderClassify(i){const r=ROUNDS[i];
+ function draw(){const rows=r.items.map((it,k)=>`<div class="cls-row" id="cr${k}"><div class="cls-name">${it[0]}</div>
+   <button class="cls-btn atk ${state.cls[k]==='atk'?'on':''}" onclick="setCls(${k},'atk')">進攻</button>
+   <button class="cls-btn def ${state.cls[k]==='def'?'on':''}" onclick="setCls(${k},'def')">防禦</button></div>`).join('');
+  const done=state.cls.every(x=>x!==null);
+  G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main">${r.q}</div><div class="cls-list">${rows}</div>
+   <div class="feedback" id="fbc" style="min-height:24px"></div>
+   <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap">${done?`<button class="continue-btn" onclick="clsCheck(${i})">檢查</button>`:''}<button class="continue-btn" style="opacity:0.72" onclick="giveAnswer(${i})">給我答案</button></div>`);}
+ window.drawCls=draw;draw();}
+function setCls(k,v){state.cls[k]=v;window.drawCls();}
+function clsCheck(i){const r=ROUNDS[i];let ok=0;
+ r.items.forEach((it,k)=>{const row=document.getElementById('cr'+k);const right=state.cls[k]===it[1];if(right)ok++;row.classList.add(right?'right':'wrong');});
+ state.score+= (ok>=5?1:0);
+ document.getElementById('fbc').innerHTML=`<span style="color:${ok===6?'#a5d6a7':'#ffcc80'}">答對 ${ok}/6。${r.reveal}</span>`;
+ G.querySelector('.continue-btn').outerHTML=`<button class="continue-btn" onclick="record(${i})">繼續 ›</button>`;}
+
+// 二選一 / 三選一（可帶視覺）
+function visualHTML(kind){if(kind==='ladder')return `<div style="margin:0 auto 0.6rem">${ladderSVG()}</div>`;return '';}
+function ladderSVG(){return `<svg viewBox="0 0 340 210" style="width:100%;max-width:310px"><line x1="46" y1="26" x2="300" y2="26" stroke="rgba(224,83,83,0.85)" stroke-width="2"/><text x="52" y="20" fill="#ff8a80" font-size="12">Call 牆（上檔壓力）</text><line x1="46" y1="78" x2="300" y2="78" stroke="rgba(224,165,38,0.85)" stroke-width="2" stroke-dasharray="4 3"/><text x="52" y="72" fill="#e0a526" font-size="12">Max Pain（磁吸中樞）</text><line x1="46" y1="140" x2="300" y2="140" stroke="#fff" stroke-width="2.5"/><circle cx="173" cy="140" r="5" fill="#fff"/><text x="52" y="134" fill="#fff" font-size="12">現價（逼近下方）</text><line x1="46" y1="182" x2="300" y2="182" stroke="rgba(91,141,239,0.95)" stroke-width="3.5"/><text x="52" y="201" fill="#8fb3ff" font-size="12">Put 牆（下方支撐）</text></svg>`;}
+function renderAB(i){const r=ROUNDS[i];
+ G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}${r.visual?visualHTML(r.visual):''}<div class="round-q t-main">${r.q}</div>
+  <div class="choices">${r.choices.map((c,k)=>`<button class="choice-btn" onclick="abPick(${i},${k})">${c}</button>`).join('')}</div>
+  <button class="continue-btn" style="opacity:0.72" onclick="giveAnswer(${i})">給我答案</button>`);}
+function abPick(i,k){const r=ROUNDS[i];if(k===r.correct)state.score++;
+ const col=k===r.correct?'#a5d6a7':'#ffcc80';
+ G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}${r.visual?visualHTML(r.visual):''}<div class="feedback" style="color:${col};min-height:auto;font-size:14px">${r.fb[k]}</div><button class="continue-btn" onclick="record(${i})">繼續 ›</button>`);}
+
+// 核心指標配對（match）
+function renderMatch(i){const r=ROUNDS[i];state.match=[null,null,null,null];state.mChecked=false;
+ function draw(){
+  const rows=r.items.map((it,k)=>{
+   let cls='';if(state.mChecked)cls=state.match[k]===it.a?'right':'wrong';
+   const btns=r.cats.map(c=>`<button class="cls-btn ${state.match[k]===c?'on':''}" style="${state.match[k]===c?'border-color:#e0a526;background:rgba(224,165,38,0.28)':''}" ${state.mChecked?'disabled':''} onclick="setMatch(${k},'${c}')">${c}</button>`).join('');
+   return `<div class="cls-row ${cls}" style="flex-wrap:wrap"><div class="cls-name" style="flex:1 0 100%;margin-bottom:0.3rem">${it.name}</div><div style="display:flex;gap:0.3rem;flex-wrap:wrap;width:100%">${btns}</div></div>`;
+  }).join('');
+  const done=state.match.every(x=>x!==null);
+  let fb='',btnrow='';
+  if(state.mChecked){const ok=r.items.filter((it,k)=>state.match[k]===it.a).length;
+   fb=`<span style="color:${ok===r.items.length?'#a5d6a7':'#ffcc80'}">答對 ${ok}/${r.items.length}。${r.reveal}</span>`;
+   btnrow=`<button class="continue-btn" onclick="record(${i})">繼續 ›</button>`;
+  }else{
+   btnrow=`<div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap">${done?`<button class="continue-btn" onclick="matchDoCheck(${i})">檢查</button>`:''}<button class="continue-btn" style="opacity:0.72" onclick="giveAnswer(${i})">給我答案</button></div>`;
+  }
+  G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main">${r.q}</div><div class="cls-list">${rows}</div><div class="feedback" style="min-height:24px">${fb}</div>${btnrow}`);
+ }
+ window.drawMatch=draw;draw();}
+function setMatch(k,c){state.match[k]=c;window.drawMatch();}
+function matchDoCheck(i){const r=ROUNDS[i];const ok=r.items.filter((it,k)=>state.match[k]===it.a).length;if(ok>=r.items.length-1)state.score++;state.mChecked=true;window.drawMatch();}
+
+function record(i){const t=TRANSITIONS[i];if(t)fade(()=>showTrans(t,i));else advance(i);}
+function showTrans(txt,i){G.innerHTML=`<div class="scene" style="background:linear-gradient(180deg,#020408,#0a0714,#141020);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:3rem 1.5rem"><div class="overlay"><div class="transition-quote">${txt}</div><button class="continue-btn" onclick="advance(${i})">繼續 ›</button></div></div>`;}
+function advance(i){const n=i+1;if(n>=ROUNDS.length)fade(showResult);else fade(()=>showRound(n));}
+
+function showResult(){PB.style.width='100%';const s=state.score;
+ const tier=s>=4?'穩':s>=2?'入門':'再走一次';
+ G.innerHTML=scene('sky-result','farhills',`
+  <div class="chapter-label t-label" style="margin-bottom:0.8rem">四拍讀完</div>
+  <div class="result-icon">📖</div>
+  <div class="result-type t-main">你會讀簡報了</div>
+  <div class="result-desc t-sub">你剛學會用三拍讀一則簡報：<b>發生什麼（定調）→ 為什麼＋對我（行動含意）→ 該注意什麼（前瞻）</b>。<br><br>而且你知道了：<b>簡報給結論、報告給證據。</b>想從「聽懂結論」升級成「自己判斷」，下一步就是完整報告。<br><br>判讀得分：${s} / 4（${tier}）</div>
+  <div class="t-sub" style="font-size:13px;line-height:1.9;margin-bottom:1.3rem;max-width:410px;margin:0 auto 1.3rem">簡報看懂了？想知道每個判斷背後的完整證據，下一步就是完整報告。</div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:0.65rem;max-width:340px;margin:0 auto">
+    <a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">訂電子報，每天一則簡報帶你練這三拍 →</a>
+    <a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">下一課：看懂完整報告七段 →</a>
+    <button class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0;border:none" id="shareBtn" onclick="shareGame()">分享：讓只看結論的朋友也學會讀報告</button>
+  </div>
+  <a href="javascript:void(0)" onclick="restart()" style="display:inline-block;margin-top:0.9rem;font-size:12px;color:rgba(255,255,255,0.55);text-decoration:underline">重玩一次</a>
+  <div id="sfb" style="font-size:12px;color:rgba(160,220,255,0.7);margin-top:0.5rem;height:16px"></div>
+  <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1.4rem">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" style="color:rgba(224,165,38,0.6);text-decoration:none">BiBiPiano</a></div>`);}
+function restart(){state={idx:-1,score:0,gv:50,cls:[null,null,null,null,null,null],match:[null,null,null,null],mChecked:false};oi=0;PB.style.width='0%';fade(showStart);}
+function shareGame(){const url=window.location.href.split('?')[0];const t='我剛玩了《看懂簡報》——2 分鐘學會用三拍讀懂一則簡報，不再只看標題。';
+ const fb=document.getElementById('sfb');
+ if(navigator.share){navigator.share({title:'看懂簡報 · Yoda',text:t,url}).catch(()=>{});return;}
+ navigator.clipboard.writeText(url).then(()=>{fb.textContent='網址已複製，貼去分享吧';setTimeout(()=>fb.textContent='',2500);}).catch(()=>{fb.textContent=url;});}
+['startOpening','nextOpening','showRound','renderGaugeIntro','renderGauge','renderMatch','setMatch','matchDoCheck','giveAnswer','gaugeDone','setCls','clsCheck','abPick','record','advance','showResult','restart','shareGame','fade'].forEach(n=>window[n]=eval(n));
+window.state=state;
+showStart();
+</script></body></html>
