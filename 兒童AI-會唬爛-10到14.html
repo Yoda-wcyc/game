@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-TW"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AI 會唬爛！— 不被 AI 騙的第一課</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;min-height:100%}
+body{font-family:-apple-system,'PingFang TC','Noto Sans TC','Segoe UI',sans-serif;background:linear-gradient(160deg,#8ed7ff 0%,#bfeaff 40%,#fff4d6 100%);min-height:100vh;color:#2a3550}
+#app{max-width:520px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:1.4rem 1.1rem 2.5rem}
+.dots{display:flex;gap:7px;margin:0.2rem 0 0.9rem}
+.dots i{width:9px;height:9px;border-radius:50%;background:rgba(42,53,80,0.18)}
+.dots i.on{background:#ff9f43}
+.mascot{margin:0.2rem 0 0.3rem}
+.bubble{background:#fff;border-radius:18px;padding:1rem 1.2rem;box-shadow:0 6px 20px rgba(60,90,140,0.15);font-size:16px;line-height:1.75;position:relative;width:100%;margin-bottom:0.5rem}
+.bubble:after{content:'';position:absolute;top:-10px;left:40px;border-left:10px solid transparent;border-right:10px solid transparent;border-bottom:10px solid #fff}
+.tag{font-size:12px;letter-spacing:2px;color:#ff9f43;font-weight:700;margin-bottom:0.5rem;text-align:center}
+.q{font-size:17px;font-weight:700;line-height:1.6;margin:0.3rem 0 0.9rem;text-align:center;color:#22314f}
+.opts{display:flex;flex-direction:column;gap:0.6rem;width:100%}
+.opt{background:#fff;border:2.5px solid #d6e6f5;border-radius:16px;padding:0.95rem 1.1rem;font-size:15.5px;font-weight:600;color:#2a3550;cursor:pointer;text-align:left;transition:all .15s;box-shadow:0 3px 10px rgba(60,90,140,0.08)}
+.opt:hover{border-color:#ff9f43;transform:translateY(-2px)}
+.opt.right{border-color:#3ecf8e;background:#e9fbf2}
+.opt.wrong{border-color:#ff7676;background:#fff0f0;opacity:.85}
+.opt.dim{opacity:.45}
+.btn{background:linear-gradient(135deg,#ff9f43,#ff7e5f);color:#fff;border:none;border-radius:40px;padding:0.85rem 2.6rem;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 6px 16px rgba(255,126,80,0.35);margin-top:1rem;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:#fff;color:#ff8143;border:2.5px solid #ffc89a;box-shadow:none;padding:0.7rem 1.6rem;font-size:14px}
+.peek{background:none;border:none;color:#5b7aa8;font-size:13px;text-decoration:underline;cursor:pointer;margin-top:0.9rem}
+.fb{background:#fff8ec;border:2px solid #ffe0b3;border-radius:14px;padding:0.9rem 1.1rem;font-size:15px;line-height:1.7;margin-top:0.9rem;width:100%;text-align:left}
+.fb.good{background:#e9fbf2;border-color:#a8ecc9}
+.parent{background:rgba(255,255,255,0.7);border:1.5px dashed #a9c4e0;border-radius:14px;padding:0.85rem 1rem;font-size:13px;line-height:1.7;color:#42597a;margin-top:1.1rem;width:100%}
+.badge{font-size:56px;margin:0.3rem 0}
+.big{font-size:23px;font-weight:800;color:#22314f;margin-bottom:0.5rem;text-align:center}
+.center{display:flex;flex-direction:column;align-items:center;text-align:center}
+</style></head>
+<body><div id="app"></div>
+<script>
+const APP=document.getElementById('app');
+
+// ===== 主題人物（小P 機器人）＋寵物（嗶嗶）=====
+function mascot(mood){ // mood: 'normal' | 'happy' | 'oops' | 'talk'
+ const eyes=mood==='happy'?'<path d="M52,74 q8,-9 16,0" stroke="#22314f" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M84,74 q8,-9 16,0" stroke="#22314f" stroke-width="4" fill="none" stroke-linecap="round"/>'
+   :mood==='oops'?'<circle cx="60" cy="74" r="6" fill="#22314f"/><circle cx="92" cy="74" r="6" fill="#22314f"/><circle cx="62" cy="72" r="2" fill="#fff"/><circle cx="94" cy="72" r="2" fill="#fff"/>'
+   :'<circle cx="60" cy="73" r="7" fill="#22314f"/><circle cx="92" cy="73" r="7" fill="#22314f"/><circle cx="62" cy="70" r="2.5" fill="#fff"/><circle cx="94" cy="70" r="2.5" fill="#fff"/>';
+ const mouth=mood==='happy'?'<path d="M60,92 q16,16 32,0" stroke="#22314f" stroke-width="4" fill="#ff9f43" stroke-linecap="round"/>'
+   :mood==='oops'?'<ellipse cx="76" cy="94" rx="8" ry="6" fill="#22314f"/>'
+   :'<path d="M64,93 q12,8 24,0" stroke="#22314f" stroke-width="4" fill="none" stroke-linecap="round"/>';
+ return `<svg width="150" height="130" viewBox="0 0 152 130" class="mascot">
+   <line x1="76" y1="20" x2="76" y2="34" stroke="#7bd0ff" stroke-width="4"/><circle cx="76" cy="16" r="7" fill="#ff9f43"/>
+   <rect x="30" y="34" width="92" height="80" rx="22" fill="#eafaff" stroke="#7bd0ff" stroke-width="4"/>
+   <rect x="44" y="52" width="64" height="40" rx="14" fill="#fff"/>
+   ${eyes}${mouth}
+   <circle cx="24" cy="70" r="6" fill="#7bd0ff"/><circle cx="128" cy="70" r="6" fill="#7bd0ff"/>
+   <!-- 寵物 嗶嗶 -->
+   <g><ellipse cx="126" cy="112" rx="17" ry="15" fill="#ffd76b" stroke="#f4b73f" stroke-width="3"/><circle cx="121" cy="110" r="2.6" fill="#22314f"/><circle cx="131" cy="110" r="2.6" fill="#22314f"/><path d="M120,117 q6,5 12,0" stroke="#22314f" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M126,97 l0,-7" stroke="#f4b73f" stroke-width="2.5"/><circle cx="126" cy="88" r="2.5" fill="#ffd76b"/></g>
+ </svg>`;
+}
+function dots(i){return `<div class="dots">${ROUNDS.map((_,k)=>`<i class="${k<i?'on':''}"></i>`).join('')}</div>`;}
+
+// ===== 開場 =====
+const OPENING=[
+ {m:'talk',t:'嗨！我是小P，一個 AI。旁邊這隻黃黃的是我的寵物<b>嗶嗶</b> 👋'},
+ {m:'normal',t:'我什麼問題都能回答……但我要偷偷告訴你一個祕密：'},
+ {m:'oops',t:'我有時候會<b>一本正經地說錯</b>——大人把這個叫做「<b>AI 會唬爛</b>」。'},
+ {m:'happy',t:'今天這一課，我教你怎麼<b>不被我（還有其他 AI）騙到</b>。準備好了嗎？'}
+];
+
+// ===== 四關 =====
+const ROUNDS=[
+ {tag:'第 1 關 · 認出唬爛',m:'oops',
+  say:'我先示範一次。我很有自信地跟你說：<br><b>「長頸鹿的脖子太長，所以牠們睡覺時要把頭掛在樹上。」</b>',
+  q:'你覺得這句話——',
+  opts:['一定是真的，AI 不會錯','聽起來怪怪的，我要查證看看','直接抄到作業裡'],correct:1,
+  fb:['其實 AI 也會錯喔！這句是我編的——長頸鹿才不會把頭掛樹上 😅','答對！長頸鹿睡覺是把頭靠在自己身上。你覺得「怪怪的」那個直覺超準——有疑問就去查證！','先別抄！萬一是我唬爛的，你的作業就跟著錯了。'],
+  peek:'正解是「聽起來怪怪的，要查證」。AI 會把假的事情講得很有自信，你覺得怪怪的時候，通常要停下來查一下。'},
+
+ {tag:'第 2 關 · 它為什麼會唬爛',m:'talk',
+  say:'你可能想問：AI 為什麼說錯還這麼有自信？<br>因為我不是「真的懂」——我比較像一台<b>「文字接龍機器」</b>：我挑<b>接起來最順</b>的字，不一定是<b>最正確</b>的字。',
+  q:'所以 AI 給你答案，其實是靠什麼？',
+  opts:['它真的知道正確答案','猜一個「聽起來最順」的答案','偷偷去問它媽媽'],correct:1,
+  fb:['不是喔～我常常沒有「真的知道」，只是講得像知道。','答對！我是靠「猜最順的字」。而「順」不等於「對」，所以我才會很有自信地說錯。','哈哈我沒有媽媽啦～我只是一台猜字的機器。'],
+  peek:'AI 是靠「猜聽起來最順的字」來回答的。順 ≠ 對，這就是它會唬爛的原因。'},
+
+ {tag:'第 3 關 · 三招不被騙',m:'normal',
+  say:'那該怎麼辦？記住這三招，你就很難被 AI 騙：<br>① <b>自己查</b>（課本、官網、圖書館）<br>② <b>問大人或老師</b><br>③ <b>多找一個地方對答案</b>',
+  q:'AI 給了你一個答案，最聰明的做法是？',
+  opts:['直接相信，它看起來很聰明','先查一下、或問信得過的大人','再問 AI 同一題一次就好'],correct:1,
+  fb:['「看起來聰明」正是它最會騙人的地方，別只看表面。','答對！查證＋問信得過的大人，是最強的一招 💪','再問 AI 一次，它可能又唬爛一次 😅——要去「AI 以外」的地方對答案才算數。'],
+  peek:'最好的做法是「自己查」或「問信得過的大人／老師」，而且要去 AI 以外的地方對答案。'},
+
+ {tag:'第 4 關 · 聰明用 AI',m:'happy',
+  say:'最後一關！<br>你在寫一份報告，想用 AI 幫忙。哪個做法最聰明？',
+  q:'',
+  opts:['把 AI 寫的整段複製貼上就交出去','用 AI 給的方向，自己再查資料、用自己的話寫','叫 AI 全部幫我寫完，我去玩'],correct:1,
+  fb:['整段照抄很危險——萬一裡面有唬爛，你也跟著錯，而且你沒學到東西。','答對！AI 是幫你「想」的工具，不是幫你「抄」的機器。自己查、自己寫，你才真的學會，也不會被唬爛拖下水 🌟','全部丟給 AI，你就少了自己變聰明的機會，還可能交出一堆錯的。'],
+  peek:'正解：用 AI 給的方向，但自己查證、用自己的話寫。AI 幫你想，不幫你抄。'}
+];
+
+let idx=0,oi=0,score=0;
+
+function start(){oi=0;renderOpening();}
+function renderOpening(){const o=OPENING[oi],last=oi>=OPENING.length-1;
+ APP.innerHTML=`<div class="center">${mascot(o.m)}<div class="bubble">${o.t}</div>
+   <button class="btn" onclick="nextOpening()">${last?'開始挑戰 🚀':'下一句 ›'}</button></div>`;}
+function nextOpening(){oi++;if(oi>=OPENING.length){idx=0;showRound();}else renderOpening();}
+
+function showRound(){const r=ROUNDS[idx];
+ APP.innerHTML=`${dots(idx)}<div class="center" style="width:100%">${mascot(r.m)}
+  <div class="tag">${r.tag}</div>
+  <div class="bubble">${r.say}</div>
+  ${r.q?`<div class="q">${r.q}</div>`:''}
+  <div class="opts">${r.opts.map((o,k)=>`<button class="opt" onclick="pick(${k})">${o}</button>`).join('')}</div>
+  <button class="peek" onclick="peek()">🙈 偷看答案</button></div>`;}
+
+function pick(k){const r=ROUNDS[idx];const ok=k===r.correct;if(ok)score++;
+ APP.innerHTML=`${dots(idx)}<div class="center" style="width:100%">${mascot(ok?'happy':'oops')}
+  <div class="tag">${r.tag}</div>
+  <div class="opts">${r.opts.map((o,j)=>`<div class="opt ${j===r.correct?'right':(j===k?'wrong':'dim')}">${j===r.correct?'✓ ':(j===k?'✗ ':'')}${o}</div>`).join('')}</div>
+  <div class="fb ${ok?'good':''}">${r.fb[k]}</div>
+  <button class="btn" onclick="next()">${idx>=ROUNDS.length-1?'看結果 🎉':'下一關 ›'}</button></div>`;}
+
+function peek(){const r=ROUNDS[idx];
+ APP.innerHTML=`${dots(idx)}<div class="center" style="width:100%">${mascot('talk')}
+  <div class="tag">${r.tag}</div>
+  <div class="opts">${r.opts.map((o,j)=>`<div class="opt ${j===r.correct?'right':'dim'}">${j===r.correct?'✓ ':''}${o}</div>`).join('')}</div>
+  <div class="fb good">💡 ${r.peek}</div>
+  <button class="btn" onclick="next()">${idx>=ROUNDS.length-1?'看結果 🎉':'下一關 ›'}</button></div>`;}
+
+function next(){idx++;if(idx>=ROUNDS.length)showResult();else showRound();}
+
+function showResult(){
+ APP.innerHTML=`<div class="center" style="width:100%">${mascot('happy')}
+  <div class="badge">🛡️</div>
+  <div class="big">反唬爛小達人！</div>
+  <div class="bubble" style="text-align:center">你學會了最重要的一件事：<br><b>AI 很好用，但它會唬爛。</b><br>所以永遠記得——<b>自己查、問大人、對答案</b>。<br><br>你答對了 ${score} / ${ROUNDS.length} 關 🌟</div>
+  <button class="btn" onclick="start()">再玩一次 🔁</button>
+  <div class="parent">👨‍👩‍👧 <b>給爸媽的話：</b>這個小遊戲教孩子對 AI 保持健康的懷疑——AI 會很有自信地說錯（我們叫它「唬爛」）。重點是三個習慣：自己查證、問信任的大人或老師、不把 AI 的答案直接照抄。全程不需登入、不會蒐集孩子任何資料。</div>
+  <div style="font-size:12px;color:#6b84a6;margin-top:1rem">更多「教小朋友用 AI」的小遊戲，陸續登場 ✨</div></div>`;}
+
+['nextOpening','showRound','pick','peek','next','showResult','start'].forEach(n=>window[n]=eval(n));
+start();
+</script></body></html>
