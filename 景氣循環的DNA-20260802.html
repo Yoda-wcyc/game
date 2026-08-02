@@ -157,6 +157,22 @@ p.body{font-size:16px;color:#e6ebf6;margin:11px 0}
 .check.on .box{background:var(--good);border-color:var(--good)}
 .check .lbl{font-size:15px;line-height:1.5}
 .check .lbl small{display:block;color:var(--dim);font-size:12.5px;margin-top:2px}
+/* 翻牌（榮景末前哨清單） */
+.flipwrap{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0 4px}
+@media(max-width:520px){.flipwrap{grid-template-columns:1fr}}
+.flipcard{perspective:1100px;cursor:pointer;min-height:158px}
+.flipinner{position:relative;width:100%;height:100%;min-height:158px;transition:transform .55s cubic-bezier(.4,.15,.2,1);transform-style:preserve-3d}
+.flipcard.on .flipinner{transform:rotateY(180deg)}
+.flipface{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:12px;border:1px solid var(--card-bd);padding:15px;display:flex;flex-direction:column;justify-content:center;overflow:auto}
+.flipfront{background:rgba(255,255,255,.05);opacity:1;transition:opacity 0s .27s}
+.flipcard.on .flipfront{opacity:0}
+.flipcard:hover .flipfront{border-color:var(--gold)}
+.flipfront .ft{font-size:15px;line-height:1.5;font-weight:700;color:var(--text)}
+.flipfront .hint{margin-top:9px;font-size:11.5px;color:var(--dim)}
+.flipback{background:rgba(95,191,143,.14);border-color:var(--good);transform:rotateY(180deg);opacity:0;transition:opacity 0s .27s}
+.flipcard.on .flipback{opacity:1}
+.flipback .bh{font-size:11px;color:var(--good);font-weight:700;letter-spacing:.05em;margin-bottom:6px}
+.flipback .bt{font-size:12.5px;line-height:1.55;color:#e6ebf6}
 
 /* 結果 */
 .result-emoji{font-size:62px;text-align:center;line-height:1;margin:4px 0}
@@ -442,8 +458,8 @@ const S=[
   {id:'d',label:'違約潮、銀行感到壓力',hint:'真的完全沒錢，才繳不出卡費',rank:3,kind:'滯後'}],
  gloss:'順序背後是一條清楚的因果鏈：<b>① 需求先軟 → 企業先砍訂單、先裁員（初領失業金最早升，所以先行）。② 被裁的人沒錢消費 → GDP、實質 PCE 才「延遲」下滑（所以同步、跟著走）。③ 這些人領了幾個月救濟金、領到不能再領、還找不到工作，才被正式記進失業率（所以失業率最滯後）。④ 等到真的完全沒錢，才繳不出卡費 → 違約；而且要「夠多人」違約，債權銀行才感受得到違約壓力（最末端）。</b>所以想早知道，只能盯最上游的先行指標；等失業率飆、違約潮來，早就來不及了。'},
 // 25 收束：榮景末確認清單（每個訊號附「為什麼危險」）
-{type:'checklist',sky:'sky-clear',bg:'range',tag:'收束 · 前哨清單',
- h:'榮景真的要結束，會同時看到這些',sub:'勾出你要盯的訊號——每個下面是「為什麼它代表向下」。',
+{type:'flipcards',sky:'sky-clear',bg:'range',tag:'收束 · 前哨清單',
+ h:'榮景真的要結束，會同時看到這些',sub:'翻開每一張，看它「為什麼代表向下」——六張都翻完，收進口袋。',
  items:[
   {t:'核心資本財訂單掉頭、職缺明顯下滑',s:'耐久財訂單與職缺是最上游的領先指標，現在很強（尚未翻空）；一旦掉頭，代表企業對未來需求開始縮手——榮景轉折最早的預告。'},
   {t:'初領失業金 U 型反轉往上',s:'就業是消費的源頭。初領一從谷底翻升，代表企業開始收手裁員——需求轉弱最早、最準的一盞燈（50 年最準）。'},
@@ -580,6 +596,14 @@ const RENDER={
    <div class="reveal" id="rv${i}"></div>${helpBtn(i)}${nextSlot(i)}</div>`,
   init:(s,i)=>{sortState=[];}},
 
+ flipcards:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2><p class="body dim">${s.sub}</p>
+   <div class="flipwrap" id="ck${i}">${s.items.map((it)=>`
+     <div class="flipcard" onclick="flipReveal(this,${i})"><div class="flipinner">
+       <div class="flipface flipfront"><div class="ft">${it.t}</div><div class="hint">👆 翻開看「為什麼代表向下」</div></div>
+       <div class="flipface flipback"><div class="bh">為什麼危險</div><div class="bt">${it.s}</div></div>
+     </div></div>`).join('')}</div>
+   <div class="center" style="margin-top:8px"><button class="cta" id="ckbtn${i}" onclick="next()" disabled>全部翻開後繼續</button></div></div>`},
+
  checklist:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2><p class="body dim">${s.sub}</p>
    <div id="ck${i}">${s.items.map(it=>`
      <div class="check" onclick="chkToggle(this,${i})"><div class="box">✓</div>
@@ -619,7 +643,7 @@ const RENDER={
      </div></div>
      <div class="act-btns">
        <a class="act-btn act-sub" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">訂電子報，每月帶你讀一次景氣 DNA →</a>
-       <a class="act-btn act-report" href="https://yoda-wcyc.github.io/-/總經_20260801.html" target="_blank" rel="noopener">看這期完整總經報告，對照你剛學的 →</a>
+       <a class="act-btn act-report" href="https://yoda-wcyc.github.io/-/總經_20260802.html" target="_blank" rel="noopener">看這期完整總經報告，對照你剛學的 →</a>
        <button class="act-btn act-share" onclick="share()">分享：讓還在看標題的朋友也學會讀 DNA</button></div>
      <div class="replay"><a onclick="replay()">重玩一次</a></div>
      <div class="credit">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" rel="noopener">BiBiPiano</a>，版權為原作者所有。<br>Yoda Research · 判斷力學校 · 總經科第二節點</div></div>`;}}
@@ -735,6 +759,13 @@ function chkToggle(elm,i){ elm.classList.toggle('on');
   const on=document.querySelectorAll('#ck'+i+' .check.on').length;
   const btn=el('ckbtn'+i);
   if(on===all){btn.disabled=false; btn.textContent='收進口袋 →';} else {btn.disabled=true; btn.textContent='全部勾選後繼續';}
+}
+// 翻牌揭示（一次性翻開，全翻完放行）
+function flipReveal(elm,i){ elm.classList.add('on');
+  const all=document.querySelectorAll('#ck'+i+' .flipcard').length;
+  const on=document.querySelectorAll('#ck'+i+' .flipcard.on').length;
+  const btn=el('ckbtn'+i);
+  if(on===all){btn.disabled=false; btn.textContent='收進口袋 →';}
 }
 
 /* ===== 給我答案（就地揭示＋放行，不計分） ===== */
