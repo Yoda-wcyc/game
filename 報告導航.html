@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>股票那麼多，要選誰？｜選股決策鏈 · Yoda Research</title>
+<title>今天想讀懂哪份報告？｜Yoda Research · 判斷力學校</title>
 <style>
 :root{
   --gold:#d4af37; --gold-dim:#b8960a;
@@ -201,6 +201,12 @@ p.body{font-size:16px;color:#e6ebf6;margin:11px 0}
 .neutral-note{font-size:12px;color:var(--dim);text-align:center;margin-top:12px;opacity:.85}
 @media(max-width:480px){h1{font-size:27px}h2{font-size:19px}.card{padding:22px 16px}.mono-wrap p{font-size:21px}
   .fpt .fpt-row{grid-template-columns:1.25fr .82fr .82fr .95fr .82fr 1.15fr;font-size:11px}}
+/* 報告導航 menu 卡片 */
+.menu-list{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.menu-card{display:block;background:rgba(255,255,255,.045);border:1px solid var(--card-bd);border-radius:14px;padding:15px 16px;text-decoration:none;color:var(--text);transition:transform .12s,border-color .2s,background .2s}
+.menu-card:hover,.menu-card:active{transform:translateY(-2px);border-color:var(--gold);background:rgba(255,255,255,.075)}
+.menu-card .mc-name{display:block;font-weight:700;font-size:16px;color:#fff}
+.menu-card .mc-desc{display:block;font-size:13px;color:var(--dim);line-height:1.55;margin-top:5px}
 </style>
 </head>
 <body class="sky-noon">
@@ -238,238 +244,54 @@ const PHASE={recovery:{e:'🌱',n:'復甦期'},growth:{e:'📈',n:'成長期'},b
 /* ===== 場景資料（忠實 2026-08-01 總經報告定調：晚循環/榮景尾聲前哨 + 製造業擴張中段） ===== */
 const S=[
 // 0 開場
-{type:'title',sky:'sky-noon',bg:'farhills'},
-// 1 對號入座
-{type:'project',sky:'sky-noon',bg:'farhills'},
-// 2 過場（推）
-{type:'mono',sky:'sky-night',bg:'reed',lines:['你不用選。','讓漏斗幫你選。']},
-// 3 教：五關漏斗
-{type:'teach',sky:'sky-valley',bg:'range',tag:'教 · 漏斗',tagc:'teach',h:'一檔會漲的股，是「篩」出來的',
- html:`<p class="body">高手不看幾千檔。他們把「會不會漲」拆成<b class="hl">五個必須同時成立的條件</b>，一層一層篩：</p>
+{type:'title',sky:'sky-noon',bg:'farhills',
+ eyebrow:'YODA RESEARCH · 判斷力學校',
+ h:'今天，你想搞懂什麼？',
+ lead:`Yoda 有六種報告——<br>你不用全讀。<br>每一份，是在回答你<b class="hl">一個決策</b>。`,
+ btn:'帶我看 →',
+ note:'※ 全部免費。選一份你今天卡住的，我用一個小遊戲帶你玩懂它。'},
+// 1 hook
+{type:'teach',sky:'sky-valley',bg:'range',tag:'開場',tagc:'teach',h:'報告不是拿來「讀完」的，是拿來「解決」的',
+ html:`<p class="body">打開 Yoda Research，六種報告排在那——<b class="hl">你常常不知道今天該讀哪一份？</b></p>
+ <p class="body">其實不用全讀。每一份報告，都對準你當下的<b>一個決策</b>：抓大盤方向、選哪支股、該積極還保守…</p>
+ <p class="body dim">先搞懂「哪份報告解決你哪個問題」，你就再也不會亂讀一通。</p>`},
+// 2 決策地圖
+{type:'teach',sky:'sky-valley',bg:'range',tag:'報告地圖',tagc:'teach',h:'你今天卡在哪個決策？',
+ html:`<p class="body">對照一下，你今天的問題屬於哪一格：</p>
  <div class="data-box">
- <div class="row"><b>① 錢往哪流</b><span class="dim">先鎖定資金在的板塊</span></div>
- <div class="row"><b>② 何時上車</b><span class="dim">那板塊剛啟動、還沒追高</span></div>
- <div class="row"><b>③ 上哪一檔</b><span class="dim">板塊裡最強的 A 級（四條件）</span></div>
- <div class="row"><b>④ 有沒有實錘</b><span class="dim">真的有大錢在買（籌碼／廣度）</span></div>
- <div class="row"><b>⑤ 退場線</b><span class="dim">哪裡代表資金跑了、該走</span></div></div>
- <p class="body">幾千檔進去，剩幾檔出來。而且<b class="hl">每一關都有一面照妖鏡</b>——專門照出「假的強」。五關缺一，就不是機會。</p>`},
-// 4 教：資金流心法
-{type:'teach',sky:'sky-storm',bg:'peak',tag:'教 · 核心心法',tagc:'teach',h:'不猜哪檔漲，讀錢已經流到哪',
- html:`<p class="body">選股最大的誤會，是以為要「預測」哪檔會漲。其實市場已經把答案寫在<b class="hl">資金流</b>裡——錢已經在流動，你只要<b>讀出它在哪、跟上就好</b>。</p>
- <p class="body">接下來用 <b>2026-08 台美當期真實數據</b>，帶你跑一遍五關漏斗。</p>`},
-// 5 ① 錢往哪流 · 美股（AI三圈）
-{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'① 錢往哪流 · 美股',
- h:'AI 股，現在能追嗎？',
- data:`<div class="data-box">
-  <div class="row"><span>AI 三圈（5日相對強弱）</span><b class="stat down">C1算力 −9.6 / C2記憶體 −8.0 / C3設備 −11</b></div>
-  <div class="row"><span>AI 三圈新高</span><b class="stat down">0 / 48 全熄</b></div>
-  <div class="row"><span>最強板塊（5日）</span><b class="stat up">非必需消費 +3.3 / 通訊 +3.0 / 醫療 +2.2 / 金融</b></div></div>
-  <p class="body dim">AI 三圈＝把 AI 供應鏈拆成算力／記憶體／設備三層，看錢在哪一層。</p>`,
- q:'錢，現在在 AI 嗎？',
- opts:['在，AI 崩就是機會、加碼算力','不在——三圈全負、錢已輪動到非必需消費／金融','看不出來'],
- correct:1,
- reveal:`<b>對 ✓ 錢不在 AI。</b>三圈全負、0/48 新高＝<b>AI 行情退潮</b>，這時去接崩跌的半導體是接刀。錢已經<b>輪動</b>到非必需消費、通訊、醫療、金融。<b>漏斗第一關：站到錢在的那邊，別站到錢在跑的那邊。</b>`,
- gloss:'<span>AI 三圈</span>＝C1算力核心／C2傳輸記憶體／C3設備，看資金在 AI 鏈的哪一棒。<span>相對強弱（REL）</span>＝這板塊比大盤強多少，負值＝跑輸大盤。<span>輪動</span>＝錢從一個板塊流到另一個。'},
-// 6 ① 錢往哪流 · 台股（輪動）
-{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'① 錢往哪流 · 台股',
- h:'台股電子崩了，錢跑哪去？',
- data:`<div class="data-box">
-  <div class="row"><span>電子（5日相對強弱）</span><b class="stat down">半導體 −29 / 光電 −31 / 電子零件 −30</b></div>
-  <div class="row"><span>最強板塊（5日）</span><b class="stat up">金融保險 +29 / 航運 +23 / 觀光 +19 / 油電燃氣 +16</b></div></div>
-  <p class="body dim">同一天，電子全崩、金融航運噴出——這就是「輪動」的長相。</p>`,
- q:'這組數據告訴你？',
- opts:['電子崩就抄底半導體','錢明確輪動到金融／航運／傳產——跟資金走','大盤要崩了，全部空手'],
- correct:1,
- reveal:`<b>對 ✓ 跟著錢走。</b>電子 −29~−31 崩跌時，<b>金融 +29、航運 +23</b> 同步噴出——這不是大盤崩，是<b>資金換棒</b>。台美同一個故事：AI／電子退潮，錢輪動到非科技。<b>別跟崩的、跟噴的。</b>`,
- gloss:'<span>輪動</span>＝資金在板塊間搬家；一邊崩一邊噴＝換棒，不是全面崩盤。<span>相對強弱</span>＝比大盤強弱，+29 代表這週狠狠贏過大盤。'},
-// 7 ① 輪動警訊（變盤照妖鏡）
-{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'① 照妖鏡 · 輪動警訊',
- h:'錢輪到「防禦股」，是好事嗎？',
- data:`<div class="data-box">
-  <div class="row"><span>美股最強（5日）</span><b class="stat up">非必需消費 +3.3 / 醫療 +2.2 / 公用</b></div>
-  <div class="row"><span>成長型（科技／半導體）</span><b class="stat down">AI 三圈全負、退出領先</b></div></div>
-  <p class="body dim">最強的變成「防禦型」（吃穿藥電），而不是科技。這訊號別漏。</p>`,
- q:'這代表什麼？',
- opts:['防禦漲就改買防禦、簡單','資金在避險——防禦贏過成長，是最有參考價值的變盤訊號','沒差，防禦本來就穩'],
- correct:1,
- reveal:`<b>對 ✓ 這是變盤訊號。</b>當<b>防禦型（必需消費／醫療／公用）開始贏過成長型（科技／半導體）</b>，代表大錢在把資金搬去避風港——比任何單一檔的漲跌都值得盯。<b>台美同步出現時，變盤強度加倍</b>（美股錢流防禦、台股電子崩→金融傳產）。這不是叫你買防禦，是提醒你「風向在轉、別急著追高 Beta」。`,
- gloss:'<span>防禦型 vs 成長型</span>＝吃穿藥電（抗跌）對科技半導體（賺景氣）。<span>變盤訊號</span>＝防禦開始領先，通常是資金避險、風險偏好下降的前兆。'},
-// 8 過場
-{type:'mono',sky:'sky-night',bg:'river',lines:['錢在哪，你就站哪。','剩下的，是時機。']},
-// 9 ② 何時上車 · 輪漲六階段
-{type:'templocate',sky:'sky-valley',bg:'range',tag:'② 何時上車 · 輪漲階段',
- h:'找到強板塊了——現在上車，太晚嗎？',
- data:`<div class="data-box">
-  <div class="row"><span>🌱 萌芽期</span><b class="stat">領頭剛出現、廣度未擴散</b></div>
-  <div class="row"><span>🚀 啟動期</span><b class="stat up">均強度&gt;5%、廣度&gt;20%</b></div>
-  <div class="row"><span>🔥 主升期</span><b class="stat warnc">均強度&gt;15%、廣度&gt;40%</b></div>
-  <div class="row"><span>➡️ 整理期</span><b class="stat">短線休息、中線還在</b></div>
-  <div class="row"><span>📉 退燒期</span><b class="stat down">高位拉回、該減倉</b></div>
-  <div class="row"><span>❄️ 弱勢期</span><b class="stat down">結構走弱、迴避</b></div></div>
-  <p class="body dim">同一個強板塊，六個階段勝算天差地別。哪一段才是進場窗口？</p>`,
- zones:[{t:'萌芽期',s:'等擴散'},{t:'啟動期',s:'最佳窗口'},{t:'主升期',s:'追高風險'},{t:'退燒期',s:'該走了'}],
- correct:1,
- reveal:`<b>對 ✓ 啟動期才是窗口。</b>萌芽期只有領頭、廣度沒擴散，容易假突破；主升期人人都看到、你追在高點；<b>啟動期</b>＝廣度剛擴散(&gt;20%)、多數成員一起轉強，<b>還沒過熱、勝算最高</b>。過了主升是整理→退燒→弱勢，那時是減倉、不是進場。<b>不猜萌芽，等它啟動。</b>`,
- gloss:'<span>廣度</span>＝板塊裡「一起轉強」的個股比例；廣度擴散＝不是一兩檔獨撐，是整群動起來。<span>六階段</span>＝萌芽→啟動→主升→整理→退燒→弱勢，進場只在啟動期。'},
-// 10 ② 位階四象限（進退）
-{type:'templocate',sky:'sky-valley',bg:'range',tag:'② 位階 · 進退不只看強弱',
- h:'月線還在買、這週轉賣——這板塊該進還是該退？',
- data:`<div class="data-box">
-  <div class="row"><span>判讀口徑</span><b class="stat">外資月線金額（趨勢）× 5日方向（動能）</b></div>
-  <div class="row"><span>這個板塊</span><b class="stat">月線 <span class="up">+ 買超（趨勢還在）</span> ／ 5日 <span class="down">− 轉賣（動能轉弱）</span></b></div>
-  <div class="row"><span>當期實例</span><b class="stat">京鼎 月線 +792萬、5日 −333萬</b></div></div>
-  <p class="body dim">領先＝月正5日正；回升＝月負剛翻正；衰退＝月正5日負；落後＝月負5日負。</p>`,
- zones:[{t:'領先區',s:'月正5日正'},{t:'回升區',s:'月負剛翻正'},{t:'衰退區',s:'月正5日負'},{t:'落後區',s:'月負5日負'}],
- correct:2,
- reveal:`<b>對 ✓ 衰退區。</b>月線還買超＝<b>趨勢強度還在</b>，但這 5日 轉賣超＝<b>動能開始減弱、資金正要流出</b>。這不是崩，是「該收手、別再追高」的位置。<b>位階回答的是『這位置該進還是該退』</b>，配生命週期看：🔄加速→👑主升→⚠️派發→💥崩解，衰退區＝走到⚠️派發前後。`,
- gloss:'<span>位階四象限</span>＝用「月線趨勢 × 5日動能」把板塊分四區。<span>衰退區</span>＝強度還在但動能轉弱、資金開始撤，是減碼訊號不是進場點。'},
-// +過場（關②→關③）
-{type:'mono',sky:'sky-night',bg:'reed',lines:['方向對了，時機也抓了。','接下來——把那一支，挑出來。']},
-// 11 ③ 上哪一檔 · 四條件漏斗（教）
-{type:'teach',sky:'sky-storm',bg:'peak',tag:'③ 上哪一檔 · 四條件',tagc:'teach',h:'同一個板塊裡，怎麼挑出那幾檔',
- html:`<p class="body">板塊對了，還要在裡面挑個股。用<b class="hl">四層條件</b>，照順序篩：</p>
- <div class="data-box">
- <div class="row"><b>① 5D%（近週動能）</b><span class="dim">排最前——要抓最新、反應最快的</span></div>
- <div class="row"><b>② 1M%（近月動能）</b><span class="dim">中期方向確認</span></div>
- <div class="row"><b>③ WA（加權動能）</b><span class="dim">中長期買盤代理，排最後<b>保底</b></span></div>
- <div class="row"><b>④ 成交量放大</b><span class="dim">最後一道驗證——量能不能替代價格</span></div></div>
- <p class="body">三個價格條件全過＝進量能確認。排序：<b>5D% 由高到低</b>。<b class="hl">量是拿來「確認」的，不是拿來「進場」的。</b></p>`},
-// 12 ③ 門檻隨市況調（教）
-{type:'teach',sky:'sky-storm',bg:'peak',tag:'③ 門檻 · 不是死數字',tagc:'teach',h:'同一套條件，標準要會變',
- html:`<p class="body">四條件的「門檻」不是刻在石頭上——要看市況調：</p>
- <div class="data-box">
- <div class="row"><b>強勢多頭</b><span class="dim">用<b>嚴格版</b>（5D&gt;10%、WA≥150）過濾雜訊</span></div>
- <div class="row"><b>震盪盤整</b><span class="dim">用<b>寬鬆版</b>（5D&gt;2%、WA≥60）免得錯失</span></div>
- <div class="row"><b>輪動初期</b><span class="dim">降低 5D 門檻，搶剛啟動的板塊</span></div></div>
- <p class="body">死守一個數字，不是紀律，是<b class="hl">僵化</b>。標準隨市況呼吸，才篩得準。</p>`},
-// 13 ③ A級判定
-{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'③ 上哪一檔 · A級',
- h:'啟動期板塊裡，這檔算幾級？',
- data:`<div class="data-box">
-  <div class="row"><span>相對強弱 5D%</span><b class="stat up">夠強 ✓</b></div>
-  <div class="row"><span>近月動能 1M%</span><b class="stat up">確認 ✓</b></div>
-  <div class="row"><span>量能底盤 WA</span><b class="stat down">只有 60（未達 80）</b></div></div>
-  <p class="body dim">A 級＝三個價格條件全中。這檔中了兩條、量能差一點。</p>`,
- q:'它是幾級？',
- opts:['A 級——反正很強就追','B 級——量能未達，候補觀察','C 級——只中一項'],
- correct:1,
- reveal:`<b>對 ✓ B 級候補。</b>強弱、動能都過，但<b>量能 WA 只有 60（未達 80）</b>＝<b>無量的強是假的</b>，容易一根就打回。三條件全中才是 <b>A 級</b>——當期美股 A 級像 <b>ELOX（5D+46 WA235）、CDNA（1M+53 WA199）</b> 都是量價齊揚。這檔只是 B 級，放觀察池、等量能補上，不是首選。`,
- gloss:'<span>A/B/C 級</span>＝三個價格條件全中＝A；過兩條、量能未達＝B候補；只中一項＝C觀察。<span>WA</span>＝量能底盤指標，&lt;80 代表撐盤的量還不夠。'},
-// 14 ③ 脈衝排除（照妖鏡）
-{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'③ 照妖鏡 · 脈衝排除',
- h:'這檔 5日+41%、月線+35%——漂亮吧？',
- data:`<div class="data-box">
-  <div class="row"><span>IDAI（當期美股）</span><b class="stat up">5D +41% ／ 1M +35%</b></div>
-  <div class="row"><span>但量能底盤 WA</span><b class="stat down">−46（是負的！）</b></div></div>
-  <p class="body dim">兩個動能條件都過，看起來超強。但 WA 是負的。</p>`,
- q:'追嗎？',
- opts:['兩個動能都過，當然追','不追——WA 是負的，代表沒有持續買盤、是無量硬拉的假強勢','加碼，還會再噴'],
- correct:1,
- reveal:`<b>對 ✓ 不追。</b><b>WA 為負＝量能底盤是空的</b>，漲上去沒有大錢承接，常是單日投機硬拉的<b>假強勢</b>，一根就打回去。這種「動能過、但 WA 負」的（IDAI −46、DJT −49、MGRX −55）就算擠進 B 級也要當<b>脈衝排除</b>、不碰。真 A 級是 WA 大正（ELOX 235）。<b>這是「強是真是假」的第一道照妖鏡。</b>`,
- gloss:'<span>脈衝</span>＝沒有量能底盤（WA 負）卻短線暴衝，多是單日投機、無持續買盤。<span>照妖鏡</span>＝WA 負就算動能再漂亮也排除，防的是無量假突破。'},
-// 15 ③ 收斂
-{type:'teach',sky:'sky-valley',bg:'range',tag:'③ 收斂',tagc:'teach',h:'漏斗到這裡，剩幾檔',
- html:`<p class="body">把「啟動期板塊 × A 級個股（過脈衝照妖鏡）」交集起來，幾千檔已經收斂到<b class="hl">一張幾十檔的最高確信清單</b>。</p>
- <p class="body dim">當期實例——美股 A 級 23 檔集中在<b>生技（CDNA／PGEN／GH）＋軟體資安</b>；台股金融／航運在領先區。你看，「選誰」已經不是問題了。</p>`},
-// 16 ④ 有沒有實錘 · 台股籌碼（天秤）
-{type:'scale',sky:'sky-dusk',bg:'lonepine',tag:'④ 有沒有實錘 · 台股籌碼',
- h:'它很強——但有沒有大錢在買？',
- setup:`<p class="body">一檔「量價很強」（技術面漂亮），不代表有實錘。台股要看<b>法人籌碼</b>：外資／投信是<b>買超</b>、還是趁機出貨？天秤兩端：只有量價強 vs 量價⊕籌碼「雙向確認」。</p>`,
- leftLabel:'只有量價強',rightLabel:'量價＋籌碼雙確認',
- opts:[{t:'量價強就夠了、直接追',tilt:-0.8},{t:'要「雙向確認」——法人真的在買才算數',tilt:0.8}],
- correct:1,
- reveal:`<b>對 ✓ 要雙向確認。</b>只有量價強、但法人在賣，常是<b>出貨的假強勢</b>（散戶抬轎）。<b>雙向確認</b>＝量價(REL)強 ＋ 法人買超，兩邊都倒同一邊才紮實。當期實例：7/31 外資買超台積電 <b>+56,536萬</b>（約 5.6 億）、態度空翻多——這才是有實錘的破底翻。`,
- gloss:'<span>法人籌碼</span>＝外資／投信的買賣超，是「大錢」的實際動向。<span>雙向確認</span>＝技術面(量價)與籌碼面同時轉強，比單看一邊可靠。'},
-// 17 ④ 法人四型態（台積 vs 聯發，同漲停籌碼相反）
-{type:'phasepick',sky:'sky-dusk',bg:'reed',tag:'④ 實錘 · 法人四型態',
- h:'兩檔都漲停，籌碼卻相反',
- data:`<div class="data-box">
-  <div class="row"><span>台積電 2330</span><b class="stat up">+10.0%　法人當日 +56,536萬（三線同買）</b></div>
-  <div class="row"><span>聯發科 2454</span><b class="stat down">+9.9%　法人當日 −4,262萬（三線同賣）</b></div></div>
-  <p class="body dim">同一天、都漲停。但一個法人爆買、一個法人狂賣。</p>`,
- q:'這兩檔的籌碼型態，分別是？',
- opts:['都是吸籌，反正都漲停','台積電＝全面吸籌；聯發科＝賣超警示（邊漲邊出貨）','都是換手，看不出差別'],
- correct:1,
- reveal:`<b>對 ✓ 漲跌看不出籌碼，型態才看得出大錢的真心。</b>法人籌碼分<b>四型態</b>：🟢<b>全面吸籌</b>(三線同買，台積電)＝首選；🔵<b>低檔反轉</b>(跌深剛翻買，如臻鼎)＝伏兵；🟡<b>高檔換手</b>(邊漲邊調節，如環球晶)＝提防派發；🟠<b>賣超警示</b>(三線同賣，聯發科)＝避開。當期全市場<b>吸籌 217 檔 vs 賣超 183 檔、吸籌佔比 54.2%</b>＝站健康那邊。聯發科漲停但法人在倒——這是「權值破底翻、二線換手」，別把它的漲停當同一回事。`,
- gloss:'<span>法人四型態</span>＝A全面吸籌／B低檔反轉／C高檔換手／D賣超警示，看大錢對這檔的態度。<span>吸籌佔比</span>＝全市場吸籌檔數的比例，&gt;50% 代表籌碼面健康。'},
-// 18 ④ 權值股賣壓性質（季結 vs 結構性）
-{type:'phasepick',sky:'sky-dusk',bg:'reed',tag:'④ 照妖鏡 · 權值賣壓',
- h:'台積電在季末急殺，快跑嗎？',
- data:`<div class="data-box">
-  <div class="row"><span>情境</span><b class="stat">最大權值股 接近季末／結帳日 5日急殺</b></div>
-  <div class="row"><span>季結調整</span><b class="stat">集中漲多權值、有秩序、同業小股沒事、無利空</b></div>
-  <div class="row"><span>結構性出逃</span><b class="stat down">全面、不計成本、連同業上下游、有具體利空</b></div></div>
-  <p class="body dim">（這期台積電其實是空翻多買超；但總有一天權值會在季末急殺——那時你要會分。）</p>`,
- q:'第一件事該做什麼？',
- opts:['急殺＝基本面壞了，先跑','先分辨是「季結調整」還是「結構性出逃」——用時間＋廣度檢驗','逢低就買，權值不會倒'],
- correct:1,
- reveal:`<b>對 ✓ 先分性質，別急著下結論。</b>接近結帳日的權值急殺，常是機構<b>季底部位調整</b>、不是基本面壞。<b>分辨法</b>：季結＝集中在漲多的權值、賣得有秩序、同業中小股不受影響、沒有對應利空；結構性＝全面、不計成本、連帶上下游、有具體催化劑（財報差／砍單／管制）。<b>最可靠是時間檢驗：結帳日後第一週，賣壓停＝季結可放心，沒停甚至加速＝要重新檢視基本面。</b>`,
- gloss:'<span>季結調整</span>＝機構為結帳美化帳面的季節性調節，過結帳日多會停。<span>結構性出逃</span>＝有真利空的持續性賣壓。分不清就用「結帳日後一週停不停」檢驗。'},
-// +過場（關④ 個股籌碼 → 大盤層）
-{type:'mono',sky:'sky-night',bg:'reed',lines:['個股的籌碼，看透了。','那「大盤」整體，站哪一邊？']},
-// 19 ④ 大盤 ETF 法人週向
-{type:'phasepick',sky:'sky-dusk',bg:'reed',tag:'④ 大盤 · ETF 法人週向',
- h:'外資今天對「大盤」的態度，翻了嗎？',
- data:`<div class="data-box">
-  <div class="row"><span>0050（大盤多空直接代理）</span><b class="stat">當日 <span class="up">+9,332萬</span>　月線 <span class="down">−173,926萬</span></b></div>
-  <div class="row"><span>00631L 正2（槓桿多頭）</span><b class="stat up">當日 +2,689萬（加槓桿）</b></div>
-  <div class="row"><span>00632R 反1（避險＝偏空）</span><b class="stat">當日 −1,046萬（倒避險）</b></div></div>
-  <p class="body dim">過去偏空（倒0050、買反1避險）；今天：買0050、加正2、倒反1。</p>`,
- q:'這三口徑一起看，外資對大盤是？',
- opts:['月線還是負，續空','態度「當天空翻多」——三個口徑一致翻方向，是轉折訊號','沒意義，一天不算數'],
- correct:1,
- reveal:`<b>對 ✓ 態度當天空翻多。</b>三個 ETF <b>口徑一致同日翻向</b>：買回 0050、加碼槓桿正2、<b>倒掉反向 00632R（買反1＝避險、倒反1＝偏多，解讀相反）</b>——跟價格的破底翻同一天發生。ETF 法人週向讓你一眼看懂機構對<b>大盤 Beta</b> 的態度。<b>⚠️ 但月線仍 −17萬萬、這是「轉向回補」第一天，不是加碼確認，還要看日圓變數。</b>`,
- gloss:'<span>0050／00631L／00632R</span>＝大盤／槓桿多／反向，看外資對大盤的態度。<span>反向 ETF 反讀</span>＝買 00632R 是避險偏空、倒 00632R 才是偏多。'},
-// 20 ④ 美股用廣度當實錘
-{type:'phasepick',sky:'sky-dusk',bg:'reed',tag:'④ 實錘 · 美股',
- h:'美股沒有法人買賣超，怎麼確認實錘？',
- data:`<div class="data-box">
-  <div class="row"><span>台股實錘</span><b class="stat">法人買超（雙向確認）</b></div>
-  <div class="row"><span>美股沒有這個數據</span><b class="stat">要用別的當實錘…</b></div></div>`,
- q:'美股的「實錘」看什麼？',
- opts:['看新聞和分析師喊多','看廣度——是不是一群股一起轉強（不是獨漲）','看它今天漲幾 %'],
- correct:1,
- reveal:`<b>對 ✓ 看廣度。</b>美股沒有法人買賣超，就用<b>廣度</b>當實錘：一個板塊是「一群股一起轉強」(REL5廣度、WA廣度擴散)，還是「一兩檔獨撐」？<b>廣度擴散＝有真金白銀在整群買</b>，跟台股的雙向確認同一個精神——要看到「一群」，不是「一檔」。`,
- gloss:'<span>廣度</span>＝板塊裡達標個股的比例。廣度擴散＝資金在整群買、不是單一標的偷跑，是美股版的「實錘」。'},
-// 21 ⑤ 安不安全 · 高低比（翻面）
-{type:'flip',sky:'sky-dusk',bg:'reed',tag:'⑤ 安不安全 · 市場體質',
- h:'新低 267 > 新高 151，還能追嗎？',
- setup:`<p class="body">美股當期：<b>創 3 個月新低的 267 檔、新高只 151 檔</b>。有人說「新低這麼多、崩盤了快跑」。你怎麼看？</p>`,
- opts:[{t:'新低多＝崩盤，全部空手',good:false},{t:'要看是「補跌到底」還是「剛開始崩」',good:true}],
- correct:1,
- revealGood:`<b>對 ✓ 要看位置。</b>新低多不必然是崩盤——當強勢股都「補跌到底」（AAPL −7.4%、AI 三圈清零），反而是<b>空方末端</b>的投降式出清、接近見底。這期定調就是「破底翻／空方末端，差高 Beta 回升蓋章」。<b>高低比是體質溫度計，要配合位置讀，不是看到新低就跑。</b>`,
- revealBad:`<b>再想一下。</b>新低多＝市場弱沒錯，但關鍵是<b>位置</b>：當最強的股都補跌到極致（投降式出清），反而是空方末端、接近見底，不是崩盤開始。這期就是「破底翻／空方末端」。高低比要配合位置讀。`,
- gloss:'<span>高低比</span>＝創新高家數 vs 創新低家數，市場整體體質的溫度計。<span>空方末端／投降式出清</span>＝連最強的股都被砍到底，賣壓耗盡、接近見底。'},
-// 22 ⑤ 快照覆蓋（歷史照妖鏡）
-{type:'flip',sky:'sky-dusk',bg:'reed',tag:'⑤ 照妖鏡 · 快照覆蓋',
- h:'當日算「主升期」，但廣度連縮 3 週',
- setup:`<p class="body">某板塊<b>當日計算是 🔥 主升期</b>（均強度還很高）；但翻歷史快照，<b>廣度連續 3 週收縮：100% → 50% → 只剩 2 檔獨漲</b>。報告該標什麼？</p>`,
- opts:[{t:'照當日算，標「主升期」就好',good:false},{t:'覆蓋標「主升 ⚠️ 趨勢轉弱（個股獨漲、廣度已空）」',good:true}],
- correct:1,
- revealGood:`<b>對 ✓ 要強制覆蓋。</b>當日數字再漂亮，只要歷史顯示<b>廣度連續收縮</b>，就要覆蓋標警示——防的正是「一兩檔獨漲、整群已空」的<b>假主升</b>。跟快照對比，是防自己被<b>單日數字</b>騙。這也是漏斗的隱形一關：不只看今天，還要看它<b>這幾週在變好還變壞</b>。`,
- revealBad:`<b>再想一下。</b>均強度高，但那是「剩 2 檔獨漲」撐出來的假象。<b>廣度連縮 3 週＝資金正在離場</b>，此時標主升會害人追在最後一棒。規則是：歷史連續轉弱時，當日數字要被<b>覆蓋</b>成警示。`,
- gloss:'<span>快照覆蓋</span>＝把今天的計算結果跟歷史快照對比，若廣度連續收縮，強制把「主升」覆蓋成「趨勢轉弱」。防的是個股獨漲撐出的假強。'},
-// 23 ⑤ 退場線（清單）
-{type:'checklist',sky:'sky-clear',bg:'range',tag:'⑤ 退場線 · 資金跑了',
- h:'進場前，先想好哪裡該走',sub:'勾出「資金跑了」的退場訊號——每個下面是為什麼。',
+ <div class="row"><b>大盤到底往哪走</b><span class="dim">→ 市場觀察</span></div>
+ <div class="row"><b>該買哪一類、選哪支</b><span class="dim">→ 美股／台股</span></div>
+ <div class="row"><b>現在該積極還是保守</b><span class="dim">→ 總經</span></div>
+ <div class="row"><b>只想快速看懂今天</b><span class="dim">→ 簡報</span></div></div>
+ <p class="body">找到你的那一格了嗎？下一頁，選一份，我帶你玩懂它。</p>`},
+// 3 報告選單
+{type:'menu',sky:'sky-storm',bg:'peak',tag:'選一份報告',h:'今天，想讀懂哪一份？',
+ sub:'點下去，用一個小遊戲帶你玩懂那份報告怎麼判讀（會開新分頁）。',
  items:[
-  {t:'資金轉進防禦板塊',s:'A級清單裡防禦（公用／必需消費）支數 > 成長板塊，代表熱錢在避險——變盤最有參考價值的訊號。'},
-  {t:'雙向確認名單退出',s:'原本量價＋籌碼雙強的個股，法人開始賣、掉出名單＝籌碼鬆動，實錘沒了。'},
-  {t:'廣度收縮、A級腰斬',s:'板塊剩一兩檔獨漲、其他縮掉＝主升末段的假強，配合快照覆蓋標警示。'},
-  {t:'結構分裂（大型股落後、只剩小型獨強）',s:'台股領先區全是小型利基股、權值股落後＝輪動警訊，行情根基不穩。'}]},
-// 24 過場
-{type:'mono',sky:'sky-night',bg:'river',lines:['進場前先想退場。','沒有退出線的進場，不進。']},
-// 25 收束 · 你的漏斗
-{type:'checklist',sky:'sky-clear',bg:'range',tag:'收束 · 你的漏斗',
- h:'下次幾千檔，你會依序這樣篩',sub:'把五關漏斗＋照妖鏡收進口袋（勾滿）。',
+  {name:'📊 市場觀察 · 抓大盤方向',desc:'多空天秤偏哪邊、三道防線、破線爆量怎麼讀——七段導覽',url:'看懂市場觀察-七段導覽.html'},
+  {name:'🧭 美股／台股 · 選股',desc:'資金輪動到哪類、A 級候選、籌碼實錘——選股決策鏈',url:'選股決策鏈-20260802.html'},
+  {name:'🌍 總經 · 該積極還是保守',desc:'景氣循環位階、Fed 方向、利率環境——景氣循環的 DNA',url:'景氣循環的DNA-20260802.html'},
+  {name:'⚡ 簡報 · 快速看懂今天',desc:'發生什麼、為什麼、接下來注意什麼——看懂簡報',url:'看懂簡報.html'}]},
+// 4 過場
+{type:'mono',sky:'sky-night',bg:'river',lines:['報告，幫你看懂「今天」。','判斷力，要一次次練出來。']},
+// 5 概念遊戲選單
+{type:'menu',sky:'sky-dusk',bg:'reed',tag:'磨判斷力',h:'想單練一項判斷力？',
+ sub:'這些概念小遊戲，挑一個玩——每支只練一件事（會開新分頁）。',
  items:[
-  {t:'① 先讀資金流到哪個板塊（＋輪動警訊）',s:'站到錢在的那邊；防禦贏過成長＝變盤先兆'},
-  {t:'② 確認在「啟動期」、看位階',s:'廣度剛擴散、還沒追高；月正5日負＝衰退區別追'},
-  {t:'③ 挑 A 級（四條件）、過脈衝照妖鏡',s:'三價全中＋量能確認；WA 負的強是假的'},
-  {t:'④ 要籌碼／廣度「實錘」',s:'台股雙向確認＋四型態、看ETF週向；美股看廣度'},
-  {t:'⑤ 先想好退場線＋快照覆蓋',s:'資金轉防禦／掉出名單／廣度連縮就走'}]},
-// 26 結果
-{type:'result',sky:'sky-clear',bg:'range'}
+  {name:'🕳️ 落底訊號',desc:'跌到什麼訊號出現，才算真的底？分辨真假落底',url:'落底訊號-20260729.html'},
+  {name:'📉 利多為什麼跌',desc:'好消息卻下跌——看懂「利多出盡」與消息／反應的落差',url:'利多為什麼跌-20260801.html'},
+  {name:'🗺️ 答案，還是地圖',desc:'你要的是「明牌答案」，還是一張自己會看的「判斷地圖」？',url:'answer-or-map.html'},
+  {name:'🧘 投資者的修行',desc:'追高殺低、抱不住——練那個比技術更難的「心性」',url:'投資者的修行-20260725.html'},
+  {name:'⚖️ 信仰的重量',desc:'該續抱還是該認錯？信念與紀律的拉扯',url:'信仰的重量-20260726.html'},
+  {name:'🔥 敢不敢',desc:'別人恐懼時，你敢不敢？恐懼當下的判斷練習',url:'敢不敢.html'}]},
+// 6 收尾
+{type:'outro',sky:'sky-clear',bg:'range',
+ h:'看懂今天，永遠免費',
+ html:`<p class="body">這些遊戲、簡報、時間軸——<b class="hl">永遠免費、永遠開著</b>。每天回來，你會一直變強。</p>
+ <p class="body dim">哪天你想看懂的不只是「今天」，而是「全貌與接下來」——那在完整報告裡等你。今天，先把免費的玩熟。</p>`,
+ links:[
+  {t:'回 Yoda Research 首頁 →',url:'https://yoda-research-next.vercel.app/',cls:'act-report'},
+  {t:'訂免費電子報，每天不漏接 →',url:'https://iamtwispin.substack.com',cls:'act-sub'}]}
 ];
 
 /* ===== 狀態 / 導覽 ===== */
@@ -512,19 +334,57 @@ function resolve(i,correct,revealHTML){
 
 /* ===== 各型別 render ===== */
 const RENDER={
- title:{html:()=>`<div class="card center">
-   <div class="eyebrow">Yoda Research · 判斷力學校 · 選股</div>
-   <h1>股票那麼多，<br>要選誰？</h1>
-   <p class="lead">幾千檔，你到底怎麼挑？<br>高手不是掃完全部——<br>是讓資金流幫你篩掉 99%。</p>
-   <button class="cta" onclick="next()">開始 →</button>
-   <div class="neutral-note">※ 只教「怎麼讀資金流、怎麼篩」，不喊買哪一檔。範例＝2026-08 台美當期真實數據。</div></div>`},
+ title:{html:(s)=>`<div class="card center">
+   <div class="eyebrow">${s.eyebrow||'Yoda Research'}</div>
+   <h1>${s.h}</h1>
+   <p class="lead">${s.lead}</p>
+   <button class="cta" onclick="next()">${s.btn||'開始 →'}</button>
+   ${s.note?`<div class="neutral-note">${s.note}</div>`:''}</div>`},
+ menu:{html:(s)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2><p class="body dim">${s.sub}</p>
+   <div class="menu-list">${s.items.map(it=>`<a class="menu-card" href="${it.url}" target="_blank" rel="noopener"><span class="mc-name">${it.name}</span><span class="mc-desc">${it.desc}</span></a>`).join('')}</div>
+   ${contBtn('繼續 →')}</div>`},
+ outro:{html:(s)=>`<div class="card center">
+   <div class="result-emoji">🌱</div>
+   <div class="result-name">${s.h}</div>
+   <div style="margin-top:12px">${s.html}</div>
+   <div class="act-btns">${s.links.map(l=>`<a class="act-btn ${l.cls||''}" href="${l.url}" target="_blank" rel="noopener">${l.t}</a>`).join('')}</div>
+   <div class="replay"><a onclick="replay()">再看一次</a></div>
+   <div class="credit">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" rel="noopener">BiBiPiano</a>，版權為原作者所有。<br>Yoda Research · 判斷力學校 · 報告導航</div></div>`},
 
  project:{html:()=>`<div class="card">
-   <span class="tag">對號入座</span><h2>打開看盤軟體，你是不是也滿頭問號？</h2>
-   <p class="body">幾千檔股票，紅紅綠綠。你盯著看半天，最後——<b class="hl">憑感覺追了一檔</b>，然後套在最高點。</p>
-   <p class="body dim">問題不是你不夠努力，是「用眼睛掃全部」的方向就錯了。</p>
-   <button class="btn" onclick="next()">對，我常常憑感覺追<small>看它漲就追、追完就套</small></button>
-   <button class="btn" onclick="next()">我想學怎麼有系統地篩<small>不想再大海撈針</small></button></div>`},
+   <span class="tag">先問你一件事</span><h2>你天天回來看 Yoda，已經比多數人懂市場了</h2>
+   <p class="body">免費的簡報、遊戲、時間軸，你都在用。你確實，正在變成更會判斷的自己。</p>
+   <p class="body dim">但你是不是常有一種感覺——<b class="hl"><br>「我懂了今天發生什麼，可是『接下來我該注意什麼』，總是差一步」？</b></p>
+   <button class="btn" onclick="next()">對，我常有這種「差一步」的感覺<small>看懂當下，但不知道下一步該怎麼辦</small></button>
+   <button class="btn" onclick="next()">還好，我看免費的就很夠<small>我只想掌握每天的重點</small></button></div>`},
+
+ fork:{html:()=>`<div class="card">
+   <span class="tag">你決定</span><h2>所以，你來 Yoda Research 是想成為誰？</h2>
+   <p class="body">沒有對錯——選你真正要的：</p>
+   <button class="btn" onclick="go(6)">我看免費的當日重點就很好<small>掌握每天發生什麼，這樣就夠</small></button>
+   <button class="btn" onclick="go(7)">我想精煉出一套自己的判斷系統<small>不只跟上，還要站得住、看得遠</small></button></div>`},
+
+ freeend:{html:()=>`<div class="card center">
+   <div class="result-emoji">🌱</div>
+   <div class="result-name">那就繼續免費，天天來</div>
+   <p class="body" style="margin-top:12px">這是好選擇。免費的簡報、遊戲、時間軸<b class="hl">永遠開著</b>——每天回來，你會一直變強。</p>
+   <p class="body dim">哪天你發現自己開始想「那接下來呢」，付費那扇門一直在，隨時回來。</p>
+   <div class="act-btns">
+     <a class="act-btn act-sub" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">訂免費電子報，每天不漏接 →</a>
+     <button class="act-btn act-share" onclick="share()">分享給也想看懂市場的朋友</button></div>
+   <div class="replay"><a onclick="replay()">再看一次</a></div></div>`},
+
+ close:{html:()=>`<div class="card">
+   <div class="result-emoji">⚖️</div>
+   <div class="result-name" style="font-size:24px">歡迎，把自己煉成更會判斷的人</div>
+   <p class="body" style="margin-top:12px">訂之前，最後一件事——<b class="hl">Yoda 的判斷力不是用講的。</b>每一個判斷的對錯，都公開記在時間軸上，你可以自己滑、自己驗。人皆有過，然贏家之所以為贏家，在於他們懂得將破碎的教訓，重新拼湊成通往未來的墊腳石。</p>
+   <div class="unlock"><b>創始會員（限量 30 位 · 早鳥）：</b>每期【關鍵報告】——完整判讀當前市況＋預判行情劇本＋Yoda 自己的預期、底線、操作與推理——連同六類完整報告與歷史庫。<b>早鳥 NT$459／月鎖價</b>，名額滿後恢復 589，你這批永遠停在 459。投資你自己的大腦，精煉你每天都在用的系統。<br><span class="dim" style="font-size:12px">（關鍵報告是分享判斷思路與自身操作、示範用，非投資建議、僅供參考。）</span></div>
+   <div class="act-btns">
+     <a class="act-btn act-sub" href="https://yoda-wcyc.github.io/-/subscribe.html" target="_blank" rel="noopener">成為創始會員（綠界金流）→</a>
+     <a class="act-btn act-report" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">先滑一遍公開時間軸（判斷力收據）</a>
+     <button class="act-btn act-share" onclick="share()">分享：把判斷力學校介紹給朋友</button></div>
+   <div class="replay"><a onclick="replay()">再看一次</a></div>
+   <div class="credit">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" rel="noopener">BiBiPiano</a>，版權為原作者所有。<br>Yoda Research · 判斷力學校</div></div>`},
 
  mono:{html:(s)=>`<div class="mono-wrap">${s.lines.map(l=>`<p>${l}</p>`).join('')}
    <div class="next"><button class="cta ghost" onclick="next()">繼續 →</button></div></div>`},
@@ -780,8 +640,8 @@ function showGive(i,html){ const rv=el('rv'+i); rv.innerHTML=html+'<div style="m
 
 /* ===== 分享 / 重玩 ===== */
 function share(){ const url='https://yoda-research-next.vercel.app/';
-  const text='股票那麼多要選誰？我學會用「資金流漏斗」一層層篩，不再大海撈針。';
-  if(navigator.share){navigator.share({title:'股票那麼多，要選誰？',text,url}).catch(()=>{});}
+  const text='Yoda Research 訂閱前——免費永遠免費，付費核心是一份【關鍵報告】：完整判讀＋預判行情的劇本＋Yoda 自己的操作與推理。';
+  if(navigator.share){navigator.share({title:'先別急著付錢',text,url}).catch(()=>{});}
   else{ const done=()=>alert('已複製連結，貼給朋友吧！');
     if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text+' '+url).then(done).catch(fb); else fb();
     function fb(){try{const ta=document.createElement('textarea');ta.value=text+' '+url;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();}catch(e){alert(url);}}}
