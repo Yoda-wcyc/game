@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>先別急著付錢｜Yoda Research 訂閱前</title>
+<style>
+:root{
+  --gold:#d4af37; --gold-dim:#b8960a;
+  --card:rgba(9,12,22,.68); --card-bd:rgba(255,255,255,.14);
+  --text:#eef2fb; --dim:#aab3c8; --ink:#e7ecf7;
+  --good:#5fbf8f; --bad:#e06b6b; --warn:#e8b45f;
+  --recovery:#30d158; --growth:#2997ff; --boom:#ff9f0a; --recession:#ff453a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC','Microsoft JhengHei',sans-serif;
+  color:var(--text);background:#05060f;overflow-x:hidden;-webkit-font-smoothing:antialiased;line-height:1.72}
+
+.sky-layer{position:fixed;inset:0;z-index:-3;transition:background .8s ease}
+.ink-layer{position:fixed;left:0;right:0;bottom:0;height:24vh;min-height:150px;z-index:-2;pointer-events:none}
+.ink-layer .ink-bg{width:100%;height:100%;display:block}
+.veil{position:fixed;inset:0;z-index:-1;background:radial-gradient(120% 80% at 50% 8%,transparent 40%,rgba(0,0,0,.36));pointer-events:none}
+body.sky-noon  .sky-layer{background:linear-gradient(180deg,#22345f,#5f79b0 42%,#d9b978 80%,#edd199)}
+body.sky-storm .sky-layer{background:linear-gradient(180deg,#0b0b12,#171733 50%,#33409e)}
+body.sky-night .sky-layer{background:linear-gradient(180deg,#05060f,#0e1630 55%,#182a54)}
+body.sky-dusk  .sky-layer{background:linear-gradient(180deg,#241436,#6a3a63 42%,#c9743f 80%,#e79a56)}
+body.sky-clear .sky-layer{background:linear-gradient(180deg,#173a68,#4a7cc0 44%,#a6cff0 82%,#d9edfb)}
+body.sky-valley .sky-layer{background:linear-gradient(180deg,#0c1420,#243247 52%,#3d5470)}
+
+.progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:100;
+  background:linear-gradient(90deg,var(--gold-dim),var(--gold));transition:width .5s ease;box-shadow:0 0 8px rgba(212,175,55,.6)}
+.mute{position:fixed;top:12px;right:14px;z-index:101;width:38px;height:38px;border-radius:50%;
+  border:1px solid var(--card-bd);background:rgba(9,12,22,.55);color:var(--text);font-size:17px;cursor:pointer;backdrop-filter:blur(8px)}
+.counter{position:fixed;top:14px;left:16px;z-index:101;font-size:12px;color:var(--dim);
+  font-family:'SF Mono',Consolas,monospace;background:rgba(9,12,22,.5);padding:4px 10px;border-radius:999px;backdrop-filter:blur(8px)}
+
+.stage{position:relative;z-index:1;min-height:100%;display:flex;align-items:center;justify-content:center;padding:64px 18px 54px}
+#scene{width:100%;max-width:640px;animation:fade .5s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.fadeout{animation:fo .3s ease both}
+@keyframes fo{to{opacity:0;transform:translateY(-10px)}}
+
+.card{background:var(--card);border:1px solid var(--card-bd);border-radius:18px;padding:28px 24px;
+  backdrop-filter:blur(14px);box-shadow:0 18px 50px rgba(0,0,0,.42)}
+.eyebrow{font-size:12px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:12px}
+.tag{display:inline-block;font-size:12px;padding:3px 11px;border-radius:999px;background:rgba(212,175,55,.16);
+  color:var(--gold);border:1px solid rgba(212,175,55,.3);margin-bottom:12px;letter-spacing:1px}
+.tag.teach{background:rgba(41,151,255,.16);color:#7fb8ff;border-color:rgba(41,151,255,.35)}
+.tag.prac{background:rgba(95,191,143,.16);color:#7fd6a6;border-color:rgba(95,191,143,.35)}
+h1{font-size:33px;font-weight:800;line-height:1.28;letter-spacing:.5px;margin-bottom:8px}
+h2{font-size:22px;font-weight:700;line-height:1.42;margin-bottom:12px}
+.lead{font-size:17px;color:#dfe6f4;margin:6px 0 18px}
+p.body{font-size:16px;color:#e6ebf6;margin:11px 0}
+.dim{color:var(--dim)} .hl{color:var(--gold);font-weight:700}
+.up{color:#7fd6a6;font-weight:700}.down{color:#f08a8a;font-weight:700}.warnc{color:var(--warn);font-weight:700}
+.data-box{background:rgba(255,255,255,.045);border:1px solid var(--card-bd);border-radius:12px;padding:14px 16px;margin:14px 0;font-size:15px;line-height:1.7}
+.data-box .row{display:flex;justify-content:space-between;gap:12px;padding:3px 0}
+.data-box .row b{color:#fff;font-weight:700}
+.stat{font-family:'SF Mono',Consolas,monospace}
+
+.btn{display:block;width:100%;text-align:left;font-size:16px;color:var(--text);background:rgba(255,255,255,.05);
+  border:1px solid var(--card-bd);border-radius:13px;padding:15px 17px;margin:10px 0;cursor:pointer;transition:all .16s;line-height:1.5}
+.btn:hover{background:rgba(255,255,255,.11);border-color:var(--gold);transform:translateY(-1px)}
+.btn small{display:block;color:var(--dim);font-size:13px;margin-top:3px}
+.btn.pick-good{border-color:var(--good);background:rgba(95,191,143,.18)}
+.btn.pick-bad{border-color:var(--bad);background:rgba(224,107,107,.15)}
+.btn:disabled{cursor:default}
+.cta{display:inline-block;margin-top:18px;padding:13px 30px;border-radius:999px;font-size:16px;font-weight:700;
+  color:#1a1200;background:linear-gradient(135deg,var(--gold),#f0d488);border:none;cursor:pointer;box-shadow:0 6px 20px rgba(212,175,55,.32);transition:transform .15s}
+.cta:hover{transform:translateY(-2px)}
+.cta.ghost{background:transparent;color:var(--gold);border:1px solid var(--gold);box-shadow:none}
+.center{text-align:center}
+
+.help{margin-top:14px;text-align:center}
+.help button{background:none;border:none;color:var(--dim);font-size:13px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.help button:hover{color:var(--gold)}
+.reveal{display:none;margin-top:16px;padding:15px 16px;border-radius:12px;background:rgba(212,175,55,.08);
+  border:1px solid rgba(212,175,55,.35);font-size:15px;line-height:1.66}
+.reveal.show{display:block;animation:fade .35s ease both}
+.reveal b{color:var(--gold)}
+.gloss{margin-top:10px;padding-top:10px;border-top:1px dashed rgba(255,255,255,.16);font-size:13.5px;color:var(--dim)}
+.gloss span{color:#dbe3f2}
+
+.mono-wrap{text-align:center;padding:6vh 8px}
+.mono-wrap p{font-size:25px;font-weight:300;letter-spacing:1.5px;line-height:1.9;color:#f2f4fb;opacity:0;animation:mfade 1.1s ease forwards}
+.mono-wrap p:nth-child(2){animation-delay:.9s}
+.mono-wrap .next{margin-top:30px;opacity:0;animation:mfade 1s ease forwards;animation-delay:1.9s}
+@keyframes mfade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* 溫度條 */
+.tempbar{margin:16px 0 6px}
+.tempbar-track{display:grid;grid-template-columns:repeat(4,1fr);border-radius:12px;overflow:hidden;border:1px solid var(--card-bd)}
+.tz{padding:16px 6px;text-align:center;cursor:pointer;transition:all .16s;font-size:14px;font-weight:700;position:relative;border-right:1px solid rgba(0,0,0,.25)}
+.tz:last-child{border-right:none}
+.tz small{display:block;font-size:11.5px;font-weight:400;color:rgba(255,255,255,.7);margin-top:3px}
+.tz.z0{background:linear-gradient(180deg,rgba(48,209,88,.32),rgba(48,209,88,.14))}
+.tz.z1{background:linear-gradient(180deg,rgba(41,151,255,.32),rgba(41,151,255,.14))}
+.tz.z2{background:linear-gradient(180deg,rgba(255,159,10,.34),rgba(255,159,10,.16))}
+.tz.z3{background:linear-gradient(180deg,rgba(255,69,58,.34),rgba(255,69,58,.16))}
+.tz:hover{filter:brightness(1.25)}
+.tz.sel{outline:3px solid var(--gold);outline-offset:-3px;z-index:2}
+.tz.correct{outline:3px solid var(--good);outline-offset:-3px;z-index:2}
+.tz.wrong{outline:3px solid var(--bad);outline-offset:-3px}
+.tempbar-scale{display:grid;grid-template-columns:repeat(4,1fr);font-size:11px;color:var(--dim);margin-top:5px;text-align:center}
+
+/* 半圓儀表 */
+.gauge{width:100%;max-width:320px;display:block;margin:8px auto}
+.gauge .arc-bg{fill:none;stroke:rgba(255,255,255,.12);stroke-width:16;stroke-linecap:round}
+.gauge .arc-ok{fill:none;stroke:var(--good);stroke-width:16;stroke-linecap:round}
+.gauge .arc-hot{fill:none;stroke:var(--recession);stroke-width:16;stroke-linecap:round}
+.gauge .needle{stroke:var(--gold);stroke-width:4;stroke-linecap:round}
+.gauge .hub{fill:var(--gold)}
+.gauge text{fill:var(--dim);font-size:12px;font-family:'SF Mono',monospace}
+.gauge .val{fill:#fff;font-size:26px;font-weight:800;text-anchor:middle}
+.gauge .unit{fill:var(--dim);font-size:12px;text-anchor:middle}
+
+/* 天秤 */
+.scale{width:100%;max-width:340px;height:auto;display:block;margin:6px auto 2px}
+.scale .stand,.scale .beam,.scale .lstr,.scale .rstr{stroke:var(--ink);stroke-width:4;stroke-linecap:round}
+.scale .beam{stroke-width:5}.scale .base{fill:var(--ink)}.scale .pivot{fill:var(--gold)}
+.scale .lpan,.scale .rpan{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round}
+.scale text{fill:var(--text);font-size:14px;font-weight:700;text-anchor:middle;paint-order:stroke;stroke:rgba(0,0,0,.45);stroke-width:3px}
+.pick-row{display:flex;gap:10px;margin-top:8px}
+.pick-row .btn{margin:0;text-align:center}
+
+/* 分類（先行/同步/滯後） */
+.clf-item{border:1px solid var(--card-bd);border-radius:12px;padding:11px 13px;margin:9px 0;background:rgba(255,255,255,.04)}
+.clf-item .name{font-size:15px;font-weight:600;margin-bottom:7px}
+.clf-item .name small{display:block;color:var(--dim);font-size:12.5px;font-weight:400;margin-top:2px}
+.clf-btns{display:flex;gap:7px}
+.clf-btns button{flex:1;font-size:13px;padding:8px 4px;border-radius:9px;border:1px solid var(--card-bd);
+  background:rgba(255,255,255,.05);color:var(--text);cursor:pointer;transition:all .14s}
+.clf-btns button:hover{border-color:var(--gold)}
+.clf-btns button.on{background:rgba(212,175,55,.22);border-color:var(--gold);color:#fff;font-weight:700}
+.clf-item.right{border-color:var(--good);background:rgba(95,191,143,.12)}
+.clf-item.wrong{border-color:var(--bad);background:rgba(224,107,107,.12)}
+
+/* 排序（誰先變） */
+.sort-item{display:flex;align-items:center;gap:12px;border:1px solid var(--card-bd);border-radius:12px;
+  padding:13px 15px;margin:9px 0;background:rgba(255,255,255,.04);cursor:pointer;transition:all .15s}
+.sort-item:hover{border-color:var(--gold)}
+.sort-item.picked{opacity:.55;border-color:var(--good)}
+.sort-item .rank{flex:0 0 30px;height:30px;border-radius:50%;border:2px solid var(--dim);display:flex;
+  align-items:center;justify-content:center;font-weight:800;font-size:15px;color:var(--dim)}
+.sort-item.picked .rank{background:var(--gold);border-color:var(--gold);color:#1a1200}
+.sort-item .lbl{font-size:15px;line-height:1.45}
+.sort-item .lbl small{display:block;color:var(--dim);font-size:12.5px}
+.sort-item .tag-lead{margin-left:auto;font-size:11px;padding:2px 8px;border-radius:999px;flex-shrink:0}
+
+/* 檢查表 */
+.check{display:flex;align-items:flex-start;gap:12px;padding:13px 14px;margin:9px 0;border-radius:12px;
+  border:1px solid var(--card-bd);background:rgba(255,255,255,.04);cursor:pointer;transition:all .15s}
+.check:hover{border-color:var(--gold)}
+.check.on{border-color:var(--good);background:rgba(95,191,143,.14)}
+.check .box{flex:0 0 24px;height:24px;border-radius:7px;border:2px solid var(--dim);display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;transition:all .15s}
+.check.on .box{background:var(--good);border-color:var(--good)}
+.check .lbl{font-size:15px;line-height:1.5}
+.check .lbl small{display:block;color:var(--dim);font-size:12.5px;margin-top:2px}
+/* 翻牌（榮景末前哨清單） */
+.flipwrap{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0 4px}
+@media(max-width:520px){.flipwrap{grid-template-columns:1fr}}
+.flipcard{perspective:1100px;cursor:pointer;min-height:158px}
+.flipinner{position:relative;width:100%;height:100%;min-height:158px;transition:transform .55s cubic-bezier(.4,.15,.2,1);transform-style:preserve-3d}
+.flipcard.on .flipinner{transform:rotateY(180deg)}
+.flipface{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:12px;border:1px solid var(--card-bd);padding:15px;display:flex;flex-direction:column;justify-content:center;overflow:auto}
+.flipfront{background:rgba(255,255,255,.05);opacity:1;transition:opacity 0s .27s}
+.flipcard.on .flipfront{opacity:0}
+.flipcard:hover .flipfront{border-color:var(--gold)}
+.flipfront .ft{font-size:15px;line-height:1.5;font-weight:700;color:var(--text)}
+.flipfront .hint{margin-top:9px;font-size:11.5px;color:var(--dim)}
+.flipback{background:rgba(95,191,143,.14);border-color:var(--good);transform:rotateY(180deg);opacity:0;transition:opacity 0s .27s}
+.flipcard.on .flipback{opacity:1}
+.flipback .bh{font-size:11px;color:var(--good);font-weight:700;letter-spacing:.05em;margin-bottom:6px}
+.flipback .bt{font-size:12.5px;line-height:1.55;color:#e6ebf6}
+
+/* 結果 */
+.result-emoji{font-size:62px;text-align:center;line-height:1;margin:4px 0}
+.result-name{text-align:center;font-size:27px;font-weight:800;color:var(--gold);margin-bottom:3px}
+.result-tier{text-align:center;font-size:12.5px;letter-spacing:2px;color:var(--dim);margin-bottom:8px}
+.result-score{text-align:center;font-size:14px;color:var(--dim);margin-bottom:14px}
+.unlock{border:1px solid rgba(212,175,55,.4);border-radius:12px;padding:14px 16px;margin:14px 0;background:rgba(212,175,55,.07);font-size:15px;line-height:1.66}
+.unlock b{color:var(--gold)}
+.fpt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0}
+.fpt{border:1px solid var(--card-bd);border-radius:12px;overflow:hidden;font-size:13px;min-width:560px}
+.fpt .fpt-row{display:grid;grid-template-columns:1.25fr .82fr .82fr .95fr .82fr 1.15fr;border-top:1px solid var(--card-bd)}
+.fpt .fpt-row:first-child{border-top:none}
+.fpt .fpt-row>div{padding:8px 6px;border-right:1px solid var(--card-bd);line-height:1.4}
+.fpt .fpt-row>div:last-child{border-right:none}
+.fpt .fpt-head{background:rgba(255,255,255,.06);font-weight:700;text-align:center;font-size:12px}
+.fpt .fpt-ind{font-weight:600;color:#dbe3f2}
+.fpt .cur{background:rgba(212,175,55,.13);color:#e8c86a;font-weight:600}
+.act-btns{display:flex;flex-direction:column;gap:12px;margin-top:20px}
+.act-btn{display:block;text-align:center;padding:15px 18px;border-radius:13px;font-size:15.5px;font-weight:700;text-decoration:none;transition:transform .15s}
+.act-btn:hover{transform:translateY(-2px)}
+.act-sub{background:linear-gradient(135deg,var(--gold),#f0d488);color:#1a1200;box-shadow:0 6px 20px rgba(212,175,55,.3)}
+.act-report{background:rgba(255,255,255,.07);color:var(--text);border:1px solid var(--gold)}
+.act-share{background:rgba(255,255,255,.07);color:var(--text);border:1px solid var(--card-bd)}
+.replay{text-align:center;margin-top:16px}.replay a{color:var(--dim);font-size:13px;text-decoration:underline;cursor:pointer}
+.credit{text-align:center;margin-top:18px;font-size:11.5px;color:var(--dim);line-height:1.7}.credit a{color:var(--dim)}
+.neutral-note{font-size:12px;color:var(--dim);text-align:center;margin-top:12px;opacity:.85}
+@media(max-width:480px){h1{font-size:27px}h2{font-size:19px}.card{padding:22px 16px}.mono-wrap p{font-size:21px}
+  .fpt .fpt-row{grid-template-columns:1.25fr .82fr .82fr .95fr .82fr 1.15fr;font-size:11px}}
+</style>
+</head>
+<body class="sky-noon">
+<div class="sky-layer"></div>
+<div class="ink-layer" id="ink"></div>
+<div class="veil"></div>
+<div class="progress" id="prog"></div>
+<div class="counter" id="counter"></div>
+<button class="mute" id="mute" title="靜音">🔊</button>
+<audio id="bgm" loop preload="auto"><source src="day_one.mp3"></audio>
+
+<div class="stage"><div id="scene"></div></div>
+
+<script>
+/* ===== 水墨背景引擎（取自 ink-gallery 正本） ===== */
+function inkCols(sky){
+  const dark=['sky-storm','sky-valley','sky-dawn','sky-dusk','sky-night','sky-blood','sky-gray','sky-start'].includes(sky);
+  return dark?['rgba(210,220,245,0.10)','rgba(180,195,230,0.16)','rgba(222,232,252,0.34)']
+             :['rgba(30,35,60,0.10)','rgba(25,30,55,0.16)','rgba(20,25,50,0.30)'];
+}
+const MOTIFS={
+  farhills:{art:(f,n,l)=>`<path d="M0,70 C120,50 220,58 340,44 C460,32 560,52 700,40 C840,30 960,50 1080,42 L1200,46 L1200,120 L0,120Z" fill="${f}"/><path d="M0,86 C160,74 300,82 460,70 C640,58 780,76 940,68 C1060,62 1140,72 1200,70 L1200,120 L0,120Z" fill="${n}"/><path d="M0,70 C120,50 220,58 340,44 C460,32 560,52 700,40 C840,30 960,50 1080,42 L1200,46" fill="none" stroke="${l}" stroke-width="1.4"/>`},
+  peak:{art:(f,n,l)=>`<path d="M0,104 C260,100 430,94 520,56 C560,40 600,20 640,20 C680,20 720,42 760,60 C860,100 1000,102 1200,100 L1200,120 L0,120Z" fill="${n}"/><path d="M600,28 C612,42 628,54 640,60" fill="none" stroke="${l}" stroke-width="1.4"/><path d="M660,54 C700,74 780,88 900,92" fill="none" stroke="${l}" stroke-width="1.2" opacity="0.8"/><rect x="300" y="62" width="620" height="12" fill="${f}"/><path d="M120,86 h240 M470,86 h180 M760,90 h300" stroke="${f}" stroke-width="9" stroke-linecap="round" opacity="0.7"/>`},
+  river:{art:(f,n,l)=>`<path d="M0,90 C300,82 500,86 1200,84 L1200,120 L0,120Z" fill="${f}"/><path d="M470,82 Q540,98 610,82" fill="none" stroke="${l}" stroke-width="1.8" stroke-linecap="round"/><line x1="540" y1="84" x2="540" y2="64" stroke="${l}" stroke-width="1.4"/><path d="M540,66 L568,82 L540,82Z" fill="${n}"/><path d="M120,94 q80,-4 160,0 t160,0 M700,96 q80,-4 160,0 t160,0" fill="none" stroke="${l}" stroke-width="1" opacity="0.6"/>`},
+  range:{art:(f,n,l)=>`<path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38 L1200,120 L0,120Z" fill="${f}"/><path d="M0,82 C160,66 320,76 480,60 C640,46 800,70 960,60 C1080,54 1160,64 1200,62 L1200,120 L0,120Z" fill="${n}"/><path d="M0,100 C220,90 420,96 640,86 C860,78 1020,92 1200,84 L1200,120 L0,120Z" fill="${n}"/><path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38" fill="none" stroke="${l}" stroke-width="1.2" opacity="0.85"/>`},
+  reed:{art:(f,n,l)=>`<path d="M0,88 C300,80 640,86 1000,80 C1100,78 1160,82 1200,80 L1200,120 L0,120Z" fill="${f}"/><path d="M0,102 C360,96 760,100 1200,96 L1200,120 L0,120Z" fill="${n}"/><g stroke="${l}" stroke-width="1.3" fill="none" stroke-linecap="round" opacity="0.9"><path d="M120,96 C118,74 122,62 128,48 M124,66 C112,60 106,54 104,46 M124,66 C136,58 142,52 146,44"/><path d="M150,96 C150,78 152,66 156,54"/><path d="M1040,94 C1042,74 1040,62 1034,50 M1039,68 C1050,62 1056,56 1058,48 M1039,68 C1028,60 1022,56 1020,48"/></g>`},
+  lonepine:{art:(f,n,l)=>`<path d="M0,96 C260,86 520,92 760,84 C960,78 1080,88 1200,84 L1200,120 L0,120Z" fill="${f}"/><path d="M760,54 C900,60 1040,74 1200,72" fill="none" stroke="${l}" stroke-width="1.1" opacity="0.55"/><g stroke="${l}" stroke-width="1.5" fill="none" stroke-linecap="round"><path d="M250,92 L250,44"/><path d="M250,58 L224,50 M250,58 L280,48 M250,70 L226,64 M250,70 L282,62 M250,82 L230,78 M250,82 L276,74"/></g>`}
+};
+function bg(type,sky){const m=MOTIFS[type];if(!m)return '';const[f,n,l]=inkCols(sky);
+  return `<svg class="ink-bg" viewBox="0 0 1200 120" preserveAspectRatio="none">${m.art(f,n,l)}</svg>`;}
+
+/* ===== 四階段 ===== */
+const PHASE={recovery:{e:'🌱',n:'復甦期'},growth:{e:'📈',n:'成長期'},boom:{e:'🔥',n:'榮景期'},recession:{e:'⚠',n:'衰退期'}};
+
+/* ===== 場景資料（忠實 2026-08-01 總經報告定調：晚循環/榮景尾聲前哨 + 製造業擴張中段） ===== */
+const S=[
+// 0 開場
+{type:'title',sky:'sky-noon',bg:'farhills'},
+// 1 對號入座（拉）
+{type:'project',sky:'sky-noon',bg:'farhills'},
+// 2 過場（推）
+{type:'mono',sky:'sky-night',bg:'reed',lines:['免費，讓你看懂今天。','明天、下個月的茫然，你還得自己扛？']},
+// 3 免費的天花板（歌頌免費＋斷點）
+{type:'teach',sky:'sky-valley',bg:'range',tag:'免費給你的',tagc:'teach',h:'免費的，已經很值錢——而且永遠免費',
+ html:`<p class="body">先說清楚：這些<b class="hl">永遠免費</b>，不會變、不會抽走：</p>
+ <div class="data-box">
+ <div class="row"><b>每天的簡報</b><span class="dim">發生什麼、為什麼</span></div>
+ <div class="row"><b>絕大部分遊戲</b><span class="dim">一玩就懂的判斷力入門</span></div>
+ <div class="row"><b>公開的時間軸</b><span class="dim">Yoda 每一個判斷的對錯收據</span></div></div>
+ <p class="body">它們讓你「看懂今天」。但你剛說的那個「差一步」——<b class="hl">看懂全貌、提前部署、提升判斷力、煉成一套你自己的系統</b>——免費就停在這裡。不是藏起來，那本來就是更深的一層。</p>`},
+// 4 解方 · 創始會員（§5 framing）
+{type:'teach',sky:'sky-clear',bg:'range',tag:'多付的那部分',tagc:'teach',h:'付費的核心，是一份【關鍵報告】',
+ html:`<p class="body">不是報你明牌、不是叫你買什麼。<b class="hl"><br>關鍵報告</b>＝Yoda 把「當下市況怎麼判斷」完整攤給你看：</p>
+ <div class="data-box">
+ <div class="row"><b>完整判讀</b><span class="dim">不只「為什麼」，還有全貌與細節</span></div>
+ <div class="row"><b>預判行情的劇本</b><span class="dim">若 A → 通常 B、盯訊號 C <br>（可證偽，不是明牌）</span></div>
+ <div class="row"><b>Yoda 自己的實際操作與推理</b><span class="dim">我怎麼做、什麼訊號會讓我改變主意——<br>示範思路，不是要你照抄</span></div></div>
+ <p class="body">「關鍵」指的是<b class="hl">判斷的關鍵</b>，不是「關鍵買賣點」。這正是你剛說那個「接下來我該注意什麼」的完整答案。它在六類完整報告裡，創始會員會拿到關鍵報告＋歷史庫。<b class="hl">投資你自己的大腦，精煉你每天都在用的系統。</b></p>`},
+// 5 自選（篩選分岔）
+{type:'fork',sky:'sky-dusk',bg:'lonepine'},
+// 6 免費結局（體面離場）
+{type:'freeend',sky:'sky-noon',bg:'farhills'},
+// 7 創始會員 close（信任＋CTA）
+{type:'close',sky:'sky-clear',bg:'range'}
+];
+
+/* ===== 狀態 / 導覽 ===== */
+let cur=0; const state={score:0,max:0,answered:{}};
+const el=id=>document.getElementById(id);
+const scene=()=>el('scene');
+
+function applyEnv(i){
+  const s=S[i]; document.body.className=s.sky;
+  el('ink').innerHTML=bg(s.bg,s.sky);
+  el('prog').style.width=(i/(S.length-1)*100)+'%';
+  const qnum=S.slice(0,i+1).filter(x=>['classify','flip','phasepick','gauge','scale','templocate','sort'].includes(x.type)).length;
+  const qtot=S.filter(x=>['classify','flip','phasepick','gauge','scale','templocate','sort'].includes(x.type)).length;
+  el('counter').textContent = s.tag ? (['classify','flip','phasepick','gauge','scale','templocate','sort'].includes(s.type)?`第 ${qnum}/${qtot} 題`:'') : '';
+}
+function go(i){
+  const sc=scene(); sc.classList.add('fadeout');
+  setTimeout(()=>{ cur=i; sc.classList.remove('fadeout'); render(i); applyEnv(i);
+    window.scrollTo({top:0,behavior:'smooth'});},300);
+}
+function next(){ if(cur<S.length-1) go(cur+1); }
+
+/* ===== 主 render 分派 ===== */
+function render(i){
+  const s=S[i], sc=scene(); sc.style.animation='none'; void sc.offsetWidth; sc.style.animation='fade .5s ease both';
+  const R=RENDER[s.type]; sc.innerHTML=R.html(s,i); if(R.init) R.init(s,i);
+}
+function contBtn(label){return `<div class="center"><button class="cta" onclick="next()">${label||'繼續 →'}</button></div>`;}
+function helpBtn(i){return `<div class="help" id="help${i}"><button onclick="give(${i})">看不懂？給我答案</button></div>`;}
+function nextSlot(i){return `<div class="center" id="nx${i}" style="display:none;margin-top:6px"><button class="cta" onclick="next()">下一步 →</button></div>`;}
+function tagHTML(s){return s.tag?`<span class="tag ${s.tagc||''}">${s.tag}</span>`:'';}
+
+/* 完成一題：計分、顯示解說、放行 */
+function resolve(i,correct,revealHTML){
+  state.answered[i]=true; if(correct)state.score++;
+  const rv=el('rv'+i); if(rv){rv.innerHTML=revealHTML; rv.className='reveal show';}
+  const h=el('help'+i); if(h)h.style.display='none';
+  const nx=el('nx'+i); if(nx)nx.style.display='block';
+}
+
+/* ===== 各型別 render ===== */
+const RENDER={
+ title:{html:()=>`<div class="card center">
+   <div class="eyebrow">Yoda Research · 訂閱前</div>
+   <h1>先別急著付錢</h1>
+   <p class="lead">你點了「訂閱」——<br>但在掏錢之前，<br>先花 1 分鐘搞清楚：<br>你到底會為自己多拿到什麼。</p>
+   <button class="cta" onclick="next()">好，帶我看 →</button>
+   <div class="neutral-note">※ 免費的一切（貼文、遊戲、簡報、時間軸）永遠免費。<br>這裡只講「多付的那部分，值不值」。</div></div>`},
+
+ project:{html:()=>`<div class="card">
+   <span class="tag">先問你一件事</span><h2>你天天回來看 Yoda，已經比多數人懂市場了</h2>
+   <p class="body">免費的簡報、遊戲、時間軸，你都在用。你確實，正在變成更會判斷的自己。</p>
+   <p class="body dim">但你是不是常有一種感覺——<b class="hl"><br>「我懂了今天發生什麼，可是『接下來我該注意什麼』，總是差一步」？</b></p>
+   <button class="btn" onclick="next()">對，我常有這種「差一步」的感覺<small>看懂當下，但不知道下一步該怎麼辦</small></button>
+   <button class="btn" onclick="next()">還好，我看免費的就很夠<small>我只想掌握每天的重點</small></button></div>`},
+
+ fork:{html:()=>`<div class="card">
+   <span class="tag">你決定</span><h2>所以，你來 Yoda Research 是想成為誰？</h2>
+   <p class="body">沒有對錯——選你真正要的：</p>
+   <button class="btn" onclick="go(6)">我看免費的當日重點就很好<small>掌握每天發生什麼，這樣就夠</small></button>
+   <button class="btn" onclick="go(7)">我想精煉出一套自己的判斷系統<small>不只跟上，還要站得住、看得遠</small></button></div>`},
+
+ freeend:{html:()=>`<div class="card center">
+   <div class="result-emoji">🌱</div>
+   <div class="result-name">那就繼續免費，天天來</div>
+   <p class="body" style="margin-top:12px">這是好選擇。免費的簡報、遊戲、時間軸<b class="hl">永遠開著</b>——每天回來，你會一直變強。</p>
+   <p class="body dim">哪天你發現自己開始想「那接下來呢」，付費那扇門一直在，隨時回來。</p>
+   <div class="act-btns">
+     <a class="act-btn act-sub" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">訂免費電子報，每天不漏接 →</a>
+     <button class="act-btn act-share" onclick="share()">分享給也想看懂市場的朋友</button></div>
+   <div class="replay"><a onclick="replay()">再看一次</a></div></div>`},
+
+ close:{html:()=>`<div class="card">
+   <div class="result-emoji">⚖️</div>
+   <div class="result-name" style="font-size:24px">歡迎，把自己煉成更會判斷的人</div>
+   <p class="body" style="margin-top:12px">訂之前，最後一件事——<b class="hl">Yoda 的判斷力不是用講的。</b>每一個判斷的對錯，都公開記在時間軸上，你可以自己滑、自己驗。人皆有過，然贏家之所以為贏家，在於他們懂得將破碎的教訓，重新拼湊成通往未來的墊腳石。</p>
+   <div class="unlock"><b>創始會員（限量早鳥）：</b>每期【關鍵報告】——完整判讀當前市況＋預判行情劇本＋Yoda 自己的預期、底線、操作與推理——連同六類完整報告與歷史庫。<b>早鳥價鎖住</b>，日後漲價你這批永遠舊價。投資你自己的大腦，精煉你每天都在用的系統。<br><b>＋ 推薦好禮：</b>訂閱後你有一條專屬連結，朋友透過它訂閱，<b>雙方各得半個月免費</b>（延長你的、也讓朋友先試）。<br><span class="dim" style="font-size:12px">（關鍵報告是分享判斷思路與自身操作、示範用，非投資建議、僅供參考。）</span></div>
+   <div class="act-btns">
+     <a class="act-btn act-sub" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">成為創始會員（藍新金流）→</a>
+     <a class="act-btn act-report" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">先滑一遍公開時間軸（判斷力收據）</a>
+     <button class="act-btn act-share" onclick="share()">分享：把判斷力學校介紹給朋友</button></div>
+   <div class="replay"><a onclick="replay()">再看一次</a></div>
+   <div class="credit">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" rel="noopener">BiBiPiano</a>，版權為原作者所有。<br>Yoda Research · 判斷力學校</div></div>`},
+
+ mono:{html:(s)=>`<div class="mono-wrap">${s.lines.map(l=>`<p>${l}</p>`).join('')}
+   <div class="next"><button class="cta ghost" onclick="next()">繼續 →</button></div></div>`},
+
+ teach:{html:(s)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2>${s.html}${contBtn()}</div>`},
+
+ classify:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2><p class="body dim">${s.sub}</p>
+   <div id="clf${i}">${s.items.map(it=>`
+     <div class="clf-item" id="ci-${it.id}"><div class="name">${it.label}<small>${it.hint}</small></div>
+     <div class="clf-btns">
+       <button onclick="clfPick('${it.id}','lead',this)">先行</button>
+       <button onclick="clfPick('${it.id}','coin',this)">同步</button>
+       <button onclick="clfPick('${it.id}','lag',this)">滯後</button></div></div>`).join('')}</div>
+   <div class="reveal" id="rv${i}"></div>${helpBtn(i)}${nextSlot(i)}</div>`,
+  init:(s,i)=>{clfState={};}},
+
+ flip:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2>${s.setup}
+   <div id="pk${i}">${s.opts.map((o,idx)=>`<button class="btn" onclick="flipPick(${i},${idx})">${o.t}</button>`).join('')}</div>
+   <div class="reveal" id="rv${i}"></div>${helpBtn(i)}${nextSlot(i)}</div>`},
+
+ phasepick:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2>${s.data}
+   <p class="body"><b>${s.q}</b></p>
+   <div id="pk${i}">${s.opts.map((o,idx)=>`<button class="btn" onclick="ppPick(${i},${idx})">${o}</button>`).join('')}</div>
+   <div class="reveal" id="rv${i}"></div>${helpBtn(i)}${nextSlot(i)}</div>`},
+
+ gauge:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2>${s.data}
+   <svg viewBox="0 0 240 150" class="gauge" id="g${i}">
+     <path class="arc-bg" d="M24,130 A96,96 0 0 1 216,130"/>
+     <path class="arc-hot" id="ghot${i}" d=""/>
+     <line class="needle" id="gn${i}" x1="120" y1="130" x2="120" y2="46"/>
+     <circle class="hub" cx="120" cy="130" r="7"/>
+     <text x="24" y="146">${s.min}</text><text x="210" y="146">${s.max}</text>
+     <text class="val" id="gv${i}" x="120" y="118">–</text><text class="unit" x="120" y="134">${s.unit}</text></svg>
+   <p class="body"><b>${s.q}</b></p>
+   <div id="pk${i}">${s.opts.map((o,idx)=>`<button class="btn" onclick="gaugePick(${i},${idx})">${o}</button>`).join('')}</div>
+   <div class="reveal" id="rv${i}"></div>${helpBtn(i)}${nextSlot(i)}</div>`,
+  init:(s,i)=>drawGauge(i,s)},
+
+ scale:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2>${s.setup}
+   <svg viewBox="0 0 360 210" class="scale" id="sc${i}">
+     <line class="stand" x1="180" y1="58" x2="180" y2="188"/>
+     <polygon class="base" points="152,188 208,188 198,202 162,202"/>
+     <line class="beam" x1="60" y1="58" x2="300" y2="58"/><circle class="pivot" cx="180" cy="58" r="7"/>
+     <line class="lstr" x1="60" y1="58" x2="60" y2="102"/><path class="lpan" d="M-28,0 Q0,18 28,0"/>
+     <text class="llabel" x="60" y="128">${s.leftLabel}</text>
+     <line class="rstr" x1="300" y1="58" x2="300" y2="102"/><path class="rpan" d="M-28,0 Q0,18 28,0"/>
+     <text class="rlabel" x="300" y="128">${s.rightLabel}</text></svg>
+   <div class="pick-row" id="pk${i}">${s.opts.map((o,idx)=>`<button class="btn" onclick="scalePick(${i},${idx})">${o.t}</button>`).join('')}</div>
+   <div class="reveal" id="rv${i}"></div>${helpBtn(i)}${nextSlot(i)}</div>`,
+  init:(s,i)=>renderScale(el('sc'+i),0)},
+
+ templocate:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2>${s.data}
+   <div class="tempbar"><div class="tempbar-track" id="tb${i}">${s.zones.map((z,idx)=>`
+     <div class="tz z${idx}" onclick="tempPick(${i},${idx})"><span>${z.t}</span><small>${z.s}</small></div>`).join('')}</div></div>
+   <div class="reveal" id="rv${i}"></div>${helpBtn(i)}${nextSlot(i)}</div>`},
+
+ sort:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2><p class="body dim">${s.sub}</p>
+   <div id="st${i}">${s.items.map(it=>`
+     <div class="sort-item" id="si-${it.id}" onclick="sortTap(${i},'${it.id}')">
+       <div class="rank">–</div><div class="lbl">${it.label}<small>${it.hint}</small></div>
+       <span class="tag-lead" style="background:${it.kind==='先行'?'rgba(95,191,143,.2)':it.kind==='同步'?'rgba(232,180,95,.2)':'rgba(224,107,107,.2)'};color:${it.kind==='先行'?'#7fd6a6':it.kind==='同步'?'#e8b45f':'#f08a8a'}">${it.kind}</span></div>`).join('')}</div>
+   <div class="reveal" id="rv${i}"></div>${helpBtn(i)}${nextSlot(i)}</div>`,
+  init:(s,i)=>{sortState=[];}},
+
+ flipcards:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2><p class="body dim">${s.sub}</p>
+   <div class="flipwrap" id="ck${i}">${s.items.map((it)=>`
+     <div class="flipcard" onclick="flipReveal(this,${i})"><div class="flipinner">
+       <div class="flipface flipfront"><div class="ft">${it.t}</div><div class="hint">👆 翻開看「為什麼代表向下」</div></div>
+       <div class="flipface flipback"><div class="bh">為什麼危險</div><div class="bt">${it.s}</div></div>
+     </div></div>`).join('')}</div>
+   <div class="center" style="margin-top:8px"><button class="cta" id="ckbtn${i}" onclick="next()" disabled>全部翻開後繼續</button></div></div>`},
+
+ checklist:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2><p class="body dim">${s.sub}</p>
+   <div id="ck${i}">${s.items.map(it=>`
+     <div class="check" onclick="chkToggle(this,${i})"><div class="box">✓</div>
+       <div class="lbl">${it.t}<small>${it.s}</small></div></div>`).join('')}</div>
+   <div class="center" style="margin-top:8px"><button class="cta" id="ckbtn${i}" onclick="next()" disabled>全部勾選後繼續</button></div></div>`},
+
+ result:{html:()=>{
+   let ratio=state.max?state.score/state.max:0, t;
+   if(ratio>=0.8) t={e:'🎯',n:'讀資金流的人',tier:'LV.3 · 讓漏斗幫你選',
+     d:'你已經不再大海撈針——會先讀資金流、鎖啟動期、挑 A 級、要實錘、留退場線。幾千檔進去，剩幾檔出來。',
+     u:'<b>技能解鎖：選股決策鏈（完整）。</b>輪動→階段→A級→實錘→退場，五關你都握住了。「選誰」不再是憑感覺。'};
+   else if(ratio>=0.5) t={e:'🧭',n:'漏斗學徒',tier:'LV.2 · 開始會篩',
+     d:'你抓到訣竅了：跟著資金流、不憑感覺。剩下的是把五關練熟——尤其「實錘」和「退場線」別漏。',
+     u:'<b>技能解鎖：跟著錢走 + 啟動期意識。</b>再把籌碼實錘與退場線練熟，你的漏斗就準了。'};
+   else t={e:'🎣',n:'感覺派',tier:'LV.1 · 還在大海撈針',
+     d:'你還在用眼睛掃、憑感覺追。但這一課讓你看見了漏斗：選股不是猜，是一層層篩掉 99%。',
+     u:'<b>技能解鎖：看見「漏斗」這件事。</b>下次別再掃全部——先問「錢在哪個板塊」。光這一步，你就少踩一堆刀。'};
+   return `<div class="card">
+     <div class="result-emoji">${t.e}</div><div class="result-name">${t.n}</div>
+     <div class="result-tier">${t.tier}</div><div class="result-score">五關你讀對了 ${state.score} / ${state.max}</div>
+     <p class="body center">${t.d}</p><div class="unlock">${t.u}</div>
+     <p class="body center dim" style="font-size:14px">當期（2026-08）台美同一個故事：<b class="warnc">AI／科技退潮、資金輪動</b>——美股錢流非必需消費／金融、台股流金融／航運；都在「破底翻／空方末端」。別追崩的，跟噴的。</p>
+     <div class="data-box" style="text-align:left">
+       <div class="row"><b>① 錢往哪流</b><span class="dim">美股:三圈熄→金融/消費　台股:電子崩→金融+29/航運+23</span></div>
+       <div class="row"><b>② 何時上車</b><span class="dim">啟動期＝廣度剛擴散&gt;20%、還沒追高</span></div>
+       <div class="row"><b>③ 上哪一檔</b><span class="dim">A級三條件全中；美股生技/資安、台股金融領先</span></div>
+       <div class="row"><b>④ 有沒有實錘</b><span class="dim">台股雙向確認(外資買台積+5.6萬)、吸籌54.2%；美股看廣度</span></div>
+       <div class="row"><b>⑤ 退場線</b><span class="dim">資金轉防禦/掉出名單/新低267&gt;151看位置</span></div></div>
+     <div class="act-btns">
+       <a class="act-btn act-sub" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">訂電子報，每週帶你把資金流讀成機會 →</a>
+       <a class="act-btn act-report" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">看這期完整台美報告，對照你剛學的 →</a>
+       <button class="act-btn act-share" onclick="share()">分享：讓還在大海撈針的朋友也學會用漏斗</button></div>
+     <div class="replay"><a onclick="replay()">重玩一次</a></div>
+     <div class="credit">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" rel="noopener">BiBiPiano</a>，版權為原作者所有。<br>Yoda Research · 判斷力學校 · 選股決策鏈</div></div>`;}}
+};
+
+/* ===== 互動處理 ===== */
+// 分類
+let clfState={};
+function clfPick(id,cat,btn){
+  const i=cur; if(state.answered[i])return;
+  clfState[id]=cat;
+  const item=el('ci-'+id); item.querySelectorAll('.clf-btns button').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  if(Object.keys(clfState).length===S[i].items.length){
+    let ok=0; S[i].items.forEach(it=>{ const right=clfState[it.id]===it.cat;
+      el('ci-'+it.id).classList.add(right?'right':'wrong'); if(right)ok++;});
+    const all=ok===S[i].items.length;
+    resolve(i,all,`<b>${all?'全對 ✓':`對了 ${ok}/${S[i].items.length}`}。</b>先行的最早轉（初領失業金、PMI新訂單），同步的跟當下走（GDP），<b>失業率和違約率是滯後</b>——它們最後才反映，拿來預判會慢半拍。<div class="gloss">白話：${S[i].gloss}</div>`);
+  }
+}
+// 翻面
+function flipPick(i,idx){ if(state.answered[i])return;
+  const s=S[i], correct=idx===s.correct;
+  document.querySelectorAll('#pk'+i+' .btn').forEach((b,k)=>{b.disabled=true;
+    if(k===s.correct)b.classList.add('pick-good'); else if(k===idx)b.classList.add('pick-bad');});
+  resolve(i,correct,(correct?s.revealGood:s.revealBad)+`<div class="gloss">白話：${s.gloss}</div>`);
+}
+// 階段選擇
+function ppPick(i,idx){ if(state.answered[i])return;
+  const s=S[i], correct=idx===s.correct;
+  document.querySelectorAll('#pk'+i+' .btn').forEach((b,k)=>{b.disabled=true;
+    if(k===s.correct)b.classList.add('pick-good'); else if(k===idx)b.classList.add('pick-bad');});
+  resolve(i,correct,(correct?'':'<b>再看一次 —— </b>')+s.reveal+`<div class="gloss">白話：${s.gloss}</div>`);
+}
+// 儀表
+function drawGauge(i,s){
+  const svg=el('g'+i); if(!svg)return;
+  // 過熱區弧線（threshold→max）
+  const a0=Math.PI, a1=0, frac=(s.threshold-s.min)/(s.max-s.min);
+  const ang=a0+(a1-a0)*frac; const cx=120,cy=130,r=96;
+  const x1=cx+r*Math.cos(ang), y1=cy-r*Math.sin(ang), x2=cx+r*Math.cos(0), y2=cy-r*Math.sin(0);
+  el('ghot'+i).setAttribute('d',`M${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 0 1 ${x2.toFixed(1)},${y2.toFixed(1)}`);
+  gaugeAnim(i,s.min,s.value,s);
+}
+function gaugeAnim(i,from,to,s){
+  const svg=el('g'+i); if(!svg)return; const t0=Date.now(),dur=800;
+  if(svg._iv)clearInterval(svg._iv);
+  svg._iv=setInterval(()=>{ let p=Math.min(1,(Date.now()-t0)/dur); const e=1-Math.pow(1-p,3);
+    const v=from+(to-from)*e; setNeedle(i,v,s);
+    if(p>=1){clearInterval(svg._iv);svg._iv=null;}},16);
+}
+function setNeedle(i,v,s){
+  const cx=120,cy=130,len=84, frac=(v-s.min)/(s.max-s.min), ang=Math.PI+(0-Math.PI)*frac;
+  el('gn'+i).setAttribute('x2',(cx+len*Math.cos(ang)).toFixed(1));
+  el('gn'+i).setAttribute('y2',(cy-len*Math.sin(ang)).toFixed(1));
+  el('gv'+i).textContent=Math.round(v);
+}
+function gaugePick(i,idx){ if(state.answered[i])return;
+  const s=S[i], correct=idx===s.correct;
+  document.querySelectorAll('#pk'+i+' .btn').forEach((b,k)=>{b.disabled=true;
+    if(k===s.correct)b.classList.add('pick-good'); else if(k===idx)b.classList.add('pick-bad');});
+  resolve(i,correct,(correct?'':'<b>再想一下 —— </b>')+s.reveal+`<div class="gloss">白話：${s.gloss}</div>`);
+}
+// 天秤
+function renderScale(svg,t){ if(!svg)return;
+  const cx=180,cy=58,arm=120,drop=44, rad=t*22*Math.PI/180;
+  const Lx=cx-arm*Math.cos(rad),Ly=cy-arm*Math.sin(rad),Rx=cx+arm*Math.cos(rad),Ry=cy+arm*Math.sin(rad);
+  const q=c=>svg.querySelector(c);
+  const b=q('.beam');b.setAttribute('x1',Lx);b.setAttribute('y1',Ly);b.setAttribute('x2',Rx);b.setAttribute('y2',Ry);
+  const ls=q('.lstr');ls.setAttribute('x1',Lx);ls.setAttribute('y1',Ly);ls.setAttribute('x2',Lx);ls.setAttribute('y2',Ly+drop);
+  const rs=q('.rstr');rs.setAttribute('x1',Rx);rs.setAttribute('y1',Ry);rs.setAttribute('x2',Rx);rs.setAttribute('y2',Ry+drop);
+  q('.lpan').setAttribute('transform',`translate(${Lx},${Ly+drop})`);
+  q('.rpan').setAttribute('transform',`translate(${Rx},${Ry+drop})`);
+  const ll=q('.llabel');ll.setAttribute('x',Lx);ll.setAttribute('y',Ly+drop+26);
+  const rl=q('.rlabel');rl.setAttribute('x',Rx);rl.setAttribute('y',Ry+drop+26);
+  svg._t=t;
+}
+function animateScale(svg,target,cb){ const start=(typeof svg._t==='number')?svg._t:0,t0=Date.now(),dur=750;
+  if(svg._iv)clearInterval(svg._iv);
+  svg._iv=setInterval(()=>{ let p=Math.min(1,(Date.now()-t0)/dur); const e=1-Math.pow(1-p,3);
+    renderScale(svg,start+(target-start)*e); if(p>=1){clearInterval(svg._iv);svg._iv=null;if(cb)cb();}},16);
+}
+function scalePick(i,idx){ if(state.answered[i])return;
+  const s=S[i], correct=idx===s.correct, svg=el('sc'+i);
+  document.querySelectorAll('#pk'+i+' .btn').forEach((b,k)=>{b.disabled=true;
+    if(k===s.correct)b.classList.add('pick-good'); else if(k===idx)b.classList.add('pick-bad');});
+  animateScale(svg,s.opts[idx].tilt,()=>{ if(!correct) setTimeout(()=>animateScale(svg,s.opts[s.correct].tilt),400);});
+  resolve(i,correct,(correct?'':'<b>再看一次 —— </b>')+s.reveal+`<div class="gloss">白話：${s.gloss}</div>`);
+}
+// 溫度條
+function tempPick(i,idx){ if(state.answered[i])return;
+  const s=S[i], correct=idx===s.correct;
+  document.querySelectorAll('#tb'+i+' .tz').forEach((z,k)=>{ z.style.pointerEvents='none';
+    if(k===s.correct)z.classList.add('correct'); else if(k===idx)z.classList.add('wrong');});
+  resolve(i,correct,(correct?'':'<b>再想一下 —— </b>')+s.reveal+`<div class="gloss">白話：${s.gloss}</div>`);
+}
+// 排序
+let sortState=[];
+function sortTap(i,id){ if(state.answered[i])return; if(sortState.includes(id))return;
+  sortState.push(id);
+  const item=el('si-'+id); item.classList.add('picked'); item.querySelector('.rank').textContent=sortState.length;
+  if(sortState.length===S[i].items.length){
+    let ok=0; S[i].items.forEach(it=>{ if(sortState[it.rank]===it.id)ok++;});
+    const all=ok===S[i].items.length;
+    // 顯示正解順序
+    const order=[...S[i].items].sort((a,b)=>a.rank-b.rank).map(it=>it.label.split(' ')[0]).join(' → ');
+    resolve(i,all,`<b>${all?'順序正確 ✓':'再看一次順序。'}</b>正解：<b>${order}</b>。先行指標（初領失業金、新訂單、ERP）先翻，同步（GDP/PCE）跟上，滯後（失業率、違約率）最後才動。<div class="gloss">白話：${S[i].gloss}</div>`);
+  }
+}
+// 檢查表
+function chkToggle(elm,i){ elm.classList.toggle('on');
+  const all=document.querySelectorAll('#ck'+i+' .check').length;
+  const on=document.querySelectorAll('#ck'+i+' .check.on').length;
+  const btn=el('ckbtn'+i);
+  if(on===all){btn.disabled=false; btn.textContent='收進口袋 →';} else {btn.disabled=true; btn.textContent='全部勾選後繼續';}
+}
+// 翻牌揭示（一次性翻開，全翻完放行）
+function flipReveal(elm,i){ elm.classList.add('on');
+  const all=document.querySelectorAll('#ck'+i+' .flipcard').length;
+  const on=document.querySelectorAll('#ck'+i+' .flipcard.on').length;
+  const btn=el('ckbtn'+i);
+  if(on===all){btn.disabled=false; btn.textContent='收進口袋 →';}
+}
+
+/* ===== 給我答案（就地揭示＋放行，不計分） ===== */
+function give(i){ if(state.answered[i])return; state.answered[i]=true;
+  const s=S[i];
+  if(s.type==='classify'){ S[i].items.forEach(it=>{ const item=el('ci-'+it.id);
+      item.querySelectorAll('.clf-btns button').forEach(b=>b.classList.remove('on'));
+      const map={lead:0,coin:1,lag:2}; item.querySelectorAll('.clf-btns button')[map[it.cat]].classList.add('on');
+      item.classList.add('right'); item.querySelectorAll('.clf-btns button').forEach(b=>b.disabled=true);});
+    showGive(i,`<b>答案已填上。</b>先行＝最早轉；同步＝跟當下走；滯後＝最後才反映。<div class="gloss">白話：${s.gloss}</div>`);}
+  else if(s.type==='flip'||s.type==='phasepick'||s.type==='gauge'){
+    document.querySelectorAll('#pk'+i+' .btn').forEach((b,k)=>{b.disabled=true; if(k===s.correct)b.classList.add('pick-good');});
+    if(s.type==='gauge'){}
+    showGive(i,`<b>答案：第 ${s.correct+1} 個選項。</b>`+(s.reveal||s.revealGood||'')+`<div class="gloss">白話：${s.gloss}</div>`);}
+  else if(s.type==='scale'){ const svg=el('sc'+i);
+    document.querySelectorAll('#pk'+i+' .btn').forEach((b,k)=>{b.disabled=true; if(k===s.correct)b.classList.add('pick-good');});
+    animateScale(svg,s.opts[s.correct].tilt);
+    showGive(i,`<b>答案：${s.opts[s.correct].t}。</b>`+s.reveal+`<div class="gloss">白話：${s.gloss}</div>`);}
+  else if(s.type==='templocate'){ document.querySelectorAll('#tb'+i+' .tz').forEach((z,k)=>{z.style.pointerEvents='none'; if(k===s.correct)z.classList.add('correct');});
+    showGive(i,`<b>答案：${s.zones[s.correct].t}。</b>`+s.reveal+`<div class="gloss">白話：${s.gloss}</div>`);}
+  else if(s.type==='sort'){ const order=[...s.items].sort((a,b)=>a.rank-b.rank);
+    document.querySelectorAll('#st'+i+' .sort-item').forEach(x=>x.style.pointerEvents='none');
+    order.forEach((it,r)=>{ const item=el('si-'+it.id); item.classList.add('picked'); item.querySelector('.rank').textContent=r+1;});
+    showGive(i,`<b>正解順序：${order.map(it=>it.label.split(' ')[0]).join(' → ')}。</b>先行先翻、滯後最後。<div class="gloss">白話：${s.gloss}</div>`);}
+}
+function showGive(i,html){ const rv=el('rv'+i); rv.innerHTML=html+'<div style="margin-top:8px" class="dim">（走「給我答案」不計分，但一樣帶你過關。）</div>';
+  rv.className='reveal show'; const h=el('help'+i); if(h)h.style.display='none'; const nx=el('nx'+i); if(nx)nx.style.display='block';}
+
+/* ===== 分享 / 重玩 ===== */
+function share(){ const url='https://yoda-research-next.vercel.app/';
+  const text='Yoda Research 訂閱前——免費永遠免費，付費核心是一份【關鍵報告】：完整判讀＋預判行情的劇本＋Yoda 自己的操作與推理。';
+  if(navigator.share){navigator.share({title:'先別急著付錢',text,url}).catch(()=>{});}
+  else{ const done=()=>alert('已複製連結，貼給朋友吧！');
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text+' '+url).then(done).catch(fb); else fb();
+    function fb(){try{const ta=document.createElement('textarea');ta.value=text+' '+url;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();}catch(e){alert(url);}}}
+}
+function replay(){location.reload();}
+
+/* ===== BGM ===== */
+(function(){ const bgm=el('bgm'),btn=el('mute'); let muted=false;
+  try{muted=localStorage.getItem('yoda_bgm_muted')==='1';}catch(e){}
+  bgm.volume=0.30; bgm.muted=muted; btn.textContent=muted?'🔇':'🔊';
+  function play(){ if(!muted)bgm.play().catch(()=>{}); document.removeEventListener('click',play);}
+  document.addEventListener('click',play);
+  btn.addEventListener('click',e=>{ e.stopPropagation(); muted=!muted; bgm.muted=muted; btn.textContent=muted?'🔇':'🔊';
+    try{localStorage.setItem('yoda_bgm_muted',muted?'1':'0');}catch(e){} if(!muted)bgm.play().catch(()=>{});});
+})();
+
+/* ===== init ===== */
+state.max=S.filter(x=>['classify','flip','phasepick','gauge','scale','templocate','sort'].includes(x.type)).length;
+render(0); applyEnv(0);
+</script>
+</body>
+</html>
