@@ -201,6 +201,23 @@ p.body{font-size:16px;color:#e6ebf6;margin:11px 0}
 .neutral-note{font-size:12px;color:var(--dim);text-align:center;margin-top:12px;opacity:.85}
 @media(max-width:480px){h1{font-size:27px}h2{font-size:19px}.card{padding:22px 16px}.mono-wrap p{font-size:21px}
   .fpt .fpt-row{grid-template-columns:1.25fr .82fr .82fr .95fr .82fr 1.15fr;font-size:11px}}
+
+/* 我要介紹給朋友（會員自助查推薦連結） */
+.act-refer{background:rgba(212,175,55,.14);color:var(--gold);border:1px solid var(--gold)}
+.refer-box{margin-top:6px;padding:15px 16px;border-radius:12px;background:rgba(255,255,255,.045);border:1px solid var(--card-bd);text-align:left}
+.refer-box .rp{font-size:13.5px;color:var(--dim);line-height:1.65;margin-bottom:11px}
+.refer-in{position:relative;margin-bottom:10px}
+.refer-in input{width:100%;padding:12px 44px 12px 14px;font-size:15px;border-radius:10px;border:1px solid var(--card-bd);background:rgba(0,0,0,.4);color:var(--text);outline:none;font-family:inherit}
+.refer-in input:focus{border-color:var(--gold)}
+.refer-eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:17px;opacity:.55;padding:4px;color:var(--text)}
+.refer-eye:hover{opacity:1}
+.refer-go{width:100%;padding:12px;font-size:15px;font-weight:700;color:#1a1200;background:linear-gradient(135deg,var(--gold),#f0d488);border:none;border-radius:9999px;cursor:pointer}
+.refer-go:disabled{opacity:.6;cursor:default}
+.refer-msg{font-size:13px;margin-top:10px;min-height:18px;color:var(--dim);text-align:center}
+.refer-link{margin-top:12px;display:none}
+.refer-link .lk{word-break:break-all;font-size:13px;font-family:'SF Mono',Consolas,monospace;background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.35);border-radius:10px;padding:10px 12px;color:#e8c86a;line-height:1.5}
+.refer-copy{margin-top:8px;width:100%;padding:11px;font-size:14px;font-weight:700;border-radius:9999px;border:1px solid var(--gold);background:transparent;color:var(--gold);cursor:pointer}
+.refer-copy:hover{background:rgba(212,175,55,.12)}
 </style>
 </head>
 <body class="sky-noon">
@@ -341,11 +358,25 @@ const RENDER={
    <div class="result-emoji">⚖️</div>
    <div class="result-name" style="font-size:24px">歡迎，把自己煉成更會判斷的人</div>
    <p class="body" style="margin-top:12px">訂之前，最後一件事——<b class="hl">Yoda 的判斷力不是用講的。</b>每一個判斷的對錯，都公開記在時間軸上，你可以自己滑、自己驗。人皆有過，然贏家之所以為贏家，在於他們懂得將破碎的教訓，重新拼湊成通往未來的墊腳石。</p>
-   <div class="unlock"><b>創始會員（限量 30 位 · 早鳥）：</b>每期【關鍵報告】——完整判讀當前市況＋預判行情劇本＋Yoda 自己的預期、底線、操作與推理——連同六類完整報告與歷史庫。<b>早鳥 NT$459／月鎖價</b>，名額滿後恢復 589，你這批永遠停在 459。投資你自己的大腦，精煉你每天都在用的系統。<br><span class="dim" style="font-size:12px">（關鍵報告是分享判斷思路與自身操作、示範用，非投資建議、僅供參考。）</span></div>
+   <div class="unlock"><b>創始會員（限量 50 位 · 早鳥）：</b>每期【關鍵報告】——完整判讀當前市況＋預判行情劇本＋Yoda 自己的預期、底線、操作與推理——連同六類完整報告與歷史庫。<b>早鳥 NT$459／月鎖價</b>，名額滿後恢復 589，你這批永遠停在 459。投資你自己的大腦，精煉你每天都在用的系統。<br><span class="dim" style="font-size:12px">（關鍵報告是分享判斷思路與自身操作、示範用，非投資建議、僅供參考。）</span></div>
    <div class="act-btns">
      <a class="act-btn act-sub" href="https://yoda-wcyc.github.io/-/subscribe.html" target="_blank" rel="noopener">成為創始會員（綠界金流）→</a>
      <a class="act-btn act-report" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">先滑一遍公開時間軸（判斷力收據）</a>
+     <button class="act-btn act-refer" onclick="referToggle()">我已是會員 · 產生我的專屬推薦連結 →</button>
      <button class="act-btn act-share" onclick="share()">分享：把判斷力學校介紹給朋友</button></div>
+   <div class="refer-box" id="referBox" style="display:none">
+     <div class="rp">輸入你的會員密碼，產生你的<b style="color:var(--gold)">專屬推薦連結</b>。朋友從這條連結來訂閱並完成付費，就算你介紹一位——推薦越多、自己連續訂越久，送越多月，最高一年半價。</div>
+     <div class="refer-in">
+       <input id="referPw" type="password" placeholder="你的會員密碼" autocomplete="off" onkeydown="if(event.key==='Enter')referGenerate()" />
+       <button type="button" class="refer-eye" onclick="referEyeToggle(this)" aria-label="顯示或隱藏密碼">👁</button>
+     </div>
+     <button class="refer-go" id="referGo" onclick="referGenerate()">產生我的專屬連結</button>
+     <div class="refer-msg" id="referMsg"></div>
+     <div class="refer-link" id="referLink">
+       <div class="lk" id="referLk"></div>
+       <button class="refer-copy" id="referCopy" onclick="referCopy()">📋 複製連結</button>
+     </div>
+   </div>
    <div class="replay"><a onclick="replay()">再看一次</a></div>
    <div class="credit">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" rel="noopener">BiBiPiano</a>，版權為原作者所有。<br>Yoda Research · 判斷力學校</div></div>`},
 
@@ -610,6 +641,38 @@ function share(){ const url='https://yoda-research-next.vercel.app/';
     function fb(){try{const ta=document.createElement('textarea');ta.value=text+' '+url;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();}catch(e){alert(url);}}}
 }
 function replay(){location.reload();}
+
+/* ===== 我要介紹給朋友（會員自助查推薦連結；打 GAS myRef）===== */
+var GAS_URL='https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec';
+function referToggle(){ const b=el('referBox'); if(!b)return;
+  const open=b.style.display==='none'||!b.style.display; b.style.display=open?'block':'none';
+  if(open){const p=el('referPw'); if(p)p.focus();}
+}
+function referEyeToggle(btn){ const p=el('referPw'); if(!p)return;
+  if(p.type==='password'){p.type='text';btn.textContent='🙈';}else{p.type='password';btn.textContent='👁';}
+}
+function referGenerate(){
+  const p=el('referPw'), msg=el('referMsg'), go=el('referGo');
+  const v=(p.value||'').trim();
+  if(!v){msg.style.color='#f08a8a';msg.textContent='請先輸入你的會員密碼';return;}
+  go.disabled=true; msg.style.color='var(--dim)'; msg.textContent='查詢中…';
+  fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'myRef',password:v})})
+    .then(r=>r.json())
+    .then(res=>{ go.disabled=false;
+      if(!res.found){msg.style.color='#f08a8a';msg.textContent=res.error||'找不到這組密碼對應的會員（確認你已是訂閱會員？）';return;}
+      msg.style.color='#7fd6a6'; msg.textContent='這是你的專屬推薦連結（'+res.memberId+'），複製傳給朋友：';
+      el('referLk').textContent=res.shareLink;
+      el('referCopy').dataset.link=res.shareLink;
+      el('referLink').style.display='block';
+    })
+    .catch(()=>{go.disabled=false;msg.style.color='#f08a8a';msg.textContent='連線失敗，請稍後再試';});
+}
+function referCopy(){
+  const btn=el('referCopy'), link=btn.dataset.link||el('referLk').textContent;
+  const done=()=>{btn.textContent='✓ 已複製';setTimeout(()=>{btn.textContent='📋 複製連結';},1800);};
+  const fb=()=>{try{const ta=document.createElement('textarea');ta.value=link;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();}catch(e){alert(link);}};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(link).then(done).catch(fb);}else fb();
+}
 
 /* ===== BGM ===== */
 (function(){ const bgm=el('bgm'),btn=el('mute'); let muted=false;
