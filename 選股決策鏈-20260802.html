@@ -249,7 +249,7 @@ const S=[
  <div class="data-box">
  <div class="row"><b>① 錢往哪流</b><span class="dim">先鎖定資金在的板塊</span></div>
  <div class="row"><b>② 何時上車</b><span class="dim">那板塊剛啟動、還沒追高</span></div>
- <div class="row"><b>③ 上哪一檔</b><span class="dim">板塊裡最強的 A 級（四條件）</span></div>
+ <div class="row"><b>③ 上哪一檔</b><span class="dim">板塊裡最強的 A 級（四欄位）</span></div>
  <div class="row"><b>④ 有沒有實錘</b><span class="dim">真的有大錢在買（籌碼／廣度）</span></div>
  <div class="row"><b>⑤ 退場線</b><span class="dim">哪裡代表資金跑了、該走</span></div></div>
  <p class="body">幾千檔進去，剩幾檔出來。而且<b class="hl">每一關都有一面照妖鏡</b>——專門照出「假的強」。五關缺一，就不是機會。</p>`},
@@ -325,48 +325,48 @@ const S=[
  gloss:'<span>位階四象限</span>＝用「月線趨勢 × 5日動能」把板塊分四區。<span>衰退區</span>＝強度還在但動能轉弱、資金開始撤，是減碼訊號不是進場點。'},
 // +過場（關②→關③）
 {type:'mono',sky:'sky-night',bg:'reed',lines:['方向對了，時機也抓了。','接下來——把那一支，挑出來。']},
-// 11 ③ 上哪一檔 · 四條件漏斗（教）
-{type:'teach',sky:'sky-storm',bg:'peak',tag:'③ 上哪一檔 · 四條件',tagc:'teach',h:'同一個板塊裡，怎麼挑出那幾檔',
- html:`<p class="body">板塊對了，還要在裡面挑個股。用<b class="hl">四層條件</b>，照順序篩：</p>
+// 11 ③ 上哪一檔 · 四欄位漏斗（教）
+{type:'teach',sky:'sky-storm',bg:'peak',tag:'③ 上哪一檔 · 四欄位',tagc:'teach',h:'同一個板塊裡，怎麼挑出那幾檔',
+ html:`<p class="body">板塊對了，還要在裡面挑個股。用<b class="hl">四個欄位、三個時間尺度</b>，照順序看：</p>
  <div class="data-box">
- <div class="row"><b>① 5D%（近週動能）</b><span class="dim">排最前——要抓最新、反應最快的</span></div>
- <div class="row"><b>② 1M%（近月動能）</b><span class="dim">中期方向確認</span></div>
- <div class="row"><b>③ WA（加權動能）</b><span class="dim">中長期買盤代理，排最後<b>保底</b></span></div>
- <div class="row"><b>④ 成交量放大</b><span class="dim">最後一道驗證——量能不能替代價格</span></div></div>
- <p class="body">三個價格條件全過＝進量能確認。排序：<b>5D% 由高到低</b>。<b class="hl">量是拿來「確認」的，不是拿來「進場」的。</b></p>`},
+ <div class="row"><b>① 1D%（今天）</b><span class="dim">當日誰在動——<b>必看</b>，但不能只看今天</span></div>
+ <div class="row"><b>② REL5（近5日相對強弱）</b><span class="dim">短線動能，排最前</span></div>
+ <div class="row"><b>③ REL20（近月）</b><span class="dim">中線方向確認</span></div>
+ <div class="row"><b>④ REL60（近3月）</b><span class="dim">長線持續性，排最後<b>保底</b></span></div></div>
+ <p class="body">訣竅是<b>相鄰兩個一起看</b>：短線 1D%＋REL5、中線 REL5＋REL20、長線 REL20＋REL60。排序：<b>REL5 由高到低</b>。<b class="hl">今天暴漲(1D%)是訊號燈，但要 REL 跟上才是真的。</b></p>`},
 // 12 ③ 門檻隨市況調（教）
 {type:'teach',sky:'sky-storm',bg:'peak',tag:'③ 門檻 · 不是死數字',tagc:'teach',h:'同一套條件，標準要會變',
- html:`<p class="body">四條件的「門檻」不是刻在石頭上——要看市況調：</p>
+ html:`<p class="body">四欄位的「門檻」不是刻在石頭上——要看市況調：</p>
  <div class="data-box">
- <div class="row"><b>強勢多頭</b><span class="dim">用<b>嚴格版</b>（5D&gt;10%、WA≥150）過濾雜訊</span></div>
- <div class="row"><b>震盪盤整</b><span class="dim">用<b>寬鬆版</b>（5D&gt;2%、WA≥60）免得錯失</span></div>
- <div class="row"><b>輪動初期</b><span class="dim">降低 5D 門檻，搶剛啟動的板塊</span></div></div>
+ <div class="row"><b>強勢多頭</b><span class="dim">用<b>嚴格版</b>（REL5&gt;10%、REL60&gt;10%）過濾雜訊</span></div>
+ <div class="row"><b>震盪盤整</b><span class="dim">用<b>寬鬆版</b>（REL5&gt;2%、REL60&gt;−5%）免得錯失</span></div>
+ <div class="row"><b>輪動初期</b><span class="dim">降低 REL5 門檻，搶剛啟動的板塊</span></div></div>
  <p class="body">死守一個數字，不是紀律，是<b class="hl">僵化</b>。標準隨市況呼吸，才篩得準。</p>`},
 // 13 ③ A級判定
 {type:'phasepick',sky:'sky-storm',bg:'peak',tag:'③ 上哪一檔 · A級',
  h:'啟動期板塊裡，這檔算幾級？',
  data:`<div class="data-box">
-  <div class="row"><span>相對強弱 5D%</span><b class="stat up">夠強 ✓</b></div>
-  <div class="row"><span>近月動能 1M%</span><b class="stat up">確認 ✓</b></div>
-  <div class="row"><span>量能底盤 WA</span><b class="stat down">只有 60（未達 80）</b></div></div>
-  <p class="body dim">A 級＝三個價格條件全中。這檔中了兩條、量能差一點。</p>`,
+  <div class="row"><span>短線 REL5</span><b class="stat up">夠強 ✓</b></div>
+  <div class="row"><span>中線 REL20</span><b class="stat up">確認 ✓</b></div>
+  <div class="row"><span>長線 REL60</span><b class="stat down">還在 −3%（未站上 0）</b></div></div>
+  <p class="body dim">A 級＝三個 REL 全中。這檔中了短、中線，長線持續性差一點。</p>`,
  q:'它是幾級？',
- opts:['A 級——反正很強就追','B 級——量能未達，候補觀察','C 級——只中一項'],
+ opts:['A 級——反正很強就追','B 級——長線未達，候補觀察','C 級——只中一項'],
  correct:1,
- reveal:`<b>對 ✓ B 級候補。</b>強弱、動能都過，但<b>量能 WA 只有 60（未達 80）</b>＝<b>無量的強是假的</b>，容易一根就打回。三條件全中才是 <b>A 級</b>——當期美股 A 級像 <b>ELOX（5D+46 WA235）、CDNA（1M+53 WA199）</b> 都是量價齊揚。這檔只是 B 級，放觀察池、等量能補上，不是首選。`,
- gloss:'<span>A/B/C 級</span>＝三個價格條件全中＝A；過兩條、量能未達＝B候補；只中一項＝C觀察。<span>WA</span>＝量能底盤指標，&lt;80 代表撐盤的量還不夠。'},
+ reveal:`<b>對 ✓ B 級候補。</b>短線、中線都過，但<b>長線 REL60 還沒站上大盤（−3%）</b>＝<b>漲勢還沒被長線確認</b>，容易衝一下就回。三個 REL 全中才是 <b>A 級</b>——短、中、長三個尺度都跑贏大盤，才是真正的量價齊揚。這檔只是 B 級，放觀察池、等 REL60 翻正，不是首選。`,
+ gloss:'<span>A/B/C 級</span>＝三個 REL 全中＝A；過短中線、長線未達＝B候補；只中一項＝C觀察。<span>REL60</span>＝近3月相對強度，&lt;0 代表長線還沒真的跑贏大盤。'},
 // 14 ③ 脈衝排除（照妖鏡）
 {type:'phasepick',sky:'sky-storm',bg:'peak',tag:'③ 照妖鏡 · 脈衝排除',
- h:'這檔 5日+41%、月線+35%——漂亮吧？',
+ h:'這檔今天 +9.8%——漂亮吧？',
  data:`<div class="data-box">
-  <div class="row"><span>IDAI（當期美股）</span><b class="stat up">5D +41% ／ 1M +35%</b></div>
-  <div class="row"><span>但量能底盤 WA</span><b class="stat down">−46（是負的！）</b></div></div>
-  <p class="body dim">兩個動能條件都過，看起來超強。但 WA 是負的。</p>`,
+  <div class="row"><span>某檔（今天）</span><b class="stat up">1D% +9.8%（暴衝！）</b></div>
+  <div class="row"><span>但近5日相對強弱 REL5</span><b class="stat down">−12%（這五天其實跑輸大盤！）</b></div></div>
+  <p class="body dim">今天一根噴上去，看起來超強。但把這五天拉開看，它根本落後大盤。</p>`,
  q:'追嗎？',
- opts:['兩個動能都過，當然追','不追——WA 是負的，代表沒有持續買盤、是無量硬拉的假強勢','加碼，還會再噴'],
+ opts:['今天大漲，當然追','不追——今天暴衝但 REL5 是負的，是孤軍一根、五天內根本沒在漲的假強勢','加碼，還會再噴'],
  correct:1,
- reveal:`<b>對 ✓ 不追。</b><b>WA 為負＝量能底盤是空的</b>，漲上去沒有大錢承接，常是單日投機硬拉的<b>假強勢</b>，一根就打回去。這種「動能過、但 WA 負」的（IDAI −46、DJT −49、MGRX −55）就算擠進 B 級也要當<b>脈衝排除</b>、不碰。真 A 級是 WA 大正（ELOX 235）。<b>這是「強是真是假」的第一道照妖鏡。</b>`,
- gloss:'<span>脈衝</span>＝沒有量能底盤（WA 負）卻短線暴衝，多是單日投機、無持續買盤。<span>照妖鏡</span>＝WA 負就算動能再漂亮也排除，防的是無量假突破。'},
+ reveal:`<b>對 ✓ 不追。</b><b>1D% 暴衝、但 REL5 為負＝「只有今天這一根」</b>——把時間拉開，這五天它跑輸大盤，多是單日消息或投機硬拉的<b>假強勢</b>，一根就打回去。真起漲是<b>今天漲、這五天也一路領先</b>（1D% 正 ＋ REL5 也強）。<b>「今天暴漲」本身不是買點，「今天暴漲＋REL5 跟上」才是——這是分真假強勢的第一道照妖鏡。</b>`,
+ gloss:'<span>脈衝</span>＝1D% 單日暴衝、但 REL5（近5日相對強弱）是負的，只有今天一根、沒有持續性。<span>照妖鏡</span>＝用 1D%／REL5 是否同向，照出「今天的大漲」是真起漲還是假強勢。'},
 // 15 ③ 收斂
 {type:'teach',sky:'sky-valley',bg:'range',tag:'③ 收斂',tagc:'teach',h:'漏斗到這裡，剩幾檔',
  html:`<p class="body">把「啟動期板塊 × A 級個股（過脈衝照妖鏡）」交集起來，幾千檔已經收斂到<b class="hl">一張幾十檔的最高確信清單</b>。</p>
@@ -429,7 +429,7 @@ const S=[
  q:'美股的「實錘」看什麼？',
  opts:['看新聞和分析師喊多','看廣度——是不是一群股一起轉強（不是獨漲）','看它今天漲幾 %'],
  correct:1,
- reveal:`<b>對 ✓ 看廣度。</b>美股沒有法人買賣超，就用<b>廣度</b>當實錘：一個板塊是「一群股一起轉強」(REL5廣度、WA廣度擴散)，還是「一兩檔獨撐」？<b>廣度擴散＝有真金白銀在整群買</b>，跟台股的雙向確認同一個精神——要看到「一群」，不是「一檔」。`,
+ reveal:`<b>對 ✓ 看廣度。</b>美股沒有法人買賣超，就用<b>廣度</b>當實錘：一個板塊是「一群股一起轉強」(REL5 廣度、REL60 廣度擴散)，還是「一兩檔獨撐」？<b>廣度擴散＝有真金白銀在整群買</b>，跟台股的雙向確認同一個精神——要看到「一群」，不是「一檔」。`,
  gloss:'<span>廣度</span>＝板塊裡達標個股的比例。廣度擴散＝資金在整群買、不是單一標的偷跑，是美股版的「實錘」。'},
 // 21 ⑤ 安不安全 · 高低比（翻面）
 {type:'flip',sky:'sky-dusk',bg:'reed',tag:'⑤ 安不安全 · 市場體質',
@@ -465,7 +465,7 @@ const S=[
  items:[
   {t:'① 先讀資金流到哪個板塊（＋輪動警訊）',s:'站到錢在的那邊；防禦贏過成長＝變盤先兆'},
   {t:'② 確認在「啟動期」、看位階',s:'廣度剛擴散、還沒追高；月正5日負＝衰退區別追'},
-  {t:'③ 挑 A 級（四條件）、過脈衝照妖鏡',s:'三價全中＋量能確認；WA 負的強是假的'},
+  {t:'③ 挑 A 級（四欄位三尺度）、過脈衝照妖鏡',s:'三個 REL 全中；1D% 暴衝但 REL5 負＝假的'},
   {t:'④ 要籌碼／廣度「實錘」',s:'台股雙向確認＋四型態、看ETF週向；美股看廣度'},
   {t:'⑤ 先想好退場線＋快照覆蓋',s:'資金轉防禦／掉出名單／廣度連縮就走'}]},
 // 26 結果
