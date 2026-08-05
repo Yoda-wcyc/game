@@ -393,6 +393,7 @@ showStart();
     +'<div id="yc-form">'
       +'<h3>領取《'+name+'報告》檢核</h3>'
       +'<p>輸入你的<b style="color:#e8c86a">會員密碼</b>（訂閱時自設的那組），系統會記下你已看懂這份報告怎麼判讀。</p>'
+      +'<input id="yc-email" type="email" placeholder="訂閱用的 email" autocomplete="off">'
       +'<input id="yc-pw" type="password" placeholder="你的會員密碼" autocomplete="off">'
       +'<div class="yc-hint">這組密碼只是會員存取碼，請勿使用你其他重要帳號的密碼。</div>'
       +'<button id="yc-submit">送出，領取徽章</button>'
@@ -417,10 +418,10 @@ showStart();
   mask.addEventListener('click',function(e){if(e.target===mask)closeModal();});
 
   function submit(){
-    var pw=$('yc-pw').value.trim(), msg=$('yc-msg');
-    if(!pw){msg.className='err';msg.textContent='請先輸入會員密碼';return;}
+    var email=$('yc-email').value.trim(), pw=$('yc-pw').value.trim(), msg=$('yc-msg');
+    if(!email||!pw){msg.className='err';msg.textContent='請輸入 email 與會員密碼';return;}
     var btn=$('yc-submit');btn.disabled=true;msg.className='';msg.textContent='驗證中…';
-    fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'certify',password:pw,reportType:t})})
+    fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'certify',email:email,password:pw,reportType:t})})
       .then(function(r){return r.json();})
       .then(function(res){
         btn.disabled=false;
