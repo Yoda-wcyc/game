@@ -146,14 +146,14 @@ var GAS_URL='https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKn
 
 // 報告類型 → 對應使用手冊遊戲（相對路徑，同 /game/ 夾；?cert= 觸發領檢核）
 var REPORTS=[
-  {t:'flag', ic:'🎯', nm:'關鍵報告',      rd:'把最關鍵一份判斷讀深讀透——完整推演、結構與風險界線',   url:'', soon:true},
+  {t:'flag', ic:'🎯', nm:'關鍵報告',      rd:'把最關鍵一份判斷讀深讀透——完整推演、結構與風險界線',   url:'讀懂關鍵報告.html?cert=flag'},
   {t:'key',  ic:'⚡', nm:'簡報',          rd:'快速看懂今天：發生什麼、為什麼、接下來注意什麼',       url:'看懂簡報.html?cert=key'},
   {t:'mw',   ic:'📊', nm:'市場觀察',      rd:'抓大盤方向——多空天秤、三道防線、破線爆量怎麼讀',       url:'看懂市場觀察-七段導覽.html?cert=mw'},
   {t:'us',   ic:'🗽', nm:'美股',          rd:'資金輪動到哪類、A 級候選、籌碼實錘——選股決策鏈',       url:'選股決策鏈-20260802.html?cert=us'},
   {t:'tw',   ic:'🏝️', nm:'台股',          rd:'同一套選股漏斗，套在台股——選股決策鏈',                url:'選股決策鏈-20260802.html?cert=tw'},
   {t:'macro',ic:'🌍', nm:'總經',          rd:'該積極還是保守——景氣循環位階、Fed 方向、利率環境',     url:'景氣循環的DNA-20260802.html?cert=macro'}
 ];
-var NAMES={mw:'市場觀察',tw:'台股',us:'美股',key:'簡報',macro:'總經'};
+var NAMES={flag:'關鍵報告',mw:'市場觀察',tw:'台股',us:'美股',key:'簡報',macro:'總經'};
 
 var $=function(id){return document.getElementById(id);};
 var certState={}; // type -> true 若已通過
@@ -190,7 +190,7 @@ $('pBtn').onclick=function(){
         renderReports(); renderBadges(res.certified||[]);
         var n=(res.certified||[]).length;
         msg.className='msg ok';
-        msg.textContent=res.memberId+'　已通過 '+n+' / 5 種'+(n===5?'　全部解鎖 🎉':'');
+        msg.textContent=res.memberId+'　已通過 '+n+' / 6 種'+(n===6?'　全部解鎖 🎉':'');
       }else{
         msg.className='msg err';msg.textContent=(res&&res.error)?res.error:'查詢失敗';
       }
@@ -201,7 +201,7 @@ $('pPw').addEventListener('keydown',function(e){if(e.key==='Enter')$('pBtn').cli
 
 function renderBadges(list){
   var set={}; list.forEach(function(t){set[t]=1;});
-  var order=['mw','tw','us','key','macro'];
+  var order=['flag','mw','tw','us','key','macro'];
   $('badges').style.display='flex';
   $('badges').innerHTML=order.map(function(t){
     var on=!!set[t];
