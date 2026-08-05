@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>利多為什麼跌？｜Yoda Research</title>
+<style>
+:root{
+  --gold:#d4af37; --gold-dim:#b8960a;
+  --card:rgba(9,12,22,.66); --card-bd:rgba(255,255,255,.14);
+  --text:#eef2fb; --dim:#aab3c8; --ink:#e7ecf7;
+  --good:#5fbf8f; --bad:#e06b6b;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC','Microsoft JhengHei',sans-serif;
+  color:var(--text); background:#05060f; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased; line-height:1.72;
+}
+
+/* ===== 天色層 ===== */
+.sky-layer{position:fixed;inset:0;z-index:-3;transition:background .8s ease}
+.ink-layer{position:fixed;left:0;right:0;bottom:0;height:24vh;min-height:150px;z-index:-2;pointer-events:none}
+.ink-layer .ink-bg{width:100%;height:100%;display:block}
+.veil{position:fixed;inset:0;z-index:-1;background:radial-gradient(120% 80% at 50% 8%,transparent 40%,rgba(0,0,0,.34));pointer-events:none}
+
+body.sky-noon  .sky-layer{background:linear-gradient(180deg,#22345f,#5f79b0 42%,#d9b978 80%,#edd199)}
+body.sky-storm .sky-layer{background:linear-gradient(180deg,#0b0b12,#171733 50%,#33409e)}
+body.sky-night .sky-layer{background:linear-gradient(180deg,#05060f,#0e1630 55%,#182a54)}
+body.sky-dusk  .sky-layer{background:linear-gradient(180deg,#241436,#6a3a63 42%,#c9743f 80%,#e79a56)}
+body.sky-clear .sky-layer{background:linear-gradient(180deg,#173a68,#4a7cc0 44%,#a6cff0 82%,#d9edfb)}
+
+/* ===== 進度條 & 靜音 ===== */
+.progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:100;
+  background:linear-gradient(90deg,var(--gold-dim),var(--gold));transition:width .5s ease;box-shadow:0 0 8px rgba(212,175,55,.6)}
+.mute{position:fixed;top:12px;right:14px;z-index:101;width:38px;height:38px;border-radius:50%;
+  border:1px solid var(--card-bd);background:rgba(9,12,22,.55);color:var(--text);
+  font-size:17px;cursor:pointer;backdrop-filter:blur(8px);transition:transform .15s}
+.mute:hover{transform:scale(1.08)}
+
+/* ===== 舞台 ===== */
+.stage{position:relative;z-index:1;min-height:100%;display:flex;align-items:center;justify-content:center;padding:70px 18px 54px}
+.scene{display:none;width:100%;max-width:620px;animation:fade .5s ease both}
+.scene.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.fadeout{animation:fo .32s ease both}
+@keyframes fo{to{opacity:0;transform:translateY(-10px)}}
+
+/* ===== 卡片 ===== */
+.card{background:var(--card);border:1px solid var(--card-bd);border-radius:18px;
+  padding:30px 26px;backdrop-filter:blur(14px);box-shadow:0 18px 50px rgba(0,0,0,.4)}
+.eyebrow{font-size:12.5px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:14px}
+h1{font-size:34px;font-weight:800;line-height:1.28;letter-spacing:.5px;margin-bottom:8px}
+h2{font-size:23px;font-weight:700;line-height:1.42;margin-bottom:14px}
+.lead{font-size:17px;color:#dfe6f4;margin:6px 0 20px}
+p.body{font-size:16.5px;color:#e6ebf6;margin:12px 0}
+.dim{color:var(--dim)}
+.hl{color:var(--gold);font-weight:700}
+.up{color:#7fd6a6;font-weight:700}
+.down{color:#f08a8a;font-weight:700}
+
+/* ===== 按鈕 ===== */
+.btn{display:block;width:100%;text-align:left;font-size:16.5px;color:var(--text);
+  background:rgba(255,255,255,.05);border:1px solid var(--card-bd);border-radius:13px;
+  padding:16px 18px;margin:11px 0;cursor:pointer;transition:all .16s;line-height:1.5}
+.btn:hover{background:rgba(255,255,255,.11);border-color:var(--gold);transform:translateY(-1px)}
+.btn small{display:block;color:var(--dim);font-size:13.5px;margin-top:3px}
+.btn.pick-good{border-color:var(--good);background:rgba(95,191,143,.16)}
+.btn.pick-bad{border-color:var(--bad);background:rgba(224,107,107,.14)}
+.btn:disabled{cursor:default;opacity:.85}
+.cta{display:inline-block;margin-top:20px;padding:13px 30px;border-radius:999px;font-size:16px;font-weight:700;
+  color:#1a1200;background:linear-gradient(135deg,var(--gold),#f0d488);border:none;cursor:pointer;
+  box-shadow:0 6px 20px rgba(212,175,55,.35);transition:transform .15s}
+.cta:hover{transform:translateY(-2px)}
+.cta.ghost{background:transparent;color:var(--gold);border:1px solid var(--gold);box-shadow:none}
+.center{text-align:center}
+
+/* 給我答案 */
+.help{margin-top:14px;text-align:center}
+.help button{background:none;border:none;color:var(--dim);font-size:13.5px;text-decoration:underline;
+  text-underline-offset:3px;cursor:pointer}
+.help button:hover{color:var(--gold)}
+.reveal{display:none;margin-top:16px;padding:16px 16px;border-radius:12px;
+  background:rgba(212,175,55,.08);border:1px solid rgba(212,175,55,.35);font-size:15px;line-height:1.66}
+.reveal.show{display:block;animation:fade .35s ease both}
+.reveal b{color:var(--gold)}
+.gloss{margin-top:10px;padding-top:10px;border-top:1px dashed rgba(255,255,255,.16);font-size:14px;color:var(--dim)}
+.gloss span{color:#dbe3f2}
+
+/* 過場獨白 */
+.mono{text-align:center;padding:8vh 10px}
+.mono p{font-size:26px;font-weight:300;letter-spacing:1.5px;line-height:1.9;color:#f2f4fb;
+  opacity:0;animation:mfade 1.1s ease forwards}
+.mono p:nth-child(2){animation-delay:.9s}
+.mono .next{margin-top:34px;opacity:0;animation:mfade 1s ease forwards;animation-delay:2s}
+@keyframes mfade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* 天秤 */
+.scale{width:100%;max-width:360px;height:auto;display:block;margin:6px auto 4px}
+.scale .stand,.scale .beam,.scale .lstr,.scale .rstr{stroke:var(--ink);stroke-width:4;stroke-linecap:round}
+.scale .beam{stroke-width:5}
+.scale .base{fill:var(--ink)}
+.scale .pivot{fill:var(--gold)}
+.scale .lpan,.scale .rpan{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round}
+.scale text{fill:var(--text);font-size:15px;font-weight:700;text-anchor:middle;paint-order:stroke;
+  stroke:rgba(0,0,0,.45);stroke-width:3px}
+.scale .pan-mark{fill:var(--gold)}
+.pick-row{display:flex;gap:12px;margin-top:8px}
+.pick-row .btn{margin:0;text-align:center}
+
+/* 四象限 */
+.quad-wrap{margin:12px 0 4px}
+.quad-axis-x{text-align:center;font-size:13px;color:var(--dim);margin-bottom:6px}
+.quad{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.quad-cell{border:1px solid var(--card-bd);border-radius:12px;padding:14px 12px;cursor:pointer;
+  background:rgba(255,255,255,.04);transition:all .15s;min-height:82px}
+.quad-cell:hover{border-color:var(--gold);background:rgba(255,255,255,.09)}
+.quad-cell b{display:block;font-size:15px;margin-bottom:4px}
+.quad-cell small{font-size:12.5px;color:var(--dim)}
+.quad-cell.good{border-color:var(--good);background:rgba(95,191,143,.18)}
+.quad-cell.bad{border-color:var(--bad);background:rgba(224,107,107,.16)}
+.quad-rowlabel{display:flex;align-items:center;font-size:13px;color:var(--dim);gap:8px;margin:6px 0}
+
+/* 滑桿 */
+.slider-box{margin:20px 0 6px}
+.slider-val{text-align:center;font-size:30px;font-weight:800;color:var(--gold);margin-bottom:4px}
+input[type=range]{width:100%;height:6px;-webkit-appearance:none;appearance:none;border-radius:6px;
+  background:linear-gradient(90deg,#4a7cc0,#e06b6b);outline:none;margin:10px 0}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;
+  background:var(--gold);border:3px solid #1a1200;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--gold);border:3px solid #1a1200;cursor:pointer}
+.slider-ends{display:flex;justify-content:space-between;font-size:13px;color:var(--dim)}
+
+/* 檢查表 */
+.check{display:flex;align-items:flex-start;gap:12px;padding:14px 15px;margin:10px 0;border-radius:12px;
+  border:1px solid var(--card-bd);background:rgba(255,255,255,.04);cursor:pointer;transition:all .15s}
+.check:hover{border-color:var(--gold)}
+.check.on{border-color:var(--good);background:rgba(95,191,143,.14)}
+.check .box{flex:0 0 24px;height:24px;border-radius:7px;border:2px solid var(--dim);
+  display:flex;align-items:center;justify-content:center;font-size:15px;color:#fff;transition:all .15s}
+.check.on .box{background:var(--good);border-color:var(--good)}
+.check .lbl{font-size:15.5px;line-height:1.5}
+.check .lbl small{display:block;color:var(--dim);font-size:13px;margin-top:2px}
+
+/* 結果 */
+.result-emoji{font-size:64px;text-align:center;line-height:1;margin:6px 0 4px}
+.result-name{text-align:center;font-size:28px;font-weight:800;color:var(--gold);margin-bottom:4px}
+.result-tier{text-align:center;font-size:13px;letter-spacing:2px;color:var(--dim);margin-bottom:16px}
+.unlock{border:1px solid rgba(212,175,55,.4);border-radius:12px;padding:14px 16px;margin:16px 0;
+  background:rgba(212,175,55,.07);font-size:15.5px;line-height:1.66}
+.unlock b{color:var(--gold)}
+.act-btns{display:flex;flex-direction:column;gap:12px;margin-top:22px}
+.act-btn{display:block;text-align:center;padding:15px 18px;border-radius:13px;font-size:16px;font-weight:700;
+  text-decoration:none;transition:transform .15s}
+.act-btn:hover{transform:translateY(-2px)}
+.act-sub{background:linear-gradient(135deg,var(--gold),#f0d488);color:#1a1200;box-shadow:0 6px 20px rgba(212,175,55,.32)}
+.act-report{background:rgba(255,255,255,.07);color:var(--text);border:1px solid var(--gold)}
+.act-share{background:rgba(255,255,255,.07);color:var(--text);border:1px solid var(--card-bd)}
+.replay{text-align:center;margin-top:18px}
+.replay a{color:var(--dim);font-size:13.5px;text-decoration:underline;cursor:pointer}
+.credit{text-align:center;margin-top:20px;font-size:11.5px;color:var(--dim);line-height:1.7}
+.credit a{color:var(--dim)}
+.neutral-note{font-size:12px;color:var(--dim);text-align:center;margin-top:14px;opacity:.8}
+
+.tag{display:inline-block;font-size:12px;padding:3px 10px;border-radius:999px;background:rgba(212,175,55,.16);
+  color:var(--gold);border:1px solid rgba(212,175,55,.3);margin-bottom:12px;letter-spacing:1px}
+@media(max-width:480px){h1{font-size:28px}h2{font-size:20px}.card{padding:24px 18px}.mono p{font-size:22px}}
+</style>
+</head>
+<body class="sky-noon">
+<div class="sky-layer"></div>
+<div class="ink-layer" id="ink"></div>
+<div class="veil"></div>
+<div class="progress" id="prog"></div>
+<button class="mute" id="mute" title="靜音">🔊</button>
+<audio id="bgm" loop preload="auto"><source src="day_one.mp3"></audio>
+
+<div class="stage">
+
+<!-- 0 開場 -->
+<section class="scene active" data-i="0">
+  <div class="card center">
+    <div class="eyebrow">Yoda Research · 判斷力學校</div>
+    <h1>利多為什麼跌？</h1>
+    <p class="lead">好消息出來，它反而跌；<br>壞消息出來，它反而漲。<br>這一課，教你怎麼讀懂市場的秤。</p>
+    <button class="cta" onclick="go(1)">開始 →</button>
+    <div class="neutral-note">※ 本遊戲只教「怎麼讀」，不預測漲跌、不點名個股。</div>
+  </div>
+</section>
+
+<!-- 1 對號入座 -->
+<section class="scene" data-i="1">
+  <div class="card">
+    <span class="tag">對號入座</span>
+    <h2>你是不是也這樣過？</h2>
+    <p class="body">一則大利多出來，你心一橫追了進去 —— 結果它就從那天開始跌。<br>
+    後來換一則大利空，你嚇得先跑 —— 結果它從那天開始漲。</p>
+    <p class="body dim">跟著消息做，卻常常做反。這種「被消息騙」的感覺，你熟不熟？</p>
+    <button class="btn" onclick="go(2)">太熟了，我常常這樣<small>消息一出來就忍不住動手</small></button>
+    <button class="btn" onclick="go(2)">偶爾，但我知道哪裡怪怪的<small>只是說不出來問題在哪</small></button>
+  </div>
+</section>
+
+<!-- 2 過場（推） -->
+<section class="scene" data-i="2">
+  <div class="mono">
+    <p>消息，只是子彈。</p>
+    <p>扣扳機的，是市場的手。</p>
+    <div class="next"><button class="cta ghost" onclick="go(3)">那隻手怎麼看？</button></div>
+  </div>
+</section>
+
+<!-- 3 教1：天秤原理 -->
+<section class="scene" data-i="3">
+  <div class="card">
+    <span class="tag">教 · 原理</span>
+    <h2>消息本身，沒有方向</h2>
+    <p class="body">同一則利多，可以漲、也可以跌。決定方向的不是消息，是<span class="hl">市場怎麼消化它</span>。</p>
+    <p class="body">把它想成一把秤：一端放「消息」，另一端放「價格的反應」。<br>
+    <b class="hl">價格永遠是最終公斷</b> —— 秤最後倒向哪邊，那邊才是真的。</p>
+    <svg viewBox="0 0 360 220" class="scale" id="scaleDemo">
+      <line class="stand" x1="180" y1="60" x2="180" y2="196"/>
+      <polygon class="base" points="152,196 208,196 198,210 162,210"/>
+      <line class="beam" x1="60" y1="60" x2="300" y2="60"/>
+      <circle class="pivot" cx="180" cy="60" r="7"/>
+      <line class="lstr" x1="60" y1="60" x2="60" y2="104"/>
+      <path class="lpan" d="M-30,0 Q0,20 30,0"/><circle class="pan-mark lmark" cx="60" cy="98" r="0"/>
+      <text class="llabel" x="60" y="132">偏空</text>
+      <line class="rstr" x1="300" y1="60" x2="300" y2="104"/>
+      <path class="rpan" d="M-30,0 Q0,20 30,0"/>
+      <text class="rlabel" x="300" y="132">偏多</text>
+    </svg>
+    <p class="body center dim" id="demoCap">看它擺盪 —— 這一堂，就是學會判斷它會倒哪邊。</p>
+    <div class="center"><button class="cta" onclick="go(4)">我懂了，繼續 →</button></div>
+  </div>
+</section>
+
+<!-- 4 教2：四象限 -->
+<section class="scene" data-i="4">
+  <div class="card">
+    <span class="tag">教 · 四種樣子</span>
+    <h2>秤怎麼倒？記住四句話</h2>
+    <p class="body">先把消息分成利多／利空，再看價格的反應是「順著走」還是「反著走」。</p>
+    <div class="quad-wrap">
+      <div class="quad">
+        <div class="quad-cell good"><b>利多不漲 / 利多大跌</b><small>好消息餵不動 → <span class="down">買盤耗盡</span> → 偏空</small></div>
+        <div class="quad-cell"><b>利多就漲</b><small>正常反應，沒特別訊號</small></div>
+        <div class="quad-cell"><b>利空就跌</b><small>正常反應，沒特別訊號</small></div>
+        <div class="quad-cell good"><b>利空不跌 / 利空大漲</b><small>壞消息砸不下去 → <span class="up">賣壓衰竭</span> → 偏多</small></div>
+      </div>
+    </div>
+    <p class="body">重點只在<span class="hl">對角線那兩格</span>：消息和價格「唱反調」的時候，才是市場在偷偷告訴你真話。</p>
+    <div class="center"><button class="cta" onclick="go(5)">開始練習 →</button></div>
+  </div>
+</section>
+
+<!-- 5 練1：天秤判讀 -->
+<section class="scene" data-i="5">
+  <div class="card">
+    <span class="tag">練 · 第 1 題</span>
+    <h2>這把秤，倒向哪邊？</h2>
+    <p class="body">情境：昨晚 CPI 意外走高（<span class="down">利空</span>，通膨比預期燙），照理該殺一波。
+    結果今天大盤只跌 0.2%，盤中還一度翻紅。</p>
+    <svg viewBox="0 0 360 220" class="scale" id="scale1">
+      <line class="stand" x1="180" y1="60" x2="180" y2="196"/>
+      <polygon class="base" points="152,196 208,196 198,210 162,210"/>
+      <line class="beam" x1="60" y1="60" x2="300" y2="60"/>
+      <circle class="pivot" cx="180" cy="60" r="7"/>
+      <line class="lstr" x1="60" y1="60" x2="60" y2="104"/>
+      <path class="lpan" d="M-30,0 Q0,20 30,0"/>
+      <text class="llabel" x="60" y="132">偏空</text>
+      <line class="rstr" x1="300" y1="60" x2="300" y2="104"/>
+      <path class="rpan" d="M-30,0 Q0,20 30,0"/>
+      <text class="rlabel" x="300" y="132">偏多</text>
+    </svg>
+    <div class="pick-row" id="pick1">
+      <button class="btn" onclick="pickScale(1,'left')">秤倒向偏空 ↙</button>
+      <button class="btn" onclick="pickScale(1,'right')">偏多 ↘ 倒向</button>
+    </div>
+    <div class="reveal" id="rv1"></div>
+    <div class="help" id="help1"><button onclick="answer(1)">看不懂？給我答案</button></div>
+    <div class="center" id="nx1" style="display:none"><button class="cta" onclick="go(6)">下一題 →</button></div>
+  </div>
+</section>
+
+<!-- 6 練2：四象限分類 -->
+<section class="scene" data-i="6">
+  <div class="card">
+    <span class="tag">練 · 第 2 題</span>
+    <h2>這是哪一格？</h2>
+    <p class="body">情境：某科技巨頭財報<span class="up">大超預期</span>（大利多），開盤跳空高開，
+    然後一路走低、終場收黑。</p>
+    <div class="quad-axis-x">先問：這則消息是利多還利空？價格是順著走，還是反著走？</div>
+    <div class="quad" id="quad2">
+      <div class="quad-cell" onclick="pickQuad(this,false)"><b>利多 → 就漲</b><small>順著走，正常</small></div>
+      <div class="quad-cell" data-correct="1" onclick="pickQuad(this,true)"><b>利多 → 卻走低收黑</b><small>反著走 ⚑</small></div>
+      <div class="quad-cell" onclick="pickQuad(this,false)"><b>利空 → 就跌</b><small>順著走，正常</small></div>
+      <div class="quad-cell" onclick="pickQuad(this,false)"><b>利空 → 卻大漲</b><small>反著走 ⚑</small></div>
+    </div>
+    <div class="reveal" id="rv2"></div>
+    <div class="help" id="help2"><button onclick="answer(2)">看不懂？給我答案</button></div>
+    <div class="center" id="nx2" style="display:none"><button class="cta" onclick="go(7)">下一題 →</button></div>
+  </div>
+</section>
+
+<!-- 7 練3：反應強度 / 陷阱 -->
+<section class="scene" data-i="7">
+  <div class="card">
+    <span class="tag">練 · 第 3 題</span>
+    <h2>就這一天，能算數嗎？</h2>
+    <p class="body">情境：一則大利空，大盤不但沒跌還<span class="up">大漲一天</span>。
+    社群一片「落底了！利空出盡！」的聲音。</p>
+    <p class="body dim">把滑桿拉到：你有<b>多相信</b>「單單這一天的反應」就能確認方向？</p>
+    <div class="slider-box">
+      <div class="slider-val"><span id="sv">50</span>%</div>
+      <input type="range" id="slider3" min="0" max="100" value="50" oninput="document.getElementById('sv').textContent=this.value">
+      <div class="slider-ends"><span>完全不信，要它撐住</span><span>完全確認，這就是底</span></div>
+    </div>
+    <div class="center"><button class="cta" onclick="pickSlider()">確定</button></div>
+    <div class="reveal" id="rv3"></div>
+    <div class="help" id="help3"><button onclick="answer(3)">看不懂？給我答案</button></div>
+    <div class="center" id="nx3" style="display:none"><button class="cta" onclick="go(8)">繼續 →</button></div>
+  </div>
+</section>
+
+<!-- 8 過場 -->
+<section class="scene" data-i="8">
+  <div class="mono">
+    <p>消息會過期。</p>
+    <p>反應，不會說謊。</p>
+    <div class="next"><button class="cta ghost" onclick="go(9)">把它變成習慣 →</button></div>
+  </div>
+</section>
+
+<!-- 9 收束：稱重清單 -->
+<section class="scene" data-i="9">
+  <div class="card">
+    <span class="tag">收束 · 你的秤</span>
+    <h2>下次一則大消息出來</h2>
+    <p class="body">你一開始那個「跟著消息做反」的毛病，現在有解了 —— 你手上有一把秤。
+    親手勾出：下次你會依序看的四件事。</p>
+    <div id="checks">
+      <div class="check" onclick="toggleCheck(this)"><div class="box">✓</div><div class="lbl">先定消息方向<small>這是利多還是利空？</small></div></div>
+      <div class="check" onclick="toggleCheck(this)"><div class="box">✓</div><div class="lbl">看價格反著走還順著走<small>有沒有唱反調（背離）？</small></div></div>
+      <div class="check" onclick="toggleCheck(this)"><div class="box">✓</div><div class="lbl">問它撐不撐得住<small>只是一天，還是好幾天站得穩？</small></div></div>
+      <div class="check" onclick="toggleCheck(this)"><div class="box">✓</div><div class="lbl">先想好退出線<small>如果我讀錯了，哪裡認錯？</small></div></div>
+    </div>
+    <div class="center"><button class="cta" id="doneBtn" onclick="finish()" disabled>把四件事收進口袋（勾滿）</button></div>
+  </div>
+</section>
+
+<!-- 10 結果 -->
+<section class="scene" data-i="10">
+  <div class="card">
+    <div class="result-emoji" id="rEmoji">⚖️</div>
+    <div class="result-name" id="rName">讀秤的人</div>
+    <div class="result-tier" id="rTier">TIER</div>
+    <p class="body center" id="rDesc"></p>
+    <div class="unlock" id="rUnlock"></div>
+    <div class="act-btns">
+      <a class="act-btn act-sub" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">訂電子報，每週帶你把消息讀成判斷 →</a>
+      <a class="act-btn act-report" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">你會讀秤了 —— 來看這週市場怎麼反應 →</a>
+      <button class="act-btn act-share" onclick="share()">分享：讓只看標題的朋友，也學會看反應</button>
+    </div>
+    <div class="replay"><a onclick="replay()">重玩一次</a></div>
+    <div class="credit">
+      背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" rel="noopener">BiBiPiano</a>，版權為原作者所有。<br>
+      Yoda Research · 判斷力學校 · 總經科
+    </div>
+  </div>
+</section>
+
+</div>
+
+<script>
+// ===== 水墨背景引擎（取自 ink-gallery，正本） =====
+function inkCols(sky){
+  const dark=['sky-storm','sky-valley','sky-dawn','sky-dusk','sky-night','sky-blood','sky-gray','sky-start'].includes(sky);
+  return dark
+    ? ['rgba(210,220,245,0.10)','rgba(180,195,230,0.16)','rgba(222,232,252,0.34)']
+    : ['rgba(30,35,60,0.10)','rgba(25,30,55,0.16)','rgba(20,25,50,0.30)'];
+}
+const MOTIFS={
+  farhills:{art:(f,n,l)=>`<path d="M0,70 C120,50 220,58 340,44 C460,32 560,52 700,40 C840,30 960,50 1080,42 L1200,46 L1200,120 L0,120Z" fill="${f}"/><path d="M0,86 C160,74 300,82 460,70 C640,58 780,76 940,68 C1060,62 1140,72 1200,70 L1200,120 L0,120Z" fill="${n}"/><path d="M0,70 C120,50 220,58 340,44 C460,32 560,52 700,40 C840,30 960,50 1080,42 L1200,46" fill="none" stroke="${l}" stroke-width="1.4"/>`},
+  peak:{art:(f,n,l)=>`<path d="M0,104 C260,100 430,94 520,56 C560,40 600,20 640,20 C680,20 720,42 760,60 C860,100 1000,102 1200,100 L1200,120 L0,120Z" fill="${n}"/><path d="M600,28 C612,42 628,54 640,60" fill="none" stroke="${l}" stroke-width="1.4"/><path d="M660,54 C700,74 780,88 900,92" fill="none" stroke="${l}" stroke-width="1.2" opacity="0.8"/><rect x="300" y="62" width="620" height="12" fill="${f}"/><path d="M120,86 h240 M470,86 h180 M760,90 h300" stroke="${f}" stroke-width="9" stroke-linecap="round" opacity="0.7"/>`},
+  river:{art:(f,n,l)=>`<path d="M0,90 C300,82 500,86 1200,84 L1200,120 L0,120Z" fill="${f}"/><path d="M470,82 Q540,98 610,82" fill="none" stroke="${l}" stroke-width="1.8" stroke-linecap="round"/><line x1="540" y1="84" x2="540" y2="64" stroke="${l}" stroke-width="1.4"/><path d="M540,66 L568,82 L540,82Z" fill="${n}"/><path d="M120,94 q80,-4 160,0 t160,0 M700,96 q80,-4 160,0 t160,0" fill="none" stroke="${l}" stroke-width="1" opacity="0.6"/>`},
+  range:{art:(f,n,l)=>`<path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38 L1200,120 L0,120Z" fill="${f}"/><path d="M0,82 C160,66 320,76 480,60 C640,46 800,70 960,60 C1080,54 1160,64 1200,62 L1200,120 L0,120Z" fill="${n}"/><path d="M0,100 C220,90 420,96 640,86 C860,78 1020,92 1200,84 L1200,120 L0,120Z" fill="${n}"/><path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38" fill="none" stroke="${l}" stroke-width="1.2" opacity="0.85"/>`},
+  reed:{art:(f,n,l)=>`<path d="M0,88 C300,80 640,86 1000,80 C1100,78 1160,82 1200,80 L1200,120 L0,120Z" fill="${f}"/><path d="M0,102 C360,96 760,100 1200,96 L1200,120 L0,120Z" fill="${n}"/><g stroke="${l}" stroke-width="1.3" fill="none" stroke-linecap="round" opacity="0.9"><path d="M120,96 C118,74 122,62 128,48 M124,66 C112,60 106,54 104,46 M124,66 C136,58 142,52 146,44"/><path d="M150,96 C150,78 152,66 156,54 M153,70 C144,64 140,58 138,52"/><path d="M1040,94 C1042,74 1040,62 1034,50 M1039,68 C1050,62 1056,56 1058,48 M1039,68 C1028,60 1022,56 1020,48"/><path d="M1072,94 C1072,78 1070,66 1066,56"/></g>`}
+};
+function bg(type,sky){const m=MOTIFS[type];if(!m)return '';const[f,n,l]=inkCols(sky);
+  return `<svg class="ink-bg" viewBox="0 0 1200 120" preserveAspectRatio="none">${m.art(f,n,l)}</svg>`;}
+
+// ===== 場景 =====
+const SCENES=[
+  {sky:'sky-noon',bg:'farhills'},{sky:'sky-noon',bg:'farhills'},{sky:'sky-night',bg:'reed'},
+  {sky:'sky-storm',bg:'peak'},{sky:'sky-storm',bg:'peak'},{sky:'sky-storm',bg:'peak'},
+  {sky:'sky-storm',bg:'peak'},{sky:'sky-dusk',bg:'reed'},{sky:'sky-night',bg:'river'},
+  {sky:'sky-clear',bg:'range'},{sky:'sky-clear',bg:'range'}
+];
+const state={score:0, done:{}};
+let cur=0;
+
+function applySky(i){
+  const s=SCENES[i];
+  document.body.className=s.sky;
+  document.getElementById('ink').innerHTML=bg(s.bg,s.sky);
+  document.getElementById('prog').style.width=(i/(SCENES.length-1)*100)+'%';
+}
+function go(i){
+  const old=document.querySelector('.scene.active');
+  const nx=document.querySelector('.scene[data-i="'+i+'"]');
+  if(!nx)return;
+  old.classList.add('fadeout');
+  setTimeout(()=>{
+    old.classList.remove('active','fadeout');
+    cur=i; applySky(i);
+    nx.classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+    if(i===3) setTimeout(()=>demoSwing(),350);
+    if(i===5) setTimeout(()=>renderScale(document.getElementById('scale1'),0),100);
+    if(i===10) renderResult();
+  },320);
+}
+
+// ===== 天秤 =====
+function renderScale(svg,t){
+  const cx=180,cy=60,arm=120,drop=44;
+  const rad=t*22*Math.PI/180;
+  const Lx=cx-arm*Math.cos(rad), Ly=cy-arm*Math.sin(rad);
+  const Rx=cx+arm*Math.cos(rad), Ry=cy+arm*Math.sin(rad);
+  const q=c=>svg.querySelector(c);
+  const beam=q('.beam');beam.setAttribute('x1',Lx);beam.setAttribute('y1',Ly);beam.setAttribute('x2',Rx);beam.setAttribute('y2',Ry);
+  const ls=q('.lstr');ls.setAttribute('x1',Lx);ls.setAttribute('y1',Ly);ls.setAttribute('x2',Lx);ls.setAttribute('y2',Ly+drop);
+  const rs=q('.rstr');rs.setAttribute('x1',Rx);rs.setAttribute('y1',Ry);rs.setAttribute('x2',Rx);rs.setAttribute('y2',Ry+drop);
+  q('.lpan').setAttribute('transform',`translate(${Lx},${Ly+drop})`);
+  q('.rpan').setAttribute('transform',`translate(${Rx},${Ry+drop})`);
+  const ll=q('.llabel');ll.setAttribute('x',Lx);ll.setAttribute('y',Ly+drop+28);
+  const rl=q('.rlabel');rl.setAttribute('x',Rx);rl.setAttribute('y',Ry+drop+28);
+  svg._t=t;
+}
+function animateScale(svg,target,cb){
+  const start=(typeof svg._t==='number')?svg._t:0, t0=Date.now(), dur=750;
+  if(svg._anim) clearInterval(svg._anim);
+  svg._anim=setInterval(()=>{
+    let p=Math.min(1,(Date.now()-t0)/dur); const e=1-Math.pow(1-p,3);
+    renderScale(svg,start+(target-start)*e);
+    if(p>=1){clearInterval(svg._anim); svg._anim=null; if(cb) cb();}
+  },16);
+}
+function demoSwing(){
+  const svg=document.getElementById('scaleDemo');
+  renderScale(svg,0);
+  animateScale(svg,0.7,()=>animateScale(svg,-0.7,()=>animateScale(svg,0.35)));
+}
+
+// ===== 練1 天秤 =====
+function pickScale(n,side){
+  if(state.done['s'+n])return;
+  state.done['s'+n]=true;
+  const svg=document.getElementById('scale'+n);
+  document.querySelectorAll('#pick'+n+' .btn').forEach(b=>b.disabled=true);
+  const correct='right'; // 利空不跌/翻紅 → 賣壓衰竭 → 偏多(右)
+  const right = side===correct;
+  if(right) state.score++;
+  // 先倒向玩家選的，再（若錯）糾正到正解
+  animateScale(svg, side==='left'?-0.8:0.8, ()=>{
+    if(!right) setTimeout(()=>animateScale(svg,0.8),450);
+  });
+  const rv=document.getElementById('rv'+n);
+  rv.innerHTML = right
+    ? `<b>對了 ✓ 秤倒向偏多。</b><br>這麼燙的利空砸下來，價格卻跌不動、還想翻紅 —— 代表<b>想賣的人差不多賣完了（賣壓衰竭）</b>。消息很兇，反應很淡，市場用價格告訴你：這裡撐得住。`
+    : `<b>再想一下 —— 秤其實倒向偏多。</b><br>利空這麼重，價格卻跌不動、盤中還翻紅，這叫<b>賣壓衰竭</b>：該賣的都賣了，砸不下去。消息兇但反應淡，價格才是公斷。`;
+  rv.className='reveal show';
+  document.getElementById('help'+n).style.display='none';
+  document.getElementById('nx'+n).style.display='block';
+}
+
+// ===== 練2 四象限 =====
+function pickQuad(cell,ok){
+  if(state.done.s2)return;
+  state.done.s2=true;
+  document.querySelectorAll('#quad2 .quad-cell').forEach(c=>c.style.pointerEvents='none');
+  const correctCell=document.querySelector('#quad2 [data-correct]');
+  if(ok){state.score++; cell.classList.add('good');}
+  else{cell.classList.add('bad'); correctCell.classList.add('good');}
+  const rv=document.getElementById('rv2');
+  rv.innerHTML = ok
+    ? `<b>對了 ✓ 利多卻走低收黑。</b><br>這麼大的好消息餵進去，價格開高卻一路被倒貨 —— <b>想買的人都買完了（買盤耗盡）</b>，偏空。利多當天沖高，反而常是短線力竭的訊號。`
+    : `<b>正解是「利多 → 卻走低收黑」那格。</b><br>大利多開高走低收黑，代表<b>買盤耗盡</b>：好消息推不動了，偏空。消息和價格唱反調，價格說了算。`;
+  rv.className='reveal show';
+  document.getElementById('help2').style.display='none';
+  document.getElementById('nx2').style.display='block';
+}
+
+// ===== 練3 滑桿 =====
+function pickSlider(){
+  if(state.done.s3)return;
+  state.done.s3=true;
+  const v=+document.getElementById('slider3').value;
+  document.querySelector('#slider3').disabled=true;
+  if(v<=55) state.score++; // 不輕信單日 = 成熟
+  const rv=document.getElementById('rv3');
+  rv.innerHTML = `<b>${v<=55?'穩 ✓ 你沒被一天沖昏頭。':'留意 —— 一天，還不夠。'}</b><br>
+    單日的利空大漲，是<b>線索</b>，不是<b>結論</b>。真的止跌，會用「撐得住、不破前低、隔天不打回」來證明給你看。<br>
+    所以成熟的讀法是：<b>讓市場證明方向再跟</b>，而且就算要試，先想好「跌破哪裡我就認錯」的退出線。不猜底，只等訊號站穩。`;
+  rv.className='reveal show';
+  document.getElementById('help3').style.display='none';
+  document.getElementById('nx3').style.display='block';
+}
+
+// ===== 給我答案（就地揭示＋白話術語，不計分放行） =====
+const GLOSS={
+  1:{answer:'right',
+     text:'<b>答案：秤倒向偏多。</b> 這題的關鍵是「利空這麼重，價格卻跌不動、還想翻紅」。',
+     gloss:'<span>利空</span>＝對股價不利的壞消息。　<span>賣壓衰竭</span>＝想賣的人差不多都賣光了，再壞的消息也砸不下去。　<span>CPI</span>＝消費者物價指數，看通膨燙不燙的數據。'},
+  2:{cell:1,
+     text:'<b>答案：「利多 → 卻走低收黑」那一格。</b> 大好消息開高卻被一路倒貨。',
+     gloss:'<span>利多</span>＝對股價有利的好消息。　<span>買盤耗盡</span>＝想買的人都買完了，沒人再接棒，價格就漲不動。　<span>收黑</span>＝收盤價比開盤還低。'},
+  3:{slider:40,
+     text:'<b>答案：別太信「就這一天」。</b> 把滑桿放低（不輕信），等它撐幾天再說。',
+     gloss:'<span>利空出盡</span>＝壞消息都反映完了，行情可能反轉。　<span>前低</span>＝之前跌到的最低點；不破前低才算撐得住。　<span>退出線</span>＝先講好「跌破哪就認錯出場」的那條線。'}
+};
+function answer(n){
+  if(state.done['s'+n])return;
+  state.done['s'+n]=true;
+  const g=GLOSS[n];
+  if(n===1){
+    document.querySelectorAll('#pick1 .btn').forEach(b=>{b.disabled=true; if(b.textContent.includes('偏多'))b.classList.add('pick-good');});
+    animateScale(document.getElementById('scale1'),0.8);
+  }else if(n===2){
+    document.querySelectorAll('#quad2 .quad-cell').forEach(c=>c.style.pointerEvents='none');
+    document.querySelector('#quad2 [data-correct]').classList.add('good');
+  }else if(n===3){
+    const s=document.getElementById('slider3'); s.value=g.slider; s.disabled=true;
+    document.getElementById('sv').textContent=g.slider;
+  }
+  const rv=document.getElementById('rv'+n);
+  rv.innerHTML=g.text+`<div class="gloss">白話：${g.gloss}</div><div style="margin-top:8px" class="dim">（走「給我答案」不計分，但一樣帶你過關。）</div>`;
+  rv.className='reveal show';
+  document.getElementById('help'+n).style.display='none';
+  document.getElementById('nx'+n).style.display='block';
+}
+
+// ===== 收束檢查表 =====
+function toggleCheck(el){
+  el.classList.toggle('on');
+  const all=document.querySelectorAll('#checks .check');
+  const on=document.querySelectorAll('#checks .check.on').length;
+  const btn=document.getElementById('doneBtn');
+  if(on===all.length){btn.disabled=false; btn.textContent='把四件事收進口袋 →';}
+  else{btn.disabled=true; btn.textContent='把四件事收進口袋（勾滿）';}
+}
+function finish(){go(10);}
+
+// ===== 結果 =====
+const TIERS=[
+  {min:0,emoji:'🎯',name:'追消息的人',tier:'LV.1 · 還在看子彈',
+   desc:'你還盯著消息本身在做判斷 —— 好消息就想追、壞消息就想跑。這一課給了你另一個看法：先別問消息說什麼，先看價格怎麼回。',
+   unlock:'<b>技能解鎖：看見「反應」這件事。</b>下次消息一出，多問一句：「那價格信不信？」光是這一問，你就已經比昨天多一隻眼睛。'},
+  {min:2,emoji:'🧭',name:'開始讀秤',tier:'LV.2 · 半山腰',
+   desc:'你抓到訣竅了：消息和價格「唱反調」的時候，市場在說真話。剩下的是把它練成反射動作，還有 —— 別被單獨一天騙了。',
+   unlock:'<b>技能解鎖：背離判讀 + 不輕信單日。</b>你會看對角線那兩格了。接著練「撐幾天才算數」，你的秤就準了。'},
+  {min:3,emoji:'⚖️',name:'讀秤的人',tier:'LV.3 · 看的是市場的手',
+   desc:'你看的已經不是消息，是市場「怎麼消化消息」。而且你懂得等它站穩、先留退出線再跟 —— 這正是判斷力的底層。',
+   unlock:'<b>技能解鎖：市場天秤（完整）。</b>消息方向、背離、持續性、退出線，四件事你都握住了。這把秤，你可以自己稱重了。'}
+];
+function renderResult(){
+  let t=TIERS[0];
+  for(const x of TIERS) if(state.score>=x.min) t=x;
+  document.getElementById('rEmoji').textContent=t.emoji;
+  document.getElementById('rName').textContent=t.name;
+  document.getElementById('rTier').textContent=t.tier;
+  document.getElementById('rDesc').textContent=t.desc;
+  document.getElementById('rUnlock').innerHTML=t.unlock;
+}
+
+// ===== 分享 =====
+function share(){
+  const url='https://yoda-research-next.vercel.app/';
+  const text='利多為什麼跌？我剛學會怎麼讀「市場的秤」—— 消息不是方向，反應才是。';
+  if(navigator.share){navigator.share({title:'利多為什麼跌？',text,url}).catch(()=>{});}
+  else{
+    const done=()=>alert('已複製連結，貼給朋友吧！');
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text+' '+url).then(done).catch(fallbackCopy);}
+    else fallbackCopy();
+    function fallbackCopy(){try{const ta=document.createElement('textarea');ta.value=text+' '+url;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();}catch(e){alert(url);}}
+  }
+}
+function replay(){location.reload();}
+
+// ===== BGM =====
+(function(){
+  const bgm=document.getElementById('bgm'), btn=document.getElementById('mute');
+  let muted=false;
+  try{muted=localStorage.getItem('yoda_bgm_muted')==='1';}catch(e){}
+  bgm.volume=0.30; bgm.muted=muted; btn.textContent=muted?'🔇':'🔊';
+  function play(){ if(!muted){ bgm.play().catch(()=>{}); } document.removeEventListener('click',play); }
+  document.addEventListener('click',play);
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    muted=!muted; bgm.muted=muted; btn.textContent=muted?'🔇':'🔊';
+    try{localStorage.setItem('yoda_bgm_muted',muted?'1':'0');}catch(e){}
+    if(!muted) bgm.play().catch(()=>{});
+  });
+})();
+
+// init
+applySky(0);
+</script>
+</body>
+</html>

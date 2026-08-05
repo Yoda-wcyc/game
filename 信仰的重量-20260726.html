@@ -364,7 +364,6 @@ function showResult(){
     '<div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1.5rem">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" style="color:rgba(224,165,38,0.6);text-decoration:none">BiBiPiano</a>，版權為原作者所有</div>'+
   '</div></div>';
 }
-window.showResult = showResult;
 function showTrans(text){
   G.innerHTML='<div class="sc k-dark">'+mtn('k-dark')+'<div class="ov"><div class="tq">'+text+'</div>'+
     '<button class="cont" onclick="G2.afterTrans()">繼續 ›</button></div></div>';
@@ -397,7 +396,7 @@ window.G2={
     });
   }
 };
-window.showResult = showResult;
+
 showStart();
 })();
 </script>
