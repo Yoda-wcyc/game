@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投資者的修行 · Yoda Research</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;min-height:100%;font-family:-apple-system,'PingFang TC','Noto Sans TC',sans-serif;background:#000}
+#game{width:100%;min-height:100vh;position:relative;overflow:hidden}
+.scene{width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:3rem 1.5rem}
+
+.sky-start{background:linear-gradient(180deg,#0a0a1a 0%,#1a1a3e 40%,#8b5e00 80%,#c47a00 100%)}
+.sky-dawn{background:linear-gradient(180deg,#1a1a2e 0%,#e8b86d 60%,#f4a261 100%)}
+.sky-gray{background:linear-gradient(180deg,#2d3561 0%,#4a5568 50%,#a0aec0 100%)}
+.sky-noon{background:linear-gradient(180deg,#0d47a1 0%,#1976d2 50%,#bbdefb 100%)}
+.sky-afternoon{background:linear-gradient(180deg,#bf360c 0%,#f57c00 50%,#ffe0b2 100%)}
+.sky-dusk{background:linear-gradient(180deg,#1a0030 0%,#6a1b9a 40%,#e91e63 70%,#ff7043 100%)}
+.sky-night{background:linear-gradient(180deg,#000510 0%,#0d1b2a 60%,#1a2744 100%)}
+.sky-valley{background:linear-gradient(180deg,#1b2631 0%,#2e4057 40%,#5d7a8a 100%)}
+.sky-storm{background:linear-gradient(180deg,#0d0d0d 0%,#1a1a3e 40%,#3949ab 100%)}
+.sky-clouds{background:linear-gradient(180deg,#0d47a1 0%,#1565c0 40%,#90caf9 100%)}
+.sky-mountain{background:linear-gradient(180deg,#7b1fa2 0%,#c62828 40%,#ff8a65 100%)}
+.sky-starry{background:linear-gradient(180deg,#000510 0%,#0a0a2e 60%,#1a1a4e 100%)}
+.sky-clear{background:linear-gradient(180deg,#01579b 0%,#0288d1 40%,#4fc3f7 100%)}
+.sky-result{background:linear-gradient(180deg,#003459 0%,#00587a 40%,#0288d1 100%)}
+
+.mountains{position:absolute;bottom:0;left:0;right:0;height:220px;pointer-events:none}
+.overlay{position:relative;z-index:10;text-align:center;max-width:640px;width:100%}
+
+.sky-dawn .t-main,.sky-start .t-main{color:#fff7e6}
+.sky-dawn .t-sub,.sky-start .t-sub{color:rgba(255,240,200,0.78)}
+.sky-dawn .t-label,.sky-start .t-label{color:rgba(255,220,150,0.58)}
+.sky-gray .t-main{color:#e8eaf6}.sky-gray .t-sub{color:rgba(220,225,245,0.82)}.sky-gray .t-label{color:rgba(200,210,235,0.58)}
+.sky-noon .t-main{color:#e3f2fd}.sky-noon .t-sub{color:rgba(200,230,255,0.85)}.sky-noon .t-label{color:rgba(180,215,255,0.58)}
+.sky-afternoon .t-main{color:#fff3e0}.sky-afternoon .t-sub{color:rgba(255,240,200,0.85)}.sky-afternoon .t-label{color:rgba(255,220,150,0.58)}
+.sky-dusk .t-main{color:#fce4ec}.sky-dusk .t-sub{color:rgba(252,220,235,0.85)}.sky-dusk .t-label{color:rgba(240,180,210,0.58)}
+.sky-night .t-main,.sky-starry .t-main{color:#e8eaf6}.sky-night .t-sub,.sky-starry .t-sub{color:rgba(210,220,255,0.82)}.sky-night .t-label,.sky-starry .t-label{color:rgba(180,200,255,0.55)}
+.sky-valley .t-main{color:#eceff1}.sky-valley .t-sub{color:rgba(220,230,240,0.85)}.sky-valley .t-label{color:rgba(190,210,225,0.58)}
+.sky-storm .t-main{color:#e8eaf6}.sky-storm .t-sub{color:rgba(210,215,255,0.85)}.sky-storm .t-label{color:rgba(180,190,255,0.58)}
+.sky-clouds .t-main{color:#e3f2fd}.sky-clouds .t-sub{color:rgba(200,230,255,0.85)}.sky-clouds .t-label{color:rgba(180,215,255,0.58)}
+.sky-mountain .t-main{color:#fce4ec}.sky-mountain .t-sub{color:rgba(252,225,240,0.85)}.sky-mountain .t-label{color:rgba(240,190,220,0.58)}
+.sky-clear .t-main,.sky-result .t-main{color:#e1f5fe}.sky-clear .t-sub,.sky-result .t-sub{color:rgba(200,235,255,0.85)}.sky-clear .t-label,.sky-result .t-label{color:rgba(170,220,255,0.58)}
+
+.chapter-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:0.5rem}
+.chapter-title{font-size:28px;font-weight:300;margin-bottom:1rem;line-height:1.3}
+.chapter-quote{font-size:15px;line-height:1.95;margin-bottom:2rem;font-style:italic;max-width:480px;margin-left:auto;margin-right:auto}
+.round-text{font-size:15px;line-height:1.9;margin-bottom:1.5rem;max-width:520px;margin-left:auto;margin-right:auto}
+.round-question{font-size:17px;font-weight:400;margin-bottom:1.5rem;line-height:1.5}
+.transition-quote{font-size:17px;text-align:center;max-width:420px;line-height:2.1;font-style:italic;letter-spacing:0.3px;color:rgba(210,225,255,0.82)}
+
+.choices{display:flex;flex-direction:column;gap:0.75rem;width:100%;max-width:480px;margin:0 auto}
+.choice-btn{background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.28);color:#fff;padding:0.95rem 1.25rem;border-radius:8px;cursor:pointer;font-size:14px;line-height:1.6;text-align:left;transition:all 0.22s;backdrop-filter:blur(6px)}
+.choice-btn:hover{background:rgba(0,0,0,0.45);border-color:rgba(255,255,255,0.62);transform:translateX(4px)}
+.sky-afternoon .choice-btn{color:#fff3e0}
+
+.continue-btn{background:transparent;border:1px solid rgba(255,255,255,0.38);color:rgba(255,255,255,0.75);padding:0.6rem 2rem;border-radius:4px;cursor:pointer;font-size:13px;margin-top:1.5rem;letter-spacing:1px;transition:all 0.2s}
+.continue-btn:hover{border-color:rgba(255,255,255,0.9);color:#fff}
+
+.balance-container{width:100%;max-width:500px;margin:0 auto}
+.balance-item{display:flex;align-items:center;gap:1rem;margin-bottom:1.1rem}
+.balance-label{font-size:14px;min-width:80px;text-align:right}
+.balance-pct{font-size:14px;font-weight:500;min-width:40px;text-align:right}
+input[type=range].bslider{flex:1;-webkit-appearance:none;appearance:none;background:transparent;height:20px}
+input[type=range].bslider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;cursor:pointer;margin-top:-6px;box-shadow:0 1px 5px rgba(0,0,0,0.35)}
+input[type=range].bslider::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:rgba(255,255,255,0.18)}
+input[type=range].bslider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;cursor:pointer;border:none;box-shadow:0 1px 5px rgba(0,0,0,0.35)}
+input[type=range].bslider::-moz-range-track{height:8px;border-radius:4px;background:rgba(255,255,255,0.18)}
+.balance-total{font-size:13px;text-align:center;margin-top:0.5rem;padding:0.45rem 1rem;border-radius:4px;display:inline-block}
+.bal-warn{color:#ffcc80;background:rgba(255,150,0,0.18)}
+.bal-ok{color:#a5d6a7;background:rgba(80,200,100,0.18)}
+
+.result-icon{font-size:52px;margin-bottom:0.75rem}
+.result-type{font-size:24px;font-weight:300;margin-bottom:0.75rem}
+.result-desc{font-size:14px;line-height:1.9;max-width:420px;margin:0 auto 1.5rem}
+.result-config{border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.5rem;max-width:340px;margin-left:auto;margin-right:auto}
+.result-config-title{font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.38);margin-bottom:0.6rem}
+.result-config-row{display:flex;justify-content:space-between;font-size:13px;padding:0.32rem 0;border-bottom:1px solid rgba(255,255,255,0.1)}
+.result-config-row:last-child{border-bottom:none}
+.progress-bar{position:fixed;top:0;left:0;height:2px;background:rgba(224,165,38,0.6);transition:width 0.4s;z-index:100}
+.mute-btn{position:fixed;top:14px;right:14px;z-index:101;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(6px);transition:all 0.2s;display:flex;align-items:center;justify-content:center;padding:0}
+.mute-btn:hover{background:rgba(0,0,0,0.55);border-color:rgba(255,255,255,0.5)}
+.twin-btn-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+  max-width: 320px;
+  margin: 1rem auto 0;
+}
+.twin-btn {
+  width: 100%;
+  text-align: center;
+  background: linear-gradient(135deg, #D4AF37 0%, #AA7700 100%);
+  color: #ffffff;
+  border: none;
+  padding: 0.85rem 0.6rem;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+  box-sizing: border-box;
+  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.2);
+}
+.twin-btn:hover {
+  opacity: 0.87;
+}
+.twin-btn.copied {
+  background: rgba(100,200,120,0.2);
+  border: 1px solid rgba(100,200,120,0.6);
+  color: #a5d6a7;
+  box-shadow: none;
+}
+/* 卡片翻面 */
+.flip-reveal{max-width:480px;margin:0 auto;background:rgba(0,0,0,0.32);border:1px solid rgba(255,255,255,0.28);border-radius:10px;padding:1.4rem 1.5rem;backdrop-filter:blur(6px);animation:flipIn 0.5s ease}
+@keyframes flipIn{0%{opacity:0;transform:rotateX(-30deg) translateY(10px)}100%{opacity:1;transform:rotateX(0) translateY(0)}}
+.flip-tag{font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.5);margin-bottom:0.7rem}
+.flip-body{font-size:14px;line-height:1.9;color:rgba(255,255,255,0.9)}
+/* 重排清單（信任排序 / 傳導鏈） */
+.reorder-list{max-width:440px;margin:0 auto 1.1rem;display:flex;flex-direction:column;gap:0.55rem}
+.reorder-row{display:flex;align-items:center;gap:0.7rem;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.26);border-radius:8px;padding:0.7rem 0.85rem;backdrop-filter:blur(6px);transition:border-color 0.25s,background 0.25s;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+.reorder-row:active{cursor:grabbing}
+.reorder-row.dragging{cursor:grabbing;box-shadow:0 8px 24px rgba(0,0,0,0.45);border-color:rgba(255,255,255,0.6)}
+.reorder-row.slot-hint{border-color:rgba(224,165,38,0.7);background:rgba(224,165,38,0.12)}
+.drag-handle{color:rgba(255,255,255,0.45);font-size:16px;line-height:1;letter-spacing:-2px;padding-left:0.2rem;flex-shrink:0}
+.reorder-row.correct{border-color:rgba(120,220,140,0.75);background:rgba(80,200,110,0.16)}
+.reorder-rank{font-size:12px;color:rgba(255,255,255,0.5);min-width:20px;text-align:center}
+.reorder-label{flex:1;font-size:14px;line-height:1.5;color:#fff;text-align:left}
+.chain-arrow{text-align:center;color:rgba(255,255,255,0.4);font-size:12px;margin:-0.15rem 0}
+.slider-feedback{font-size:13px;line-height:1.75;max-width:420px;margin:0.5rem auto 0;min-height:42px}
+</style>
+</head>
+<body>
+<audio id="bgm" loop preload="auto"><source src="day_one.mp3" type="audio/mpeg"></audio>
+<button id="muteBtn" class="mute-btn" onclick="toggleMute()" aria-label="音樂開關">🔊</button>
+<div class="progress-bar" id="progress"></div>
+<div id="game"></div>
+<script>
+const G=document.getElementById('game');
+const PB=document.getElementById('progress');
+
+// ---- 背景音樂控制 ----
+const BGM=document.getElementById('bgm');
+const MUTEBTN=document.getElementById('muteBtn');
+let bgmStarted=false;
+let bgmMuted=false;
+try{ bgmMuted = localStorage.getItem('yoda_bgm_muted')==='1'; }catch(e){}
+if(BGM){ BGM.volume=0.30; }
+function updateMuteIcon(){ if(MUTEBTN) MUTEBTN.textContent = bgmMuted ? '🔇' : '🔊'; }
+updateMuteIcon();
+function startBGM(){
+  if(bgmStarted || bgmMuted || !BGM) return;
+  BGM.play().then(function(){ bgmStarted=true; }).catch(function(){});
+}
+function toggleMute(){
+  bgmMuted=!bgmMuted;
+  try{ localStorage.setItem('yoda_bgm_muted', bgmMuted?'1':'0'); }catch(e){}
+  if(bgmMuted){ if(BGM) BGM.pause(); }
+  else{ if(BGM){ BGM.play().then(function(){bgmStarted=true;}).catch(function(){}); } }
+  updateMuteIcon();
+}
+window.toggleMute=toggleMute;
+// 第一次任何點擊都嘗試啟動音樂（解鎖瀏覽器自動播放限制）
+document.addEventListener('click', startBGM, {once:false});
+
+
+const CHAPTERS=[
+  {label:'第一章',title:'修術',sky:'sky-dawn',quotes:['你買了課、追了粉專、做了筆記。<br>但每次要下單，還是不知道從哪裡開始。']},
+  {label:'第二章',title:'修道',sky:'sky-valley',quotes:['有一天，你突然看見了。升息、美元、油價、債券——<br>它們不是獨立的，它們在說同一件事。','市場不是隨機的。它有節奏。只是你還沒找到那個頻率。<br>經濟是一張立體拼圖，你以前只看到一塊，<br>現在，你開始看見它們如何咬合。','牽一髮動全身。<br>這句話在你第一次看懂一個完整的傳導鏈之後，才真正有了重量。','從這裡開始，你看市場的方式，會慢慢不一樣。']},
+  {label:'第三章',title:'修心',sky:'sky-mountain',quotes:['長線需要耐心。短線需要紀律。兩者都需要你足夠了解自己。','有些人用長線睡得著覺。有些人靠短線感覺活著。<br>答案沒有對錯，只有適不適合。']},
+  {label:'第四章',title:'融合',sky:'sky-clear',quotes:['當你停止尋找唯一正確的答案，才開始建立自己的系統。','沒有哪一樣武器可以獨立戰鬥。<br>總經是地圖，技術是指南針，基本面是糧草。','你走到這裡，不是為了得到答案。而是為了開始問對問題。','系統不是別人給你的。是你一次次選擇之後，留下來的東西。']}
+];
+
+const ROUNDS=[
+  {ch:0,sky:'sky-dawn',title:'資訊的迷宮',type:'rank',text:'你訂閱了十個財經粉專。<br>每天早上打開手機，三種聲音同時對你喊話，聽起來都有道理。',rankItems:['A：升息了，快去買債券','B：現在是佈局科技股的好時機','C：別傻了，現金為王'],reveal:'你排好了信任順序。但真相是——三種聲音都只對了一半：升息初期債券未必立刻漲、科技股可能還要修正、現金為王也可能錯過反彈。沒有一個能照單全收。',question:'看清楚這點以後，你會——',choices:['跟著我排第一、聲量最大的那個做','先擱置，繼續學，建立自己的判斷再說']},
+  {ch:0,sky:'sky-gray',title:'技術分析的誘惑',type:'flip',text:'你開始學K線。黃金交叉、死亡交叉、RSI超買超賣。<br>買了課，做了筆記，自以為看懂了圖。<br>第一次出手，照著型態買，結果隔天跳空下跌。',question:'你怎麼解讀這次失敗？',cards:[{label:'圖表是騙人的',text:'技術分析根本沒用，我不玩了',reveal:'半年後你錯過了三個教科書級的型態。問題其實不是圖表，是你只學了型態、沒學它失效的條件——你把工具丟了，卻留著同一套急躁。'},{label:'我看錯了',text:'判斷有問題，繼續研究哪裡錯',reveal:'你回頭覆盤，發現那天有一份財報在盤前爆雷。原來型態沒錯，是你漏看了基本面的訊號。你開始懂得：沒有單一工具能獨立成立。'}],choices:['圖表分析本來就是騙人的，我不玩了','我的判斷有問題，要繼續研究，找出哪裡看錯了']},
+  {ch:0,sky:'sky-noon',title:'總經焦慮症',type:'slider',text:'你開始關注宏觀。Fed利率、CPI、PCE、殖利率曲線、PMI……每個數據公布，市場都在震盪。你試圖每個都追，愈看愈焦慮，愈焦慮愈不敢動。',question:'你決定每天花多少時間追這些數據？',sliderKind:'hours',min:0,max:8,step:1,def:3,unit:' 小時／天',leftLabel:'幾乎不看',rightLabel:'全部都追',choices:['資訊太多了，我決定只看最重要的幾個指標，其他不管','繼續全追，資訊就是武器，我不能放棄任何一塊']},
+  {ch:0,sky:'sky-afternoon',title:'好公司，壞時機',text:'你研究了一家公司半個月。財報漂亮、護城河深、管理層優秀。你買進了。然後股價五年都沒動，甚至還跌了15%。同期大盤漲了60%。',question:'你的結論是什麼？',choices:['基本面分析沒用，市場根本不在乎企業真實價值','好公司是必要條件，但進場時機同樣關鍵，我的功課還沒做完']},
+  {ch:0,sky:'sky-dusk',title:'知道太多，動不了',text:'你學了技術分析、基本面、總體經濟。每次想出手，腦袋裡同時響起五個聲音：技術面說可以、基本面說還早、總經說不確定、新聞說要小心、內心說算了。最後你什麼都沒做。',question:'你意識到問題在哪裡？',choices:['問題是資訊還不夠，我需要更多確定性才能行動','問題是我沒有一個屬於自己的判斷框架，資訊沒有主軸']},
+  {ch:1,sky:'sky-valley',title:'第一次看見連結',type:'chain',text:'某天你在看一篇分析。作者把六件事排成一條傳導鏈——<br>但你手上的順序被打亂了。<br>試著把它排回正確的因果順序。',chain:['Fed 升息','美元走強','新興市場資金外逃','當地貨幣貶值','央行被迫跟進升息','壓制內需、企業盈餘下修'],reveal:'你把鏈條接了起來。「牽一髮動全身」這句話，在你第一次親手看懂一條完整的傳導鏈之後，才真正有了重量。原來這些事，從來不是各自獨立發生的。',question:'這個頓悟帶給你什麼感受？',choices:['原來要先搞懂宏觀，才能看懂個股在做什麼','這太複雜了，我寧願找個簡單的公式']},
+  {ch:1,sky:'sky-storm',title:'市場的節奏',text:'你開始研究景氣循環。擴張、高峰、收縮、谷底。你發現，歷史上每一次大跌，幾乎都能在總經數據裡找到先行警訊。市場不是隨機的，它有節奏，有慣性，有記憶。',question:'你對週期的理解是？',choices:['懂週期就能預測市場，我要開始用這個做決策','週期是地圖，不是時刻表。它告訴我方向，但不告訴我今天幾點']},
+  {ch:1,sky:'sky-clouds',title:'三種工具的位置',text:'你開始思考：總經給你大方向，技術分析幫你找進出場時機，基本面讓你對標的有信心。這三者不是競爭關係，是分工關係。',question:'你的下一步是？',choices:['先精通一種，其他的以後再說','開始練習同時用三種視角看同一個市場']},
+  {ch:1,sky:'sky-storm',title:'信仰的破綻',text:'你最信任的方法，在某個特定環境下完全失效了。信總經的人遇到了「Fed降息但股市反跌」；信技術的人遇到了「完美型態卻跳空崩潰」；信基本面的人持有的好公司股價持續創新低。',question:'這次的失效教會了你什麼？',choices:['每一種方法都有它的盲點，沒有萬能公式','我選錯方法了，要換一種試試']},
+  {ch:2,sky:'sky-mountain',title:'你真正想要什麼',text:'你在投資上花了大量時間和精力。有時候你問自己：我為什麼要做這件事？是要財富自由？財富自由之後要做什麼？是要不用上班？還是要能夠掌控自己的時間？還是只是不想被錢追著跑？',question:'你最誠實的答案是？',choices:['我想要時間自由——能選擇自己要做什麼，不被工作綁架','我想要安全感——不再擔心錢的問題，生活有底氣']},
+  {ch:2,sky:'sky-mountain',title:'長線還是短線',type:'slider',sliderKind:'spectrum',text:'你站在一個岔路口。長線說：複利的力量，時間是你的朋友。短線說：現在就要有現金流，機會是抓住當下的。<br>這裡沒有對錯，只有適不適合你。',question:'把指針滑到你真實的傾向——',min:0,max:100,step:5,def:50,unit:'',leftLabel:'純長線',rightLabel:'純短線',choices:['長線——我相信複利，我願意等，我想睡得著','短線——我需要現在的成就感和現金流，等太久我撐不住']},
+  {ch:2,sky:'sky-starry',title:'兩者能並行嗎',text:'選了長線的你：上週大盤跌12%，你的長線部位帳面虧損，你撐得住嗎？選了短線的你：要維持一定勝率需要每天花4-6小時盯盤，這是你願意付出的代價嗎？',question:'你的答案是？',choices:['也許長線和短線不是非此即彼，可以用不同資金分別執行','不，我必須選一個專注，分心只會兩頭都做不好']},
+  {ch:3,sky:'sky-clear',title:'建立你的系統',text:'你已經走過了資訊的迷宮，看見了經濟的立體拼圖，也誠實面對了自己對財富的渴望。\n\n現在，調整屬於你的投資配重。沒有標準答案。只有適合你的那一個。',question:'',choices:[]}
+];
+
+const TRANSITIONS=[
+  '你在找一個人告訴你答案。<br>但那個人，最終只能是你自己。',
+  '技術分析是語言，不是預言。',
+  '總經是望遠鏡，不是放大鏡。<br>它看的是方向，不是今天。',
+  '當所有聲音都很有道理，你需要的不是更多資訊，<br>而是一個主軸。',
+  '那種「突然看懂了」的感覺，<br>只有經歷過迷茫的人才會有。',
+  '懂了週期，你就不會在每次崩跌時覺得世界末日。',
+  null,
+  '開始思考「組合」的那一刻，<br>你就跳出了選邊站的陷阱。',
+  '每一種方法都有它失效的環境。<br>這不是缺陷，這是事實。',
+  '錢的問題，最後都會變成時間的問題。',
+  '長線給你方向，短線給你呼吸。<br>兩者不是對立的，是節奏不同的存在。',
+  '並行，不是貪心。<br>是你開始理解，不同的資金可以有不同的任務。',
+];
+
+const PERSONALITIES=[
+  {icon:'🔥',name:'衝動型',desc:'你跟著感覺走，市場讓你又愛又恨。情緒是你最大的資產，也是最大的敵人。<br><br>下一步：先建立一個「冷卻期」——每次想出手，等24小時再做決定。'},
+  {icon:'🧊',name:'分析癱瘓型',desc:'你懂得很多，但就是下不了手。你需要的不是更多資訊，而是一個「夠好就行」的決策標準。<br><br>下一步：設定3個條件都滿足就進場的規則，然後執行它。'},
+  {icon:'🌿',name:'緩慢覺醒型',desc:'你走過了彎路，正在找到自己的節奏。你比大多數人更了解自己的盲點，這是最珍貴的資產。<br><br>下一步：把你的交易記錄下來，你會發現屬於自己的模式。'},
+  {icon:'🏔️',name:'系統型',desc:'你已經開始用框架思考，而不是追單一個股。這是成熟投資者的標誌。<br><br>下一步：用小倉位測試你的系統，驗證之後再逐步放大。'},
+  {icon:'🔭',name:'融合型',desc:'你走過了三條路的掙扎，開始建立屬於自己的視角。總經、技術、基本面，你不再選邊，而是開始整合。<br><br>下一步：找到你最擅長的那一塊，讓它成為系統的核心。'},
+  {icon:'⚖️',name:'配重師',desc:'你懂得長短並行、工具互補，並且誠實面對了自己真正想要什麼。<br><br>下一步：你已經準備好了。去找一個能幫你把這套系統落地的框架。'}
+];
+
+const BALANCE_ITEMS=[
+  {key:'index',label:'大盤指數',color:'#e0a526'},
+  {key:'stock',label:'個股選股',color:'#68d391'},
+  {key:'longterm',label:'長線投資',color:'#63b3ed'},
+  {key:'shortterm',label:'短線交易',color:'#fc8181'},
+];
+
+let state={chIndex:-1,roundIndex:-1,scores:[],balance:{index:25,stock:25,longterm:25,shortterm:25},quoteIndex:0};
+
+function updateProgress(){
+  const total=13;
+  const done=state.scores.length;
+  PB.style.width=(done/total*100)+'%';
+}
+
+function mtn(sky){
+  const dark=['sky-night','sky-starry','sky-storm','sky-valley','sky-dawn','sky-start','sky-dusk'].includes(sky);
+  const c1=dark?'rgba(10,10,28,0.88)':'rgba(25,25,55,0.48)';
+  const c2=dark?'rgba(4,4,15,0.97)':'rgba(12,12,35,0.68)';
+  return `<svg class="mountains" viewBox="0 0 1200 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,180 L100,95 L200,140 L320,68 L440,115 L560,48 L680,105 L800,58 L920,92 L1040,44 L1200,82 L1200,220 L0,220Z" fill="${c1}"/>
+    <path d="M0,210 L80,172 L180,188 L280,155 L380,174 L500,138 L620,162 L740,130 L860,155 L980,118 L1100,142 L1200,125 L1200,220 L0,220Z" fill="${c2}"/>
+  </svg>`;
+}
+
+function fade(fn){
+  G.style.transition='opacity 0.32s';
+  G.style.opacity='0';
+  setTimeout(()=>{fn();G.style.opacity='1';},330);
+}
+
+function showStart(){
+  G.innerHTML=`<div class="scene sky-start">
+    ${mtn('sky-start')}
+    <div class="overlay">
+      <div class="chapter-label t-label" style="margin-bottom:1rem">YODA RESEARCH</div>
+      <div class="chapter-title t-main" style="font-size:36px;font-weight:200;letter-spacing:2px;margin-bottom:0.5rem">投資者的修行</div>
+      <div class="t-sub" style="font-size:14px;margin-bottom:0.4rem;font-style:italic">一段關於人性、方法與智慧的旅程</div>
+      <div class="t-label" style="font-size:12px;margin-bottom:3rem;letter-spacing:1px">共 13 輪選擇 · 四章敘事</div>
+      <button class="continue-btn" style="font-size:15px;padding:0.85rem 3.5rem;border-radius:6px;letter-spacing:2px" onclick="fade(()=>showChapter(0))">開始旅程</button>
+    </div>
+  </div>`;
+}
+
+function showChapter(idx){
+  state.chIndex=idx;state.quoteIndex=0;
+  renderChapterQuote(idx);
+}
+
+function renderChapterQuote(idx){
+  const ch=CHAPTERS[idx];
+  const q=ch.quotes[state.quoteIndex];
+  const isLast=state.quoteIndex>=ch.quotes.length-1;
+  G.innerHTML=`<div class="scene ${ch.sky}">
+    ${mtn(ch.sky)}
+    <div class="overlay">
+      <div class="chapter-label t-label">${ch.label}</div>
+      <div class="chapter-title t-main">${ch.title}</div>
+      <div class="chapter-quote t-sub">${q}</div>
+      <button class="continue-btn" onclick="nextCQ(${idx})">${isLast?'進入 ›':'繼續 ›'}</button>
+    </div>
+  </div>`;
+}
+
+function nextCQ(idx){
+  const ch=CHAPTERS[idx];
+  state.quoteIndex++;
+  if(state.quoteIndex>=ch.quotes.length){
+    const starts=[0,5,9,12];
+    fade(()=>showRound(starts[idx]));
+  } else {
+    fade(()=>renderChapterQuote(idx));
+  }
+}
+
+const CHN=['修術','修道','修心','融合'];
+function roundHead(r){
+  return `<div class="chapter-label t-label">${CHAPTERS[r.ch].label} · ${CHN[r.ch]}</div>
+      <div class="chapter-title t-main" style="font-size:21px;margin-bottom:1rem">${r.title}</div>
+      <div class="round-text t-sub">${r.text}</div>`;
+}
+function scene(r,inner){
+  return `<div class="scene ${r.sky}">${mtn(r.sky)}<div class="overlay">${roundHead(r)}${inner}</div></div>`;
+}
+function sceneLight(r,inner){
+  return `<div class="scene ${r.sky}">${mtn(r.sky)}<div class="overlay">
+    <div class="chapter-label t-label">${CHAPTERS[r.ch].label} · ${CHN[r.ch]}</div>
+    <div class="chapter-title t-main" style="font-size:20px;margin-bottom:1.2rem">${r.title}</div>${inner}</div></div>`;
+}
+function showRound(ri){
+  state.roundIndex=ri;
+  updateProgress();
+  const r=ROUNDS[ri];
+  if(ri===12){showBalanceRound();return;}
+  const t=r.type||'ab';
+  if(t==='rank')return renderRankRound(ri);
+  if(t==='flip')return renderFlipRound(ri);
+  if(t==='slider')return renderSliderRound(ri);
+  if(t==='chain')return renderChainRound(ri);
+  renderABRound(ri);
+}
+function renderABRound(ri){
+  const r=ROUNDS[ri];
+  G.innerHTML=scene(r,`
+      <div class="round-question t-main">${r.question}</div>
+      <div class="choices">
+        ${r.choices.map((c,i)=>`<button class="choice-btn" onclick="choose(${ri},${i})">${c}</button>`).join('')}
+      </div>`);
+}
+
+/* ===== 新互動：信任排序 / 卡片翻面 / 光譜滑桿 / 傳導鏈重組 ===== */
+let work={};
+
+// 通用拖曳排序（滑鼠＋觸控，Pointer Events）
+function attachDrag(listSelector,getOrder,commit){
+  const list=document.querySelector(listSelector);
+  if(!list)return;
+  const rows=[].slice.call(list.querySelectorAll('.reorder-row'));
+  rows.forEach((row,from)=>{
+    row.addEventListener('pointerdown',function(e){
+      if(e.button&&e.button!==0)return;
+      e.preventDefault();
+      const order=getOrder().slice();
+      const rects=rows.map(r=>r.getBoundingClientRect());
+      const rect=rects[from];
+      const clone=row.cloneNode(true);
+      clone.classList.add('dragging');
+      clone.style.position='fixed';
+      clone.style.left=rect.left+'px';
+      clone.style.top=rect.top+'px';
+      clone.style.width=rect.width+'px';
+      clone.style.margin='0';
+      clone.style.zIndex='9999';
+      clone.style.pointerEvents='none';
+      document.body.appendChild(clone);
+      row.style.opacity='0.2';
+      const offY=e.clientY-rect.top;
+      let lastY=e.clientY;
+      function hint(y){
+        rows.forEach((r2,i)=>{
+          if(i===from){r2.classList.remove('slot-hint');return;}
+          const m=rects[i].top+rects[i].height/2;
+          r2.classList.toggle('slot-hint',Math.abs(y-m)<rects[i].height/2);
+        });
+      }
+      function move(ev){lastY=ev.clientY;clone.style.top=(lastY-offY)+'px';hint(lastY);}
+      function up(){
+        document.removeEventListener('pointermove',move);
+        document.removeEventListener('pointerup',up);
+        document.removeEventListener('pointercancel',up);
+        clone.remove();
+        rows.forEach(r2=>r2.classList.remove('slot-hint'));
+        const item=order[from];
+        const others=order.filter((_,i)=>i!==from);
+        const oRects=rects.filter((_,i)=>i!==from);
+        let ins=0;
+        for(let i=0;i<oRects.length;i++){
+          if(oRects[i].top+oRects[i].height/2<lastY)ins=i+1;
+        }
+        others.splice(ins,0,item);
+        commit(others);
+      }
+      document.addEventListener('pointermove',move);
+      document.addEventListener('pointerup',up);
+      document.addEventListener('pointercancel',up);
+    });
+  });
+}
+
+// R0 信任排序（拖曳）
+function renderRankRound(ri){
+  const r=ROUNDS[ri];
+  work.order=r.rankItems.map((_,i)=>i);
+  function rankRender(){
+    const rows=work.order.map((it,pos)=>`<div class="reorder-row" data-pos="${pos}">
+        <div class="reorder-rank">${pos+1}</div>
+        <div class="reorder-label">${r.rankItems[it]}</div>
+        <div class="drag-handle">⠿</div>
+      </div>`).join('');
+    G.innerHTML=scene(r,`
+      <div class="round-question t-main">拖曳排序：把你最信任的，拖到最上面</div>
+      <div class="reorder-list">${rows}</div>
+      <button class="continue-btn" onclick="rankReveal(${ri})">就這樣，看看真相 ›</button>`);
+    attachDrag('.reorder-list',()=>work.order,o=>{work.order=o;rankRender();});
+  }
+  window.rankRender=rankRender;rankRender();
+}
+function rankReveal(ri){
+  const r=ROUNDS[ri];
+  fade(()=>{G.innerHTML=sceneLight(r,`
+      <div class="flip-reveal"><div class="flip-tag">真相</div><div class="flip-body">${r.reveal}</div></div>
+      <div class="round-question t-main" style="margin-top:1.5rem">${r.question}</div>
+      <div class="choices">${r.choices.map((c,i)=>`<button class="choice-btn" onclick="choose(${ri},${i})">${c}</button>`).join('')}</div>`);});
+}
+
+// R1 卡片翻面
+function renderFlipRound(ri){
+  const r=ROUNDS[ri];
+  G.innerHTML=scene(r,`
+      <div class="round-question t-main">${r.question}</div>
+      <div class="choices">
+        ${r.cards.map((c,i)=>`<button class="choice-btn" onclick="flipCard(${ri},${i})"><b>${c.label}</b>　<span style="opacity:.8">${c.text}</span></button>`).join('')}
+      </div>`);
+}
+function flipCard(ri,ci){
+  const r=ROUNDS[ri],c=r.cards[ci];
+  fade(()=>{G.innerHTML=sceneLight(r,`
+      <div class="flip-reveal"><div class="flip-tag">你選了：${c.label}</div><div class="flip-body">${c.reveal}</div></div>
+      <button class="continue-btn" onclick="recordAndAdvance(${ri},${ci})">繼續 ›</button>`);});
+}
+
+// R2 / R10 光譜滑桿
+function renderSliderRound(ri){
+  const r=ROUNDS[ri];
+  if(work.sv===undefined||work.svRound!==ri){work.sv=r.def;work.svRound=ri;}
+  function fb(v){
+    if(r.sliderKind==='hours'){
+      if(v<=1)return '<span style="color:#ffcc80">幾乎不看——市場在說什麼，你聽不見。</span>';
+      if(v<=4)return '<span style="color:#a5d6a7">剛好。抓重點，又不被雜訊綁架。</span>';
+      if(v<=6)return '偏多了，開始被雜訊牽著走。';
+      return '<span style="color:#ffcc80">全部都追——愈看愈焦慮，愈焦慮愈不敢動。</span>';
+    }
+    if(v<=20)return '<span style="color:#63b3ed">偏長線。你要的是複利，和睡得著的夜晚。</span>';
+    if(v>=80)return '<span style="color:#fc8181">偏短線。你靠當下的節奏，感覺自己活著。</span>';
+    if(v>=40&&v<=60)return '<span style="color:#a5d6a7">你站在中間——也許長短線本來就能並行。</span>';
+    return '在兩端之間，你還在找自己的節奏。';
+  }
+  function sliderRender(){
+    const v=work.sv,disp=r.sliderKind==='hours'?(v+r.unit):(v+'%');
+    G.innerHTML=scene(r,`
+      <div class="round-question t-main">${r.question}</div>
+      <div class="balance-container">
+        <div class="balance-item">
+          <div class="balance-label t-sub" style="font-size:13px;min-width:52px">${r.leftLabel}</div>
+          <input type="range" class="bslider" min="${r.min}" max="${r.max}" step="${r.step}" value="${v}"
+            oninput="work.sv=parseInt(this.value);sliderRender()">
+          <div class="balance-pct" style="min-width:52px;text-align:left">${r.rightLabel}</div>
+        </div>
+        <div style="text-align:center;font-size:20px;font-weight:300;color:#fff;margin:-0.1rem 0 0.2rem">${disp}</div>
+        <div class="slider-feedback">${fb(v)}</div>
+      </div>
+      <button class="continue-btn" style="margin-top:0.4rem" onclick="sliderDone(${ri})">就這樣 ›</button>`);
+  }
+  window.sliderRender=sliderRender;sliderRender();
+}
+function sliderDone(ri){
+  const r=ROUNDS[ri],v=work.sv;
+  const ci=(r.sliderKind==='hours')?((v>=6)?1:0):((v>=50)?1:0);
+  work.sv=undefined;
+  recordAndAdvance(ri,ci);
+}
+
+// R5 傳導鏈重組（拖曳）
+function renderChainRound(ri){
+  const r=ROUNDS[ri];
+  if(!work.chain||work.chainRound!==ri){
+    const n=r.chain.length;
+    let s=[2,0,4,1,5,3].filter(x=>x<n);
+    if(s.length!==n)s=r.chain.map((_,i)=>i).reverse();
+    work.chain=s;work.chainRound=ri;work.chainChecked=false;work.chainRevealed=false;
+  }
+  window.chainCheck=function(){work.chainChecked=true;chainRender();};
+  window.chainGiveAnswer=function(){
+    work.chain=r.chain.map((_,i)=>i);
+    work.chainChecked=true;work.chainRevealed=true;chainRender();
+  };
+  function isCorrect(){return work.chain.every((v,i)=>v===i);}
+  function chainRender(){
+    const rows=work.chain.map((it,pos)=>{
+      const ok=work.chainChecked&&it===pos;
+      const arrow=pos<work.chain.length-1?'<div class="chain-arrow">↓</div>':'';
+      return `<div class="reorder-row ${ok?'correct':''}" data-pos="${pos}">
+        <div class="reorder-rank">${pos+1}</div>
+        <div class="reorder-label">${r.chain[it]}</div>
+        <div class="drag-handle">⠿</div>
+      </div>${arrow}`;
+    }).join('');
+    const done=isCorrect();
+    let msg='';
+    if(work.chainRevealed)msg='<span style="color:#a5d6a7">這就是那條傳導鏈——先看懂，再慢慢體會。</span>';
+    else if(work.chainChecked)msg=done?'<span style="color:#a5d6a7">完全正確——這就是那條傳導鏈。</span>':'<span style="color:#ffcc80">還沒對齊，再想想因果的先後。</span>';
+    const proceed=(done&&work.chainChecked)||work.chainRevealed;
+    G.innerHTML=scene(r,`
+      <div class="round-question t-main" style="font-size:15px;opacity:.9">拖曳排序，把六件事排回正確的因果順序</div>
+      <div class="reorder-list">${rows}</div>
+      <div class="slider-feedback" style="min-height:22px">${msg}</div>
+      ${proceed
+        ?`<button class="continue-btn" onclick="chainReveal(${ri})">看懂了 ›</button>`
+        :`<div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap">
+            <button class="continue-btn" style="margin-top:0" onclick="chainCheck()">檢查順序</button>
+            <button class="continue-btn" style="margin-top:0;opacity:0.7" onclick="chainGiveAnswer()">給我答案</button>
+          </div>`}`);
+    if(!proceed) attachDrag('.reorder-list',()=>work.chain,o=>{work.chain=o;work.chainChecked=false;chainRender();});
+  }
+  window.chainRender=chainRender;chainRender();
+}
+function chainReveal(ri){
+  const r=ROUNDS[ri];work.chain=undefined;
+  fade(()=>{G.innerHTML=sceneLight(r,`
+      <div class="flip-reveal"><div class="flip-tag">牽一髮動全身</div><div class="flip-body">${r.reveal}</div></div>
+      <div class="round-question t-main" style="margin-top:1.5rem">${r.question}</div>
+      <div class="choices">${r.choices.map((c,i)=>`<button class="choice-btn" onclick="choose(${ri},${i})">${c}</button>`).join('')}</div>`);});
+}
+
+function recordAndAdvance(ri,ci){
+  state.scores.push({round:ri,choice:ci});
+  updateProgress();
+  const tr=TRANSITIONS[ri];
+  if(tr){fade(()=>showTransition(tr,ri));}
+  else{advanceFromRound(ri);}
+}
+function choose(ri,ci){recordAndAdvance(ri,ci);}
+
+function showTransition(text,fromRi){
+  G.innerHTML=`<div class="scene sky-night" style="background:linear-gradient(180deg,#020408,#060d18,#0e1828)">
+    ${mtn('sky-night')}
+    <div class="overlay">
+      <div class="transition-quote">${text}</div>
+      <button class="continue-btn" onclick="advanceFromRound(${fromRi})">繼續 ›</button>
+    </div>
+  </div>`;
+}
+
+function advanceFromRound(fromRi){
+  const next=fromRi+1;
+  if(next>=ROUNDS.length){fade(()=>showResult());return;}
+  const curCh=ROUNDS[fromRi].ch;
+  const nxtCh=ROUNDS[next].ch;
+  if(nxtCh!==curCh){fade(()=>showChapter(nxtCh));}
+  else{fade(()=>showRound(next));}
+}
+
+function showBalanceRound(){
+  function getTotal(){return Object.values(state.balance).reduce((a,b)=>a+b,0);}
+  function render(){
+    const total=getTotal();
+    const ok=total===100;
+    G.innerHTML=`<div class="scene sky-clear">
+      ${mtn('sky-clear')}
+      <div class="overlay">
+        <div class="chapter-label t-label">第四章 · 融合</div>
+        <div class="chapter-title t-main" style="font-size:22px;margin-bottom:0.75rem">建立你的系統</div>
+        <div class="round-text t-sub" style="margin-bottom:1.75rem">你已經走過了資訊的迷宮，看見了經濟的立體拼圖，<br>也誠實面對了自己對財富的渴望。<br><br>現在，調整屬於你自己的投資配重。<br>沒有標準答案，只有適合你的那一個。</div>
+        <div class="balance-container">
+          ${BALANCE_ITEMS.map(it=>`
+            <div class="balance-item">
+              <div class="balance-label t-sub" style="color:${it.color};font-size:13px">${it.label}</div>
+              <input type="range" class="bslider" min="5" max="70" step="5" value="${state.balance[it.key]}"
+                style="accent-color:${it.color}"
+                data-key="${it.key}"
+                oninput="state.balance[this.dataset.key]=parseInt(this.value);renderBal()">
+              <div class="balance-pct" style="color:${it.color}">${state.balance[it.key]}%</div>
+            </div>
+          `).join('')}
+          <div style="text-align:center;margin-top:0.5rem">
+            <span class="balance-total ${ok?'bal-ok':'bal-warn'}">
+              總計：${total}%　${ok?'✓ 完成':'請調整至 100%'}
+            </span>
+          </div>
+        </div>
+        ${ok?`<br><button class="continue-btn" style="margin-top:0.75rem;font-size:14px;padding:0.7rem 2.5rem" onclick="fade(()=>showResult())">揭示我的投資人格 →</button>`:''}
+      </div>
+    </div>`;
+  }
+  window.renderBal=render;
+  render();
+}
+
+function calcPersonality(){
+  const get=(ri)=>state.scores.find(x=>x.round===ri)?.choice??0;
+  const ch0=[0,1,2,3,4].map(i=>get(i));
+  const ch1=[5,6,7,8].map(i=>get(i));
+  const ch2=[9,10,11].map(i=>get(i));
+  const impulsive=ch0.filter(c=>c===0).length;
+  const systematic=ch1.filter(c=>c===1).length;
+  const parallel=ch2[2]===0;
+  if(parallel&&systematic>=3)return 5;
+  if(parallel)return 4;
+  if(systematic>=3)return 3;
+  if(impulsive>=4)return 0;
+  if(ch0.filter(c=>c===1).length>=4)return 1;
+  return 2;
+}
+
+function showResult(){
+  PB.style.width='100%';
+  const pi=calcPersonality();
+  const p=PERSONALITIES[pi];
+  const b=state.balance;
+
+  // 新增：根據人格動態生成按鈕文案
+  const topBtnText = p.name === '配重師' ? '來 Yoda 獲取進階長短線策略' : '尋找適合你的專屬投資框架';
+  const bottomBtnText = `分享我的「${p.name}」結果`;
+
+  G.innerHTML=`<div class="scene sky-result" style="padding:3.5rem 1.5rem;min-height:100vh">
+    ${mtn('sky-result')}
+    <div class="overlay">
+      <div class="chapter-label t-label" style="margin-bottom:1rem">你的修行結果</div>
+      <div class="result-icon">${p.icon}</div>
+      <div class="result-type t-main">${p.name}</div>
+      <div class="result-desc t-sub">${p.desc}</div>
+      <div class="result-config">
+        <div class="result-config-title">你的投資配重</div>
+        ${BALANCE_ITEMS.map(it=>`
+          <div class="result-config-row">
+            <span class="t-sub" style="font-size:13px">${it.label}</span>
+            <span style="color:${it.color};font-weight:500;font-size:14px">${b[it.key]}%</span>
+          </div>`).join('')}
+      </div>
+      <div class="t-sub" style="font-size:13px;line-height:1.95;margin-bottom:1.5rem;max-width:400px;margin-left:auto;margin-right:auto">
+        準備好把這套系統落地了嗎？<br>
+        Yoda Research 每週追蹤總體經濟、技術面與個股選股，<br>
+        幫你把框架轉化為真實的決策。
+      </div>
+      
+      <!-- 替換處：新的雙按鈕直列容器 -->
+      <div class="twin-btn-container">
+        <a class="twin-btn" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">${topBtnText}</a>
+        <button class="twin-btn" id="shareBtn" onclick="shareGame()">${bottomBtnText}</button>
+      </div>
+
+      <div style="margin-top:0.9rem"><button class="continue-btn" style="font-size:12px;opacity:0.6" onclick="restart()">重新開始</button></div>
+      <div id="shareFeedback" style="font-size:12px;color:rgba(160,220,255,0.7);margin-top:0.6rem;height:18px;transition:opacity 0.3s"></div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1.5rem;letter-spacing:0.3px">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" style="color:rgba(224,165,38,0.6);text-decoration:none">BiBiPiano</a>，版權為原作者所有</div>
+    </div>
+  </div>`;
+}
+function restart(){
+  state={chIndex:-1,roundIndex:-1,scores:[],balance:{index:25,stock:25,longterm:25,shortterm:25},quoteIndex:0};
+  PB.style.width='0%';
+  fade(()=>showStart());
+}
+
+function shareGame(){
+  const url=window.location.href.split('?')[0];
+  const text='我剛完成了《投資者的修行》，一個關於人性與投資智慧的互動體驗。你也來試試看你是哪種投資人格？';
+  const btn=document.getElementById('shareBtn');
+  const fb=document.getElementById('shareFeedback');
+  
+  // 記住目前的動態按鈕文字
+  const originalText = btn.innerHTML;
+
+  // 如果有手機原生分享，優先呼叫
+  if(navigator.share){
+    navigator.share({title:'投資者的修行 · Yoda Research',text:text,url:url}).catch(()=>{});
+    return;
+  }
+
+  // 統一的「複製成功」畫面回饋動作
+  const showSuccess = () => {
+    btn.classList.add('copied');
+    btn.innerHTML='&#10003; 網址已複製';
+    fb.textContent='貼到 LINE、Facebook 或任何地方分享吧';
+    fb.style.opacity='1';
+    setTimeout(()=>{
+      btn.classList.remove('copied');
+      btn.innerHTML = originalText; // 還原為動態文字
+      fb.style.opacity='0';
+    },3000);
+  };
+
+  // 傳統備用複製法（給 file:/// 或舊瀏覽器用）
+  const fallbackCopy = () => {
+    try {
+      const box=document.createElement('input');
+      box.value=url;
+      box.style.position = 'fixed'; // 避免畫面跳動
+      box.style.opacity = '0';
+      document.body.appendChild(box);
+      box.select();
+      document.execCommand('copy');
+      document.body.removeChild(box);
+      showSuccess();
+    } catch(e) {
+      fb.textContent='請手動複製網址分享！';
+      fb.style.opacity='1';
+      setTimeout(()=>{fb.style.opacity='0';},3000);
+    }
+  };
+
+  // 安全檢查：確認 Clipboard API 存在才呼叫，否則使用備用法
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url)
+      .then(showSuccess)
+      .catch(fallbackCopy); // 如果 API 拒絕，也降級用備用法
+  } else {
+    fallbackCopy();
+  }
+}
+window.shareGame=shareGame;
+window.fade=fade;
+window.showChapter=showChapter;
+window.nextCQ=nextCQ;
+window.choose=choose;
+window.advanceFromRound=advanceFromRound;
+window.showResult=showResult;
+window.restart=restart;
+window.state=state;
+
+showStart();
+</script>
+</body>
+</html>
