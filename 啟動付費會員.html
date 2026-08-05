@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>啟動你的付費會員｜Yoda Research · 判斷力學校</title>
+<style>
+:root{
+  --gold:#d4af37;--gold-dim:#b8960a;
+  --card:rgba(9,12,22,.68);--card-bd:rgba(255,255,255,.14);
+  --text:#eef2fb;--dim:#aab3c8;
+  --good:#5fbf8f;--warn:#e8b45f;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC','Microsoft JhengHei',sans-serif;
+  color:var(--text);background:#05060f;line-height:1.72;-webkit-font-smoothing:antialiased;min-height:100vh}
+.sky{position:fixed;inset:0;z-index:-2;background:linear-gradient(180deg,#0b0b12,#141634 52%,#25306a)}
+.veil{position:fixed;inset:0;z-index:-1;background:radial-gradient(120% 80% at 50% 6%,transparent 42%,rgba(0,0,0,.42));pointer-events:none}
+.wrap{max-width:660px;margin:0 auto;padding:52px 18px 72px}
+
+.eyebrow{font-size:12px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;text-align:center}
+h1{font-size:32px;font-weight:800;line-height:1.3;letter-spacing:.5px;text-align:center;margin-bottom:12px}
+.lead{font-size:16px;color:#dfe6f4;text-align:center;max-width:520px;margin:0 auto 8px}
+.lead b{color:var(--gold)}
+
+.card{background:var(--card);border:1px solid var(--card-bd);border-radius:18px;padding:24px 22px;
+  backdrop-filter:blur(14px);box-shadow:0 18px 50px rgba(0,0,0,.42);margin:20px 0}
+.card h2{font-size:19px;font-weight:700;margin-bottom:14px}
+.card h2 .num{display:inline-block;width:26px;height:26px;border-radius:50%;background:rgba(212,175,55,.18);
+  color:var(--gold);border:1px solid rgba(212,175,55,.4);font-size:14px;text-align:center;line-height:24px;margin-right:9px;vertical-align:2px}
+
+.how{list-style:none;counter-reset:s}
+.how li{position:relative;padding:9px 0 9px 34px;font-size:15px;color:#e6ebf6;counter-increment:s}
+.how li::before{content:counter(s);position:absolute;left:0;top:8px;width:23px;height:23px;border-radius:50%;
+  background:var(--gold);color:#1a1200;font-size:13px;font-weight:800;text-align:center;line-height:23px}
+.how li b{color:var(--gold)}
+
+.rule{border:1px solid rgba(212,175,55,.4);border-radius:12px;padding:13px 15px;background:rgba(212,175,55,.07);
+  font-size:14px;line-height:1.66;color:#e6ebf6}
+.rule b{color:var(--gold)}
+
+.rep-list{display:flex;flex-direction:column;gap:12px;margin-top:4px}
+.rep{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.045);border:1px solid var(--card-bd);
+  border-radius:14px;padding:15px 16px;text-decoration:none;color:var(--text);transition:transform .12s,border-color .2s,background .2s}
+.rep:hover,.rep:active{transform:translateY(-2px);border-color:var(--gold);background:rgba(255,255,255,.08)}
+.rep .ico{flex:0 0 auto;font-size:26px;width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.06);
+  display:flex;align-items:center;justify-content:center}
+.rep .txt{flex:1;min-width:0}
+.rep .rn{display:block;font-weight:700;font-size:16px;color:#fff}
+.rep .rd{display:block;font-size:13px;color:var(--dim);line-height:1.5;margin-top:3px}
+.rep .arrow{flex:0 0 auto;color:var(--gold);font-size:20px}
+.rep .st{flex:0 0 auto;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.rep .st.done{background:rgba(95,191,143,.18);color:#7fd6a6;border:1px solid rgba(95,191,143,.4)}
+.rep .st.todo{background:rgba(255,255,255,.05);color:var(--dim);border:1px solid var(--card-bd)}
+
+.prog label{display:block;font-size:12px;color:var(--dim);margin:8px 0 4px}
+.prog input{width:100%;padding:11px 13px;font-size:14px;border-radius:10px;border:1px solid var(--card-bd);
+  background:#05070f;color:#fff;outline:none}
+.prog input:focus{border-color:var(--gold)}
+.prog .row{display:flex;gap:10px;flex-wrap:wrap}
+.prog .row>div{flex:1;min-width:150px}
+.prog button{margin-top:14px;padding:11px 22px;border-radius:999px;border:none;cursor:pointer;font-weight:700;font-size:14px;
+  color:#1a1200;background:linear-gradient(135deg,var(--gold),#f0d488)}
+.prog button:disabled{opacity:.55;cursor:default}
+.prog .msg{font-size:13px;margin-top:11px;min-height:18px}
+.prog .msg.err{color:#f08a8a}.prog .msg.ok{color:#7fd6a6}
+.badges{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
+.badge{flex:1;min-width:96px;text-align:center;border-radius:12px;padding:12px 8px;border:1px solid var(--card-bd);background:rgba(255,255,255,.03)}
+.badge.on{border-color:var(--good);background:rgba(95,191,143,.12)}
+.badge .b-ic{font-size:24px;line-height:1}
+.badge .b-nm{font-size:12.5px;color:var(--dim);margin-top:5px}
+.badge.on .b-nm{color:#cfe8da}
+.badge .b-st{font-size:11px;margin-top:2px;color:var(--dim)}
+.badge.on .b-st{color:#7fd6a6;font-weight:700}
+
+.foot{text-align:center;font-size:12px;color:var(--dim);line-height:1.7;margin-top:26px}
+.foot a{color:var(--gold)}
+.subcta{display:block;text-align:center;margin:8px auto 0;max-width:340px;padding:13px 20px;border-radius:999px;
+  font-size:15px;font-weight:700;color:#1a1200;background:linear-gradient(135deg,var(--gold),#f0d488);text-decoration:none;box-shadow:0 6px 20px rgba(212,175,55,.3)}
+@media(max-width:480px){h1{font-size:26px}.card{padding:20px 16px}.rep .rd{display:none}}
+</style>
+</head>
+<body>
+<div class="sky"></div>
+<div class="veil"></div>
+<div class="wrap">
+
+  <div class="eyebrow">Yoda Research · 判斷力學校</div>
+  <h1>啟動你的付費會員</h1>
+  <p class="lead">歡迎成為創始會員。在收到報告前，先花幾分鐘<b>學會怎麼讀它</b>——<br>每一種報告，都有一個 5 分鐘的使用手冊小遊戲。</p>
+
+  <!-- 運作方式 -->
+  <div class="card">
+    <h2><span class="num">?</span>這裡怎麼運作</h2>
+    <ol class="how">
+      <li>下面 5 種報告，<b>挑一種你想先學會讀的</b>，點進去玩它的使用手冊小遊戲。</li>
+      <li>玩到最後，畫面下方會浮出「領取檢核」——輸入你<b>訂閱時自設的會員密碼</b>。</li>
+      <li>系統記下你已通過該報告的檢核，<b>之後就會開始收到那種報告</b>。五種各玩一次，全部解鎖。</li>
+    </ol>
+    <div class="rule" style="margin-top:6px">
+      <b>為什麼要這一步？</b>報告的價值，在你「看得懂」時才拿得到。使用手冊不是考試、不會擋你——它是幫你上手的一把鑰匙。玩過通過檢核，你收到報告時就讀得懂、用得上。
+    </div>
+  </div>
+
+  <!-- 五種報告 -->
+  <div class="card">
+    <h2><span class="num">1</span>選一種報告，開始學它</h2>
+    <p class="body" style="font-size:14px;color:var(--dim);margin-bottom:6px">點下去會開新分頁，玩完在結尾領檢核。台股／美股共用同一支「選股決策鏈」，各領一次。</p>
+    <div class="rep-list" id="repList"></div>
+  </div>
+
+  <!-- 我的進度 -->
+  <div class="card prog">
+    <h2><span class="num">2</span>查看我的檢核進度</h2>
+    <p class="body" style="font-size:14px;color:var(--dim)">用 email ＋ 會員密碼登入，看看自己已經通過哪幾種。</p>
+    <div class="row">
+      <div><label>Email</label><input id="pEmail" placeholder="a@b.com" autocomplete="off"></div>
+      <div><label>會員密碼</label><input id="pPw" type="password" placeholder="你的會員密碼" autocomplete="off"></div>
+    </div>
+    <button id="pBtn">查詢進度</button>
+    <div class="msg" id="pMsg"></div>
+    <div class="badges" id="badges" style="display:none"></div>
+  </div>
+
+  <a class="subcta" href="https://yoda-wcyc.github.io/-/subscribe.html" target="_blank" rel="noopener">還不是會員？先看看創始會員 →</a>
+  <div class="foot">
+    密碼只是會員存取碼，請勿使用你其他重要帳號的密碼。<br>
+    Yoda Research · 判斷力學校 · 付費會員啟動主控台
+  </div>
+</div>
+
+<script>
+var GAS_URL='https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec';
+
+// 報告類型 → 對應使用手冊遊戲（相對路徑，同 /game/ 夾；?cert= 觸發領檢核）
+var REPORTS=[
+  {t:'mw',   ic:'📊', nm:'市場觀察',      rd:'抓大盤方向——多空天秤、三道防線、破線爆量怎麼讀',       url:'看懂市場觀察-七段導覽.html?cert=mw'},
+  {t:'tw',   ic:'🏝️', nm:'台股',          rd:'資金輪動到哪類、A 級候選、籌碼實錘——選股決策鏈',      url:'選股決策鏈-20260802.html?cert=tw'},
+  {t:'us',   ic:'🗽', nm:'美股',          rd:'同一套選股漏斗，套在美股——選股決策鏈',                url:'選股決策鏈-20260802.html?cert=us'},
+  {t:'key',  ic:'⚡', nm:'簡報',          rd:'快速看懂今天：發生什麼、為什麼、接下來注意什麼',       url:'看懂簡報.html?cert=key'},
+  {t:'macro',ic:'🌍', nm:'總經',          rd:'該積極還是保守——景氣循環位階、Fed 方向、利率環境',     url:'景氣循環的DNA-20260802.html?cert=macro'}
+];
+var NAMES={mw:'市場觀察',tw:'台股',us:'美股',key:'簡報',macro:'總經'};
+
+var $=function(id){return document.getElementById(id);};
+var certState={}; // type -> true 若已通過
+
+function renderReports(){
+  $('repList').innerHTML=REPORTS.map(function(r){
+    var done=!!certState[r.t];
+    return '<a class="rep" href="'+r.url+'" target="_blank" rel="noopener">'
+      +'<span class="ico">'+r.ic+'</span>'
+      +'<span class="txt"><span class="rn">'+r.nm+'</span><span class="rd">'+r.rd+'</span></span>'
+      +'<span class="st '+(done?'done':'todo')+'">'+(done?'✓ 已通過':'去學')+'</span>'
+      +'<span class="arrow">→</span></a>';
+  }).join('');
+}
+renderReports();
+
+// 查詢進度（memberDashboard 回傳 certified:[...]）
+$('pBtn').onclick=function(){
+  var email=$('pEmail').value.trim(), pw=$('pPw').value.trim(), msg=$('pMsg');
+  if(!email||!pw){msg.className='msg err';msg.textContent='請填 email 與會員密碼';return;}
+  var btn=$('pBtn');btn.disabled=true;msg.className='msg';msg.textContent='查詢中…';
+  fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'memberDashboard',email:email,password:pw})})
+    .then(function(r){return r.json();})
+    .then(function(res){
+      btn.disabled=false;
+      if(res&&res.auth){
+        certState={}; (res.certified||[]).forEach(function(t){certState[t]=true;});
+        renderReports(); renderBadges(res.certified||[]);
+        var n=(res.certified||[]).length;
+        msg.className='msg ok';
+        msg.textContent=res.memberId+'　已通過 '+n+' / 5 種'+(n===5?'　全部解鎖 🎉':'');
+      }else{
+        msg.className='msg err';msg.textContent=(res&&res.error)?res.error:'查詢失敗';
+      }
+    })
+    .catch(function(){btn.disabled=false;msg.className='msg err';msg.textContent='連線失敗，請稍後再試';});
+};
+$('pPw').addEventListener('keydown',function(e){if(e.key==='Enter')$('pBtn').click();});
+
+function renderBadges(list){
+  var set={}; list.forEach(function(t){set[t]=1;});
+  var order=['mw','tw','us','key','macro'];
+  $('badges').style.display='flex';
+  $('badges').innerHTML=order.map(function(t){
+    var on=!!set[t];
+    return '<div class="badge'+(on?' on':'')+'"><div class="b-ic">'+(on?'🏅':'🔒')+'</div>'
+      +'<div class="b-nm">'+NAMES[t]+'</div><div class="b-st">'+(on?'已通過':'未通過')+'</div></div>';
+  }).join('');
+}
+</script>
+</body>
+</html>

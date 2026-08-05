@@ -93,13 +93,13 @@ const ROUNDS=[
   fb:['「持平」只是表面；定調句的重點在「底下在換手」，別被表面騙了。','對——定調句用一句話給你框架：不是崩盤，是資金換邊。先抓到這個，後面才讀得懂。','它明明說「是換手不是崩盤」——定調句要讀完整句，不是看到「跌」就恐慌。']},
 
  {type:'ab',sky:'sky-valley',bg:'range',label:'第 2 拍 · 為什麼＋對我',title:'找那句「對我的意義」',
-  text:'定調之後，簡報給「為什麼」——通常是本週一兩件關鍵事。<br>但對你最有用的，是每件事後面那句「<b>對散戶的意義</b>」：它把新聞翻成「所以我該怎麼想」。<br><br>示例事件：<b>某類股被整批倒貨，資金換到防禦板塊。</b>',
+  text:'定調之後，簡報給「為什麼」——通常是本週一兩件關鍵事。<br>但對你最有用的，是每件事後面那句「<b>對散戶的意義</b>」：<br>它把新聞翻成「所以我該怎麼想」。<br><br>示例事件：<b>某類股被整批倒貨，資金換到防禦板塊。</b>',
   q:'下面哪一句，才是這件事「對我的意義」？',
   choices:['記住這個板塊的英文代號','這是有紀律的調倉、不是崩盤，別急著去接下跌那批的刀','趕快把手上的全部賣掉'],correct:1,
   fb:['記代號沒用——你要的是「所以我該怎麼想」，不是背名詞。','對——「對我的意義」把新聞翻成行動含意：別接刀。這句才是簡報給你的價值。','它說的是「換手不是崩盤」，全賣是把換手誤讀成崩盤、過度反應了。']},
 
  {type:'ab',sky:'sky-clouds',bg:'farhills',label:'第 3 拍 · 該注意什麼',title:'標好觀察點',
-  text:'最後，簡報給「該注意什麼」——一個關鍵價位、和未來幾天的大事件。這是前瞻：先知道盯哪裡、哪天可能有事。<br><br>示例：<b>「某指數 675 是多空分水嶺——站穩，換手續走；跌破 650 才算真轉弱。未來：今晚有利率決議。」</b>',
+  text:'最後，簡報給「該注意什麼」——<br>一個關鍵價位、和未來幾天的大事件。這是<br>前瞻：先知道盯哪裡、哪天可能有事。<br><br>示例：<b>「某指數 675 是多空分水嶺——站穩，換手續走；<br>跌破 650 才算真轉弱。未來：今晚有利率決議。」</b>',
   q:'這段「該注意什麼」要你做的是？',
   choices:['現在就照 675 這個數字買賣','心裡先標好：675 站穩／跌破各代表什麼、利率決議當天留意','記不住，跳過'],correct:1,
   fb:['它沒喊買賣——關鍵價位是「觀察點」，不是進出訊號。','對——前瞻就是先把「若站穩→這樣、若跌破→那樣」和事件日標記好，不被突襲。','別跳過——這格最實用：它幫你把注意力放對地方。']},
@@ -110,7 +110,7 @@ const ROUNDS=[
   choices:['永遠只看簡報就好，報告太長','當你想知道「這個結論背後，每一格證據長怎樣、憑什麼」的時候','都不用看，直接問別人明牌'],correct:1,
   fb:['簡報夠你快速掌握，但只看簡報，你會「知其然不知其所以然」，一遇分歧就慌。','對——簡報是入口、報告是深水區。<br>想從「聽懂結論」升級成「自己判斷」，就往完整報告走。','問明牌＝要答案不要地圖。簡報和報告給的都是地圖，那才是能複製的能力。']}
 ];
-const TRANSITIONS=[null,null,'三拍，你會了。那——什麼時候該往更深的地方走？',null];
+const TRANSITIONS=[null,null,'三拍，你會了。那——<br>什麼時候該往更深的地方走？',null];
 
 let state={idx:-1,score:0,gv:50,cls:[null,null,null,null,null,null],match:[null,null,null,null],mChecked:false};
 
@@ -256,7 +256,7 @@ function showResult(){PB.style.width='100%';const s=state.score;
   <div class="chapter-label t-label" style="margin-bottom:0.8rem">四拍讀完</div>
   <div class="result-icon">📖</div>
   <div class="result-type t-main">你會讀簡報了</div>
-  <div class="result-desc t-sub">你剛學會用三拍讀一則簡報：<b>發生什麼（定調）→ 為什麼＋對我（行動含意）→ 該注意什麼（前瞻）</b>。<br><br>而且你知道了：<b>簡報給結論、報告給證據。</b>想從「聽懂結論」升級成「自己判斷」，下一步就是完整報告。<br><br>判讀得分：${s} / 4（${tier}）</div>
+  <div class="result-desc t-sub">你剛學會用三拍讀一則簡報：<br><b>發生什麼（定調）→ 為什麼＋對我（行動含意）→ 該注意什麼（前瞻）</b>。<br><br>而且你知道了：<br><b>簡報給結論、報告給證據。</b>想從「聽懂結論」升級成「自己判斷」，下一步就是完整報告。<br><br>判讀得分：${s} / 4（${tier}）</div>
   <div class="t-sub" style="font-size:13px;line-height:1.9;margin-bottom:1.3rem;max-width:410px;margin:0 auto 1.3rem">簡報看懂了？想知道每個判斷背後的完整證據，下一步就是完整報告。</div>
   <div style="display:flex;flex-direction:column;align-items:center;gap:0.65rem;max-width:340px;margin:0 auto">
     <a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">訂電子報，每天一則簡報帶你練這三拍 →</a>
@@ -274,4 +274,101 @@ function shareGame(){const url=window.location.href.split('?')[0];const t='我�
 ['startOpening','nextOpening','showRound','renderGaugeIntro','renderGauge','renderMatch','setMatch','matchDoCheck','giveAnswer','gaugeDone','setCls','clsCheck','abPick','record','advance','showResult','restart','shareGame','fade'].forEach(n=>window[n]=eval(n));
 window.state=state;
 showStart();
-</script></body></html>
+</script><!-- ===== Yoda 會員檢核徽章模組 · 僅在網址帶 ?cert=TYPE 時啟用（一般遊玩完全不受影響） ===== -->
+<script>
+(function(){
+  var GAS_URL='https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec';
+  var TYPES={mw:'市場觀察',tw:'台股',us:'美股',key:'簡報',macro:'總經'};
+  var t=new URLSearchParams(location.search).get('cert');
+  if(!t||!TYPES[t]) return;                 // 非檢核模式 → 什麼都不做，遊戲照舊
+  var name=TYPES[t];
+  var css=document.createElement('style');
+  css.textContent=
+  '#yc-bar{position:fixed;left:0;right:0;bottom:0;z-index:9998;background:linear-gradient(0deg,rgba(8,10,18,.97),rgba(8,10,18,.86));'
+  +'border-top:1px solid rgba(212,175,55,.4);padding:11px 16px;padding-bottom:calc(11px + env(safe-area-inset-bottom));'
+  +'display:flex;align-items:center;gap:12px;backdrop-filter:blur(10px);'
+  +"font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC','Microsoft JhengHei',sans-serif}"
+  +'#yc-bar .yc-txt{flex:1;min-width:0;font-size:13px;line-height:1.5;color:#dfe6f4}'
+  +'#yc-bar .yc-txt b{color:#e8c86a}'
+  +'#yc-go{flex:0 0 auto;padding:10px 18px;border-radius:999px;border:none;cursor:pointer;font-weight:700;font-size:14px;'
+  +'color:#1a1200;background:linear-gradient(135deg,#d4af37,#f0d488);box-shadow:0 4px 14px rgba(212,175,55,.35)}'
+  +'#yc-mask{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.62);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:18px}'
+  +'#yc-mask.on{display:flex}'
+  +'#yc-modal{width:100%;max-width:400px;background:#0d1120;border:1px solid rgba(212,175,55,.34);border-radius:18px;padding:24px 22px;'
+  +'box-shadow:0 20px 60px rgba(0,0,0,.6);color:#eef2fb;'
+  +"font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC','Microsoft JhengHei',sans-serif}"
+  +'#yc-modal h3{font-size:19px;font-weight:800;margin:0 0 6px}'
+  +'#yc-modal p{font-size:13.5px;line-height:1.6;color:#aab3c8;margin:0 0 14px}'
+  +'#yc-modal input{width:100%;padding:12px 14px;font-size:15px;border-radius:11px;border:1px solid rgba(255,255,255,.16);'
+  +'background:#05070f;color:#fff;outline:none;margin-bottom:6px}'
+  +'#yc-modal input:focus{border-color:#d4af37}'
+  +'#yc-modal .yc-hint{font-size:11.5px;color:#8590a6;margin:0 0 14px}'
+  +'#yc-submit{width:100%;padding:13px;border-radius:11px;border:none;cursor:pointer;font-weight:800;font-size:15px;'
+  +'color:#1a1200;background:linear-gradient(135deg,#d4af37,#f0d488)}'
+  +'#yc-submit:disabled{opacity:.55;cursor:default}'
+  +'#yc-msg{font-size:13px;margin-top:11px;min-height:18px;line-height:1.5}'
+  +'#yc-msg.ok{color:#7fd6a6}#yc-msg.err{color:#f08a8a}'
+  +'#yc-close,#yc-close2{background:none;border:none;color:#8590a6;font-size:13px;text-decoration:underline;cursor:pointer;display:block;margin:12px auto 0}'
+  +'#yc-done .yc-badge{font-size:54px;line-height:1;margin:2px 0 8px;text-align:center}';
+  document.head.appendChild(css);
+
+  var bar=document.createElement('div');
+  bar.id='yc-bar';
+  bar.innerHTML='<div class="yc-txt">🎓 玩到最後了嗎？完成這個導覽，<b>領取《'+name+'報告》檢核徽章</b></div><button id="yc-go">領取檢核</button>';
+  document.body.appendChild(bar);
+
+  var mask=document.createElement('div');
+  mask.id='yc-mask';
+  mask.innerHTML='<div id="yc-modal">'
+    +'<div id="yc-form">'
+      +'<h3>領取《'+name+'報告》檢核</h3>'
+      +'<p>輸入你的<b style="color:#e8c86a">會員密碼</b>（訂閱時自設的那組），系統會記下你已看懂這份報告怎麼判讀。</p>'
+      +'<input id="yc-pw" type="password" placeholder="你的會員密碼" autocomplete="off">'
+      +'<div class="yc-hint">這組密碼只是會員存取碼，請勿使用你其他重要帳號的密碼。</div>'
+      +'<button id="yc-submit">送出，領取徽章</button>'
+      +'<div id="yc-msg"></div>'
+      +'<button id="yc-close">稍後再說</button>'
+    +'</div>'
+    +'<div id="yc-done" style="display:none">'
+      +'<div class="yc-badge">🏅</div>'
+      +'<h3 style="text-align:center">已通過《'+name+'報告》檢核</h3>'
+      +'<p id="yc-done-txt" style="text-align:center"></p>'
+      +'<button id="yc-close2">完成</button>'
+    +'</div>'
+  +'</div>';
+  document.body.appendChild(mask);
+
+  var $=function(id){return document.getElementById(id);};
+  function openModal(){mask.classList.add('on');setTimeout(function(){$('yc-pw').focus();},50);}
+  function closeModal(){mask.classList.remove('on');}
+  $('yc-go').onclick=openModal;
+  $('yc-close').onclick=closeModal;
+  $('yc-close2').onclick=closeModal;
+  mask.addEventListener('click',function(e){if(e.target===mask)closeModal();});
+
+  function submit(){
+    var pw=$('yc-pw').value.trim(), msg=$('yc-msg');
+    if(!pw){msg.className='err';msg.textContent='請先輸入會員密碼';return;}
+    var btn=$('yc-submit');btn.disabled=true;msg.className='';msg.textContent='驗證中…';
+    fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'certify',password:pw,reportType:t})})
+      .then(function(r){return r.json();})
+      .then(function(res){
+        btn.disabled=false;
+        if(res&&res.done){
+          $('yc-form').style.display='none';
+          $('yc-done').style.display='block';
+          $('yc-done-txt').innerHTML=(res.alreadyCertified?'你先前已通過（'+res.certifiedAt+'）。':'通過日：'+res.certifiedAt+'。')
+            +'<br>之後就能安心收到每期《'+name+'報告》了。';
+          bar.style.display='none';
+        }else{
+          msg.className='err';msg.textContent=(res&&res.error)?res.error:'驗證失敗，請稍後再試';
+        }
+      })
+      .catch(function(){btn.disabled=false;msg.className='err';msg.textContent='連線失敗，請檢查網路後再試';});
+  }
+  $('yc-submit').onclick=submit;
+  $('yc-pw').addEventListener('keydown',function(e){if(e.key==='Enter')submit();});
+})();
+</script>
+
+</body></html>

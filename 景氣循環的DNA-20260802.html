@@ -520,7 +520,7 @@ function resolve(i,correct,revealHTML){
 /* ===== 各型別 render ===== */
 const RENDER={
  title:{html:()=>`<div class="card center">
-  
+   <div class="eyebrow">Yoda Research · 判斷力學校 · 總經科</div>
    <h1>景氣循環的 DNA</h1>
    <p class="lead">現在幾點鐘？<br>景氣把線索藏在數據裡。<br>這一課，教你把它讀出來。</p>
    <button class="cta" onclick="next()">開始 →</button>
@@ -818,5 +818,102 @@ function replay(){location.reload();}
 state.max=S.filter(x=>['classify','flip','phasepick','gauge','scale','templocate','sort'].includes(x.type)).length;
 render(0); applyEnv(0);
 </script>
+<!-- ===== Yoda 會員檢核徽章模組 · 僅在網址帶 ?cert=TYPE 時啟用（一般遊玩完全不受影響） ===== -->
+<script>
+(function(){
+  var GAS_URL='https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec';
+  var TYPES={mw:'市場觀察',tw:'台股',us:'美股',key:'簡報',macro:'總經'};
+  var t=new URLSearchParams(location.search).get('cert');
+  if(!t||!TYPES[t]) return;                 // 非檢核模式 → 什麼都不做，遊戲照舊
+  var name=TYPES[t];
+  var css=document.createElement('style');
+  css.textContent=
+  '#yc-bar{position:fixed;left:0;right:0;bottom:0;z-index:9998;background:linear-gradient(0deg,rgba(8,10,18,.97),rgba(8,10,18,.86));'
+  +'border-top:1px solid rgba(212,175,55,.4);padding:11px 16px;padding-bottom:calc(11px + env(safe-area-inset-bottom));'
+  +'display:flex;align-items:center;gap:12px;backdrop-filter:blur(10px);'
+  +"font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC','Microsoft JhengHei',sans-serif}"
+  +'#yc-bar .yc-txt{flex:1;min-width:0;font-size:13px;line-height:1.5;color:#dfe6f4}'
+  +'#yc-bar .yc-txt b{color:#e8c86a}'
+  +'#yc-go{flex:0 0 auto;padding:10px 18px;border-radius:999px;border:none;cursor:pointer;font-weight:700;font-size:14px;'
+  +'color:#1a1200;background:linear-gradient(135deg,#d4af37,#f0d488);box-shadow:0 4px 14px rgba(212,175,55,.35)}'
+  +'#yc-mask{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.62);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:18px}'
+  +'#yc-mask.on{display:flex}'
+  +'#yc-modal{width:100%;max-width:400px;background:#0d1120;border:1px solid rgba(212,175,55,.34);border-radius:18px;padding:24px 22px;'
+  +'box-shadow:0 20px 60px rgba(0,0,0,.6);color:#eef2fb;'
+  +"font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC','Microsoft JhengHei',sans-serif}"
+  +'#yc-modal h3{font-size:19px;font-weight:800;margin:0 0 6px}'
+  +'#yc-modal p{font-size:13.5px;line-height:1.6;color:#aab3c8;margin:0 0 14px}'
+  +'#yc-modal input{width:100%;padding:12px 14px;font-size:15px;border-radius:11px;border:1px solid rgba(255,255,255,.16);'
+  +'background:#05070f;color:#fff;outline:none;margin-bottom:6px}'
+  +'#yc-modal input:focus{border-color:#d4af37}'
+  +'#yc-modal .yc-hint{font-size:11.5px;color:#8590a6;margin:0 0 14px}'
+  +'#yc-submit{width:100%;padding:13px;border-radius:11px;border:none;cursor:pointer;font-weight:800;font-size:15px;'
+  +'color:#1a1200;background:linear-gradient(135deg,#d4af37,#f0d488)}'
+  +'#yc-submit:disabled{opacity:.55;cursor:default}'
+  +'#yc-msg{font-size:13px;margin-top:11px;min-height:18px;line-height:1.5}'
+  +'#yc-msg.ok{color:#7fd6a6}#yc-msg.err{color:#f08a8a}'
+  +'#yc-close,#yc-close2{background:none;border:none;color:#8590a6;font-size:13px;text-decoration:underline;cursor:pointer;display:block;margin:12px auto 0}'
+  +'#yc-done .yc-badge{font-size:54px;line-height:1;margin:2px 0 8px;text-align:center}';
+  document.head.appendChild(css);
+
+  var bar=document.createElement('div');
+  bar.id='yc-bar';
+  bar.innerHTML='<div class="yc-txt">🎓 玩到最後了嗎？完成這個導覽，<b>領取《'+name+'報告》檢核徽章</b></div><button id="yc-go">領取檢核</button>';
+  document.body.appendChild(bar);
+
+  var mask=document.createElement('div');
+  mask.id='yc-mask';
+  mask.innerHTML='<div id="yc-modal">'
+    +'<div id="yc-form">'
+      +'<h3>領取《'+name+'報告》檢核</h3>'
+      +'<p>輸入你的<b style="color:#e8c86a">會員密碼</b>（訂閱時自設的那組），系統會記下你已看懂這份報告怎麼判讀。</p>'
+      +'<input id="yc-pw" type="password" placeholder="你的會員密碼" autocomplete="off">'
+      +'<div class="yc-hint">這組密碼只是會員存取碼，請勿使用你其他重要帳號的密碼。</div>'
+      +'<button id="yc-submit">送出，領取徽章</button>'
+      +'<div id="yc-msg"></div>'
+      +'<button id="yc-close">稍後再說</button>'
+    +'</div>'
+    +'<div id="yc-done" style="display:none">'
+      +'<div class="yc-badge">🏅</div>'
+      +'<h3 style="text-align:center">已通過《'+name+'報告》檢核</h3>'
+      +'<p id="yc-done-txt" style="text-align:center"></p>'
+      +'<button id="yc-close2">完成</button>'
+    +'</div>'
+  +'</div>';
+  document.body.appendChild(mask);
+
+  var $=function(id){return document.getElementById(id);};
+  function openModal(){mask.classList.add('on');setTimeout(function(){$('yc-pw').focus();},50);}
+  function closeModal(){mask.classList.remove('on');}
+  $('yc-go').onclick=openModal;
+  $('yc-close').onclick=closeModal;
+  $('yc-close2').onclick=closeModal;
+  mask.addEventListener('click',function(e){if(e.target===mask)closeModal();});
+
+  function submit(){
+    var pw=$('yc-pw').value.trim(), msg=$('yc-msg');
+    if(!pw){msg.className='err';msg.textContent='請先輸入會員密碼';return;}
+    var btn=$('yc-submit');btn.disabled=true;msg.className='';msg.textContent='驗證中…';
+    fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'certify',password:pw,reportType:t})})
+      .then(function(r){return r.json();})
+      .then(function(res){
+        btn.disabled=false;
+        if(res&&res.done){
+          $('yc-form').style.display='none';
+          $('yc-done').style.display='block';
+          $('yc-done-txt').innerHTML=(res.alreadyCertified?'你先前已通過（'+res.certifiedAt+'）。':'通過日：'+res.certifiedAt+'。')
+            +'<br>之後就能安心收到每期《'+name+'報告》了。';
+          bar.style.display='none';
+        }else{
+          msg.className='err';msg.textContent=(res&&res.error)?res.error:'驗證失敗，請稍後再試';
+        }
+      })
+      .catch(function(){btn.disabled=false;msg.className='err';msg.textContent='連線失敗，請檢查網路後再試';});
+  }
+  $('yc-submit').onclick=submit;
+  $('yc-pw').addEventListener('keydown',function(e){if(e.key==='Enter')submit();});
+})();
+</script>
+
 </body>
 </html>
