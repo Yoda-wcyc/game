@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-TW"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>讀懂關鍵報告（TOP→DOWN 一條主線）· Yoda Research</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;min-height:100%;font-family:-apple-system,'PingFang TC','Noto Sans TC',sans-serif;background:#000}
+#game{width:100%;min-height:100vh;position:relative;overflow:hidden}
+.scene{width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:3rem 1.5rem}
+.sky-start{background:linear-gradient(180deg,#0a0a1a,#1a1a3e 45%,#3a2a5e 100%)}
+.sky-dawn{background:linear-gradient(180deg,#1a1a2e,#e8b86d 60%,#f4a261)}
+.sky-noon{background:linear-gradient(180deg,#0d47a1,#1976d2 50%,#bbdefb)}
+.sky-valley{background:linear-gradient(180deg,#1b2631,#2e4057 42%,#5d7a8a)}
+.sky-storm{background:linear-gradient(180deg,#0b0b12,#171733 50%,#33409e)}
+.sky-clouds{background:linear-gradient(180deg,#0d47a1,#1565c0 42%,#90caf9)}
+.sky-clear{background:linear-gradient(180deg,#173a68,#4a7cc0 44%,#a6cff0 82%,#d9edfb)}
+.sky-result{background:linear-gradient(180deg,#003459,#00587a 42%,#0288d1)}
+.ink-bg{position:absolute;bottom:0;left:0;width:100%;height:170px;pointer-events:none}
+.overlay{position:relative;z-index:10;text-align:center;max-width:640px;width:100%}
+.t-main{color:#f2f5ff}.t-sub{color:rgba(228,234,247,0.84)}.t-label{color:rgba(205,214,236,0.58)}
+.sky-dawn .t-main,.sky-start .t-main{color:#fff7e6}.sky-dawn .t-sub,.sky-start .t-sub{color:rgba(255,242,214,0.82)}
+.chapter-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:0.5rem}
+.chapter-title{font-size:27px;font-weight:300;margin-bottom:1rem;line-height:1.3}
+.chapter-quote{font-size:15px;line-height:1.95;margin-bottom:2rem;font-style:italic;max-width:480px;margin:0 auto 2rem}
+.round-text{font-size:15px;line-height:1.9;margin-bottom:1.3rem;max-width:520px;margin:0 auto 1.3rem}
+.round-q{font-size:16px;font-weight:400;margin-bottom:1.3rem;line-height:1.5}
+.transition-quote{font-size:17px;max-width:430px;line-height:2.1;font-style:italic;color:rgba(216,228,255,0.86)}
+.choices{display:flex;flex-direction:column;gap:0.7rem;width:100%;max-width:480px;margin:0 auto}
+.choice-btn{background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.28);color:#fff;padding:0.9rem 1.2rem;border-radius:8px;cursor:pointer;font-size:14px;line-height:1.6;text-align:left;transition:all .2s;backdrop-filter:blur(6px)}
+.choice-btn:hover{background:rgba(0,0,0,0.45);border-color:rgba(255,255,255,0.6);transform:translateX(4px)}
+.continue-btn{background:transparent;border:1px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.8);padding:0.6rem 2rem;border-radius:4px;cursor:pointer;font-size:13px;margin-top:1.3rem;letter-spacing:1px;transition:all .2s}
+.continue-btn:hover{border-color:rgba(255,255,255,0.9);color:#fff}
+.feedback{font-size:13px;line-height:1.8;max-width:440px;margin:0.7rem auto 0;min-height:42px}
+/* 儀表滑桿 */
+.gauge-wrap{max-width:340px;margin:0 auto}
+input[type=range].gsl{width:100%;-webkit-appearance:none;appearance:none;background:transparent;height:22px;margin-top:0.2rem}
+input[type=range].gsl::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;cursor:pointer;margin-top:-7px;box-shadow:0 1px 6px rgba(0,0,0,.4)}
+input[type=range].gsl::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:linear-gradient(90deg,#5b8def,#e0a526,#e05353)}
+input[type=range].gsl::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:none;cursor:pointer}
+input[type=range].gsl::-moz-range-track{height:8px;border-radius:4px;background:linear-gradient(90deg,#5b8def,#e0a526,#e05353)}
+.gsl-ends{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,0.6);margin-top:0.3rem}
+/* 分類 */
+.cls-list{max-width:470px;margin:0 auto 0.8rem;display:flex;flex-direction:column;gap:0.5rem}
+.cls-row{display:flex;align-items:center;gap:0.6rem;background:rgba(0,0,0,0.26);border:1px solid rgba(255,255,255,0.22);border-radius:8px;padding:0.5rem 0.7rem;flex-wrap:wrap}
+.cls-name{flex:1;text-align:left;font-size:13.5px;color:#fff;line-height:1.5;min-width:100%;margin-bottom:0.35rem}
+.cls-btns{display:flex;gap:0.4rem;width:100%}
+.cls-btn{border:1px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.2);color:#fff;border-radius:6px;padding:0.4rem 0.8rem;font-size:12.5px;cursor:pointer;transition:all .15s;flex:1}
+.cls-btn.atk.on{background:rgba(224,83,83,0.32);border-color:#e05353}
+.cls-btn.def.on{background:rgba(91,141,239,0.32);border-color:#5b8def}
+.cls-row.right{border-color:rgba(120,220,140,0.7)}
+.cls-row.wrong{border-color:rgba(229,120,120,0.7)}
+.result-icon{font-size:50px;margin-bottom:0.5rem}
+.result-type{font-size:23px;font-weight:300;margin-bottom:0.7rem}
+.result-desc{font-size:14px;line-height:1.9;max-width:460px;margin:0 auto 1.3rem}
+.yoda-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);color:#fff;padding:0.85rem 2.2rem;border-radius:6px;font-size:14px;cursor:pointer;text-decoration:none;margin:0.3rem;transition:opacity .2s}
+.yoda-btn:hover{opacity:.88}
+.yoda-btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.85)}
+.progress-bar{position:fixed;top:0;left:0;height:2px;background:rgba(224,165,38,0.65);transition:width .4s;z-index:100}
+.mute-btn{position:fixed;top:14px;right:14px;z-index:101;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(6px)}
+.step-dots{display:flex;gap:6px;justify-content:center;margin-bottom:1rem;flex-wrap:wrap}
+.step-dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.25)}
+.step-dots i.on{background:#e0a526}
+.layer-list{max-width:500px;margin:0 auto 0.6rem;text-align:left;font-size:13.5px;line-height:1.7;color:rgba(255,255,255,0.92)}
+.layer-list .ly{margin-bottom:0.5rem;padding-left:0.2rem}
+.layer-list .ly b{color:#e0a526}
+</style></head><body>
+<audio id="bgm" loop preload="auto"><source src="day_one.mp3"></audio>
+<button id="muteBtn" class="mute-btn" onclick="toggleMute()">🔊</button>
+<div class="progress-bar" id="progress"></div>
+<div id="game"></div>
+<script>
+const G=document.getElementById('game'),PB=document.getElementById('progress');
+const BGM=document.getElementById('bgm'),MUTEBTN=document.getElementById('muteBtn');
+let bgmStarted=false,bgmMuted=false;try{bgmMuted=localStorage.getItem('yoda_bgm_muted')==='1';}catch(e){}
+if(BGM)BGM.volume=0.30;
+function mIcon(){if(MUTEBTN)MUTEBTN.textContent=bgmMuted?'🔇':'🔊';}mIcon();
+function toggleMute(){bgmMuted=!bgmMuted;try{localStorage.setItem('yoda_bgm_muted',bgmMuted?'1':'0');}catch(e){}if(bgmMuted){if(BGM)BGM.pause();}else if(BGM)BGM.play().then(()=>bgmStarted=true).catch(()=>{});mIcon();}
+window.toggleMute=toggleMute;
+document.addEventListener('click',()=>{if(!bgmStarted&&!bgmMuted&&BGM)BGM.play().then(()=>bgmStarted=true).catch(()=>{});});
+
+// ===== 水墨背景 bg(type,sky) =====
+function inkCols(sky){const dark=['sky-storm','sky-valley','sky-dawn','sky-dusk','sky-night','sky-start'].includes(sky);
+  return dark?['rgba(210,220,245,0.10)','rgba(180,195,230,0.16)','rgba(222,232,252,0.32)']:['rgba(30,35,60,0.10)','rgba(25,30,55,0.16)','rgba(20,25,50,0.28)'];}
+const MOTIFS={
+ farhills:(f,n,l)=>`<path d="M0,70 C120,50 220,58 340,44 C460,32 560,52 700,40 C840,30 960,50 1080,42 L1200,46 L1200,120 L0,120Z" fill="${f}"/><path d="M0,86 C160,74 300,82 460,70 C640,58 780,76 940,68 C1060,62 1140,72 1200,70 L1200,120 L0,120Z" fill="${n}"/><path d="M0,70 C120,50 220,58 340,44 C460,32 560,52 700,40 C840,30 960,50 1080,42 L1200,46" fill="none" stroke="${l}" stroke-width="1.4"/>`,
+ range:(f,n,l)=>`<path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38 L1200,120 L0,120Z" fill="${f}"/><path d="M0,82 C160,66 320,76 480,60 C640,46 800,70 960,60 C1080,54 1160,64 1200,62 L1200,120 L0,120Z" fill="${n}"/><path d="M0,100 C220,90 420,96 640,86 C860,78 1020,92 1200,84 L1200,120 L0,120Z" fill="${n}"/><path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38" fill="none" stroke="${l}" stroke-width="1.2" opacity="0.85"/>`,
+ peak:(f,n,l)=>`<path d="M0,104 C260,100 430,94 520,56 C560,40 600,20 640,20 C680,20 720,42 760,60 C860,100 1000,102 1200,100 L1200,120 L0,120Z" fill="${n}"/><path d="M600,28 C612,42 628,54 640,60" fill="none" stroke="${l}" stroke-width="1.4"/><rect x="300" y="62" width="620" height="10" fill="${f}"/><path d="M120,86 h240 M470,86 h180 M760,90 h300" stroke="${f}" stroke-width="8" stroke-linecap="round" opacity="0.7"/>`,
+ river:(f,n,l)=>`<path d="M0,90 C300,82 500,86 1200,84 L1200,120 L0,120Z" fill="${f}"/><path d="M470,82 Q540,98 610,82" fill="none" stroke="${l}" stroke-width="1.8" stroke-linecap="round"/><path d="M120,94 q80,-4 160,0 t160,0 M700,96 q80,-4 160,0 t160,0" fill="none" stroke="${l}" stroke-width="1" opacity="0.6"/>`};
+function bg(type,sky){const m=MOTIFS[type];if(!m)return '';const[f,n,l]=inkCols(sky);return `<svg class="ink-bg" viewBox="0 0 1200 120" preserveAspectRatio="none">${m(f,n,l)}</svg>`;}
+
+const OPENING={sky:'sky-dawn',bg:'farhills',label:'序',title:'解鎖了，卻直接滑到最後',quotes:[
+ '你終於解鎖了關鍵報告。<br>結果一打開——好長、五個層級、圖表一堆，<br>你多半直接滑到最後，看它結論喊什麼。',
+ '但關鍵報告不是拿來「讀完」的，<br>是拿來「跟著一條主線，<b>從天上讀到地上</b>」的。<br>學會這條線，再長，你都讀得動。',
+]};
+
+const ROUNDS=[
+ // R1 開場成績單（track record）
+ {type:'ab',sky:'sky-noon',bg:'farhills',label:'第 1 站 · 開場',title:'先看那排「成績單」',
+  text:'關鍵報告開頭不先講今天——<br>先擺一排 <b>✅ / ❌</b>：它過去公開喊過的判斷，<br>對的、錯的，都掛在那裡。',
+  q:'這排「成績單」擺在最前面，是要幹嘛？',
+  choices:['炫耀自己很準，跳過就好','讓你先看到「這套判斷過去可被檢驗、對錯都認」，再決定要信它幾分','告訴你今天該買什麼'],correct:1,
+  fb:['不是炫耀——會把 ❌ 也掛出來的人，才敢談自己的準度。','對——這叫 track record，是<b>判斷力的收據</b>。先看它敢不敢認錯，你再決定信幾分，這比任何結論都重要。','它一個買賣字都沒提——成績單談的是「過去可不可信」，不是今天的明牌。']},
+
+ // R2 定調 + so-what
+ {type:'ab',sky:'sky-valley',bg:'range',label:'第 2 站 · 定調',title:'一句定調，一句「所以我該怎麼想」',
+  text:'成績單之後，一句<b>定調</b>把「今天最該懂的一件事」講完，<br>緊接一句「所以我該怎麼想」。<br><br>示例定調：<b>「全球的錢正從最擁擠的那批撤出、往落後補漲的地方流——是換位置，不是離場。」</b><br>接著：<i>「所以別追最熱的，盯資金新流進的地方。」</i>',
+  q:'那句「所以我該怎麼想」，在報告裡的作用是？',
+  choices:['叫你立刻去買資金流進的股','把方向收成一句「我該怎麼想」，讓你後面五層讀起來有一條主軸','可以略過，直接看數據就好'],correct:1,
+  fb:['它沒叫你買——「所以我該怎麼想」給的是思路，不是標的（這條線守得很緊）。','對——它不是明牌，是幫你<b>先立好主軸</b>。有了主軸，後面五層的細節才知道往哪裡擺。','千萬別略過——少了這句，你會淹在數據裡，讀完還是不知道「所以呢」。']},
+
+ // R3 gauge 全球第一層：資金風向溫度
+ {type:'gauge',sky:'sky-noon',bg:'range',label:'第 3 站 · 全球',title:'第一層：把資金風向讀成一個溫度',
+  text:'關鍵報告從<b>最上層「全球」</b>讀起：錢正集中到哪個市場、<br>大家是<b>敢冒險</b>（衝成長股），還是<b>在避險</b>（抱防禦、抱現金）。<br><br>這一期報告說：<i>「資金撤出高估值成長股，湧入防禦性板塊與債券，避險資產被搶。」</i><br><br>用滑桿，把此刻的「資金風向」放到你覺得的位置：',
+  q:'往左＝避險當道，往右＝全力冒險。你會放哪？',
+  left:'避險（抱防禦／現金）',right:'冒險（敢衝成長）',ans:22,
+  correct:v=>v<=38,
+  fb:v=>v<=38?'對——「錢逃去防禦、避險資產被搶」＝資金風向偏<b>避險</b>。第一層先讀對風向，下面四層才有靠山。':'再想一下——當報告說「撤出成長、湧入防禦、搶避險資產」，那是<b>避險</b>訊號，指針該偏左。風向讀反，後面全歪。'},
+
+ // R4 TOP→DOWN 主線
+ {type:'ab',sky:'sky-valley',bg:'range',label:'第 4 站 · 主線',title:'一條線，從天上讀到地上',
+  text:'關鍵報告的骨，是一條 <b>TOP→DOWN</b> 主線，一層扣一層：',
+  layers:[
+   ['① 全球','錢往哪個市場集中、在冒險還是避險'],
+   ['② 美股大盤','指數誰開路、誰掉隊（大盤健不健康）'],
+   ['③ 板塊輪動','主線資金換到哪一批板塊'],
+   ['④ 個股 · 廣度','上漲的是「多數股」還是「少數大牛股」在撐'],
+   ['⑤ 台股','跟美股同不同步、法人在吸還是在倒']],
+  q:'為什麼要「從全球往下讀」，而不是一打開就先找個股？',
+  choices:['個股太多，懶得一支支看','先知道大錢往哪流、大盤健不健康，你挑的個股才站得住；方向錯了，選股再準也是逆風','沒差，從哪一層開始讀都一樣'],correct:1,
+  fb:['不是偷懶——是順序。<b>上層是下層的靠山</b>，先定方向再選兵。','對——TOP→DOWN 就是<b>先定方向、再選兵</b>。全球定調→大盤定健康→板塊定主線→個股定真相→台股對照，一層扣一層。','差很多——方向錯了，個股選得再漂亮也是在逆風裡游泳。上層決定下層的勝率。']},
+
+ // R5 classify 條件劇本：主劇本 vs 翻案
+ {type:'classify',sky:'sky-storm',bg:'peak',label:'第 5 站 · 招牌',title:'條件劇本：把「接下來」分成兩邊',
+  text:'關鍵報告最值錢的一段是<b>「條件劇本」</b>——<br>它不喊漲跌，而是把接下來拆成劇本：<b>出現什麼條件 → 代表什麼、盯什麼</b>。<br>最基本兩種：<b style="color:#8fb3ff">主劇本</b>（照目前這樣續走）、<b style="color:#ff8a80">翻案</b>（要提高警戒）。',
+  catA:'翻案',catB:'主劇本',
+  q:'下面每個「條件」，比較像哪一種劇本的觸發？',
+  items:[
+   ['資金持續往補漲板塊流、市場廣度改善','def'],
+   ['權值股帶頭跌破關鍵支撐、外資由買轉賣','atk'],
+   ['領漲族群量縮價穩、沒跌破前低','def'],
+   ['避險資產（債、黃金）突然被搶、VIX 跳升','atk']],
+  reveal:'條件劇本讓你<b>先把 if–then 標好</b>：哪個條件亮了，你就知道市場走到哪個劇本、該盯什麼。這不是預測，是<b>準備</b>——也是關鍵報告最貴的那一段前瞻。'},
+
+ // R6 可證偽觀察點總表
+ {type:'ab',sky:'sky-clouds',bg:'range',label:'第 6 站 · 招牌',title:'可證偽觀察點總表：先標好盯哪裡',
+  text:'報告最後給一張<b>「可證偽觀察點總表」</b>：<br>每一列＝<b>觀察點 · 看什麼 · 代表什麼</b>，而且每一項都「事後能判定對錯」。<br><br>示例列：<b>某指數 6800 點｜看它站穩還是跌破｜站穩＝續多、跌破＝翻案</b>。',
+  q:'這張表要你做的是？',
+  choices:['照 6800 這個數字，現在就買賣','先把「盯哪裡、亮了代表什麼」標在心裡；之後市場自己給答案，你就不會被突襲','背起來，等下考試'],correct:1,
+  fb:['它沒喊買賣——觀察點是「分界」，不是進出訊號（這條線一樣守得很緊）。','對——<b>可證偽</b>＝事後能檢驗對錯（這也是開場成績單的來源）。先標好觀察點，你就從「被動看盤」變成「主動盯線」。','不是背——是<b>標記注意力</b>。表的價值在幫你把眼睛放對地方。']},
+
+ // R7 橋接：簡報 vs 關鍵報告
+ {type:'ab',sky:'sky-clear',bg:'range',label:'第 7 站 · 收束',title:'什麼時候，你該打開關鍵報告？',
+  text:'你已經會讀這條主線了。<br><br>簡報給你「<b>結論＋一兩個理由</b>」，30 秒掌握今天。<br>關鍵報告給你「<b>五層完整證據鏈＋條件劇本＋我自己怎麼看、怎麼操作</b>」。',
+  q:'什麼情況，你該從簡報往關鍵報告深入？',
+  choices:['永遠只看簡報就好，報告太長','當你想知道「這結論背後，錢怎麼流、接下來什麼條件會翻案、Yoda 自己怎麼想」的時候','直接問明牌最快'],correct:1,
+  fb:['簡報夠你掌握今天，但只看簡報，你會「知其然不知其所以然」，一遇分歧就慌。','對——簡報是入口、關鍵報告是深水區。<br>想從「聽懂結論」升級成「自己判斷接下來」，就打開它。','問明牌＝要答案不要地圖。這條主線給你的，是能一直複製的能力。']}
+];
+const TRANSITIONS=[null,null,null,'方向抓好了。<br>那——接下來，會怎麼走？',null,null,null];
+
+let state={idx:-1,score:0,gv:50,cls:[],mChecked:false};
+
+// 名詞白話＋答案（給我答案用）
+const ANS=[
+ {answer:'讓你先看到「這套判斷過去可被檢驗、對錯都認」，再決定信它幾分。',terms:[
+   ['track record（成績單）','過去公開喊過的判斷紀錄，對的錯的都掛著、可被檢驗；判斷力的收據'],
+   ['關鍵報告','付費旗艦報告：一條主線從全球讀到台股＋前瞻條件劇本＋Yoda 自己的操作與推理'],
+   ['判斷力','能自己看懂市場、做出判斷的能力——Yoda 報告真正想給你的東西']]},
+ {answer:'把方向收成一句「我該怎麼想」，讓後面五層讀起來有一條主軸。',terms:[
+   ['定調','用一句話講今天市場最該懂的方向與情緒；先讀它就抓到框架'],
+   ['so-what（所以我該怎麼想）','把方向翻成「我該怎麼想」的一句思路——是主軸，不是買賣明牌'],
+   ['換位置不是離場','錢從一批換到另一批，不是整個離開市場——所以不等於崩盤']]},
+ {answer:'偏左（約 22）——報告說「撤出成長、湧入防禦、搶避險資產」，就是避險當道。',terms:[
+   ['避險（risk-off）','資金抱防禦板塊、債券、現金，先求穩不求衝'],
+   ['冒險（risk-on）','資金敢衝成長股、高風險資產，追報酬'],
+   ['避險資產','債券、黃金這類「市場一怕就被搶」的東西；它們被搶＝大家在避險']]},
+ {answer:'先知道大錢往哪流、大盤健不健康，你挑的個股才站得住；方向錯了，選股再準也逆風。',terms:[
+   ['TOP→DOWN','從最上層（全球）一路往下讀到個股／台股，一層扣一層'],
+   ['廣度','上漲的是「多數股」還是「少數大牛股」在撐——大盤健不健康的體檢'],
+   ['上層是下層的靠山','全球定方向、大盤定健康，才輪到個股；順序反了容易逆風']]},
+ {answer:'資金往補漲流／領漲量縮價穩＝主劇本；權值破支撐外資轉賣／避險被搶VIX跳升＝翻案。',terms:[
+   ['條件劇本','「出現什麼條件→代表什麼、盯什麼」；是準備不是預測，關鍵報告最貴的前瞻'],
+   ['主劇本 vs 翻案','照目前這樣續走 vs 出現警訊、要提高警戒'],
+   ['權值股','佔指數權重最大的那幾檔；它們一動，指數就跟著動'],
+   ['外資由買轉賣','外國法人從買方變賣方，籌碼轉弱，常是翻案的前兆'],
+   ['VIX','市場的「恐慌溫度」；跳升＝大家突然變怕']]},
+ {answer:'先把「盯哪裡、亮了代表什麼」標在心裡；之後市場自己給答案，你就不會被突襲。',terms:[
+   ['可證偽','事後能明確判定對或錯（不是「持續觀察」這種永遠不會錯的廢話）'],
+   ['觀察點總表','一張表收好所有前瞻分界：觀察點／看什麼／代表什麼'],
+   ['關鍵價位','當作「觀察分界」的價；站穩和跌破代表不同意義，不是買賣訊號']]},
+ {answer:'當你想知道「這結論背後，錢怎麼流、接下來什麼條件會翻案、Yoda 自己怎麼想」的時候。',terms:[
+   ['簡報','濃縮版：結論＋一兩個理由，30 秒掌握今天'],
+   ['關鍵報告','五層完整證據鏈＋條件劇本＋Yoda 自己的操作與推理；想「自己判斷接下來」時才需要'],
+   ['知其然不知其所以然','只知道結論、不知道為什麼——一遇到反例或分歧就會慌']]}
+];
+function giveAnswer(i){const r=ROUNDS[i],a=ANS[i];
+ const gloss=`<div style="font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.5);margin:0.85rem 0 0.5rem">名詞白話</div>`+a.terms.map(t=>`<div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,0.9);margin-bottom:0.42rem;text-align:left"><b style="color:#e0a526">${t[0]}</b>：${t[1]}</div>`).join('');
+ const box=inner=>`<div style="max-width:480px;margin:0.5rem auto 0;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.28);border-radius:10px;padding:1rem 1.2rem;backdrop-filter:blur(6px)">${inner}</div>`;
+ const ansLine=`<div style="font-size:14px;line-height:1.7;color:#fff;text-align:left"><b style="color:#a5d6a7">答案：</b>${a.answer}</div>`;
+ if(r.type==='classify'){
+   r.items.forEach((it,k)=>state.cls[k]=it[1]);
+   const rows=r.items.map(it=>`<div class="cls-row right"><div class="cls-name">${it[0]}</div><div class="cls-btns"><button class="cls-btn ${it[1]} on" disabled>${it[1]==='atk'?r.catA:r.catB}</button></div></div>`).join('');
+   G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main">${r.q}</div><div class="cls-list">${rows}</div>${box(ansLine+`<div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,0.86);margin-top:0.55rem;text-align:left">${r.reveal}</div>`+gloss)}<button class="continue-btn" onclick="record(${i})">懂了，繼續 ›</button>`);
+ }else if(r.type==='gauge'){
+   G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="gauge-wrap">${gaugeSVG(r.ans,r.left,r.right)}<div class="feedback" style="margin-top:0.6rem">${r.fb(r.ans)}</div></div>${box(ansLine+gloss)}<button class="continue-btn" onclick="record(${i})">懂了，繼續 ›</button>`);
+ }else{
+   const ch=r.choices.map((c,k)=>`<div class="choice-btn" style="cursor:default;${k===r.correct?'border-color:#a5d6a7;background:rgba(80,200,110,0.14)':'opacity:0.45'}">${k===r.correct?'✓ ':''}${c}</div>`).join('');
+   G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="choices">${ch}</div><div class="feedback" style="color:#a5d6a7;min-height:auto;font-size:14px">${r.fb[r.correct]}</div>${box(gloss)}<button class="continue-btn" onclick="record(${i})">懂了，繼續 ›</button>`);
+ }}
+
+function prog(){PB.style.width=(Math.max(0,state.idx)/ROUNDS.length*100)+'%';}
+function dots(i){return `<div class="step-dots">${ROUNDS.map((_,k)=>`<i class="${k<=i?'on':''}"></i>`).join('')}</div>`;}
+function fade(fn){G.style.transition='opacity .32s';G.style.opacity='0';setTimeout(()=>{fn();G.style.opacity='1';},330);}
+function scene(sky,bgtype,inner){return `<div class="scene ${sky}">${bg(bgtype,sky)}<div class="overlay">${inner}</div></div>`;}
+function head(r){const layers=r.layers?`<div class="layer-list">${r.layers.map(ly=>`<div class="ly"><b>${ly[0]}</b>　${ly[1]}</div>`).join('')}</div>`:'';return `<div class="chapter-label t-label">${r.label}</div><div class="chapter-title t-main" style="font-size:22px;margin-bottom:0.9rem">${r.title}</div><div class="round-text t-sub">${r.text}</div>${layers}`;}
+
+function showStart(){G.innerHTML=scene('sky-start','farhills',`
+  <div class="chapter-label t-label" style="margin-bottom:1rem">YODA RESEARCH · 判斷力學校</div>
+  <div class="chapter-title t-main" style="font-size:30px;font-weight:200;letter-spacing:1px;margin-bottom:0.4rem">讀懂關鍵報告</div>
+  <div class="t-sub" style="font-size:14px;margin-bottom:0.3rem;font-style:italic">一條主線，從天上讀到地上（TOP→DOWN）</div>
+  <div class="t-label" style="font-size:12px;margin-bottom:2.6rem">約 3 分鐘 · 通用範例，非任何一日的實際研判</div>
+  <button class="continue-btn" style="font-size:15px;padding:0.85rem 3.2rem;border-radius:6px;letter-spacing:2px" onclick="fade(startOpening)">開始</button>`);}
+let oi=0;function startOpening(){oi=0;renderOpening();}
+function renderOpening(){const q=OPENING.quotes[oi],last=oi>=OPENING.quotes.length-1;
+ G.innerHTML=scene(OPENING.sky,OPENING.bg,`<div class="chapter-label t-label">${OPENING.label}</div><div class="chapter-title t-main">${OPENING.title}</div><div class="chapter-quote t-sub">${q}</div><button class="continue-btn" onclick="nextOpening()">${last?'開始第一站 ›':'繼續 ›'}</button>`);}
+function nextOpening(){oi++;if(oi>=OPENING.quotes.length)fade(()=>showRound(0));else fade(renderOpening);}
+
+function showRound(i){state.idx=i;prog();const r=ROUNDS[i];
+ if(r.type==='gauge')renderGauge(i);else if(r.type==='classify')renderClassify(i);else renderAB(i);}
+
+// 儀表滑桿
+function gaugeSVG(val,leftLbl,rightLbl){const min=0,max=100,f=v=>Math.PI*(1-(v-min)/(max-min)),R=120,ax=250+R*Math.cos(f(val)),ay=170-R*Math.sin(f(val));
+ return `<svg viewBox="0 0 500 200" style="width:100%;max-width:320px"><path d="M130,170 A120,120 0 0,1 370,170" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="14"/><line x1="250" y1="170" x2="${ax}" y2="${ay}" stroke="#e0a526" stroke-width="5" stroke-linecap="round"/><circle cx="250" cy="170" r="8" fill="#e0a526"/><text x="250" y="128" fill="#fff" font-size="26" font-weight="300" text-anchor="middle">${val}</text><text x="130" y="192" fill="rgba(91,141,239,0.9)" font-size="11" text-anchor="middle">${leftLbl||'左'}</text><text x="370" y="192" fill="rgba(224,83,83,0.9)" font-size="11" text-anchor="middle">${rightLbl||'右'}</text></svg>`;}
+function renderGauge(i){const r=ROUNDS[i];state.gv=50;
+ function draw(){G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main" style="font-size:14.5px">${r.q}</div>
+   <div class="gauge-wrap">${gaugeSVG(state.gv,r.left,r.right)}<input type="range" class="gsl" min="0" max="100" value="${state.gv}" oninput="state.gv=parseInt(this.value);drawGauge()">
+   <div class="gsl-ends"><span>${r.left}</span><span>${r.right}</span></div></div>
+   <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;margin-top:0.6rem"><button class="continue-btn" onclick="gaugeDone(${i})">就這樣 ›</button><button class="continue-btn" style="opacity:0.72" onclick="giveAnswer(${i})">給我答案</button></div>`);}
+ window.drawGauge=draw;draw();}
+function gaugeDone(i){const r=ROUNDS[i];if(r.correct(state.gv))state.score++;
+ G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="gauge-wrap">${gaugeSVG(state.gv,r.left,r.right)}<div class="feedback" style="margin-top:0.8rem">${r.fb(state.gv)}</div></div><button class="continue-btn" onclick="record(${i})">繼續 ›</button>`);}
+
+// 二選一 / 三選一
+function renderAB(i){const r=ROUNDS[i];
+ G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main">${r.q}</div>
+  <div class="choices">${r.choices.map((c,k)=>`<button class="choice-btn" onclick="abPick(${i},${k})">${c}</button>`).join('')}</div>
+  <button class="continue-btn" style="opacity:0.72" onclick="giveAnswer(${i})">給我答案</button>`);}
+function abPick(i,k){const r=ROUNDS[i];if(k===r.correct)state.score++;
+ const col=k===r.correct?'#a5d6a7':'#ffcc80';
+ G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="feedback" style="color:${col};min-height:auto;font-size:14px">${r.fb[k]}</div><button class="continue-btn" onclick="record(${i})">繼續 ›</button>`);}
+
+// 分類（主劇本 / 翻案）
+function renderClassify(i){const r=ROUNDS[i];if(state.cls.length!==r.items.length)state.cls=r.items.map(()=>null);
+ function draw(){const rows=r.items.map((it,k)=>`<div class="cls-row" id="cr${k}"><div class="cls-name">${it[0]}</div><div class="cls-btns">
+   <button class="cls-btn atk ${state.cls[k]==='atk'?'on':''}" onclick="setCls(${k},'atk')">${r.catA}</button>
+   <button class="cls-btn def ${state.cls[k]==='def'?'on':''}" onclick="setCls(${k},'def')">${r.catB}</button></div></div>`).join('');
+  const done=state.cls.every(x=>x!==null);
+  G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main">${r.q}</div><div class="cls-list">${rows}</div>
+   <div class="feedback" id="fbc" style="min-height:24px"></div>
+   <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap">${done?`<button class="continue-btn" onclick="clsCheck(${i})">檢查</button>`:''}<button class="continue-btn" style="opacity:0.72" onclick="giveAnswer(${i})">給我答案</button></div>`);}
+ window.drawCls=draw;draw();}
+function setCls(k,v){state.cls[k]=v;window.drawCls();}
+function clsCheck(i){const r=ROUNDS[i];let ok=0;
+ r.items.forEach((it,k)=>{const row=document.getElementById('cr'+k);const right=state.cls[k]===it[1];if(right)ok++;row.classList.add(right?'right':'wrong');});
+ if(ok>=r.items.length-1)state.score++;
+ document.getElementById('fbc').innerHTML=`<span style="color:${ok===r.items.length?'#a5d6a7':'#ffcc80'}">答對 ${ok}/${r.items.length}。${r.reveal}</span>`;
+ const cb=G.querySelector('.continue-btn');if(cb)cb.parentElement.outerHTML=`<button class="continue-btn" onclick="record(${i})">繼續 ›</button>`;}
+
+function record(i){const t=TRANSITIONS[i];if(t)fade(()=>showTrans(t,i));else advance(i);}
+function showTrans(txt,i){G.innerHTML=`<div class="scene" style="background:linear-gradient(180deg,#020408,#0a0714,#141020);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:3rem 1.5rem"><div class="overlay"><div class="transition-quote">${txt}</div><button class="continue-btn" onclick="advance(${i})">繼續 ›</button></div></div>`;}
+function advance(i){const n=i+1;if(n>=ROUNDS.length)fade(showResult);else fade(()=>showRound(n));}
+
+function showResult(){PB.style.width='100%';const s=state.score,mx=ROUNDS.length;
+ const tier=s>=mx-1?'穩':s>=Math.ceil(mx/2)?'入門':'再走一次';
+ G.innerHTML=scene('sky-result','range',`
+  <div class="chapter-label t-label" style="margin-bottom:0.8rem">主線讀完</div>
+  <div class="result-icon">🗺️</div>
+  <div class="result-type t-main">你會讀關鍵報告了</div>
+  <div class="result-desc t-sub">你剛學會用一條主線，從天上讀到地上：<br><b>成績單 → 定調＋so-what → 全球風向 → 大盤到個股 → 條件劇本 → 觀察點總表</b>。<br><br>而且你記住了三件事：<br><b>先看它敢不敢認錯（成績單）、跟著 TOP→DOWN 一層扣一層、讀「條件」不讀「明牌」。</b><br><br>判讀得分：${s} / ${mx}（${tier}）</div>
+  <div class="t-sub" style="font-size:13px;line-height:1.9;margin-bottom:1.3rem;max-width:430px;margin:0 auto 1.3rem">這條主線，就是把整份關鍵報告讀成「一個能自己判斷的框架」。接下來，把它用在真的報告上。</div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:0.65rem;max-width:340px;margin:0 auto">
+    <a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">先訂免費電子報，每天練這條主線 →</a>
+    <a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://yoda-wcyc.github.io/-/subscribe.html" target="_blank" rel="noopener">解鎖關鍵報告，把主線用在真的報告上 →</a>
+    <button class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0;border:none" id="shareBtn" onclick="shareGame()">分享：讓只看結論的朋友，也學會讀整份報告</button>
+  </div>
+  <a href="javascript:void(0)" onclick="restart()" style="display:inline-block;margin-top:0.9rem;font-size:12px;color:rgba(255,255,255,0.55);text-decoration:underline">重玩一次</a>
+  <div id="sfb" style="font-size:12px;color:rgba(160,220,255,0.7);margin-top:0.5rem;height:16px"></div>
+  <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1.4rem">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" style="color:rgba(224,165,38,0.6);text-decoration:none">BiBiPiano</a></div>`);}
+function restart(){state={idx:-1,score:0,gv:50,cls:[],mChecked:false};oi=0;PB.style.width='0%';fade(showStart);}
+function shareGame(){const url=window.location.href.split('?')[0];const t='我剛玩了《讀懂關鍵報告》——3 分鐘學會用一條主線，從全球讀到個股，不再只看結論。';
+ const fb=document.getElementById('sfb');
+ if(navigator.share){navigator.share({title:'讀懂關鍵報告 · Yoda',text:t,url}).catch(()=>{});return;}
+ navigator.clipboard.writeText(url).then(()=>{fb.textContent='網址已複製，貼去分享吧';setTimeout(()=>fb.textContent='',2500);}).catch(()=>{fb.textContent=url;});}
+['startOpening','nextOpening','showRound','renderGauge','gaugeDone','setCls','clsCheck','giveAnswer','abPick','record','advance','showResult','restart','shareGame','fade','renderClassify','renderAB'].forEach(n=>window[n]=eval(n));
+window.state=state;
+showStart();
+</script>
+</body></html>
