@@ -56,6 +56,11 @@ p.body{font-size:16px;color:#e6ebf6;margin:11px 0}
 .up{color:#7fd6a6;font-weight:700}.down{color:#f08a8a;font-weight:700}.warnc{color:var(--warn);font-weight:700}
 .data-box{background:rgba(255,255,255,.045);border:1px solid var(--card-bd);border-radius:12px;padding:14px 16px;margin:14px 0;font-size:15px;line-height:1.7}
 .data-box .row{display:flex;justify-content:space-between;gap:12px;padding:3px 0}
+/* 定義型 data-box：左標籤／右說明對齊成兩欄，標籤不再被擠到換行；不影響數值型(.stat/.sig)表 2026-08-06 */
+.data-box:has(.row>.dim){display:grid;grid-template-columns:max-content minmax(0,1fr);column-gap:14px;row-gap:5px}
+.data-box:has(.row>.dim) .row{display:contents}
+.data-box:has(.row>.dim) .row>b{align-self:start}
+.data-box:has(.row>.dim) .row>.dim{align-self:start;text-align:left}
 .data-box .row b{color:#fff;font-weight:700}
 .stat{font-family:'SF Mono',Consolas,monospace}
 
