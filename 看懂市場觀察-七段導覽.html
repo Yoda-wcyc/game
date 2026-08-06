@@ -85,7 +85,7 @@ function bg(type,sky){const m=MOTIFS[type];if(!m)return '';const[f,n,l]=inkCols(
 const OPENING={sky:'sky-dawn',bg:'farhills',label:'序',title:'你只會看第 7 段',quotes:[
  '你訂了報告，卻每次直接拉到最後一段看結論。',
  '前面六段像天書——一堆分數、指標、牆，看不懂。',
- '但結論是「果」，前面才是「因」。看不懂因，你就只能盲信。<br>三分鐘，帶你自己讀。一份市場觀察，其實是一條線索鏈。'
+ '但結論是「果」，前面才是「因」。看不懂因，你就只能盲信。<br>花幾分鐘，帶你自己讀。一份市場觀察，其實是一條線索鏈。'
 ]};
 
 // 3 格
@@ -236,7 +236,7 @@ function showStart(){G.innerHTML=scene('sky-start','farhills',`
   <div class="chapter-label t-label" style="margin-bottom:1rem">YODA RESEARCH</div>
   <div class="chapter-title t-main" style="font-size:30px;font-weight:200;letter-spacing:1px;margin-bottom:0.4rem">看懂市場觀察</div>
   <div class="t-sub" style="font-size:14px;margin-bottom:0.3rem;font-style:italic">七段導覽：學會自己讀完整份市場觀察</div>
-  <div class="t-label" style="font-size:12px;margin-bottom:2.6rem">約 5–7 分鐘 · 通用範例，非任何一日的實際研判</div>
+  <div class="t-label" style="font-size:12px;margin-bottom:2.6rem">約 5 分鐘 · 通用範例，非任何一日的實際研判</div>
   <button class="continue-btn" style="font-size:15px;padding:0.85rem 3.2rem;border-radius:6px;letter-spacing:2px" onclick="fade(startOpening)">開始</button>`);}
 let oi=0;function startOpening(){oi=0;renderOpening();}
 function renderOpening(){const q=OPENING.quotes[oi],last=oi>=OPENING.quotes.length-1;
