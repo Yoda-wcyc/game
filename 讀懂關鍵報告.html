@@ -17,6 +17,8 @@ html,body{width:100%;min-height:100%;font-family:-apple-system,'PingFang TC','No
 .ink-bg{position:absolute;bottom:0;left:0;width:100%;height:170px;pointer-events:none}
 .overlay{position:relative;z-index:10;text-align:center;max-width:640px;width:100%}
 .t-main{color:#f2f5ff}.t-sub{color:rgba(228,234,247,0.84)}.t-label{color:rgba(205,214,236,0.58)}
+/* 漸層可讀性保底：直接壓在天色漸層上的文字加暗色暈邊，確保下半畫面／暖色天(dusk/dawn/noon)／淺色天(mist/clouds)仍清楚（2026-08-06） */
+.t-main,.t-sub,.t-label,.chapter-quote,.feedback{text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)}
 .sky-dawn .t-main,.sky-start .t-main{color:#fff7e6}.sky-dawn .t-sub,.sky-start .t-sub{color:rgba(255,242,214,0.82)}
 .chapter-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:0.5rem}
 .chapter-title{font-size:27px;font-weight:300;margin-bottom:1rem;line-height:1.3}
