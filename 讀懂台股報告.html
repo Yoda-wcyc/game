@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-TW"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>讀懂台股報告（量價一起看）· Yoda Research</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;min-height:100%;font-family:-apple-system,'PingFang TC','Noto Sans TC',sans-serif;background:#000}
+#game{width:100%;min-height:100vh;position:relative;overflow:hidden}
+.scene{width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:3rem 1.5rem}
+.sky-start{background:linear-gradient(180deg,#0a0a1a,#1a1a3e 45%,#3a2a5e 100%)}
+.sky-dawn{background:linear-gradient(180deg,#1a1a2e,#e8b86d 60%,#f4a261)}
+.sky-noon{background:linear-gradient(180deg,#0d47a1,#1976d2 50%,#bbdefb)}
+.sky-valley{background:linear-gradient(180deg,#1b2631,#2e4057 42%,#5d7a8a)}
+.sky-storm{background:linear-gradient(180deg,#0b0b12,#171733 50%,#33409e)}
+.sky-clouds{background:linear-gradient(180deg,#0d47a1,#1565c0 42%,#90caf9)}
+.sky-clear{background:linear-gradient(180deg,#173a68,#4a7cc0 44%,#a6cff0 82%,#d9edfb)}
+.sky-result{background:linear-gradient(180deg,#003459,#00587a 42%,#0288d1)}
+.ink-bg{position:absolute;bottom:0;left:0;width:100%;height:170px;pointer-events:none}
+.overlay{position:relative;z-index:10;text-align:center;max-width:640px;width:100%}
+.t-main{color:#f2f5ff}.t-sub{color:rgba(228,234,247,0.84)}.t-label{color:rgba(205,214,236,0.58)}
+.sky-dawn .t-main,.sky-start .t-main{color:#fff7e6}.sky-dawn .t-sub,.sky-start .t-sub{color:rgba(255,242,214,0.82)}
+.chapter-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:0.5rem}
+.chapter-title{font-size:27px;font-weight:300;margin-bottom:1rem;line-height:1.3}
+.chapter-quote{font-size:15px;line-height:1.95;margin-bottom:2rem;font-style:italic;max-width:480px;margin:0 auto 2rem}
+.round-text{font-size:15px;line-height:1.9;margin-bottom:1.3rem;max-width:520px;margin:0 auto 1.3rem}
+.round-q{font-size:16px;font-weight:400;margin-bottom:1.3rem;line-height:1.5}
+.transition-quote{font-size:17px;max-width:430px;line-height:2.1;font-style:italic;color:rgba(216,228,255,0.86)}
+.choices{display:flex;flex-direction:column;gap:0.7rem;width:100%;max-width:480px;margin:0 auto}
+.choice-btn{background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.28);color:#fff;padding:0.9rem 1.2rem;border-radius:8px;cursor:pointer;font-size:14px;line-height:1.6;text-align:left;transition:all .2s;backdrop-filter:blur(6px)}
+.choice-btn:hover{background:rgba(0,0,0,0.45);border-color:rgba(255,255,255,0.6);transform:translateX(4px)}
+.continue-btn{background:transparent;border:1px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.8);padding:0.6rem 2rem;border-radius:4px;cursor:pointer;font-size:13px;margin-top:1.3rem;letter-spacing:1px;transition:all .2s}
+.continue-btn:hover{border-color:rgba(255,255,255,0.9);color:#fff}
+.feedback{font-size:13px;line-height:1.8;max-width:440px;margin:0.7rem auto 0;min-height:42px}
+/* 儀表滑桿 */
+.gauge-wrap{max-width:340px;margin:0 auto}
+input[type=range].gsl{width:100%;-webkit-appearance:none;appearance:none;background:transparent;height:22px;margin-top:0.2rem}
+input[type=range].gsl::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;cursor:pointer;margin-top:-7px;box-shadow:0 1px 6px rgba(0,0,0,.4)}
+input[type=range].gsl::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:linear-gradient(90deg,#5b8def,#e0a526,#e05353)}
+input[type=range].gsl::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:none;cursor:pointer}
+input[type=range].gsl::-moz-range-track{height:8px;border-radius:4px;background:linear-gradient(90deg,#5b8def,#e0a526,#e05353)}
+.gsl-ends{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,0.6);margin-top:0.3rem}
+/* 分類 */
+.cls-list{max-width:470px;margin:0 auto 0.8rem;display:flex;flex-direction:column;gap:0.5rem}
+.cls-row{display:flex;align-items:center;gap:0.6rem;background:rgba(0,0,0,0.26);border:1px solid rgba(255,255,255,0.22);border-radius:8px;padding:0.5rem 0.7rem;flex-wrap:wrap}
+.cls-name{flex:1;text-align:left;font-size:13.5px;color:#fff;line-height:1.5;min-width:100%;margin-bottom:0.35rem}
+.cls-btns{display:flex;gap:0.4rem;width:100%}
+.cls-btn{border:1px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.2);color:#fff;border-radius:6px;padding:0.4rem 0.8rem;font-size:12.5px;cursor:pointer;transition:all .15s;flex:1}
+.cls-btn.atk.on{background:rgba(224,83,83,0.32);border-color:#e05353}
+.cls-btn.def.on{background:rgba(91,141,239,0.32);border-color:#5b8def}
+.cls-row.right{border-color:rgba(120,220,140,0.7)}
+.cls-row.wrong{border-color:rgba(229,120,120,0.7)}
+.result-icon{font-size:50px;margin-bottom:0.5rem}
+.result-type{font-size:23px;font-weight:300;margin-bottom:0.7rem}
+.result-desc{font-size:14px;line-height:1.9;max-width:460px;margin:0 auto 1.3rem}
+.yoda-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);color:#fff;padding:0.85rem 2.2rem;border-radius:6px;font-size:14px;cursor:pointer;text-decoration:none;margin:0.3rem;transition:opacity .2s}
+.yoda-btn:hover{opacity:.88}
+.yoda-btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.85)}
+.progress-bar{position:fixed;top:0;left:0;height:2px;background:rgba(224,165,38,0.65);transition:width .4s;z-index:100}
+.mute-btn{position:fixed;top:14px;right:14px;z-index:101;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(6px)}
+.step-dots{display:flex;gap:6px;justify-content:center;margin-bottom:1rem;flex-wrap:wrap}
+.step-dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.25)}
+.step-dots i.on{background:#e0a526}
+.layer-list{max-width:500px;margin:0 auto 0.6rem;text-align:left;font-size:13.5px;line-height:1.7;color:rgba(255,255,255,0.92);display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:0.5rem;align-items:start}
+.layer-list .ly{display:contents}
+.layer-list .ly b{color:#e0a526;white-space:nowrap}
+.layer-list .ly>span{min-width:0}
+.data-chip{display:inline-block;background:rgba(224,165,38,0.14);border:1px solid rgba(224,165,38,0.4);border-radius:6px;padding:2px 9px;margin:2px;font-size:12.5px;color:#f0d488}
+</style></head><body>
+<audio id="bgm" loop preload="auto"><source src="day_one.mp3"></audio>
+<button id="muteBtn" class="mute-btn" onclick="toggleMute()">🔊</button>
+<div class="progress-bar" id="progress"></div>
+<div id="game"></div>
+<script>
+const G=document.getElementById('game'),PB=document.getElementById('progress');
+const BGM=document.getElementById('bgm'),MUTEBTN=document.getElementById('muteBtn');
+let bgmStarted=false,bgmMuted=false;try{bgmMuted=localStorage.getItem('yoda_bgm_muted')==='1';}catch(e){}
+if(BGM)BGM.volume=0.30;
+function mIcon(){if(MUTEBTN)MUTEBTN.textContent=bgmMuted?'🔇':'🔊';}mIcon();
+function toggleMute(){bgmMuted=!bgmMuted;try{localStorage.setItem('yoda_bgm_muted',bgmMuted?'1':'0');}catch(e){}if(bgmMuted){if(BGM)BGM.pause();}else if(BGM)BGM.play().then(()=>bgmStarted=true).catch(()=>{});mIcon();}
+window.toggleMute=toggleMute;
+document.addEventListener('click',()=>{if(!bgmStarted&&!bgmMuted&&BGM)BGM.play().then(()=>bgmStarted=true).catch(()=>{});});
+
+// ===== 水墨背景 bg(type,sky) =====
+function inkCols(sky){const dark=['sky-storm','sky-valley','sky-dawn','sky-dusk','sky-night','sky-start'].includes(sky);
+  return dark?['rgba(210,220,245,0.10)','rgba(180,195,230,0.16)','rgba(222,232,252,0.32)']:['rgba(30,35,60,0.10)','rgba(25,30,55,0.16)','rgba(20,25,50,0.28)'];}
+const MOTIFS={
+ farhills:(f,n,l)=>`<path d="M0,70 C120,50 220,58 340,44 C460,32 560,52 700,40 C840,30 960,50 1080,42 L1200,46 L1200,120 L0,120Z" fill="${f}"/><path d="M0,86 C160,74 300,82 460,70 C640,58 780,76 940,68 C1060,62 1140,72 1200,70 L1200,120 L0,120Z" fill="${n}"/><path d="M0,70 C120,50 220,58 340,44 C460,32 560,52 700,40 C840,30 960,50 1080,42 L1200,46" fill="none" stroke="${l}" stroke-width="1.4"/>`,
+ range:(f,n,l)=>`<path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38 L1200,120 L0,120Z" fill="${f}"/><path d="M0,82 C160,66 320,76 480,60 C640,46 800,70 960,60 C1080,54 1160,64 1200,62 L1200,120 L0,120Z" fill="${n}"/><path d="M0,100 C220,90 420,96 640,86 C860,78 1020,92 1200,84 L1200,120 L0,120Z" fill="${n}"/><path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38" fill="none" stroke="${l}" stroke-width="1.2" opacity="0.85"/>`,
+ peak:(f,n,l)=>`<path d="M0,104 C260,100 430,94 520,56 C560,40 600,20 640,20 C680,20 720,42 760,60 C860,100 1000,102 1200,100 L1200,120 L0,120Z" fill="${n}"/><path d="M600,28 C612,42 628,54 640,60" fill="none" stroke="${l}" stroke-width="1.4"/><rect x="300" y="62" width="620" height="10" fill="${f}"/><path d="M120,86 h240 M470,86 h180 M760,90 h300" stroke="${f}" stroke-width="8" stroke-linecap="round" opacity="0.7"/>`,
+ river:(f,n,l)=>`<path d="M0,90 C300,82 500,86 1200,84 L1200,120 L0,120Z" fill="${f}"/><path d="M470,82 Q540,98 610,82" fill="none" stroke="${l}" stroke-width="1.8" stroke-linecap="round"/><path d="M120,94 q80,-4 160,0 t160,0 M700,96 q80,-4 160,0 t160,0" fill="none" stroke="${l}" stroke-width="1" opacity="0.6"/>`};
+function bg(type,sky){const m=MOTIFS[type];if(!m)return '';const[f,n,l]=inkCols(sky);return `<svg class="ink-bg" viewBox="0 0 1200 120" preserveAspectRatio="none">${m(f,n,l)}</svg>`;}
+
+const OPENING={sky:'sky-dawn',bg:'farhills',label:'序',title:'一堆數字，你只抓了一個',quotes:[
+ '你打開台股報告——REL、法人買賣超、漲停家數…<br>你多半只抓「誰買超最多」或「誰漲最多」，<br>然後就下結論。',
+ '但台股最容易騙人的，就是<b>只看一個數字</b>。<br>報告的關鍵，是把<b>價、量、廣度一起看</b>——<br>少看一個，你就會把「換手」讀成「倒貨」。',
+]};
+
+const ROUNDS=[
+ // R1 REL 是什麼
+ {type:'ab',sky:'sky-noon',bg:'farhills',label:'第 1 站 · 讀懂 REL',title:'REL 不是「漲多少」',
+  text:'報告裡到處是 <b>REL5 / REL20 / REL60</b>。<br>REL＝相對強度＝這支「<b>贏大盤幾 %</b>」（正＝跑贏、負＝跑輸）。<br>⚠ 它不是「漲多少」，是「<b>比大盤多漲或多跌多少</b>」——<br><b>抗跌，也算贏。</b>',
+  q:'今天 A 股漲 1%、大盤漲 3%；B 股跌 1%、大盤跌 5%。誰 REL 比較強？',
+  choices:['A 股，因為它是漲的','B 股——它跌得比大盤少 5%，等於贏大盤，抗跌也算贏','一樣，都沒贏'],correct:1,
+  fb:['A 股雖然漲，卻輸大盤 2%（大盤漲更多）——REL 是負的。','對——REL 比的是「相對大盤」。B 股逆勢抗跌、跑贏大盤 4%，REL 反而強。<b>漲最多的，不一定 REL 最強。</b>','有贏有輸——B 明顯跑贏大盤。看 REL 要跟大盤比，不是看自己漲跌。']},
+
+ // R2 量 vs 價
+ {type:'ab',sky:'sky-valley',bg:'range',label:'第 2 站 · 兩個維度',title:'量是量、價是價，別混為一談',
+  text:'報告用兩種維度看一支股票：<br><b>「量」＝三大法人買賣超</b>（外資＋投信＋自營，單位萬元）——誰在買。<br><b>「價」＝相對強度 REL</b>——誰真的強。<br>兩個都強＝<b>共振</b>；一強一弱＝<b>背離</b>。',
+  q:'看到「某股今天法人買超金額全場最大」，能不能就斷定它最強？',
+  choices:['能，法人買最多當然最強','不能——還要看「價（REL）」也強，才是量價共振；只有量、價卻弱，可能是背離或有人在對敲','能，跟著法人買就對了'],correct:1,
+  fb:['買超金額大≠價格強。法人買、股價卻不動甚至跌，是背離，不是強。','對——<b>量價要一起看</b>。法人買（量）＋ REL 也強（價）＝真共振；只有一邊，先打問號。','別只跟量——報告要你「在買的裡面，挑價也強的」，那才是共振標的。']},
+
+ // R3 classify 量價一起看鐵則：能不能下結論
+ {type:'classify',sky:'sky-storm',bg:'peak',label:'第 3 站 · 鐵則',title:'別只憑一個數字，就喊「倒貨」',
+  text:'台股最常見的誤讀，是<b>只看「賣超金額」就喊倒貨/避險</b>。<br>報告的鐵則：<b>價 → 量 → 廣度，一起看</b>；賣超金額是「淨額」，<b>不等於出貨量</b>。<br>下面哪些說法「證據夠、可以下結論」，哪些「不夠、不能」？',
+  catA:'不能下結論',catB:'證據夠·可以',
+  q:'把每句分到「證據夠」或「不能下結論」：',
+  items:[
+   ['「某股賣超金額最大，所以法人在倒貨」','atk'],
+   ['「全市場電子漲停遍地、買超家數 429＞賣超 356，基調 risk-on」','def'],
+   ['「台積電跌 2%、溫和收黑，所以外資棄守了」','atk'],
+   ['「月線＋當日雙買的吸籌股有 267 檔，買盤明顯佔多數」','def'],
+  ],
+  reveal:'看出來了嗎？「賣超金額最大」「跌 2% 就棄守」都<b>只看單一數字、沒看價格結構與廣度</b>——不能下結論。<b>廣度（漲停家數、買賣超家數）先定 risk-on/off，個股型態才有意義。</b>（8/4 就是買盤佔多數、電子漲停遍地的 risk-on 日）'},
+
+ // R4 gauge 8/4 這天的風向
+ {type:'gauge',sky:'sky-noon',bg:'range',label:'第 4 站 · 讀當天',title:'把 8/4 這天，讀成一個風向',
+  text:'用報告 8/4 的實際數據，讀「這天的風向」：',
+  chips:['當日買超佔比 54.6%','雙買吸籌 267 檔','電子漲停遍地','台積電 +3.45%','聯發科 +4.66%','華邦電 +8.60%'],
+  q:'往左＝避險收手，往右＝全面做多（risk-on）。8/4 你會放哪？',
+  left:'避險（收手觀望）',right:'risk-on（全面做多）',ans:80,
+  correct:v=>v>=62,
+  fb:v=>v>=62?'對——價（權值＋記憶體同步大漲）、量（買超佔多數、雙買吸籌 267）、廣度（電子漲停遍地）<b>三者一致偏多</b>＝乾淨的 risk-on 日。':'再看一次——權值＋記憶體同漲、買超佔多數、電子漲停遍地，<b>價量廣度全偏多</b>，指針該明顯偏右（risk-on）。'},
+
+ // R5 法人四型態
+ {type:'ab',sky:'sky-valley',bg:'range',label:'第 5 站 · 籌碼',title:'法人四型態：誰在真的累積',
+  text:'報告把個股按法人買賣分四型：<br><b>吸籌</b>（月線＋當日持續買）、<b>反轉</b>（由賣轉買）、<b>換手</b>（買賣互見）、<b>賣超</b>（持續賣）。<br>8/4 報告點名：<span class="data-chip">月線＋當日雙買＝全面吸籌 267 檔</span>',
+  q:'「月線＋當日雙買」的這 267 檔，屬哪一型、代表什麼？',
+  choices:['賣超——金額有進有出','吸籌——中線（月線）和當日都在買，代表資金「持續」流入，是最強的一型','換手——只是今天剛好買'],correct:1,
+  fb:['雙買是「買＋買」，不是賣超。看的是買賣方向，不是金額大小。','對——<b>吸籌＝持續買</b>（月線這條中線也站買方）。比「今天剛轉買」的反轉更扎實，是四型裡最強的累積。','換手是買賣互見、方向不明；雙買方向很明確，是吸籌。']},
+
+ // R6 別追漲停板（脈衝紀律）
+ {type:'ab',sky:'sky-storm',bg:'peak',label:'第 6 站 · 紀律',title:'漲停爆量，先別急著追',
+  text:'8/4 記憶體、AI 硬體很多是<b>當日漲停爆量</b>（南亞科、晶豪科、力積電…）。<br>報告紀律（依 core §G-7）：<b>看隔日 REL5 能不能站穩，別追在漲停板上。</b>',
+  q:'看到一支「今天漲停爆量、報告列⚡當日異動」的股票，你該怎麼做？',
+  choices:['隔天開盤立刻衝進去，怕買不到','先標「待確認」，看隔日 REL5 站不站得穩、有沒有續強，再決定——別追在漲停板','報告有列就是叫我買'],correct:1,
+  fb:['追漲停板風險最高——單日暴衝可能是脈衝，隔天就打回。','對——單日暴衝要分「真起漲」還「脈衝」：<b>看隔日 REL5 有沒有站穩、續強</b>。站穩才算數，這叫脈衝待確認。','報告列「當日異動」是<b>提醒你觀察</b>，不是進場訊號（它從不喊買賣）。']},
+
+ // R7 橋接：台股報告幫你做什麼決策
+ {type:'ab',sky:'sky-clear',bg:'range',label:'第 7 站 · 收束',title:'台股報告，到底幫你做什麼？',
+  text:'你已經會把價、量、廣度一起讀了。<br><br>台股報告幫你的，是<b>「選股方向＋大盤體檢」</b>：<br>資金輪動到哪一類、哪些是強勢候選池、法人籌碼在吸還在倒——<br>它給你<b>池子和邏輯，你自己挑</b>。',
+  q:'所以台股報告最適合幫你做的決策是？',
+  choices:['直接告訴我買哪一支、買在幾塊','看「錢往哪類板塊流、大盤健不健康、有哪些強勢候選」，自己判斷選股方向','看它今天喊多還喊空，照做就好'],correct:1,
+  fb:['報告不喊買哪支、不給價位——那是明牌，不是判斷力。','對——它給你<b>資金流向＋候選池＋籌碼邏輯</b>，選誰、進不進，你自己決定。給的是判斷的鷹架，不是替你下單。','它不喊單。台股報告給的是「錢在哪、誰強、健不健康」，決定權一直在你手上。']}
+];
+const TRANSITIONS=[null,null,'價、量分清楚了。<br>那——一個數字，能不能下結論？',null,null,null,null];
+
+let state={idx:-1,score:0,gv:50,cls:[],mChecked:false};
+
+// 名詞白話＋答案（給我答案用）
+const ANS=[
+ {answer:'B 股。REL 比的是「相對大盤」，B 逆勢抗跌、跑贏大盤 4%，比漲 1% 卻輸大盤的 A 更強。',terms:[
+   ['REL（相對強度）','這支「贏大盤幾 %」：正＝跑贏、負＝跑輸；抗跌也算贏。不是「漲多少」'],
+   ['REL5／REL20／REL60','近 5 日／約 1 月／約 3 月的相對強度，分別看短、中、長線'],
+   ['1D%','今天的漲跌幅（單日）；跟 REL 不同，REL 是「相對大盤」']]},
+ {answer:'不能。要「價（REL）」也強才是量價共振；只有量、價不強，可能是背離。',terms:[
+   ['量（三大法人買賣超）','外資＋投信＋自營的淨買/淨賣金額（萬元）；是「淨額」，不是成交量'],
+   ['價（REL 相對強度）','股價相對大盤的強弱；量強不代表價也強'],
+   ['共振 / 背離','量和價都強＝共振（真強）；一強一弱＝背離（先打問號）']]},
+ {answer:'「賣超金額最大就倒貨」「跌 2% 就棄守」＝不能；「電子漲停遍地/買超佔多數」「雙買 267 檔」＝可以。',terms:[
+   ['賣超金額 ≠ 出貨量','買賣超是「淨額」，不是成交量；不能只憑它喊倒貨/避險'],
+   ['價 → 量 → 廣度','判多空的順序：先看價格結構，再看量，再看金額；不可只抓一個'],
+   ['廣度','全市場漲/跌停、買超/賣超家數；先定 risk-on/off，個股型態才有意義']]},
+ {answer:'偏右（約 80）。價、量、廣度三者都偏多，是乾淨的 risk-on 日。',terms:[
+   ['risk-on / 避險','資金敢全面做多 vs 收手觀望、抱防禦'],
+   ['買超佔比','當日買超金額 ÷ 總量的比重；過半＝買盤主導'],
+   ['廣度先於個股','先用漲停家數、買賣超家數定當天基調，再看個股怎麼動']]},
+ {answer:'吸籌。月線（中線）和當日都在買＝資金持續流入，是四型裡最強的累積。',terms:[
+   ['吸籌','法人月線＋當日持續買，資金穩定流入——最強的一型'],
+   ['反轉 / 換手 / 賣超','反轉＝由賣轉買；換手＝買賣互見方向不明；賣超＝持續賣'],
+   ['雙買','中線（月線）與當日同時站在買方，方向最明確']]},
+ {answer:'先標「待確認」，看隔日 REL5 能不能站穩、續強，再決定——別追在漲停板。',terms:[
+   ['漲停爆量','單日鎖漲停＋大量；可能是真起漲，也可能是脈衝（隔天打回）'],
+   ['脈衝 vs 真起漲','看隔日 REL5 有沒有站穩續強：站穩＝真起漲，打回＝脈衝'],
+   ['⚡當日異動','報告提醒你「這支今天跳動大、去觀察」，不是進場訊號']]},
+ {answer:'看「錢往哪類板塊流、大盤健不健康、有哪些強勢候選」，自己判斷選股方向。',terms:[
+   ['選股方向＋大盤體檢','台股報告的定位：給資金流向、候選池、籌碼邏輯，你自己挑'],
+   ['候選池','符合條件的一批強勢股名單；是「池子」不是「明牌」'],
+   ['不喊買賣（G-5）','報告只研判市場、不指示你買哪支或買在幾塊——決定權在你']]}
+];
+function giveAnswer(i){const r=ROUNDS[i],a=ANS[i];
+ const gloss=`<div style="font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.5);margin:0.85rem 0 0.5rem">名詞白話</div>`+a.terms.map(t=>`<div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,0.9);margin-bottom:0.42rem;text-align:left"><b style="color:#e0a526">${t[0]}</b>：${t[1]}</div>`).join('');
+ const box=inner=>`<div style="max-width:480px;margin:0.5rem auto 0;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.28);border-radius:10px;padding:1rem 1.2rem;backdrop-filter:blur(6px)">${inner}</div>`;
+ const ansLine=`<div style="font-size:14px;line-height:1.7;color:#fff;text-align:left"><b style="color:#a5d6a7">答案：</b>${a.answer}</div>`;
+ if(r.type==='classify'){
+   r.items.forEach((it,k)=>state.cls[k]=it[1]);
+   const rows=r.items.map(it=>`<div class="cls-row right"><div class="cls-name">${it[0]}</div><div class="cls-btns"><button class="cls-btn ${it[1]} on" disabled>${it[1]==='atk'?r.catA:r.catB}</button></div></div>`).join('');
+   G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main">${r.q}</div><div class="cls-list">${rows}</div>${box(ansLine+`<div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,0.86);margin-top:0.55rem;text-align:left">${r.reveal}</div>`+gloss)}<button class="continue-btn" onclick="record(${i})">懂了，繼續 ›</button>`);
+ }else if(r.type==='gauge'){
+   G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="gauge-wrap">${gaugeSVG(r.ans,r.left,r.right)}<div class="feedback" style="margin-top:0.6rem">${r.fb(r.ans)}</div></div>${box(ansLine+gloss)}<button class="continue-btn" onclick="record(${i})">懂了，繼續 ›</button>`);
+ }else{
+   const ch=r.choices.map((c,k)=>`<div class="choice-btn" style="cursor:default;${k===r.correct?'border-color:#a5d6a7;background:rgba(80,200,110,0.14)':'opacity:0.45'}">${k===r.correct?'✓ ':''}${c}</div>`).join('');
+   G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="choices">${ch}</div><div class="feedback" style="color:#a5d6a7;min-height:auto;font-size:14px">${r.fb[r.correct]}</div>${box(gloss)}<button class="continue-btn" onclick="record(${i})">懂了，繼續 ›</button>`);
+ }}
+
+function prog(){PB.style.width=(Math.max(0,state.idx)/ROUNDS.length*100)+'%';}
+function dots(i){return `<div class="step-dots">${ROUNDS.map((_,k)=>`<i class="${k<=i?'on':''}"></i>`).join('')}</div>`;}
+function fade(fn){G.style.transition='opacity .32s';G.style.opacity='0';setTimeout(()=>{fn();G.style.opacity='1';},330);}
+function scene(sky,bgtype,inner){return `<div class="scene ${sky}">${bg(bgtype,sky)}<div class="overlay">${inner}</div></div>`;}
+function head(r){const layers=r.layers?`<div class="layer-list">${r.layers.map(ly=>`<div class="ly"><b>${ly[0]}</b><span>${ly[1]}</span></div>`).join('')}</div>`:'';const chips=r.chips?`<div style="max-width:480px;margin:0 auto 0.4rem">${r.chips.map(c=>`<span class="data-chip">${c}</span>`).join('')}</div>`:'';return `<div class="chapter-label t-label">${r.label}</div><div class="chapter-title t-main" style="font-size:22px;margin-bottom:0.9rem">${r.title}</div><div class="round-text t-sub">${r.text}</div>${layers}${chips}`;}
+
+function showStart(){G.innerHTML=scene('sky-start','farhills',`
+  <div class="chapter-label t-label" style="margin-bottom:1rem">YODA RESEARCH · 判斷力學校</div>
+  <div class="chapter-title t-main" style="font-size:30px;font-weight:200;letter-spacing:1px;margin-bottom:0.4rem">讀懂台股報告</div>
+  <div class="t-sub" style="font-size:14px;margin-bottom:0.3rem;font-style:italic">量、價、廣度一起看——別被單一數字騙</div>
+  <div class="t-label" style="font-size:12px;margin-bottom:2.6rem">約 3 分鐘 · 題目取自 2026-08-04 台股報告實際數據</div>
+  <button class="continue-btn" style="font-size:15px;padding:0.85rem 3.2rem;border-radius:6px;letter-spacing:2px" onclick="fade(startOpening)">開始</button>`);}
+let oi=0;function startOpening(){oi=0;renderOpening();}
+function renderOpening(){const q=OPENING.quotes[oi],last=oi>=OPENING.quotes.length-1;
+ G.innerHTML=scene(OPENING.sky,OPENING.bg,`<div class="chapter-label t-label">${OPENING.label}</div><div class="chapter-title t-main">${OPENING.title}</div><div class="chapter-quote t-sub">${q}</div><button class="continue-btn" onclick="nextOpening()">${last?'開始第一站 ›':'繼續 ›'}</button>`);}
+function nextOpening(){oi++;if(oi>=OPENING.quotes.length)fade(()=>showRound(0));else fade(renderOpening);}
+
+function showRound(i){state.idx=i;prog();const r=ROUNDS[i];
+ if(r.type==='gauge')renderGauge(i);else if(r.type==='classify')renderClassify(i);else renderAB(i);}
+
+// 儀表滑桿
+function gaugeSVG(val,leftLbl,rightLbl){const min=0,max=100,f=v=>Math.PI*(1-(v-min)/(max-min)),R=120,ax=250+R*Math.cos(f(val)),ay=170-R*Math.sin(f(val));
+ return `<svg viewBox="0 0 500 200" style="width:100%;max-width:320px"><path d="M130,170 A120,120 0 0,1 370,170" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="14"/><line x1="250" y1="170" x2="${ax}" y2="${ay}" stroke="#e0a526" stroke-width="5" stroke-linecap="round"/><circle cx="250" cy="170" r="8" fill="#e0a526"/><text x="250" y="128" fill="#fff" font-size="26" font-weight="300" text-anchor="middle">${val}</text><text x="130" y="192" fill="rgba(91,141,239,0.9)" font-size="11" text-anchor="middle">${leftLbl||'左'}</text><text x="370" y="192" fill="rgba(224,83,83,0.9)" font-size="11" text-anchor="middle">${rightLbl||'右'}</text></svg>`;}
+function renderGauge(i){const r=ROUNDS[i];state.gv=50;
+ function draw(){G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main" style="font-size:14.5px">${r.q}</div>
+   <div class="gauge-wrap">${gaugeSVG(state.gv,r.left,r.right)}<input type="range" class="gsl" min="0" max="100" value="${state.gv}" oninput="state.gv=parseInt(this.value);drawGauge()">
+   <div class="gsl-ends"><span>${r.left}</span><span>${r.right}</span></div></div>
+   <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;margin-top:0.6rem"><button class="continue-btn" onclick="gaugeDone(${i})">就這樣 ›</button><button class="continue-btn" style="opacity:0.72" onclick="giveAnswer(${i})">給我答案</button></div>`);}
+ window.drawGauge=draw;draw();}
+function gaugeDone(i){const r=ROUNDS[i];if(r.correct(state.gv))state.score++;
+ G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="gauge-wrap">${gaugeSVG(state.gv,r.left,r.right)}<div class="feedback" style="margin-top:0.8rem">${r.fb(state.gv)}</div></div><button class="continue-btn" onclick="record(${i})">繼續 ›</button>`);}
+
+// 二選一 / 三選一
+function renderAB(i){const r=ROUNDS[i];
+ G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main">${r.q}</div>
+  <div class="choices">${r.choices.map((c,k)=>`<button class="choice-btn" onclick="abPick(${i},${k})">${c}</button>`).join('')}</div>
+  <button class="continue-btn" style="opacity:0.72" onclick="giveAnswer(${i})">給我答案</button>`);}
+function abPick(i,k){const r=ROUNDS[i];if(k===r.correct)state.score++;
+ const col=k===r.correct?'#a5d6a7':'#ffcc80';
+ G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="feedback" style="color:${col};min-height:auto;font-size:14px">${r.fb[k]}</div><button class="continue-btn" onclick="record(${i})">繼續 ›</button>`);}
+
+// 分類（可以下結論 / 不能）
+function renderClassify(i){const r=ROUNDS[i];if(state.cls.length!==r.items.length)state.cls=r.items.map(()=>null);
+ function draw(){const rows=r.items.map((it,k)=>`<div class="cls-row" id="cr${k}"><div class="cls-name">${it[0]}</div><div class="cls-btns">
+   <button class="cls-btn atk ${state.cls[k]==='atk'?'on':''}" onclick="setCls(${k},'atk')">${r.catA}</button>
+   <button class="cls-btn def ${state.cls[k]==='def'?'on':''}" onclick="setCls(${k},'def')">${r.catB}</button></div></div>`).join('');
+  const done=state.cls.every(x=>x!==null);
+  G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main">${r.q}</div><div class="cls-list">${rows}</div>
+   <div class="feedback" id="fbc" style="min-height:24px"></div>
+   <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap">${done?`<button class="continue-btn" onclick="clsCheck(${i})">檢查</button>`:''}<button class="continue-btn" style="opacity:0.72" onclick="giveAnswer(${i})">給我答案</button></div>`);}
+ window.drawCls=draw;draw();}
+function setCls(k,v){state.cls[k]=v;window.drawCls();}
+function clsCheck(i){const r=ROUNDS[i];let ok=0;
+ r.items.forEach((it,k)=>{const row=document.getElementById('cr'+k);const right=state.cls[k]===it[1];if(right)ok++;row.classList.add(right?'right':'wrong');});
+ if(ok>=r.items.length-1)state.score++;
+ document.getElementById('fbc').innerHTML=`<span style="color:${ok===r.items.length?'#a5d6a7':'#ffcc80'}">答對 ${ok}/${r.items.length}。${r.reveal}</span>`;
+ const cb=G.querySelector('.continue-btn');if(cb)cb.parentElement.outerHTML=`<button class="continue-btn" onclick="record(${i})">繼續 ›</button>`;}
+
+function record(i){const t=TRANSITIONS[i];if(t)fade(()=>showTrans(t,i));else advance(i);}
+function showTrans(txt,i){G.innerHTML=`<div class="scene" style="background:linear-gradient(180deg,#020408,#0a0714,#141020);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:3rem 1.5rem"><div class="overlay"><div class="transition-quote">${txt}</div><button class="continue-btn" onclick="advance(${i})">繼續 ›</button></div></div>`;}
+function advance(i){const n=i+1;if(n>=ROUNDS.length)fade(showResult);else fade(()=>showRound(n));}
+
+function showResult(){PB.style.width='100%';const s=state.score,mx=ROUNDS.length;
+ const tier=s>=mx-1?'穩':s>=Math.ceil(mx/2)?'入門':'再走一次';
+ G.innerHTML=scene('sky-result','range',`
+  <div class="chapter-label t-label" style="margin-bottom:0.8rem">台股報告讀完</div>
+  <div class="result-icon">📊</div>
+  <div class="result-type t-main">你會讀台股報告了</div>
+  <div class="result-desc t-sub">你剛學會把台股報告<b>價、量、廣度一起讀</b>：<br><b>REL 是贏大盤幾% → 量價要共振 → 別只憑一個數字下結論 → 廣度先定基調 → 認出吸籌 → 漲停別追。</b><br><br>核心一句：<b>台股最會騙人的，就是只看一個數字。</b><br><br>判讀得分：${s} / ${mx}（${tier}）</div>
+  <div class="t-sub" style="font-size:13px;line-height:1.9;margin-bottom:1.3rem;max-width:430px;margin:0 auto 1.3rem">這套讀法，就是把一堆數字讀成「一個能自己判斷的方向」。接下來，拿它去讀真的台股報告。</div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:0.65rem;max-width:340px;margin:0 auto">
+    <a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">先訂免費電子報，每天練這套讀法 →</a>
+    <a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">拿這套讀法，去讀這期台股報告 →</a>
+    <button class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0;border:none" id="shareBtn" onclick="shareGame()">分享：讓只看「誰漲最多」的朋友，也學會量價一起看</button>
+  </div>
+  <a href="javascript:void(0)" onclick="restart()" style="display:inline-block;margin-top:0.9rem;font-size:12px;color:rgba(255,255,255,0.55);text-decoration:underline">重玩一次</a>
+  <div id="sfb" style="font-size:12px;color:rgba(160,220,255,0.7);margin-top:0.5rem;height:16px"></div>
+  <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1.4rem">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" style="color:rgba(224,165,38,0.6);text-decoration:none">BiBiPiano</a></div>`);}
+function restart(){state={idx:-1,score:0,gv:50,cls:[],mChecked:false};oi=0;PB.style.width='0%';fade(showStart);}
+function shareGame(){const url=window.location.href.split('?')[0];const t='我剛玩了《讀懂台股報告》——3 分鐘學會把價、量、廣度一起看，不再只盯「誰漲最多」。';
+ const fb=document.getElementById('sfb');
+ if(navigator.share){navigator.share({title:'讀懂台股報告 · Yoda',text:t,url}).catch(()=>{});return;}
+ navigator.clipboard.writeText(url).then(()=>{fb.textContent='網址已複製，貼去分享吧';setTimeout(()=>fb.textContent='',2500);}).catch(()=>{fb.textContent=url;});}
+['startOpening','nextOpening','showRound','renderGauge','gaugeDone','setCls','clsCheck','giveAnswer','abPick','record','advance','showResult','restart','shareGame','fade','renderClassify','renderAB'].forEach(n=>window[n]=eval(n));
+window.state=state;
+showStart();
+</script><!-- ===== Yoda 會員檢核徽章模組 · 僅在網址帶 ?cert=TYPE 時啟用（一般遊玩完全不受影響） ===== -->
+<script>
+(function(){
+  var GAS_URL='https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec';
+  var TYPES={mw:'市場觀察',tw:'台股',us:'美股',key:'簡報',macro:'總經',flag:'關鍵'};
+  var t=new URLSearchParams(location.search).get('cert');
+  if(!t||!TYPES[t]) return;
+  var name=TYPES[t];
+  var css=document.createElement('style');
+  css.textContent=
+  '#yc-bar{position:fixed;left:0;right:0;bottom:0;z-index:9998;background:linear-gradient(0deg,rgba(8,10,18,.97),rgba(8,10,18,.86));'
+  +'border-top:1px solid rgba(212,175,55,.4);padding:11px 16px;padding-bottom:calc(11px + env(safe-area-inset-bottom));'
+  +'display:flex;align-items:center;gap:12px;backdrop-filter:blur(10px);'
+  +"font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC','Microsoft JhengHei',sans-serif}"
+  +'#yc-bar .yc-txt{flex:1;min-width:0;font-size:13px;line-height:1.5;color:#dfe6f4}'
+  +'#yc-bar .yc-txt b{color:#e8c86a}'
+  +'#yc-go{flex:0 0 auto;padding:10px 18px;border-radius:999px;border:none;cursor:pointer;font-weight:700;font-size:14px;'
+  +'color:#1a1200;background:linear-gradient(135deg,#d4af37,#f0d488);box-shadow:0 4px 14px rgba(212,175,55,.35)}'
+  +'#yc-mask{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.62);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:18px}'
+  +'#yc-mask.on{display:flex}'
+  +'#yc-modal{width:100%;max-width:400px;background:#0d1120;border:1px solid rgba(212,175,55,.34);border-radius:18px;padding:24px 22px;'
+  +'box-shadow:0 20px 60px rgba(0,0,0,.6);color:#eef2fb;'
+  +"font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC','Microsoft JhengHei',sans-serif}"
+  +'#yc-modal h3{font-size:19px;font-weight:800;margin:0 0 6px}'
+  +'#yc-modal p{font-size:13.5px;line-height:1.6;color:#aab3c8;margin:0 0 14px}'
+  +'#yc-modal input{width:100%;padding:12px 14px;font-size:15px;border-radius:11px;border:1px solid rgba(255,255,255,.16);'
+  +'background:#05070f;color:#fff;outline:none;margin-bottom:6px}'
+  +'#yc-modal input:focus{border-color:#d4af37}'
+  +'#yc-modal .yc-hint{font-size:11.5px;color:#8590a6;margin:0 0 14px}'
+  +'#yc-submit{width:100%;padding:13px;border-radius:11px;border:none;cursor:pointer;font-weight:800;font-size:15px;'
+  +'color:#1a1200;background:linear-gradient(135deg,#d4af37,#f0d488)}'
+  +'#yc-submit:disabled{opacity:.55;cursor:default}'
+  +'#yc-msg{font-size:13px;margin-top:11px;min-height:18px;line-height:1.5}'
+  +'#yc-msg.ok{color:#7fd6a6}#yc-msg.err{color:#f08a8a}'
+  +'#yc-close,#yc-close2{background:none;border:none;color:#8590a6;font-size:13px;text-decoration:underline;cursor:pointer;display:block;margin:12px auto 0}'
+  +'#yc-done .yc-badge{font-size:54px;line-height:1;margin:2px 0 8px;text-align:center}';
+  document.head.appendChild(css);
+
+  var bar=document.createElement('div');
+  bar.id='yc-bar';
+  bar.innerHTML='<div class="yc-txt">🎓 玩到最後了嗎？完成這個導覽，<b>領取《'+name+'報告》檢核徽章</b></div><button id="yc-go">領取檢核</button>';
+  document.body.appendChild(bar);
+
+  var mask=document.createElement('div');
+  mask.id='yc-mask';
+  mask.innerHTML='<div id="yc-modal">'
+    +'<div id="yc-form">'
+      +'<h3>領取《'+name+'報告》檢核</h3>'
+      +'<p>輸入你訂閱用的 <b style="color:#e8c86a">email 與會員密碼</b>，系統會記下你已看懂這份報告怎麼判讀。</p>'
+      +'<input id="yc-email" type="email" placeholder="訂閱用的 email" autocomplete="off">'
+      +'<input id="yc-pw" type="password" placeholder="你的會員密碼" autocomplete="off">'
+      +'<div class="yc-hint">這組密碼只是會員存取碼，請勿使用你其他重要帳號的密碼。</div>'
+      +'<button id="yc-submit">送出，領取徽章</button>'
+      +'<div id="yc-msg"></div>'
+      +'<button id="yc-close">稍後再說</button>'
+    +'</div>'
+    +'<div id="yc-done" style="display:none">'
+      +'<div class="yc-badge">🏅</div>'
+      +'<h3 style="text-align:center">已通過《'+name+'報告》檢核</h3>'
+      +'<p id="yc-done-txt" style="text-align:center"></p>'
+      +'<button id="yc-close2">完成</button>'
+    +'</div>'
+  +'</div>';
+  document.body.appendChild(mask);
+
+  var $=function(id){return document.getElementById(id);};
+  function openModal(){mask.classList.add('on');setTimeout(function(){$('yc-email').focus();},50);}
+  function closeModal(){mask.classList.remove('on');}
+  $('yc-go').onclick=openModal;
+  $('yc-close').onclick=closeModal;
+  $('yc-close2').onclick=closeModal;
+  mask.addEventListener('click',function(e){if(e.target===mask)closeModal();});
+
+  function submit(){
+    var email=$('yc-email').value.trim(), pw=$('yc-pw').value.trim(), msg=$('yc-msg');
+    if(!email||!pw){msg.className='err';msg.textContent='請輸入 email 與會員密碼';return;}
+    var btn=$('yc-submit');btn.disabled=true;msg.className='';msg.textContent='驗證中…';
+    fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'certify',email:email,password:pw,reportType:t})})
+      .then(function(r){return r.json();})
+      .then(function(res){
+        btn.disabled=false;
+        if(res&&res.done){
+          $('yc-form').style.display='none';
+          $('yc-done').style.display='block';
+          $('yc-done-txt').innerHTML=(res.alreadyCertified?'你先前已通過（'+res.certifiedAt+'）。':'通過日：'+res.certifiedAt+'。')
+            +'<br>之後就能安心收到每期《'+name+'報告》了。';
+          bar.style.display='none';
+        }else{
+          msg.className='err';msg.textContent=(res&&res.error)?res.error:'驗證失敗，請稍後再試';
+        }
+      })
+      .catch(function(){btn.disabled=false;msg.className='err';msg.textContent='連線失敗，請檢查網路後再試';});
+  }
+  $('yc-submit').onclick=submit;
+  $('yc-pw').addEventListener('keydown',function(e){if(e.key==='Enter')submit();});
+  $('yc-email').addEventListener('keydown',function(e){if(e.key==='Enter')submit();});
+})();
+</script>
+</body></html>
