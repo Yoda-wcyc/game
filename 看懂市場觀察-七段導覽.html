@@ -386,6 +386,12 @@ showStart();
   bar.id='yc-bar';
   bar.innerHTML='<div class="yc-txt">🎓 玩到最後了嗎？完成這個導覽，<b>領取《'+name+'報告》檢核徽章</b></div><button id="yc-go">領取檢核</button>';
   document.body.appendChild(bar);
+  // 只在最後結果頁才浮出「領取檢核」——沒玩到結果頁不顯示，避免中途誤領（2026-08-06）
+  var ycCertified=false;
+  function ycOnResult(){return !!document.querySelector('.result-name,.result-type');}
+  function ycSync(){bar.style.display=(!ycCertified&&ycOnResult())?'flex':'none';}
+  ycSync();
+  new MutationObserver(ycSync).observe(document.body,{childList:true,subtree:true});
 
   var mask=document.createElement('div');
   mask.id='yc-mask';
@@ -430,7 +436,7 @@ showStart();
           $('yc-done').style.display='block';
           $('yc-done-txt').innerHTML=(res.alreadyCertified?'你先前已通過（'+res.certifiedAt+'）。':'通過日：'+res.certifiedAt+'。')
             +'<br>之後就能安心收到每期《'+name+'報告》了。';
-          bar.style.display='none';
+          ycCertified=true;bar.style.display='none';
         }else{
           msg.className='err';msg.textContent=(res&&res.error)?res.error:'驗證失敗，請稍後再試';
         }
