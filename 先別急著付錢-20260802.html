@@ -198,6 +198,11 @@ p.body{font-size:16px;color:#e6ebf6;margin:11px 0}
 .act-btns{display:flex;flex-direction:column;gap:12px;margin-top:20px}
 .act-btn{display:block;text-align:center;padding:15px 18px;border-radius:13px;font-size:15.5px;font-weight:700;text-decoration:none;transition:transform .15s}
 .act-btn:hover{transform:translateY(-2px)}
+.consent-gate{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;line-height:1.6;color:var(--dim);text-align:left;margin:2px 0 12px;padding:11px 13px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.16);border-radius:11px;cursor:pointer;-webkit-user-select:none;user-select:none}
+.consent-gate input{margin-top:1px;width:18px;height:18px;flex:0 0 auto;accent-color:#d4af37;cursor:pointer}
+.consent-gate.cg-warn{border-color:#f08a8a}
+.consent-gate.cg-shake{animation:cg-shake .42s}
+@keyframes cg-shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 .act-sub{background:linear-gradient(135deg,var(--gold),#f0d488);color:#1a1200;box-shadow:0 6px 20px rgba(212,175,55,.3)}
 .act-report{background:rgba(255,255,255,.07);color:var(--text);border:1px solid var(--gold)}
 .act-share{background:rgba(255,255,255,.07);color:var(--text);border:1px solid var(--card-bd)}
@@ -363,8 +368,9 @@ const RENDER={
    <div class="result-name" style="font-size:24px">歡迎，把自己煉成更會判斷的人</div>
    <p class="body" style="margin-top:12px">訂閱之前，最後一件事——<b class="hl">Yoda 的判斷力不是用講的。</b>人皆有過，然贏家之所以為贏家，在於他們懂得將破碎的教訓，重新拼湊成通往未來的墊腳石。</p>
    <div class="unlock"><b>創始會員（限量 50 位 · 早鳥）：</b>每期【關鍵報告】——完整判讀當前市況＋預判行情劇本＋Yoda 自己的預期、底線、操作與推理——連同六類完整報告與歷史庫。<b>早鳥 NT$459／月鎖價</b>，名額滿後以一般月費，首批永遠停在 459。投資你自己的大腦，精煉你每天都在用的系統。<br><span class="dim" style="font-size:12px">（關鍵報告是分享判斷思路與自身操作、示範用，非投資建議、僅供參考。）</span></div>
+   <label class="consent-gate" id="consentGate"><input type="checkbox" id="agreeNoCooling"><span>我已了解本服務為數位內容／線上服務，付款後隨即開通，<b>不適用七日猶豫期（無鑑賞期）</b>，且開通後恕不退費。</span></label>
    <div class="act-btns">
-     <a class="act-btn act-sub" href="https://yoda-wcyc.github.io/-/subscribe.html" target="_blank" rel="noopener">成為創始會員（綠界金流）→</a>
+     <a class="act-btn act-sub" id="goPayBtn" href="https://yoda-wcyc.github.io/-/subscribe.html" target="_blank" rel="noopener" onclick="return payGate(event)">成為創始會員（綠界金流）→</a>
      <button class="act-btn act-refer" onclick="referToggle()">我已是會員 · 產生我的專屬推薦連結 →</button>
      <button class="act-btn act-share" onclick="share()">分享：把判斷力學校介紹給朋友</button></div>
    <div class="refer-box" id="referBox" style="display:none">
@@ -690,6 +696,19 @@ function referCopy(){
 /* ===== init ===== */
 state.max=S.filter(x=>['classify','flip','phasepick','gauge','scale','templocate','sort'].includes(x.type)).length;
 render(0); applyEnv(0);
+</script>
+<script>
+/* 無鑑賞期同意閘門：勾選後才能前往綠界金流 */
+function payGate(e){
+  var c=document.getElementById('agreeNoCooling');
+  if(!c||!c.checked){
+    if(e&&e.preventDefault)e.preventDefault();
+    var g=document.getElementById('consentGate');
+    if(g){g.classList.add('cg-shake','cg-warn');setTimeout(function(){g.classList.remove('cg-shake');},450);}
+    return false;
+  }
+  return true;
+}
 </script>
 </body>
 </html>
