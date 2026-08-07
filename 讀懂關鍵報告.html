@@ -91,7 +91,7 @@ const MOTIFS={
 function bg(type,sky){const m=MOTIFS[type];if(!m)return '';const[f,n,l]=inkCols(sky);return `<svg class="ink-bg" viewBox="0 0 1200 120" preserveAspectRatio="none">${m(f,n,l)}</svg>`;}
 
 const OPENING={sky:'sky-dawn',bg:'farhills',label:'序',title:'解鎖了，卻直接滑到最後',quotes:[
- '你終於解鎖了關鍵報告。<br>結果一打開——好長、五個層級、圖表一堆，<br>你多半直接滑到最後，看它結論喊什麼。',
+ '你終於解鎖了關鍵報告。<br>結果一打開——好長、五個層級、圖表一堆，<br>你多半直接滑到最後，看它結論喊什麼。','——於是你知道它「喊什麼」，卻不知道「為什麼」。<br>等哪天它跟你想的不一樣，你就慌了：<br>該信它，還是信自己？',
  '但關鍵報告不是拿來「讀完」的，<br>是拿來「跟著一條主線，<b>從天上讀到地上</b>」的。<br>學會這條線，再長，你都讀得動。',
 ]};
 
@@ -276,7 +276,7 @@ function showResult(){PB.style.width='100%';const s=state.score,mx=ROUNDS.length
  G.innerHTML=scene('sky-result','range',`
   <div class="chapter-label t-label" style="margin-bottom:0.8rem">主線讀完</div>
   <div class="result-icon">🗺️</div>
-  <div class="result-type t-main">你會讀關鍵報告了</div>
+  <div class="result-type t-main">你會讀關鍵報告了</div><div class="result-vow" style="font-size:19px;font-weight:800;color:#e8c86a;margin:0.35rem auto 0.1rem;max-width:420px;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)">「我不再只看結論了。」</div>
   <div class="result-desc t-sub">你剛學會用一條主線，從天上讀到地上：<br><b>成績單 → 定調＋so-what → 全球風向 → 大盤到個股 → 條件劇本 → 觀察點總表</b>。<br><br>而且你記住了三件事：<br><b>先看它敢不敢認錯（成績單）、跟著 TOP→DOWN 一層扣一層、讀「條件」不讀「明牌」。</b><br><br>判讀得分：${s} / ${mx}（${tier}）</div>
   <div class="t-sub" style="font-size:13px;line-height:1.9;margin-bottom:1.3rem;max-width:430px;margin:0 auto 1.3rem">這條主線，就是把整份關鍵報告讀成「一個能自己判斷的框架」。接下來，把它用在真的報告上。</div>
   <div style="display:flex;flex-direction:column;align-items:center;gap:0.65rem;max-width:340px;margin:0 auto">
