@@ -82,7 +82,7 @@ const MOTIFS={
  range:(f,n,l)=>`<path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38 L1200,120 L0,120Z" fill="${f}"/><path d="M0,82 C160,66 320,76 480,60 C640,46 800,70 960,60 C1080,54 1160,64 1200,62 L1200,120 L0,120Z" fill="${n}"/><path d="M0,100 C220,90 420,96 640,86 C860,78 1020,92 1200,84 L1200,120 L0,120Z" fill="${n}"/><path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38" fill="none" stroke="${l}" stroke-width="1.2" opacity="0.85"/>`};
 function bg(type,sky){const m=MOTIFS[type];if(!m)return '';const[f,n,l]=inkCols(sky);return `<svg class="ink-bg" viewBox="0 0 1200 120" preserveAspectRatio="none">${m(f,n,l)}</svg>`;}
 
-const OPENING={sky:'sky-dawn',bg:'farhills',label:'序',title:'你只會看第 7 段',quotes:[
+const OPENING={sky:'sky-dawn',bg:'farhills',label:'序',title:'你只會看第 8 段',quotes:[
  '你訂了報告，卻每次直接拉到最後一段看結論。',
  '前面六段像天書——一堆分數、指標、牆，看不懂。',
  '但結論是「果」，前面才是「因」。看不懂因，你就只能盲信。<br>花幾分鐘，帶你自己讀。一份市場觀察，其實是一條線索鏈。'
@@ -114,37 +114,37 @@ const ROUNDS=[
   items:[{name:'US10Y 殖利率',a:'利率成本'},{name:'VIX 波動指數',a:'恐懼'},{name:'P/C 選擇權比',a:'賭多賭空'},{name:'高Beta vs 低波',a:'冒險/避險'}],
   reveal:'把細指標對上它量的東西，你就看得懂「情緒 43 分」「風險偏好 11 分」是怎麼算出來的——分數不是憑感覺，是這些線索加權來的。'},
 
- {type:'classify',sky:'sky-valley',bg:'range',label:'第 03 段 · 板塊強弱對位',title:'錢在換衣服',
-  text:'第三段看「輪動」——同樣買股票，錢在內部從哪個板塊換到哪個。<br>先分清楚：哪些是「進攻」板塊、哪些是「防禦」板塊？',
-  q:'把每個板塊點成 進攻 或 防禦：',
-  items:[['半導體','atk'],['資訊科技','atk'],['非必需消費','atk'],['必需消費','def'],['醫療保健','def'],['公用事業','def']],
-  reveal:'當錢從進攻（半導體、科技）流向防禦（必需消費、醫療、公用），代表市場在轉保守——換裝本身就是訊號，不必等大盤先跌。'},
-
  {type:'ab',sky:'sky-valley',bg:'range',label:'第 03 段 · 板塊動態圖',title:'會動的板塊圖',visual:'quadrant',
-  text:'把板塊強弱畫成一張「動態圖」：<br>橫軸＝現在強不強(相對於 SPY)<br>縱軸＝動能正在轉強還轉弱</b>。<br>每個板塊是一個點，後面拖一條尾巴＝最近怎麼移動。<br>四象限：領先、改善、落後、轉弱。',
+  text:'第三段看「板塊動態圖」——把板塊強弱畫成一張圖：<br>橫軸＝現在強不強(相對於 SPY)<br>縱軸＝動能正在轉強還轉弱</b>。<br>每個板塊是一個點，後面拖一條尾巴＝最近怎麼移動。<br>四象限：領先、改善、落後、轉弱。',
   q:'一個板塊的點，從「改善」往「領先」移動，代表？',
   choices:['由弱轉強、動能在增強（值得留意的轉機）','已經最強、準備要崩了','沒意義，圖好看而已'],correct:0,
   fb:['對——改善→領先＝相對強度和動能同步上升，是「轉強確立」的軌跡。動態圖比單看排名，多了「往哪走」這個資訊。','「最強就要崩」是猜頂——動態圖只告訴你位置和方向，不預測崩盤。','很有意義——看「多數板塊聚在哪個象限」，就能判讀大盤整體是強是弱。']},
 
- {type:'ab',sky:'sky-clouds',bg:'farhills',label:'第 04 段 · 市場廣度',title:'萬人抬轎，還是幾個巨人硬撐？',
-  text:'第四段看「廣度」——指數上漲時，是大多數股票一起漲，還是只有少數大牛股在撐？看的是「站上均線的家數％」。',
+ {type:'classify',sky:'sky-valley',bg:'range',label:'第 04 段 · 板塊強弱對位',title:'錢在換衣服',
+  text:'第四段看「輪動」——同樣買股票，錢在內部從哪個板塊換到哪個。<br>先分清楚：哪些是「進攻」板塊、哪些是「防禦」板塊？',
+  q:'把每個板塊點成 進攻 或 防禦：',
+  items:[['半導體','atk'],['資訊科技','atk'],['非必需消費','atk'],['必需消費','def'],['醫療保健','def'],['公用事業','def']],
+  reveal:'當錢從進攻（半導體、科技）流向防禦（必需消費、醫療、公用），代表市場在轉保守——換裝本身就是訊號，不必等大盤先跌。'},
+
+ {type:'ab',sky:'sky-clouds',bg:'farhills',label:'第 05 段 · 市場廣度',title:'萬人抬轎，還是幾個巨人硬撐？',
+  text:'第五段看「廣度」——指數上漲時，是大多數股票一起漲，還是只有少數大牛股在撐？看的是「站上均線的家數％」。',
   q:'兩個盤面，指數都創新高。哪一個比較脆弱？',
   choices:['A：指數新高，且 70% 個股站上均線','B：指數新高，但只有 40% 個股站上均線'],correct:1,
   fb:['再想想：70% 個股同步走高，是「大家一起漲」，地基反而穩。','對——指數新高卻只有 40% 個股跟上，是少數巨人硬撐、底下的人先走了，這叫「廣度背離」，跌破 60% 常是警戒訊號。']},
 
- {type:'ab',sky:'sky-storm',bg:'peak',label:'第 05 段 · Gamma 防線',title:'盤面下的隱形牆',visual:'ladder',
-  text:'第五段看選擇權在盤面下畫出的「隱形牆」。<br>股價常被這些關卡吸住或彈開——像下面這張價格地圖。',
+ {type:'ab',sky:'sky-storm',bg:'peak',label:'第 06 段 · Gamma 防線',title:'盤面下的隱形牆',visual:'ladder',
+  text:'第六段看選擇權在盤面下畫出的「隱形牆」。<br>股價常被這些關卡吸住或彈開——像下面這張價格地圖。',
   q:'現價正逼近下方的「Put 牆」。萬一跌破，通常會怎樣？',
   choices:['立刻反彈，牆很硬','做市商被迫追賣、加速下跌','沒差，牆不影響價格'],correct:1,
   fb:['牆不是鐵板——跌破反而會引爆一連串賣壓，不是彈回。','對——跌破 Put 牆，做市商為了避險被迫「追跌殺」，波動被放大、下跌加速（負 Gamma）。','這些牆是真的會影響價格的——大量部位堆在那，做市商的避險動作就會左右盤勢。']},
 
- {type:'ab',sky:'sky-dawn',bg:'reed',label:'第 06 段 · 未來一個月事件',title:'行事曆上的地雷與煙火',
-  text:'第六段是未來 30 天的「已知引爆點」——<br>像 FOMC 利率決議、就業數據、選擇權到期日。',
+ {type:'ab',sky:'sky-dawn',bg:'reed',label:'第 07 段 · 未來一個月事件',title:'行事曆上的地雷與煙火',
+  text:'第七段是未來 30 天的「已知引爆點」——<br>像 FOMC 利率決議、就業數據、選擇權到期日。',
   q:'面對行事曆上的大事件，最該做的是？',
   choices:['賭它的結果，壓對就賺','先寫好「多方劇本」和「空方劇本」，再看市場怎麼反應','別管，反正也猜不到'],correct:1,
   fb:['賭結果就是猜——猜錯的代價通常比你想的大。','對——不預測結果，先備好兩套劇本、留退出線。<br>事件本身不重要，市場對它的反應才重要。','已知的事件先寫好劇本，正是把「突襲」變成「有準備」。']},
 
- {type:'ab',sky:'sky-clear',bg:'range',label:'第 07 段 · 完整研判',title:'把線索收成一句話',
+ {type:'ab',sky:'sky-clear',bg:'range',label:'第 08 段 · 完整研判',title:'把線索收成一句話',
   text:'最後一段，把前面每一格的線索「收斂成一個方向」。<br>這裡教的是「怎麼收」，不是今天的答案。<br><br>手上的通用線索：<b><br>①表面持平、底下在換手（不是崩盤）<br>②廣度變薄 <br>③價格逼近關鍵支撐</b>。',
   q:'一個有紀律的人，會怎麼「收斂」這些線索？',
   choices:['線索偏空 → 全部出清','方向未定偏防禦 → 降曝險、盯關鍵價、留退出線','反正跌不少了 → 便宜就加碼'],correct:1,
@@ -328,7 +328,7 @@ function showResult(){PB.style.width='100%';const s=state.score;
   <div class="chapter-label t-label" style="margin-bottom:0.8rem">整份報告讀完</div>
   <div class="result-icon">📖</div>
   <div class="result-type t-main">你會讀整份報告了</div><div class="result-vow" style="font-size:19px;font-weight:800;color:#e8c86a;margin:0.35rem auto 0.1rem;max-width:420px;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)">「我不再只看結論」</div>
-  <div class="result-desc t-sub">你剛走完市場觀察：<br>封面四表 → 核心指標 → 板塊輪動 → 板塊動態圖 → 市場廣度 → Gamma 防線 → 事件曆 → 完整研判</b>。<br><br>最重要的是你懂了：<b>報告是一條「因 → 果」的線索鏈，最後一段的結論，是前面一格一格推出來的。它給的是地圖，不是明牌。</b><br><br>判讀得分：${s} / 8（${tier}）</div>
+  <div class="result-desc t-sub">你剛走完市場觀察：<br>封面四表 → 核心指標 → 板塊動態圖 → 板塊輪動 → 市場廣度 → Gamma 防線 → 事件曆 → 完整研判</b>。<br><br>最重要的是你懂了：<b>報告是一條「因 → 果」的線索鏈，最後一段的結論，是前面一格一格推出來的。它給的是地圖，不是明牌。</b><br><br>判讀得分：${s} / 8（${tier}）</div>
   <div class="t-sub" style="font-size:13px;line-height:1.9;margin-bottom:1.3rem;max-width:410px;margin:0 auto 1.3rem">下一步，就是拿這套讀法，去讀這週真正的市場觀察。</div>
   <div style="display:flex;flex-direction:column;align-items:center;gap:0.65rem;max-width:340px;margin:0 auto">
     <a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">訂電子報，每週帶你讀懂這份報告 →</a>
