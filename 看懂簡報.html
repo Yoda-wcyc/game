@@ -83,7 +83,7 @@ const MOTIFS={
 function bg(type,sky){const m=MOTIFS[type];if(!m)return '';const[f,n,l]=inkCols(sky);return `<svg class="ink-bg" viewBox="0 0 1200 120" preserveAspectRatio="none">${m(f,n,l)}</svg>`;}
 
 const OPENING={sky:'sky-dawn',bg:'farhills',label:'序',title:'你只看標題就滑掉',quotes:[
- '你每天收到簡報，卻常常只看一眼標題就滑掉。<br>或直接跳到最後，看它喊多還喊空。',
+ '你每天收到簡報，卻常常只看一眼標題就滑掉。<br>或直接跳到最後，看它喊多還喊空。','——於是你只記得它「喊多還喊空」，卻沒讀懂「為什麼、跟我有什麼關係」。<br>等它跟你想的相反那天，你就只能乾瞪眼。',
  '但一則好簡報，其實就三拍：發生什麼、為什麼、該注意什麼。<br>學會這三拍，30 秒讀完一則，還讀得懂。',
 ]};
 
@@ -257,7 +257,7 @@ function showResult(){PB.style.width='100%';const s=state.score;
  G.innerHTML=scene('sky-result','farhills',`
   <div class="chapter-label t-label" style="margin-bottom:0.8rem">四拍讀完</div>
   <div class="result-icon">📖</div>
-  <div class="result-type t-main">你會讀簡報了</div>
+  <div class="result-type t-main">你會讀簡報了</div><div class="result-vow" style="font-size:19px;font-weight:800;color:#e8c86a;margin:0.35rem auto 0.1rem;max-width:420px;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)">「我不再只看標題了。」</div>
   <div class="result-desc t-sub">你剛學會用三拍讀一則簡報：<br><b>發生什麼（定調）→ 為什麼＋對我（行動含意）→ 該注意什麼（前瞻）</b>。<br><br>而且你知道了：<br><b>簡報給結論、報告給證據。</b>想從「聽懂結論」升級成「自己判斷」，下一步就是完整報告。<br><br>判讀得分：${s} / 4（${tier}）</div>
   <div class="t-sub" style="font-size:13px;line-height:1.9;margin-bottom:1.3rem;max-width:410px;margin:0 auto 1.3rem">簡報看懂了？想知道每個判斷背後的完整證據，下一步就是完整報告。</div>
   <div style="display:flex;flex-direction:column;align-items:center;gap:0.65rem;max-width:340px;margin:0 auto">
