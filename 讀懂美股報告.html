@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>股票那麼多，要選誰？｜選股決策鏈 · Yoda Research</title>
+<title>股票那麼多，要選誰？｜讀懂美股報告 · Yoda Research</title>
 <style>
 :root{
   --gold:#d4af37; --gold-dim:#b8960a;
@@ -261,7 +261,7 @@ const S=[
 // 4 教：資金流心法
 {type:'teach',sky:'sky-storm',bg:'peak',tag:'教 · 核心心法',tagc:'teach',h:'不猜哪檔漲，讀錢已經流到哪',
  html:`<p class="body">選股最大的誤會，是以為要「預測」哪檔會漲。其實市場已經把答案寫在<b class="hl">資金流</b>裡——錢已經在流動，你只要<b>讀出它在哪、跟上就好</b>。</p>
- <p class="body">接下來用<b>當期真實數據</b>（台股 2026-08-04、美股 2026-08-05）帶你跑一遍五關漏斗。<b class="hl">數據會過期，漏斗這套邏輯不會</b>——每一關記的是「怎麼判斷」，不是「這天誰在漲」。</p>`},
+ <p class="body">接下來用<b>當期美股真實數據</b>（2026-08-05）帶你跑一遍五關漏斗。<b class="hl">數據會過期，漏斗這套邏輯不會</b>——每一關記的是「怎麼判斷」，不是「這天誰在漲」。</p>`},
 // 5 ① 錢往哪流 · 美股（AI三圈）
 {type:'phasepick',sky:'sky-storm',bg:'peak',tag:'① 錢往哪流 · 美股',
  h:'美股 AI 硬體，現在能追嗎？',
@@ -276,25 +276,12 @@ const S=[
  correct:1,
  reveal:`<b>對 ✓ 錢不在 AI 硬體。</b>三圈幾乎清零、48 支只 1 支新高＝<b>AI 硬體還沒回來</b>，去追算力是猜反彈。但這<b>不是避險</b>——新高 416＞新低 145、廣度健康，錢流去<b>平台／軟體</b>。<b>漏斗第一關永遠一樣：讀「這一刻錢在哪」，站過去；別站到錢還沒去的地方。</b><span class="dim">（讀數：美股 2026-08-05）</span>`,
  gloss:'<span>AI 三圈</span>＝C1算力核心／C2傳輸記憶體／C3設備，看資金在 AI 鏈的哪一棒。<span>相對強弱（REL）</span>＝這板塊比大盤強多少，負值＝跑輸大盤。<span>廣度</span>＝創新高家數 vs 新低家數，看是「一群股」還是「一兩檔」在撐。'},
-// 6 ① 錢往哪流 · 台股（輪動）
-{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'① 錢往哪流 · 台股',
- h:'台股電子這次，是崩還是噴？',
- data:`<div class="data-box">
-  <div class="row"><span>記憶體（當日）</span><b class="stat up">華邦電 +8.60 / 南亞科·晶豪科·力積電 漲停爆買</b></div>
-  <div class="row"><span>權值＋IC（當日）</span><b class="stat up">台積電 +3.45 / 聯發科 +4.66（同步大漲）</b></div>
-  <div class="row"><span>廣度／籌碼</span><b class="stat up">電子漲停遍地 · 當日買超佔比 54.6% · 雙買吸籌 267 檔</b></div></div>
-  <p class="body dim">同一天，電子（記憶體＋AI 硬體）漲停遍地、法人吸籌——這也是「跟著錢走」的長相。</p>`,
- q:'這組數據告訴你？',
- opts:['電子漲停就是見頂、快跑','錢明確流進電子（記憶體＋AI 硬體）——法人吸籌，跟著錢走','大盤要崩了，全部空手'],
- correct:1,
- reveal:`<b>對 ✓ 跟著錢走。</b>記憶體漲停爆買、AI 硬體（伺服器／PCB／散熱）接力、電子漲停遍地、當日買超佔多數（54.6%）、月線＋當日<b>雙買吸籌 267 檔</b>＝錢明確流進電子。<b>注意：這跟幾天前（電子弱、錢在金融航運）是「兩個當期」</b>——所以漏斗第一關永遠是「先讀<b>這一刻</b>錢在哪」，不是背上一次的答案。<span class="dim">（讀數：台股 2026-08-04）</span>`,
- gloss:'<span>輪動</span>＝資金在板塊間搬家；跟的是「這一刻」錢在哪，不是上次。<span>吸籌</span>＝法人月線＋當日持續買，資金穩定流入。<span>買超佔比</span>＝當日買超金額佔比，過半＝買盤主導。'},
 // 7 ① 輪動警訊（變盤照妖鏡）
 {type:'phasepick',sky:'sky-storm',bg:'peak',tag:'① 照妖鏡 · 輪動警訊',
  h:'「防禦股領先」是變盤警訊——現在觸發了嗎？',
  data:`<div class="data-box">
   <div class="row"><span>這面照妖鏡</span><b class="stat">防禦型（必需消費／醫療／公用）<br>贏過成長型（科技／半導體）<br>＝大錢避險先兆</b></div>
-  <div class="row"><span>當期（台股8/4·美股8/5）</span><b class="stat up">成長／電子重新領先、廣度健康＝沒觸發</b></div></div>
+  <div class="row"><span>當期（美股8/5）</span><b class="stat up">成長／電子重新領先、廣度健康＝沒觸發</b></div></div>
   <p class="body dim">重點不是「今天防禦有沒有贏」，是這面鏡子要一直掛著。</p>`,
  q:'這條「防禦領先＝避險」的警訊，現在成立嗎？',
  opts:['成立，防禦最安全','沒成立——當期是成長／電子領漲、廣度健康（risk-on）；但這面鏡子要一直掛著，哪天防禦翻上來就是變盤先兆','警訊沒用，不用看'],
@@ -377,66 +364,31 @@ const S=[
 // 15 ③ 收斂
 {type:'teach',sky:'sky-valley',bg:'range',tag:'③ 收斂',tagc:'teach',h:'漏斗到這裡，剩幾檔',
  html:`<p class="body">把「啟動期板塊 × A 級個股（過脈衝照妖鏡）」交集起來，幾千檔已經收斂到<b class="hl">一張幾十檔的最高確信清單</b>。</p>
- <p class="body dim">當期實例——美股 A 級 19 檔、最強在 <b>Mega Cap／平台／軟體</b>（GOOGL 領頭）；台股領漲在 <b>記憶體＋AI 硬體</b>（華邦電、南亞科、台積）。<b>同一套漏斗、兩地不同答案</b>——選誰不是背名單，是跟當期資金流。<span style="opacity:.7">（美股 8/5、台股 8/4）</span></p>`},
-// 16 ④ 有沒有實錘 · 台股籌碼（天秤）
-{type:'scale',sky:'sky-dusk',bg:'lonepine',tag:'④ 有沒有實錘 · 台股籌碼',
- h:'它很強——但有沒有大錢在買？',
- setup:`<p class="body">一檔「量價很強」（技術面漂亮），不代表有實錘。台股要看<b>法人籌碼</b>：外資／投信是<b>買超</b>、還是趁機出貨？天秤兩端：只有量價強 vs 量價⊕籌碼「雙向確認」。</p>`,
- leftLabel:'只有量價強',rightLabel:'量價＋籌碼雙確認',
- opts:[{t:'量價強就夠了、直接追',tilt:-0.8},{t:'要「雙向確認」——法人真的在買才算數',tilt:0.8}],
- correct:1,
- reveal:`<b>對 ✓ 要雙向確認。</b>只有量價強、但法人在賣，常是<b>出貨的假強勢</b>（散戶抬轎）。<b>雙向確認</b>＝量價(REL)強 ＋ 法人買超，兩邊都倒同一邊才紮實。當期實例：7/31 外資買超台積電 <b>+56,536萬</b>（約 5.6 億）、態度空翻多——這才是有實錘的破底翻。`,
- gloss:'<span>法人籌碼</span>＝外資／投信的買賣超，是「大錢」的實際動向。<span>雙向確認</span>＝技術面(量價)與籌碼面同時轉強，比單看一邊可靠。'},
-// 17 ④ 法人四型態（台積 vs 聯發，同漲停籌碼相反）
-{type:'phasepick',sky:'sky-dusk',bg:'reed',tag:'④ 實錘 · 法人四型態',
- h:'兩檔都漲停，法人卻一買一賣',
+ <p class="body dim">當期實例——美股 A 級 19 檔、最強在 <b>Mega Cap／平台／軟體</b>（GOOGL 領頭）。<b>選誰不是背名單，是跟當期資金流</b>——數據會過期，漏斗這套邏輯不會。<span style="opacity:.7">（美股 8/5）</span></p>`},
+// AI · §03–06 AI 供應鏈（四段併卡）
+{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'③ AI 供應鏈 · 三圈×信號流',
+ h:'AI 這批，報告怎麼拆四層？',
  data:`<div class="data-box">
-  <div class="row"><span>台積電 2330</span><b class="stat up">+10.0%　法人當日 +56,536萬（三線同買）</b></div>
-  <div class="row"><span>聯發科 2454</span><b class="stat down">+9.9%　法人當日 −4,262萬（三線同賣）</b></div></div>
-  <p class="body dim">同一天（2026-08-01 破底翻）、都漲停。但一個法人爆買、一個法人狂賣——漲停一樣，籌碼相反。</p>`,
- q:'聯發科法人在賣、但當天漲停、型態沒破——你能斷定它在「出貨」嗎？',
- opts:['能，法人在賣就是出貨、避開','不能斷定——法人淨賣只是「要留意的雜訊」；漲停、型態沒破就不算出貨，可能是換手／調節，先觀察','漲停就無腦追，籌碼不用看'],
+  <div class="row"><span>①核心競爭力分類</span><b class="stat">這公司在 AI 價值鏈的位置</b></div>
+  <div class="row"><span>②三圈</span><b class="stat">C1 算力／C2 記憶體／C3 設備</b></div>
+  <div class="row"><span>③三圈擴散</span><b class="stat">每圈「幾檔創 3 月新高」——資金主攻哪一圈</b></div>
+  <div class="row"><span>④信號流／供應鏈定位</span><b class="stat">強勢從上游往下游怎麼傳</b></div></div>
+  <p class="body dim">報告 §03–06 把 AI 拆四層看，不是「看到 AI 就買」。</p>`,
+ q:'報告顯示「記憶體圈多檔創 3 月新高、算力圈還沒跟上」，這代表？',
+ opts:['AI 全部很強，隨便一檔都能買','錢集中在記憶體圈、算力圈落後——三圈擴散不均，要挑「正在擴散的圈」','記憶體要崩了'],
  correct:1,
- reveal:`<b>對 ✓ 不能只憑法人淨賣就喊出貨。</b>順序是<b>價 → 量 → 籌碼</b>：聯發科當天<b>漲停、型態沒破</b>，價格是最終公斷——法人淨賣頂多是<b>換手／調節</b>（有別的買盤接手），還<b>不能斷定出貨</b>；要等<b>價也轉弱、型態跌破</b>，「賣超警示」才算數。反觀台積電<b>價漲停＋法人三線同買＋型態站上</b>＝價量籌全對，才是最紮實的<b>全面吸籌</b>。四型態（🟢全面吸籌／🔵低檔反轉／🟡高檔換手／🟠賣超警示）是分法，但<b>每一型都要配價格型態才算數</b>。<b>帶走的重點：籌碼是佐證，價格／型態才是公斷——沒破型態，別把「法人在賣」讀成「在出貨」。</b>`,
- gloss:'<span>法人四型態</span>＝A全面吸籌／B低檔反轉／C高檔換手／D賣超警示，但每一型都要配價格型態才算數。<span>出貨 vs 換手</span>＝都是法人淨賣，但「價也跌破型態」才算出貨；價還強／沒破，多是換手或調節，不能只看淨賣就定罪。'},
-// 18 ④ 權值股賣壓性質（季結 vs 結構性）
-{type:'phasepick',sky:'sky-dusk',bg:'reed',tag:'④ 照妖鏡 · 權值賣壓',
- h:'台積電在季末急殺，快跑嗎？',
- data:`<div class="data-box">
-  <div class="row"><span>情境</span><b class="stat">最大權值股 接近季末／結帳日 5日急殺</b></div>
-  <div class="row"><span>季結調整</span><b class="stat">集中漲多權值、有秩序、同業小股沒事、無利空</b></div>
-  <div class="row"><span>結構性出逃</span><b class="stat down">全面、不計成本、連同業上下游、有具體利空</b></div></div>
-  <p class="body dim">（這期台積電其實是空翻多買超；但總有一天權值會在季末急殺——那時你要會分。）</p>`,
- q:'第一件事該做什麼？',
- opts:['急殺＝基本面壞了，先跑','先分辨是「季結調整」還是「結構性出逃」——用時間＋廣度檢驗','逢低就買，權值不會倒'],
- correct:1,
- reveal:`<b>對 ✓ 先分性質，別急著下結論。</b>接近結帳日的權值急殺，常是機構<b>季底部位調整</b>、不是基本面壞。<b>分辨法</b>：季結＝集中在漲多的權值、賣得有秩序、同業中小股不受影響、沒有對應利空；結構性＝全面、不計成本、連帶上下游、有具體催化劑（財報差／砍單／管制）。<b>最可靠是時間檢驗：結帳日後第一週，賣壓停＝季結可放心，沒停甚至加速＝要重新檢視基本面。</b>`,
- gloss:'<span>季結調整</span>＝機構為結帳美化帳面的季節性調節，過結帳日多會停。<span>結構性出逃</span>＝有真利空的持續性賣壓。分不清就用「結帳日後一週停不停」檢驗。'},
-// +過場（關④ 個股籌碼 → 大盤層）
-{type:'mono',sky:'sky-night',bg:'reed',lines:['個股的籌碼，看透了。','那「大盤」整體，站哪一邊？']},
-// 19 ④ 大盤 ETF 法人週向
-{type:'phasepick',sky:'sky-dusk',bg:'reed',tag:'④ 大盤 · ETF 法人週向',
- h:'外資今天對「大盤」的態度，翻了嗎？',
- data:`<div class="data-box">
-  <div class="row"><span>0050（大盤多空直接代理）</span><b class="stat">當日 <span class="up">+9,332萬</span>　月線 <span class="down">−173,926萬</span></b></div>
-  <div class="row"><span>00631L 正2（槓桿多頭）</span><b class="stat up">當日 +2,689萬（加槓桿）</b></div>
-  <div class="row"><span>00632R 反1（避險＝偏空）</span><b class="stat">當日 −1,046萬（倒避險）</b></div></div>
-  <p class="body dim">過去偏空（倒0050、買反1避險）；今天：買0050、加正2、倒反1。</p>`,
- q:'這三口徑一起看，外資對大盤是？',
- opts:['月線還是負，續空','態度「當天空翻多」——三個口徑一致翻方向，是轉折訊號','沒意義，一天不算數'],
- correct:1,
- reveal:`<b>對 ✓ 態度當天空翻多。</b>三個 ETF <b>口徑一致同日翻向</b>：買回 0050、加碼槓桿正2、<b>倒掉反向 00632R（買反1＝避險、倒反1＝偏多，解讀相反）</b>——跟價格的破底翻同一天發生。ETF 法人週向讓你一眼看懂機構對<b>大盤 Beta</b> 的態度。<b>⚠️ 但月線仍 −17萬萬、這是「轉向回補」第一天，不是加碼確認，還要看日圓變數。</b>`,
- gloss:'<span>0050／00631L／00632R</span>＝大盤／槓桿多／反向，看外資對大盤的態度。<span>反向 ETF 反讀</span>＝買 00632R 是避險偏空、倒 00632R 才是偏多。'},
+ reveal:`<b>對 ✓ 三圈擴散不均。</b>記憶體圈多檔創新高＝資金主攻這圈；算力圈落後。挑 AI 要挑「<b>正在擴散的圈</b>」，不是看到 AI 就買。<b>三圈(C1算力/C2記憶體/C3設備)×擴散×信號流階梯×供應鏈定位</b>，就是報告 §03–06 把 AI 拆開看的方法。`,
+ gloss:'<span>AI 三圈</span>＝C1算力／C2記憶體／C3設備，分開看誰在強。<span>三圈擴散</span>＝每圈幾檔創 3 月新高，多檔一起強＝資金主攻這圈。<span>信號流階梯／供應鏈定位</span>＝強勢從上游往下游怎麼傳、每家在供應鏈的位置。'},
 // 20 ④ 美股用廣度當實錘
 {type:'phasepick',sky:'sky-dusk',bg:'reed',tag:'④ 實錘 · 美股',
  h:'美股沒有法人買賣超，怎麼確認實錘？',
  data:`<div class="data-box">
-  <div class="row"><span>台股實錘</span><b class="stat">法人買超（雙向確認）</b></div>
+  <div class="row"><span>別的市場（有法人）</span><b class="stat">法人買超（雙向確認）</b></div>
   <div class="row"><span>美股沒有這個數據</span><b class="stat">要用別的當實錘…</b></div></div>`,
  q:'美股的「實錘」看什麼？',
  opts:['看新聞和分析師喊多','看廣度——是不是一群股一起轉強（不是獨漲）','看它今天漲幾 %'],
  correct:1,
- reveal:`<b>對 ✓ 看廣度。</b>美股沒有法人買賣超，就用<b>廣度</b>當實錘：一個板塊是「一群股一起轉強」(REL5 廣度、REL60 廣度擴散)，還是「一兩檔獨撐」？<b>廣度擴散＝有真金白銀在整群買</b>，跟台股的雙向確認同一個精神——要看到「一群」，不是「一檔」。`,
+ reveal:`<b>對 ✓ 看廣度。</b>美股沒有法人買賣超，就用<b>廣度</b>當實錘：一個板塊是「一群股一起轉強」(REL5 廣度、REL60 廣度擴散)，還是「一兩檔獨撐」？<b>廣度擴散＝有真金白銀在整群買</b>，跟籌碼「雙向確認」同一個精神——要看到「一群」，不是「一檔」。`,
  gloss:'<span>廣度</span>＝板塊裡達標個股的比例。廣度擴散＝資金在整群買、不是單一標的偷跑，是美股版的「實錘」。'},
 // 21 ⑤ 安不安全 · 高低比（翻面）
 {type:'flip',sky:'sky-dusk',bg:'reed',tag:'⑤ 安不安全 · 市場體質',
@@ -463,7 +415,7 @@ const S=[
   {t:'資金轉進防禦板塊',s:'A級清單裡防禦（公用／必需消費）支數 > 成長板塊，代表熱錢在避險——變盤最有參考價值的訊號。'},
   {t:'雙向確認名單退出',s:'原本量價＋籌碼雙強的個股，法人開始賣、掉出名單＝籌碼鬆動，實錘沒了。'},
   {t:'廣度收縮、A級腰斬',s:'板塊剩一兩檔獨漲、其他縮掉＝主升末段的假強，配合快照覆蓋標警示。'},
-  {t:'結構分裂（大型股落後、只剩小型獨強）',s:'台股領先區全是小型利基股、權值股落後＝輪動警訊，行情根基不穩。'}]},
+  {t:'結構分裂（大型股落後、只剩小型獨強）',s:'領先區全是小型利基股、權值股落後＝輪動警訊，行情根基不穩。'}]},
 // 24 過場
 {type:'mono',sky:'sky-night',bg:'river',lines:['進場前先想退場。','沒有退出線的進場，不進。']},
 // 25 收束 · 你的漏斗
@@ -473,7 +425,7 @@ const S=[
   {t:'① 先讀資金流到哪個板塊（＋輪動警訊）',s:'站到錢在的那邊；防禦贏過成長＝變盤先兆'},
   {t:'② 確認在「啟動期」、看位階',s:'廣度剛擴散、還沒追高；月正5日負＝衰退區別追'},
   {t:'③ 挑 A 級（四欄位三尺度）、過脈衝照妖鏡',s:'三個 REL 全中；1D% 暴衝但 REL5 負＝假的'},
-  {t:'④ 要籌碼／廣度「實錘」',s:'台股雙向確認＋四型態、看ETF週向；美股看廣度'},
+  {t:'④ 要廣度「實錘」',s:'看廣度實錘：一群股一起強、不是一兩檔獨漲'},
   {t:'⑤ 先想好退場線＋快照覆蓋',s:'資金轉防禦／掉出名單／廣度連縮就走'}]},
 // 26 結果
 {type:'result',sky:'sky-clear',bg:'range'}
@@ -520,11 +472,11 @@ function resolve(i,correct,revealHTML){
 /* ===== 各型別 render ===== */
 const RENDER={
  title:{html:()=>`<div class="card center">
-   <div class="eyebrow">Yoda Research · 判斷力學校 · 選股</div>
+   <div class="eyebrow">Yoda Research · 判斷力學校 · 讀懂美股報告</div>
    <h1>股票那麼多，<br>要選誰？</h1>
    <p class="lead">幾千檔，你到底怎麼挑？<br>高手不是掃完全部——<br>是讓資金流幫你篩掉 99%。</p>
    <button class="cta" onclick="next()">開始 →</button>
-   <div class="neutral-note">※ 只教「怎麼讀資金流、怎麼篩」，不喊買哪一檔。範例＝2026-08 台美當期真實數據。</div></div>`},
+   <div class="neutral-note">※ 只教「怎麼讀資金流、怎麼篩」，不喊買哪一檔。範例＝2026-08 美股當期真實數據。</div></div>`},
 
  project:{html:()=>`<div class="card">
    <span class="tag">對號入座</span><h2>打開看盤軟體，你是不是也滿頭問號？</h2>
@@ -614,7 +566,7 @@ const RENDER={
    let ratio=state.max?state.score/state.max:0, t;
    if(ratio>=0.8) t={e:'🎯',n:'讀資金流的人',tier:'LV.3 · 讓漏斗幫你選',
      d:'你已經不再大海撈針——會先讀資金流、鎖啟動期、挑 A 級、要實錘、留退場線。幾千檔進去，剩幾檔出來。',
-     u:'<b>技能解鎖：選股決策鏈（完整）。</b>輪動→階段→A級→實錘→退場，五關你都握住了。「選誰」不再是憑感覺。'};
+     u:'<b>技能解鎖：讀懂美股報告（完整）。</b>輪動→階段→A級→實錘→退場，五關你都握住了。「選誰」不再是憑感覺。'};
    else if(ratio>=0.5) t={e:'🧭',n:'漏斗學徒',tier:'LV.2 · 開始會篩',
      d:'你抓到訣竅了：跟著資金流、不憑感覺。剩下的是把五關練熟——尤其「實錘」和「退場線」別漏。',
      u:'<b>技能解鎖：跟著錢走 + 啟動期意識。</b>再把籌碼實錘與退場線練熟，你的漏斗就準了。'};
@@ -622,22 +574,22 @@ const RENDER={
      d:'你還在用眼睛掃、憑感覺追。但這一課讓你看見了漏斗：選股不是猜，是一層層篩掉 99%。',
      u:'<b>技能解鎖：看見「漏斗」這件事。</b>下次別再掃全部——先問「錢在哪個板塊」。光這一步，你就少踩一堆刀。'};
    return `<div class="card">
-     <div class="result-emoji">${t.e}</div><div class="result-name">${t.n}</div>
+     <div class="result-emoji">${t.e}</div><div class="result-name">${t.n}</div><div class="result-vow" style="font-size:17px;font-weight:800;color:#e8c86a;margin:0.25rem auto 0.1rem;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)">「我不再憑感覺追了。」</div>
      <div class="result-tier">${t.tier}</div><div class="result-score">五關你讀對了 ${state.score} / ${state.max}</div>
      <p class="body center">${t.d}</p><div class="unlock">${t.u}</div>
-     <p class="body center dim" style="font-size:14px">當期台美，<b class="hl">同一套漏斗、兩個答案</b>：台股（8/4）記憶體＋AI 硬體領漲、法人吸籌；美股（8/5）廣度健康、平台／軟體領先（AI 硬體還沒回來）。兩邊都 risk-on、但錢流的板塊不同——<b>漏斗是骨、當期市況是皮；皮會換，帶走的是骨。</b></p>
+     <p class="body center dim" style="font-size:14px">當期美股（8/5）：<b class="hl">廣度健康、平台／軟體領先</b>（Mega Cap、GOOGL），AI 硬體還沒回來——risk-on 但錢不在硬體。<b>漏斗是骨、當期市況是皮；皮會換，帶走的是骨。</b></p>
      <div class="data-box" style="text-align:left">
-       <div class="row"><b>① 錢往哪流</b><span class="dim">讀「這一刻」錢在哪　台股(8/4):電子/記憶體　美股(8/5):平台/軟體(AI硬體弱)</span></div>
+       <div class="row"><b>① 錢往哪流</b><span class="dim">讀「這一刻」錢在哪　美股(8/5):平台/軟體領先、AI 硬體還沒回來</span></div>
        <div class="row"><b>② 何時上車</b><span class="dim">啟動期＝廣度剛擴散&gt;20%、還沒追高</span></div>
-       <div class="row"><b>③ 上哪一檔</b><span class="dim">A級三條件全中；台股記憶體/AI硬體、美股Mega Cap/平台</span></div>
-       <div class="row"><b>④ 有沒有實錘</b><span class="dim">台股雙向確認+四型態(8/4吸籌267/賣超217)；美股看廣度(416&gt;145)</span></div>
+       <div class="row"><b>③ 上哪一檔</b><span class="dim">A級三條件全中；美股 Mega Cap／平台／軟體</span></div>
+       <div class="row"><b>④ 有沒有實錘</b><span class="dim">美股用廣度當實錘：3月新高 416 &gt; 新低 145（2.87x，健康）</span></div>
        <div class="row"><b>⑤ 退場線</b><span class="dim">資金轉防禦/掉出名單/廣度收縮就走</span></div></div>
      <div class="act-btns">
        <a class="act-btn act-sub" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">訂電子報，每週帶你把資金流讀成機會 →</a>
        <a class="act-btn act-report" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">看這期完整台美報告，對照你剛學的 →</a>
        <button class="act-btn act-share" onclick="share()">分享：讓還在大海撈針的朋友也學會用漏斗</button></div>
      <div class="replay"><a onclick="replay()">重玩一次</a></div>
-     <div class="credit">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" rel="noopener">BiBiPiano</a>，版權為原作者所有。<br>Yoda Research · 判斷力學校 · 選股決策鏈</div></div>`;}}
+     <div class="credit">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" rel="noopener">BiBiPiano</a>，版權為原作者所有。<br>Yoda Research · 判斷力學校 · 讀懂美股報告</div></div>`;}}
 };
 
 /* ===== 互動處理 ===== */
