@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Yoda Research · 判斷力學校 · 宣傳片</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:100%;height:100%;overflow:hidden;background:#05060c;
+    font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC','Microsoft JhengHei',sans-serif}
+  #stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;
+    background:radial-gradient(130% 90% at 50% 0%,#141024 0%,#0a0a16 45%,#05060c 100%)}
+  .scene{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:8vw;opacity:0}
+  .scene.on{opacity:1}
+  .ln{color:#f2f4fb;font-weight:800;line-height:1.32;letter-spacing:.5px;text-shadow:0 2px 20px rgba(0,0,0,.6)}
+  .big{font-size:min(9vw,52px)} .mid{font-size:min(7vw,40px)} .sm{font-size:min(5.2vw,26px);font-weight:600;color:#c7cee0}
+  .gold{background:linear-gradient(135deg,#f0d488,#e0a526 55%,#b8860b);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .dim{color:#8a93a8;font-weight:600}
+
+  /* 進場動畫 */
+  .up .ln{animation:up .9s cubic-bezier(.2,.7,.2,1) both}
+  .up .ln:nth-child(2){animation-delay:.18s}.up .ln:nth-child(3){animation-delay:.34s}
+  @keyframes up{from{opacity:0;transform:translateY(34px)}to{opacity:1;transform:none}}
+  .pop .ln{animation:pop 1s cubic-bezier(.2,1.3,.3,1) both}
+  @keyframes pop{from{opacity:0;transform:scale(.72)}to{opacity:1;transform:scale(1)}}
+  .blur .ln{animation:bl 1.1s ease both}
+  @keyframes bl{from{opacity:0;filter:blur(14px);letter-spacing:8px}to{opacity:1;filter:blur(0);letter-spacing:.5px}}
+
+  /* 雜訊場：亂飛的喊單詞 */
+  #noise{position:absolute;inset:0}
+  .np{position:absolute;font-weight:800;font-size:min(7vw,34px);opacity:0;white-space:nowrap;
+    animation:npf 1.5s ease forwards}
+  @keyframes npf{0%{opacity:0;transform:scale(.6)}25%{opacity:1}70%{opacity:1}100%{opacity:0;transform:scale(1.25)}}
+
+  /* 金光掃過 */
+  .sweep::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 40%,rgba(224,165,38,.22) 50%,transparent 60%);
+    transform:translateX(-100%);animation:sw 1.4s ease .2s forwards}
+  @keyframes sw{to{transform:translateX(100%)}}
+
+  .brand-mark{font-size:min(11vw,64px);font-weight:900;letter-spacing:1px}
+  .cta{margin-top:6vh;font-size:min(5vw,24px);font-weight:800;color:#1a1200;
+    background:linear-gradient(135deg,#f0d488,#e0a526);padding:14px 30px;border-radius:9999px;
+    box-shadow:0 8px 30px rgba(224,165,38,.4)}
+
+  .rule{width:64px;height:3px;border-radius:2px;background:linear-gradient(90deg,#e0a526,#b8860b);margin:24px auto;
+    opacity:0;animation:rin .8s ease .3s both}
+  @keyframes rin{from{opacity:0;width:0}to{opacity:1;width:64px}}
+
+  /* 進度條 */
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,#b8860b,#f0d488);z-index:30;transition:width .3s linear}
+
+  /* 開始 / 重播 */
+  #gate{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:radial-gradient(130% 90% at 50% 0%,#141024,#05060c);text-align:center;padding:8vw}
+  #gate .eyebrow{font-size:13px;letter-spacing:.3em;color:#e0a526;text-transform:uppercase;margin-bottom:16px}
+  #gate h1{font-size:min(9vw,44px);font-weight:900;color:#fff;margin-bottom:10px}
+  #gate p{font-size:14px;color:#8a93a8;margin-bottom:30px;line-height:1.7}
+  #playBtn{font-size:18px;font-weight:800;color:#1a1200;background:linear-gradient(135deg,#f0d488,#e0a526);
+    border:none;border-radius:9999px;padding:15px 44px;cursor:pointer;box-shadow:0 8px 30px rgba(224,165,38,.4)}
+  #replay{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:30;display:none;
+    font-size:13px;color:#8a93a8;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);
+    border-radius:9999px;padding:8px 18px;cursor:pointer}
+</style>
+</head>
+<body>
+<audio id="bgm" loop preload="auto"><source src="day_one.mp3"></audio>
+<div id="bar"></div>
+<div id="stage"></div>
+<button id="replay" onclick="run()">↻ 重播</button>
+
+<div id="gate">
+  <div class="eyebrow">Yoda Research · 判斷力學校</div>
+  <h1>宣傳片</h1>
+  <p>按下開始後，用螢幕錄影錄下這支動畫<br>就是一支可以發 FB 的短片（約 35 秒，記得開聲音）。</p>
+  <button id="playBtn">▶ 開始播放</button>
+</div>
+
+<script>
+var STAGE=document.getElementById('stage'), BAR=document.getElementById('bar'),
+    BGM=document.getElementById('bgm'), REPLAY=document.getElementById('replay');
+
+// 每個場景：{html, dur(ms), cls}
+var SCENES=[
+  {cls:'up',   dur:2600, html:'<div class="ln big">市場，每天都在<br>對你大喊。</div>'},
+  {cls:'noise',dur:2600, html:''},
+  {cls:'up',   dur:2800, html:'<div class="ln mid">跟著喊的人，</div><div class="ln mid">最後都在問同一句——</div>'},
+  {cls:'pop',  dur:2600, html:'<div class="ln big">「我到底<br>該信誰？」</div>'},
+  {cls:'blur sweep', dur:2600, html:'<div class="ln big gold">Yoda 不喊單。</div>'},
+  {cls:'up',   dur:2600, html:'<div class="ln mid">不報明牌，</div><div class="ln mid">不預言漲跌。</div>'},
+  {cls:'up',   dur:2200, html:'<div class="ln mid dim">只教你一件事——</div>'},
+  {cls:'pop',  dur:2800, html:'<div class="ln big gold">自己，<br>看懂市場。</div>'},
+  {cls:'up',   dur:3000, html:'<div class="ln mid">該踩油門，還是踩煞車，</div><div class="ln mid gold">你自己會判斷。</div>'},
+  {cls:'pop sweep', dur:2800, html:'<div class="ln brand-mark gold">Yoda Research</div><div class="rule"></div><div class="ln sm">判斷力學校</div>'},
+  {cls:'blur', dur:2800, html:'<div class="ln mid">用最清澈的白話，</div><div class="ln mid">凌駕喧囂。</div>'},
+  {cls:'up',   dur:4200, html:'<div class="ln sm">每天一篇免費簡報，先看懂今天</div><div class="cta">Yoda Research →</div>'}
+];
+var NOISE=['買進！','快賣！','這支要噴了','老師報的明牌','抄底啦','跑！','all in','聽我的','穩賺','要崩了'];
+var NCOL=['#f08a8a','#7fd6a6','#e8c86a','#f08a8a','#7fd6a6','#f0a0a0','#8fd0ff','#e8c86a','#7fd6a6','#f08a8a'];
+
+var total=SCENES.reduce(function(a,s){return a+s.dur;},0), timers=[];
+
+function clearTimers(){timers.forEach(clearTimeout);timers=[];}
+
+function renderNoise(){
+  var h='<div id="noise">';
+  for(var i=0;i<NOISE.length;i++){
+    var top=(8+Math.random()*78).toFixed(1), left=(6+Math.random()*70).toFixed(1),
+        del=(Math.random()*1.0).toFixed(2), rot=(Math.random()*24-12).toFixed(0);
+    h+='<span class="np" style="top:'+top+'%;left:'+left+'%;color:'+NCOL[i]+';transform:rotate('+rot+'deg);animation-delay:'+del+'s">'+NOISE[i]+'</span>';
+  }
+  return h+'</div>';
+}
+
+function show(i){
+  if(i>=SCENES.length){ // 結束：停在最後一幕
+    REPLAY.style.display='block'; BAR.style.width='100%'; return;
+  }
+  var s=SCENES[i];
+  var div=document.createElement('div');
+  div.className='scene '+s.cls;
+  div.innerHTML = s.cls.indexOf('noise')>=0 ? renderNoise() : s.html;
+  STAGE.innerHTML=''; STAGE.appendChild(div);
+  setTimeout(function(){div.classList.add('on');},20);
+  timers.push(setTimeout(function(){ div.style.opacity=0; setTimeout(function(){show(i+1);},280); }, s.dur));
+}
+
+function run(){
+  clearTimers(); REPLAY.style.display='none'; STAGE.innerHTML=''; BAR.style.width='0';
+  try{BGM.currentTime=0;BGM.play().catch(function(){});}catch(e){}
+  // 進度條
+  var t0=Date.now();
+  var iv=setInterval(function(){var p=Math.min(1,(Date.now()-t0)/total);BAR.style.width=(p*100)+'%';if(p>=1)clearInterval(iv);},120);
+  timers.push(iv);
+  show(0);
+}
+
+document.getElementById('playBtn').onclick=function(){
+  document.getElementById('gate').style.display='none';
+  try{BGM.play().catch(function(){});}catch(e){}
+  run();
+};
+</script>
+</body>
+</html>
