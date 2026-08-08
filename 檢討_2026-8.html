@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>後照鏡：2026，訊號其實都說了 · Yoda Research</title>
+<title>檢討_2026-8 · Yoda Research</title>
 <style>
 :root{--gold:#e0a526;--dim:rgba(255,255,255,.72);--card-bd:rgba(255,255,255,.16)}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -269,7 +269,7 @@ function give(i){const s=S[i];if(state.ans[i]!=null)return;state.ans[i]='gave';
 
 function render(){const s=S[cur];const R=REND[s.t];R(s,cur);}
 const REND={
- title:(s)=>wrapScene(s.sky,'<div class="eyebrow">Yoda Research · 判斷力學校 · 檢討</div><h1>後照鏡：2026，<br>訊號其實都說了</h1><p class="lead">狂漲 → 見頂 → 血洗 → 落底 → 翻上。<br>回到每個轉折點，這一次，你讀懂了嗎？</p><button class="cta gold" onclick="next()">回到 2026/06 →</button><div class="mcap" style="margin-top:14px">約 6 分鐘 · 全程檢討已知過去，不預測、不喊買賣</div>'),
+ title:(s)=>wrapScene(s.sky,'<div class="eyebrow">Yoda Research · 判斷力學校 · 檢討</div><h1>檢討：2026-8，<br>訊號其實都說了</h1><p class="lead">狂漲 → 見頂 → 血洗 → 落底 → 翻上。<br>回到每個轉折點，這一次，你讀懂了嗎？</p><button class="cta gold" onclick="next()">回到 2026/06 →</button><div class="mcap" style="margin-top:14px">約 6 分鐘 · 全程檢討已知過去，不預測、不喊買賣</div>'),
  project:(s)=>wrapScene(s.sky,'<span class="tag">先說在前面</span><h2>這不是「看我多準」</h2><p class="body">2026——4 月你追在狂漲、6 月頂你沒跑、7 月底你割在最低、8 月它又翻上去。</p><p class="body">我發文說了不少；但老實說，<b class="hl">我當下也沒抓到全部訊號</b>。所以這是我們一起把這波拆開檢討——<b class="hl">下一次，一起更警覺。</b></p><button class="btn" onclick="next()">我就是追頂砍底那個<small>每次都慢半拍</small></button><button class="btn" onclick="next()">我想學會讀轉折訊號<small>不想再事後才懂</small></button>'),
  teach:(s)=>wrapScene(s.sky,tagH(s)+'<h2>'+s.h+'</h2>'+s.html+cont()),
  mono:(s)=>{let im=s.img?'<div class="montage" style="max-width:360px;margin-bottom:14px"><img src="'+IMG+s.img+'.png" alt=""></div>':'';wrapScene(s.sky,im+'<div class="mono">'+s.lines.map(l=>'<p class="body" style="text-align:center;color:#dfe6f4">'+l+'</p>').join('')+'</div>'+cont());},
@@ -304,8 +304,8 @@ function fmtDate(n){return /^\d{4}$/.test(n)?(n.slice(0,2)+'/'+n.slice(2)):n.toU
 function playMontage(s,i){const all=s.imgs.concat(s.charts?s.charts:[]);all.forEach(n=>{const im=new Image();im.src=IMG+n+'.png';});const de=document.getElementById('mdate');if(de)de.textContent=fmtDate(all[0]);let idx=0,shown=false;if(montageIv)clearInterval(montageIv);montageIv=setInterval(()=>{const im=document.getElementById('mimg');if(!im){clearInterval(montageIv);montageIv=null;return;}idx=(idx+1)%all.length;im.src=IMG+all[idx]+'.png';const d2=document.getElementById('mdate');if(d2)d2.textContent=fmtDate(all[idx]);if(idx===0&&!shown){shown=true;const nb=document.getElementById('mnarrbox');if(nb)nb.innerHTML='<div class="mnarr">'+s.narr+'</div>';const nx=document.getElementById('mnx');if(nx)nx.innerHTML=cont();}},500);}
 /* result */
 function result(s){const r=state.score,m=state.max;const tier=r>=m-1?'鷹眼':r>=Math.ceil(m/2)?'漸醒':'還在追頂砍底';const em=r>=m-1?'🦅':r>=Math.ceil(m/2)?'🌅':'🪞';
- wrapScene(s.sky,'<div class="mcap">後照鏡看完</div><div class="res-em">'+em+'</div><div class="res-name">'+tier+'</div><div class="res-vow">「我不再事後才看懂訊號了。」</div><div class="res-score">你在這波讀對了 '+r+' / '+m+'</div><p class="body">頂與底是同一把尺：情緒最高＋利多出盡＝高點；情緒最恐慌＋利空不跌＝低點。訊號當時都在——這次一起檢討完，<b class="hl">下一次，我們會更警覺。</b></p><div class="act"><a href="https://iamtwispin.substack.com" target="_blank" rel="noopener">訂電子報，下一波我陪你一起盯訊號 →</a><a href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">看每期報告，不再只能看後照鏡 →</a><button onclick="share()">分享給也套在 2026 這波的朋友</button></div><div class="replay"><a onclick="replay()">重看一次</a></div><div id="sfb" class="mcap"></div><div class="credit">Yoda Research · 判斷力學校 · 後照鏡 2026</div>');}
+ wrapScene(s.sky,'<div class="mcap">後照鏡看完</div><div class="res-em">'+em+'</div><div class="res-name">'+tier+'</div><div class="res-vow">「我不再事後才看懂訊號了。」</div><div class="res-score">你在這波讀對了 '+r+' / '+m+'</div><p class="body">頂與底是同一把尺：情緒最高＋利多出盡＝高點；情緒最恐慌＋利空不跌＝低點。訊號當時都在——這次一起檢討完，<b class="hl">下一次，我們會更警覺。</b></p><div class="act"><a href="https://iamtwispin.substack.com" target="_blank" rel="noopener">訂電子報，下一波我陪你一起盯訊號 →</a><a href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">看每期報告，不再只能看後照鏡 →</a><button onclick="share()">分享給也套在 2026 這波的朋友</button></div><div class="replay"><a onclick="replay()">重看一次</a></div><div id="sfb" class="mcap"></div><div class="credit">Yoda Research · 判斷力學校 · 檢討 2026-8</div>');}
 function replay(){cur=0;state.score=0;state.ans={};state.cls=[];go(0);}
-function share(){const url=location.href.split('?')[0];const t='我剛玩了《後照鏡：2026》——把狂漲→崩盤→翻上的每個轉折訊號檢討一遍，原來頂和底是同一把尺。';if(navigator.share){navigator.share({title:'後照鏡 2026 · Yoda',text:t,url}).catch(()=>{});return;}navigator.clipboard.writeText(url).then(()=>{const f=document.getElementById('sfb');if(f){f.textContent='網址已複製，貼去分享吧';}}).catch(()=>{});}
+function share(){const url=location.href.split('?')[0];const t='我剛玩了《檢討 2026-8》——把狂漲→崩盤→翻上的每個轉折訊號檢討一遍，原來頂和底是同一把尺。';if(navigator.share){navigator.share({title:'檢討 2026-8 · Yoda',text:t,url}).catch(()=>{});return;}navigator.clipboard.writeText(url).then(()=>{const f=document.getElementById('sfb');if(f){f.textContent='網址已複製，貼去分享吧';}}).catch(()=>{});}
 render();
 </script>
