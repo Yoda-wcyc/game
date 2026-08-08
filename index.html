@@ -229,6 +229,7 @@ function mtn(dark){
 }
 
 const grid=document.getElementById('grid');
+GAMES.sort(function(a,b){function dn(d){var p=(d||'0.0.0').split('.').map(Number);return (p[0]||0)*10000+(p[1]||0)*100+(p[2]||0);}return dn(b.date)-dn(a.date);});
 GAMES.forEach(function(g){
   const isLive=g.status==='live';
   const statusBadge=isLive
