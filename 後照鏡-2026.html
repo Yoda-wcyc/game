@@ -1,0 +1,291 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>後照鏡：2026，訊號其實都說了 · Yoda Research</title>
+<style>
+:root{--gold:#e0a526;--dim:rgba(255,255,255,.72);--card-bd:rgba(255,255,255,.16)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC','Microsoft JhengHei',sans-serif;color:#eef2fb;background:#05070f;overflow-x:hidden}
+#scene{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:3rem 1.4rem;text-align:center}
+.ink-bg{position:absolute;left:0;right:0;bottom:0;width:100%;height:120px;z-index:0;opacity:.9}
+.wrap{position:relative;z-index:2;width:100%;max-width:520px;margin:0 auto}
+/* 天色 */
+.sky-mist{background:linear-gradient(180deg,#b7c7d8,#d9e3ec 55%,#eef3f7)}
+.sky-mist,.sky-mist *{color:#20303f}
+.sky-storm{background:linear-gradient(180deg,#12131f,#2a2340 55%,#4a3a5e)}
+.sky-noon{background:linear-gradient(180deg,#0a2a4a,#1f6fae 55%,#f0a24a)}
+.sky-dusk{background:linear-gradient(180deg,#241026,#7a3a4a 45%,#e8a24a)}
+.sky-blood{background:linear-gradient(180deg,#0a0308,#4a0f16 55%,#8a2a1e)}
+.sky-night{background:linear-gradient(180deg,#020408,#0a0714 55%,#141020)}
+.sky-dawn{background:linear-gradient(180deg,#1a1236,#7a5a8e 45%,#f0c078)}
+.sky-clear{background:linear-gradient(180deg,#003459,#00587a 42%,#0288d1)}
+/* 漸層可讀性保底（B-11b 精神：暗色暈邊，暖/淺天也清楚） */
+.wrap h1,.wrap h2,.wrap .body,.wrap .lead,.wrap .eyebrow,.wrap .rv,.wrap .fb,.wrap .tag,.wrap .mono p{text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.4)}
+.sky-mist .wrap h1,.sky-mist .wrap h2,.sky-mist .wrap .body,.sky-mist .wrap .lead,.sky-mist .wrap .eyebrow,.sky-mist .wrap .rv,.sky-mist .wrap .fb,.sky-mist .wrap .tag{text-shadow:0 1px 2px rgba(255,255,255,.6)}
+.eyebrow{font-size:11px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:14px;font-weight:700}
+h1{font-size:29px;font-weight:800;line-height:1.35;margin-bottom:12px}
+h2{font-size:22px;font-weight:800;line-height:1.4;margin-bottom:12px}
+.lead{font-size:16px;line-height:1.9;color:var(--dim);margin-bottom:20px}
+.body{font-size:15.5px;line-height:1.85;color:#eef2fb;margin:0 auto 14px;max-width:460px;text-align:left}
+.body.dim{color:var(--dim)}
+.hl{color:#ffd88a;font-weight:700}
+.tag{display:inline-block;font-size:11px;letter-spacing:1.5px;padding:3px 12px;border-radius:999px;background:rgba(224,165,38,.18);color:#f0d488;margin-bottom:12px;font-weight:700}
+.cta,.btn{cursor:pointer;font-family:inherit}
+.cta{margin-top:8px;padding:.85rem 2.6rem;border-radius:8px;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.06);color:#fff;font-size:15px;letter-spacing:1px;font-weight:600;backdrop-filter:blur(4px)}
+.cta:hover{background:rgba(255,255,255,.14)}
+.cta.gold{background:linear-gradient(135deg,#d4af37,#f0d488);color:#1a1200;border:none;font-weight:800}
+.btn{display:block;width:100%;max-width:460px;margin:8px auto;padding:.8rem 1rem;border-radius:11px;border:1px solid var(--card-bd);background:rgba(255,255,255,.05);color:#eef2fb;font-size:14.5px;line-height:1.5;text-align:left}
+.btn small{display:block;font-size:12px;color:var(--dim);margin-top:3px}
+.btn:hover{border-color:var(--gold)}
+.btn.good{border-color:#7fd6a6;background:rgba(80,200,110,.15)}
+.btn.bad{opacity:.45}
+.rv{max-width:470px;margin:14px auto 0;background:rgba(0,0,0,.34);border:1px solid var(--card-bd);border-radius:12px;padding:1rem 1.15rem;font-size:14px;line-height:1.75;text-align:left;color:#eef2fb;backdrop-filter:blur(6px)}
+.rv b{color:#7fd6a6}
+.gloss{margin-top:9px;padding-top:9px;border-top:1px dashed rgba(255,255,255,.18);font-size:12.5px;color:var(--dim)}
+.gloss b{color:#e8c86a}
+.fb{max-width:460px;margin:12px auto 0;font-size:14px;line-height:1.7;color:#a5d6a7}
+/* 兩欄定義（B-11b）*/
+.deflist{display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:6px;align-items:start;max-width:470px;margin:8px auto 4px;text-align:left}
+.deflist .k{white-space:nowrap;font-weight:700;color:#f0d488}
+.deflist .v{font-size:13.5px;line-height:1.6;color:var(--dim)}
+/* 滑桿 */
+.gwrap{max-width:420px;margin:12px auto}
+.gsl{width:100%;accent-color:var(--gold)}
+.gsl-ends{display:flex;justify-content:space-between;font-size:12px;color:var(--dim);margin-top:2px}
+.gval{font-size:34px;font-weight:200;text-align:center;color:#fff}
+/* 分類 */
+.cls-row{display:flex;align-items:center;gap:8px;max-width:480px;margin:7px auto;padding:8px 10px;border:1px solid var(--card-bd);border-radius:10px;background:rgba(0,0,0,.2);text-align:left}
+.cls-name{flex:1;font-size:13.5px;line-height:1.5}
+.cls-btns{display:flex;gap:5px;flex:0 0 auto}
+.cls-btn{font-size:12px;padding:5px 9px;border-radius:7px;border:1px solid var(--card-bd);background:transparent;color:var(--dim);cursor:pointer}
+.cls-btn.on{background:var(--gold);color:#1a1200;border-color:var(--gold);font-weight:700}
+.cls-row.right{border-color:#7fd6a6}.cls-row.wrong{border-color:#f08a8a}
+/* 檢查表 */
+.chk{display:flex;gap:10px;align-items:flex-start;max-width:480px;margin:7px auto;padding:9px 11px;border:1px solid var(--card-bd);border-radius:10px;background:rgba(0,0,0,.2);text-align:left;cursor:pointer}
+.chk .box{width:22px;height:22px;flex:0 0 auto;border:2px solid var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center;color:transparent;font-weight:800}
+.chk.on{background:rgba(224,165,38,.14)}.chk.on .box{background:var(--gold);color:#1a1200}
+.chk .lbl{font-size:13.5px;line-height:1.5}.chk .lbl small{display:block;font-size:12px;color:var(--dim);margin-top:2px}
+/* montage 快播 */
+.montage{width:100%;max-width:440px;margin:6px auto;position:relative}
+.montage img{width:100%;border-radius:12px;border:1px solid var(--card-bd);box-shadow:0 8px 30px rgba(0,0,0,.5);display:block}
+.mnarr{font-size:14px;line-height:1.7;color:#f0d488;max-width:460px;margin:14px auto 0;text-align:left;font-style:italic}
+.mcap{font-size:12px;color:var(--dim);margin-top:6px;letter-spacing:1px}
+/* chart */
+.chartbox{width:100%;max-width:640px;margin:6px auto}
+.chartbox img{width:100%;border-radius:10px;border:1px solid var(--card-bd);display:block}
+/* 進度點 */
+.dots{display:flex;gap:5px;justify-content:center;margin-bottom:16px}
+.dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25)}
+.dots i.on{background:var(--gold)}
+.nx{margin-top:12px}
+.help{margin-top:8px}.help button{background:none;border:none;color:var(--dim);font-size:12.5px;text-decoration:underline;cursor:pointer}
+/* result */
+.res-em{font-size:60px;line-height:1;margin:4px 0}
+.res-name{font-size:26px;font-weight:800;color:var(--gold);margin-bottom:4px}
+.res-vow{font-size:19px;font-weight:800;color:#e8c86a;margin:6px auto 4px}
+.res-score{font-size:14px;color:var(--dim);margin-bottom:14px}
+.act{display:flex;flex-direction:column;gap:.6rem;max-width:340px;margin:14px auto 0}
+.act a,.act button{width:100%;padding:.75rem;border-radius:11px;font-weight:800;font-size:14px;text-decoration:none;text-align:center;border:none;cursor:pointer;color:#1a1200;background:linear-gradient(135deg,#d4af37,#f0d488)}
+.replay{margin-top:.9rem}.replay a{font-size:12px;color:rgba(255,255,255,.55);text-decoration:underline;cursor:pointer}
+.credit{font-size:11px;color:rgba(255,255,255,.35);margin-top:1.4rem;line-height:1.6}
+.fade{animation:fd .5s ease both}@keyframes fd{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+</style>
+<div id="scene"></div>
+<script>
+/* ===== 水墨地景 ===== */
+function bg(sky){const dark=['sky-storm','sky-blood','sky-night','sky-dawn','sky-dusk','sky-clear','sky-noon'].includes(sky);
+ const f=dark?'rgba(210,220,245,.10)':'rgba(30,35,60,.10)',n=dark?'rgba(180,195,230,.16)':'rgba(25,30,55,.16)',l=dark?'rgba(222,232,252,.32)':'rgba(20,25,50,.30)';
+ return '<svg class="ink-bg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,70 C180,44 300,56 460,40 C620,24 760,48 920,38 C1040,30 1140,44 1200,42 L1200,120 L0,120Z" fill="'+f+'"/><path d="M0,88 C160,74 320,84 480,68 C640,54 800,78 960,68 C1080,62 1160,72 1200,70 L1200,120 L0,120Z" fill="'+n+'"/><path d="M0,70 C180,44 300,56 460,40 C620,24 760,48 920,38 C1040,30 1140,44 1200,42" fill="none" stroke="'+l+'" stroke-width="1.3"/></svg>';}
+const IMG='lookback-img/';
+
+/* ===== 場景資料 ===== */
+const S=[
+// 0 序-1
+{t:'title',sky:'sky-storm'},
+// 1 序-2 對號入座＋基調
+{t:'project',sky:'sky-storm'},
+
+// 幕0 領先指標
+{t:'teach',sky:'sky-mist',tag:'幕0 · 風向球先倒',h:'先認識最靈敏的那支溫度計：DXYZ',
+ html:'<p class="body"><b class="hl">DXYZ</b>（Destiny Tech100）是一檔持有<b>未上市科技創投</b>（SpaceX、OpenAI 那類）的基金。它最虛、最靠情緒撐、流動性最差——所以它是<b class="hl">風險胃納最前瞻的代理</b>：錢一想避險，最先被丟的就是它。</p><p class="body dim">記住這個直覺：要看風險轉向，先看「最投機的那塊」。</p>'},
+// 3 flip DXYZ
+{t:'flip',sky:'sky-storm',tag:'幕0 · 風向球',h:'2026/05/26，DXYZ 發生了什麼',
+ body:'DXYZ 那天<b>率先創新高</b>——但收盤<b>爆量長黑</b>（衝高後被大量賣壓打下來）。指數當時還在漲。',
+ q:'這根「創高爆量長黑」，代表？',
+ opts:[{t:'投機資金見頂的第一根警示——最敏感的先反轉',good:1},{t:'創新高就是強，續追',good:0},{t:'一根K棒沒意義',good:0}],
+ rv:'<b>對。</b>最投機的資產「衝高被打下、爆量長黑」＝聰明錢開始從最邊緣獲利了結。它<b>領先大盤</b>，是風向球的第一格。',
+ gloss:'<b>爆量長黑</b>＝當天衝高、卻以大量收在低點的黑K，常是派發/見頂訊號。'},
+// 4 gauge BTC
+{t:'gauge',sky:'sky-storm',tag:'幕0 · 風向球',h:'比特幣，是不是更早的那支風向球？',
+ body:'BTC <b>5 月中就作頭</b>、<b>6/2 跌破前低</b>——當股市還在創新高時，加密（另一塊最投機資產）已經轉弱。',
+ q:'往左＝BTC 只是雜訊；往右＝BTC 是風險資金的領先指標。你放哪？',
+ left:'只是雜訊',right:'領先風向球',ans:88,correct:v=>v>=62,
+ fb:v=>v>=62?'<b>對——BTC＋DXYZ 是同一把尺的兩個刻度：市場最投機的兩塊。</b>它們 5 月中～6 月初一起轉弱，指數卻還在新高＝<b>風險從「邊緣」先退</b>。這是頂部最早的味道。':'<b>再想一下。</b>BTC 是純風險資金的溫度計，比股市更早反映流動性與風險偏好。它 6/2 就破前低，指針該明顯偏右。',
+ gloss:'<b>風險從邊緣先退</b>＝最投機的資產（加密、未上市創投）最早轉弱，是頂部的前導訊號。'},
+// 5 montage 0606-0608
+{t:'montage',sky:'sky-storm',imgs:['0606','0607','0608'],
+ narr:'6/6 我說：這是「升息預期重新定價」、不是 2022 那種「盈利週期反轉」——急跌但別當世界末日。<br>6/7：不要猜底，要看訊號。6/8：到底怎麼精確算會跌到哪？',
+ cap:'★ 當時的發文 · 6/06 → 6/08'},
+
+// 幕1 見頂
+{t:'teach',sky:'sky-noon',tag:'幕1 · 見頂',h:'一張儀表盤，看懂市場體質',
+ html:'<p class="body">報告每天在看的其實就這四格，合起來就是「市場現在健不健康」：</p><div class="deflist"><div class="k">三道防線</div><div class="v">利率 US10Y／債市波動 MOVE／流動性——資金環境有沒有逆風</div><div class="k">情緒 P/C</div><div class="v">買權賣權比：太低＝過度樂觀（沒人避險＝裸奔）</div><div class="k">Risk-on/off</div><div class="v">防禦 vs 高 Beta 誰強——錢敢不敢冒險</div><div class="k">廣度</div><div class="v">多少股站上均線——是一群漲，還是少數撐</div></div>'},
+// 7 classify 警報 vs 雜訊
+{t:'classify',sky:'sky-noon',tag:'幕1 · 見頂',h:'6/10 這天：哪些是頂部警報，哪些是雜訊？',
+ sub:'把每一項分到「頂部警報」或「只是雜訊」。',
+ catA:'頂部警報',catB:'只是雜訊',
+ items:[['P/C 0.23🔴🔴🔴 歷史極端（反彈日還在惡化）','A'],['廣度背離：NQ 45.5% vs SP 63.2%，分歧17.7%創新高','A'],['防禦領先：SPLV 跑贏 SPHB（Risk-off）','A'],['某天指數單日 −2% 一根黑K','B']],
+ rv:'<b>看出來了嗎？</b>P/C 裸奔、廣度背離、防禦領先＝三個<b>獨立的結構訊號</b>，同時亮。而「單日 −2% 黑K」是<b>雜訊</b>——單日波動誰都會有，不是頂部訊號（<b>禁單日論斷</b>）。',
+ gloss:'<b>結構訊號 vs 單日波動</b>＝背離、極端、領先換手是「結構」，可預警；單日漲跌是雜訊，別拿來論頂。'},
+// 8 gauge 疊疊樂
+{t:'gauge',sky:'sky-noon',tag:'幕1 · 見頂',h:'幾個警報同時亮，才算高風險？',
+ body:'6/10 這天，P/C 裸奔 ＋ 廣度背離 ＋ 防禦領先——<b>三個獨立訊號同時亮</b>。',
+ q:'往左＝要單一訊號就能論頂；往右＝要「多個獨立訊號疊在一起」才算。',
+ left:'單一就夠',right:'要疊在一起',ans:85,correct:v=>v>=60,
+ fb:v=>v>=60?'<b>對。頂不是一個訊號，是一疊獨立訊號同時亮。</b>任一單看都能被解釋掉；疊在一起＝高風險。這就是儀表盤的用法。':'<b>再想一下。</b>單一訊號常有例外，容易被騙。真正危險的是「多個互相獨立的訊號同時示警」。指針該偏右。',
+ gloss:'<b>訊號疊加</b>＝多個彼此獨立的警報同時成立，機率上遠比單一訊號可靠。'},
+// 9 montage 0610 0621 0625
+{t:'montage',sky:'sky-noon',imgs:['0610','0621','0625'],
+ narr:'6/10 我說：看市場對 CPI 的「反應」、不看數據本身——市場要跌，理由都後來找。<br>6/21：市場擔心的通膨/升息，未來一年怎麼走？6/25：六月風暴結束了…嗎？',
+ cap:'★ 當時的發文 · 6/10 → 6/25'},
+
+// 10 過場 · 我的漏接（誠實 beat）
+{t:'mono',sky:'sky-night',img:'0615',
+ lines:['這裡，我也看走眼了。','6/15 我以為落底、要走多、再也不見低點——','結果多方劇本失敗，繼續跌。','我也會漏、會錯。重點不是永遠對，','是敢認、下次修。所以我們一起看後照鏡。']},
+
+// 幕2 利多出盡
+{t:'teach',sky:'sky-dusk',tag:'幕2 · 利多出盡',h:'最好的消息，為什麼是頂不是起點',
+ html:'<p class="body"><b class="hl">利多不漲 / 利多出盡</b>：當最強的基本面終於出來、股價卻不再創新高，代表大家「買在預期、賣在事實」——利多是用來<b>派發</b>的，不是起漲。</p><p class="body dim">頂部最愛用「最動聽的故事」收尾。</p>'},
+// 12 flip×3 利多消息
+{t:'flip',sky:'sky-dusk',tag:'幕2 · 利多出盡',h:'這三個「大利多」，後來呢？',
+ body:'① 韓國 6/30 出口破千億美元＋經常帳雙紀錄（峰值利多）<br>② 美光超預期財報（記憶體）<br>③ 記憶體缺貨到 2028 超級循環<br>——搭配 6/13 韓國創高收黑、6/23 四月來最大黑K、7/2 <b>跳空破位</b>。',
+ q:'這一組「峰值利多 ＋ 跳空破位」，說明？',
+ opts:[{t:'利多正式出盡——接下來一段大跌已經確認',good:1},{t:'利多這麼強，補漲在後面',good:0},{t:'消息面很好，逢低就買',good:0}],
+ rv:'<b>對。</b>6/30 峰值利多 ＋ 7/2 跳空破位＝<b>利多出盡、確認反轉</b>。最強的基本面（記憶體超級循環）出現時，股價已經不再創高——那是派發，不是起漲，而且專門<b>懲罰追高利多的人</b>。',
+ gloss:'<b>跳空破位</b>＝跳空跌破關鍵支撐；配上峰值利多，是「利多出盡」最實體的確認。'},
+// 13 montage 0628 0703
+{t:'montage',sky:'sky-dusk',imgs:['0628','0703'],
+ narr:'6/28 我問：美光超預期財報都撐不住、PCE 合乎預期也撐不住——到底在跌什麼？<br>到了 6/30 峰值利多、7/2 跳空破位，接下來的大跌，其實已經確認。7/3：繼續凌遲。',
+ cap:'★ 當時的發文 · 6/28 → 7/03'},
+
+// 幕3 槓桿踩踏
+{t:'teach',sky:'sky-blood',tag:'幕3 · 槓桿踩踏',h:'跌下來，為什麼會跌成這樣？',
+ html:'<p class="body">韓國散戶把這波當「穩賺」，<b>融資＋槓桿代幣</b>全押三星、SK 海力士。漲的時候槓桿讓你快樂加倍；<b class="hl">跌的時候，它是崩勢的加速器</b>。</p>'},
+// 15 scale 槓桿
+{t:'scale',sky:'sky-blood',tag:'幕3 · 槓桿踩踏',h:'如果是你，會開幾倍槓桿？',
+ body:'拉一下——然後看看槓桿在下跌時做了什麼。',
+ left:'不開槓桿',right:'開好開滿',ans:12,correct:v=>v<=45,
+ fb:v=>v<=45?'<b>克制是對的。</b>韓國那 120 萬個槓桿帳戶觸及保證金追繳→券商<b>強制平倉</b>→越跌越賣的連鎖：7/13 年內第7次熔斷、SK海力士單日−13~15%；7/28-29 黑色雙日崩 20%、28 日 −10.84% 史上最慘。':'<b>危險。</b>你開越大，越可能在 120 萬人一起被追繳、強制平倉的那條連鎖裡。7/28 單日 −10.84% 就是這樣來的——槓桿是加速器，不是放大鏡。',
+ gloss:'<b>去槓桿風暴</b>＝大量槓桿部位同時被追繳、強制平倉，賣壓自我強化，把下跌加速成崩盤。'},
+// 16 flip 接刀
+{t:'flip',sky:'sky-blood',tag:'幕3 · 槓桿踩踏',h:'美股同步崩，這時候該接刀嗎？',
+ body:'半導體崩勢加速（SOXX 中線相對 −25%，無止穩）＋再通膨逆風（油價 +7.32%、US10Y 破前高）。',
+ q:'跌這麼多了，該逢低接半導體嗎？',
+ opts:[{t:'不接——崩勢無止穩、又在去槓桿途中，接刀=接在強制平倉的下跌裡',good:1},{t:'跌多了就是便宜，接',good:0},{t:'無腦攤平，總會回來',good:0}],
+ rv:'<b>對。</b>崩勢<b>無止穩訊號</b>＋還在<b>去槓桿</b>途中，此時接刀＝接在一連串強制平倉的下跌途中。站對邊的方式是等訊號，不是猜便宜。',
+ gloss:'<b>接刀</b>＝在無止穩訊號的下跌中搶進；去槓桿風暴中尤其危險。'},
+// 17 montage 0711 0727 0728
+{t:'montage',sky:'sky-blood',imgs:['0711','0727','0728'],
+ narr:'7/11 我說：多方轉折即將出現（開始找底）。<br>7/27：如果這週真的加速趕底，你要退出了？7/28：也許本週還有更慘烈一跌，然後就……',
+ cap:'★ 當時的發文 · 7/11 → 7/28'},
+
+// 幕4 落底翻上（信任關卡：加日期＋圖片）
+{t:'flip',sky:'sky-night',tag:'幕4 · 落底 · 07/30',h:'最黑暗那天，底其實在喊',
+ body:'<b>7/30</b>：一根<b>大量長紅</b>把跌破整根「吞回」；<b>7/31</b> 站穩沒吐回。',
+ q:'這根「量價把賣壓吞掉、隔天守住」，代表？',
+ opts:[{t:'跌勢末端的反轉訊號——底不是一個價，是一根吞噬＋跟進的K',good:1},{t:'一根紅K而已，續跌',good:0},{t:'反彈就是要騙人的，快空',good:0}],
+ rv:'<b>對。</b>血洗末端出現<b>大量長紅吞噬</b>＋隔日站穩＝賣壓被吃掉、買方認真了。這是落底的第一格。',
+ gloss:'<b>吞噬＋跟進</b>＝一根大量長紅把前面跌幅吞回、隔天不吐，是跌勢末端的反轉組合。'},
+// 19 classify 兩頭見底
+{t:'classify',sky:'sky-night',tag:'幕4 · 落底 · 兩頭見底',h:'底部的「兩頭見底」：哪些在喊賣壓見底？',
+ sub:'把每一項分到「賣壓見底訊號」或「還在惡化」。',
+ catA:'賣壓見底',catB:'還在惡化',
+ items:[['最強的（蘋果、AI硬體、台積電）補跌到底、最後的holdout倒下','A'],['最弱的比特幣，拒絕再破低','A'],['法人單日爆買台積電、外資當天由空翻多','A'],['（干擾）某頭條又喊衰退','B']],
+ rv:'<b>兩頭見底。</b>最強的補跌到底（沒有更弱可跌）＋最弱的拒絕破低（領先止跌）＝<b>賣壓從兩頭一起見底</b>。這跟頂部「風險從邊緣先退」是<b>同一把尺、兩個方向</b>。台股更直接：法人爆買台積、外資當天空翻多。',
+ gloss:'<b>兩頭見底</b>＝最強補跌到底＋最弱拒絕破低，同時出現＝賣壓耗盡；頭條利空是雜訊。'},
+// 20 checklist 大底三訊號
+{t:'checklist',sky:'sky-night',tag:'幕4 · 落底 · 大底三訊號',h:'大底三訊號，那天亮了幾個？',
+ sub:'勾出「已經亮」的訊號——底是一張 checklist，不是一瞬間。',
+ items:[['① 價：大量長紅吞噬＋7/31 站穩','7/30–31 已亮'],['② 籌碼：法人爆買台積、外資空翻多','7/30 已亮'],['③ 高 Beta 回升','就差這一章 → 隨後補上']],
+ rv:'2/3 亮就該提高警覺、別再砍。第③個「高 Beta 回升」隨後補齊——下一頁揭曉。'},
+// 21 flip 高Beta蓋章
+{t:'flip',sky:'sky-dawn',tag:'幕4 · 翻上 · 08/01',h:'最後一章：高 Beta 領先起跑',
+ body:'Mag7（權值股）<b>連兩天跳空</b>、越過空方缺口與出貨日；<b>權值股已領先起跑</b>——第③個訊號補齊。',
+ q:'三訊號到齊，怎麼判？',
+ opts:[{t:'破底翻確認——但留一手（日圓變數），不 all-in',good:1},{t:'確認了就 all-in 梭哈',good:0},{t:'漲兩天而已，還是空',good:0}],
+ rv:'<b>對。</b>價＋籌碼＋高Beta 三訊號到齊＝<b>破底翻確認</b>。但成熟的做法是<b>留一手</b>：8/1 我也說了「不要太high，關鍵變數是日圓」——確認方向，仍守風控。',
+ gloss:'<b>破底翻</b>＝跌破前低後強力翻上、收復失地；三訊號到齊才算確認，但仍要留退出線。'},
+// 22 montage 0729 0801（信任關卡）
+{t:'montage',sky:'sky-dawn',imgs:['0729','0801'],
+ narr:'7/29 我就發文：落底訊號。<br>8/1：不要太 high，破底翻確認中——但關鍵變數是日圓。<br>（提醒你見底、又不喊你梭哈，這就是我當時做的。）',
+ cap:'★ 當時的發文 · 7/29 → 8/01'},
+
+// 收束-1 頂底同一把尺
+{t:'teach',sky:'sky-clear',tag:'收束 · 大解方',h:'頂與底，永遠是同一把尺',
+ html:'<p class="body"><b class="hl">情緒最高 ＋ 利多出盡 ＝ 波段高點</b><br><b class="hl">情緒最恐慌 ＋ 利空不跌 ＝ 波段低點</b></p><div class="deflist"><div class="k">頂部</div><div class="v">風險從「邊緣」先退：DXYZ/BTC 先倒 → 廣度背離 → 防禦領先 → 指數最後 blow-off</div><div class="k">底部</div><div class="v">賣壓「兩頭見底」：最弱拒破低 ＋ 最強補跌到底 → 高 Beta 回升蓋章</div></div><p class="body dim">歷史永遠是這樣的循環——差別只在，<b class="hl">我們能不能用上帝視角，俯視這一切。</b></p>'},
+// 24 收束-2 全捲 montage
+{t:'montage',sky:'sky-clear',imgs:['0606','0607','0608','0610','0615','0621','0625','0628','0703','0711','0727','0728','0729','0801'],charts:['tsmc','aapl'],
+ narr:'訊號當時都在。我抓到大部分、也漏了幾個（6/15）。<br>這次一起把後照鏡看完——下一次，我們會更警覺。',
+ cap:'★ 完整 track record · 0606 → 0801（＋台積電/AAPL 走勢）'},
+// 25 收束-3 轉折雷達 checklist
+{t:'checklist',sky:'sky-clear',tag:'收束 · 你的雷達',h:'把「轉折雷達」收進口袋',
+ sub:'勾滿——下次盤面出現這些，你就會警覺。',
+ items:[['領先指標先倒（最投機的那塊）','DXYZ/BTC 比指數早轉'],['多重警報疊在一起','P/C裸奔＋廣度背離＋防禦領先'],['利多不漲 / 利空不跌','情緒與消息背離＝轉折'],['槓桿是加速器','去槓桿途中別接刀'],['兩頭見底＋多口徑翻向','最強補跌＋最弱止跌＋籌碼實錘']],
+ rv:'這五格，就是你的後照鏡變成「照後鏡」的方法——看得到後面，也看得到接下來。'},
+// 26 result
+{t:'result',sky:'sky-clear'}
+];
+
+/* ===== 引擎 ===== */
+let cur=0; const state={score:0,max:0,ans:{},cls:[],chk:[]};
+const el=document.getElementById('scene');
+state.max=S.filter(x=>['flip','gauge','classify','scale'].includes(x.t)).length;
+function scored(i){return ['flip','gauge','classify','scale'].includes(S[i].t);}
+function qdots(i){let n=0,done=0;for(let k=0;k<S.length;k++){if(scored(k)){n++;if(k<=i&&state.ans[k]!=null)done++;}}return {n,done};}
+function dots(i){return '';}
+function go(i){el.style.opacity=0;setTimeout(()=>{cur=i;render();el.style.opacity=1;window.scrollTo(0,0);},260);}
+function next(){if(cur<S.length-1)go(cur+1);}
+el.style.transition='opacity .26s';
+
+function wrapScene(sky,inner){el.className='sky '+sky;el.innerHTML='<div class="ink">'+bg(sky)+'</div><div class="wrap fade">'+inner+'</div>';}
+function tagH(s){return s.tag?'<span class="tag">'+s.tag+'</span>':'';}
+function cont(label){return '<div class="nx"><button class="cta" onclick="next()">'+(label||'繼續 →')+'</button></div>';}
+
+function render(){const s=S[cur];const R=REND[s.t];R(s,cur);}
+const REND={
+ title:(s)=>wrapScene(s.sky,'<div class="eyebrow">Yoda Research · 判斷力學校 · 檢討</div><h1>後照鏡：2026，<br>訊號其實都說了</h1><p class="lead">狂漲 → 見頂 → 血洗 → 落底 → 翻上。<br>回到每個轉折點，這一次，你讀懂了嗎？</p><button class="cta gold" onclick="next()">回到 2026/06 →</button><div class="mcap" style="margin-top:14px">約 6 分鐘 · 全程檢討已知過去，不預測、不喊買賣</div>'),
+ project:(s)=>wrapScene(s.sky,'<span class="tag">先說在前面</span><h2>這不是「看我多準」</h2><p class="body">2026——4 月你追在狂漲、6 月頂你沒跑、7 月底你割在最低、8 月它又翻上去。</p><p class="body">我發文說了不少；但老實說，<b class="hl">我當下也沒抓到全部訊號</b>。所以這是我們一起把這波拆開檢討——<b class="hl">下一次，一起更警覺。</b></p><button class="btn" onclick="next()">我就是追頂砍底那個<small>每次都慢半拍</small></button><button class="btn" onclick="next()">我想學會讀轉折訊號<small>不想再事後才懂</small></button>'),
+ teach:(s)=>wrapScene(s.sky,tagH(s)+'<h2>'+s.h+'</h2>'+s.html+cont()),
+ mono:(s)=>{let im=s.img?'<div class="montage" style="max-width:360px;margin-bottom:14px"><img src="'+IMG+s.img+'.png" alt=""></div>':'';wrapScene(s.sky,im+'<div class="mono">'+s.lines.map(l=>'<p class="body" style="text-align:center;color:#dfe6f4">'+l+'</p>').join('')+'</div>'+cont());},
+ flip:(s,i)=>{if(state.ans[i]!=null)return flipDone(s,i);wrapScene(s.sky,tagH(s)+'<h2>'+s.h+'</h2><p class="body">'+s.body+'</p><p class="body" style="color:#fff;font-weight:600">'+s.q+'</p>'+s.opts.map((o,k)=>'<button class="btn" onclick="pick('+i+','+k+')">'+o.t+'</button>').join(''));},
+ gauge:(s,i)=>{if(state.ans[i]!=null)return gaugeDone(s,i);state.gv=50;drawG(s,i);},
+ scale:(s,i)=>{if(state.ans[i]!=null)return gaugeDone(s,i);state.gv=50;drawG(s,i);},
+ classify:(s,i)=>{if(state.ans[i]!=null)return clsDone(s,i);if(state.cls.length!==s.items.length)state.cls=s.items.map(()=>null);drawCls(s,i);},
+ checklist:(s,i)=>{state.chk=s.items.map(()=>false);drawChk(s,i);},
+ montage:(s,i)=>{wrapScene(s.sky,tagH(s)+'<div class="montage"><img id="mimg" src="'+IMG+(s.imgs[0])+'.png" alt=""></div><div class="mcap" id="mcap">'+(s.cap||'')+'</div><div id="mnarrbox"></div><div id="mnx"></div>');playMontage(s,i);},
+ result:(s)=>result(s)
+};
+
+/* flip */
+function pick(i,k){if(state.ans[i]!=null)return;const s=S[i];state.ans[i]=k;if(s.opts[k].good)state.score++;flipDone(s,i);}
+function flipDone(s,i){const k=state.ans[i];wrapScene(s.sky,tagH(s)+'<h2>'+s.h+'</h2>'+s.opts.map((o,j)=>'<button class="btn '+(o.good?'good':(j===k?'bad':'bad'))+'">'+(o.good?'✓ ':'')+o.t+'</button>').join('')+'<div class="rv">'+s.rv+'<div class="gloss">白話：'+s.gloss+'</div></div>'+cont());}
+/* gauge/scale */
+function drawG(s,i){wrapScene(s.sky,tagH(s)+'<h2>'+s.h+'</h2><p class="body">'+s.body+'</p><p class="body" style="color:#fff;font-weight:600">'+s.q+'</p><div class="gwrap"><div class="gval" id="gv">'+state.gv+'</div><input class="gsl" type="range" min="0" max="100" value="'+state.gv+'" oninput="state.gv=+this.value;document.getElementById(\'gv\').textContent=this.value"><div class="gsl-ends"><span>'+s.left+'</span><span>'+s.right+'</span></div></div><div class="nx"><button class="cta gold" onclick="gaugePick('+i+')">就這樣 →</button></div>');}
+function gaugePick(i){if(state.ans[i]!=null)return;const s=S[i];state.ans[i]=state.gv;if(s.correct(state.gv))state.score++;gaugeDone(s,i);}
+function gaugeDone(s,i){const v=state.ans[i];wrapScene(s.sky,tagH(s)+'<h2>'+s.h+'</h2><div class="gwrap"><div class="gval">'+v+'</div><div class="gsl-ends"><span>'+s.left+'</span><span>'+s.right+'</span></div></div><div class="fb">'+s.fb(v)+'</div><div class="rv"><div class="gloss">白話：'+s.gloss+'</div></div>'+cont());}
+/* classify */
+function drawCls(s,i){const rows=s.items.map((it,k)=>'<div class="cls-row" id="cr'+k+'"><div class="cls-name">'+it[0]+'</div><div class="cls-btns"><button class="cls-btn '+(state.cls[k]==='A'?'on':'')+'" onclick="setCls('+k+',\'A\')">'+s.catA+'</button><button class="cls-btn '+(state.cls[k]==='B'?'on':'')+'" onclick="setCls('+k+',\'B\')">'+s.catB+'</button></div></div>').join('');const done=state.cls.every(x=>x!=null);wrapScene(s.sky,tagH(s)+'<h2>'+s.h+'</h2><p class="body dim">'+s.sub+'</p>'+rows+'<div class="nx">'+(done?'<button class="cta gold" onclick="clsCheck('+i+')">檢查 →</button>':'<span class="mcap">全部分類後出現「檢查」</span>')+'</div>');}
+function setCls(k,v){state.cls[k]=v;drawCls(S[cur],cur);}
+function clsCheck(i){const s=S[i];let ok=0;s.items.forEach((it,k)=>{if(state.cls[k]===it[1])ok++;});state.ans[i]=ok;if(ok>=s.items.length-1)state.score++;s.items.forEach((it,k)=>{const r=document.getElementById('cr'+k);if(r)r.classList.add(state.cls[k]===it[1]?'right':'wrong');});const box=document.querySelector('.nx');box.outerHTML='<div class="rv"><b>答對 '+ok+'/'+s.items.length+'。</b>'+s.rv+'<div class="gloss">白話：'+s.gloss+'</div></div>'+cont();}
+/* checklist */
+function drawChk(s,i){const rows=s.items.map((it,k)=>'<div class="chk '+(state.chk[k]?'on':'')+'" onclick="tglChk('+k+')"><div class="box">✓</div><div class="lbl">'+it[0]+'<small>'+it[1]+'</small></div></div>').join('');const done=state.chk.every(Boolean);wrapScene(s.sky,tagH(s)+'<h2>'+s.h+'</h2><p class="body dim">'+s.sub+'</p>'+rows+(done&&s.rv?'<div class="rv">'+s.rv+'</div>':'')+'<div class="nx">'+(done?'<button class="cta gold" onclick="next()">繼續 →</button>':'<span class="mcap">全部勾選後繼續</span>')+'</div>');}
+function tglChk(k){state.chk[k]=!state.chk[k];drawChk(S[cur],cur);}
+/* montage 0.5s 快播 */
+function playMontage(s,i){const all=s.imgs.concat(s.charts?s.charts.map(c=>c):[]);let idx=0;const img=document.getElementById('mimg');const iv=setInterval(()=>{idx++;if(idx>=all.length){clearInterval(iv);document.getElementById('mnarrbox').innerHTML='<div class="mnarr">'+s.narr+'</div>';document.getElementById('mnx').innerHTML=cont();return;}img.src=IMG+all[idx]+'.png';},500);}
+/* result */
+function result(s){const r=state.score,m=state.max;const tier=r>=m-1?'鷹眼':r>=Math.ceil(m/2)?'漸醒':'還在追頂砍底';const em=r>=m-1?'🦅':r>=Math.ceil(m/2)?'🌅':'🪞';
+ wrapScene(s.sky,'<div class="mcap">後照鏡看完</div><div class="res-em">'+em+'</div><div class="res-name">'+tier+'</div><div class="res-vow">「我不再事後才看懂訊號了。」</div><div class="res-score">你在這波讀對了 '+r+' / '+m+'</div><p class="body">頂與底是同一把尺：情緒最高＋利多出盡＝高點；情緒最恐慌＋利空不跌＝低點。訊號當時都在——這次一起檢討完，<b class="hl">下一次，我們會更警覺。</b></p><div class="act"><a href="https://iamtwispin.substack.com" target="_blank" rel="noopener">訂電子報，下一波我陪你一起盯訊號 →</a><a href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">看每期報告，把後照鏡變照後鏡 →</a><button onclick="share()">分享給也套在 2026 這波的朋友</button></div><div class="replay"><a onclick="replay()">重看一次</a></div><div id="sfb" class="mcap"></div><div class="credit">Yoda Research · 判斷力學校 · 後照鏡 2026</div>');}
+function replay(){cur=0;state.score=0;state.ans={};state.cls=[];go(0);}
+function share(){const url=location.href.split('?')[0];const t='我剛玩了《後照鏡：2026》——把狂漲→崩盤→翻上的每個轉折訊號檢討一遍，原來頂和底是同一把尺。';if(navigator.share){navigator.share({title:'後照鏡 2026 · Yoda',text:t,url}).catch(()=>{});return;}navigator.clipboard.writeText(url).then(()=>{const f=document.getElementById('sfb');if(f){f.textContent='網址已複製，貼去分享吧';}}).catch(()=>{});}
+render();
+</script>
