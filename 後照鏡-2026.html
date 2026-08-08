@@ -12,6 +12,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC','
 /* 天色 */
 .sky-mist{background:linear-gradient(180deg,#b7c7d8,#d9e3ec 55%,#eef3f7)}
 .sky-mist,.sky-mist *{color:#20303f}
+/* 淺色天：所有文字改深色（§三 淺背景文字改深色，含 dim/hl/tag） */
+.sky-mist .body,.sky-mist .body.dim,.sky-mist .lead,.sky-mist .deflist .v,.sky-mist .mcap{color:#33424f}
+.sky-mist .hl{color:#a15c00}
+.sky-mist .tag{background:rgba(160,92,0,.15);color:#7a4a00}
+.sky-mist .deflist .k{color:#8a5000}
 .sky-storm{background:linear-gradient(180deg,#12131f,#2a2340 55%,#4a3a5e)}
 .sky-noon{background:linear-gradient(180deg,#0a2a4a,#1f6fae 55%,#f0a24a)}
 .sky-dusk{background:linear-gradient(180deg,#241026,#7a3a4a 45%,#e8a24a)}
@@ -67,7 +72,8 @@ h2{font-size:22px;font-weight:800;line-height:1.4;margin-bottom:12px}
 .chk .lbl{font-size:13.5px;line-height:1.5}.chk .lbl small{display:block;font-size:12px;color:var(--dim);margin-top:2px}
 /* montage 快播 */
 .montage{width:100%;max-width:440px;margin:6px auto;position:relative}
-.montage img{width:100%;border-radius:12px;border:1px solid var(--card-bd);box-shadow:0 8px 30px rgba(0,0,0,.5);display:block}
+.montage img{width:100%;border-radius:12px;border:1px solid var(--card-bd);box-shadow:0 8px 30px rgba(0,0,0,.5);display:block;transition:opacity .13s}
+.mdate{font-size:25px;font-weight:800;color:var(--gold);letter-spacing:3px;margin-bottom:10px;text-shadow:0 1px 3px rgba(0,0,0,.6)}
 .mnarr{font-size:14px;line-height:1.7;color:#f0d488;max-width:460px;margin:14px auto 0;text-align:left;font-style:italic}
 .mcap{font-size:12px;color:var(--dim);margin-top:6px;letter-spacing:1px}
 /* chart */
@@ -91,7 +97,16 @@ h2{font-size:22px;font-weight:800;line-height:1.4;margin-bottom:12px}
 .fade{animation:fd .5s ease both}@keyframes fd{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 </style>
 <div id="scene"></div>
+<audio id="bgm" loop preload="auto"><source src="day_one.mp3" type="audio/mpeg"></audio>
+<button id="muteBtn" onclick="toggleMute()" style="position:fixed;top:14px;right:14px;z-index:120;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,.38);border:1px solid rgba(255,255,255,.28);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(6px)">🔊</button>
 <script>
+/* ===== BGM ===== */
+const BGM=document.getElementById('bgm'),MUTEBTN=document.getElementById('muteBtn');
+let bgmStarted=false,bgmMuted=false;try{bgmMuted=localStorage.getItem('yoda_bgm_muted')==='1';}catch(e){}
+if(BGM)BGM.volume=0.30;
+function mIcon(){if(MUTEBTN)MUTEBTN.textContent=bgmMuted?'🔇':'🔊';}mIcon();
+function toggleMute(){bgmMuted=!bgmMuted;try{localStorage.setItem('yoda_bgm_muted',bgmMuted?'1':'0');}catch(e){}if(bgmMuted){if(BGM)BGM.pause();}else if(BGM)BGM.play().catch(()=>{});mIcon();}
+document.addEventListener('click',()=>{if(!bgmStarted&&!bgmMuted&&BGM)BGM.play().then(()=>bgmStarted=true).catch(()=>{});});
 /* ===== 水墨地景 ===== */
 function bg(sky){const dark=['sky-storm','sky-blood','sky-night','sky-dawn','sky-dusk','sky-clear','sky-noon'].includes(sky);
  const f=dark?'rgba(210,220,245,.10)':'rgba(30,35,60,.10)',n=dark?'rgba(180,195,230,.16)':'rgba(25,30,55,.16)',l=dark?'rgba(222,232,252,.32)':'rgba(20,25,50,.30)';
@@ -106,10 +121,10 @@ const S=[
 {t:'project',sky:'sky-storm'},
 
 // 幕0 領先指標
-{t:'teach',sky:'sky-mist',tag:'幕0 · 風向球先倒',h:'先認識最靈敏的那支溫度計：DXYZ',
+{t:'teach',sky:'sky-storm',tag:'幕0 · 風向球先倒',h:'先認識最靈敏的那支溫度計：DXYZ',
  html:'<p class="body"><b class="hl">DXYZ</b>（Destiny Tech100）是一檔持有<b>未上市科技創投</b>（SpaceX、OpenAI 那類）的基金。它最虛、最靠情緒撐、流動性最差——所以它是<b class="hl">風險胃納最前瞻的代理</b>：錢一想避險，最先被丟的就是它。</p><p class="body dim">記住這個直覺：要看風險轉向，先看「最投機的那塊」。</p>'},
 // 3 flip DXYZ
-{t:'flip',sky:'sky-storm',tag:'幕0 · 風向球',h:'2026/05/26，DXYZ 發生了什麼',
+{t:'flip',sky:'sky-storm',tag:'幕0 · 風向球',h:'2026/05/26，DXYZ 發生了什麼',chart:'DXYZ',
  body:'DXYZ 那天<b>率先創新高</b>——但收盤<b>爆量長黑</b>（衝高後被大量賣壓打下來）。指數當時還在漲。',
  q:'這根「創高爆量長黑」，代表？',
  opts:[{t:'投機資金見頂的第一根警示——最敏感的先反轉',good:1},{t:'創新高就是強，續追',good:0},{t:'一根K棒沒意義',good:0}],
@@ -196,18 +211,11 @@ const S=[
  opts:[{t:'跌勢末端的反轉訊號——底不是一個價，是一根吞噬＋跟進的K',good:1},{t:'一根紅K而已，續跌',good:0},{t:'反彈就是要騙人的，快空',good:0}],
  rv:'<b>對。</b>血洗末端出現<b>大量長紅吞噬</b>＋隔日站穩＝賣壓被吃掉、買方認真了。這是落底的第一格。',
  gloss:'<b>吞噬＋跟進</b>＝一根大量長紅把前面跌幅吞回、隔天不吐，是跌勢末端的反轉組合。'},
-// 19 classify 兩頭見底
-{t:'classify',sky:'sky-night',tag:'幕4 · 落底 · 兩頭見底',h:'底部的「兩頭見底」：哪些在喊賣壓見底？',
- sub:'把每一項分到「賣壓見底訊號」或「還在惡化」。',
- catA:'賣壓見底',catB:'還在惡化',
- items:[['最強的（蘋果、AI硬體、台積電）補跌到底、最後的holdout倒下','A'],['最弱的比特幣，拒絕再破低','A'],['法人單日爆買台積電、外資當天由空翻多','A'],['（干擾）某頭條又喊衰退','B']],
- rv:'<b>兩頭見底。</b>最強的補跌到底（沒有更弱可跌）＋最弱的拒絕破低（領先止跌）＝<b>賣壓從兩頭一起見底</b>。這跟頂部「風險從邊緣先退」是<b>同一把尺、兩個方向</b>。台股更直接：法人爆買台積、外資當天空翻多。',
- gloss:'<b>兩頭見底</b>＝最強補跌到底＋最弱拒絕破低，同時出現＝賣壓耗盡；頭條利空是雜訊。'},
-// 20 checklist 大底三訊號
+// 19 checklist 大底三訊號（併入兩頭見底）
 {t:'checklist',sky:'sky-night',tag:'幕4 · 落底 · 大底三訊號',h:'大底三訊號，那天亮了幾個？',
  sub:'勾出「已經亮」的訊號——底是一張 checklist，不是一瞬間。',
- items:[['① 價：大量長紅吞噬＋7/31 站穩','7/30–31 已亮'],['② 籌碼：法人爆買台積、外資空翻多','7/30 已亮'],['③ 高 Beta 回升','就差這一章 → 隨後補上']],
- rv:'2/3 亮就該提高警覺、別再砍。第③個「高 Beta 回升」隨後補齊——下一頁揭曉。'},
+ items:[['① 價：大量長紅吞噬＋7/31 站穩','7/30–31 已亮'],['② 兩頭見底：最強（蘋果/台積）補跌到底＋最弱（BTC）拒破低；法人爆買台積、外資空翻多','7/30 已亮（賣壓兩頭見底）'],['③ 高 Beta 回升','就差這一章 → 隨後補上']],
+ rv:'2/3 亮就該提高警覺、別再砍。<b>「兩頭見底」</b>——最強補跌到底（沒更弱可跌）＋最弱拒破低（領先止跌）——跟頂部「風險從邊緣先退」是<b>同一把尺、兩個方向</b>。第③個「高 Beta 回升」隨後補齊，下一頁揭曉。'},
 // 21 flip 高Beta蓋章
 {t:'flip',sky:'sky-dawn',tag:'幕4 · 翻上 · 08/01',h:'最後一章：高 Beta 領先起跑',
  body:'Mag7（權值股）<b>連兩天跳空</b>、越過空方缺口與出貨日；<b>權值股已領先起跑</b>——第③個訊號補齊。',
@@ -223,10 +231,9 @@ const S=[
 // 收束-1 頂底同一把尺
 {t:'teach',sky:'sky-clear',tag:'收束 · 大解方',h:'頂與底，永遠是同一把尺',
  html:'<p class="body"><b class="hl">情緒最高 ＋ 利多出盡 ＝ 波段高點</b><br><b class="hl">情緒最恐慌 ＋ 利空不跌 ＝ 波段低點</b></p><div class="deflist"><div class="k">頂部</div><div class="v">風險從「邊緣」先退：DXYZ/BTC 先倒 → 廣度背離 → 防禦領先 → 指數最後 blow-off</div><div class="k">底部</div><div class="v">賣壓「兩頭見底」：最弱拒破低 ＋ 最強補跌到底 → 高 Beta 回升蓋章</div></div><p class="body dim">歷史永遠是這樣的循環——差別只在，<b class="hl">我們能不能用上帝視角，俯視這一切。</b></p>'},
-// 24 收束-2 全捲 montage
-{t:'montage',sky:'sky-clear',imgs:['0606','0607','0608','0610','0615','0621','0625','0628','0703','0711','0727','0728','0729','0801'],charts:['tsmc','aapl'],
- narr:'訊號當時都在。我抓到大部分、也漏了幾個（6/15）。<br>這次一起把後照鏡看完——下一次，我們會更警覺。',
- cap:'★ 完整 track record · 0606 → 0801（＋台積電/AAPL 走勢）'},
+// 24 收束-2 靜態 ▼ 走勢圖（原大輪播已刪）
+{t:'chart',sky:'sky-clear',tag:'收束 · 走勢地圖',h:'把訊號，標回走勢線上',charts:['tsmc','aapl'],
+ narr:'▼ 是當時標下的位置。訊號當時都在——我抓到大部分、也漏了幾個（6/15）。這次一起把後照鏡看完，下一次，我們會更警覺。'},
 // 25 收束-3 轉折雷達 checklist
 {t:'checklist',sky:'sky-clear',tag:'收束 · 你的雷達',h:'把「轉折雷達」收進口袋',
  sub:'勾滿——下次盤面出現這些，你就會警覺。',
@@ -243,7 +250,7 @@ state.max=S.filter(x=>['flip','gauge','classify','scale'].includes(x.t)).length;
 function scored(i){return ['flip','gauge','classify','scale'].includes(S[i].t);}
 function qdots(i){let n=0,done=0;for(let k=0;k<S.length;k++){if(scored(k)){n++;if(k<=i&&state.ans[k]!=null)done++;}}return {n,done};}
 function dots(i){return '';}
-function go(i){el.style.opacity=0;setTimeout(()=>{cur=i;render();el.style.opacity=1;window.scrollTo(0,0);},260);}
+function go(i){if(montageIv){clearInterval(montageIv);montageIv=null;}el.style.opacity=0;setTimeout(()=>{cur=i;render();el.style.opacity=1;window.scrollTo(0,0);},260);}
 function next(){if(cur<S.length-1)go(cur+1);}
 el.style.transition='opacity .26s';
 
@@ -257,12 +264,13 @@ const REND={
  project:(s)=>wrapScene(s.sky,'<span class="tag">先說在前面</span><h2>這不是「看我多準」</h2><p class="body">2026——4 月你追在狂漲、6 月頂你沒跑、7 月底你割在最低、8 月它又翻上去。</p><p class="body">我發文說了不少；但老實說，<b class="hl">我當下也沒抓到全部訊號</b>。所以這是我們一起把這波拆開檢討——<b class="hl">下一次，一起更警覺。</b></p><button class="btn" onclick="next()">我就是追頂砍底那個<small>每次都慢半拍</small></button><button class="btn" onclick="next()">我想學會讀轉折訊號<small>不想再事後才懂</small></button>'),
  teach:(s)=>wrapScene(s.sky,tagH(s)+'<h2>'+s.h+'</h2>'+s.html+cont()),
  mono:(s)=>{let im=s.img?'<div class="montage" style="max-width:360px;margin-bottom:14px"><img src="'+IMG+s.img+'.png" alt=""></div>':'';wrapScene(s.sky,im+'<div class="mono">'+s.lines.map(l=>'<p class="body" style="text-align:center;color:#dfe6f4">'+l+'</p>').join('')+'</div>'+cont());},
- flip:(s,i)=>{if(state.ans[i]!=null)return flipDone(s,i);wrapScene(s.sky,tagH(s)+'<h2>'+s.h+'</h2><p class="body">'+s.body+'</p><p class="body" style="color:#fff;font-weight:600">'+s.q+'</p>'+s.opts.map((o,k)=>'<button class="btn" onclick="pick('+i+','+k+')">'+o.t+'</button>').join(''));},
+ flip:(s,i)=>{if(state.ans[i]!=null)return flipDone(s,i);wrapScene(s.sky,tagH(s)+'<h2>'+s.h+'</h2>'+(s.chart?'<div class="chartbox"><img src="'+IMG+s.chart+'.png" alt=""></div>':'')+'<p class="body">'+s.body+'</p><p class="body" style="color:#fff;font-weight:600">'+s.q+'</p>'+s.opts.map((o,k)=>'<button class="btn" onclick="pick('+i+','+k+')">'+o.t+'</button>').join(''));},
  gauge:(s,i)=>{if(state.ans[i]!=null)return gaugeDone(s,i);state.gv=50;drawG(s,i);},
  scale:(s,i)=>{if(state.ans[i]!=null)return gaugeDone(s,i);state.gv=50;drawG(s,i);},
  classify:(s,i)=>{if(state.ans[i]!=null)return clsDone(s,i);if(state.cls.length!==s.items.length)state.cls=s.items.map(()=>null);drawCls(s,i);},
  checklist:(s,i)=>{state.chk=s.items.map(()=>false);drawChk(s,i);},
- montage:(s,i)=>{wrapScene(s.sky,tagH(s)+'<div class="montage"><img id="mimg" src="'+IMG+(s.imgs[0])+'.png" alt=""></div><div class="mcap" id="mcap">'+(s.cap||'')+'</div><div id="mnarrbox"></div><div id="mnx"></div>');playMontage(s,i);},
+ montage:(s,i)=>{wrapScene(s.sky,tagH(s)+'<div class="mdate" id="mdate"></div><div class="montage"><img id="mimg" src="'+IMG+(s.imgs[0])+'.png" alt=""></div><div class="mcap" id="mcap">'+(s.cap||'')+'</div><div id="mnarrbox"></div><div id="mnx"></div>');playMontage(s,i);},
+ chart:(s)=>wrapScene(s.sky,tagH(s)+'<h2>'+s.h+'</h2>'+s.charts.map(c=>'<div class="chartbox"><img src="'+IMG+c+'.png" alt=""></div>').join('')+'<div class="mnarr">'+s.narr+'</div>'+cont()),
  result:(s)=>result(s)
 };
 
@@ -280,8 +288,10 @@ function clsCheck(i){const s=S[i];let ok=0;s.items.forEach((it,k)=>{if(state.cls
 /* checklist */
 function drawChk(s,i){const rows=s.items.map((it,k)=>'<div class="chk '+(state.chk[k]?'on':'')+'" onclick="tglChk('+k+')"><div class="box">✓</div><div class="lbl">'+it[0]+'<small>'+it[1]+'</small></div></div>').join('');const done=state.chk.every(Boolean);wrapScene(s.sky,tagH(s)+'<h2>'+s.h+'</h2><p class="body dim">'+s.sub+'</p>'+rows+(done&&s.rv?'<div class="rv">'+s.rv+'</div>':'')+'<div class="nx">'+(done?'<button class="cta gold" onclick="next()">繼續 →</button>':'<span class="mcap">全部勾選後繼續</span>')+'</div>');}
 function tglChk(k){state.chk[k]=!state.chk[k];drawChk(S[cur],cur);}
-/* montage 0.5s 快播 */
-function playMontage(s,i){const all=s.imgs.concat(s.charts?s.charts.map(c=>c):[]);let idx=0;const img=document.getElementById('mimg');const iv=setInterval(()=>{idx++;if(idx>=all.length){clearInterval(iv);document.getElementById('mnarrbox').innerHTML='<div class="mnarr">'+s.narr+'</div>';document.getElementById('mnx').innerHTML=cont();return;}img.src=IMG+all[idx]+'.png';},500);}
+/* montage 0.5s 快播（預載＋大日期切換＋淡入，讓換圖看得見） */
+let montageIv=null;
+function fmtDate(n){return /^\d{4}$/.test(n)?(n.slice(0,2)+'/'+n.slice(2)):n.toUpperCase();}
+function playMontage(s,i){const all=s.imgs.concat(s.charts?s.charts:[]);all.forEach(n=>{const im=new Image();im.src=IMG+n+'.png';});const de=document.getElementById('mdate');if(de)de.textContent=fmtDate(all[0]);let idx=0;if(montageIv)clearInterval(montageIv);montageIv=setInterval(()=>{const nb=document.getElementById('mnarrbox'),im=document.getElementById('mimg');if(!nb||!im){clearInterval(montageIv);montageIv=null;return;}idx++;if(idx>=all.length){clearInterval(montageIv);montageIv=null;nb.innerHTML='<div class="mnarr">'+s.narr+'</div>';document.getElementById('mnx').innerHTML=cont();return;}im.style.opacity=0;setTimeout(()=>{const im2=document.getElementById('mimg'),d2=document.getElementById('mdate');if(im2){im2.src=IMG+all[idx]+'.png';if(d2)d2.textContent=fmtDate(all[idx]);im2.style.opacity=1;}},130);},520);}
 /* result */
 function result(s){const r=state.score,m=state.max;const tier=r>=m-1?'鷹眼':r>=Math.ceil(m/2)?'漸醒':'還在追頂砍底';const em=r>=m-1?'🦅':r>=Math.ceil(m/2)?'🌅':'🪞';
  wrapScene(s.sky,'<div class="mcap">後照鏡看完</div><div class="res-em">'+em+'</div><div class="res-name">'+tier+'</div><div class="res-vow">「我不再事後才看懂訊號了。」</div><div class="res-score">你在這波讀對了 '+r+' / '+m+'</div><p class="body">頂與底是同一把尺：情緒最高＋利多出盡＝高點；情緒最恐慌＋利空不跌＝低點。訊號當時都在——這次一起檢討完，<b class="hl">下一次，我們會更警覺。</b></p><div class="act"><a href="https://iamtwispin.substack.com" target="_blank" rel="noopener">訂電子報，下一波我陪你一起盯訊號 →</a><a href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">看每期報告，把後照鏡變照後鏡 →</a><button onclick="share()">分享給也套在 2026 這波的朋友</button></div><div class="replay"><a onclick="replay()">重看一次</a></div><div id="sfb" class="mcap"></div><div class="credit">Yoda Research · 判斷力學校 · 後照鏡 2026</div>');}
