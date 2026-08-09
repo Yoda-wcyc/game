@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>你是哪種投資人？· Yoda Research</title>
+<meta property="og:title" content="你是哪種投資人？">
+<meta property="og:description" content="90% 的人不認識自己。8 題，讓分類帽告訴你，你在市場裡究竟是誰。— Yoda Research 判斷力學校">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yoda-wcyc.github.io/game/你是哪種投資人.html">
+<meta property="og:image" content="https://yoda-wcyc.github.io/game/og-投資人測驗.png">
+<meta name="twitter:card" content="summary_large_image">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DFFP3JL6EY"></script>
+<script>
+  window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-DFFP3JL6EY');
+</script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:100%;min-height:100%;background:#05060c;color:#f2f4fb;
+    font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC','Microsoft JhengHei',sans-serif}
+  :root{--gold:#e0a526;--gold2:#b8860b;--goldl:#f0d488;--text:#f2f4fb;--dim:#9aa3b8;--card:rgba(255,255,255,.05);--bd:rgba(255,255,255,.14)}
+  #app{max-width:560px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:5vh 20px 7vh;position:relative}
+  .sky{position:fixed;inset:0;z-index:-2;background:radial-gradient(130% 85% at 50% 0%,#171126 0%,#0b0b18 46%,#05060c 100%)}
+  .fade{animation:fade .5s ease both}@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+  .eyebrow{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:14px;font-weight:700}
+  h1{font-size:min(9vw,38px);font-weight:900;color:var(--text);text-align:center;line-height:1.28;margin-bottom:14px}
+  .lead{font-size:15.5px;color:var(--dim);text-align:center;line-height:1.85;max-width:440px;margin:0 auto 26px}
+  .gold{background:linear-gradient(135deg,var(--goldl),var(--gold) 55%,var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  .btn{display:block;width:100%;text-align:left;font-size:15.5px;color:var(--text);background:var(--card);
+    border:1px solid var(--bd);border-radius:13px;padding:15px 17px;margin:10px 0;cursor:pointer;line-height:1.55;transition:all .15s}
+  .btn:hover{border-color:var(--gold);background:rgba(224,165,38,.1);transform:translateY(-1px)}
+  .cta{display:inline-block;width:100%;text-align:center;font-size:17px;font-weight:800;color:#1a1200;
+    background:linear-gradient(135deg,var(--goldl),var(--gold));border:none;border-radius:9999px;padding:15px;cursor:pointer;
+    box-shadow:0 8px 26px rgba(224,165,38,.34);text-decoration:none;margin-top:8px}
+  .cta.ghost{background:transparent;color:var(--gold);border:1px solid var(--gold);box-shadow:none}
+
+  .qnum{text-align:center;font-size:12.5px;color:var(--dim);letter-spacing:.1em;margin-bottom:8px}
+  .qbar{height:4px;background:rgba(255,255,255,.1);border-radius:2px;margin:0 auto 22px;max-width:280px;overflow:hidden}
+  .qbar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold2),var(--goldl));transition:width .35s ease}
+  .q{font-size:min(6.4vw,22px);font-weight:800;color:var(--text);text-align:center;line-height:1.45;margin-bottom:20px}
+
+  /* 結果卡 = 產品（可截圖分享） */
+  #card{background:linear-gradient(180deg,rgba(224,165,38,.12),rgba(9,12,22,.9));border:1.5px solid transparent;
+    background-clip:padding-box;border-radius:20px;padding:26px 22px;position:relative;overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  #card::before{content:"";position:absolute;inset:0;border-radius:20px;padding:1.5px;
+    background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+  .r-emoji{font-size:60px;text-align:center;line-height:1;margin-bottom:6px}
+  .r-type{font-size:min(8vw,30px);font-weight:900;text-align:center;margin-bottom:4px}
+  .r-rare{text-align:center;font-size:12px;letter-spacing:.14em;color:var(--gold);margin-bottom:14px;font-weight:700}
+  .callout{font-size:16px;line-height:1.7;color:var(--text);text-align:center;font-weight:700;margin-bottom:16px}
+  .r-sec{background:rgba(255,255,255,.07);border:1px solid var(--bd);border-radius:12px;padding:13px 15px;margin:11px 0;font-size:14px;line-height:1.75;color:#eef2fb}
+  .r-sec .lb{font-size:11px;letter-spacing:.1em;color:var(--gold);font-weight:700;text-transform:uppercase;display:block;margin-bottom:5px}
+  .r-sec b{color:var(--goldl)}
+  .brandline{text-align:center;font-size:12px;color:var(--dim);margin-top:18px;letter-spacing:.06em}
+  .brandline b{color:var(--gold);font-weight:800}
+  .point{text-align:center;font-size:14px;color:var(--dim);line-height:1.7;margin:18px 0 6px}
+  .point b{color:var(--text)}
+  .acts{display:flex;flex-direction:column;gap:11px;margin-top:16px}
+  .replay{text-align:center;margin-top:16px}.replay a{color:var(--dim);font-size:13px;text-decoration:underline;cursor:pointer}
+  .disc{text-align:center;font-size:11px;color:#5b6478;line-height:1.7;margin-top:18px}
+</style>
+</head>
+<body>
+<div class="sky"></div>
+<audio id="bgm" loop preload="auto"><source src="day_one.mp3"></audio>
+<div id="app"></div>
+
+<script>
+var APP=document.getElementById('app'), BGM=document.getElementById('bgm');
+if(BGM)BGM.volume=0.32;
+function playBgm(){if(BGM)BGM.play().catch(function(){});}
+document.addEventListener('click',function(){playBgm();},{once:true});
+var el=function(h){APP.innerHTML='<div class="fade">'+h+'</div>';window.scrollTo(0,0);};
+
+/* ===== 六型 ===== */
+var TYPES={
+  surf:{e:'🎢',name:'情緒衝浪手',rare:'',callout:'消息一來你就衝——追高殺低，最怕的是抱不住。',
+    blind:'你的判斷常常被情緒駕駛：漲了怕沒跟到、跌了怕住套房，於是在最貴的地方買、最便宜的地方賣。',
+    fixLb:'Yoda 正好補你',fix:'先看懂「今天到底發生什麼」再動——每天一篇<b>免費簡報</b>幫你踩剎車；心性這關，玩玩<b>《投資者的修行》</b>。',
+    game:{t:'玩《投資者的修行》→',u:'投資者的修行-20260725.html'}},
+  para:{e:'📊',name:'分析癱瘓者',rare:'',callout:'你不是不會判斷——是知道太多，反而動不了。',
+    blind:'報告看一堆、指標記一排，最後卡在「還不夠確定」，於是錯過。資訊不是你的問題，收束才是。',
+    fixLb:'Yoda 正好補你',fix:'把一堆數字收成<b>一條主線</b>——玩<b>《讀懂關鍵報告》</b>學會 TOP→DOWN 一句話定調，六類報告幫你聚焦、不再淹沒。',
+    game:{t:'玩《讀懂關鍵報告》→',u:'讀懂關鍵報告.html'}},
+  hold:{e:'😴',name:'佛系存股仙',rare:'',callout:'買了就放著——很穩，但轉折來了，你常常不知道。',
+    blind:'長抱是好事，但市場會換季。你需要一面「該醒的時候會叫你」的鏡子，而不是睡過整個循環。',
+    fixLb:'Yoda 正好補你',fix:'玩<b>《景氣循環的DNA》</b>學會判位階、<b>《落底訊號》</b>認轉折；再用 Yoda 的<b>大波段檢討</b>，定期幫你的持股體檢。',
+    game:{t:'玩《景氣循環的DNA》→',u:'景氣循環的DNA-20260802.html'}},
+  chase:{e:'🎯',name:'明牌獵人',rare:'',callout:'你買的每一支，是不是——都是別人叫你買的？',
+    blind:'跟老師、跟群組、跟消息，你永遠慢一步：等你聽到，早就有人先站進去了。跟單的天花板，就是報明牌那個人。',
+    fixLb:'Yoda 正好補你',fix:'學會自己讀<b>資金流泡泡圖</b>「錢流去哪」，玩<b>《選股決策鏈》</b>——輪動→啟動→A級→實錘→退場，選誰不再靠別人。',
+    game:{t:'玩《選股決策鏈》→',u:'選股決策鏈-20260802.html'}},
+  knife:{e:'🔪',name:'逆勢接刀客',rare:'',callout:'別人恐懼你貪婪——但你常接到，還在跌的刀。',
+    blind:'逆勢要對，前提是分得出「真落底」還是「假反彈」。少了這一步，勇敢就變成一直攤平、越攤越深。',
+    fixLb:'Yoda 正好補你',fix:'玩<b>《落底訊號》</b>認什麼訊號才算真的底、<b>《利多為什麼跌》</b>看懂消息與反應的落差，接刀前先確認。',
+    game:{t:'玩《落底訊號》→',u:'落底訊號-20260729.html'}},
+  judge:{e:'🧭',name:'判斷力覺醒者',rare:'稀有 · 少數人測到',callout:'你已經會讀資金流、要實錘、留退場線——你不追喊單，你自己判斷。',
+    blind:'幾乎沒有盲點。你缺的不是判斷力，是把它<b>系統化</b>：一套每天都能複用、越用越準的流程。',
+    fixLb:'你已在路上',fix:'Yoda 的<b>六類完整報告 ＋ 檢核徽章</b>，就是為你這種人開的——把你的直覺，練成可複製的系統。',
+    game:{t:'看六類報告怎麼串成系統 →',u:'啟動付費會員.html'}}
+};
+var ORDER=['surf','para','hold','chase','knife','judge'];
+
+/* ===== 8 題（每選項對某型加分；判斷力選項餵 judge）===== */
+var Q=[
+ // Q1 資金流（泡泡圖優點缺口）
+ {q:'買一支股票前，你知道「現在錢，正從哪一類流到哪一類」嗎？',o:[
+   {t:'不知道，看它有沒有在漲就好',s:{surf:2,chase:1}},
+   {t:'大概看台積、權值有沒有動',s:{hold:2}},
+   {t:'想查，但一堆數字整不出頭緒',s:{para:2}},
+   {t:'會，我會先讀「資金流去哪一類」',s:{judge:2}} ]},
+ // Q2 相對強弱 REL（六類報告缺口·多維度拆解 1/3）
+ {q:'你說一支股票「強」，主要是看它——',o:[
+   {t:'漲得多、漲得兇',s:{surf:2,chase:1}},
+   {t:'老師或新聞說它強',s:{chase:2}},
+   {t:'不確定，強不強很主觀吧',s:{para:1,hold:1}},
+   {t:'看它「贏大盤多少」（相對強弱）',s:{judge:2}} ]},
+ // Q3 法人籌碼四型態（多維度拆解 2/3）
+ {q:'同樣是法人買超，你分得出是「在吸籌」還是「只是換手」嗎？',o:[
+   {t:'法人買就是好，管它哪一種',s:{chase:2,surf:1}},
+   {t:'分不出來，不都是買超？',s:{para:1,hold:1}},
+   {t:'我不看法人，看價格就好',s:{surf:1}},
+   {t:'分得出：吸籌／反轉／換手／賣超',s:{judge:2}} ]},
+ // Q4 市場廣度（多維度拆解 3/3）
+ {q:'大盤上漲，你會看它是「萬人抬轎」還是「幾個巨頭硬撐」嗎？',o:[
+   {t:'大盤漲就是好，管它誰在漲',s:{surf:2,chase:1}},
+   {t:'沒想過這個問題',s:{hold:1,para:1}},
+   {t:'我只看指數紅不紅',s:{surf:1,hold:1}},
+   {t:'會，我看市場廣度健不健康',s:{judge:2}} ]},
+ // Q3 大波段檢討（優點缺口）
+ {q:'上一個大波段，你有回頭檢討「賺在哪、賠在哪、為什麼」嗎？',o:[
+   {t:'沒有，過了就算了',s:{surf:1,hold:1}},
+   {t:'賺就好，沒在檢討',s:{chase:2}},
+   {t:'有想過，但沒系統地做',s:{para:2}},
+   {t:'有，我會覆盤自己每一次判斷',s:{judge:2}} ]},
+ // Q4 真假落底（落底訊號/實錘 優點缺口）
+ {q:'大盤跌深反彈，你怎麼分辨「真落底」還是「假反彈」？',o:[
+   {t:'反彈就先跑再說',s:{surf:2}},
+   {t:'反彈就是機會，進場',s:{knife:2,chase:1}},
+   {t:'分不出來，每次都很兩難',s:{para:1,hold:1}},
+   {t:'看訊號：量、廣度、法人有沒有實錘',s:{judge:2}} ]},
+ // Q5 選股來源（選股決策鏈 優點缺口）
+ {q:'你買的股票，大多是怎麼來的？',o:[
+   {t:'新聞／群組／朋友報的',s:{chase:2}},
+   {t:'看到漲停就跟上去',s:{surf:2}},
+   {t:'研究很久，才敢買一次',s:{para:2}},
+   {t:'存股名單，放著就好',s:{hold:2}},
+   {t:'自己一層層篩出來的',s:{judge:2}} ]},
+ // Q6 心性
+ {q:'你買的股票跌了 15%，你？',o:[
+   {t:'先停損跑，別住套房',s:{surf:2}},
+   {t:'加碼攤平，變便宜了',s:{knife:2}},
+   {t:'回頭看當初買的理由還在不在',s:{judge:2}},
+   {t:'放著，長期總會回來',s:{hold:2}} ]},
+ // Q7 判斷紀錄（可證偽/敢認錯 Yoda 精神）
+ {q:'你會把自己的判斷寫下來、事後回頭驗證對錯嗎？',o:[
+   {t:'不會，反正就是賺或賠',s:{surf:1,hold:1}},
+   {t:'賠了，才會想起當初怎麼想的',s:{chase:2}},
+   {t:'一直想做，但沒真的做',s:{para:2}},
+   {t:'會，我要知道自己「哪裡看錯」',s:{judge:2}} ]},
+ // Q8 痛點·對號入座強收
+ {q:'誠實說，你最大的投資痛點是？',o:[
+   {t:'抱不住、追高殺低',s:{surf:3}},
+   {t:'研究很多，卻不敢下手',s:{para:3}},
+   {t:'總是跟到別人的尾巴',s:{chase:3}},
+   {t:'接到還在跌的刀',s:{knife:3}},
+   {t:'放到忘記、錯過轉折',s:{hold:3}},
+   {t:'其實…我覺得自己還算穩',s:{judge:3}} ]}
+];
+
+var score={surf:0,para:0,hold:0,chase:0,knife:0,judge:0}, idx=0;
+
+function start(){
+  el('<div class="eyebrow">Yoda Research · 判斷力學校</div>'
+    +'<h1>你是哪一種<br><span class="gold">投資人？</span></h1>'
+    +'<p class="lead">90% 的人，都不認識自己。<br>8 題、3 分鐘——讓分類帽告訴你，<br>你在市場裡，究竟是誰。</p>'
+    +'<button class="cta" onclick="playBgm();go()">開始測驗 →</button>'
+    +'<div class="disc">純娛樂性格測驗，非投資建議。</div>');
+}
+function go(){ score={surf:0,para:0,hold:0,chase:0,knife:0,judge:0}; idx=0; ask(); }
+
+function ask(){
+  var it=Q[idx];
+  var pct=Math.round(idx/Q.length*100);
+  var opts=it.o.map(function(o,k){return '<button class="btn" onclick="pick('+k+')">'+o.t+'</button>';}).join('');
+  el('<div class="qnum">第 '+(idx+1)+' / '+Q.length+' 題</div>'
+    +'<div class="qbar"><i style="width:'+pct+'%"></i></div>'
+    +'<div class="q">'+it.q+'</div>'+opts);
+}
+function pick(k){
+  var s=Q[idx].o[k].s;
+  for(var t in s) score[t]+=s[t];
+  idx++;
+  if(idx>=Q.length) result(); else ask();
+}
+
+function topType(){
+  // judge 需要「夠強」才給稀有；否則從其餘五型取最高
+  var best=ORDER[0];
+  ORDER.forEach(function(t){ if(score[t]>score[best]) best=t; });
+  if(best==='judge' && score.judge<14){ // 門檻：覺醒者要真的高（稀有，題數增為 10）
+    var b2='surf';
+    ['surf','para','hold','chase','knife'].forEach(function(t){ if(score[t]>score[b2]) b2=t; });
+    return b2;
+  }
+  return best;
+}
+
+function result(){
+  var key=topType(), T=TYPES[key];
+  var total=0; for(var t in score) total+=score[t];
+  var pct=total?Math.round(score[key]/total*100):0;
+  var g=T.game;
+  el('<div id="card">'
+     +'<div class="r-emoji">'+T.e+'</div>'
+     +'<div class="r-type gold">'+T.name+'</div>'
+     +(T.rare?'<div class="r-rare">'+T.rare+'</div>':'')
+     +'<div class="callout">「'+T.callout+'」</div>'
+     +'<div class="r-sec"><span class="lb">你的盲點</span>'+T.blind+'</div>'
+     +'<div class="r-sec"><span class="lb">'+T.fixLb+'</span>'+T.fix+'</div>'
+     +'<div class="brandline"><b>Yoda Research</b> · 判斷力學校</div>'
+    +'</div>'
+    +'<div class="point"><b>你身邊那個，最像這型的朋友是誰？</b><br>一鍵分享，讓他也來測測看 👇</div>'
+    +'<div class="acts">'
+      +'<a class="cta" href="https://yoda-wcyc.github.io/game/'+encodeURIComponent(g.u)+'" target="_blank" rel="noopener">'+g.t+'</a>'
+      +'<a class="cta ghost" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">訂免費簡報，先看懂今天 →</a>'
+      +'<button class="cta" style="background:linear-gradient(135deg,#4267B2,#3b5998);color:#fff;box-shadow:0 8px 26px rgba(66,103,178,.4)" onclick="shareFB()">📤 分享到 Facebook</button>'
+    +'</div>'
+    +'<div class="replay"><a onclick="start()">再測一次</a></div>'
+    +'<div class="disc">純娛樂性格測驗，非投資建議；投資決策與風險請自行判斷。<br>© 2026 Yoda Research · 判斷力學校</div>');
+}
+
+var SHARE_URL='https://yoda-wcyc.github.io/game/你是哪種投資人.html';
+function shareFB(){
+  // FB 分享的是「連結」，FB 會自己抓本頁 og 預覽（通用封面）；桌面開分享框、手機優先原生選單
+  var txt='我測出來是「'+TYPES[topType()].name+'」😆 你是哪一種投資人？來 Yoda 判斷力學校測測看：';
+  if(navigator.share){navigator.share({title:'你是哪種投資人？',text:txt,url:SHARE_URL}).catch(function(){});return;}
+  window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(SHARE_URL),'_blank','width=640,height=560');
+}
+
+start();
+</script>
+</body>
+</html>
