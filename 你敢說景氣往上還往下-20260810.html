@@ -19,7 +19,8 @@
   body.sky-dusk  .sky-layer{background:linear-gradient(180deg,#241436,#6a3a63 42%,#c9743f 80%,#e79a56)}
   body.sky-clear .sky-layer{background:linear-gradient(180deg,#173a68,#4a7cc0 44%,#a6cff0 82%,#d9edfb)}
   body.sky-valley .sky-layer{background:linear-gradient(180deg,#0c1420,#243247 52%,#3d5470)}
-  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(120% 80% at 50% 0%,transparent 40%,rgba(0,0,0,.45));pointer-events:none}
+  .bg-img{position:fixed;inset:0;z-index:-2;background-size:cover;background-position:center;background-repeat:no-repeat;opacity:0;transition:opacity .6s ease}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(4,6,12,.5),rgba(4,6,12,.18) 36%,rgba(4,6,12,.72));pointer-events:none}
 
   .wrap{max-width:640px;margin:0 auto;padding:56px 20px 96px;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
   .scene{animation:rise .5s ease}
@@ -72,6 +73,7 @@
 </head>
 <body class="sky-dusk">
 <div class="sky-layer"></div>
+<div class="bg-img" id="bgImg"></div>
 <button class="restart" onclick="go(0)">↺ 重玩</button>
 <button class="mute" id="muteBtn" onclick="toggleMute()">🔊</button>
 <audio id="bgm" loop preload="auto"><source src="day_one.mp3" type="audio/mpeg"></audio>
@@ -88,7 +90,7 @@ var pickedAns=null;
 /* ── 七屏劇本（黃金六步 + 首尾呼應） ── */
 var S=[
 // 步1 定調（鉤子＋框架）
-{sky:'sky-dusk', html:function(){return ''
+{sky:'sky-dusk', bg:'bg-open.jpg', html:function(){return ''
   +'<img class="brand" src="https://yoda-research-next.vercel.app/yoda-research-title-dark.png" alt="Yoda Research">'
   +'<div class="step">判斷力小遊戲 · 90 秒</div>'
   +'<h1>你敢說——<br>現在是往上，還往下？</h1>'
@@ -97,7 +99,7 @@ var S=[
   +'<button class="btn" onclick="next()">那⋯我試試看 →</button>';}},
 
 // 步2 所以我該怎麼想（so-what 前置）＋ 對號入座輕互動
-{sky:'sky-storm', html:function(){return ''
+{sky:'sky-storm', bg:'bg-storm.jpg', html:function(){return ''
   +'<div class="tag">先選，別想太久</div>'
   +'<h2>現在，你會選哪個？</h2>'
   +'<button class="opt" onclick="pick(this,0)">📈　往上</button>'
@@ -111,7 +113,7 @@ var S=[
   +'</div>';}},
 
 // 步3 機制（層層拆·給因果）
-{sky:'sky-valley', html:function(){return ''
+{sky:'sky-valley', bg:'bg-valley.jpg', html:function(){return ''
   +'<div class="tag">為什麼你總是差一步</div>'
   +'<h2>這個「不知道」，<br>是一層扣一層的</h2>'
   +'<div class="chain">① 不知道景氣往上還往下、會走到哪<span class="arw">↓ 所以抱不住、也逃不掉</span>② 就算想主動一點 → 不知道怎麼選股<span class="arw">↓</span>③ 就算選到了 → 不會技術分析、抓不到「預期、底線和進出點位」</div>'
@@ -181,6 +183,8 @@ function render(i){
   cur=i;
   var s=S[i];
   document.body.className=s.sky;
+  var bi=el('bgImg');
+  if(bi){ if(s.bg){ bi.style.backgroundImage='url("'+encodeURI(s.bg)+'")'; bi.style.opacity='1'; } else { bi.style.opacity='0'; } }
   el('stage').innerHTML='<div class="scene">'+s.html()+'</div>';
   window.scrollTo({top:0,behavior:'instant'});
 }
