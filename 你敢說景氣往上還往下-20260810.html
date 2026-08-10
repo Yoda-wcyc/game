@@ -20,7 +20,8 @@
   body.sky-clear .sky-layer{background:linear-gradient(180deg,#173a68,#4a7cc0 44%,#a6cff0 82%,#d9edfb)}
   body.sky-valley .sky-layer{background:linear-gradient(180deg,#0c1420,#243247 52%,#3d5470)}
   .bg-img{position:fixed;inset:0;z-index:-2;background-size:cover;background-position:center;background-repeat:no-repeat;opacity:0;transition:opacity .6s ease}
-  body::before{content:"";position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(4,6,12,.5),rgba(4,6,12,.18) 36%,rgba(4,6,12,.72));pointer-events:none}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(4,6,12,.3),transparent 42%,rgba(4,6,12,.5));pointer-events:none;transition:background .5s ease}
+  body.has-bg::before{background:linear-gradient(180deg,rgba(4,6,12,.52),rgba(4,6,12,.2) 36%,rgba(4,6,12,.72))}
 
   .wrap{max-width:640px;margin:0 auto;padding:56px 20px 96px;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
   .scene{animation:rise .5s ease}
@@ -182,7 +183,7 @@ var cur=0;
 function render(i){
   cur=i;
   var s=S[i];
-  document.body.className=s.sky;
+  document.body.className=s.sky+(s.bg?' has-bg':'');
   var bi=el('bgImg');
   if(bi){ if(s.bg){ bi.style.backgroundImage='url("'+encodeURI(s.bg)+'")'; bi.style.opacity='1'; } else { bi.style.opacity='0'; } }
   el('stage').innerHTML='<div class="scene">'+s.html()+'</div>';
