@@ -71,6 +71,24 @@
   .restart{position:fixed;left:14px;top:12px;z-index:20;font-size:11px;font-weight:700;color:var(--dim);background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:8px;padding:5px 10px;cursor:pointer}
   .mute{position:fixed;right:14px;top:12px;z-index:20;font-size:15px;line-height:1;color:var(--dim);background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:8px;padding:5px 9px;cursor:pointer}
   .done-badge{font-size:44px;text-align:center;margin-bottom:8px}
+  /* ① 景氣位置滑桿 */
+  .cyc{margin:18px 0 6px}
+  .cyc-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--ink);margin-bottom:9px;text-shadow:0 1px 6px rgba(0,0,0,.7)}
+  .cyc-range{-webkit-appearance:none;appearance:none;width:100%;height:11px;border-radius:9999px;background:linear-gradient(90deg,#2b3a6b,#3f6ad8 28%,#e0a526 58%,#c9743f 80%,#7a2f2f);outline:none;cursor:pointer}
+  .cyc-range::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:#fff;border:3px solid var(--gold);cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.55)}
+  .cyc-range::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:#fff;border:3px solid var(--gold);cursor:pointer}
+  /* ② 痛點勾選卡 */
+  .chk-card{position:relative;background:rgba(8,11,18,.5);border:1px solid var(--line);border-radius:12px;padding:14px 16px 14px 46px;margin-top:10px;font-size:15.5px;font-weight:600;cursor:pointer;transition:all .15s;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+  .chk-card::before{content:"";position:absolute;left:14px;top:50%;transform:translateY(-50%);width:20px;height:20px;border-radius:6px;border:2px solid var(--dim)}
+  .chk-card.on{border-color:var(--gold);background:rgba(224,165,38,.16)}
+  .chk-card.on::before{content:"✓";border:2px solid var(--gold);background:var(--gold);color:#1a1200;font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center;line-height:1}
+  /* ③ 翻牌 */
+  .flip{perspective:1200px;margin:14px 0;cursor:pointer}
+  .flip-inner{position:relative;width:100%;min-height:190px;transition:transform .6s ease;transform-style:preserve-3d}
+  .flip.flipped .flip-inner{transform:rotateY(180deg)}
+  .flip-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;border-radius:16px;border:1px solid var(--line);background:rgba(8,11,18,.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);font-size:16px;line-height:1.7}
+  .flip-back{transform:rotateY(180deg);border-color:var(--gold)}
+  .flip-hint{margin-top:12px;font-size:12.5px;color:var(--gold)}
 </style>
 </head>
 <body class="sky-dusk">
@@ -131,6 +149,31 @@ var S=[
     +'<button class="btn" onclick="next()">這⋯有說中 →</button>'
   +'</div>';}},
 
+// ① 景氣位置滑桿（拖曳）
+{sky:'sky-storm', bg:'bg-storm.jpg', html:function(){return ''
+  +'<div class="tag">好，那指一個</div>'
+  +'<h2>如果一定要你指——<br>現在景氣在循環的哪裡？</h2>'
+  +'<div class="cyc">'
+    +'<div class="cyc-labels"><span>谷底</span><span>復甦</span><span>擴張</span><span>過熱</span><span>衰退</span></div>'
+    +'<input type="range" min="0" max="100" value="50" id="cycRange" class="cyc-range" oninput="cycMoved()">'
+  +'</div>'
+  +'<div class="reveal" id="rvCyc">'
+    +'<p>你指了個位置——<b class="g">但你說得出「為什麼在這」嗎？</b></p>'
+    +'<p class="dim">多數人是憑感覺。而「憑感覺」，就是你抱不住、也逃不掉的起點。</p>'
+    +'<button class="btn" onclick="next()">⋯確實 →</button>'
+  +'</div>';}},
+
+// ② 你中了幾個（多選勾選）
+{sky:'sky-valley', bg:'bg-valley.jpg', html:function(){return ''
+  +'<div class="tag">誠實點</div>'
+  +'<h2>這些，你中了幾個？</h2>'
+  +'<div class="chk-card" onclick="chkTog(this)">追高，套在山頂</div>'
+  +'<div class="chk-card" onclick="chkTog(this)">停損，砍在最低</div>'
+  +'<div class="chk-card" onclick="chkTog(this)">賺的抱不住、賠的凹不停</div>'
+  +'<div class="chk-card" onclick="chkTog(this)">想選股，卻不知從哪下手</div>'
+  +'<button class="btn" onclick="chkReveal()">看結果 →</button>'
+  +'<div class="reveal" id="rvChk"></div>';}},
+
 // 步3 機制（層層拆·給因果）
 {sky:'sky-valley', bg:'bg-valley.jpg', html:function(){return ''
   +'<div class="tag">為什麼你總是差一步</div>'
@@ -138,6 +181,20 @@ var S=[
   +'<div class="chain">① 不知道景氣往上還往下、會走到哪<span class="arw">↓ 所以抱不住、也逃不掉</span>② 就算想主動一點 → 不知道怎麼選股<span class="arw">↓</span>③ 就算選到了 → 不會技術分析、抓不到「預期、底線和進出點位」</div>'
   +'<p>你不是不努力。是這幾層，<b class="g">從來沒人幫你補齊</b>。</p>'
   +'<button class="btn" onclick="next()">那要怎麼補？ →</button>';}},
+
+// ③ 翻牌小知識（翻面）
+{sky:'sky-valley', bg:'bg-valley.jpg', html:function(){return ''
+  +'<div class="tag">先試一個判斷</div>'
+  +'<h2>翻牌之前，先想一秒</h2>'
+  +'<div class="flip" id="flip1" onclick="flipIt(this)">'
+    +'<div class="flip-inner">'
+      +'<div class="flip-face flip-front"><span>大家都在喊「快上車、還會噴」的時候，通常代表？</span><span class="flip-hint">👆 點一下翻牌</span></div>'
+      +'<div class="flip-face flip-back"><span><b class="g">尾聲。</b>該知道的人都知道了、也買了，買盤快用完——你追進去的，常常是別人正要下車的位置。</span></div>'
+    +'</div>'
+  +'</div>'
+  +'<div class="reveal" id="rvFlip">'
+    +'<button class="btn" onclick="next()">原來如此 →</button>'
+  +'</div>';}},
 
 // 步4 導入宣傳片
 {sky:'sky-night', noBgm:true, html:function(){return ''
@@ -209,6 +266,20 @@ function pick(node,idx){
   node.classList.add('picked');
   var rv=el('rv2'); if(rv) rv.classList.add('on');
 }
+
+/* ① 景氣位置滑桿 */
+function cycMoved(){ var r=el('rvCyc'); if(r) r.classList.add('on'); }
+/* ② 你中了幾個 */
+function chkTog(node){ node.classList.toggle('on'); }
+function chkReveal(){
+  var n=document.querySelectorAll('#stage .chk-card.on').length, msg;
+  if(n===0) msg='一個都沒中？那你要嘛很強，要嘛還沒真的下場——這遊戲當熱身也好。';
+  else if(n<=2) msg='中了 '+n+' 個。多數人也是——你不孤單。';
+  else msg='中 '+n+' 個？<b class="g">不是你笨，是判斷沒人教你</b>——而判斷，練得起來。';
+  var r=el('rvChk'); if(r){ r.innerHTML='<p style="margin-top:14px">'+msg+'</p><button class="btn" onclick="next()">繼續 →</button>'; r.classList.add('on'); }
+}
+/* ③ 翻牌 */
+function flipIt(node){ node.classList.add('flipped'); var r=el('rvFlip'); if(r) setTimeout(function(){ r.classList.add('on'); },420); }
 
 /* 分享這個遊戲（張力守恆：只勾人、不破梗） */
 function shareGame(){
