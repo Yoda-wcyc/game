@@ -377,10 +377,15 @@ const RENDER={
    <div class="result-name" style="font-size:24px">歡迎，把自己精煉成更會判斷的人</div>
    <p class="body" style="margin-top:12px">訂閱之前，最後一件事——<b class="hl">Yoda 的判斷力不是用講的。</b>人皆有過，然贏家之所以為贏家，在於他們懂得將破碎的教訓，重新拼湊成通往未來的墊腳石。</p>
    <div class="unlock"><b>創始會員（限量 50 位 · 早鳥）：</b>每期【關鍵報告】——完整判讀當前市況＋預判行情劇本＋Yoda 自己的預期、底線、操作與推理——連同六類完整報告與歷史庫。<b>早鳥 NT$459／月鎖價</b>，名額滿後以一般月費，首批永遠停在 459。投資你自己的大腦，精煉你每天都在用的系統。<br><span class="dim" style="font-size:12px">（關鍵報告是分享判斷思路與自身操作、示範用，非投資建議、僅供參考。）</span></div>
-   <label class="consent-gate" id="consentGate" style="display:none"><input type="checkbox" id="agreeNoCooling"><span>我已了解本服務為數位內容／線上服務，付款後隨即開通，<b>不適用七日猶豫期（無鑑賞期）</b>，且開通後恕不退費。</span></label>
+   <label class="consent-gate" id="consentGate"><input type="checkbox" id="agreeNoCooling"><span>我已了解本服務為數位內容／線上服務，付款後隨即開通，<b>不適用七日猶豫期（無鑑賞期）</b>，且開通後恕不退費。</span></label>
    <div class="act-btns">
-     <!-- 金流已測通(Vercel+GAS)，暫時收回前門；要開放時把此佔位換回 pay-form（見 git 03ccee8） -->
-     <div class="act-btn act-sub" style="opacity:.72;cursor:default">⏳ 訂閱金流建置中 · 即將開放</div>
+     <div class="pay-form" style="display:flex;flex-direction:column;gap:8px;width:100%">
+       <input type="email" id="payEmail" placeholder="你的 email（當會員帳號）" required autocomplete="email" style="padding:12px 14px;border-radius:11px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:#fff;font-size:14px;width:100%;box-sizing:border-box" />
+       <input type="password" id="payPw" placeholder="設定會員密碼（≥6 碼，含英文與數字）" autocomplete="new-password" style="padding:12px 14px;border-radius:11px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:#fff;font-size:14px;width:100%;box-sizing:border-box" />
+       <button type="button" class="act-btn act-sub" style="width:100%" onclick="startSubscribe()">創始會員 NT$459／月 · 建帳號後前往綠界刷卡 →</button>
+       <div id="payMsg" style="font-size:12.5px;line-height:1.5;min-height:16px;color:#f0a0a0"></div>
+       <form id="payGo" method="POST" action="https://yoda-research-next.vercel.app/api/ecpay-create" style="display:none"><input type="hidden" name="email" id="payGoEmail"></form>
+     </div>
      <button class="act-btn act-refer" onclick="referToggle()">我已是會員 · 產生我的專屬推薦連結 →</button>
      <button class="act-btn act-share" onclick="share()">分享：把判斷力學校介紹給朋友</button></div>
    <div class="refer-box" id="referBox" style="display:none">
