@@ -20,7 +20,7 @@
   body.sky-dusk  .sky-layer{background:linear-gradient(180deg,#241436,#6a3a63 42%,#c9743f 80%,#e79a56)}
   body.sky-clear .sky-layer{background:linear-gradient(180deg,#173a68,#4a7cc0 44%,#a6cff0 82%,#d9edfb)}
   body.sky-valley .sky-layer{background:linear-gradient(180deg,#0c1420,#243247 52%,#3d5470)}
-  .bg-img{position:fixed;inset:0;z-index:1;background-size:cover;background-position:center;background-repeat:no-repeat;opacity:0;transition:opacity .6s ease}
+  .bg-img{position:fixed;inset:0;z-index:1;background-size:cover;background-position:center;background-repeat:no-repeat;opacity:0;transition:opacity .9s ease}
   body::before{content:"";position:fixed;inset:0;z-index:2;background:linear-gradient(180deg,rgba(4,6,12,.3),transparent 42%,rgba(4,6,12,.5));pointer-events:none;transition:background .5s ease}
   body.has-bg::before{background:linear-gradient(180deg,rgba(4,6,12,.52),rgba(4,6,12,.2) 36%,rgba(4,6,12,.72))}
 
@@ -75,7 +75,8 @@
 </head>
 <body class="sky-dusk">
 <div class="sky-layer"></div>
-<div class="bg-img" id="bgImg"></div>
+<div class="bg-img" id="bgA"></div>
+<div class="bg-img" id="bgB"></div>
 <button class="restart" onclick="go(0)">↺ 重玩</button>
 <button class="mute" id="muteBtn" onclick="toggleMute()">🔊</button>
 <audio id="bgm" loop preload="auto"><source src="day_one.mp3" type="audio/mpeg"></audio>
@@ -88,6 +89,22 @@
 var GAS_URL='https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec';
 var el=function(id){return document.getElementById(id);};
 var pickedAns=null;
+
+/* 雙層背景 crossfade：換圖時新層淡入、舊層淡出，絲滑不閃 */
+var bgLayers=null, bgActive=-1, curBg=null;
+function setBg(url){
+  if(!bgLayers){ bgLayers=[el('bgA'), el('bgB')]; }
+  if(url===curBg) return;
+  curBg=url;
+  if(!url){ bgLayers.forEach(function(l){ if(l) l.style.opacity='0'; }); bgActive=-1; return; }
+  var next=(bgActive===0)?1:0, nl=bgLayers[next];
+  if(!nl) return;
+  nl.style.backgroundImage='url("'+encodeURI(url)+'")';
+  void nl.offsetWidth; // 觸發 reflow，確保 transition 生效
+  nl.style.opacity='1';
+  if(bgActive>=0 && bgLayers[bgActive]) bgLayers[bgActive].style.opacity='0';
+  bgActive=next;
+}
 
 /* ── 七屏劇本（黃金六步 + 首尾呼應） ── */
 var S=[
@@ -130,7 +147,7 @@ var S=[
   +'<button class="btn" onclick="next()">看完了，然後呢 →</button>';}},
 
 // 步4 證據（Yoda 的答案具體長這樣）
-{sky:'sky-clear', html:function(){return ''
+{sky:'sky-clear', bg:'bg-clear.jpg', html:function(){return ''
   +'<div class="tag">答案不是口號</div>'
   +'<h2>而是每天在產出的東西</h2>'
   +'<div class="offer">'
@@ -140,7 +157,7 @@ var S=[
   +'<button class="btn" onclick="next()">所以我會變得怎樣？ →</button>';}},
 
 // 步5 注意什麼（可帶走的判準·前瞻）
-{sky:'sky-clear', html:function(){return ''
+{sky:'sky-clear', bg:'bg-clear.jpg', html:function(){return ''
   +'<div class="tag">你帶得走的底氣</div>'
   +'<h2>補齊之後，下次同樣的場面，你會知道</h2>'
   +'<div class="chain">現在該抱、還是該跑<span class="arw"></span>該押哪一類、避開哪一類<span class="arw"></span>你的預期在哪、底線在哪——跌到哪，你就認錯</div>'
@@ -148,7 +165,7 @@ var S=[
   +'<button class="btn" onclick="next()">我要一個創始名額 →</button>';}},
 
 // 步6 看深入（創始 · 分享解鎖）
-{sky:'sky-noon', html:function(){return ''
+{sky:'sky-noon', bg:'bg-summit.jpg', html:function(){return ''
   +'<div class="tag">創始限量 50 · 早鳥鎖 459</div>'
   +'<h2>別再當那個<br>「說不準」的人</h2>'
   +'<p class="dim">創始資格，用分享換：</p>'
@@ -170,7 +187,7 @@ var S=[
   +'</div>';}},
 
 // 結尾 · 首尾呼應
-{sky:'sky-noon', html:function(){return ''
+{sky:'sky-noon', bg:'bg-summit.jpg', html:function(){return ''
   +'<div class="step">— 完 —</div>'
   +'<h2>開場我問你：<br>現在是往上，還往下？</h2>'
   +'<p style="font-size:18px"><b class="g">以後你敢答——而且知道它會走到哪。</b></p>'
@@ -185,8 +202,7 @@ function render(i){
   cur=i;
   var s=S[i];
   document.body.className=s.sky+(s.bg?' has-bg':'');
-  var bi=el('bgImg');
-  if(bi){ if(s.bg){ bi.style.backgroundImage='url("'+encodeURI(s.bg)+'")'; bi.style.opacity='1'; } else { bi.style.opacity='0'; } }
+  setBg(s.bg||null);
   el('stage').innerHTML='<div class="scene">'+s.html()+'</div>';
   window.scrollTo({top:0,behavior:'instant'});
 }
