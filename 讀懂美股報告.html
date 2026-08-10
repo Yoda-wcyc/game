@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
-<head>
+<html lang="zh-TW"><head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DFFP3JL6EY"></script>
 <script>
@@ -9,784 +8,287 @@
   gtag('js', new Date());
   gtag('config', 'G-DFFP3JL6EY');
 </script>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>股票那麼多，要選誰？｜讀懂美股報告 · Yoda Research</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>讀懂美股報告（量價一起看）· Yoda Research</title>
 <style>
-:root{
-  --gold:#d4af37; --gold-dim:#b8960a;
-  --card:rgba(9,12,22,.68); --card-bd:rgba(255,255,255,.14);
-  --text:#eef2fb; --dim:#aab3c8; --ink:#e7ecf7;
-  --good:#5fbf8f; --bad:#e06b6b; --warn:#e8b45f;
-  --recovery:#30d158; --growth:#2997ff; --boom:#ff9f0a; --recession:#ff453a;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%}
-body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC','Microsoft JhengHei',sans-serif;
-  color:var(--text);background:#05060f;overflow-x:hidden;-webkit-font-smoothing:antialiased;line-height:1.72}
-
-.sky-layer{position:fixed;inset:0;z-index:-3;transition:background .8s ease}
-.ink-layer{position:fixed;left:0;right:0;bottom:0;height:24vh;min-height:150px;z-index:-2;pointer-events:none}
-.ink-layer .ink-bg{width:100%;height:100%;display:block}
-.veil{position:fixed;inset:0;z-index:-1;background:radial-gradient(120% 80% at 50% 8%,transparent 40%,rgba(0,0,0,.36));pointer-events:none}
-body.sky-noon  .sky-layer{background:linear-gradient(180deg,#22345f,#5f79b0 42%,#d9b978 80%,#edd199)}
-body.sky-storm .sky-layer{background:linear-gradient(180deg,#0b0b12,#171733 50%,#33409e)}
-body.sky-night .sky-layer{background:linear-gradient(180deg,#05060f,#0e1630 55%,#182a54)}
-body.sky-dusk  .sky-layer{background:linear-gradient(180deg,#241436,#6a3a63 42%,#c9743f 80%,#e79a56)}
-body.sky-clear .sky-layer{background:linear-gradient(180deg,#173a68,#4a7cc0 44%,#a6cff0 82%,#d9edfb)}
-body.sky-valley .sky-layer{background:linear-gradient(180deg,#0c1420,#243247 52%,#3d5470)}
-
-.progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:100;
-  background:linear-gradient(90deg,var(--gold-dim),var(--gold));transition:width .5s ease;box-shadow:0 0 8px rgba(212,175,55,.6)}
-.mute{position:fixed;top:12px;right:14px;z-index:101;width:38px;height:38px;border-radius:50%;
-  border:1px solid var(--card-bd);background:rgba(9,12,22,.55);color:var(--text);font-size:17px;cursor:pointer;backdrop-filter:blur(8px)}
-.counter{position:fixed;top:14px;left:16px;z-index:101;font-size:12px;color:var(--dim);
-  font-family:'SF Mono',Consolas,monospace;background:rgba(9,12,22,.5);padding:4px 10px;border-radius:999px;backdrop-filter:blur(8px)}
-
-.stage{position:relative;z-index:1;min-height:100%;display:flex;align-items:center;justify-content:center;padding:64px 18px 54px}
-#scene{width:100%;max-width:640px;animation:fade .5s ease both}
-@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-.fadeout{animation:fo .3s ease both}
-@keyframes fo{to{opacity:0;transform:translateY(-10px)}}
-
-.card{background:var(--card);border:1px solid var(--card-bd);border-radius:18px;padding:28px 24px;
-  backdrop-filter:blur(14px);box-shadow:0 18px 50px rgba(0,0,0,.42)}
-.eyebrow{font-size:12px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:12px}
-.tag{display:inline-block;font-size:12px;padding:3px 11px;border-radius:999px;background:rgba(212,175,55,.16);
-  color:var(--gold);border:1px solid rgba(212,175,55,.3);margin-bottom:12px;letter-spacing:1px}
-.tag.teach{background:rgba(41,151,255,.16);color:#7fb8ff;border-color:rgba(41,151,255,.35)}
-.tag.prac{background:rgba(95,191,143,.16);color:#7fd6a6;border-color:rgba(95,191,143,.35)}
-h1{font-size:33px;font-weight:800;line-height:1.28;letter-spacing:.5px;margin-bottom:8px}
-h2{font-size:22px;font-weight:700;line-height:1.42;margin-bottom:12px}
-.lead{font-size:17px;color:#dfe6f4;margin:6px 0 18px}
-p.body{font-size:16px;color:#e6ebf6;margin:11px 0}
-.dim{color:var(--dim)} .hl{color:var(--gold);font-weight:700}
-.up{color:#7fd6a6;font-weight:700}.down{color:#f08a8a;font-weight:700}.warnc{color:var(--warn);font-weight:700}
-.data-box{background:rgba(255,255,255,.045);border:1px solid var(--card-bd);border-radius:12px;padding:14px 16px;margin:14px 0;font-size:15px;line-height:1.7}
-.data-box .row{display:flex;justify-content:space-between;gap:12px;padding:3px 0}
-/* 定義型 data-box：左標籤／右說明對齊成兩欄，標籤不再被擠到換行；不影響數值型(.stat/.sig)表 2026-08-06 */
-.data-box:has(.row>.dim){display:grid;grid-template-columns:max-content minmax(0,1fr);column-gap:14px;row-gap:5px}
-.data-box:has(.row>.dim) .row{display:contents}
-.data-box:has(.row>.dim) .row>b{align-self:start}
-.data-box:has(.row>.dim) .row>.dim{align-self:start;text-align:left}
-.data-box .row b{color:#fff;font-weight:700}
-.stat{font-family:'SF Mono',Consolas,monospace}
-
-.btn{display:block;width:100%;text-align:left;font-size:16px;color:var(--text);background:rgba(255,255,255,.05);
-  border:1px solid var(--card-bd);border-radius:13px;padding:15px 17px;margin:10px 0;cursor:pointer;transition:all .16s;line-height:1.5}
-.btn:hover{background:rgba(255,255,255,.11);border-color:var(--gold);transform:translateY(-1px)}
-.btn small{display:block;color:var(--dim);font-size:13px;margin-top:3px}
-.btn.pick-good{border-color:var(--good);background:rgba(95,191,143,.18)}
-.btn.pick-bad{border-color:var(--bad);background:rgba(224,107,107,.15)}
-.btn:disabled{cursor:default}
-.cta{display:inline-block;margin-top:18px;padding:13px 30px;border-radius:999px;font-size:16px;font-weight:700;
-  color:#1a1200;background:linear-gradient(135deg,var(--gold),#f0d488);border:none;cursor:pointer;box-shadow:0 6px 20px rgba(212,175,55,.32);transition:transform .15s}
-.cta:hover{transform:translateY(-2px)}
-.cta.ghost{background:transparent;color:var(--gold);border:1px solid var(--gold);box-shadow:none}
-.center{text-align:center}
-
-.help{margin-top:14px;text-align:center}
-.help button{background:none;border:none;color:var(--dim);font-size:13px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
-.help button:hover{color:var(--gold)}
-.reveal{display:none;margin-top:16px;padding:15px 16px;border-radius:12px;background:rgba(212,175,55,.08);
-  border:1px solid rgba(212,175,55,.35);font-size:15px;line-height:1.66}
-.reveal.show{display:block;animation:fade .35s ease both}
-.reveal b{color:var(--gold)}
-.gloss{margin-top:10px;padding-top:10px;border-top:1px dashed rgba(255,255,255,.16);font-size:13.5px;color:var(--dim)}
-.gloss span{color:#dbe3f2}
-
-.mono-wrap{text-align:center;padding:6vh 8px}
-.mono-wrap p{font-size:25px;font-weight:300;letter-spacing:1.5px;line-height:1.9;color:#f2f4fb;opacity:0;animation:mfade 1.1s ease forwards}
-.mono-wrap p:nth-child(2){animation-delay:.9s}
-.mono-wrap .next{margin-top:30px;opacity:0;animation:mfade 1s ease forwards;animation-delay:1.9s}
-@keyframes mfade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-
-/* 溫度條 */
-.tempbar{margin:16px 0 6px}
-.tempbar-track{display:grid;grid-template-columns:repeat(4,1fr);border-radius:12px;overflow:hidden;border:1px solid var(--card-bd)}
-.tz{padding:16px 6px;text-align:center;cursor:pointer;transition:all .16s;font-size:14px;font-weight:700;position:relative;border-right:1px solid rgba(0,0,0,.25)}
-.tz:last-child{border-right:none}
-.tz small{display:block;font-size:11.5px;font-weight:400;color:rgba(255,255,255,.7);margin-top:3px}
-.tz.z0{background:linear-gradient(180deg,rgba(48,209,88,.32),rgba(48,209,88,.14))}
-.tz.z1{background:linear-gradient(180deg,rgba(41,151,255,.32),rgba(41,151,255,.14))}
-.tz.z2{background:linear-gradient(180deg,rgba(255,159,10,.34),rgba(255,159,10,.16))}
-.tz.z3{background:linear-gradient(180deg,rgba(255,69,58,.34),rgba(255,69,58,.16))}
-.tz:hover{filter:brightness(1.25)}
-.tz.sel{outline:3px solid var(--gold);outline-offset:-3px;z-index:2}
-.tz.correct{outline:3px solid var(--good);outline-offset:-3px;z-index:2}
-.tz.wrong{outline:3px solid var(--bad);outline-offset:-3px}
-.tempbar-scale{display:grid;grid-template-columns:repeat(4,1fr);font-size:11px;color:var(--dim);margin-top:5px;text-align:center}
-
-/* 半圓儀表 */
-.gauge{width:100%;max-width:320px;display:block;margin:8px auto}
-.gauge .arc-bg{fill:none;stroke:rgba(255,255,255,.12);stroke-width:16;stroke-linecap:round}
-.gauge .arc-ok{fill:none;stroke:var(--good);stroke-width:16;stroke-linecap:round}
-.gauge .arc-hot{fill:none;stroke:var(--recession);stroke-width:16;stroke-linecap:round}
-.gauge .needle{stroke:var(--gold);stroke-width:4;stroke-linecap:round}
-.gauge .hub{fill:var(--gold)}
-.gauge text{fill:var(--dim);font-size:12px;font-family:'SF Mono',monospace}
-.gauge .val{fill:#fff;font-size:26px;font-weight:800;text-anchor:middle}
-.gauge .unit{fill:var(--dim);font-size:12px;text-anchor:middle}
-
-/* 天秤 */
-.scale{width:100%;max-width:340px;height:auto;display:block;margin:6px auto 2px}
-.scale .stand,.scale .beam,.scale .lstr,.scale .rstr{stroke:var(--ink);stroke-width:4;stroke-linecap:round}
-.scale .beam{stroke-width:5}.scale .base{fill:var(--ink)}.scale .pivot{fill:var(--gold)}
-.scale .lpan,.scale .rpan{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round}
-.scale text{fill:var(--text);font-size:14px;font-weight:700;text-anchor:middle;paint-order:stroke;stroke:rgba(0,0,0,.45);stroke-width:3px}
-.pick-row{display:flex;gap:10px;margin-top:8px}
-.pick-row .btn{margin:0;text-align:center}
-
-/* 分類（先行/同步/滯後） */
-.clf-item{border:1px solid var(--card-bd);border-radius:12px;padding:11px 13px;margin:9px 0;background:rgba(255,255,255,.04)}
-.clf-item .name{font-size:15px;font-weight:600;margin-bottom:7px}
-.clf-item .name small{display:block;color:var(--dim);font-size:12.5px;font-weight:400;margin-top:2px}
-.clf-btns{display:flex;gap:7px}
-.clf-btns button{flex:1;font-size:13px;padding:8px 4px;border-radius:9px;border:1px solid var(--card-bd);
-  background:rgba(255,255,255,.05);color:var(--text);cursor:pointer;transition:all .14s}
-.clf-btns button:hover{border-color:var(--gold)}
-.clf-btns button.on{background:rgba(212,175,55,.22);border-color:var(--gold);color:#fff;font-weight:700}
-.clf-item.right{border-color:var(--good);background:rgba(95,191,143,.12)}
-.clf-item.wrong{border-color:var(--bad);background:rgba(224,107,107,.12)}
-
-/* 排序（誰先變） */
-.sort-item{display:flex;align-items:center;gap:12px;border:1px solid var(--card-bd);border-radius:12px;
-  padding:13px 15px;margin:9px 0;background:rgba(255,255,255,.04);cursor:pointer;transition:all .15s}
-.sort-item:hover{border-color:var(--gold)}
-.sort-item.picked{opacity:.55;border-color:var(--good)}
-.sort-item .rank{flex:0 0 30px;height:30px;border-radius:50%;border:2px solid var(--dim);display:flex;
-  align-items:center;justify-content:center;font-weight:800;font-size:15px;color:var(--dim)}
-.sort-item.picked .rank{background:var(--gold);border-color:var(--gold);color:#1a1200}
-.sort-item .lbl{font-size:15px;line-height:1.45}
-.sort-item .lbl small{display:block;color:var(--dim);font-size:12.5px}
-.sort-item .tag-lead{margin-left:auto;font-size:11px;padding:2px 8px;border-radius:999px;flex-shrink:0}
-
-/* 檢查表 */
-.check{display:flex;align-items:flex-start;gap:12px;padding:13px 14px;margin:9px 0;border-radius:12px;
-  border:1px solid var(--card-bd);background:rgba(255,255,255,.04);cursor:pointer;transition:all .15s}
-.check:hover{border-color:var(--gold)}
-.check.on{border-color:var(--good);background:rgba(95,191,143,.14)}
-.check .box{flex:0 0 24px;height:24px;border-radius:7px;border:2px solid var(--dim);display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;transition:all .15s}
-.check.on .box{background:var(--good);border-color:var(--good)}
-.check .lbl{font-size:15px;line-height:1.5}
-.check .lbl small{display:block;color:var(--dim);font-size:12.5px;margin-top:2px}
-/* 翻牌（榮景末前哨清單） */
-.flipwrap{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0 4px}
-@media(max-width:520px){.flipwrap{grid-template-columns:1fr}}
-.flipcard{perspective:1100px;cursor:pointer;min-height:158px}
-.flipinner{position:relative;width:100%;height:100%;min-height:158px;transition:transform .55s cubic-bezier(.4,.15,.2,1);transform-style:preserve-3d}
-.flipcard.on .flipinner{transform:rotateY(180deg)}
-.flipface{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:12px;border:1px solid var(--card-bd);padding:15px;display:flex;flex-direction:column;justify-content:center;overflow:auto}
-.flipfront{background:rgba(255,255,255,.05);opacity:1;transition:opacity 0s .27s}
-.flipcard.on .flipfront{opacity:0}
-.flipcard:hover .flipfront{border-color:var(--gold)}
-.flipfront .ft{font-size:15px;line-height:1.5;font-weight:700;color:var(--text)}
-.flipfront .hint{margin-top:9px;font-size:11.5px;color:var(--dim)}
-.flipback{background:rgba(95,191,143,.14);border-color:var(--good);transform:rotateY(180deg);opacity:0;transition:opacity 0s .27s}
-.flipcard.on .flipback{opacity:1}
-.flipback .bh{font-size:11px;color:var(--good);font-weight:700;letter-spacing:.05em;margin-bottom:6px}
-.flipback .bt{font-size:12.5px;line-height:1.55;color:#e6ebf6}
-
-/* 結果 */
-.result-emoji{font-size:62px;text-align:center;line-height:1;margin:4px 0}
-.result-name{text-align:center;font-size:27px;font-weight:800;color:var(--gold);margin-bottom:3px}
-.result-tier{text-align:center;font-size:12.5px;letter-spacing:2px;color:var(--dim);margin-bottom:8px}
-.result-score{text-align:center;font-size:14px;color:var(--dim);margin-bottom:14px}
-.unlock{border:1px solid rgba(212,175,55,.4);border-radius:12px;padding:14px 16px;margin:14px 0;background:rgba(212,175,55,.07);font-size:15px;line-height:1.66}
-.unlock b{color:var(--gold)}
-.fpt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0}
-.fpt{border:1px solid var(--card-bd);border-radius:12px;overflow:hidden;font-size:13px;min-width:560px}
-.fpt .fpt-row{display:grid;grid-template-columns:1.25fr .82fr .82fr .95fr .82fr 1.15fr;border-top:1px solid var(--card-bd)}
-.fpt .fpt-row:first-child{border-top:none}
-.fpt .fpt-row>div{padding:8px 6px;border-right:1px solid var(--card-bd);line-height:1.4}
-.fpt .fpt-row>div:last-child{border-right:none}
-.fpt .fpt-head{background:rgba(255,255,255,.06);font-weight:700;text-align:center;font-size:12px}
-.fpt .fpt-ind{font-weight:600;color:#dbe3f2}
-.fpt .cur{background:rgba(212,175,55,.13);color:#e8c86a;font-weight:600}
-.act-btns{display:flex;flex-direction:column;gap:12px;margin-top:20px}
-.act-btn{display:block;text-align:center;padding:15px 18px;border-radius:13px;font-size:15.5px;font-weight:700;text-decoration:none;transition:transform .15s}
-.act-btn:hover{transform:translateY(-2px)}
-.act-sub{background:linear-gradient(135deg,var(--gold),#f0d488);color:#1a1200;box-shadow:0 6px 20px rgba(212,175,55,.3)}
-.act-report{background:rgba(255,255,255,.07);color:var(--text);border:1px solid var(--gold)}
-.act-share{background:rgba(255,255,255,.07);color:var(--text);border:1px solid var(--card-bd)}
-.replay{text-align:center;margin-top:16px}.replay a{color:var(--dim);font-size:13px;text-decoration:underline;cursor:pointer}
-.credit{text-align:center;margin-top:18px;font-size:11.5px;color:var(--dim);line-height:1.7}.credit a{color:var(--dim)}
-.neutral-note{font-size:12px;color:var(--dim);text-align:center;margin-top:12px;opacity:.85}
-@media(max-width:480px){h1{font-size:27px}h2{font-size:19px}.card{padding:22px 16px}.mono-wrap p{font-size:21px}
-  .fpt .fpt-row{grid-template-columns:1.25fr .82fr .82fr .95fr .82fr 1.15fr;font-size:11px}}
-</style>
-</head>
-<body class="sky-noon">
-<div class="sky-layer"></div>
-<div class="ink-layer" id="ink"></div>
-<div class="veil"></div>
-<div class="progress" id="prog"></div>
-<div class="counter" id="counter"></div>
-<button class="mute" id="mute" title="靜音">🔊</button>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;min-height:100%;font-family:-apple-system,'PingFang TC','Noto Sans TC',sans-serif;background:#000}
+#game{width:100%;min-height:100vh;position:relative;overflow:hidden}
+.scene{width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:3rem 1.5rem}
+.sky-start{background:linear-gradient(180deg,#0a0a1a,#1a1a3e 45%,#3a2a5e 100%)}
+.sky-dawn{background:linear-gradient(180deg,#1a1a2e,#e8b86d 60%,#f4a261)}
+.sky-noon{background:linear-gradient(180deg,#0d47a1,#1976d2 50%,#bbdefb)}
+.sky-valley{background:linear-gradient(180deg,#1b2631,#2e4057 42%,#5d7a8a)}
+.sky-storm{background:linear-gradient(180deg,#0b0b12,#171733 50%,#33409e)}
+.sky-clouds{background:linear-gradient(180deg,#0d47a1,#1565c0 42%,#90caf9)}
+.sky-clear{background:linear-gradient(180deg,#173a68,#4a7cc0 44%,#a6cff0 82%,#d9edfb)}
+.sky-result{background:linear-gradient(180deg,#003459,#00587a 42%,#0288d1)}
+.ink-bg{position:absolute;bottom:0;left:0;width:100%;height:170px;pointer-events:none}
+.overlay{position:relative;z-index:10;text-align:center;max-width:640px;width:100%}
+.t-main{color:#f2f5ff}.t-sub{color:rgba(228,234,247,0.84)}.t-label{color:rgba(205,214,236,0.58)}
+.sky-dawn .t-main,.sky-start .t-main{color:#fff7e6}.sky-dawn .t-sub,.sky-start .t-sub{color:rgba(255,242,214,0.82)}
+.chapter-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:0.5rem}
+.chapter-title{font-size:27px;font-weight:300;margin-bottom:1rem;line-height:1.3}
+.chapter-quote{font-size:15px;line-height:1.95;margin-bottom:2rem;font-style:italic;max-width:480px;margin:0 auto 2rem}
+.round-text{font-size:15px;line-height:1.9;margin-bottom:1.3rem;max-width:520px;margin:0 auto 1.3rem}
+.round-q{font-size:16px;font-weight:400;margin-bottom:1.3rem;line-height:1.5}
+.transition-quote{font-size:17px;max-width:430px;line-height:2.1;font-style:italic;color:rgba(216,228,255,0.86)}
+.choices{display:flex;flex-direction:column;gap:0.7rem;width:100%;max-width:480px;margin:0 auto}
+.choice-btn{background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.28);color:#fff;padding:0.9rem 1.2rem;border-radius:8px;cursor:pointer;font-size:14px;line-height:1.6;text-align:left;transition:all .2s;backdrop-filter:blur(6px)}
+.choice-btn:hover{background:rgba(0,0,0,0.45);border-color:rgba(255,255,255,0.6);transform:translateX(4px)}
+.continue-btn{background:transparent;border:1px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.8);padding:0.6rem 2rem;border-radius:4px;cursor:pointer;font-size:13px;margin-top:1.3rem;letter-spacing:1px;transition:all .2s}
+.continue-btn:hover{border-color:rgba(255,255,255,0.9);color:#fff}
+.feedback{font-size:13px;line-height:1.8;max-width:440px;margin:0.7rem auto 0;min-height:42px}
+/* 儀表滑桿 */
+.gauge-wrap{max-width:340px;margin:0 auto}
+input[type=range].gsl{width:100%;-webkit-appearance:none;appearance:none;background:transparent;height:22px;margin-top:0.2rem}
+input[type=range].gsl::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;cursor:pointer;margin-top:-7px;box-shadow:0 1px 6px rgba(0,0,0,.4)}
+input[type=range].gsl::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:linear-gradient(90deg,#5b8def,#e0a526,#e05353)}
+input[type=range].gsl::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:none;cursor:pointer}
+input[type=range].gsl::-moz-range-track{height:8px;border-radius:4px;background:linear-gradient(90deg,#5b8def,#e0a526,#e05353)}
+.gsl-ends{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,0.6);margin-top:0.3rem}
+/* 分類 */
+.cls-list{max-width:470px;margin:0 auto 0.8rem;display:flex;flex-direction:column;gap:0.5rem}
+.cls-row{display:flex;align-items:center;gap:0.6rem;background:rgba(0,0,0,0.26);border:1px solid rgba(255,255,255,0.22);border-radius:8px;padding:0.5rem 0.7rem;flex-wrap:wrap}
+.cls-name{flex:1;text-align:left;font-size:13.5px;color:#fff;line-height:1.5;min-width:100%;margin-bottom:0.35rem}
+.cls-btns{display:flex;gap:0.4rem;width:100%}
+.cls-btn{border:1px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.2);color:#fff;border-radius:6px;padding:0.4rem 0.8rem;font-size:12.5px;cursor:pointer;transition:all .15s;flex:1}
+.cls-btn.atk.on{background:rgba(224,83,83,0.32);border-color:#e05353}
+.cls-btn.def.on{background:rgba(91,141,239,0.32);border-color:#5b8def}
+.cls-row.right{border-color:rgba(120,220,140,0.7)}
+.cls-row.wrong{border-color:rgba(229,120,120,0.7)}
+.result-icon{font-size:50px;margin-bottom:0.5rem}
+.result-type{font-size:23px;font-weight:300;margin-bottom:0.7rem}
+.result-desc{font-size:14px;line-height:1.9;max-width:460px;margin:0 auto 1.3rem}
+.yoda-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);color:#fff;padding:0.85rem 2.2rem;border-radius:6px;font-size:14px;cursor:pointer;text-decoration:none;margin:0.3rem;transition:opacity .2s}
+.yoda-btn:hover{opacity:.88}
+.yoda-btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.85)}
+.progress-bar{position:fixed;top:0;left:0;height:2px;background:rgba(224,165,38,0.65);transition:width .4s;z-index:100}
+.mute-btn{position:fixed;top:14px;right:14px;z-index:101;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(6px)}
+.step-dots{display:flex;gap:6px;justify-content:center;margin-bottom:1rem;flex-wrap:wrap}
+.step-dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.25)}
+.step-dots i.on{background:#e0a526}
+.layer-list{max-width:500px;margin:0 auto 0.6rem;text-align:left;font-size:13.5px;line-height:1.7;color:rgba(255,255,255,0.92);display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:0.5rem;align-items:start}
+.layer-list .ly{display:contents}
+.layer-list .ly b{color:#e0a526;white-space:nowrap}
+.layer-list .ly>span{min-width:0}
+.data-chip{display:inline-block;background:rgba(224,165,38,0.14);border:1px solid rgba(224,165,38,0.4);border-radius:6px;padding:2px 9px;margin:2px;font-size:12.5px;color:#f0d488}
+</style></head><body>
 <audio id="bgm" loop preload="auto"><source src="day_one.mp3"></audio>
-
-<div class="stage"><div id="scene"></div></div>
-
+<button id="muteBtn" class="mute-btn" onclick="toggleMute()">🔊</button>
+<div class="progress-bar" id="progress"></div>
+<div id="game"></div>
 <script>
-/* ===== 水墨背景引擎（取自 ink-gallery 正本） ===== */
-function inkCols(sky){
-  const dark=['sky-storm','sky-valley','sky-dawn','sky-dusk','sky-night','sky-blood','sky-gray','sky-start'].includes(sky);
-  return dark?['rgba(210,220,245,0.10)','rgba(180,195,230,0.16)','rgba(222,232,252,0.34)']
-             :['rgba(30,35,60,0.10)','rgba(25,30,55,0.16)','rgba(20,25,50,0.30)'];
-}
+const G=document.getElementById('game'),PB=document.getElementById('progress');
+const BGM=document.getElementById('bgm'),MUTEBTN=document.getElementById('muteBtn');
+let bgmStarted=false,bgmMuted=false;try{bgmMuted=localStorage.getItem('yoda_bgm_muted')==='1';}catch(e){}
+if(BGM)BGM.volume=0.30;
+function mIcon(){if(MUTEBTN)MUTEBTN.textContent=bgmMuted?'🔇':'🔊';}mIcon();
+function toggleMute(){bgmMuted=!bgmMuted;try{localStorage.setItem('yoda_bgm_muted',bgmMuted?'1':'0');}catch(e){}if(bgmMuted){if(BGM)BGM.pause();}else if(BGM)BGM.play().then(()=>bgmStarted=true).catch(()=>{});mIcon();}
+window.toggleMute=toggleMute;
+document.addEventListener('click',()=>{if(!bgmStarted&&!bgmMuted&&BGM)BGM.play().then(()=>bgmStarted=true).catch(()=>{});});
+
+// ===== 水墨背景 bg(type,sky) =====
+function inkCols(sky){const dark=['sky-storm','sky-valley','sky-dawn','sky-dusk','sky-night','sky-start'].includes(sky);
+  return dark?['rgba(210,220,245,0.10)','rgba(180,195,230,0.16)','rgba(222,232,252,0.32)']:['rgba(30,35,60,0.10)','rgba(25,30,55,0.16)','rgba(20,25,50,0.28)'];}
 const MOTIFS={
-  farhills:{art:(f,n,l)=>`<path d="M0,70 C120,50 220,58 340,44 C460,32 560,52 700,40 C840,30 960,50 1080,42 L1200,46 L1200,120 L0,120Z" fill="${f}"/><path d="M0,86 C160,74 300,82 460,70 C640,58 780,76 940,68 C1060,62 1140,72 1200,70 L1200,120 L0,120Z" fill="${n}"/><path d="M0,70 C120,50 220,58 340,44 C460,32 560,52 700,40 C840,30 960,50 1080,42 L1200,46" fill="none" stroke="${l}" stroke-width="1.4"/>`},
-  peak:{art:(f,n,l)=>`<path d="M0,104 C260,100 430,94 520,56 C560,40 600,20 640,20 C680,20 720,42 760,60 C860,100 1000,102 1200,100 L1200,120 L0,120Z" fill="${n}"/><path d="M600,28 C612,42 628,54 640,60" fill="none" stroke="${l}" stroke-width="1.4"/><path d="M660,54 C700,74 780,88 900,92" fill="none" stroke="${l}" stroke-width="1.2" opacity="0.8"/><rect x="300" y="62" width="620" height="12" fill="${f}"/><path d="M120,86 h240 M470,86 h180 M760,90 h300" stroke="${f}" stroke-width="9" stroke-linecap="round" opacity="0.7"/>`},
-  river:{art:(f,n,l)=>`<path d="M0,90 C300,82 500,86 1200,84 L1200,120 L0,120Z" fill="${f}"/><path d="M470,82 Q540,98 610,82" fill="none" stroke="${l}" stroke-width="1.8" stroke-linecap="round"/><line x1="540" y1="84" x2="540" y2="64" stroke="${l}" stroke-width="1.4"/><path d="M540,66 L568,82 L540,82Z" fill="${n}"/><path d="M120,94 q80,-4 160,0 t160,0 M700,96 q80,-4 160,0 t160,0" fill="none" stroke="${l}" stroke-width="1" opacity="0.6"/>`},
-  range:{art:(f,n,l)=>`<path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38 L1200,120 L0,120Z" fill="${f}"/><path d="M0,82 C160,66 320,76 480,60 C640,46 800,70 960,60 C1080,54 1160,64 1200,62 L1200,120 L0,120Z" fill="${n}"/><path d="M0,100 C220,90 420,96 640,86 C860,78 1020,92 1200,84 L1200,120 L0,120Z" fill="${n}"/><path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38" fill="none" stroke="${l}" stroke-width="1.2" opacity="0.85"/>`},
-  reed:{art:(f,n,l)=>`<path d="M0,88 C300,80 640,86 1000,80 C1100,78 1160,82 1200,80 L1200,120 L0,120Z" fill="${f}"/><path d="M0,102 C360,96 760,100 1200,96 L1200,120 L0,120Z" fill="${n}"/><g stroke="${l}" stroke-width="1.3" fill="none" stroke-linecap="round" opacity="0.9"><path d="M120,96 C118,74 122,62 128,48 M124,66 C112,60 106,54 104,46 M124,66 C136,58 142,52 146,44"/><path d="M150,96 C150,78 152,66 156,54"/><path d="M1040,94 C1042,74 1040,62 1034,50 M1039,68 C1050,62 1056,56 1058,48 M1039,68 C1028,60 1022,56 1020,48"/></g>`},
-  lonepine:{art:(f,n,l)=>`<path d="M0,96 C260,86 520,92 760,84 C960,78 1080,88 1200,84 L1200,120 L0,120Z" fill="${f}"/><path d="M760,54 C900,60 1040,74 1200,72" fill="none" stroke="${l}" stroke-width="1.1" opacity="0.55"/><g stroke="${l}" stroke-width="1.5" fill="none" stroke-linecap="round"><path d="M250,92 L250,44"/><path d="M250,58 L224,50 M250,58 L280,48 M250,70 L226,64 M250,70 L282,62 M250,82 L230,78 M250,82 L276,74"/></g>`}
-};
-function bg(type,sky){const m=MOTIFS[type];if(!m)return '';const[f,n,l]=inkCols(sky);
-  return `<svg class="ink-bg" viewBox="0 0 1200 120" preserveAspectRatio="none">${m.art(f,n,l)}</svg>`;}
+ farhills:(f,n,l)=>`<path d="M0,70 C120,50 220,58 340,44 C460,32 560,52 700,40 C840,30 960,50 1080,42 L1200,46 L1200,120 L0,120Z" fill="${f}"/><path d="M0,86 C160,74 300,82 460,70 C640,58 780,76 940,68 C1060,62 1140,72 1200,70 L1200,120 L0,120Z" fill="${n}"/><path d="M0,70 C120,50 220,58 340,44 C460,32 560,52 700,40 C840,30 960,50 1080,42 L1200,46" fill="none" stroke="${l}" stroke-width="1.4"/>`,
+ range:(f,n,l)=>`<path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38 L1200,120 L0,120Z" fill="${f}"/><path d="M0,82 C160,66 320,76 480,60 C640,46 800,70 960,60 C1080,54 1160,64 1200,62 L1200,120 L0,120Z" fill="${n}"/><path d="M0,100 C220,90 420,96 640,86 C860,78 1020,92 1200,84 L1200,120 L0,120Z" fill="${n}"/><path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38" fill="none" stroke="${l}" stroke-width="1.2" opacity="0.85"/>`,
+ peak:(f,n,l)=>`<path d="M0,104 C260,100 430,94 520,56 C560,40 600,20 640,20 C680,20 720,42 760,60 C860,100 1000,102 1200,100 L1200,120 L0,120Z" fill="${n}"/><path d="M600,28 C612,42 628,54 640,60" fill="none" stroke="${l}" stroke-width="1.4"/><rect x="300" y="62" width="620" height="10" fill="${f}"/><path d="M120,86 h240 M470,86 h180 M760,90 h300" stroke="${f}" stroke-width="8" stroke-linecap="round" opacity="0.7"/>`,
+ river:(f,n,l)=>`<path d="M0,90 C300,82 500,86 1200,84 L1200,120 L0,120Z" fill="${f}"/><path d="M470,82 Q540,98 610,82" fill="none" stroke="${l}" stroke-width="1.8" stroke-linecap="round"/><path d="M120,94 q80,-4 160,0 t160,0 M700,96 q80,-4 160,0 t160,0" fill="none" stroke="${l}" stroke-width="1" opacity="0.6"/>`};
+function bg(type,sky){const m=MOTIFS[type];if(!m)return '';const[f,n,l]=inkCols(sky);return `<svg class="ink-bg" viewBox="0 0 1200 120" preserveAspectRatio="none">${m(f,n,l)}</svg>`;}
 
-/* ===== 四階段 ===== */
-const PHASE={recovery:{e:'🌱',n:'復甦期'},growth:{e:'📈',n:'成長期'},boom:{e:'🔥',n:'榮景期'},recession:{e:'⚠',n:'衰退期'}};
+const OPENING={sky:'sky-dawn',bg:'farhills',label:'序',title:'幾千檔美股，你只抓了一個',quotes:[
+ '你打開美股報告——RS、板塊輪動、AI 三圈…<br>你多半只抓「誰漲最多」或「哪個熱門」，<br>然後就追進去。',
+ '但美股最容易騙人的，就是<b>把「漲多」當成「最強」</b>。<br>報告的關鍵，是<b>一切相對 SPY 來看</b>——<br>誰真的跑贏大盤、資金正擴散到哪一圈，才是強。',
+]};
 
-/* ===== 場景資料（忠實 2026-08-01 總經報告定調：晚循環/榮景尾聲前哨 + 製造業擴張中段） ===== */
-const S=[
-// 0 開場
-{type:'title',sky:'sky-noon',bg:'farhills'},
-// 1 對號入座
-{type:'project',sky:'sky-noon',bg:'farhills'},
-// 2 過場（推）
-{type:'mono',sky:'sky-night',bg:'reed',lines:['你不用選。','讓漏斗幫你選。']},
-// 3 教：五關漏斗
-{type:'teach',sky:'sky-valley',bg:'range',tag:'教 · 漏斗',tagc:'teach',h:'一檔會漲的股，是「篩」出來的',
- html:`<p class="body">高手不看幾千檔。他們把「會不會漲」拆成<b class="hl">五個必須同時成立的條件</b>，一層一層篩：</p>
- <div class="data-box">
- <div class="row"><b>① 錢往哪流</b><span class="dim">先鎖定資金在的板塊</span></div>
- <div class="row"><b>② 何時上車</b><span class="dim">那板塊剛啟動、還沒追高</span></div>
- <div class="row"><b>③ 上哪一檔</b><span class="dim">板塊裡最強的 A 級（四欄位）</span></div>
- <div class="row"><b>④ 有沒有實錘</b><span class="dim">真的有大錢在買（籌碼／廣度）</span></div>
- <div class="row"><b>⑤ 退場線</b><span class="dim">哪裡代表資金跑了、該走</span></div></div>
- <p class="body">幾千檔進去，剩幾檔出來。而且<b class="hl">每一關都有一面照妖鏡</b>——專門照出「假的強」。五關缺一，就不是機會。</p>`},
-// 4 教：資金流心法
-{type:'teach',sky:'sky-storm',bg:'peak',tag:'教 · 核心心法',tagc:'teach',h:'不猜哪檔漲，讀錢已經流到哪',
- html:`<p class="body">選股最大的誤會，是以為要「預測」哪檔會漲。其實市場已經把答案寫在<b class="hl">資金流</b>裡——錢已經在流動，你只要<b>讀出它在哪、跟上就好</b>。</p>
- <p class="body">接下來用<b>當期美股真實數據</b>（2026-08-05）帶你跑一遍五關漏斗。<b class="hl">數據會過期，漏斗這套邏輯不會</b>——每一關記的是「怎麼判斷」，不是「這天誰在漲」。</p>`},
-// 4.5 ① 板塊動態圖— 教怎麼看動態圖
-{type:'phasepick',sky:'sky-valley',bg:'range',tag:'① 板塊動態圖 · 位置＋方向',
- h:'報告第一張圖：會動的板塊圖',
- data:`<svg viewBox="0 0 300 236" style="width:100%;max-width:260px;margin:0.4rem auto;display:block"><rect x="34" y="16" width="232" height="196" fill="none" stroke="rgba(255,255,255,0.14)"/><line x1="150" y1="16" x2="150" y2="212" stroke="rgba(255,255,255,0.22)"/><line x1="34" y1="114" x2="266" y2="114" stroke="rgba(255,255,255,0.22)"/><text x="214" y="32" fill="#a5d6a7" font-size="12" text-anchor="middle">領先</text><text x="88" y="32" fill="#ffd28a" font-size="12" text-anchor="middle">改善</text><text x="88" y="204" fill="#ff9a9a" font-size="12" text-anchor="middle">落後</text><text x="214" y="204" fill="#9ab8ff" font-size="12" text-anchor="middle">轉弱</text><text x="150" y="228" fill="rgba(255,255,255,0.5)" font-size="10" text-anchor="middle">← 弱　相對強度(vs SPY)　強 →</text><path d="M92,96 C130,88 172,84 210,80" fill="none" stroke="rgba(224,165,38,0.55)" stroke-width="2" stroke-dasharray="3 3"/><circle cx="92" cy="96" r="3" fill="rgba(224,165,38,0.4)"/><circle cx="150" cy="86" r="3.5" fill="rgba(224,165,38,0.7)"/><circle cx="210" cy="80" r="6" fill="#e0a526"/><text x="210" y="70" fill="#fff" font-size="10" text-anchor="middle">某板塊</text></svg>
-  <p class="body dim">每個板塊是一個點：橫軸＝<b>相對強度</b>(比 SPY 強不強)、縱軸＝<b>動能</b>(正在轉強還轉弱)，點後拖尾巴＝最近怎麼移動。四象限：<b>領先／改善／落後／轉弱</b>。</p>`,
- q:'一個板塊的點，從「改善」往「領先」移動，代表？',
- opts:['由弱轉強、動能在增強——「轉強確立」的軌跡','已經最強、準備要崩了','沒意義，圖好看而已'],
- correct:0,
- reveal:`<b>對 ✓ 轉強確立。</b>改善→領先＝相對強度和動能<b>同步上升</b>。動態圖比單看排名，多了「<b>往哪走</b>」這個資訊——報告 §01 就是用它一眼看出哪些板塊在轉強、哪些在轉弱、錢正流去哪一象限。`,
- gloss:'<span>板塊動態圖</span>＝把每個板塊畫成一個點：位置＝相對強度、方向＝動能。<span>四象限</span>＝領先(強且續強)／改善(弱但轉強)／落後(弱且轉弱)／轉弱(強但轉弱)；點的尾巴＝最近的移動軌跡。'},
-// 5 ① 錢往哪流 · 美股（AI三圈）
-{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'① 錢往哪流 · 美股',
- h:'美股 AI 硬體，現在能追嗎？',
- data:`<div class="data-box">
-  <div class="row"><span>AI 三圈（進 3 月新高）</span><b class="stat down">C1算力 0/7 · C2記憶體 1/16 · C3設備 0/25</b></div>
-  <div class="row"><span>AI 供應鏈新高</span><b class="stat down">1 / 48（AI 硬體還沒回來）</b></div>
-  <div class="row"><span>最強板塊（均REL5）</span><b class="stat up">Mega Cap／平台 +5.3 / 軟體雲 +3.8 / GOOGL 領頭</b></div>
-  <div class="row"><span>大盤廣度</span><b class="stat up">3月新高 416 ＞ 新低 145（2.87x，健康）</b></div></div>
-  <p class="body dim">AI 三圈＝把 AI 供應鏈拆成算力／記憶體／設備三層，看錢在哪一層。</p>`,
- q:'錢，現在在美股 AI 硬體嗎？',
- opts:['在，AI 硬體要噴了、加碼算力','不在——AI 供應鏈 48 支只 1 支新高；但廣度健康，錢在平台／軟體（Mega Cap、GOOGL）','看不出來'],
- correct:1,
- reveal:`<b>對 ✓ 錢不在 AI 硬體。</b>三圈幾乎清零、48 支只 1 支新高＝<b>AI 硬體還沒回來</b>，去追算力是猜反彈。但這<b>不是避險</b>——新高 416＞新低 145、廣度健康，錢流去<b>平台／軟體</b>。<b>漏斗第一關永遠一樣：讀「這一刻錢在哪」，站過去；別站到錢還沒去的地方。</b><span class="dim">（讀數：美股 2026-08-05）</span>`,
- gloss:'<span>AI 三圈</span>＝C1算力核心／C2傳輸記憶體／C3設備，看資金在 AI 鏈的哪一棒。<span>相對強弱（REL）</span>＝這板塊比大盤強多少，負值＝跑輸大盤。<span>廣度</span>＝創新高家數 vs 新低家數，看是「一群股」還是「一兩檔」在撐。'},
-// 7 ① 輪動警訊（變盤照妖鏡）
-{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'① 照妖鏡 · 輪動警訊',
- h:'「防禦股領先」是變盤警訊——現在觸發了嗎？',
- data:`<div class="data-box">
-  <div class="row"><span>這面照妖鏡</span><b class="stat">防禦型（必需消費／醫療／公用）<br>贏過成長型（科技／半導體）<br>＝大錢避險先兆</b></div>
-  <div class="row"><span>當期（美股8/5）</span><b class="stat up">成長／電子重新領先、廣度健康＝沒觸發</b></div></div>
-  <p class="body dim">重點不是「今天防禦有沒有贏」，是這面鏡子要一直掛著。</p>`,
- q:'這條「防禦領先＝避險」的警訊，現在成立嗎？',
- opts:['成立，防禦最安全','沒成立——當期是成長／電子領漲、廣度健康（risk-on）；但這面鏡子要一直掛著，哪天防禦翻上來就是變盤先兆','警訊沒用，不用看'],
- correct:1,
- reveal:`<b>對 ✓ 現在沒觸發。</b>當<b>防禦型（必需消費／醫療／公用）開始贏過成長型（科技／半導體）</b>，代表大錢在搬去避風港——最有參考價值的變盤訊號之一。<b>當期（2026-08 上旬）剛好相反：成長／電子重新領先、廣度健康，是 risk-on 回歸。</b>所以帶走的重點不是「現在防禦有沒有贏」，是<b>這面照妖鏡要一直掛著，方向一翻就提高警覺。</b>`,
- gloss:'<span>防禦型 vs 成長型</span>＝吃穿藥電（抗跌）對科技半導體（賺景氣）。<span>變盤訊號</span>＝防禦開始領先，通常是資金避險、風險偏好下降的前兆——一直掛著、翻了就警覺。'},
-// 8 過場
-{type:'mono',sky:'sky-night',bg:'river',lines:['錢在哪，你就站哪。','剩下的，是時機。']},
-// 9 ② 何時上車 · 輪漲六階段
-{type:'templocate',sky:'sky-valley',bg:'range',tag:'② 何時上車 · 輪漲階段',
- h:'找到強板塊了——現在上車，太晚嗎？',
- data:`<div class="data-box">
-  <div class="row"><span>🌱 萌芽期</span><b class="stat">領頭剛出現、廣度未擴散</b></div>
-  <div class="row"><span>🚀 啟動期</span><b class="stat up">均強度&gt;5%、廣度&gt;20%</b></div>
-  <div class="row"><span>🔥 主升期</span><b class="stat warnc">均強度&gt;15%、廣度&gt;40%</b></div>
-  <div class="row"><span>➡️ 整理期</span><b class="stat">短線休息、中線還在</b></div>
-  <div class="row"><span>📉 退燒期</span><b class="stat down">高位拉回、該減倉</b></div>
-  <div class="row"><span>❄️ 弱勢期</span><b class="stat down">結構走弱、迴避</b></div></div>
-  <p class="body dim">同一個強板塊，六個階段勝算天差地別。哪一段才是進場窗口？</p>`,
- zones:[{t:'萌芽期',s:'等擴散'},{t:'啟動期',s:'最佳窗口'},{t:'主升期',s:'追高風險'},{t:'退燒期',s:'該走了'}],
- correct:1,
- reveal:`<b>對 ✓ 啟動期才是窗口。</b>萌芽期只有領頭、廣度沒擴散，容易假突破；主升期人人都看到、你追在高點；<b>啟動期</b>＝廣度剛擴散(&gt;20%)、多數成員一起轉強，<b>還沒過熱、勝算最高</b>。過了主升是整理→退燒→弱勢，那時是減倉、不是進場。<b>不猜萌芽，等它啟動。</b>`,
- gloss:'<span>廣度</span>＝板塊裡「一起轉強」的個股比例；廣度擴散＝不是一兩檔獨撐，是整群動起來。<span>六階段</span>＝萌芽→啟動→主升→整理→退燒→弱勢，進場只在啟動期。'},
-// 10 ② 位階四象限（進退）
-{type:'templocate',sky:'sky-valley',bg:'range',tag:'② 位階 · 進退不只看強弱',
- h:'月線還在買、這週轉賣——這板塊該進還是該退？',
- data:`<div class="data-box">
-  <div class="row"><span>判讀口徑</span><b class="stat">外資月線金額（趨勢）× 5日方向（動能）</b></div>
-  <div class="row"><span>這個板塊</span><b class="stat">月線 <span class="up">+ 買超（趨勢還在）</span> ／ 5日 <span class="down">− 轉賣（動能轉弱）</span></b></div>
-  <div class="row"><span>當期實例</span><b class="stat">京鼎 月線 +792萬、5日 −333萬</b></div></div>
-  <p class="body dim">領先＝月正5日正；回升＝月負剛翻正；衰退＝月正5日負；落後＝月負5日負。</p>`,
- zones:[{t:'領先區',s:'月正5日正'},{t:'回升區',s:'月負剛翻正'},{t:'衰退區',s:'月正5日負'},{t:'落後區',s:'月負5日負'}],
- correct:2,
- reveal:`<b>對 ✓ 衰退區。</b>月線還買超＝<b>趨勢強度還在</b>，但這 5日 轉賣超＝<b>動能開始減弱、資金正要流出</b>。這不是崩，是「該收手、別再追高」的位置。<b>位階回答的是『這位置該進還是該退』</b>，配生命週期看：🔄加速→👑主升→⚠️派發→💥崩解，衰退區＝走到⚠️派發前後。`,
- gloss:'<span>位階四象限</span>＝用「月線趨勢 × 5日動能」把板塊分四區。<span>衰退區</span>＝強度還在但動能轉弱、資金開始撤，是減碼訊號不是進場點。'},
-// +過場（關②→關③）
-{type:'mono',sky:'sky-night',bg:'reed',lines:['方向對了，時機也抓了。','接下來——把那一支，挑出來。']},
-// 11 ③ 上哪一檔 · 四欄位漏斗（教）
-{type:'teach',sky:'sky-storm',bg:'peak',tag:'③ 上哪一檔 · 四欄位',tagc:'teach',h:'同一個板塊裡，怎麼挑出那幾檔',
- html:`<p class="body">板塊對了，還要在裡面挑個股。用<b class="hl">四個欄位、三個時間尺度</b>，照順序看：</p>
- <div class="data-box">
- <div class="row"><b>① 1D%（今天）</b><span class="dim">當日誰在動——<b>必看</b>，但不能只看今天</span></div>
- <div class="row"><b>② REL5（近5日相對強弱）</b><span class="dim">短線動能，排最前</span></div>
- <div class="row"><b>③ REL20（近月）</b><span class="dim">中線方向確認</span></div>
- <div class="row"><b>④ REL60（近3月）</b><span class="dim">長線持續性，排最後<b>保底</b></span></div></div>
- <p class="body">訣竅是<b>相鄰兩個一起看</b>：短線 1D%＋REL5、中線 REL5＋REL20、長線 REL20＋REL60。排序：<b>REL5 由高到低</b>。<b class="hl">今天暴漲(1D%)是訊號燈，但要 REL 跟上才是真的。</b></p>`},
-// 12 ③ 門檻隨市況調（教）
-{type:'teach',sky:'sky-storm',bg:'peak',tag:'③ 門檻 · 不是死數字',tagc:'teach',h:'同一套條件，標準要會變',
- html:`<p class="body">四欄位的「門檻」不是刻在石頭上——要看市況調：</p>
- <div class="data-box">
- <div class="row"><b>強勢多頭</b><span class="dim">用<b>嚴格版</b>（REL5&gt;10%、REL60&gt;10%）過濾雜訊</span></div>
- <div class="row"><b>震盪盤整</b><span class="dim">用<b>寬鬆版</b>（REL5&gt;2%、REL60&gt;−5%）免得錯失</span></div>
- <div class="row"><b>輪動初期</b><span class="dim">降低 REL5 門檻，搶剛啟動的板塊</span></div></div>
- <p class="body">死守一個數字，不是紀律，是<b class="hl">僵化</b>。標準隨市況呼吸，才篩得準。</p>`},
-// 13 ③ A級判定
-{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'③ 上哪一檔 · A級',
- h:'啟動期板塊裡，這檔算幾級？',
- data:`<div class="data-box">
-  <div class="row"><span>短線 REL5</span><b class="stat up">夠強 ✓</b></div>
-  <div class="row"><span>中線 REL20</span><b class="stat up">確認 ✓</b></div>
-  <div class="row"><span>長線 REL60</span><b class="stat down">還在 −3%（未站上 0）</b></div></div>
-  <p class="body dim">A 級＝三個 REL 全中。這檔中了短、中線，長線持續性差一點。</p>`,
- q:'它是幾級？',
- opts:['A 級——反正很強就追','B 級——長線未達，候補觀察','C 級——只中一項'],
- correct:1,
- reveal:`<b>對 ✓ B 級候補。</b>短線、中線都過，但<b>長線 REL60 還沒站上大盤（−3%）</b>＝<b>漲勢還沒被長線確認</b>，容易衝一下就回。三個 REL 全中才是 <b>A 級</b>——短、中、長三個尺度都跑贏大盤，才是真正的量價齊揚。這檔只是 B 級，放觀察池、等 REL60 翻正，不是首選。`,
- gloss:'<span>A/B/C 級</span>＝三個 REL 全中＝A；過短中線、長線未達＝B候補；只中一項＝C觀察。<span>REL60</span>＝近3月相對強度，&lt;0 代表長線還沒真的跑贏大盤。'},
-// 14 ③ 脈衝排除（照妖鏡）
-{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'③ 照妖鏡 · 脈衝排除',
- h:'這檔今天 +9.8%——漂亮吧？',
- data:`<div class="data-box">
-  <div class="row"><span>某檔（今天）</span><b class="stat up">1D% +9.8%（暴衝！）</b></div>
-  <div class="row"><span>但近5日相對強弱 REL5</span><b class="stat down">−12%（這五天其實跑輸大盤！）</b></div></div>
-  <p class="body dim">今天一根噴上去，看起來超強。但把這五天拉開看，它根本落後大盤。</p>`,
- q:'追嗎？',
- opts:['今天大漲，當然追','不追——今天暴衝但 REL5 是負的，是孤軍一根、五天內根本沒在漲的假強勢','加碼，還會再噴'],
- correct:1,
- reveal:`<b>對 ✓ 不追。</b><b>1D% 暴衝、但 REL5 為負＝「只有今天這一根」</b>——把時間拉開，這五天它跑輸大盤，多是單日消息或投機硬拉的<b>假強勢</b>，一根就打回去。真起漲是<b>今天漲、這五天也一路領先</b>（1D% 正 ＋ REL5 也強）。<b>「今天暴漲」本身不是買點，「今天暴漲＋REL5 跟上」才是——這是分真假強勢的第一道照妖鏡。</b>`,
- gloss:'<span>脈衝</span>＝1D% 單日暴衝、但 REL5（近5日相對強弱）是負的，只有今天一根、沒有持續性。<span>照妖鏡</span>＝用 1D%／REL5 是否同向，照出「今天的大漲」是真起漲還是假強勢。'},
-// 15 ③ 收斂
-{type:'teach',sky:'sky-valley',bg:'range',tag:'③ 收斂',tagc:'teach',h:'漏斗到這裡，剩幾檔',
- html:`<p class="body">把「啟動期板塊 × A 級個股（過脈衝照妖鏡）」交集起來，幾千檔已經收斂到<b class="hl">一張幾十檔的最高確信清單</b>。</p>
- <p class="body dim">當期實例——美股 A 級 19 檔、最強在 <b>Mega Cap／平台／軟體</b>（GOOGL 領頭）。<b>選誰不是背名單，是跟當期資金流</b>——數據會過期，漏斗這套邏輯不會。<span style="opacity:.7">（美股 8/5）</span></p>`},
-// AI · §03–06 AI 供應鏈（四段併卡）
-{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'③ AI 供應鏈 · 三圈×信號流',
- h:'AI 這批，報告怎麼拆四層？',
- data:`<div class="data-box">
-  <div class="row"><span>①核心競爭力分類</span><b class="stat">這公司在 AI 價值鏈的位置</b></div>
-  <div class="row"><span>②三圈</span><b class="stat">C1 算力／C2 記憶體／C3 設備</b></div>
-  <div class="row"><span>③三圈擴散</span><b class="stat">每圈「幾檔創 3 月新高」——資金主攻哪一圈</b></div>
-  <div class="row"><span>④信號流／供應鏈定位</span><b class="stat">強勢從上游往下游怎麼傳</b></div></div>
-  <p class="body dim">報告 §03–06 把 AI 拆四層看，不是「看到 AI 就買」。</p>`,
- q:'報告顯示「記憶體圈多檔創 3 月新高、算力圈還沒跟上」，這代表？',
- opts:['AI 全部很強，隨便一檔都能買','錢集中在記憶體圈、算力圈落後——三圈擴散不均，要挑「正在擴散的圈」','記憶體要崩了'],
- correct:1,
- reveal:`<b>對 ✓ 三圈擴散不均。</b>記憶體圈多檔創新高＝資金主攻這圈；算力圈落後。挑 AI 要挑「<b>正在擴散的圈</b>」，不是看到 AI 就買。<b>三圈(C1算力/C2記憶體/C3設備)×擴散×信號流階梯×供應鏈定位</b>，就是報告 §03–06 把 AI 拆開看的方法。`,
- gloss:'<span>AI 三圈</span>＝C1算力／C2記憶體／C3設備，分開看誰在強。<span>三圈擴散</span>＝每圈幾檔創 3 月新高，多檔一起強＝資金主攻這圈。<span>信號流階梯／供應鏈定位</span>＝強勢從上游往下游怎麼傳、每家在供應鏈的位置。'},
-// 20 ④ 美股用廣度當實錘
-{type:'phasepick',sky:'sky-dusk',bg:'reed',tag:'④ 實錘 · 美股',
- h:'美股沒有法人買賣超，怎麼確認實錘？',
- data:`<div class="data-box">
-  <div class="row"><span>別的市場（有法人）</span><b class="stat">法人買超（雙向確認）</b></div>
-  <div class="row"><span>美股沒有這個數據</span><b class="stat">要用別的當實錘…</b></div></div>`,
- q:'美股的「實錘」看什麼？',
- opts:['看新聞和分析師喊多','看廣度——是不是一群股一起轉強（不是獨漲）','看它今天漲幾 %'],
- correct:1,
- reveal:`<b>對 ✓ 看廣度。</b>美股沒有法人買賣超，就用<b>廣度</b>當實錘：一個板塊是「一群股一起轉強」(REL5 廣度、REL60 廣度擴散)，還是「一兩檔獨撐」？<b>廣度擴散＝有真金白銀在整群買</b>，跟籌碼「雙向確認」同一個精神——要看到「一群」，不是「一檔」。`,
- gloss:'<span>廣度</span>＝板塊裡達標個股的比例。廣度擴散＝資金在整群買、不是單一標的偷跑，是美股版的「實錘」。'},
-// 21 ⑤ 安不安全 · 高低比（翻面）
-{type:'flip',sky:'sky-dusk',bg:'reed',tag:'⑤ 安不安全 · 市場體質',
- h:'新高 416 ＞ 新低 145，追還是等回檔？',
- setup:`<p class="body">美股當期（2026-08-05）：<b>創 3 個月新高 416 檔、新低只 145 檔</b>，高低比 2.87x。有人說「漲這麼多、新高一堆，是不是要回檔了」。你怎麼看？</p>`,
- opts:[{t:'新高一堆＝過熱，先全部空手',good:false},{t:'要看是「廣度健康的多頭」還是「少數獨強的假突破」',good:true}],
- correct:1,
- revealGood:`<b>對 ✓ 要看廣度。</b>新高多不等於過熱——當<b>新高 416 遠多於新低 145（2.87x）</b>，代表是<b>一大群股一起創高、廣度健康</b>，多頭有底氣，不是少數獨撐的假象。<b>高低比是體質溫度計，要配廣度讀。</b><span class="dim">（對照：幾天前還是新低多的弱勢，現在翻成廣度健康的多頭——所以永遠讀「當下」的高低比，不是背上一次。）</span>`,
- revealBad:`<b>再想一下。</b>新高多≠過熱。關鍵是<b>廣度</b>：新高 416 vs 新低 145、2.87x＝一大群股一起強，廣度健康、多頭有底氣。高低比要配廣度讀，不是看到一堆新高就怕。`,
- gloss:'<span>高低比</span>＝創新高家數 vs 創新低家數，市場整體體質的溫度計。<span>廣度健康</span>＝新高遠多於新低，一大群股一起強、不是少數獨撐，多頭有底氣。'},
-// 22 ⑤ 快照覆蓋（歷史照妖鏡）
-{type:'flip',sky:'sky-dusk',bg:'reed',tag:'⑤ 照妖鏡 · 快照覆蓋',
- h:'當日算「主升期」，但廣度連縮 3 週',
- setup:`<p class="body">某板塊<b>當日計算是 🔥 主升期</b>（均強度還很高）；但翻歷史快照，<b>廣度連續 3 週收縮：100% → 50% → 只剩 2 檔獨漲</b>。報告該標什麼？</p>`,
- opts:[{t:'照當日算，標「主升期」就好',good:false},{t:'覆蓋標「主升 ⚠️ 趨勢轉弱（個股獨漲、廣度已空）」',good:true}],
- correct:1,
- revealGood:`<b>對 ✓ 要強制覆蓋。</b>當日數字再漂亮，只要歷史顯示<b>廣度連續收縮</b>，就要覆蓋標警示——防的正是「一兩檔獨漲、整群已空」的<b>假主升</b>。跟快照對比，是防自己被<b>單日數字</b>騙。這也是漏斗的隱形一關：不只看今天，還要看它<b>這幾週在變好還變壞</b>。`,
- revealBad:`<b>再想一下。</b>均強度高，但那是「剩 2 檔獨漲」撐出來的假象。<b>廣度連縮 3 週＝資金正在離場</b>，此時標主升會害人追在最後一棒。規則是：歷史連續轉弱時，當日數字要被<b>覆蓋</b>成警示。`,
- gloss:'<span>快照覆蓋</span>＝把今天的計算結果跟歷史快照對比，若廣度連續收縮，強制把「主升」覆蓋成「趨勢轉弱」。防的是個股獨漲撐出的假強。'},
-// 23 ⑤ 退場線（清單）
-{type:'checklist',sky:'sky-clear',bg:'range',tag:'⑤ 退場線 · 資金跑了',
- h:'進場前，先想好哪裡該走',sub:'勾出「資金跑了」的退場訊號——每個下面是為什麼。',
- items:[
-  {t:'資金轉進防禦板塊',s:'A級清單裡防禦（公用／必需消費）支數 > 成長板塊，代表熱錢在避險——變盤最有參考價值的訊號。'},
-  {t:'雙向確認名單退出',s:'原本量價＋籌碼雙強的個股，法人開始賣、掉出名單＝籌碼鬆動，實錘沒了。'},
-  {t:'廣度收縮、A級腰斬',s:'板塊剩一兩檔獨漲、其他縮掉＝主升末段的假強，配合快照覆蓋標警示。'},
-  {t:'結構分裂（大型股落後、只剩小型獨強）',s:'領先區全是小型利基股、權值股落後＝輪動警訊，行情根基不穩。'}]},
-// 24 過場
-{type:'mono',sky:'sky-night',bg:'river',lines:['進場前先想退場。','沒有退出線的進場，不進。']},
-// 25 收束 · 你的漏斗
-{type:'checklist',sky:'sky-clear',bg:'range',tag:'收束 · 你的漏斗',
- h:'下次幾千檔，你會依序這樣篩',sub:'把五關漏斗＋照妖鏡收進口袋（勾滿）。',
- items:[
-  {t:'① 先讀資金流到哪個板塊（＋輪動警訊）',s:'站到錢在的那邊；防禦贏過成長＝變盤先兆'},
-  {t:'② 確認在「啟動期」、看位階',s:'廣度剛擴散、還沒追高；月正5日負＝衰退區別追'},
-  {t:'③ 挑 A 級（四欄位三尺度）、過脈衝照妖鏡',s:'三個 REL 全中；1D% 暴衝但 REL5 負＝假的'},
-  {t:'④ 要廣度「實錘」',s:'看廣度實錘：一群股一起強、不是一兩檔獨漲'},
-  {t:'⑤ 先想好退場線＋快照覆蓋',s:'資金轉防禦／掉出名單／廣度連縮就走'}]},
-// 26 結果
-{type:'result',sky:'sky-clear',bg:'range'}
+const ROUNDS=[
+ {type:'ab',sky:'sky-valley',bg:'range',label:'第 01 段 · 板塊動態圖',title:'會動的板塊圖：相對 SPY 的位置＋方向',
+  text:'美股報告第一段是「板塊動態圖」。每個板塊是一個點，基準是 <b>SPY(標普)</b>：<br>橫軸＝<b>相對強度</b>(比 SPY 強不強)、縱軸＝<b>動能</b>(正在轉強還轉弱)，<br>點後拖尾巴＝最近怎麼移動。四象限：<b>領先／改善／落後／轉弱</b>。<br><span style="font-size:12px;opacity:.85">（多維度相對 SPY；可拖軌跡看整段路徑）</span>',
+  q:'一個板塊的點，從「改善」往「領先」移動，代表？',
+  choices:['由弱轉強、動能在增強——「轉強確立」的軌跡','已經最強、準備要崩了','沒意義，圖好看而已'],correct:0,
+  fb:['對——改善→領先＝相對 SPY 的強度和動能同步上升，是「轉強確立」。動態圖比單看排名，多了「往哪走」。','「最強就要崩」是猜頂——動態圖只給你位置和方向，不預測崩盤。','很有意義——看多數板塊聚在哪個象限，就讀出整體相對 SPY 是強是弱。']},
+
+ {type:'ab',sky:'sky-noon',bg:'farhills',label:'第 02 段 · 強勢股篩選',title:'不是掃全部，是讓相對強度幫你篩',
+  text:'幾千檔美股，第二段用<b>相對強度篩出強勢股</b>：<br>核心是 <b>RS＝相對 SPY 的強弱</b>(贏 SPY 幾 %)，加上創高、動能等條件，<br>篩出一池「<b>正在跑贏大盤</b>」的候選——<b>抗跌、逆勢創高，都算強。</b>',
+  q:'今天 A 股漲 1%、SPY 漲 3%；B 股跌 1%、SPY 跌 5%。篩選會把誰當強勢？',
+  choices:['A，因為它是漲的','B——它跌得比 SPY 少 4%，等於跑贏大盤，抗跌也算強','都不算，B 是跌的'],correct:1,
+  fb:['A 雖然漲，卻輸 SPY 2%——相對強度是負的，不會進強勢池。','對——篩的是「相對 SPY」。B 逆勢抗跌、跑贏 4%，反而是強勢。<b>漲最多的，不一定最強。</b>','B 明顯跑贏 SPY——篩選看相對強度，不是看自己漲跌。']},
+
+ {type:'ab',sky:'sky-clouds',bg:'range',label:'第 03 段 · AI 核心競爭力分類',title:'AI 不是一批，是分三層',
+  text:'AI 是美股權重最大的一批，但報告<b>不把它當一批</b>。第一步先按<b>核心競爭力分三層架構</b>：<br>越靠<b>核心</b>＝<b>越不可取代</b>(獨家製程、卡關鍵環節)；越外圍＝替代性越高、越像「沾邊」。<br>看到「AI」先問：它在<b>哪一層</b>？',
+  q:'兩家都掛「AI 概念」：A 是先進製程的關鍵供應、B 是替代性高的組裝。報告會把誰放核心層？',
+  choices:['B，因為它比較便宜','A——獨家、卡關鍵環節、不可取代，才是核心層；B 替代性高、擺外圍','都放核心，都是 AI'],correct:1,
+  fb:['便宜不等於核心——核心看的是「不可取代」，不是股價高低。','對——<b>核心競爭力＝不可取代性</b>。獨家製程/關鍵瓶頸放核心層，替代性高的擺外圍。「都是 AI」但強度與續航天差地別。','「都放核心」正是報告要破的迷思——分三層，就是要你分辨誰真核心、誰只是沾邊。']},
+
+ {type:'ab',sky:'sky-valley',bg:'range',label:'第 04 段 · AI 三圈擴散分析',title:'三圈：錢擴散到第幾圈了',
+  text:'第四段把 AI 由核心往外畫<b>三圈</b>：<br><b>算力核心 → 不可或缺瓶頸 → 基建外溢</b>。<br>每一圈報告都標「<b>幾檔創 3 月新高</b>」——多檔一起創高＝資金<b>擴散</b>到那一圈。<br>看擴散，是要判斷資金<b>主攻哪一圈</b>，不是看到 AI 就買。',
+  q:'報告顯示「算力核心圈多檔創 3 月新高、外面兩圈還沒跟上」。這代表？',
+  choices:['AI 全部很強，隨便一檔都能買','錢集中在最核心的算力圈、還沒外溢——挑就挑「正在擴散的那一圈」','算力圈要崩了'],correct:1,
+  fb:['「AI 全都強」是把一圈套到全部——分三圈就是要你看「哪一圈在擴散」。','對——<b>擴散未外溢</b>：資金還鎖在算力核心，瓶頸與基建圈落後。要挑「正在創高、正在擴散」的圈。','分圈看的是資金流向、不是預測崩盤——核心圈創高代表它現在最強。']},
+
+ {type:'ab',sky:'sky-noon',bg:'farhills',label:'第 05 段 · AI 硬體信號流階梯',title:'8 階段：強勢一階一階往下傳',
+  text:'第五段是<b>信號流階梯</b>：把 AI 硬體拆成<b>8 個階段位階</b>(從最上游算力，一路往傳輸、設備、下游)。<br>它看的是——<b>強勢正走到第幾階</b>：資金與強度是集中在上游，還是已經一階一階往下游傳。',
+  q:'信號流顯示「強勢集中在最上游算力階、下游各階還很弱」。怎麼讀？',
+  choices:['整條 AI 鏈都強','強勢還在最上游、尚未往下傳——資金卡在前段，下游要等訊號傳到才輪得到','下游永遠不會強'],correct:1,
+  fb:['整條都強的話，各階都會亮——現在只有上游亮，代表訊號還沒傳下去。','對——<b>信號流看「傳到第幾階」</b>。強勢卡在上游＝下游還沒接棒；等訊號一階一階往下傳，才輪到中下游。','沒有「永遠」——階梯是動態的，訊號會往下傳；現在只是還沒到。']},
+
+ {type:'ab',sky:'sky-clear',bg:'range',label:'第 06 段 · AI 供應鏈定位',title:'錢往上游、算力往下游',
+  text:'第六段幫每家 AI 公司在供應鏈上<b>定位</b>：<br>一句口訣——<b>錢往上游走、算力往下游擴</b>。<br>把「這家在哪一段」＋「資金與強度集中在哪一段」對起來看，就知道<b>它是不是站在資金正流入的位置</b>。',
+  q:'一家公司位在供應鏈中下游，但報告顯示「資金與強度這期集中在上游」。怎麼看它？',
+  choices:['它一定會漲，反正是 AI','它現在不站在資金流入的位置——先觀察，等強勢往下游傳到它那段再說','馬上重壓'],correct:1,
+  fb:['「是 AI 就會漲」正是要破的——位置對不對，比標籤重要。','對——<b>定位＝把公司位置和資金位置對齊</b>。資金在上游、它在下游，就先不站在風口；等信號流傳到它那段。','重壓在資金還沒到的位置，風險最高——先等定位對上。']},
+
+ {type:'ab',sky:'sky-clear',bg:'range',label:'第 07 段 · 完整研判',title:'美股報告，到底幫你做什麼？',
+  text:'七段都讀完了。<br><br>美股報告幫你的，是<b>「選股方向＋大盤定調」</b>：<br>資金相對 SPY 輪動到哪類、哪些是強勢候選、AI 哪一圈在擴散、強勢傳到供應鏈第幾段——<br>它給你<b>池子和邏輯，你自己挑</b>。',
+  q:'所以美股報告最適合幫你做的決策是？',
+  choices:['直接告訴我買哪一檔、買在幾塊','看「錢相對 SPY 往哪類流、有哪些強勢候選、AI 擴散到哪」，自己判斷選股方向','看它今天喊多喊空，照做就好'],correct:1,
+  fb:['報告不喊買哪檔、不給價位——那是明牌，不是判斷力。','對——它給你<b>相對強度＋候選池＋AI 擴散邏輯</b>，選誰、進不進，你自己決定。','它不喊單。美股報告給的是「錢相對 SPY 在哪、誰強、AI 傳到哪」，決定權在你手上。']}
 ];
+const TRANSITIONS=[null,'篩出強勢池了——接著看池子裡最重的那批：AI，報告怎麼拆成四段？',null,null,null,'AI 四段讀完了——最後拉高鏡頭，整份報告幫你定調什麼？',null];
 
-/* ===== 狀態 / 導覽 ===== */
-let cur=0; const state={score:0,max:0,answered:{}};
-const el=id=>document.getElementById(id);
-const scene=()=>el('scene');
+let state={idx:-1,score:0,gv:50,cls:[],mChecked:false};
 
-function applyEnv(i){
-  const s=S[i]; document.body.className=s.sky;
-  el('ink').innerHTML=bg(s.bg,s.sky);
-  el('prog').style.width=(i/(S.length-1)*100)+'%';
-  const qnum=S.slice(0,i+1).filter(x=>['classify','flip','phasepick','gauge','scale','templocate','sort'].includes(x.type)).length;
-  const qtot=S.filter(x=>['classify','flip','phasepick','gauge','scale','templocate','sort'].includes(x.type)).length;
-  el('counter').textContent = s.tag ? (['classify','flip','phasepick','gauge','scale','templocate','sort'].includes(s.type)?`第 ${qnum}/${qtot} 題`:'') : '';
-}
-function go(i){
-  const sc=scene(); sc.classList.add('fadeout');
-  setTimeout(()=>{ cur=i; sc.classList.remove('fadeout'); render(i); applyEnv(i);
-    window.scrollTo({top:0,behavior:'smooth'});},300);
-}
-function next(){ if(cur<S.length-1) go(cur+1); }
+// 名詞白話＋答案（給我答案用）
+const ANS=[
+ {answer:'由弱轉強。改善→領先＝相對 SPY 的強度和動能同步上升，是「轉強確立」的軌跡。',terms:[
+   ['板塊動態圖(相對 SPY)','把每個板塊畫成一個點：位置＝相對 SPY 強度、方向＝動能；比排名多了「往哪走」'],
+   ['相對強度(橫軸)','這個板塊贏 SPY 多少——越右越強'],
+   ['動能(縱軸)','強度正在轉強還轉弱——越上越是在改善']]},
+ {answer:'B 股。篩選比的是相對 SPY，B 逆勢抗跌、跑贏大盤 4%，比漲 1% 卻輸 SPY 的 A 更強。',terms:[
+   ['RS(相對強度)','這支「贏 SPY 幾 %」：正＝跑贏、負＝跑輸；抗跌也算贏。不是「漲多少」'],
+   ['強勢股篩選','用相對強度＋創高/動能等條件，篩出正在跑贏大盤的候選池'],
+   ['候選池','符合條件的一批強勢股名單；是「池子」不是「明牌」']]},
+ {answer:'A。核心競爭力＝不可取代性：獨家製程、卡關鍵環節放核心層；替代性高的擺外圍。',terms:[
+   ['核心競爭力分三層','越核心＝越不可取代(獨家/卡瓶頸)；越外圍＝替代性越高、越像沾邊'],
+   ['不是「AI 就買」','同掛 AI 概念，強度與續航差很多——先問它在哪一層'],
+   ['三層架構','報告把 AI 個股按核心度分三層，不當成同一批']]},
+ {answer:'錢還鎖在算力核心圈、尚未外溢——挑「正在創高、正在擴散」的那一圈，不是全部 AI 一把抓。',terms:[
+   ['AI 三圈','由核心往外：算力核心 → 不可或缺瓶頸 → 基建外溢'],
+   ['三圈擴散','每圈「幾檔創 3 月新高」——多檔一起創高＝資金擴散到那一圈'],
+   ['擴散未外溢','資金集中最核心圈、外圈沒跟＝還沒外溢；要挑正在擴散的圈']]},
+ {answer:'強勢還卡在最上游算力階、尚未往下傳——下游要等訊號一階一階傳到才輪得到。',terms:[
+   ['信號流階梯','把 AI 硬體拆 8 個階段位階(上游算力→傳輸→設備→下游)'],
+   ['傳到第幾階','看強勢/資金集中在上游還是已往下游傳'],
+   ['卡在上游','上游亮、下游弱＝訊號還沒接棒；階梯是動態、會往下傳']]},
+ {answer:'它不站在資金流入的位置——先觀察，等強勢往下游傳到它那段再說；別重壓在資金還沒到的位置。',terms:[
+   ['供應鏈定位','把每家公司在供應鏈的位置標出來'],
+   ['錢往上游、算力往下游','口訣：資金先聚上游，算力/強勢往下游擴'],
+   ['位置對齊','把「公司在哪段」＋「資金在哪段」對起來，才知道站不站在風口']]},
+ {answer:'看「錢相對 SPY 往哪類流、有哪些強勢候選、AI 擴散到哪」，自己判斷選股方向。',terms:[
+   ['選股方向＋大盤定調','美股報告的定位：給相對強度、候選池、AI 邏輯，你自己挑'],
+   ['一切相對 SPY','美股用 SPY 當基準：贏 SPY 才叫強，抗跌也算贏'],
+   ['不喊買賣(G-5)','報告只研判市場、不指示你買哪檔或買在幾塊——決定權在你']]}
+];
+function giveAnswer(i){const r=ROUNDS[i],a=ANS[i];
+ const gloss=`<div style="font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.5);margin:0.85rem 0 0.5rem">名詞白話</div>`+a.terms.map(t=>`<div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,0.9);margin-bottom:0.42rem;text-align:left"><b style="color:#e0a526">${t[0]}</b>：${t[1]}</div>`).join('');
+ const box=inner=>`<div style="max-width:480px;margin:0.5rem auto 0;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.28);border-radius:10px;padding:1rem 1.2rem;backdrop-filter:blur(6px)">${inner}</div>`;
+ const ansLine=`<div style="font-size:14px;line-height:1.7;color:#fff;text-align:left"><b style="color:#a5d6a7">答案：</b>${a.answer}</div>`;
+ if(r.type==='classify'){
+   r.items.forEach((it,k)=>state.cls[k]=it[1]);
+   const rows=r.items.map(it=>`<div class="cls-row right"><div class="cls-name">${it[0]}</div><div class="cls-btns"><button class="cls-btn ${it[1]} on" disabled>${it[1]==='atk'?r.catA:r.catB}</button></div></div>`).join('');
+   G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main">${r.q}</div><div class="cls-list">${rows}</div>${box(ansLine+`<div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,0.86);margin-top:0.55rem;text-align:left">${r.reveal}</div>`+gloss)}<button class="continue-btn" onclick="record(${i})">懂了，繼續 ›</button>`);
+ }else if(r.type==='gauge'){
+   G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="gauge-wrap">${gaugeSVG(r.ans,r.left,r.right)}<div class="feedback" style="margin-top:0.6rem">${r.fb(r.ans)}</div></div>${box(ansLine+gloss)}<button class="continue-btn" onclick="record(${i})">懂了，繼續 ›</button>`);
+ }else{
+   const ch=r.choices.map((c,k)=>`<div class="choice-btn" style="cursor:default;${k===r.correct?'border-color:#a5d6a7;background:rgba(80,200,110,0.14)':'opacity:0.45'}">${k===r.correct?'✓ ':''}${c}</div>`).join('');
+   G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="choices">${ch}</div><div class="feedback" style="color:#a5d6a7;min-height:auto;font-size:14px">${r.fb[r.correct]}</div>${box(gloss)}<button class="continue-btn" onclick="record(${i})">懂了，繼續 ›</button>`);
+ }}
 
-/* ===== 主 render 分派 ===== */
-function render(i){
-  const s=S[i], sc=scene(); sc.style.animation='none'; void sc.offsetWidth; sc.style.animation='fade .5s ease both';
-  const R=RENDER[s.type]; sc.innerHTML=R.html(s,i); if(R.init) R.init(s,i);
-}
-function contBtn(label){return `<div class="center"><button class="cta" onclick="next()">${label||'繼續 →'}</button></div>`;}
-function helpBtn(i){return `<div class="help" id="help${i}"><button onclick="give(${i})">看不懂？給我答案</button></div>`;}
-function nextSlot(i){return `<div class="center" id="nx${i}" style="display:none;margin-top:6px"><button class="cta" onclick="next()">下一步 →</button></div>`;}
-function tagHTML(s){return s.tag?`<span class="tag ${s.tagc||''}">${s.tag}</span>`:'';}
+function prog(){PB.style.width=(Math.max(0,state.idx)/ROUNDS.length*100)+'%';}
+function dots(i){return `<div class="step-dots">${ROUNDS.map((_,k)=>`<i class="${k<=i?'on':''}"></i>`).join('')}</div>`;}
+function fade(fn){G.style.transition='opacity .32s';G.style.opacity='0';setTimeout(()=>{fn();G.style.opacity='1';},330);}
+function scene(sky,bgtype,inner){return `<div class="scene ${sky}">${bg(bgtype,sky)}<div class="overlay">${inner}</div></div>`;}
+function head(r){const layers=r.layers?`<div class="layer-list">${r.layers.map(ly=>`<div class="ly"><b>${ly[0]}</b><span>${ly[1]}</span></div>`).join('')}</div>`:'';const chips=r.chips?`<div style="max-width:480px;margin:0 auto 0.4rem">${r.chips.map(c=>`<span class="data-chip">${c}</span>`).join('')}</div>`:'';return `<div class="chapter-label t-label">${r.label}</div><div class="chapter-title t-main" style="font-size:22px;margin-bottom:0.9rem">${r.title}</div><div class="round-text t-sub">${r.text}</div>${layers}${chips}`;}
 
-/* 完成一題：計分、顯示解說、放行 */
-function resolve(i,correct,revealHTML){
-  state.answered[i]=true; if(correct)state.score++;
-  const rv=el('rv'+i); if(rv){rv.innerHTML=revealHTML; rv.className='reveal show';}
-  const h=el('help'+i); if(h)h.style.display='none';
-  const nx=el('nx'+i); if(nx)nx.style.display='block';
-}
+function showStart(){G.innerHTML=scene('sky-start','farhills',`
+  <div class="chapter-label t-label" style="margin-bottom:1rem">YODA RESEARCH · 判斷力學校</div>
+  <div class="chapter-title t-main" style="font-size:30px;font-weight:200;letter-spacing:1px;margin-bottom:0.4rem">讀懂美股報告</div>
+  <div class="t-sub" style="font-size:14px;margin-bottom:0.3rem;font-style:italic">一切相對 SPY 來看——別把「漲多」當成「最強」</div>
+  <div class="t-label" style="font-size:12px;margin-bottom:2.6rem">約 4 分鐘 · 跟著報告七段走(含 AI 四段) · 數據取自 2026-08 美股報告</div>
+  <button class="continue-btn" style="font-size:15px;padding:0.85rem 3.2rem;border-radius:6px;letter-spacing:2px" onclick="fade(startOpening)">開始</button>`);}
+let oi=0;function startOpening(){oi=0;renderOpening();}
+function renderOpening(){const q=OPENING.quotes[oi],last=oi>=OPENING.quotes.length-1;
+ G.innerHTML=scene(OPENING.sky,OPENING.bg,`<div class="chapter-label t-label">${OPENING.label}</div><div class="chapter-title t-main">${OPENING.title}</div><div class="chapter-quote t-sub">${q}</div><button class="continue-btn" onclick="nextOpening()">${last?'開始第一站 ›':'繼續 ›'}</button>`);}
+function nextOpening(){oi++;if(oi>=OPENING.quotes.length)fade(()=>showRound(0));else fade(renderOpening);}
 
-/* ===== 各型別 render ===== */
-const RENDER={
- title:{html:()=>`<div class="card center">
-   <div class="eyebrow">Yoda Research · 判斷力學校 · 讀懂美股報告</div>
-   <h1>股票那麼多，<br>要選誰？</h1>
-   <p class="lead">幾千檔，你到底怎麼挑？<br>高手不是掃完全部——<br>是讓資金流幫你篩掉 99%。</p>
-   <button class="cta" onclick="next()">開始 →</button>
-   <div class="neutral-note">※ 只教「怎麼讀資金流、怎麼篩」，不喊買哪一檔。範例＝2026-08 美股當期真實數據。</div></div>`},
+function showRound(i){state.idx=i;prog();const r=ROUNDS[i];
+ if(r.type==='gauge')renderGauge(i);else if(r.type==='classify')renderClassify(i);else renderAB(i);}
 
- project:{html:()=>`<div class="card">
-   <span class="tag">對號入座</span><h2>打開看盤軟體，你是不是也滿頭問號？</h2>
-   <p class="body">幾千檔股票，紅紅綠綠。你盯著看半天，最後——<b class="hl">憑感覺追了一檔</b>，然後套在最高點。</p>
-   <p class="body dim">問題不是你不夠努力，是「用眼睛掃全部」的方向就錯了。</p>
-   <button class="btn" onclick="next()">對，我常常憑感覺追<small>看它漲就追、追完就套</small></button>
-   <button class="btn" onclick="next()">我想學怎麼有系統地篩<small>不想再大海撈針</small></button></div>`},
+// 儀表滑桿
+function gaugeSVG(val,leftLbl,rightLbl){const min=0,max=100,f=v=>Math.PI*(1-(v-min)/(max-min)),R=120,ax=250+R*Math.cos(f(val)),ay=170-R*Math.sin(f(val));
+ return `<svg viewBox="0 0 500 200" style="width:100%;max-width:320px"><path d="M130,170 A120,120 0 0,1 370,170" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="14"/><line x1="250" y1="170" x2="${ax}" y2="${ay}" stroke="#e0a526" stroke-width="5" stroke-linecap="round"/><circle cx="250" cy="170" r="8" fill="#e0a526"/><text x="250" y="128" fill="#fff" font-size="26" font-weight="300" text-anchor="middle">${val}</text><text x="130" y="192" fill="rgba(91,141,239,0.9)" font-size="11" text-anchor="middle">${leftLbl||'左'}</text><text x="370" y="192" fill="rgba(224,83,83,0.9)" font-size="11" text-anchor="middle">${rightLbl||'右'}</text></svg>`;}
+function renderGauge(i){const r=ROUNDS[i];state.gv=50;
+ function draw(){G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main" style="font-size:14.5px">${r.q}</div>
+   <div class="gauge-wrap">${gaugeSVG(state.gv,r.left,r.right)}<input type="range" class="gsl" min="0" max="100" value="${state.gv}" oninput="state.gv=parseInt(this.value);drawGauge()">
+   <div class="gsl-ends"><span>${r.left}</span><span>${r.right}</span></div></div>
+   <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;margin-top:0.6rem"><button class="continue-btn" onclick="gaugeDone(${i})">就這樣 ›</button><button class="continue-btn" style="opacity:0.72" onclick="giveAnswer(${i})">給我答案</button></div>`);}
+ window.drawGauge=draw;draw();}
+function gaugeDone(i){const r=ROUNDS[i];if(r.correct(state.gv))state.score++;
+ G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="gauge-wrap">${gaugeSVG(state.gv,r.left,r.right)}<div class="feedback" style="margin-top:0.8rem">${r.fb(state.gv)}</div></div><button class="continue-btn" onclick="record(${i})">繼續 ›</button>`);}
 
- mono:{html:(s)=>`<div class="mono-wrap">${s.lines.map(l=>`<p>${l}</p>`).join('')}
-   <div class="next"><button class="cta ghost" onclick="next()">繼續 →</button></div></div>`},
+// 二選一 / 三選一
+function renderAB(i){const r=ROUNDS[i];
+ G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main">${r.q}</div>
+  <div class="choices">${r.choices.map((c,k)=>`<button class="choice-btn" onclick="abPick(${i},${k})">${c}</button>`).join('')}</div>
+  <button class="continue-btn" style="opacity:0.72" onclick="giveAnswer(${i})">給我答案</button>`);}
+function abPick(i,k){const r=ROUNDS[i];if(k===r.correct)state.score++;
+ const col=k===r.correct?'#a5d6a7':'#ffcc80';
+ G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="feedback" style="color:${col};min-height:auto;font-size:14px">${r.fb[k]}</div><button class="continue-btn" onclick="record(${i})">繼續 ›</button>`);}
 
- teach:{html:(s)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2>${s.html}${contBtn()}</div>`},
+// 分類（可以下結論 / 不能）
+function renderClassify(i){const r=ROUNDS[i];if(state.cls.length!==r.items.length)state.cls=r.items.map(()=>null);
+ function draw(){const rows=r.items.map((it,k)=>`<div class="cls-row" id="cr${k}"><div class="cls-name">${it[0]}</div><div class="cls-btns">
+   <button class="cls-btn atk ${state.cls[k]==='atk'?'on':''}" onclick="setCls(${k},'atk')">${r.catA}</button>
+   <button class="cls-btn def ${state.cls[k]==='def'?'on':''}" onclick="setCls(${k},'def')">${r.catB}</button></div></div>`).join('');
+  const done=state.cls.every(x=>x!==null);
+  G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main">${r.q}</div><div class="cls-list">${rows}</div>
+   <div class="feedback" id="fbc" style="min-height:24px"></div>
+   <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap">${done?`<button class="continue-btn" onclick="clsCheck(${i})">檢查</button>`:''}<button class="continue-btn" style="opacity:0.72" onclick="giveAnswer(${i})">給我答案</button></div>`);}
+ window.drawCls=draw;draw();}
+function setCls(k,v){state.cls[k]=v;window.drawCls();}
+function clsCheck(i){const r=ROUNDS[i];let ok=0;
+ r.items.forEach((it,k)=>{const row=document.getElementById('cr'+k);const right=state.cls[k]===it[1];if(right)ok++;row.classList.add(right?'right':'wrong');});
+ if(ok>=r.items.length-1)state.score++;
+ document.getElementById('fbc').innerHTML=`<span style="color:${ok===r.items.length?'#a5d6a7':'#ffcc80'}">答對 ${ok}/${r.items.length}。${r.reveal}</span>`;
+ const cb=G.querySelector('.continue-btn');if(cb)cb.parentElement.outerHTML=`<button class="continue-btn" onclick="record(${i})">繼續 ›</button>`;}
 
- classify:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2><p class="body dim">${s.sub}</p>
-   <div id="clf${i}">${s.items.map(it=>`
-     <div class="clf-item" id="ci-${it.id}"><div class="name">${it.label}<small>${it.hint}</small></div>
-     <div class="clf-btns">
-       <button onclick="clfPick('${it.id}','lead',this)">先行</button>
-       <button onclick="clfPick('${it.id}','coin',this)">同步</button>
-       <button onclick="clfPick('${it.id}','lag',this)">滯後</button></div></div>`).join('')}</div>
-   <div class="reveal" id="rv${i}"></div>${helpBtn(i)}${nextSlot(i)}</div>`,
-  init:(s,i)=>{clfState={};}},
+function record(i){const t=TRANSITIONS[i];if(t)fade(()=>showTrans(t,i));else advance(i);}
+function showTrans(txt,i){G.innerHTML=`<div class="scene" style="background:linear-gradient(180deg,#020408,#0a0714,#141020);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:3rem 1.5rem"><div class="overlay"><div class="transition-quote">${txt}</div><button class="continue-btn" onclick="advance(${i})">繼續 ›</button></div></div>`;}
+function advance(i){const n=i+1;if(n>=ROUNDS.length)fade(showResult);else fade(()=>showRound(n));}
 
- flip:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2>${s.setup}
-   <div id="pk${i}">${s.opts.map((o,idx)=>`<button class="btn" onclick="flipPick(${i},${idx})">${o.t}</button>`).join('')}</div>
-   <div class="reveal" id="rv${i}"></div>${helpBtn(i)}${nextSlot(i)}</div>`},
-
- phasepick:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2>${s.data}
-   <p class="body"><b>${s.q}</b></p>
-   <div id="pk${i}">${s.opts.map((o,idx)=>`<button class="btn" onclick="ppPick(${i},${idx})">${o}</button>`).join('')}</div>
-   <div class="reveal" id="rv${i}"></div>${helpBtn(i)}${nextSlot(i)}</div>`},
-
- gauge:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2>${s.data}
-   <svg viewBox="0 0 240 150" class="gauge" id="g${i}">
-     <path class="arc-bg" d="M24,130 A96,96 0 0 1 216,130"/>
-     <path class="arc-hot" id="ghot${i}" d=""/>
-     <line class="needle" id="gn${i}" x1="120" y1="130" x2="120" y2="46"/>
-     <circle class="hub" cx="120" cy="130" r="7"/>
-     <text x="24" y="146">${s.min}</text><text x="210" y="146">${s.max}</text>
-     <text class="val" id="gv${i}" x="120" y="118">–</text><text class="unit" x="120" y="134">${s.unit}</text></svg>
-   <p class="body"><b>${s.q}</b></p>
-   <div id="pk${i}">${s.opts.map((o,idx)=>`<button class="btn" onclick="gaugePick(${i},${idx})">${o}</button>`).join('')}</div>
-   <div class="reveal" id="rv${i}"></div>${helpBtn(i)}${nextSlot(i)}</div>`,
-  init:(s,i)=>drawGauge(i,s)},
-
- scale:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2>${s.setup}
-   <svg viewBox="0 0 360 210" class="scale" id="sc${i}">
-     <line class="stand" x1="180" y1="58" x2="180" y2="188"/>
-     <polygon class="base" points="152,188 208,188 198,202 162,202"/>
-     <line class="beam" x1="60" y1="58" x2="300" y2="58"/><circle class="pivot" cx="180" cy="58" r="7"/>
-     <line class="lstr" x1="60" y1="58" x2="60" y2="102"/><path class="lpan" d="M-28,0 Q0,18 28,0"/>
-     <text class="llabel" x="60" y="128">${s.leftLabel}</text>
-     <line class="rstr" x1="300" y1="58" x2="300" y2="102"/><path class="rpan" d="M-28,0 Q0,18 28,0"/>
-     <text class="rlabel" x="300" y="128">${s.rightLabel}</text></svg>
-   <div class="pick-row" id="pk${i}">${s.opts.map((o,idx)=>`<button class="btn" onclick="scalePick(${i},${idx})">${o.t}</button>`).join('')}</div>
-   <div class="reveal" id="rv${i}"></div>${helpBtn(i)}${nextSlot(i)}</div>`,
-  init:(s,i)=>renderScale(el('sc'+i),0)},
-
- templocate:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2>${s.data}
-   <div class="tempbar"><div class="tempbar-track" id="tb${i}">${s.zones.map((z,idx)=>`
-     <div class="tz z${idx}" onclick="tempPick(${i},${idx})"><span>${z.t}</span><small>${z.s}</small></div>`).join('')}</div></div>
-   <div class="reveal" id="rv${i}"></div>${helpBtn(i)}${nextSlot(i)}</div>`},
-
- sort:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2><p class="body dim">${s.sub}</p>
-   <div id="st${i}">${s.items.map(it=>`
-     <div class="sort-item" id="si-${it.id}" onclick="sortTap(${i},'${it.id}')">
-       <div class="rank">–</div><div class="lbl">${it.label}<small>${it.hint}</small></div>
-       <span class="tag-lead" style="background:${it.kind==='先行'?'rgba(95,191,143,.2)':it.kind==='同步'?'rgba(232,180,95,.2)':'rgba(224,107,107,.2)'};color:${it.kind==='先行'?'#7fd6a6':it.kind==='同步'?'#e8b45f':'#f08a8a'}">${it.kind}</span></div>`).join('')}</div>
-   <div class="reveal" id="rv${i}"></div>${helpBtn(i)}${nextSlot(i)}</div>`,
-  init:(s,i)=>{sortState=[];}},
-
- flipcards:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2><p class="body dim">${s.sub}</p>
-   <div class="flipwrap" id="ck${i}">${s.items.map((it)=>`
-     <div class="flipcard" onclick="flipReveal(this,${i})"><div class="flipinner">
-       <div class="flipface flipfront"><div class="ft">${it.t}</div><div class="hint">👆 翻開看「為什麼代表向下」</div></div>
-       <div class="flipface flipback"><div class="bh">為什麼危險</div><div class="bt">${it.s}</div></div>
-     </div></div>`).join('')}</div>
-   <div class="center" style="margin-top:8px"><button class="cta" id="ckbtn${i}" onclick="next()" disabled>全部翻開後繼續</button></div></div>`},
-
- checklist:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2><p class="body dim">${s.sub}</p>
-   <div id="ck${i}">${s.items.map(it=>`
-     <div class="check" onclick="chkToggle(this,${i})"><div class="box">✓</div>
-       <div class="lbl">${it.t}<small>${it.s}</small></div></div>`).join('')}</div>
-   <div class="center" style="margin-top:8px"><button class="cta" id="ckbtn${i}" onclick="next()" disabled>全部勾選後繼續</button></div></div>`},
-
- result:{html:()=>{
-   let ratio=state.max?state.score/state.max:0, t;
-   if(ratio>=0.8) t={e:'🎯',n:'讀資金流的人',tier:'LV.3 · 讓漏斗幫你選',
-     d:'你已經不再大海撈針——會先讀資金流、鎖啟動期、挑 A 級、要實錘、留退場線。幾千檔進去，剩幾檔出來。',
-     u:'<b>技能解鎖：讀懂美股報告（完整）。</b>輪動→階段→A級→實錘→退場，五關你都握住了。「選誰」不再是憑感覺。'};
-   else if(ratio>=0.5) t={e:'🧭',n:'漏斗學徒',tier:'LV.2 · 開始會篩',
-     d:'你抓到訣竅了：跟著資金流、不憑感覺。剩下的是把五關練熟——尤其「實錘」和「退場線」別漏。',
-     u:'<b>技能解鎖：跟著錢走 + 啟動期意識。</b>再把籌碼實錘與退場線練熟，你的漏斗就準了。'};
-   else t={e:'🎣',n:'感覺派',tier:'LV.1 · 還在大海撈針',
-     d:'你還在用眼睛掃、憑感覺追。但這一課讓你看見了漏斗：選股不是猜，是一層層篩掉 99%。',
-     u:'<b>技能解鎖：看見「漏斗」這件事。</b>下次別再掃全部——先問「錢在哪個板塊」。光這一步，你就少踩一堆刀。'};
-   return `<div class="card">
-     <div class="result-emoji">${t.e}</div><div class="result-name">${t.n}</div><div class="result-vow" style="font-size:17px;font-weight:800;color:#e8c86a;margin:0.25rem auto 0.1rem;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)">「我不再憑感覺追了。」</div>
-     <div class="result-tier">${t.tier}</div><div class="result-score">五關你讀對了 ${state.score} / ${state.max}</div>
-     <p class="body center">${t.d}</p><div class="unlock">${t.u}</div>
-     <p class="body center dim" style="font-size:14px">當期美股（8/5）：<b class="hl">廣度健康、平台／軟體領先</b>（Mega Cap、GOOGL），AI 硬體還沒回來——risk-on 但錢不在硬體。<b>漏斗是骨、當期市況是皮；皮會換，帶走的是骨。</b></p>
-     <div class="data-box" style="text-align:left">
-       <div class="row"><b>① 錢往哪流</b><span class="dim">讀「這一刻」錢在哪　美股(8/5):平台/軟體領先、AI 硬體還沒回來</span></div>
-       <div class="row"><b>② 何時上車</b><span class="dim">啟動期＝廣度剛擴散&gt;20%、還沒追高</span></div>
-       <div class="row"><b>③ 上哪一檔</b><span class="dim">A級三條件全中；美股 Mega Cap／平台／軟體</span></div>
-       <div class="row"><b>④ 有沒有實錘</b><span class="dim">美股用廣度當實錘：3月新高 416 &gt; 新低 145（2.87x，健康）</span></div>
-       <div class="row"><b>⑤ 退場線</b><span class="dim">資金轉防禦/掉出名單/廣度收縮就走</span></div></div>
-     <div class="act-btns">
-       <a class="act-btn act-sub" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">訂電子報，每週帶你把資金流讀成機會 →</a>
-       <a class="act-btn act-report" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">看這期完整台美報告，對照你剛學的 →</a>
-       <button class="act-btn act-share" onclick="share()">分享：讓還在大海撈針的朋友也學會用漏斗</button></div>
-     <div class="replay"><a onclick="replay()">重玩一次</a></div>
-     <div class="credit">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" rel="noopener">BiBiPiano</a>，版權為原作者所有。<br>Yoda Research · 判斷力學校 · 讀懂美股報告</div></div>`;}}
-};
-
-/* ===== 互動處理 ===== */
-// 分類
-let clfState={};
-function clfPick(id,cat,btn){
-  const i=cur; if(state.answered[i])return;
-  clfState[id]=cat;
-  const item=el('ci-'+id); item.querySelectorAll('.clf-btns button').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  if(Object.keys(clfState).length===S[i].items.length){
-    let ok=0; S[i].items.forEach(it=>{ const right=clfState[it.id]===it.cat;
-      el('ci-'+it.id).classList.add(right?'right':'wrong'); if(right)ok++;});
-    const all=ok===S[i].items.length;
-    resolve(i,all,`<b>${all?'全對 ✓':`對了 ${ok}/${S[i].items.length}`}。</b>先行的最早轉（初領失業金、PMI新訂單），同步的跟當下走（GDP），<b>失業率和違約率是滯後</b>——它們最後才反映，拿來預判會慢半拍。<div class="gloss">白話：${S[i].gloss}</div>`);
-  }
-}
-// 翻面
-function flipPick(i,idx){ if(state.answered[i])return;
-  const s=S[i], correct=idx===s.correct;
-  document.querySelectorAll('#pk'+i+' .btn').forEach((b,k)=>{b.disabled=true;
-    if(k===s.correct)b.classList.add('pick-good'); else if(k===idx)b.classList.add('pick-bad');});
-  resolve(i,correct,(correct?s.revealGood:s.revealBad)+`<div class="gloss">白話：${s.gloss}</div>`);
-}
-// 階段選擇
-function ppPick(i,idx){ if(state.answered[i])return;
-  const s=S[i], correct=idx===s.correct;
-  document.querySelectorAll('#pk'+i+' .btn').forEach((b,k)=>{b.disabled=true;
-    if(k===s.correct)b.classList.add('pick-good'); else if(k===idx)b.classList.add('pick-bad');});
-  resolve(i,correct,(correct?'':'<b>再看一次 —— </b>')+s.reveal+`<div class="gloss">白話：${s.gloss}</div>`);
-}
-// 儀表
-function drawGauge(i,s){
-  const svg=el('g'+i); if(!svg)return;
-  // 過熱區弧線（threshold→max）
-  const a0=Math.PI, a1=0, frac=(s.threshold-s.min)/(s.max-s.min);
-  const ang=a0+(a1-a0)*frac; const cx=120,cy=130,r=96;
-  const x1=cx+r*Math.cos(ang), y1=cy-r*Math.sin(ang), x2=cx+r*Math.cos(0), y2=cy-r*Math.sin(0);
-  el('ghot'+i).setAttribute('d',`M${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 0 1 ${x2.toFixed(1)},${y2.toFixed(1)}`);
-  gaugeAnim(i,s.min,s.value,s);
-}
-function gaugeAnim(i,from,to,s){
-  const svg=el('g'+i); if(!svg)return; const t0=Date.now(),dur=800;
-  if(svg._iv)clearInterval(svg._iv);
-  svg._iv=setInterval(()=>{ let p=Math.min(1,(Date.now()-t0)/dur); const e=1-Math.pow(1-p,3);
-    const v=from+(to-from)*e; setNeedle(i,v,s);
-    if(p>=1){clearInterval(svg._iv);svg._iv=null;}},16);
-}
-function setNeedle(i,v,s){
-  const cx=120,cy=130,len=84, frac=(v-s.min)/(s.max-s.min), ang=Math.PI+(0-Math.PI)*frac;
-  el('gn'+i).setAttribute('x2',(cx+len*Math.cos(ang)).toFixed(1));
-  el('gn'+i).setAttribute('y2',(cy-len*Math.sin(ang)).toFixed(1));
-  el('gv'+i).textContent=Math.round(v);
-}
-function gaugePick(i,idx){ if(state.answered[i])return;
-  const s=S[i], correct=idx===s.correct;
-  document.querySelectorAll('#pk'+i+' .btn').forEach((b,k)=>{b.disabled=true;
-    if(k===s.correct)b.classList.add('pick-good'); else if(k===idx)b.classList.add('pick-bad');});
-  resolve(i,correct,(correct?'':'<b>再想一下 —— </b>')+s.reveal+`<div class="gloss">白話：${s.gloss}</div>`);
-}
-// 天秤
-function renderScale(svg,t){ if(!svg)return;
-  const cx=180,cy=58,arm=120,drop=44, rad=t*22*Math.PI/180;
-  const Lx=cx-arm*Math.cos(rad),Ly=cy-arm*Math.sin(rad),Rx=cx+arm*Math.cos(rad),Ry=cy+arm*Math.sin(rad);
-  const q=c=>svg.querySelector(c);
-  const b=q('.beam');b.setAttribute('x1',Lx);b.setAttribute('y1',Ly);b.setAttribute('x2',Rx);b.setAttribute('y2',Ry);
-  const ls=q('.lstr');ls.setAttribute('x1',Lx);ls.setAttribute('y1',Ly);ls.setAttribute('x2',Lx);ls.setAttribute('y2',Ly+drop);
-  const rs=q('.rstr');rs.setAttribute('x1',Rx);rs.setAttribute('y1',Ry);rs.setAttribute('x2',Rx);rs.setAttribute('y2',Ry+drop);
-  q('.lpan').setAttribute('transform',`translate(${Lx},${Ly+drop})`);
-  q('.rpan').setAttribute('transform',`translate(${Rx},${Ry+drop})`);
-  const ll=q('.llabel');ll.setAttribute('x',Lx);ll.setAttribute('y',Ly+drop+26);
-  const rl=q('.rlabel');rl.setAttribute('x',Rx);rl.setAttribute('y',Ry+drop+26);
-  svg._t=t;
-}
-function animateScale(svg,target,cb){ const start=(typeof svg._t==='number')?svg._t:0,t0=Date.now(),dur=750;
-  if(svg._iv)clearInterval(svg._iv);
-  svg._iv=setInterval(()=>{ let p=Math.min(1,(Date.now()-t0)/dur); const e=1-Math.pow(1-p,3);
-    renderScale(svg,start+(target-start)*e); if(p>=1){clearInterval(svg._iv);svg._iv=null;if(cb)cb();}},16);
-}
-function scalePick(i,idx){ if(state.answered[i])return;
-  const s=S[i], correct=idx===s.correct, svg=el('sc'+i);
-  document.querySelectorAll('#pk'+i+' .btn').forEach((b,k)=>{b.disabled=true;
-    if(k===s.correct)b.classList.add('pick-good'); else if(k===idx)b.classList.add('pick-bad');});
-  animateScale(svg,s.opts[idx].tilt,()=>{ if(!correct) setTimeout(()=>animateScale(svg,s.opts[s.correct].tilt),400);});
-  resolve(i,correct,(correct?'':'<b>再看一次 —— </b>')+s.reveal+`<div class="gloss">白話：${s.gloss}</div>`);
-}
-// 溫度條
-function tempPick(i,idx){ if(state.answered[i])return;
-  const s=S[i], correct=idx===s.correct;
-  document.querySelectorAll('#tb'+i+' .tz').forEach((z,k)=>{ z.style.pointerEvents='none';
-    if(k===s.correct)z.classList.add('correct'); else if(k===idx)z.classList.add('wrong');});
-  resolve(i,correct,(correct?'':'<b>再想一下 —— </b>')+s.reveal+`<div class="gloss">白話：${s.gloss}</div>`);
-}
-// 排序
-let sortState=[];
-function sortTap(i,id){ if(state.answered[i])return; if(sortState.includes(id))return;
-  sortState.push(id);
-  const item=el('si-'+id); item.classList.add('picked'); item.querySelector('.rank').textContent=sortState.length;
-  if(sortState.length===S[i].items.length){
-    let ok=0; S[i].items.forEach(it=>{ if(sortState[it.rank]===it.id)ok++;});
-    const all=ok===S[i].items.length;
-    // 顯示正解順序
-    const order=[...S[i].items].sort((a,b)=>a.rank-b.rank).map(it=>it.label.split(' ')[0]).join(' → ');
-    resolve(i,all,`<b>${all?'順序正確 ✓':'再看一次順序。'}</b>正解：<b>${order}</b>。先行指標（初領失業金、新訂單、ERP）先翻，同步（GDP/PCE）跟上，滯後（失業率、違約率）最後才動。<div class="gloss">白話：${S[i].gloss}</div>`);
-  }
-}
-// 檢查表
-function chkToggle(elm,i){ elm.classList.toggle('on');
-  const all=document.querySelectorAll('#ck'+i+' .check').length;
-  const on=document.querySelectorAll('#ck'+i+' .check.on').length;
-  const btn=el('ckbtn'+i);
-  if(on===all){btn.disabled=false; btn.textContent='收進口袋 →';} else {btn.disabled=true; btn.textContent='全部勾選後繼續';}
-}
-// 翻牌揭示（一次性翻開，全翻完放行）
-function flipReveal(elm,i){ elm.classList.add('on');
-  const all=document.querySelectorAll('#ck'+i+' .flipcard').length;
-  const on=document.querySelectorAll('#ck'+i+' .flipcard.on').length;
-  const btn=el('ckbtn'+i);
-  if(on===all){btn.disabled=false; btn.textContent='收進口袋 →';}
-}
-
-/* ===== 給我答案（就地揭示＋放行，不計分） ===== */
-function give(i){ if(state.answered[i])return; state.answered[i]=true;
-  const s=S[i];
-  if(s.type==='classify'){ S[i].items.forEach(it=>{ const item=el('ci-'+it.id);
-      item.querySelectorAll('.clf-btns button').forEach(b=>b.classList.remove('on'));
-      const map={lead:0,coin:1,lag:2}; item.querySelectorAll('.clf-btns button')[map[it.cat]].classList.add('on');
-      item.classList.add('right'); item.querySelectorAll('.clf-btns button').forEach(b=>b.disabled=true);});
-    showGive(i,`<b>答案已填上。</b>先行＝最早轉；同步＝跟當下走；滯後＝最後才反映。<div class="gloss">白話：${s.gloss}</div>`);}
-  else if(s.type==='flip'||s.type==='phasepick'||s.type==='gauge'){
-    document.querySelectorAll('#pk'+i+' .btn').forEach((b,k)=>{b.disabled=true; if(k===s.correct)b.classList.add('pick-good');});
-    if(s.type==='gauge'){}
-    showGive(i,`<b>答案：第 ${s.correct+1} 個選項。</b>`+(s.reveal||s.revealGood||'')+`<div class="gloss">白話：${s.gloss}</div>`);}
-  else if(s.type==='scale'){ const svg=el('sc'+i);
-    document.querySelectorAll('#pk'+i+' .btn').forEach((b,k)=>{b.disabled=true; if(k===s.correct)b.classList.add('pick-good');});
-    animateScale(svg,s.opts[s.correct].tilt);
-    showGive(i,`<b>答案：${s.opts[s.correct].t}。</b>`+s.reveal+`<div class="gloss">白話：${s.gloss}</div>`);}
-  else if(s.type==='templocate'){ document.querySelectorAll('#tb'+i+' .tz').forEach((z,k)=>{z.style.pointerEvents='none'; if(k===s.correct)z.classList.add('correct');});
-    showGive(i,`<b>答案：${s.zones[s.correct].t}。</b>`+s.reveal+`<div class="gloss">白話：${s.gloss}</div>`);}
-  else if(s.type==='sort'){ const order=[...s.items].sort((a,b)=>a.rank-b.rank);
-    document.querySelectorAll('#st'+i+' .sort-item').forEach(x=>x.style.pointerEvents='none');
-    order.forEach((it,r)=>{ const item=el('si-'+it.id); item.classList.add('picked'); item.querySelector('.rank').textContent=r+1;});
-    showGive(i,`<b>正解順序：${order.map(it=>it.label.split(' ')[0]).join(' → ')}。</b>先行先翻、滯後最後。<div class="gloss">白話：${s.gloss}</div>`);}
-}
-function showGive(i,html){ const rv=el('rv'+i); rv.innerHTML=html+'<div style="margin-top:8px" class="dim">（走「給我答案」不計分，但一樣帶你過關。）</div>';
-  rv.className='reveal show'; const h=el('help'+i); if(h)h.style.display='none'; const nx=el('nx'+i); if(nx)nx.style.display='block';}
-
-/* ===== 分享 / 重玩 ===== */
-function share(){ const url='https://yoda-research-next.vercel.app/';
-  const text='股票那麼多要選誰？我學會用「資金流漏斗」一層層篩，不再大海撈針。';
-  if(navigator.share){navigator.share({title:'股票那麼多，要選誰？',text,url}).catch(()=>{});}
-  else{ const done=()=>alert('已複製連結，貼給朋友吧！');
-    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text+' '+url).then(done).catch(fb); else fb();
-    function fb(){try{const ta=document.createElement('textarea');ta.value=text+' '+url;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();}catch(e){alert(url);}}}
-}
-function replay(){location.reload();}
-
-/* ===== BGM ===== */
-(function(){ const bgm=el('bgm'),btn=el('mute'); let muted=false;
-  try{muted=localStorage.getItem('yoda_bgm_muted')==='1';}catch(e){}
-  bgm.volume=0.30; bgm.muted=muted; btn.textContent=muted?'🔇':'🔊';
-  function play(){ if(!muted)bgm.play().catch(()=>{}); document.removeEventListener('click',play);}
-  document.addEventListener('click',play);
-  btn.addEventListener('click',e=>{ e.stopPropagation(); muted=!muted; bgm.muted=muted; btn.textContent=muted?'🔇':'🔊';
-    try{localStorage.setItem('yoda_bgm_muted',muted?'1':'0');}catch(e){} if(!muted)bgm.play().catch(()=>{});});
-})();
-
-/* ===== init ===== */
-state.max=S.filter(x=>['classify','flip','phasepick','gauge','scale','templocate','sort'].includes(x.type)).length;
-render(0); applyEnv(0);
-</script>
-<!-- ===== Yoda 會員檢核徽章模組 · 僅在網址帶 ?cert=TYPE 時啟用（一般遊玩完全不受影響） ===== -->
+function showResult(){PB.style.width='100%';const s=state.score,mx=ROUNDS.length;
+ const tier=s>=mx-1?'穩':s>=Math.ceil(mx/2)?'入門':'再走一次';
+ G.innerHTML=scene('sky-result','range',`
+  <div class="chapter-label t-label" style="margin-bottom:0.8rem">美股報告讀完</div>
+  <div class="result-icon">📊</div>
+  <div class="result-type t-main">你會讀美股報告了</div><div class="result-vow" style="font-size:19px;font-weight:800;color:#e8c86a;margin:0.35rem auto 0.1rem;max-width:420px;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)">「我不再把『漲多』當『最強』了。」</div>
+  <div class="result-desc t-sub">你剛跟著報告<b>七段主線</b>把美股讀了一遍：<br><b>板塊動態圖(相對 SPY) → 強勢股篩選(RS) → AI 核心競爭力 → AI 三圈擴散 → AI 信號流階梯 → AI 供應鏈定位 → 完整研判</b>。<br><br>核心一句：<b>美股一切相對 SPY——贏大盤才叫強。</b><br><br>判讀得分：${s} / ${mx}（${tier}）</div>
+  <div class="t-sub" style="font-size:13px;line-height:1.9;margin-bottom:1.3rem;max-width:430px;margin:0 auto 1.3rem">這套讀法，就是把一堆數字讀成「一個能自己判斷的方向」。接下來，拿它去讀真的美股報告。</div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:0.65rem;max-width:340px;margin:0 auto">
+    <a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">先訂免費電子報，每天練這套讀法 →</a>
+    <a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">拿這套讀法，去讀這期美股報告 →</a>
+    <button class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0;border:none" id="shareBtn" onclick="shareGame()">分享：讓只看「誰漲最多」的朋友，也學會看相對 SPY</button>
+  </div>
+  <a href="javascript:void(0)" onclick="restart()" style="display:inline-block;margin-top:0.9rem;font-size:12px;color:rgba(255,255,255,0.55);text-decoration:underline">重玩一次</a>
+  <div id="sfb" style="font-size:12px;color:rgba(160,220,255,0.7);margin-top:0.5rem;height:16px"></div>
+  <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1.4rem">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" style="color:rgba(224,165,38,0.6);text-decoration:none">BiBiPiano</a></div>`);}
+function restart(){state={idx:-1,score:0,gv:50,cls:[],mChecked:false};oi=0;PB.style.width='0%';fade(showStart);}
+function shareGame(){const url=window.location.href.split('?')[0];const t='我剛玩了《讀懂美股報告》——4 分鐘學會一切相對 SPY 來看，不再把「漲多」當「最強」。';
+ const fb=document.getElementById('sfb');
+ if(navigator.share){navigator.share({title:'讀懂美股報告 · Yoda',text:t,url}).catch(()=>{});return;}
+ navigator.clipboard.writeText(url).then(()=>{fb.textContent='網址已複製，貼去分享吧';setTimeout(()=>fb.textContent='',2500);}).catch(()=>{fb.textContent=url;});}
+['startOpening','nextOpening','showRound','renderGauge','gaugeDone','setCls','clsCheck','giveAnswer','abPick','record','advance','showResult','restart','shareGame','fade','renderClassify','renderAB'].forEach(n=>window[n]=eval(n));
+window.state=state;
+showStart();
+</script><!-- ===== Yoda 會員檢核徽章模組 · 僅在網址帶 ?cert=TYPE 時啟用（一般遊玩完全不受影響） ===== -->
 <script>
 (function(){
   var GAS_URL='https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec';
-  var TYPES={mw:'市場觀察',tw:'台股',us:'美股',key:'簡報',macro:'總經'};
+  var TYPES={mw:'市場觀察',tw:'台股',us:'美股',key:'簡報',macro:'總經',flag:'關鍵'};
   var t=new URLSearchParams(location.search).get('cert');
-  if(!t||!TYPES[t]) return;                 // 非檢核模式 → 什麼都不做，遊戲照舊
+  if(!t||!TYPES[t]) return;
   var name=TYPES[t];
   var css=document.createElement('style');
   css.textContent=
@@ -822,7 +324,7 @@ render(0); applyEnv(0);
   bar.id='yc-bar';
   bar.innerHTML='<div class="yc-txt">🎓 玩到最後了嗎？完成這個導覽，<b>領取《'+name+'報告》檢核徽章</b></div><button id="yc-go">領取檢核</button>';
   document.body.appendChild(bar);
-  // 只在最後結果頁才浮出「領取檢核」——沒玩到結果頁不顯示，避免中途誤領（2026-08-06）
+  // 只在最後結果頁才浮出「領取檢核」——沒玩到結果頁不顯示（2026-08-06）
   var ycCertified=false;
   function ycOnResult(){return !!document.querySelector('.result-name,.result-type');}
   function ycSync(){bar.style.display=(!ycCertified&&ycOnResult())?'flex':'none';}
@@ -834,7 +336,7 @@ render(0); applyEnv(0);
   mask.innerHTML='<div id="yc-modal">'
     +'<div id="yc-form">'
       +'<h3>領取《'+name+'報告》檢核</h3>'
-      +'<p>輸入你的<b style="color:#e8c86a">會員密碼</b>（訂閱時自設的那組），系統會記下你已看懂這份報告怎麼判讀。</p>'
+      +'<p>輸入你訂閱用的 <b style="color:#e8c86a">email 與會員密碼</b>，系統會記下你已看懂這份報告怎麼判讀。</p>'
       +'<input id="yc-email" type="email" placeholder="訂閱用的 email" autocomplete="off">'
       +'<input id="yc-pw" type="password" placeholder="你的會員密碼" autocomplete="off">'
       +'<div class="yc-hint">這組密碼只是會員存取碼，請勿使用你其他重要帳號的密碼。</div>'
@@ -852,7 +354,7 @@ render(0); applyEnv(0);
   document.body.appendChild(mask);
 
   var $=function(id){return document.getElementById(id);};
-  function openModal(){mask.classList.add('on');setTimeout(function(){$('yc-pw').focus();},50);}
+  function openModal(){mask.classList.add('on');setTimeout(function(){$('yc-email').focus();},50);}
   function closeModal(){mask.classList.remove('on');}
   $('yc-go').onclick=openModal;
   $('yc-close').onclick=closeModal;
@@ -881,13 +383,12 @@ render(0); applyEnv(0);
   }
   $('yc-submit').onclick=submit;
   $('yc-pw').addEventListener('keydown',function(e){if(e.key==='Enter')submit();});
+  $('yc-email').addEventListener('keydown',function(e){if(e.key==='Enter')submit();});
 })();
 </script>
-
-<script src="https://yoda-research-next.vercel.app/yoda-game-badge.js" defer></script>
 
 <!-- yoda-logo-sig -->
 <img alt="Yoda" src="https://yoda-research-next.vercel.app/yoda-logo.png" style="position:fixed;right:14px;bottom:12px;height:52px;width:auto;opacity:.5;z-index:9990;pointer-events:none">
 <script>(function(){try{var K='yr_vid',v=localStorage.getItem(K);if(!v){v=Date.now().toString(36)+Math.random().toString(36).slice(2,8);localStorage.setItem(K,v);}var seg=location.pathname.split('/').filter(Boolean).pop()||'home';fetch('https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec',{method:'POST',body:JSON.stringify({action:'hit',page:decodeURIComponent(seg),path:location.pathname,host:location.hostname,ref:document.referrer,vid:v})});}catch(e){}})();</script>
-</body>
-</html>
+<script src="https://yoda-research-next.vercel.app/yoda-game-badge.js" defer></script>
+</body></html>

@@ -105,13 +105,13 @@ const OPENING={sky:'sky-dawn',bg:'farhills',label:'序',title:'一堆數字，�
 
 const ROUNDS=[
  {type:'ab',sky:'sky-valley',bg:'range',label:'第 01 段 · 板塊動態圖',title:'會動的板塊圖：位置＋方向',
-  text:'報告第一段是「板塊動態圖」。每個板塊是一個點：<br>橫軸＝<b>相對強度</b>(現在強不強)、縱軸＝<b>動能</b>(正在轉強還轉弱)，<br>點後拖一條尾巴＝最近怎麼移動。四象限：<b>領先／改善／落後／轉弱</b>。<svg viewBox="0 0 300 236" style="width:100%;max-width:270px;margin:0.6rem auto;display:block"><rect x="34" y="16" width="232" height="196" fill="none" stroke="rgba(255,255,255,0.14)"/><line x1="150" y1="16" x2="150" y2="212" stroke="rgba(255,255,255,0.22)"/><line x1="34" y1="114" x2="266" y2="114" stroke="rgba(255,255,255,0.22)"/><text x="214" y="32" fill="#a5d6a7" font-size="12" text-anchor="middle">領先</text><text x="88" y="32" fill="#ffd28a" font-size="12" text-anchor="middle">改善</text><text x="88" y="204" fill="#ff9a9a" font-size="12" text-anchor="middle">落後</text><text x="214" y="204" fill="#9ab8ff" font-size="12" text-anchor="middle">轉弱</text><text x="150" y="228" fill="rgba(255,255,255,0.5)" font-size="10" text-anchor="middle">← 弱　相對強度　強 →</text><path d="M92,96 C130,88 172,84 210,80" fill="none" stroke="rgba(224,165,38,0.55)" stroke-width="2" stroke-dasharray="3 3"/><circle cx="92" cy="96" r="3" fill="rgba(224,165,38,0.4)"/><circle cx="150" cy="86" r="3.5" fill="rgba(224,165,38,0.7)"/><circle cx="210" cy="80" r="6" fill="#e0a526"/><text x="210" y="70" fill="#fff" font-size="10" text-anchor="middle">某板塊</text></svg>',
+  text:'報告第一段是「板塊動態圖」。每個板塊是一個點：<br>橫軸＝<b>相對強度</b>(現在強不強)、縱軸＝<b>動能</b>(正在轉強還轉弱)，<br>點後拖一條尾巴＝最近怎麼移動。四象限：<b>領先／改善／落後／轉弱</b>。<br><span style="font-size:12px;opacity:.85">（量版動態圖：泡泡越大＝成交量佔比越高；可拖 120 天軌跡看整段路徑）</span><svg viewBox="0 0 300 236" style="width:100%;max-width:270px;margin:0.6rem auto;display:block"><rect x="34" y="16" width="232" height="196" fill="none" stroke="rgba(255,255,255,0.14)"/><line x1="150" y1="16" x2="150" y2="212" stroke="rgba(255,255,255,0.22)"/><line x1="34" y1="114" x2="266" y2="114" stroke="rgba(255,255,255,0.22)"/><text x="214" y="32" fill="#a5d6a7" font-size="12" text-anchor="middle">領先</text><text x="88" y="32" fill="#ffd28a" font-size="12" text-anchor="middle">改善</text><text x="88" y="204" fill="#ff9a9a" font-size="12" text-anchor="middle">落後</text><text x="214" y="204" fill="#9ab8ff" font-size="12" text-anchor="middle">轉弱</text><text x="150" y="228" fill="rgba(255,255,255,0.5)" font-size="10" text-anchor="middle">← 弱　相對強度　強 →</text><path d="M92,96 C130,88 172,84 210,80" fill="none" stroke="rgba(224,165,38,0.55)" stroke-width="2" stroke-dasharray="3 3"/><circle cx="92" cy="96" r="3" fill="rgba(224,165,38,0.4)"/><circle cx="150" cy="86" r="3.5" fill="rgba(224,165,38,0.7)"/><circle cx="210" cy="80" r="6" fill="#e0a526"/><text x="210" y="70" fill="#fff" font-size="10" text-anchor="middle">某板塊</text></svg>',
   q:'一個板塊的點，從「改善」往「領先」移動，代表？',
   choices:['由弱轉強、動能在增強——「轉強確立」的軌跡','已經最強、準備要崩了','沒意義，圖好看而已'],correct:0,
   fb:['對——改善→領先＝相對強度和動能同步上升，是「轉強確立」。動態圖比單看排名，多了「往哪走」這個資訊。','「最強就要崩」是猜頂——動態圖只給你位置和方向，不預測崩盤。','很有意義——看多數板塊聚在哪個象限，就能讀出大盤整體是強是弱。']},
 
  {type:'ab',sky:'sky-noon',bg:'farhills',label:'第 02 段 · 板塊資金位階',title:'REL 不是「漲多少」',
-  text:'第二段「資金位階」用 <b>REL5 / REL20 / REL60</b> 排板塊與個股。<br>REL＝相對強度＝「<b>贏大盤幾 %</b>」(正＝跑贏、負＝跑輸)。<br>⚠ 不是「漲多少」，是「<b>比大盤多漲或多跌多少</b>」——<b>抗跌，也算贏。</b>',
+  text:'第二段「資金位階」用 <b>REL5 / REL20 / REL60</b> 排板塊與個股，同一張表可<b>四視角切換</b>(合計／外資／投信／自營)看不同法人眼裡的位階。<br>REL＝相對強度＝「<b>贏大盤幾 %</b>」(正＝跑贏、負＝跑輸)。<br>⚠ 不是「漲多少」，是「<b>比大盤多漲或多跌多少</b>」——<b>抗跌，也算贏。</b>',
   q:'今天 A 股漲 1%、大盤漲 3%；B 股跌 1%、大盤跌 5%。誰 REL 比較強？',
   choices:['A 股，因為它是漲的','B 股——它跌得比大盤少 5%，等於贏大盤，抗跌也算贏','一樣，都沒贏'],correct:1,
   fb:['A 股雖然漲，卻輸大盤 2%(大盤漲更多)——REL 是負的。','對——REL 比的是「相對大盤」。B 股逆勢抗跌、跑贏大盤 4%，REL 反而強。<b>漲最多的，不一定 REL 最強。</b>','有贏有輸——B 明顯跑贏大盤。看 REL 要跟大盤比，不是看自己漲跌。']},
@@ -134,7 +134,7 @@ const ROUNDS=[
   reveal:'「賣超金額最大」「跌 2% 就棄守」都<b>只看單一數字、沒看價格結構與廣度</b>——不能下結論。<b>廣度先定 risk-on/off，個股型態才有意義。</b>'},
 
  {type:'ab',sky:'sky-valley',bg:'range',label:'第 03 段 · 法人籌碼四型態',title:'四型態：誰在真的累積',
-  text:'第三段把個股按法人買賣分四型：<br><b>吸籌</b>(月線＋當日持續買)、<b>反轉</b>(由賣轉買)、<b>換手</b>(買賣互見)、<b>賣超</b>(持續賣)。<br>8/4 報告點名：<span class="data-chip">月線＋當日雙買＝吸籌 267 檔</span>',
+  text:'第三段把個股按法人買賣分四型(<b>四型態立體圖</b>)：<br><b>吸籌</b>(月線＋當日持續買)、<b>反轉</b>(由賣轉買)、<b>換手</b>(買賣互見)、<b>賣超</b>(持續賣)。<br>點任一檔還能<b>展開三隻手</b>(外資／投信／自營)＋千張大戶比＋散戶融資。<br>8/4 報告點名：<span class="data-chip">月線＋當日雙買＝吸籌 267 檔</span>',
   q:'「月線＋當日雙買」的這 267 檔，屬哪一型、代表什麼？',
   choices:['賣超——金額有進有出','吸籌——中線(月線)和當日都在買，資金「持續」流入，是最強的一型','換手——只是今天剛好買'],correct:1,
   fb:['雙買是「買＋買」，不是賣超。看的是買賣方向，不是金額大小。','對——<b>吸籌＝持續買</b>(月線這條中線也站買方)。比「今天剛轉買」的反轉更扎實，是四型裡最強的累積。','換手是買賣互見、方向不明；雙買方向很明確，是吸籌。']},
@@ -153,17 +153,35 @@ const ROUNDS=[
   choices:['隔天開盤立刻衝進去，怕買不到','先標「待確認」，看隔日 REL5 站不站得穩、有沒有續強，再決定——別追在漲停板','報告有列就是叫我買'],correct:1,
   fb:['追漲停板風險最高——單日暴衝可能是脈衝，隔天就打回。','對——單日暴衝要分「真起漲」還「脈衝」：<b>看隔日 REL5 有沒有站穩、續強</b>。站穩才算數。','報告列「當日異動」是<b>提醒你觀察</b>，不是進場訊號(它從不喊買賣)。']},
 
- {type:'ab',sky:'sky-clouds',bg:'range',label:'第 04–07 段 · AI 供應鏈',title:'AI 這批，報告怎麼拆四層',
-  text:'AI 是台股權重最大的一批。報告用<b>四段</b>把它拆開看，不是「看到 AI 就買」：<br><b>①核心競爭力分類</b>——這公司在 AI 價值鏈的位置<br><b>②三圈</b>——C1 算力／C2 記憶體／C3 設備<br><b>③三圈擴散</b>——每圈有「幾檔創 3 月新高」，看資金主攻哪一圈<br><b>④信號流階梯＋供應鏈定位</b>——強勢從上游往下游怎麼傳',
-  q:'報告顯示「記憶體圈多檔創 3 月新高、算力圈還沒跟上」。這代表？',
-  choices:['AI 全部很強，隨便一檔都能買','錢集中在「記憶體」這一圈、算力圈落後——擴散不均，要挑「正在擴散的圈」','記憶體要崩了'],correct:1,
-  fb:['「AI 全都強」是把一圈的強度套到全部——報告分三圈，就是要你看「哪一圈在擴散」。','對——<b>三圈擴散不均</b>：記憶體圈多檔創新高＝資金主攻這圈；算力圈落後。挑 AI 要挑「正在擴散的圈」，不是看到 AI 就買。','分圈是看資金流向，不是預測崩盤——記憶體圈擴散代表它現在強。']},
+ {type:'ab',sky:'sky-clouds',bg:'range',label:'第 04 段 · AI 核心競爭力分類',title:'AI 不是一批，是分三層',
+  text:'AI 是台股權重最大的一批，但報告<b>不把它當一批</b>。第一步先按<b>核心競爭力分三層架構</b>：<br>越靠<b>核心</b>＝<b>越不可取代</b>(獨家製程、卡關鍵環節)；越外圍＝替代性越高、越像「沾邊」。<br>看到「AI」先問：它在<b>哪一層</b>？',
+  q:'兩家都掛「AI 概念」：A 是先進製程的唯一供應、B 是替代性高的組裝代工。報告會把誰放核心層？',
+  choices:['B，因為它比較便宜','A——獨家、卡關鍵環節、不可取代，才是核心層；B 替代性高、擺外圍','都放核心，都是 AI'],correct:1,
+  fb:['便宜不等於核心——核心看的是「不可取代」，不是股價高低。','對——<b>核心競爭力＝不可取代性</b>。獨家製程/關鍵瓶頸放核心層，替代性高的組裝放外圍。「都是 AI」但強度與續航天差地別。','「都放核心」正是報告要破的迷思——分三層，就是要你分辨誰真核心、誰只是沾邊。']},
+
+ {type:'ab',sky:'sky-valley',bg:'range',label:'第 05 段 · AI 三圈擴散分析',title:'三圈：錢擴散到第幾圈了',
+  text:'第五段把 AI 由核心往外畫<b>三圈</b>：<br><b>算力核心 → 不可或缺瓶頸 → 基建外溢</b>。<br>每一圈報告都標「<b>幾檔創 3 月新高</b>」——多檔一起創高＝資金<b>擴散</b>到那一圈。<br>看擴散，是要判斷資金<b>主攻哪一圈</b>，不是看到 AI 就買。',
+  q:'報告顯示「算力核心圈多檔創 3 月新高、外面兩圈還沒跟上」。這代表？',
+  choices:['AI 全部很強，隨便一檔都能買','錢集中在最核心的算力圈、還沒外溢——挑就挑「正在擴散的那一圈」','算力圈要崩了'],correct:1,
+  fb:['「AI 全都強」是把一圈套到全部——分三圈就是要你看「哪一圈在擴散」。','對——<b>擴散未外溢</b>：資金還鎖在算力核心，瓶頸與基建圈落後。要挑「正在創高、正在擴散」的圈，不是全部 AI 一把抓。','分圈看的是資金流向、不是預測崩盤——核心圈創高代表它現在最強。']},
+
+ {type:'ab',sky:'sky-noon',bg:'farhills',label:'第 06 段 · AI 硬體信號流階梯',title:'8 階段：強勢一階一階往下傳',
+  text:'第六段是<b>信號流階梯</b>：把 AI 硬體拆成<b>8 個階段位階</b>(從最上游算力，一路往傳輸、設備、下游)。<br>它看的是——<b>強勢正走到第幾階</b>：資金與強度是集中在上游，還是已經一階一階往下游傳。',
+  q:'信號流顯示「強勢集中在最上游算力階、下游各階還很弱」。怎麼讀？',
+  choices:['整條 AI 鏈都強','強勢還在最上游、尚未往下傳——資金卡在前段，下游要等訊號傳到才輪得到','下游永遠不會強'],correct:1,
+  fb:['整條都強的話，各階都會亮——現在只有上游亮，代表訊號還沒傳下去。','對——<b>信號流看「傳到第幾階」</b>。強勢卡在上游＝下游還沒接棒；等訊號一階一階往下傳，才輪到中下游。','沒有「永遠」——階梯是動態的，訊號會往下傳；現在只是還沒到。']},
+
+ {type:'ab',sky:'sky-clear',bg:'range',label:'第 07 段 · AI 供應鏈定位',title:'錢往上游、算力往下游',
+  text:'第七段幫每家 AI 公司在供應鏈上<b>定位</b>：<br>一句口訣——<b>錢往上游走、算力往下游擴</b>。<br>把「這家在哪一段」＋「資金與強度集中在哪一段」對起來看，就知道<b>它是不是站在資金正流入的位置</b>。',
+  q:'一家公司位在供應鏈中下游，但報告顯示「資金與強度這期集中在上游」。怎麼看它？',
+  choices:['它一定會漲，反正是 AI','它現在不站在資金流入的位置——先觀察，等強勢往下游傳到它那段再說','馬上重壓'],correct:1,
+  fb:['「是 AI 就會漲」正是要破的——位置對不對，比標籤重要。','對——<b>定位＝把公司位置和資金位置對齊</b>。資金在上游、它在下游，就先不站在風口；等信號流傳到它那段。','重壓在資金還沒到的位置，風險最高——先等定位對上。']},
 
  {type:'ab',sky:'sky-clear',bg:'farhills',label:'第 08 段 · 大盤ETF法人週向',title:'法人對大盤 ETF，這週往哪站？',
-  text:'第八段看<b>法人對大盤型 ETF(如 0050 這類)的「週」買賣超方向</b>。<br>個股每天換來換去是雜訊；這一票把鏡頭拉遠，看的是<br>法人對<b>「整個台股」</b>整週是<b>加碼</b>還是<b>減碼</b>。',
+  text:'第八段看<b>法人對大盤型 ETF(如 0050 這類)的「週」買賣超方向</b>，還<b>拆到各別法人</b>(外資／投信／自營，看誰在加減碼)。<br>個股每天換來換去是雜訊；這一票把鏡頭拉遠，看的是<br>法人對<b>「整個台股」</b>整週是<b>加碼</b>還是<b>減碼</b>。',
   q:'個股買賣超每天在換，為什麼還要單獨看「法人對大盤 ETF 的週向」？',
-  choices:['沒必要，看個股就好','因為它濾掉單日雜訊、看法人對「整個大盤」一週的淨態度——是加碼還減碼的方向票','ETF 不重要'],correct:1,
-  fb:['個股每天換手是雜訊——ETF 週向把鏡頭拉遠，看的是對大盤的整體態度。','對——大盤 ETF 週向＝法人對「整個台股」的方向票(週為單位、濾掉單日雜訊)。跟廣度、籌碼合看，判大盤健不健康。','它恰是最宏觀的一票——代表法人對大盤本身的加減碼。']},
+  choices:['沒必要，看個股就好','因為它濾掉單日雜訊、看法人對「整個大盤」一週的淨態度——還能拆外投自看誰在加減碼','ETF 不重要'],correct:1,
+  fb:['個股每天換手是雜訊——ETF 週向把鏡頭拉遠，看的是對大盤的整體態度。','對——大盤 ETF 週向＝法人對「整個台股」的方向票(週為單位、濾掉單日雜訊)，分法人還能看外投自誰在主導。','它恰是最宏觀的一票——代表法人對大盤本身的加減碼。']},
 
  {type:'ab',sky:'sky-clear',bg:'range',label:'第 09 段 · 完整研判',title:'台股報告，到底幫你做什麼？',
   text:'九段都讀完了。<br><br>台股報告幫你的，是<b>「選股方向＋大盤體檢」</b>：<br>資金輪動到哪類、哪些是強勢候選池、法人籌碼在吸還在倒、AI 哪一圈在擴散——<br>它給你<b>池子和邏輯，你自己挑</b>。',
@@ -171,7 +189,7 @@ const ROUNDS=[
   choices:['直接告訴我買哪一支、買在幾塊','看「錢往哪類板塊流、大盤健不健康、有哪些強勢候選」，自己判斷選股方向','看它今天喊多還喊空，照做就好'],correct:1,
   fb:['報告不喊買哪支、不給價位——那是明牌，不是判斷力。','對——它給你<b>資金流向＋候選池＋籌碼邏輯</b>，選誰、進不進，你自己決定。','它不喊單。台股報告給的是「錢在哪、誰強、健不健康」，決定權一直在你手上。']}
 ];
-const TRANSITIONS=[null,null,'價、量分清楚了。<br>那——一個數字，能不能下結論？',null,null,null,'基本功齊了——台股權重最大的那批 AI，報告怎麼拆？',null,null,null];
+const TRANSITIONS=[null,null,'價、量分清楚了。<br>那——一個數字，能不能下結論？',null,null,null,'基本功齊了——台股權重最大的那批 AI，報告怎麼拆成四段？',null,null,null,'AI 四段讀完了。<br>最後拉高鏡頭：法人對「整個大盤」怎麼站？',null,null];
 
 let state={idx:-1,score:0,gv:50,cls:[],mChecked:false};
 
@@ -205,10 +223,22 @@ const ANS=[
    ['漲停爆量','單日鎖漲停＋大量；可能是真起漲，也可能是脈衝(隔天打回)'],
    ['脈衝 vs 真起漲','看隔日 REL5 有沒有站穩續強：站穩＝真起漲，打回＝脈衝'],
    ['⚡當日異動','報告提醒你「這支今天跳動大、去觀察」，不是進場訊號']]},
- {answer:'錢集中在記憶體圈、算力圈落後——三圈擴散不均，要挑「正在擴散的圈」，不是看到 AI 就買。',terms:[
-   ['AI 三圈','把 AI 拆成 C1 算力／C2 記憶體／C3 設備三圈，分開看誰在強'],
-   ['三圈擴散','每圈「幾檔創 3 月新高」——多檔一起強＝資金主攻這圈；獨強要小心'],
-   ['信號流階梯 / 供應鏈定位','強勢從上游往下游怎麼傳；每家公司在 AI 供應鏈的位置']]},
+ {answer:'A。核心競爭力＝不可取代性：獨家製程、卡關鍵環節放核心層；替代性高的組裝擺外圍。',terms:[
+   ['核心競爭力分三層','越核心＝越不可取代(獨家/卡瓶頸)；越外圍＝替代性越高、越像沾邊'],
+   ['不是「AI 就買」','同掛 AI 概念，強度與續航差很多——先問它在哪一層'],
+   ['三層架構','報告把 AI 個股按核心度分三層，不當成同一批']]},
+ {answer:'錢還鎖在算力核心圈、尚未外溢——挑「正在創高、正在擴散」的那一圈，不是全部 AI 一把抓。',terms:[
+   ['AI 三圈','由核心往外：算力核心 → 不可或缺瓶頸 → 基建外溢'],
+   ['三圈擴散','每圈「幾檔創 3 月新高」——多檔一起創高＝資金擴散到那一圈'],
+   ['擴散未外溢','資金集中最核心圈、外圈沒跟＝還沒外溢；要挑正在擴散的圈']]},
+ {answer:'強勢還卡在最上游算力階、尚未往下傳——下游要等訊號一階一階傳到才輪得到。',terms:[
+   ['信號流階梯','把 AI 硬體拆 8 個階段位階(上游算力→傳輸→設備→下游)'],
+   ['傳到第幾階','看強勢/資金集中在上游還是已往下游傳'],
+   ['卡在上游','上游亮、下游弱＝訊號還沒接棒；階梯是動態、會往下傳']]},
+ {answer:'它不站在資金流入的位置——先觀察，等強勢往下游傳到它那段再說；別重壓在資金還沒到的位置。',terms:[
+   ['供應鏈定位','把每家公司在供應鏈的位置標出來'],
+   ['錢往上游、算力往下游','口訣：資金先聚上游，算力/強勢往下游擴'],
+   ['位置對齊','把「公司在哪段」＋「資金在哪段」對起來，才知道站不站在風口']]},
  {answer:'因為它濾掉單日雜訊，看法人對「整個大盤」一週是加碼還減碼——最宏觀的方向票。',terms:[
    ['大盤型 ETF','追蹤整個大盤/權值的 ETF(如 0050 這類)；買賣它＝對大盤本身表態'],
    ['週買賣超方向','以「週」為單位的法人淨買賣，濾掉單日雜訊'],
@@ -243,7 +273,7 @@ function showStart(){G.innerHTML=scene('sky-start','farhills',`
   <div class="chapter-label t-label" style="margin-bottom:1rem">YODA RESEARCH · 判斷力學校</div>
   <div class="chapter-title t-main" style="font-size:30px;font-weight:200;letter-spacing:1px;margin-bottom:0.4rem">讀懂台股報告</div>
   <div class="t-sub" style="font-size:14px;margin-bottom:0.3rem;font-style:italic">量、價、廣度一起看——別被單一數字騙</div>
-  <div class="t-label" style="font-size:12px;margin-bottom:2.6rem">約 4 分鐘 · 跟著報告九段走 · 數據取自 2026-08 台股報告</div>
+  <div class="t-label" style="font-size:12px;margin-bottom:2.6rem">約 5 分鐘 · 跟著報告十段走(含 AI 四段) · 數據取自 2026-08 台股報告</div>
   <button class="continue-btn" style="font-size:15px;padding:0.85rem 3.2rem;border-radius:6px;letter-spacing:2px" onclick="fade(startOpening)">開始</button>`);}
 let oi=0;function startOpening(){oi=0;renderOpening();}
 function renderOpening(){const q=OPENING.quotes[oi],last=oi>=OPENING.quotes.length-1;
@@ -301,7 +331,7 @@ function showResult(){PB.style.width='100%';const s=state.score,mx=ROUNDS.length
   <div class="chapter-label t-label" style="margin-bottom:0.8rem">台股報告讀完</div>
   <div class="result-icon">📊</div>
   <div class="result-type t-main">你會讀台股報告了</div><div class="result-vow" style="font-size:19px;font-weight:800;color:#e8c86a;margin:0.35rem auto 0.1rem;max-width:420px;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)">「我不再只盯誰漲最多了。」</div>
-  <div class="result-desc t-sub">你剛跟著報告<b>九段主線</b>把台股讀了一遍：<br><b>板塊動態圖 → 資金位階(REL) → 量價共振 → 籌碼四型態 → 讀當天風向 → AI 三圈擴散 → 大盤ETF週向 → 完整研判</b>。<br><br>核心一句：<b>台股最會騙人的，就是只看一個數字。</b><br><br>判讀得分：${s} / ${mx}（${tier}）</div>
+  <div class="result-desc t-sub">你剛跟著報告<b>十段主線</b>把台股讀了一遍：<br><b>板塊動態圖 → 資金位階(REL·四視角) → 量價共振 → 籌碼四型態(三隻手) → AI 核心競爭力 → AI 三圈擴散 → AI 信號流階梯 → AI 供應鏈定位 → 大盤ETF週向 → 完整研判</b>。<br><br>核心一句：<b>台股最會騙人的，就是只看一個數字。</b><br><br>判讀得分：${s} / ${mx}（${tier}）</div>
   <div class="t-sub" style="font-size:13px;line-height:1.9;margin-bottom:1.3rem;max-width:430px;margin:0 auto 1.3rem">這套讀法，就是把一堆數字讀成「一個能自己判斷的方向」。接下來，拿它去讀真的台股報告。</div>
   <div style="display:flex;flex-direction:column;align-items:center;gap:0.65rem;max-width:340px;margin:0 auto">
     <a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">先訂免費電子報，每天練這套讀法 →</a>
@@ -423,9 +453,9 @@ showStart();
   $('yc-email').addEventListener('keydown',function(e){if(e.key==='Enter')submit();});
 })();
 </script>
-<script src="https://yoda-research-next.vercel.app/yoda-game-badge.js" defer></script>
 
 <!-- yoda-logo-sig -->
 <img alt="Yoda" src="https://yoda-research-next.vercel.app/yoda-logo.png" style="position:fixed;right:14px;bottom:12px;height:52px;width:auto;opacity:.5;z-index:9990;pointer-events:none">
 <script>(function(){try{var K='yr_vid',v=localStorage.getItem(K);if(!v){v=Date.now().toString(36)+Math.random().toString(36).slice(2,8);localStorage.setItem(K,v);}var seg=location.pathname.split('/').filter(Boolean).pop()||'home';fetch('https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec',{method:'POST',body:JSON.stringify({action:'hit',page:decodeURIComponent(seg),path:location.pathname,host:location.hostname,ref:document.referrer,vid:v})});}catch(e){}})();</script>
+<script src="https://yoda-research-next.vercel.app/yoda-game-badge.js" defer></script>
 </body></html>
