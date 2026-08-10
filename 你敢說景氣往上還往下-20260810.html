@@ -140,7 +140,7 @@ var S=[
   +'<button class="btn" onclick="next()">那要怎麼補？ →</button>';}},
 
 // 步4 導入宣傳片
-{sky:'sky-night', html:function(){return ''
+{sky:'sky-night', noBgm:true, html:function(){return ''
   +'<div class="step">步 4 · 答案在這支片</div>'
   +'<h2>這幾層怎麼補？<br>我用 70 秒，講給你聽。</h2>'
   +'<div class="video-box"><iframe src="https://www.youtube.com/embed/WzT91Ls8SX4" title="Yoda Research 判斷力學校" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>'
@@ -203,6 +203,11 @@ function render(i){
   var s=S[i];
   document.body.className=s.sky+(s.bg?' has-bg':'');
   setBg(s.bg||null);
+  // 影片屏停背景音樂，避免跟影片聲音打架；離開再接回（除非使用者手動靜音）
+  if(typeof BGM!=='undefined' && BGM){
+    if(s.noBgm){ BGM.pause(); }
+    else if(bgmStarted && !bgmMuted){ var _p=BGM.play(); if(_p&&_p.catch)_p.catch(function(){}); }
+  }
   el('stage').innerHTML='<div class="scene">'+s.html()+'</div>';
   window.scrollTo({top:0,behavior:'instant'});
 }
@@ -265,7 +270,7 @@ try{ bgmMuted=localStorage.getItem('yoda_bgm_muted')==='1'; }catch(e){}
 if(BGM){ BGM.volume=0.30; }
 function updateMuteIcon(){ if(MUTEBTN) MUTEBTN.textContent=bgmMuted?'🔇':'🔊'; }
 updateMuteIcon();
-function startBGM(){ if(bgmStarted||bgmMuted||!BGM)return; BGM.play().then(function(){bgmStarted=true;}).catch(function(){}); }
+function startBGM(){ if(bgmStarted||bgmMuted||!BGM)return; if(S[cur]&&S[cur].noBgm)return; BGM.play().then(function(){bgmStarted=true;}).catch(function(){}); }
 function toggleMute(){
   bgmMuted=!bgmMuted;
   try{ localStorage.setItem('yoda_bgm_muted',bgmMuted?'1':'0'); }catch(e){}
