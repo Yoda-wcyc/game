@@ -64,6 +64,7 @@
   .share-row{display:flex;gap:10px;margin-top:16px}
   .share-row .btn{margin-top:0}
   .logo-sig{position:fixed;right:14px;bottom:12px;height:50px;width:auto;opacity:.5;z-index:20;pointer-events:none}
+  .brand{display:block;height:46px;width:auto;max-width:80%;margin:0 auto 20px;opacity:.96;filter:drop-shadow(0 2px 10px rgba(0,0,0,.4))}
   .restart{position:fixed;left:14px;top:12px;z-index:20;font-size:11px;font-weight:700;color:var(--dim);background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:8px;padding:5px 10px;cursor:pointer}
   .done-badge{font-size:44px;text-align:center;margin-bottom:8px}
 </style>
@@ -85,6 +86,7 @@ var pickedAns=null;
 var S=[
 // 步1 定調（鉤子＋框架）
 {sky:'sky-dusk', html:function(){return ''
+  +'<img class="brand" src="https://yoda-research-next.vercel.app/yoda-research-title-dark.png" alt="Yoda Research">'
   +'<div class="step">判斷力小遊戲 · 90 秒</div>'
   +'<h1>你敢說——<br>現在是往上，還往下？</h1>'
   +'<p>一個問題，先別急著滑掉：<br><b class="g">現在景氣，是正在往上、還是正在往下？會走到哪裡？</b></p>'
@@ -166,7 +168,7 @@ var S=[
   +'<h2>開場我問你：<br>現在是往上，還往下？</h2>'
   +'<p style="font-size:18px"><b class="g">以後你敢答——而且知道它會走到哪。</b></p>'
   +'<p class="dim">消息會過期，判斷不會。<br>歡迎把自己，練成看得懂大波段的人。</p>'
-  +'<p class="dim" style="margin-top:14px">— Yoda Research</p>'
+  +'<img class="brand" src="https://yoda-research-next.vercel.app/yoda-research-title-dark.png" alt="Yoda Research" style="height:40px;margin:18px auto 0">'
   +'<button class="btn ghost" onclick="shareGame()">🔗 把這個遊戲，傳給那個總在乾瞪眼的朋友</button>'
   +'<button class="btn" onclick="go(6)">← 回去鎖創始資格</button>';}}
 ];
