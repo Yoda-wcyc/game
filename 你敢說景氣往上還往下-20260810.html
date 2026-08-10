@@ -66,12 +66,15 @@
   .logo-sig{position:fixed;right:14px;bottom:12px;height:50px;width:auto;opacity:.5;z-index:20;pointer-events:none}
   .brand{display:block;height:46px;width:auto;max-width:80%;margin:0 auto 20px;opacity:.96;filter:drop-shadow(0 2px 10px rgba(0,0,0,.4))}
   .restart{position:fixed;left:14px;top:12px;z-index:20;font-size:11px;font-weight:700;color:var(--dim);background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:8px;padding:5px 10px;cursor:pointer}
+  .mute{position:fixed;right:14px;top:12px;z-index:20;font-size:15px;line-height:1;color:var(--dim);background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:8px;padding:5px 9px;cursor:pointer}
   .done-badge{font-size:44px;text-align:center;margin-bottom:8px}
 </style>
 </head>
 <body class="sky-dusk">
 <div class="sky-layer"></div>
 <button class="restart" onclick="go(0)">↺ 重玩</button>
+<button class="mute" id="muteBtn" onclick="toggleMute()">🔊</button>
+<audio id="bgm" loop preload="auto"><source src="day_one.mp3" type="audio/mpeg"></audio>
 
 <div class="wrap"><div id="stage"></div></div>
 
@@ -111,14 +114,14 @@ var S=[
 {sky:'sky-valley', html:function(){return ''
   +'<div class="tag">為什麼你總是差一步</div>'
   +'<h2>這個「不知道」，<br>是一層扣一層的</h2>'
-  +'<div class="chain">① 不知道景氣往上還往下、會走到哪<span class="arw">↓ 所以抱不住、也逃不掉</span>② 就算想主動一點 → 不知道怎麼選股<span class="arw">↓</span>③ 就算選到了 → 不會技術分析、抓不到「預期和底線」</div>'
+  +'<div class="chain">① 不知道景氣往上還往下、會走到哪<span class="arw">↓ 所以抱不住、也逃不掉</span>② 就算想主動一點 → 不知道怎麼選股<span class="arw">↓</span>③ 就算選到了 → 不會技術分析、抓不到「預期、底線和進出點位」</div>'
   +'<p>你不是不努力。是這幾層，<b class="g">從來沒人幫你補齊</b>。</p>'
   +'<button class="btn" onclick="next()">那要怎麼補？ →</button>';}},
 
 // 步4 導入宣傳片
 {sky:'sky-night', html:function(){return ''
   +'<div class="step">步 4 · 答案在這支片</div>'
-  +'<h2>這幾層怎麼補？<br>我用一支片，講給你聽。</h2>'
+  +'<h2>這幾層怎麼補？<br>我用 70 秒，講給你聽。</h2>'
   +'<div class="video-box"><iframe src="https://www.youtube.com/embed/WzT91Ls8SX4" title="Yoda Research 判斷力學校" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>'
   +'<button class="btn" onclick="next()">看完了，然後呢 →</button>';}},
 
@@ -127,8 +130,8 @@ var S=[
   +'<div class="tag">答案不是口號</div>'
   +'<h2>而是每天在產出的東西</h2>'
   +'<div class="offer">'
-    +'<div class="row"><div class="k">想看「詳細」</div><div class="v">市場觀察 · 台股 · 美股 · 總經 · AI泡沫<br><span style="color:var(--dim);font-size:13px">景氣位階 → 資金流 → 選股名單 → 技術位階，一層層補</span></div></div>'
-    +'<div class="row"><div class="k">想看「去蕪存菁後的結論」</div><div class="v">關鍵報告<br><span style="color:var(--dim);font-size:13px">我自己的預期、底線、條件劇本、實際操作與推理</span></div></div>'
+    +'<div class="row"><div class="k">我很有研究精神，想看「詳細」</div><div class="v">五大類完整報告：市場觀察 · 台股 · 美股 · 總經 · AI泡沫<br><span style="color:var(--dim);font-size:13px">景氣位階 → 資金流 → 選股名單 → 技術位階，一層層補</span></div></div>'
+    +'<div class="row"><div class="k">我沒時間，想看「去蕪存菁後的結論」</div><div class="v">關鍵報告<br><span style="color:var(--dim);font-size:13px">我自己的預期、底線、條件劇本、實際操作與推理</span></div></div>'
   +'</div>'
   +'<button class="btn" onclick="next()">所以我會變得怎樣？ →</button>';}},
 
@@ -145,7 +148,7 @@ var S=[
   +'<div class="tag">創始限量 50 · 早鳥鎖 459</div>'
   +'<h2>別再當那個<br>「說不準」的人</h2>'
   +'<p class="dim">創始資格，用分享換：</p>'
-  +'<div class="chain">你把這支片（這個遊戲）分享出去<span class="arw">↓</span>更多人也開始看懂大波段<span class="arw">↓</span>你換到一個「創始名額」</div>'
+  +'<div class="chain">你把這支片（這個遊戲）分享到臉書<span class="arw">↓</span>更多人也開始看懂大波段<span class="arw">↓</span>你換到一個「創始名額」</div>'
   +'<div class="share-row"><button class="btn ghost" onclick="shareGame()">🔗 分享這個遊戲</button></div>'
   +'<div id="joinForm">'
     +'<label>Email（你的會員帳號）</label><input id="j-email" type="email" placeholder="you@example.com" autocomplete="email">'
@@ -232,6 +235,22 @@ function submitJoin(){
     })
     .catch(function(){ btn.disabled=false; msg.style.color='#f0a0a0'; msg.textContent='連線失敗，請稍後再試'; });
 }
+
+/* 背景音樂（沿用 day_one.mp3 · 首次互動啟動 · 靜音記憶） */
+var BGM=el('bgm'), MUTEBTN=el('muteBtn');
+var bgmStarted=false, bgmMuted=false;
+try{ bgmMuted=localStorage.getItem('yoda_bgm_muted')==='1'; }catch(e){}
+if(BGM){ BGM.volume=0.30; }
+function updateMuteIcon(){ if(MUTEBTN) MUTEBTN.textContent=bgmMuted?'🔇':'🔊'; }
+updateMuteIcon();
+function startBGM(){ if(bgmStarted||bgmMuted||!BGM)return; BGM.play().then(function(){bgmStarted=true;}).catch(function(){}); }
+function toggleMute(){
+  bgmMuted=!bgmMuted;
+  try{ localStorage.setItem('yoda_bgm_muted',bgmMuted?'1':'0'); }catch(e){}
+  if(bgmMuted){ if(BGM)BGM.pause(); } else { if(BGM)BGM.play().then(function(){bgmStarted=true;}).catch(function(){}); }
+  updateMuteIcon();
+}
+document.addEventListener('click', startBGM, {once:false});
 
 render(0);
 </script>
