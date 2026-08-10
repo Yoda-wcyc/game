@@ -379,10 +379,13 @@ const RENDER={
    <div class="unlock"><b>創始會員（限量 50 位 · 早鳥）：</b>每期【關鍵報告】——完整判讀當前市況＋預判行情劇本＋Yoda 自己的預期、底線、操作與推理——連同六類完整報告與歷史庫。<b>早鳥 NT$459／月鎖價</b>，名額滿後以一般月費，首批永遠停在 459。投資你自己的大腦，精煉你每天都在用的系統。<br><span class="dim" style="font-size:12px">（關鍵報告是分享判斷思路與自身操作、示範用，非投資建議、僅供參考。）</span></div>
    <label class="consent-gate" id="consentGate"><input type="checkbox" id="agreeNoCooling"><span>我已了解本服務為數位內容／線上服務，付款後隨即開通，<b>不適用七日猶豫期（無鑑賞期）</b>，且開通後恕不退費。</span></label>
    <div class="act-btns">
-     <form class="pay-form" method="POST" action="https://yoda-research-next.vercel.app/api/ecpay-create" onsubmit="return payGate(event)" style="display:flex;flex-direction:column;gap:8px;width:100%;margin:0">
-       <input type="email" name="email" id="payEmail" placeholder="你的訂閱 email（當會員帳號）" required autocomplete="email" style="padding:12px 14px;border-radius:11px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:#fff;font-size:14px;width:100%;box-sizing:border-box" />
-       <button type="submit" class="act-btn act-sub" style="width:100%">創始會員 NT$459／月 · 前往綠界刷卡 →</button>
-     </form>
+     <div class="pay-form" style="display:flex;flex-direction:column;gap:8px;width:100%">
+       <input type="email" id="payEmail" placeholder="你的 email（當會員帳號）" required autocomplete="email" style="padding:12px 14px;border-radius:11px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:#fff;font-size:14px;width:100%;box-sizing:border-box" />
+       <input type="password" id="payPw" placeholder="設定會員密碼（≥6 碼，含英文與數字）" autocomplete="new-password" style="padding:12px 14px;border-radius:11px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:#fff;font-size:14px;width:100%;box-sizing:border-box" />
+       <button type="button" class="act-btn act-sub" style="width:100%" onclick="startSubscribe()">創始會員 NT$459／月 · 建帳號後前往綠界刷卡 →</button>
+       <div id="payMsg" style="font-size:12.5px;line-height:1.5;min-height:16px;color:#f0a0a0"></div>
+       <form id="payGo" method="POST" action="https://yoda-research-next.vercel.app/api/ecpay-create" style="display:none"><input type="hidden" name="email" id="payGoEmail"></form>
+     </div>
      <button class="act-btn act-refer" onclick="referToggle()">我已是會員 · 產生我的專屬推薦連結 →</button>
      <button class="act-btn act-share" onclick="share()">分享：把判斷力學校介紹給朋友</button></div>
    <div class="refer-box" id="referBox" style="display:none">
@@ -720,6 +723,31 @@ function payGate(e){
     return false;
   }
   return true;
+}
+/* 先註冊(email+密碼)→ 再前往綠界付款；付款成功後 markPaid 只把已註冊的人標成已付費 */
+function startSubscribe(){
+  var email=(document.getElementById('payEmail').value||'').trim();
+  var pw=document.getElementById('payPw').value||'';
+  var msg=document.getElementById('payMsg');
+  msg.style.color='#f0a0a0';
+  if(!payGate()){return;} // 未勾同意 → 抖動提示
+  if(!/.+@.+\..+/.test(email)){msg.textContent='請填一個正確的 email';return;}
+  if(pw.length<6||!/[A-Za-z]/.test(pw)||!/[0-9]/.test(pw)){msg.textContent='密碼至少 6 碼，且要同時包含英文與數字';return;}
+  var btn=document.querySelector('.pay-form .act-sub'); if(btn)btn.disabled=true;
+  msg.style.color='#c9c9c9'; msg.textContent='建立帳號中…';
+  fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'register',email:email,password:pw,plan:'創始'})})
+    .then(function(r){return r.json();})
+    .then(function(res){
+      if(btn)btn.disabled=false;
+      if((res&&res.ok)||(res&&res.error&&res.error.indexOf('已註冊')>=0)){
+        // 註冊成功、或此 email 已有帳號 → 前往綠界付款
+        document.getElementById('payGoEmail').value=email;
+        document.getElementById('payGo').submit();
+      }else{
+        msg.style.color='#f0a0a0'; msg.textContent=(res&&res.error)||'建立帳號失敗，換一組密碼再試';
+      }
+    })
+    .catch(function(){ if(btn)btn.disabled=false; msg.style.color='#f0a0a0'; msg.textContent='連線失敗，請稍後再試'; });
 }
 </script>
 <script src="https://yoda-research-next.vercel.app/yoda-game-badge.js" defer></script>
