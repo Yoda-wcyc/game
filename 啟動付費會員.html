@@ -136,7 +136,7 @@ h1{font-size:32px;font-weight:800;line-height:1.3;letter-spacing:.5px;text-align
     <p class="body" style="font-size:14px;color:var(--dim)">用 email ＋ 會員密碼登入，看看自己已經通過哪幾種。</p>
     <div class="row">
       <div><label>Email</label><input id="pEmail" placeholder="a@b.com" autocomplete="off"></div>
-      <div><label>會員密碼</label><input id="pPw" type="password" placeholder="你的會員密碼" autocomplete="off"></div>
+      <div><label>會員密碼</label><div style="position:relative"><input id="pPw" type="password" placeholder="你的會員密碼" autocomplete="off" style="padding-right:40px"><button type="button" aria-label="顯示或隱藏密碼" onclick="(function(b){var p=document.getElementById('pPw');if(p.type==='password'){p.type='text';b.textContent='🙈';}else{p.type='password';b.textContent='👁';}})(this)" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:auto;background:none;border:none;cursor:pointer;font-size:18px;line-height:1;opacity:.6;padding:4px;color:inherit">👁</button></div></div>
     </div>
     <button id="pBtn">查詢進度</button>
     <div class="msg" id="pMsg"></div>

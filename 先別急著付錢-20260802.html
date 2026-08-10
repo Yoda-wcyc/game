@@ -380,7 +380,10 @@ const RENDER={
    <div class="act-btns">
      <div class="pay-form" style="display:flex;flex-direction:column;gap:8px;width:100%">
        <input type="email" id="payEmail" placeholder="你的 email（當會員帳號）" required autocomplete="email" style="padding:12px 14px;border-radius:11px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:#fff;font-size:14px;width:100%;box-sizing:border-box" />
-       <input type="password" id="payPw" placeholder="設定會員密碼（≥6 碼，含英文與數字）" autocomplete="new-password" style="padding:12px 14px;border-radius:11px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:#fff;font-size:14px;width:100%;box-sizing:border-box" />
+       <div style="position:relative;width:100%">
+         <input type="password" id="payPw" placeholder="設定會員密碼（≥6 碼，含英文與數字）" autocomplete="new-password" style="padding:12px 44px 12px 14px;border-radius:11px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:#fff;font-size:14px;width:100%;box-sizing:border-box" />
+         <button type="button" onclick="pwEyeToggle('payPw',this)" aria-label="顯示或隱藏密碼" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);width:auto;background:none;border:none;cursor:pointer;font-size:18px;line-height:1;opacity:.6;padding:6px;color:#fff">👁</button>
+       </div>
        <button type="button" class="act-btn act-sub" style="width:100%" onclick="startSubscribe()">創始會員 NT$459／月 · 建帳號後前往綠界刷卡 →</button>
        <div id="payMsg" style="font-size:12.5px;line-height:1.5;min-height:16px;color:#f0a0a0"></div>
        <form id="payGo" method="POST" action="https://yoda-research-next.vercel.app/api/ecpay-create" style="display:none"><input type="hidden" name="email" id="payGoEmail"></form>
@@ -672,6 +675,9 @@ function referToggle(){ const b=el('referBox'); if(!b)return;
   if(open){const p=el('referPw'); if(p)p.focus();}
 }
 function referEyeToggle(btn){ const p=el('referPw'); if(!p)return;
+  if(p.type==='password'){p.type='text';btn.textContent='🙈';}else{p.type='password';btn.textContent='👁';}
+}
+function pwEyeToggle(id,btn){ const p=el(id); if(!p)return;
   if(p.type==='password'){p.type='text';btn.textContent='🙈';}else{p.type='password';btn.textContent='👁';}
 }
 function referGenerate(){
