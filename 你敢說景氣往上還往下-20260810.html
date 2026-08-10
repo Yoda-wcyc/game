@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="index,follow">
+<title>你敢說——現在是往上，還往下？｜Yoda Research</title>
+<meta property="og:title" content="你敢說——現在是往上，還往下？">
+<meta property="og:description" content="90 秒，測你到底看不看得懂大波段。看著別人賺、你只能乾瞪眼的那個根，其實出在這裡。">
+<style>
+  :root{--gold:#e0a526;--gold2:#b8860b;--ink:#f4efe4;--dim:#b9b2a2;--card:rgba(10,12,18,.5);--line:rgba(255,255,255,.14)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC','Microsoft JhengHei','Segoe UI',sans-serif;color:var(--ink);line-height:1.7;font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+  .sky-layer{position:fixed;inset:0;z-index:-3;transition:background .8s ease}
+  body.sky-noon  .sky-layer{background:linear-gradient(180deg,#22345f,#5f79b0 42%,#d9b978 80%,#edd199)}
+  body.sky-storm .sky-layer{background:linear-gradient(180deg,#0b0b12,#171733 50%,#33409e)}
+  body.sky-night .sky-layer{background:linear-gradient(180deg,#05060f,#0e1630 55%,#182a54)}
+  body.sky-dusk  .sky-layer{background:linear-gradient(180deg,#241436,#6a3a63 42%,#c9743f 80%,#e79a56)}
+  body.sky-clear .sky-layer{background:linear-gradient(180deg,#173a68,#4a7cc0 44%,#a6cff0 82%,#d9edfb)}
+  body.sky-valley .sky-layer{background:linear-gradient(180deg,#0c1420,#243247 52%,#3d5470)}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(120% 80% at 50% 0%,transparent 40%,rgba(0,0,0,.45));pointer-events:none}
+
+  .wrap{max-width:640px;margin:0 auto;padding:56px 20px 96px;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+  .scene{animation:rise .5s ease}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+  .tag{display:inline-block;font-size:11px;letter-spacing:.14em;font-weight:800;text-transform:uppercase;color:#1a1200;background:linear-gradient(90deg,var(--gold),var(--gold2));padding:4px 11px;border-radius:9999px;margin-bottom:18px}
+  .step{font-size:11px;letter-spacing:.1em;color:var(--dim);margin-bottom:10px;font-weight:700}
+  h1{font-size:clamp(27px,6.4vw,40px);font-weight:800;letter-spacing:-.02em;line-height:1.2;margin-bottom:16px}
+  h2{font-size:clamp(21px,4.6vw,27px);font-weight:800;line-height:1.3;margin-bottom:14px}
+  p{font-size:16px;color:var(--ink);margin-bottom:12px}
+  p.dim{color:var(--dim)}
+  .beat{color:var(--dim);font-size:14.5px;margin:2px 0}
+  b.g{color:var(--gold)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  .chain{margin:16px 0;padding:16px 18px;border-left:3px solid var(--gold);background:rgba(224,165,38,.08);border-radius:0 12px 12px 0;font-size:15px;line-height:1.85;color:var(--ink)}
+  .chain .arw{color:var(--gold);display:block;margin:2px 0 2px 2px}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;font-family:inherit;font-size:16px;font-weight:800;color:#1a1200;background:linear-gradient(90deg,var(--gold),var(--gold2));border:none;border-radius:13px;padding:15px 18px;cursor:pointer;margin-top:20px;transition:transform .12s,filter .12s}
+  .btn:hover{filter:brightness(1.08)}.btn:active{transform:scale(.98)}
+  .btn.ghost{background:transparent;color:var(--gold);border:1.5px solid var(--gold)}
+  .opt{display:block;width:100%;text-align:left;font-family:inherit;font-size:16px;font-weight:600;color:var(--ink);background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:13px;padding:15px 16px;margin-top:10px;cursor:pointer;transition:all .15s}
+  .opt:hover{border-color:var(--gold);background:rgba(224,165,38,.08)}
+  .opt.picked{border-color:var(--gold);background:rgba(224,165,38,.14)}
+  .reveal{margin-top:16px;display:none}
+  .reveal.on{display:block;animation:rise .4s ease}
+
+  .video-box{max-width:340px;margin:8px auto 0;aspect-ratio:9/16;border-radius:16px;overflow:hidden;background:#000;border:1px solid var(--line)}
+  .video-box iframe{width:100%;height:100%;border:0;display:block}
+
+  .offer{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+  .offer .row{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:12px;padding:13px 15px}
+  .offer .row .k{font-size:12.5px;color:var(--gold);font-weight:800;margin-bottom:4px}
+  .offer .row .v{font-size:14.5px;color:var(--ink);line-height:1.6}
+
+  label{display:block;font-size:13px;color:var(--dim);font-weight:700;margin:14px 0 5px}
+  input{width:100%;font-family:inherit;font-size:15px;color:#fff;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:11px;padding:12px 14px}
+  input:focus{outline:none;border-color:var(--gold)}
+  .msg{font-size:13px;min-height:18px;margin-top:8px;color:#f0a0a0}
+  .fineprint{font-size:12px;color:var(--dim);margin-top:12px;line-height:1.6}
+
+  .share-row{display:flex;gap:10px;margin-top:16px}
+  .share-row .btn{margin-top:0}
+  .logo-sig{position:fixed;right:14px;bottom:12px;height:50px;width:auto;opacity:.5;z-index:20;pointer-events:none}
+  .restart{position:fixed;left:14px;top:12px;z-index:20;font-size:11px;font-weight:700;color:var(--dim);background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:8px;padding:5px 10px;cursor:pointer}
+  .done-badge{font-size:44px;text-align:center;margin-bottom:8px}
+</style>
+</head>
+<body class="sky-dusk">
+<div class="sky-layer"></div>
+<button class="restart" onclick="go(0)">↺ 重玩</button>
+
+<div class="wrap"><div id="stage"></div></div>
+
+<img class="logo-sig" alt="Yoda Research" src="https://yoda-research-next.vercel.app/yoda-logo.png">
+
+<script>
+var GAS_URL='https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec';
+var el=function(id){return document.getElementById(id);};
+var pickedAns=null;
+
+/* ── 七屏劇本（黃金六步 + 首尾呼應） ── */
+var S=[
+// 步1 定調（鉤子＋框架）
+{sky:'sky-dusk', html:function(){return ''
+  +'<div class="step">判斷力小遊戲 · 90 秒</div>'
+  +'<h1>你敢說——<br>現在是往上，還往下？</h1>'
+  +'<p>一個問題，先別急著滑掉：<br><b class="g">現在景氣，是正在往上、還是正在往下？會走到哪裡？</b></p>'
+  +'<p class="dim">答得出來的人，少之又少。<br>而你答不出這題——就是你賺不安穩、賠得冤枉的<b class="g">根</b>。</p>'
+  +'<button class="btn" onclick="next()">那⋯我試試看 →</button>';}},
+
+// 步2 所以我該怎麼想（so-what 前置）＋ 對號入座輕互動
+{sky:'sky-storm', html:function(){return ''
+  +'<div class="tag">先選，別想太久</div>'
+  +'<h2>現在，你會選哪個？</h2>'
+  +'<button class="opt" onclick="pick(this,0)">📈　往上</button>'
+  +'<button class="opt" onclick="pick(this,1)">📉　往下</button>'
+  +'<button class="opt" onclick="pick(this,2)">🤷　老實說⋯我說不準</button>'
+  +'<div class="reveal" id="rv2">'
+    +'<p><b class="g">誠實。</b>多數人都點第三個——而「說不準」的代價是：</p>'
+    +'<div class="chain">不知道大波段走到哪<span class="arw">↓</span>成長時 → 沒底氣抱住（賺一點就跑）<span class="arw">↓</span>轉折時 → 沒警覺賣出（賺的又吐回去）</div>'
+    +'<p class="dim">不管你做指數、還是做個股，<b class="g">都卡在同一個根</b>。</p>'
+    +'<button class="btn" onclick="next()">這⋯有點中 →</button>'
+  +'</div>';}},
+
+// 步3 機制（層層拆·給因果）
+{sky:'sky-valley', html:function(){return ''
+  +'<div class="tag">為什麼你總是差一步</div>'
+  +'<h2>這個「不知道」，<br>是一層扣一層的</h2>'
+  +'<div class="chain">① 不知道景氣往上還往下、會走到哪<span class="arw">↓ 所以抱不住、也逃不掉</span>② 就算想主動一點 → 不知道怎麼選股<span class="arw">↓</span>③ 就算選到了 → 不會技術分析、抓不到「預期和底線」</div>'
+  +'<p>你不是不努力。是這幾層，<b class="g">從來沒人幫你補齊</b>。</p>'
+  +'<button class="btn" onclick="next()">那要怎麼補？ →</button>';}},
+
+// 步4 導入宣傳片
+{sky:'sky-night', html:function(){return ''
+  +'<div class="step">步 4 · 答案在這支片</div>'
+  +'<h2>這幾層怎麼補？<br>我用一支片，講給你聽。</h2>'
+  +'<div class="video-box"><iframe src="https://www.youtube.com/embed/WzT91Ls8SX4" title="Yoda Research 判斷力學校" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>'
+  +'<button class="btn" onclick="next()">看完了，然後呢 →</button>';}},
+
+// 步4 證據（Yoda 的答案具體長這樣）
+{sky:'sky-clear', html:function(){return ''
+  +'<div class="tag">答案不是口號</div>'
+  +'<h2>而是每天在產出的東西</h2>'
+  +'<div class="offer">'
+    +'<div class="row"><div class="k">想看「詳細」</div><div class="v">市場觀察 · 台股 · 美股 · 總經 · AI泡沫<br><span style="color:var(--dim);font-size:13px">景氣位階 → 資金流 → 選股名單 → 技術位階，一層層補</span></div></div>'
+    +'<div class="row"><div class="k">想看「去蕪存菁後的結論」</div><div class="v">關鍵報告<br><span style="color:var(--dim);font-size:13px">我自己的預期、底線、條件劇本、實際操作與推理</span></div></div>'
+  +'</div>'
+  +'<button class="btn" onclick="next()">所以我會變得怎樣？ →</button>';}},
+
+// 步5 注意什麼（可帶走的判準·前瞻）
+{sky:'sky-clear', html:function(){return ''
+  +'<div class="tag">你帶得走的底氣</div>'
+  +'<h2>補齊之後，下次同樣的場面，你會知道</h2>'
+  +'<div class="chain">現在該抱、還是該跑<span class="arw"></span>該押哪一類、避開哪一類<span class="arw"></span>你的預期在哪、底線在哪——跌到哪，你就認錯</div>'
+  +'<p>這些，才是別人拿不走的<b class="g">判斷</b>。</p>'
+  +'<button class="btn" onclick="next()">我要一個創始名額 →</button>';}},
+
+// 步6 看深入（創始 · 分享解鎖）
+{sky:'sky-noon', html:function(){return ''
+  +'<div class="tag">創始限量 50 · 早鳥鎖 459</div>'
+  +'<h2>別再當那個<br>「說不準」的人</h2>'
+  +'<p class="dim">創始資格，用分享換：</p>'
+  +'<div class="chain">你把這支片（這個遊戲）分享出去<span class="arw">↓</span>更多人也開始看懂大波段<span class="arw">↓</span>你換到一個「創始名額」</div>'
+  +'<div class="share-row"><button class="btn ghost" onclick="shareGame()">🔗 分享這個遊戲</button></div>'
+  +'<div id="joinForm">'
+    +'<label>Email（你的會員帳號）</label><input id="j-email" type="email" placeholder="you@example.com" autocomplete="email">'
+    +'<label>你的臉書名稱</label><input id="j-fb" type="text" placeholder="你在臉書顯示的名字（方便核對）" autocomplete="name">'
+    +'<label>你分享出去的貼文連結</label><input id="j-post" type="url" placeholder="https://www.facebook.com/…你的分享貼文">'
+    +'<button class="btn" id="j-btn" onclick="submitJoin()">送出，鎖住我的創始資格 →</button>'
+    +'<div class="msg" id="j-msg"></div>'
+    +'<div class="fineprint">我親自核對你的分享，確認就送你進創始名單。名單上的人，保證創始早鳥資格——就算開放後前 50 滿了，我也為你另設名額。</div>'
+  +'</div>'
+  +'<div id="joinDone" style="display:none">'
+    +'<div class="done-badge">✦</div>'
+    +'<h2 style="text-align:center">已經幫你卡位了</h2>'
+    +'<p class="dim" style="text-align:center">我核對你的分享後，第一時間用 email 通知你。最前面的位置，留給你。</p>'
+    +'<button class="btn" onclick="next()">最後一句話 →</button>'
+  +'</div>';}},
+
+// 結尾 · 首尾呼應
+{sky:'sky-noon', html:function(){return ''
+  +'<div class="step">— 完 —</div>'
+  +'<h2>開場我問你：<br>現在是往上，還往下？</h2>'
+  +'<p style="font-size:18px"><b class="g">以後你敢答——而且知道它會走到哪。</b></p>'
+  +'<p class="dim">消息會過期，判斷不會。<br>歡迎把自己，練成看得懂大波段的人。</p>'
+  +'<p class="dim" style="margin-top:14px">— Yoda Research</p>'
+  +'<button class="btn ghost" onclick="shareGame()">🔗 把這個遊戲，傳給那個總在乾瞪眼的朋友</button>'
+  +'<button class="btn" onclick="go(6)">← 回去鎖創始資格</button>';}}
+];
+
+var cur=0;
+function render(i){
+  cur=i;
+  var s=S[i];
+  document.body.className=s.sky;
+  el('stage').innerHTML='<div class="scene">'+s.html()+'</div>';
+  window.scrollTo({top:0,behavior:'instant'});
+}
+function next(){ if(cur<S.length-1) render(cur+1); }
+function go(i){ render(i); }
+
+/* 步2 對號入座 */
+function pick(node,idx){
+  pickedAns=idx;
+  document.querySelectorAll('.opt').forEach(function(o){o.classList.remove('picked');});
+  node.classList.add('picked');
+  var rv=el('rv2'); if(rv) rv.classList.add('on');
+}
+
+/* 分享這個遊戲（張力守恆：只勾人、不破梗） */
+function shareGame(){
+  var url=location.href.split('#')[0];
+  var text='你敢說——現在景氣是往上還往下？我玩了這個才發現，我一直卡在同一個「根」。你也測測看：';
+  if(navigator.share){
+    navigator.share({title:'你敢說——現在是往上，還往下？',text:text,url:url}).catch(function(){});
+  }else{
+    var full=text+' '+url;
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(full).then(function(){toast('連結已複製，去貼給朋友吧');});
+    }else{
+      var ta=document.createElement('textarea');ta.value=full;document.body.appendChild(ta);ta.select();
+      try{document.execCommand('copy');toast('連結已複製');}catch(e){}
+      document.body.removeChild(ta);
+    }
+  }
+}
+function toast(m){
+  var t=document.createElement('div');t.textContent=m;
+  t.style.cssText='position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:rgba(20,16,8,.94);color:#e8c877;font-size:13px;font-weight:700;padding:10px 16px;border-radius:9999px;z-index:50;border:1px solid rgba(224,165,38,.4)';
+  document.body.appendChild(t);setTimeout(function(){t.remove();},2200);
+}
+
+/* 步6 送出創始登記 → GAS joinVip（email + 臉書名 + 分享連結） */
+function submitJoin(){
+  var email=(el('j-email').value||'').trim(), fb=(el('j-fb').value||'').trim(), post=(el('j-post').value||'').trim();
+  var msg=el('j-msg'); msg.style.color='#f0a0a0';
+  if(!email||!/.+@.+\..+/.test(email)){msg.textContent='請填一個正確的 email';return;}
+  if(!fb){msg.textContent='留下你的臉書名稱，我好核對分享';return;}
+  if(!post||!/^https?:\/\/.+/.test(post)){msg.textContent='貼上你公開分享的貼文連結（要 http 開頭）';return;}
+  var btn=el('j-btn'); btn.disabled=true; msg.style.color='#c9c9c9'; msg.textContent='登記中…';
+  fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'joinVip',email:email,fbName:fb,post:post})})
+    .then(function(r){return r.json();})
+    .then(function(res){
+      btn.disabled=false;
+      if(res&&res.ok){ el('joinForm').style.display='none'; el('joinDone').style.display='block'; window.scrollTo({top:0,behavior:'smooth'}); }
+      else{ msg.style.color='#f0a0a0'; msg.textContent=(res&&res.error)||'登記失敗，請稍後再試'; }
+    })
+    .catch(function(){ btn.disabled=false; msg.style.color='#f0a0a0'; msg.textContent='連線失敗，請稍後再試'; });
+}
+
+render(0);
+</script>
+<script>(function(){try{var K='yr_vid',v=localStorage.getItem(K);if(!v){v=Date.now().toString(36)+Math.random().toString(36).slice(2,8);localStorage.setItem(K,v);}var seg=location.pathname.split('/').filter(Boolean).pop()||'home';fetch('https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec',{method:'POST',body:JSON.stringify({action:'hit',page:decodeURIComponent(seg),path:location.pathname,host:location.hostname,ref:document.referrer,vid:v})});}catch(e){}})();</script>
+</body>
+</html>
