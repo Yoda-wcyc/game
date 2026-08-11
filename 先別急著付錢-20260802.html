@@ -744,11 +744,12 @@ function startSubscribe(){
     .then(function(r){return r.json();})
     .then(function(res){
       if(btn)btn.disabled=false;
-      if((res&&res.ok)||(res&&res.error&&res.error.indexOf('已註冊')>=0)){
-        // 註冊成功、或此 email 已有帳號 → 前往綠界付款
+      if(res&&res.ok){
+        // 註冊成功 或「email 已註冊且密碼正確」→ 前往綠界付款（帳號密碼必等於這次輸入的，付完一定登得進去）
         document.getElementById('payGoEmail').value=email;
         document.getElementById('payGo').submit();
       }else{
+        // 含「email 已註冊但密碼不符」：擋下不付款，請他用原密碼或忘記密碼，避免付了卻登不進去
         msg.style.color='#f0a0a0'; msg.textContent=(res&&res.error)||'建立帳號失敗，換一組密碼再試';
       }
     })
