@@ -110,18 +110,19 @@ const SVG_QTR=`<svg viewBox="0 0 300 118" style="width:100%;max-width:290px;marg
 // §08 核心邏輯鍊（A → B → C，箭頭流動變色）
 const SVG_CHAIN=`<svg viewBox="0 0 300 120" style="width:100%;max-width:290px;margin:0.55rem auto 0;display:block"><g font-family="'PingFang TC',sans-serif"><rect x="8" y="44" width="70" height="32" rx="6" fill="rgba(224,165,38,0.14)" stroke="rgba(224,165,38,0.5)"/><text x="43" y="64" fill="#f0d488" font-size="11" text-anchor="middle">現象</text><rect x="115" y="44" width="70" height="32" rx="6" fill="rgba(224,165,38,0.14)" stroke="rgba(224,165,38,0.5)"/><text x="150" y="64" fill="#f0d488" font-size="11" text-anchor="middle">機制</text><rect x="222" y="44" width="70" height="32" rx="6" fill="rgba(224,165,38,0.14)" stroke="rgba(224,165,38,0.5)"/><text x="257" y="64" fill="#f0d488" font-size="11" text-anchor="middle">所以怎麼看</text><text x="96" y="65" fill="#e0a526" font-size="18" text-anchor="middle">→<animate attributeName="fill-opacity" values="0.3;1;0.3" dur="1.6s" repeatCount="indefinite"/></text><text x="203" y="65" fill="#e0a526" font-size="18" text-anchor="middle">→<animate attributeName="fill-opacity" values="0.3;1;0.3" dur="1.6s" begin="0.5s" repeatCount="indefinite"/></text><text x="150" y="24" fill="#f0d488" font-size="11" text-anchor="middle">🔗 核心邏輯鍊（先看這裡）</text><text x="150" y="104" fill="rgba(255,255,255,0.5)" font-size="9" text-anchor="middle">研判最前面，一條線把骨幹講完</text></g></svg>`;
 
-// §01 四支溫度計（水銀柱持續上下＝溫度一直在變）
+// §01 四支溫度計（橫向：左球右管，水銀柱寬度持續變化＝溫度一直在變）
 function thermo4SVG(){
- const T=[{x:48,c:'#ffb060',lab:'資金流',lo:28,hi:60},{x:114,c:'#ffcc80',lab:'情緒',lo:22,hi:70},{x:186,c:'#5b8def',lab:'風險',lo:14,hi:42},{x:252,c:'#7fd0a0',lab:'廣度',lo:40,hi:68}];
- const bot=118;
- const body=T.map((t,i)=>{const beg=(i*0.55).toFixed(2)+'s';const y0=bot-t.lo,y1=bot-t.hi;
-  return `<g><rect x="${t.x-6}" y="16" width="12" height="98" rx="6" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.28)"/>`
-   +`<line x1="${t.x+7}" y1="34" x2="${t.x+11}" y2="34" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><line x1="${t.x+7}" y1="58" x2="${t.x+11}" y2="58" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><line x1="${t.x+7}" y1="82" x2="${t.x+11}" y2="82" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>`
-   +`<circle cx="${t.x}" cy="122" r="12" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.28)"/><circle cx="${t.x}" cy="122" r="8" fill="${t.c}"/>`
-   +`<rect x="${t.x-3.5}" width="7" rx="3.5" fill="${t.c}"><animate attributeName="height" values="${t.lo};${t.hi};${t.lo}" dur="2.6s" begin="${beg}" repeatCount="indefinite"/><animate attributeName="y" values="${y0};${y1};${y0}" dur="2.6s" begin="${beg}" repeatCount="indefinite"/></rect>`
-   +`<text x="${t.x}" y="150" fill="rgba(255,255,255,0.78)" font-size="10.5" text-anchor="middle">${t.lab}</text></g>`;
+ const T=[{c:'#ffb060',lab:'資金流',lo:60,hi:150},{c:'#ffcc80',lab:'情緒',lo:45,hi:178},{c:'#5b8def',lab:'風險',lo:28,hi:92},{c:'#7fd0a0',lab:'廣度',lo:95,hi:165}];
+ const x0=64,tubeW=196,rowH=33,top=26;
+ const body=T.map((t,i)=>{const cy=top+i*rowH,beg=(i*0.5).toFixed(2)+'s';
+  return `<g><text x="46" y="${cy+4}" fill="rgba(255,255,255,0.8)" font-size="11" text-anchor="end">${t.lab}</text>`
+   +`<circle cx="${x0-6}" cy="${cy}" r="9" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.28)"/><circle cx="${x0-6}" cy="${cy}" r="6" fill="${t.c}"/>`
+   +`<rect x="${x0}" y="${cy-5}" width="${tubeW}" height="10" rx="5" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.26)"/>`
+   +`<line x1="${x0+64}" y1="${cy-7}" x2="${x0+64}" y2="${cy-5}" stroke="rgba(255,255,255,0.25)" stroke-width="1"/><line x1="${x0+130}" y1="${cy-7}" x2="${x0+130}" y2="${cy-5}" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>`
+   +`<rect x="${x0}" y="${cy-3.5}" height="7" rx="3.5" fill="${t.c}"><animate attributeName="width" values="${t.lo};${t.hi};${t.lo}" dur="2.6s" begin="${beg}" repeatCount="indefinite"/></rect>`
+   +`</g>`;
  }).join('');
- return `<svg viewBox="0 0 300 160" style="width:100%;max-width:290px;margin:0.5rem auto 0.2rem;display:block">${body}</svg>`;
+ return `<svg viewBox="0 0 300 158" style="width:100%;max-width:300px;margin:0.5rem auto 0.2rem;display:block">${body}</svg>`;
 }
 // 結果頁工具箱：把所有動畫 SVG 縮小排一格，給「擁有很多工具」的感覺
 function toolkitGrid(){
