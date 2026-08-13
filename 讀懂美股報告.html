@@ -110,14 +110,36 @@ const ROUNDS=[
   choices:['由弱轉強、動能在增強——「轉強確立」的軌跡','已經最強、準備要崩了','沒意義，圖好看而已'],correct:0,
   fb:['對——改善→領先＝相對 SPY 的強度和動能同步上升，是「轉強確立」。動態圖比單看排名，多了「往哪走」。','「最強就要崩」是猜頂——動態圖只給你位置和方向，不預測崩盤。','很有意義——看多數板塊聚在哪個象限，就讀出整體相對 SPY 是強是弱。']},
 
+ {type:'ab',sky:'sky-storm',bg:'peak',label:'第 01 段 · 市場廣度',title:'先體檢大盤：厚不厚、安不安全',
+  text:'同一段(§01)除了會動的板塊圖，還幫你<b>體檢整個大盤</b>：<br>'
+   +'<b>螺旋圖</b>把子產業由強到弱繞一圈排開(外圈最強)；<br>'
+   +'<b>新高／新低家數</b>——每天多少股票創高、多少創低，可切<b>短(5日)</b>與<b>長(3月)</b>；<br>'
+   +'<b>市場寬度</b>——多少比例的股票站上均線。<br>'
+   +'一句話：<b>新高多於新低、多數股站上均線＝市場有厚度(安全)</b>；反過來就是變薄。'
+   +'<svg viewBox="0 0 320 152" style="width:100%;max-width:290px;margin:0.6rem auto 0;display:block"><path d="M70.0,70.0 L73.2,68.3 L75.9,67.8 L78.9,67.8 L81.9,68.6 L85.0,70.2 L87.8,72.4 L90.3,75.4 L92.2,79.1 L93.5,83.3 L93.9,87.9 L93.3,92.7 L91.8,97.6 L89.2,102.3 L85.7,106.6 L81.1,110.3 L75.8,113.3 L69.7,115.2 L63.1,116.0 L56.3,115.5 L49.4,113.7 L42.7,110.6 L36.6,106.1 L31.2,100.3 L26.8,93.5 L23.6,85.7 L21.9,77.2 L21.8,68.3 L23.3,59.3 L26.6,50.5 L31.6,42.2 L38.1,34.7 L46.2,28.4 L55.4,23.6 L65.6,20.5 L76.5,19.2 L87.7,20.0 L98.8,22.8 L109.4,27.8" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="1" stroke-dasharray="2 3"/><circle cx="70" cy="70" r="4" fill="rgb(92,174,136)"/><circle cx="83.7" cy="69.1" r="4.3" fill="rgb(108,165,132)"/><circle cx="94.3" cy="85.7" r="4.6" fill="rgb(124,156,129)"/><circle cx="83.9" cy="109.4" r="4.9" fill="rgb(141,147,126)"/><circle cx="52.3" cy="115.9" r="5.1" fill="rgb(157,138,123)"/><circle cx="23.6" cy="90" r="5.4" fill="rgb(174,129,120)"/><circle cx="27.5" cy="45.1" r="5.7" fill="rgb(190,120,117)"/><circle cx="71.1" cy="17.5" r="6" fill="rgb(207,111,114)"/><text x="70" y="83" fill="rgba(255,255,255,0.7)" font-size="8" text-anchor="middle">弱</text><text x="80" y="14" fill="#cf6f72" font-size="9" text-anchor="middle">強</text><text x="60" y="140" fill="rgba(255,255,255,0.55)" font-size="9" text-anchor="middle">子產業強弱螺旋</text><line x1="182" y1="122" x2="312" y2="122" stroke="rgba(255,255,255,0.22)"/><rect x="212" y="52" width="26" height="70" fill="rgba(207,111,114,0.72)"/><rect x="262" y="88" width="26" height="34" fill="rgba(92,174,136,0.72)"/><text x="225" y="46" fill="#cf6f72" font-size="10" text-anchor="middle">新高</text><text x="275" y="82" fill="#5cae88" font-size="10" text-anchor="middle">新低</text><text x="250" y="140" fill="rgba(255,255,255,0.55)" font-size="9" text-anchor="middle">新高＞新低＝有厚度</text></svg>',
+  q:'廣度判讀顯示「結構<b>安全</b>、但短均線%<b>走弱</b>」。這是什麼意思？',
+  choices:['市場要崩了，快跑','長線還健康(多數股在均線上)、只是短線參與收斂——<b>健康回檔</b>，不是轉勢','安全就代表隨便買都會賺'],correct:1,
+  fb:['「安全但走弱」不是崩盤訊號——長線結構還在，先別自己嚇自己。','對——<b>安全／危險</b>看結構厚不厚(高低比、長均線%)，<b>走強／走弱</b>看短線在升還在降。長健康＋短收斂＝健康回檔。','安全只代表「大盤結構厚」，不是保證每檔都漲——它是體檢分，幫你定調風險高低，不是明牌。']},
+
  {type:'ab',sky:'sky-noon',bg:'farhills',label:'第 02 段 · 強勢股篩選',title:'不是掃全部，是讓相對強度幫你篩',
   text:'幾千檔美股，第二段用<b>相對強度篩出強勢股</b>：<br>核心是 <b>RS＝相對 SPY 的強弱</b>(贏 SPY 幾 %)，加上創高、動能等條件，<br>篩出一池「<b>正在跑贏大盤</b>」的候選——<b>抗跌、逆勢創高，都算強。</b>',
   q:'今天 A 股漲 1%、SPY 漲 3%；B 股跌 1%、SPY 跌 5%。篩選會把誰當強勢？',
   choices:['A，因為它是漲的','B——它跌得比 SPY 少 4%，等於跑贏大盤，抗跌也算強','都不算，B 是跌的'],correct:1,
   fb:['A 雖然漲，卻輸 SPY 2%——相對強度是負的，不會進強勢池。','對——篩的是「相對 SPY」。B 逆勢抗跌、跑贏 4%，反而是強勢。<b>漲最多的，不一定最強。</b>','B 明顯跑贏 SPY——篩選看相對強度，不是看自己漲跌。']},
 
+ {type:'ab',sky:'sky-clouds',bg:'farhills',label:'第 02 段 · 短池 vs 長池',title:'強勢股分兩個池：短(5日)、長(3月)',
+  text:'強勢股這段給你<b>兩個池、一鍵切換</b>：<br>'
+   +'<b>長池＝3 個月新高低</b>——看<b>波段</b>強弱(WtdAlpha＋5D／1M／3M 漲跌)；<br>'
+   +'<b>短池＝5 日新高低</b>——看<b>最近 5 天誰在動</b>(還多一欄 5 日均量)。<br>'
+   +'兩個池都用<b>同一張熱力圖</b>：紅＝強、綠＝弱，左欄 Ticker＋產業，點欄名可排序。<br>'
+   +'差別只在——你想看<b>波段主流</b>，還是<b>最近幾天剛啟動</b>。'
+   +'<svg viewBox="0 0 260 122" style="width:100%;max-width:280px;margin:0.6rem auto 0;display:block"><rect x="68" y="4" width="124" height="20" rx="10" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.18)"/><rect x="131" y="4" width="61" height="20" rx="10" fill="rgba(59,125,255,0.5)"/><text x="99" y="18" fill="rgba(255,255,255,0.6)" font-size="10" text-anchor="middle">短·5日</text><text x="161" y="18" fill="#fff" font-size="10" text-anchor="middle">長·3月</text><rect x="6" y="36" width="30" height="14" rx="2" fill="rgba(255,255,255,0.10)"/><rect x="40" y="36" width="18" height="14" rx="2" fill="rgba(207,111,114,0.80)"/><rect x="60" y="36" width="18" height="14" rx="2" fill="rgba(207,111,114,0.66)"/><rect x="80" y="36" width="18" height="14" rx="2" fill="rgba(207,111,114,0.51)"/><rect x="6" y="54" width="30" height="14" rx="2" fill="rgba(255,255,255,0.10)"/><rect x="40" y="54" width="18" height="14" rx="2" fill="rgba(207,111,114,0.55)"/><rect x="60" y="54" width="18" height="14" rx="2" fill="rgba(207,111,114,0.45)"/><rect x="80" y="54" width="18" height="14" rx="2" fill="rgba(207,111,114,0.35)"/><rect x="6" y="72" width="30" height="14" rx="2" fill="rgba(255,255,255,0.10)"/><rect x="40" y="72" width="18" height="14" rx="2" fill="rgba(207,111,114,0.35)"/><rect x="60" y="72" width="18" height="14" rx="2" fill="rgba(207,111,114,0.29)"/><rect x="80" y="72" width="18" height="14" rx="2" fill="rgba(207,111,114,0.22)"/><rect x="6" y="90" width="30" height="14" rx="2" fill="rgba(255,255,255,0.10)"/><rect x="40" y="90" width="18" height="14" rx="2" fill="rgba(207,111,114,0.20)"/><rect x="60" y="90" width="18" height="14" rx="2" fill="rgba(207,111,114,0.16)"/><rect x="80" y="90" width="18" height="14" rx="2" fill="rgba(207,111,114,0.13)"/><rect x="158" y="36" width="30" height="14" rx="2" fill="rgba(255,255,255,0.10)"/><rect x="192" y="36" width="18" height="14" rx="2" fill="rgba(92,174,136,0.70)"/><rect x="212" y="36" width="18" height="14" rx="2" fill="rgba(92,174,136,0.57)"/><rect x="232" y="36" width="18" height="14" rx="2" fill="rgba(92,174,136,0.45)"/><rect x="158" y="54" width="30" height="14" rx="2" fill="rgba(255,255,255,0.10)"/><rect x="192" y="54" width="18" height="14" rx="2" fill="rgba(92,174,136,0.50)"/><rect x="212" y="54" width="18" height="14" rx="2" fill="rgba(92,174,136,0.41)"/><rect x="232" y="54" width="18" height="14" rx="2" fill="rgba(92,174,136,0.32)"/><rect x="158" y="72" width="30" height="14" rx="2" fill="rgba(255,255,255,0.10)"/><rect x="192" y="72" width="18" height="14" rx="2" fill="rgba(92,174,136,0.30)"/><rect x="212" y="72" width="18" height="14" rx="2" fill="rgba(92,174,136,0.25)"/><rect x="232" y="72" width="18" height="14" rx="2" fill="rgba(92,174,136,0.19)"/><rect x="158" y="90" width="30" height="14" rx="2" fill="rgba(255,255,255,0.10)"/><rect x="192" y="90" width="18" height="14" rx="2" fill="rgba(92,174,136,0.15)"/><rect x="212" y="90" width="18" height="14" rx="2" fill="rgba(92,174,136,0.12)"/><rect x="232" y="90" width="18" height="14" rx="2" fill="rgba(92,174,136,0.10)"/><text x="52" y="118" fill="#cf6f72" font-size="8.5" text-anchor="middle">紅＝強</text><text x="204" y="118" fill="#5cae88" font-size="8.5" text-anchor="middle">綠＝弱</text></svg>',
+  q:'你想抓「最近幾天剛創高、開始噴的股票」，該切哪個池？',
+  choices:['長池·3 個月——它看的是幾個月的波段強弱','短池·5 日——專抓最近 5 天創高、剛啟動的動能','沒差，兩個一模一樣'],correct:1,
+  fb:['長池看的是「波段」——幾個月的相對強弱，不是最近幾天剛啟動的那種。','對——<b>短池(5日)</b>抓的就是「最近 5 天在動」的，配 5 日均量看有沒有量撐。想看波段主流就切長池。','池子畫法、熱力圖一樣，但<b>天期不同</b>：一個看 3 個月波段、一個看 5 天短打——看你要抓哪一種。']},
+
  {type:'ab',sky:'sky-clouds',bg:'range',label:'第 03 段 · AI 核心競爭力分類',title:'AI 不是一批，是分三層',
-  text:'AI 是美股權重最大的一批，但報告<b>不把它當一批</b>。<br>第一步先按<b>核心競爭力分三層架構</b>：<br>越靠<b>核心</b>＝<b>越不可取代</b>(獨家製程、卡關鍵環節)；<br>越外圍＝替代性越高、越像「沾邊」。<br>看到「AI」先問：它在<b>哪一層</b>？',
+  text:'AI 是美股權重最大的一批，但報告<b>不把它當一批</b>。<br>第一步先按<b>核心競爭力分三層架構</b>：<br>越靠<b>核心</b>＝<b>越不可取代</b>(獨家製程、卡關鍵環節)；<br>越外圍＝替代性越高、越像「沾邊」。<br>看到「AI」先問：它在<b>哪一層</b>？<br><span style="font-size:12px;opacity:.85">（報告用「徑向圖」畫：同心環＝層，色越深＝越強）</span><svg viewBox="0 0 160 176" style="width:100%;max-width:186px;margin:0.55rem auto 0;display:block"><path d="M80.0,60.0 L80.0,46.0 A34,34 0 0 1 104.0,56.0 L94.1,65.9 A20,20 0 0 0 80.0,60.0 Z" fill="rgba(207,111,114,0.41)"/><path d="M94.1,65.9 L104.0,56.0 A34,34 0 0 1 114.0,80.0 L100.0,80.0 A20,20 0 0 0 94.1,65.9 Z" fill="rgba(207,111,114,0.69)"/><path d="M100.0,80.0 L114.0,80.0 A34,34 0 0 1 104.0,104.0 L94.1,94.1 A20,20 0 0 0 100.0,80.0 Z" fill="rgba(207,111,114,0.85)"/><path d="M94.1,94.1 L104.0,104.0 A34,34 0 0 1 80.0,114.0 L80.0,100.0 A20,20 0 0 0 94.1,94.1 Z" fill="rgba(207,111,114,0.69)"/><path d="M80.0,100.0 L80.0,114.0 A34,34 0 0 1 56.0,104.0 L65.9,94.1 A20,20 0 0 0 80.0,100.0 Z" fill="rgba(207,111,114,0.41)"/><path d="M65.9,94.1 L56.0,104.0 A34,34 0 0 1 46.0,80.0 L60.0,80.0 A20,20 0 0 0 65.9,94.1 Z" fill="rgba(207,111,114,0.36)"/><path d="M60.0,80.0 L46.0,80.0 A34,34 0 0 1 56.0,56.0 L65.9,65.9 A20,20 0 0 0 60.0,80.0 Z" fill="rgba(207,111,114,0.59)"/><path d="M65.9,65.9 L56.0,56.0 A34,34 0 0 1 80.0,46.0 L80.0,60.0 A20,20 0 0 0 65.9,65.9 Z" fill="rgba(207,111,114,0.83)"/><path d="M80.0,40.0 L80.0,26.0 A54,54 0 0 1 118.2,41.8 L108.3,51.7 A40,40 0 0 0 80.0,40.0 Z" fill="rgba(207,111,114,0.27)"/><path d="M108.3,51.7 L118.2,41.8 A54,54 0 0 1 134.0,80.0 L120.0,80.0 A40,40 0 0 0 108.3,51.7 Z" fill="rgba(207,111,114,0.45)"/><path d="M120.0,80.0 L134.0,80.0 A54,54 0 0 1 118.2,118.2 L108.3,108.3 A40,40 0 0 0 120.0,80.0 Z" fill="rgba(207,111,114,0.55)"/><path d="M108.3,108.3 L118.2,118.2 A54,54 0 0 1 80.0,134.0 L80.0,120.0 A40,40 0 0 0 108.3,108.3 Z" fill="rgba(207,111,114,0.45)"/><path d="M80.0,120.0 L80.0,134.0 A54,54 0 0 1 41.8,118.2 L51.7,108.3 A40,40 0 0 0 80.0,120.0 Z" fill="rgba(207,111,114,0.27)"/><path d="M51.7,108.3 L41.8,118.2 A54,54 0 0 1 26.0,80.0 L40.0,80.0 A40,40 0 0 0 51.7,108.3 Z" fill="rgba(207,111,114,0.23)"/><path d="M40.0,80.0 L26.0,80.0 A54,54 0 0 1 41.8,41.8 L51.7,51.7 A40,40 0 0 0 40.0,80.0 Z" fill="rgba(207,111,114,0.39)"/><path d="M51.7,51.7 L41.8,41.8 A54,54 0 0 1 80.0,26.0 L80.0,40.0 A40,40 0 0 0 51.7,51.7 Z" fill="rgba(207,111,114,0.54)"/><path d="M80.0,20.0 L80.0,6.0 A74,74 0 0 1 132.3,27.7 L122.4,37.6 A60,60 0 0 0 80.0,20.0 Z" fill="rgba(207,111,114,0.14)"/><path d="M122.4,37.6 L132.3,27.7 A74,74 0 0 1 154.0,80.0 L140.0,80.0 A60,60 0 0 0 122.4,37.6 Z" fill="rgba(207,111,114,0.23)"/><path d="M140.0,80.0 L154.0,80.0 A74,74 0 0 1 132.3,132.3 L122.4,122.4 A60,60 0 0 0 140.0,80.0 Z" fill="rgba(207,111,114,0.28)"/><path d="M122.4,122.4 L132.3,132.3 A74,74 0 0 1 80.0,154.0 L80.0,140.0 A60,60 0 0 0 122.4,122.4 Z" fill="rgba(207,111,114,0.23)"/><path d="M80.0,140.0 L80.0,154.0 A74,74 0 0 1 27.7,132.3 L37.6,122.4 A60,60 0 0 0 80.0,140.0 Z" fill="rgba(207,111,114,0.14)"/><path d="M37.6,122.4 L27.7,132.3 A74,74 0 0 1 6.0,80.0 L20.0,80.0 A60,60 0 0 0 37.6,122.4 Z" fill="rgba(207,111,114,0.12)"/><path d="M20.0,80.0 L6.0,80.0 A74,74 0 0 1 27.7,27.7 L37.6,37.6 A60,60 0 0 0 20.0,80.0 Z" fill="rgba(207,111,114,0.20)"/><path d="M37.6,37.6 L27.7,27.7 A74,74 0 0 1 80.0,6.0 L80.0,20.0 A60,60 0 0 0 37.6,37.6 Z" fill="rgba(207,111,114,0.27)"/><circle cx="80" cy="80" r="15" fill="rgba(18,22,36,0.6)"/><text x="80" y="77" fill="#e58a8c" font-size="8" text-anchor="middle" font-weight="700">核心</text><text x="80" y="88" fill="rgba(255,255,255,0.65)" font-size="6.5" text-anchor="middle">最強</text><text x="80" y="170" fill="rgba(255,255,255,0.55)" font-size="9" text-anchor="middle">環＝三層(內核心→外外圍)、色深＝越強</text></svg>',
   q:'兩家都掛「AI 概念」：A 是先進製程的關鍵供應、B 是替代性高的組裝。<br>報告會把誰放核心層？',
   choices:['B，因為它比較便宜','A——獨家、卡關鍵環節、不可取代，才是核心層；B 替代性高、擺外圍','都放核心，都是 AI'],correct:1,
   fb:['便宜不等於核心——核心看的是「不可取代」，不是股價高低。','對——<b>核心競爭力＝不可取代性</b>。獨家製程/關鍵瓶頸放核心層，替代性高的擺外圍。「都是 AI」但強度與續航天差地別。','「都放核心」正是報告要破的迷思——分三層，就是要你分辨誰真核心、誰只是沾邊。']},
@@ -141,12 +163,12 @@ const ROUNDS=[
   fb:['「是 AI 就會漲」正是要破的——位置對不對，比標籤重要。','對——<b>定位＝把公司位置和資金位置對齊</b>。資金在上游、它在下游，就先不站在風口；等信號流傳到它那段。','重壓在資金還沒到的位置，風險最高——先等定位對上。']},
 
  {type:'ab',sky:'sky-clear',bg:'range',label:'第 07 段 · 完整研判',title:'美股報告，到底幫你做什麼？',
-  text:'七段都讀完了。<br><br>美股報告幫你的，是<b>「選股方向＋大盤定調」</b>：<br>資金相對 SPY 輪動到哪類、哪些是強勢候選、<br>AI 哪一圈在擴散、強勢傳到供應鏈第幾段——<br>它給你<b>池子和邏輯，你自己挑</b>。',
+  text:'整份報告走完了。<br><br>美股報告幫你的，是<b>「選股方向＋大盤定調」</b>：<br>先用<b>廣度</b>體檢大盤厚不厚(安全/危險)、<br>再看資金相對 SPY 輪動到哪類、哪些是強勢候選(短打或波段)、<br>AI 哪一圈在擴散——<br>它給你<b>池子和邏輯，你自己挑</b>。',
   q:'所以美股報告最適合幫你做的決策是？',
   choices:['直接告訴我買哪一檔、買在幾塊','看「錢相對 SPY 往哪類流、有哪些強勢候選、AI 擴散到哪」，自己判斷選股方向','看它今天喊多喊空，照做就好'],correct:1,
   fb:['報告不喊買哪檔、不給價位——那是明牌，不是判斷力。','對——它給你<b>相對強度＋候選池＋AI 擴散邏輯</b>，選誰、進不進，你自己決定。','它不喊單。美股報告給的是「錢相對 SPY 在哪、誰強、AI 傳到哪」，決定權在你手上。']}
 ];
-const TRANSITIONS=[null,'篩出強勢池了——接著看池子裡最重的那批：<br>AI，報告怎麼拆成四段？',null,null,null,'AI 四段讀完了——最後拉高鏡頭，整份報告幫你定調什麼？',null];
+const TRANSITIONS=[null,null,null,'強勢股池也讀完了(還能切短 5 日／長 3 月)——<br>接著看池子裡最重的那批：AI，報告怎麼拆成四段？',null,null,null,'AI 四段讀完了——最後拉高鏡頭，整份報告幫你定調什麼？',null];
 
 let state={idx:-1,score:0,gv:50,cls:[],mChecked:false};
 
@@ -156,10 +178,18 @@ const ANS=[
    ['板塊動態圖(相對 SPY)','把每個板塊畫成一個點：位置＝相對 SPY 強度、方向＝動能；比排名多了「往哪走」'],
    ['相對強度(橫軸)','這個板塊贏 SPY 多少——越右越強'],
    ['動能(縱軸)','強度正在轉強還轉弱——越上越是在改善']]},
+ {answer:'長線還健康、只是短線收斂＝健康回檔，不是轉勢。安全看結構厚不厚、走弱看短線在升在降。',terms:[
+   ['新高／新低家數','每天多少股票創新高／新低；可切短(5日)、長(3月)——新高多於新低＝有厚度'],
+   ['市場寬度(%站上均線)','多少比例的股票站上 20／50／200 日均線；50% 是分水嶺、長短一起跌破＝變薄'],
+   ['安全/危險·走強/走弱','安全/危險看結構厚不厚(高低比、長均線%)；走強/走弱看比前一日升或降']]},
  {answer:'B 股。篩選比的是相對 SPY，B 逆勢抗跌、跑贏大盤 4%，比漲 1% 卻輸 SPY 的 A 更強。',terms:[
    ['RS(相對強度)','這支「贏 SPY 幾 %」：正＝跑贏、負＝跑輸；抗跌也算贏。不是「漲多少」'],
    ['強勢股篩選','用相對強度＋創高/動能等條件，篩出正在跑贏大盤的候選池'],
    ['候選池','符合條件的一批強勢股名單；是「池子」不是「明牌」']]},
+ {answer:'短池(5日)。它抓最近 5 天創高、剛啟動的動能，配 5 日均量；長池看的是 3 個月波段強弱。',terms:[
+   ['短池／長池','長＝3個月新高低(波段強弱)、短＝5日新高低(最近幾天在動)；同一段一鍵切換'],
+   ['熱力圖','把池子畫成色塊：紅＝強/漲、綠＝弱/跌，每欄各自標準化、可點欄名排序'],
+   ['5 日均量','短池多一欄成交量——看這波動有沒有量撐']]},
  {answer:'A。核心競爭力＝不可取代性：獨家製程、卡關鍵環節放核心層；替代性高的擺外圍。',terms:[
    ['核心競爭力分三層','越核心＝越不可取代(獨家/卡瓶頸)；越外圍＝替代性越高、越像沾邊'],
    ['不是「AI 就買」','同掛 AI 概念，強度與續航差很多——先問它在哪一層'],
@@ -206,7 +236,7 @@ function showStart(){G.innerHTML=scene('sky-start','farhills',`
   <div class="chapter-label t-label" style="margin-bottom:1rem">YODA RESEARCH · 判斷力學校</div>
   <div class="chapter-title t-main" style="font-size:30px;font-weight:200;letter-spacing:1px;margin-bottom:0.4rem">讀懂美股報告</div>
   <div class="t-sub" style="font-size:14px;margin-bottom:0.3rem;font-style:italic">一切相對 SPY 來看——別把「漲多」當成「最強」</div>
-  <div class="t-label" style="font-size:12px;margin-bottom:2.6rem">約 4 分鐘 · 跟著報告七段走(含 AI 四段) · 數據取自 2026-08 美股報告</div>
+  <div class="t-label" style="font-size:12px;margin-bottom:2.6rem">約 5 分鐘 · 跟著報告走一遍(板塊動態→市場廣度→強勢股短/長池→AI 四段→完整研判) · 數據取自 2026-08 美股報告</div>
   <button class="continue-btn" style="font-size:15px;padding:0.85rem 3.2rem;border-radius:6px;letter-spacing:2px" onclick="fade(startOpening)">開始</button>`);}
 let oi=0;function startOpening(){oi=0;renderOpening();}
 function renderOpening(){const q=OPENING.quotes[oi],last=oi>=OPENING.quotes.length-1;
@@ -338,7 +368,7 @@ showStart();
       +'<h3>領取《'+name+'報告》檢核</h3>'
       +'<p>輸入你訂閱用的 <b style="color:#e8c86a">email 與會員密碼</b>，系統會記下你已看懂這份報告怎麼判讀。</p>'
       +'<input id="yc-email" type="email" placeholder="訂閱用的 email" autocomplete="off">'
-      +'<div style="position:relative"><input id="yc-pw" type="text" placeholder="你的會員密碼" autocomplete="off" style="padding-right:40px"><button type="button" id="yc-eye" aria-label="顯示或隱藏密碼" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:18px;line-height:1;opacity:.6;padding:4px;color:inherit">🙈</button></div>'
+      +'<input id="yc-pw" type="password" placeholder="你的會員密碼" autocomplete="off">'
       +'<div class="yc-hint">這組密碼只是會員存取碼，請勿使用你其他重要帳號的密碼。</div>'
       +'<button id="yc-submit">送出，領取徽章</button>'
       +'<div id="yc-msg"></div>'
@@ -382,7 +412,7 @@ showStart();
       .catch(function(){btn.disabled=false;msg.className='err';msg.textContent='連線失敗，請檢查網路後再試';});
   }
   $('yc-submit').onclick=submit;
-  $('yc-pw').addEventListener('keydown',function(e){if(e.key==='Enter')submit();});var _ye=$('yc-eye');if(_ye)_ye.addEventListener('click',function(){var p=$('yc-pw');if(p.type==='password'){p.type='text';this.textContent='🙈';}else{p.type='password';this.textContent='👁';}});
+  $('yc-pw').addEventListener('keydown',function(e){if(e.key==='Enter')submit();});
   $('yc-email').addEventListener('keydown',function(e){if(e.key==='Enter')submit();});
 })();
 </script>
@@ -390,5 +420,4 @@ showStart();
 <!-- yoda-logo-sig -->
 <img alt="Yoda" src="https://yoda-research-next.vercel.app/yoda-logo.png" style="position:fixed;right:14px;bottom:12px;height:52px;width:auto;opacity:.5;z-index:9990;pointer-events:none">
 <script>(function(){try{var K='yr_vid',v=localStorage.getItem(K);if(!v){v=Date.now().toString(36)+Math.random().toString(36).slice(2,8);localStorage.setItem(K,v);}var seg=location.pathname.split('/').filter(Boolean).pop()||'home';fetch('https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec',{method:'POST',body:JSON.stringify({action:'hit',page:decodeURIComponent(seg),path:location.pathname,host:location.hostname,ref:document.referrer,vid:v})});}catch(e){}})();</script>
-<script src="https://yoda-research-next.vercel.app/yoda-game-badge.js" defer></script>
 </body></html>
