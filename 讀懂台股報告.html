@@ -104,84 +104,84 @@ const OPENING={sky:'sky-dawn',bg:'farhills',label:'序',title:'一堆數字，�
 ]};
 
 const ROUNDS=[
- {type:'ab',sky:'sky-valley',bg:'range',label:'第 01 段 · 板塊動態圖',title:'會動的板塊圖：位置＋方向',
-  text:'報告第一段是「板塊動態圖」。每個板塊是一個點：<br>橫軸＝<b>相對強度</b>(現在強不強)、縱軸＝<b>動能</b>(正在轉強還轉弱)，<br>點後拖一條尾巴＝最近怎麼移動。四象限：<b>領先／改善／落後／轉弱</b>。<br><span style="font-size:12px;opacity:.85">（量版動態圖：泡泡越大＝成交量佔比越高；可拖 120 天軌跡看整段路徑）</span><svg viewBox="0 0 300 236" style="width:100%;max-width:270px;margin:0.6rem auto;display:block"><rect x="34" y="16" width="232" height="196" fill="none" stroke="rgba(255,255,255,0.14)"/><line x1="150" y1="16" x2="150" y2="212" stroke="rgba(255,255,255,0.22)"/><line x1="34" y1="114" x2="266" y2="114" stroke="rgba(255,255,255,0.22)"/><text x="214" y="32" fill="#a5d6a7" font-size="12" text-anchor="middle">領先</text><text x="88" y="32" fill="#ffd28a" font-size="12" text-anchor="middle">改善</text><text x="88" y="204" fill="#ff9a9a" font-size="12" text-anchor="middle">落後</text><text x="214" y="204" fill="#9ab8ff" font-size="12" text-anchor="middle">轉弱</text><text x="150" y="228" fill="rgba(255,255,255,0.5)" font-size="10" text-anchor="middle">← 弱　相對強度　強 →</text><path d="M92,96 C130,88 172,84 210,80" fill="none" stroke="rgba(224,165,38,0.55)" stroke-width="2" stroke-dasharray="3 3"/><circle cx="92" cy="96" r="3" fill="rgba(224,165,38,0.4)"/><circle cx="150" cy="86" r="3.5" fill="rgba(224,165,38,0.7)"/><circle cx="210" cy="80" r="6" fill="#e0a526"/><text x="210" y="70" fill="#fff" font-size="10" text-anchor="middle">某板塊</text></svg>',
+ {type:'ab',sky:'sky-valley',bg:'range',label:'第 01 段 · 量版籌碼資金流動態圖',title:'會動的板塊圖：位置＋方向＋量',
+  text:'報告第一段是「<b>量版籌碼資金流動態圖</b>」。每個板塊是一顆泡泡：<br>橫軸＝<b>相對強度</b>(現在強不強)、縱軸＝<b>動能</b>(正在轉強還轉弱)，<br><b>泡泡越大＝成交量佔比越高</b>，點後拖 120 天軌跡＝這段怎麼移動。四象限：<b>領先／改善／落後／轉弱</b>。<br><span style="font-size:12px;opacity:.85">（8/12：記憶體正從「改善」竄進「領先」）</span><svg viewBox="0 0 300 236" style="width:100%;max-width:270px;margin:0.6rem auto;display:block"><rect x="34" y="16" width="232" height="196" fill="none" stroke="rgba(255,255,255,0.14)"/><line x1="150" y1="16" x2="150" y2="212" stroke="rgba(255,255,255,0.22)"/><line x1="34" y1="114" x2="266" y2="114" stroke="rgba(255,255,255,0.22)"/><text x="214" y="32" fill="#a5d6a7" font-size="12" text-anchor="middle">領先</text><text x="88" y="32" fill="#ffd28a" font-size="12" text-anchor="middle">改善</text><text x="88" y="204" fill="#ff9a9a" font-size="12" text-anchor="middle">落後</text><text x="214" y="204" fill="#9ab8ff" font-size="12" text-anchor="middle">轉弱</text><text x="150" y="228" fill="rgba(255,255,255,0.5)" font-size="10" text-anchor="middle">← 弱　相對強度　強 →</text><path d="M92,96 C130,88 172,84 210,80" fill="none" stroke="rgba(224,165,38,0.55)" stroke-width="2" stroke-dasharray="3 3"/><circle cx="92" cy="96" r="3" fill="rgba(224,165,38,0.4)"/><circle cx="150" cy="86" r="4" fill="rgba(224,165,38,0.7)"/><circle r="9" fill="#e0a526" opacity="0.9"><animateMotion dur="3.2s" repeatCount="indefinite" keyPoints="0;1;1;0" keyTimes="0;0.5;0.62;1" calcMode="linear" path="M92,96 C130,88 172,84 210,80"/></circle><text x="212" y="66" fill="#fff" font-size="10" text-anchor="middle">記憶體</text></svg>',
   q:'一個板塊的點，從「改善」往「領先」移動，代表？',
   choices:['由弱轉強、動能在增強——「轉強確立」的軌跡','已經最強、準備要崩了','沒意義，圖好看而已'],correct:0,
   fb:['對——改善→領先＝相對強度和動能同步上升，是「轉強確立」。動態圖比單看排名，多了「往哪走」這個資訊。','「最強就要崩」是猜頂——動態圖只給你位置和方向，不預測崩盤。','很有意義——看多數板塊聚在哪個象限，就能讀出大盤整體是強是弱。']},
 
  {type:'ab',sky:'sky-noon',bg:'farhills',label:'第 02 段 · 板塊資金位階',title:'REL 不是「漲多少」',
-  text:'第二段「資金位階」用 <b>REL5 / REL20 / REL60</b> 排板塊與個股，同一張表可<b>四視角切換</b>(合計／外資／投信／自營)看不同法人眼裡的位階。<br>REL＝相對強度＝「<b>贏大盤幾 %</b>」(正＝跑贏、負＝跑輸)。<br>⚠ 不是「漲多少」，是「<b>比大盤多漲或多跌多少</b>」——<b>抗跌，也算贏。</b>',
+  text:'第二段「資金位階」用 <b>REL5 / REL20 / REL60</b> 排板塊與個股，同一張表可<b>四視角切換</b>(合計／外資／投信／自營)看不同法人眼裡的位階。<br>REL＝相對強度＝「<b>贏大盤幾 %</b>」(正＝跑贏、負＝跑輸)。<br>⚠ 不是「漲多少」，是「<b>比大盤多漲或多跌多少</b>」——<b>抗跌，也算贏。</b><br><span style="font-size:12px;opacity:.85">（8/12：台積電漲 0.83 卻 REL5 −1.05＝輸大盤；力積電 REL5 +18.61 才是真領先）</span><svg viewBox="0 0 300 148" style="width:100%;max-width:280px;margin:0.55rem auto 0;display:block"><line x1="30" y1="74" x2="285" y2="74" stroke="rgba(255,255,255,0.32)"/><text x="24" y="78" fill="rgba(255,255,255,0.5)" font-size="9" text-anchor="end">0</text><rect x="74" y="74" width="46" height="15" fill="rgba(120,160,255,0.75)"/><text x="97" y="106" fill="#9ab8ff" font-size="10.5" text-anchor="middle">台積電</text><text x="97" y="120" fill="#9ab8ff" font-size="9.5" text-anchor="middle">價+0.83</text><text x="97" y="133" fill="#9ab8ff" font-size="9.5" text-anchor="middle">REL5 −1.05</text><rect x="192" y="20" width="46" height="54" fill="rgba(224,120,110,0.85)"/><text x="215" y="106" fill="#e88a8c" font-size="10.5" text-anchor="middle">力積電</text><text x="215" y="120" fill="#e88a8c" font-size="9.5" text-anchor="middle">REL5</text><text x="215" y="133" fill="#e88a8c" font-size="9.5" text-anchor="middle">+18.61</text><text x="150" y="146" fill="rgba(255,255,255,0.5)" font-size="9" text-anchor="middle">同是漲，贏大盤 vs 輸大盤差很大</text></svg>',
   q:'今天 A 股漲 1%、大盤漲 3%；B 股跌 1%、大盤跌 5%。誰 REL 比較強？',
   choices:['A 股，因為它是漲的','B 股——它跌得比大盤少 5%，等於贏大盤，抗跌也算贏','一樣，都沒贏'],correct:1,
   fb:['A 股雖然漲，卻輸大盤 2%(大盤漲更多)——REL 是負的。','對——REL 比的是「相對大盤」。B 股逆勢抗跌、跑贏大盤 4%，REL 反而強。<b>漲最多的，不一定 REL 最強。</b>','有贏有輸——B 明顯跑贏大盤。看 REL 要跟大盤比，不是看自己漲跌。']},
 
- {type:'ab',sky:'sky-valley',bg:'range',label:'第 02 段 · 量價兩維度',title:'量是量、價是價，別混為一談',
-  text:'同一段還要「量價一起看」：<br><b>「量」＝三大法人買賣超</b>(外資＋投信＋自營，萬元)——誰在買。<br><b>「價」＝相對強度 REL</b>——誰真的強。<br>兩個都強＝<b>共振</b>；一強一弱＝<b>背離</b>。',
-  q:'看到「某股今天法人買超金額全場最大」，能不能就斷定它最強？',
-  choices:['能，法人買最多當然最強','不能——還要看「價(REL)」也強，才是量價共振；只有量、價卻弱，可能是背離','能，跟著法人買就對了'],correct:1,
-  fb:['買超金額大≠價格強。法人買、股價卻不動甚至跌，是背離，不是強。','對——<b>量價要一起看</b>。法人買(量)＋REL 也強(價)＝真共振；只有一邊，先打問號。','別只跟量——報告要你「在買的裡面，挑價也強的」，那才是共振標的。']},
+ {type:'ab',sky:'sky-valley',bg:'range',label:'第 02 段 · 量價兩維度',title:'價漲停，量卻在跑——這叫背離',
+  text:'同一段要「量價一起看」：<br><b>「價」＝漲跌／相對強度</b>——誰在漲。<br><b>「量」＝三大法人買賣超籌碼</b>——誰真的在買。<br>兩個同向＝<b>共振</b>(真強)；一個漲、一個跑＝<b>背離</b>(先打問號)。<br><span style="font-size:12px;opacity:.85">（8/12：被動元件價攻漲停，5 日法人籌碼卻 −53,741 張流出）</span><svg viewBox="0 0 300 184" style="width:100%;max-width:290px;margin:0.6rem auto 0;display:block"><text x="76" y="16" fill="#a5d6a7" font-size="11.5" font-weight="700" text-anchor="middle">量價共振</text><line x1="22" y1="104" x2="140" y2="104" stroke="rgba(255,255,255,0.25)"/><rect x="46" y="56" width="22" height="48" fill="rgba(127,168,255,0.8)"/><text x="57" y="120" fill="#9ab8ff" font-size="9" text-anchor="middle">量↑</text><rect x="90" y="48" width="22" height="56" fill="rgba(224,182,74,0.9)"/><text x="101" y="120" fill="#e6c463" font-size="9" text-anchor="middle">價↑</text><text x="76" y="176" fill="rgba(255,255,255,0.8)" font-size="9.5" text-anchor="middle">記憶體：真強</text><line x1="150" y1="24" x2="150" y2="150" stroke="rgba(255,255,255,0.16)"/><text x="224" y="16" fill="#ffcc80" font-size="11.5" font-weight="700" text-anchor="middle">量價背離</text><line x1="170" y1="104" x2="286" y2="104" stroke="rgba(255,255,255,0.25)"/><rect x="240" y="36" width="22" height="68" fill="rgba(224,182,74,0.9)"/><text x="251" y="120" fill="#e6c463" font-size="9" text-anchor="middle">價↑漲停</text><rect x="196" y="104" width="22" height="42" fill="rgba(127,168,255,0.42)"/><text x="207" y="160" fill="#9ab8ff" font-size="9" text-anchor="middle">量↓流出</text><text x="224" y="176" fill="#ffcc80" font-size="9.5" text-anchor="middle">被動：籌碼在跑<animate attributeName="opacity" values="1;0.4;1" dur="1.6s" repeatCount="indefinite"/></text></svg>',
+  q:'8/12 被動元件「價格攻漲停、但 5 日法人籌碼淨流出 5 萬多張」，怎麼讀？',
+  choices:['漲停就是最強，資金當然在大買','價量背離——價衝上去、籌碼卻在跑，是投機拉抬、留意退燒，不是穩穩流入','法人一定在偷偷買，跟就對了'],correct:1,
+  fb:['漲停 ≠ 資金流入。價衝、籌碼跑，正是要小心的背離。','對——<b>價漲＋籌碼流出＝量價背離</b>。被動這天是投機拉抬、不是法人穩穩吸，報告標「留意投機退燒」。對照記憶體是價量共振(價漲＋籌碼 +187,409 張)才扎實。','看到漲停就腦補「法人偷買」最危險——籌碼數據明明在流出。量價要一起看。']},
 
  {type:'classify',sky:'sky-storm',bg:'peak',label:'技能 · 量價鐵則',title:'別只憑一個數字，就喊「倒貨」',
   text:'台股最常見的誤讀，是<b>只看「賣超金額」就喊倒貨/避險</b>。<br>鐵則：<b>價 → 量 → 廣度，一起看</b>；賣超金額是「淨額」，<b>不等於出貨量</b>。<br>下面哪些「證據夠、可以下結論」，哪些「不夠、不能」？',
   catA:'不能下結論',catB:'證據夠·可以',
   q:'把每句分到「證據夠」或「不能下結論」：',
   items:[
-   ['「某股賣超金額最大，所以法人在倒貨」','atk'],
-   ['「全市場電子漲停遍地、買超家數 429＞賣超 356，基調 risk-on」','def'],
-   ['「台積電跌 2%、溫和收黑，所以外資棄守了」','atk'],
-   ['「月線＋當日雙買的吸籌股有 267 檔，買盤明顯佔多數」','def']],
-  reveal:'「賣超金額最大」「跌 2% 就棄守」都<b>只看單一數字、沒看價格結構與廣度</b>——不能下結論。<b>廣度先定 risk-on/off，個股型態才有意義。</b>'},
+   ['「被動元件攻漲停，所以資金正大舉流入被動」','atk'],
+   ['「記憶體 5 日法人買超 +187,409 張、AI 伺服器 +74,001 張，資金確實續流主線」','def'],
+   ['「台積電只漲 0.83、沒領軍，所以大盤要回檔了」','atk'],
+   ['「上漲 229:下跌 227 幾乎打平、但近漲停 20:1，是強弱分化的投機盤」','def']],
+  reveal:'「被動漲停＝流入」漏看 5 日籌碼正在流出(背離)、「台積沒領軍就回檔」只看一檔——都不能下結論。<b>價量廣度一起看、廣度先定調，個股型態才有意義。</b>'},
 
  {type:'ab',sky:'sky-valley',bg:'range',label:'第 03 段 · 法人籌碼四型態',title:'四型態：誰在真的累積',
-  text:'第三段把個股按法人買賣分四型(<b>四型態立體圖</b>)：<br><b>吸籌</b>(月線＋當日持續買)、<b>反轉</b>(由賣轉買)、<b>換手</b>(買賣互見)、<b>賣超</b>(持續賣)。<br>點任一檔還能<b>展開三隻手</b>(外資／投信／自營)＋千張大戶比＋散戶融資。<br>8/4 報告點名：<span class="data-chip">月線＋當日雙買＝吸籌 267 檔</span>',
-  q:'「月線＋當日雙買」的這 267 檔，屬哪一型、代表什麼？',
+  text:'第三段把個股按法人買賣分四型(<b>四型態立體圖</b>)：<br><b>吸籌</b>(月線＋當日持續買)、<b>反轉</b>(由賣轉買)、<b>換手</b>(買賣互見)、<b>賣超</b>(持續賣)。<br>點任一檔還能<b>展開三隻手</b>(外資／投信／自營)＋千張大戶比＋散戶融資。<br>8/12：<span class="data-chip">吸籌 152 檔</span><span class="data-chip">賣超 168 檔</span><span class="data-chip">吸籌佔比 47.5%</span><svg viewBox="0 0 260 214" style="width:100%;max-width:250px;margin:0.55rem auto 0;display:block"><rect x="34" y="16" width="192" height="166" fill="none" stroke="rgba(255,255,255,0.14)"/><line x1="130" y1="16" x2="130" y2="182" stroke="rgba(255,255,255,0.22)"/><line x1="34" y1="99" x2="226" y2="99" stroke="rgba(255,255,255,0.22)"/><text x="180" y="34" fill="#e6c463" font-size="12" text-anchor="middle" font-weight="700">吸籌</text><text x="180" y="172" fill="#a5d6a7" font-size="11" text-anchor="middle">反轉</text><text x="80" y="34" fill="rgba(255,255,255,0.6)" font-size="11" text-anchor="middle">換手</text><text x="80" y="172" fill="#ff9a9a" font-size="11" text-anchor="middle">賣超</text><text x="130" y="200" fill="rgba(255,255,255,0.5)" font-size="9.5" text-anchor="middle">← 當日賣　當日買 →</text><text x="20" y="99" fill="rgba(255,255,255,0.5)" font-size="9" text-anchor="middle" transform="rotate(-90 20 99)">月線賣 ← → 月線買</text><circle cx="168" cy="52" r="4" fill="rgba(224,182,74,0.55)"/><circle cx="190" cy="60" r="4" fill="rgba(224,182,74,0.6)"/><circle cx="178" cy="70" r="4" fill="rgba(224,182,74,0.7)"/><circle cx="200" cy="48" r="4" fill="rgba(224,182,74,0.5)"/><circle cx="184" cy="44" r="9" fill="none" stroke="#e6c463" stroke-width="2"><animate attributeName="r" values="7;16;16" dur="2.4s" repeatCount="indefinite"/><animate attributeName="stroke-opacity" values="0.7;0;0" dur="2.4s" repeatCount="indefinite"/></circle><text x="184" y="120" fill="rgba(255,255,255,0.55)" font-size="9" text-anchor="middle">記憶體集中在此角</text></svg>',
+  q:'記憶體那批「月線＋當日雙買」的股票，屬哪一型、代表什麼？',
   choices:['賣超——金額有進有出','吸籌——中線(月線)和當日都在買，資金「持續」流入，是最強的一型','換手——只是今天剛好買'],correct:1,
   fb:['雙買是「買＋買」，不是賣超。看的是買賣方向，不是金額大小。','對——<b>吸籌＝持續買</b>(月線這條中線也站買方)。比「今天剛轉買」的反轉更扎實，是四型裡最強的累積。','換手是買賣互見、方向不明；雙買方向很明確，是吸籌。']},
 
- {type:'gauge',sky:'sky-noon',bg:'range',label:'讀當天 · 8/4 風向',title:'把 8/4 這天，讀成一個風向',
-  text:'把前面學的價、量、廣度合起來，用 8/4 實際數據讀「這天的風向」：',
-  chips:['當日買超佔比 54.6%','雙買吸籌 267 檔','電子漲停遍地','台積電 +3.45%','聯發科 +4.66%','華邦電 +8.60%'],
-  q:'往左＝避險收手，往右＝全面做多(risk-on)。8/4 你會放哪？',
-  left:'避險(收手觀望)',right:'risk-on(全面做多)',ans:80,
-  correct:v=>v>=62,
-  fb:v=>v>=62?'對——價(權值＋記憶體同步大漲)、量(買超佔多數、雙買吸籌 267)、廣度(電子漲停遍地)<b>三者一致偏多</b>＝乾淨的 risk-on 日。':'再看一次——權值＋記憶體同漲、買超佔多數、電子漲停遍地，<b>價量廣度全偏多</b>，指針該明顯偏右(risk-on)。'},
+ {type:'gauge',sky:'sky-noon',bg:'range',label:'讀當天 · 8/12 風向',title:'把 8/12 這天，讀成一個風向',
+  text:'把價、量、廣度合起來讀 8/12——這天不是「普漲」，是哪一種多方？',
+  chips:['上漲 229:跌 227 打平','近漲停 20:1','記憶體吸籌 +187,409 張','台積電 +0.83 守盤未領軍','被動漲停但籌碼 −53,741 張','投信反手買金融'],
+  q:'往左＝避險收手，往右＝全面 risk-on。8/12 你會放哪？',
+  left:'避險(收手)',right:'risk-on(全面)',ans:62,
+  correct:v=>v>=50&&v<=78,
+  fb:v=>v<50?'太保守了——記憶體大買 +187,409 張、漲停遍地，明顯偏多，指針該過中線。':v>78?'別急著全押——廣度只打平(229:227)、主線台積電在休息、被動還爆出背離。偏多，但要留一手。':'對——偏多沒錯(記憶體吸籌、漲停遍地)，但<b>不是乾淨的全面 risk-on</b>：廣度只打平、靠投機盤衝漲停、台積電守盤沒領軍。<b>偏多但有雜質</b>，指針落中間偏右最貼切。'},
 
  {type:'ab',sky:'sky-storm',bg:'peak',label:'技能 · 脈衝紀律',title:'漲停爆量，先別急著追',
-  text:'8/4 記憶體、AI 硬體很多是<b>當日漲停爆量</b>(南亞科、晶豪科、力積電…)。<br>紀律(依 core §G-7)：<b>看隔日 REL5 能不能站穩，別追在漲停板上。</b>',
+  text:'8/12 記憶體、被動、PCB 很多是<b>當日攻漲停</b>(南亞科 +6.53、華新科、國巨、華碩、奇鋐…)。<br>紀律(依 core §G-7)：<b>看隔日 REL5 能不能站穩，別追在漲停板上。</b>',
   q:'看到一支「今天漲停爆量、報告列⚡當日異動」的股票，你該怎麼做？',
   choices:['隔天開盤立刻衝進去，怕買不到','先標「待確認」，看隔日 REL5 站不站得穩、有沒有續強，再決定——別追在漲停板','報告有列就是叫我買'],correct:1,
   fb:['追漲停板風險最高——單日暴衝可能是脈衝，隔天就打回。','對——單日暴衝要分「真起漲」還「脈衝」：<b>看隔日 REL5 有沒有站穩、續強</b>。站穩才算數。','報告列「當日異動」是<b>提醒你觀察</b>，不是進場訊號(它從不喊買賣)。']},
 
  {type:'ab',sky:'sky-clouds',bg:'range',label:'第 04 段 · AI 核心競爭力分類',title:'AI 不是一批，是分三層',
-  text:'AI 是台股權重最大的一批，但報告<b>不把它當一批</b>。<br>第一步先按<b>核心競爭力分三層架構</b>：<br>越靠<b>核心</b>＝<b>越不可取代</b>(獨家製程、卡關鍵環節)；<br>越外圍＝替代性越高、越像「沾邊」。<br>看到「AI」先問：它在<b>哪一層</b>？',
+  text:'AI 是台股權重最大的一批，但報告<b>不把它當一批</b>。<br>第一步先按<b>核心競爭力分三層架構</b>：<br>越靠<b>核心</b>＝<b>越不可取代</b>(獨家製程、卡關鍵環節)；<br>越外圍＝替代性越高、越像「沾邊」。<br>看到「AI」先問：它在<b>哪一層</b>？<br><span style="font-size:12px;opacity:.85">（報告用「徑向圖」畫：同心環＝層，色越深＝越強）</span><svg viewBox="0 0 160 176" style="width:100%;max-width:186px;margin:0.55rem auto 0;display:block"><path d="M80.0,60.0 L80.0,46.0 A34,34 0 0 1 104.0,56.0 L94.1,65.9 A20,20 0 0 0 80.0,60.0 Z" fill="rgba(207,111,114,0.41)"/><path d="M94.1,65.9 L104.0,56.0 A34,34 0 0 1 114.0,80.0 L100.0,80.0 A20,20 0 0 0 94.1,65.9 Z" fill="rgba(207,111,114,0.69)"/><path d="M100.0,80.0 L114.0,80.0 A34,34 0 0 1 104.0,104.0 L94.1,94.1 A20,20 0 0 0 100.0,80.0 Z" fill="rgba(207,111,114,0.85)"/><path d="M94.1,94.1 L104.0,104.0 A34,34 0 0 1 80.0,114.0 L80.0,100.0 A20,20 0 0 0 94.1,94.1 Z" fill="rgba(207,111,114,0.69)"/><path d="M80.0,100.0 L80.0,114.0 A34,34 0 0 1 56.0,104.0 L65.9,94.1 A20,20 0 0 0 80.0,100.0 Z" fill="rgba(207,111,114,0.41)"/><path d="M65.9,94.1 L56.0,104.0 A34,34 0 0 1 46.0,80.0 L60.0,80.0 A20,20 0 0 0 65.9,94.1 Z" fill="rgba(207,111,114,0.36)"/><path d="M60.0,80.0 L46.0,80.0 A34,34 0 0 1 56.0,56.0 L65.9,65.9 A20,20 0 0 0 60.0,80.0 Z" fill="rgba(207,111,114,0.59)"/><path d="M65.9,65.9 L56.0,56.0 A34,34 0 0 1 80.0,46.0 L80.0,60.0 A20,20 0 0 0 65.9,65.9 Z" fill="rgba(207,111,114,0.83)"/><path d="M80.0,40.0 L80.0,26.0 A54,54 0 0 1 118.2,41.8 L108.3,51.7 A40,40 0 0 0 80.0,40.0 Z" fill="rgba(207,111,114,0.27)"/><path d="M108.3,51.7 L118.2,41.8 A54,54 0 0 1 134.0,80.0 L120.0,80.0 A40,40 0 0 0 108.3,51.7 Z" fill="rgba(207,111,114,0.45)"/><path d="M120.0,80.0 L134.0,80.0 A54,54 0 0 1 118.2,118.2 L108.3,108.3 A40,40 0 0 0 120.0,80.0 Z" fill="rgba(207,111,114,0.55)"/><path d="M108.3,108.3 L118.2,118.2 A54,54 0 0 1 80.0,134.0 L80.0,120.0 A40,40 0 0 0 108.3,108.3 Z" fill="rgba(207,111,114,0.45)"/><path d="M80.0,120.0 L80.0,134.0 A54,54 0 0 1 41.8,118.2 L51.7,108.3 A40,40 0 0 0 80.0,120.0 Z" fill="rgba(207,111,114,0.27)"/><path d="M51.7,108.3 L41.8,118.2 A54,54 0 0 1 26.0,80.0 L40.0,80.0 A40,40 0 0 0 51.7,108.3 Z" fill="rgba(207,111,114,0.23)"/><path d="M40.0,80.0 L26.0,80.0 A54,54 0 0 1 41.8,41.8 L51.7,51.7 A40,40 0 0 0 40.0,80.0 Z" fill="rgba(207,111,114,0.39)"/><path d="M51.7,51.7 L41.8,41.8 A54,54 0 0 1 80.0,26.0 L80.0,40.0 A40,40 0 0 0 51.7,51.7 Z" fill="rgba(207,111,114,0.54)"/><path d="M80.0,20.0 L80.0,6.0 A74,74 0 0 1 132.3,27.7 L122.4,37.6 A60,60 0 0 0 80.0,20.0 Z" fill="rgba(207,111,114,0.14)"/><path d="M122.4,37.6 L132.3,27.7 A74,74 0 0 1 154.0,80.0 L140.0,80.0 A60,60 0 0 0 122.4,37.6 Z" fill="rgba(207,111,114,0.23)"/><path d="M140.0,80.0 L154.0,80.0 A74,74 0 0 1 132.3,132.3 L122.4,122.4 A60,60 0 0 0 140.0,80.0 Z" fill="rgba(207,111,114,0.28)"/><path d="M122.4,122.4 L132.3,132.3 A74,74 0 0 1 80.0,154.0 L80.0,140.0 A60,60 0 0 0 122.4,122.4 Z" fill="rgba(207,111,114,0.23)"/><path d="M80.0,140.0 L80.0,154.0 A74,74 0 0 1 27.7,132.3 L37.6,122.4 A60,60 0 0 0 80.0,140.0 Z" fill="rgba(207,111,114,0.14)"/><path d="M37.6,122.4 L27.7,132.3 A74,74 0 0 1 6.0,80.0 L20.0,80.0 A60,60 0 0 0 37.6,122.4 Z" fill="rgba(207,111,114,0.12)"/><path d="M20.0,80.0 L6.0,80.0 A74,74 0 0 1 27.7,27.7 L37.6,37.6 A60,60 0 0 0 20.0,80.0 Z" fill="rgba(207,111,114,0.20)"/><path d="M37.6,37.6 L27.7,27.7 A74,74 0 0 1 80.0,6.0 L80.0,20.0 A60,60 0 0 0 37.6,37.6 Z" fill="rgba(207,111,114,0.27)"/><path d="M80,80 L154,80 A74,74 0 0 1 136.7,127.6 Z" fill="rgba(255,255,255,0.15)"><animateTransform attributeName="transform" type="rotate" from="0 80 80" to="360 80 80" dur="3.6s" repeatCount="indefinite"/></path><circle cx="80" cy="80" r="30" fill="none" stroke="#ffd28a" stroke-width="2" stroke-opacity="0"><animate attributeName="stroke-opacity" values="0.55;0;0" dur="2.6s" repeatCount="indefinite"/><animate attributeName="r" values="18;58;58" dur="2.6s" repeatCount="indefinite"/></circle><circle cx="80" cy="80" r="15" fill="rgba(18,22,36,0.6)"/><text x="80" y="77" fill="#e58a8c" font-size="8" text-anchor="middle" font-weight="700">核心</text><text x="80" y="88" fill="rgba(255,255,255,0.65)" font-size="6.5" text-anchor="middle">最強</text><text x="80" y="170" fill="rgba(255,255,255,0.55)" font-size="9" text-anchor="middle">環＝三層(內核心→外外圍)、色深＝越強</text></svg>',
   q:'兩家都掛「AI 概念」：A 是先進製程的唯一供應、B 是替代性高的組裝代工。<br>報告會把誰放核心層？',
   choices:['B，因為它比較便宜','A——獨家、卡關鍵環節、不可取代，才是核心層；B 替代性高、擺外圍','都放核心，都是 AI'],correct:1,
   fb:['便宜不等於核心——核心看的是「不可取代」，不是股價高低。','對——<b>核心競爭力＝不可取代性</b>。獨家製程/關鍵瓶頸放核心層，替代性高的組裝放外圍。「都是 AI」但強度與續航天差地別。','「都放核心」正是報告要破的迷思——分三層，就是要你分辨誰真核心、誰只是沾邊。']},
 
  {type:'ab',sky:'sky-valley',bg:'range',label:'第 05 段 · AI 三圈擴散分析',title:'三圈：錢擴散到第幾圈了',
-  text:'第五段把 AI 由核心往外畫<b>三圈</b>：<br><b>算力核心 → 不可或缺瓶頸 → 基建外溢</b>。<br>每一圈報告都標「<b>幾檔創 3 月新高</b>」——多檔一起創高＝資金<b>擴散</b>到那一圈。<br>看擴散，是要判斷資金<b>主攻哪一圈</b>，不是看到 AI 就買。',
+  text:'第五段把 AI 由核心往外畫<b>三圈</b>：<br><b>算力核心 → 不可或缺瓶頸 → 基建外溢</b>。<br>每一圈報告都標「<b>幾檔創 3 月新高</b>」——多檔一起創高＝資金<b>擴散</b>到那一圈。<br>看擴散，是要判斷資金<b>主攻哪一圈</b>，不是看到 AI 就買。<br><span style="font-size:12px;opacity:.85">（哪一圈在亮＝資金正擴散到那一圈）</span><svg viewBox="0 0 160 180" style="width:100%;max-width:190px;margin:0.55rem auto 0;display:block"><circle cx="80" cy="82" r="70" fill="none" stroke-width="15" stroke="#5cae88" stroke-opacity="0.16"><animate attributeName="stroke-opacity" values="0.1;0.82;0.1" dur="2.4s" begin="1.4s" repeatCount="indefinite"/><animate attributeName="stroke" values="#5cae88;#e0a526;#cf6f72;#e0a526;#5cae88" dur="2.4s" begin="1.4s" repeatCount="indefinite"/></circle><circle cx="80" cy="82" r="47" fill="none" stroke-width="15" stroke="#e0a526" stroke-opacity="0.16"><animate attributeName="stroke-opacity" values="0.1;0.85;0.1" dur="2.4s" begin="0.7s" repeatCount="indefinite"/><animate attributeName="stroke" values="#5cae88;#e0a526;#cf6f72;#e0a526;#5cae88" dur="2.4s" begin="0.7s" repeatCount="indefinite"/></circle><circle cx="80" cy="82" r="24" fill="none" stroke-width="15" stroke="#cf6f72" stroke-opacity="0.2"><animate attributeName="stroke-opacity" values="0.16;0.96;0.16" dur="2.4s" begin="0s" repeatCount="indefinite"/><animate attributeName="stroke" values="#cf6f72;#ffd28a;#cf6f72" dur="2.4s" begin="0s" repeatCount="indefinite"/></circle><text x="80" y="85" fill="rgba(255,255,255,0.9)" font-size="8" text-anchor="middle" font-weight="700">核心</text><text x="80" y="43" fill="rgba(255,255,255,0.82)" font-size="7.5" text-anchor="middle" font-weight="600">瓶頸</text><text x="80" y="19" fill="rgba(255,255,255,0.78)" font-size="7.5" text-anchor="middle" font-weight="600">基建</text><text x="80" y="174" fill="rgba(255,255,255,0.55)" font-size="9" text-anchor="middle">算力核心 → 瓶頸 → 基建，一圈一圈往外擴</text></svg>',
   q:'報告顯示「算力核心圈多檔創 3 月新高、外面兩圈還沒跟上」。這代表？',
   choices:['AI 全部很強，隨便一檔都能買','錢集中在最核心的算力圈、還沒外溢——挑就挑「正在擴散的那一圈」','算力圈要崩了'],correct:1,
   fb:['「AI 全都強」是把一圈套到全部——分三圈就是要你看「哪一圈在擴散」。','對——<b>擴散未外溢</b>：資金還鎖在算力核心，瓶頸與基建圈落後。要挑「正在創高、正在擴散」的圈，不是全部 AI 一把抓。','分圈看的是資金流向、不是預測崩盤——核心圈創高代表它現在最強。']},
 
  {type:'ab',sky:'sky-noon',bg:'farhills',label:'第 06 段 · AI 硬體信號流階梯',title:'8 階段：強勢一階一階往下傳',
-  text:'第六段是<b>信號流階梯</b>：<br>把 AI 硬體拆成<b>8 個階段位階</b>(從最上游算力，一路往傳輸、設備、下游)。<br>它看的是——<b>強勢正走到第幾階</b>：<br>資金與強度是集中在上游，還是已經一階一階往下游傳。',
+  text:'第六段是<b>信號流階梯</b>：<br>把 AI 硬體拆成<b>8 個階段位階</b>(從最上游算力，一路往傳輸、設備、下游)。<br>它看的是——<b>強勢正走到第幾階</b>：<br>資金與強度是集中在上游，還是已經一階一階往下游傳。<br><span style="font-size:12px;opacity:.85">（越上面越亮＝強勢還卡在上游，尚未往下傳）</span><svg viewBox="0 0 230 200" style="width:100%;max-width:222px;margin:0.55rem auto 0;display:block"><text x="115" y="12" fill="rgba(255,255,255,0.72)" font-size="9" text-anchor="middle">↑ 上游·算力（強勢集中在這）</text><rect x="58" y="22" width="114" height="13" rx="3" fill="rgba(224,182,74,0.92)"/><rect x="58" y="22" width="114" height="13" rx="3" fill="#ffe9a8"><animate attributeName="opacity" values="0.15;0.75;0.15" dur="2s" repeatCount="indefinite"/></rect><rect x="58" y="40" width="114" height="13" rx="3" fill="rgba(224,182,74,0.72)"/><rect x="58" y="58" width="114" height="13" rx="3" fill="rgba(224,182,74,0.57)"/><rect x="58" y="76" width="114" height="13" rx="3" fill="rgba(224,182,74,0.45)"/><rect x="58" y="94" width="114" height="13" rx="3" fill="rgba(224,182,74,0.35)"/><rect x="58" y="112" width="114" height="13" rx="3" fill="rgba(224,182,74,0.27)"/><rect x="58" y="130" width="114" height="13" rx="3" fill="rgba(224,182,74,0.2)"/><rect x="58" y="148" width="114" height="13" rx="3" fill="rgba(224,182,74,0.14)"/><text x="48" y="32" fill="rgba(255,255,255,0.45)" font-size="8" text-anchor="end">1</text><text x="48" y="158" fill="rgba(255,255,255,0.45)" font-size="8" text-anchor="end">8</text><text x="115" y="180" fill="rgba(255,255,255,0.55)" font-size="9" text-anchor="middle">↓ 下游（燈還沒亮＝尚未接棒）</text></svg>',
   q:'信號流顯示「強勢集中在最上游算力階、下游各階還很弱」。怎麼讀？',
   choices:['整條 AI 鏈都強','強勢還在最上游、尚未往下傳——資金卡在前段，下游要等訊號傳到才輪得到','下游永遠不會強'],correct:1,
   fb:['整條都強的話，各階都會亮——現在只有上游亮，代表訊號還沒傳下去。','對——<b>信號流看「傳到第幾階」</b>。強勢卡在上游＝下游還沒接棒；等訊號一階一階往下傳，才輪到中下游。','沒有「永遠」——階梯是動態的，訊號會往下傳；現在只是還沒到。']},
 
  {type:'ab',sky:'sky-clear',bg:'range',label:'第 07 段 · AI 供應鏈定位',title:'錢往上游、算力往下游',
-  text:'第七段幫每家 AI 公司在供應鏈上<b>定位</b>：<br>一句口訣——<b>錢往上游走、算力往下游擴</b>。<br>把「這家在哪一段」＋「資金與強度集中在哪一段」對起來看，就知道<b>它是不是站在資金正流入的位置</b>。',
+  text:'第七段幫每家 AI 公司在供應鏈上<b>定位</b>：<br>一句口訣——<b>錢往上游走、算力往下游擴</b>。<br>把「這家在哪一段」＋「資金與強度集中在哪一段」對起來看，就知道<b>它是不是站在資金正流入的位置</b>。<br><span style="font-size:12px;opacity:.85">（台股主場在中游基建：載板／散熱／被動／伺服器組裝）</span><svg viewBox="0 0 260 172" style="width:100%;max-width:256px;margin:0.55rem auto 0;display:block"><line x1="30" y1="140" x2="30" y2="38" stroke="#a5d6a7" stroke-width="2"/><polygon points="30,26 23,40 37,40" fill="#a5d6a7"/><text x="30" y="158" fill="#a5d6a7" font-size="9" text-anchor="middle">錢往上</text><line x1="232" y1="34" x2="232" y2="134" stroke="#9ab8ff" stroke-width="2"/><polygon points="232,146 225,132 239,132" fill="#9ab8ff"/><text x="232" y="158" fill="#9ab8ff" font-size="9" text-anchor="middle">算力往下</text><rect x="58" y="26" width="144" height="36" rx="5" fill="rgba(127,168,255,0.16)" stroke="rgba(127,168,255,0.5)"/><text x="130" y="48" fill="#c8d6ff" font-size="11" text-anchor="middle">上游·算力核心</text><rect x="58" y="68" width="144" height="36" rx="5" fill="rgba(224,182,74,0.22)" stroke="#e0b64a" stroke-width="2"/><rect x="58" y="68" width="144" height="36" rx="5" fill="none" stroke="#ffe9a8" stroke-width="2"><animate attributeName="stroke-opacity" values="0.15;0.9;0.15" dur="2.2s" repeatCount="indefinite"/></rect><text x="130" y="90" fill="#f0d488" font-size="11" text-anchor="middle" font-weight="700">中游·基建（台股主場）</text><rect x="58" y="110" width="144" height="36" rx="5" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.22)"/><text x="130" y="132" fill="rgba(255,255,255,0.75)" font-size="11" text-anchor="middle">下游·網通光電</text></svg>',
   q:'一家公司位在供應鏈中下游，但報告顯示「資金與強度這期集中在上游」。怎麼看它？',
   choices:['它一定會漲，反正是 AI','它現在不站在資金流入的位置——先觀察，等強勢往下游傳到它那段再說','馬上重壓'],correct:1,
   fb:['「是 AI 就會漲」正是要破的——位置對不對，比標籤重要。','對——<b>定位＝把公司位置和資金位置對齊</b>。資金在上游、它在下游，就先不站在風口；等信號流傳到它那段。','重壓在資金還沒到的位置，風險最高——先等定位對上。']},
 
- {type:'ab',sky:'sky-clear',bg:'farhills',label:'第 08 段 · 大盤ETF法人週向',title:'法人對大盤 ETF，這週往哪站？',
-  text:'第八段看<b>法人對大盤型 ETF(如 0050 這類)的「週」買賣超方向</b>，還<b>拆到各別法人</b>(外資／投信／自營，看誰在加減碼)。<br>個股每天換來換去是雜訊；這一票把鏡頭拉遠，看的是<br>法人對<b>「整個台股」</b>整週是<b>加碼</b>還是<b>減碼</b>。',
-  q:'個股買賣超每天在換，為什麼還要單獨看「法人對大盤 ETF 的週向」？',
-  choices:['沒必要，看個股就好','因為它濾掉單日雜訊、看法人對「整個大盤」一週的淨態度——還能拆外投自看誰在加減碼','ETF 不重要'],correct:1,
-  fb:['個股每天換手是雜訊——ETF 週向把鏡頭拉遠，看的是對大盤的整體態度。','對——大盤 ETF 週向＝法人對「整個台股」的方向票(週為單位、濾掉單日雜訊)，分法人還能看外投自誰在主導。','它恰是最宏觀的一票——代表法人對大盤本身的加減碼。']},
+ {type:'ab',sky:'sky-clear',bg:'farhills',label:'第 08 段 · 大盤ETF·法人三隻手',title:'0050／正2／反1：法人這週往哪站？',
+  text:'第八段看<b>法人對三檔大盤 ETF 的買賣</b>，還<b>拆三隻手</b>(外資／投信／自營)：<br><b>0050</b>(做多大盤)、<b>正2</b>(2x 槓桿做多)、<b>反1</b>(避險偏空)。<br>訣竅：<b>買正2＋賣反1＝做多加碼、避險縮手＝偏多</b>；反過來就是轉防禦。<br>8/12：<span class="data-chip">0050 +33,755 張</span><span class="data-chip">正2 +149,527 張</span><span class="data-chip">反1 −138,630 張</span><svg viewBox="0 0 300 196" style="width:100%;max-width:290px;margin:0.6rem auto 0;display:block"><line x1="20" y1="80" x2="286" y2="80" stroke="rgba(255,255,255,0.3)"/><text x="16" y="84" fill="rgba(255,255,255,0.5)" font-size="9" text-anchor="end">0</text><rect x="55" y="62" width="42" height="18" fill="rgba(224,120,110,0.72)"/><rect x="129" y="24" width="42" height="56" fill="rgba(224,120,110,0.92)"/><rect x="203" y="80" width="42" height="52" fill="rgba(120,185,140,0.88)"/><text x="76" y="150" fill="rgba(255,255,255,0.85)" font-size="10.5" text-anchor="middle">0050</text><text x="150" y="150" fill="rgba(255,255,255,0.85)" font-size="10.5" text-anchor="middle">正2</text><text x="224" y="150" fill="rgba(255,255,255,0.85)" font-size="10.5" text-anchor="middle">反1</text><text x="76" y="164" fill="#e88a8c" font-size="9.5" text-anchor="middle">+33,755 買</text><text x="150" y="164" fill="#e88a8c" font-size="9.5" text-anchor="middle">+149,527 買</text><text x="224" y="164" fill="#7fd6a6" font-size="9.5" text-anchor="middle">−138,630 賣</text><text x="150" y="188" fill="rgba(255,255,255,0.6)" font-size="9.5" text-anchor="middle">紅=買　綠=賣　→ 買正2＋賣反1＝偏多</text></svg>',
+  q:'8/12 法人「大買正2、同時大賣反1」，這組合代表什麼？',
+  choices:['資金在避險、方向轉空','做多加碼(買正2)＋避險縮手(賣反1)＝方向偏多','ETF 不重要，看個股就好'],correct:1,
+  fb:['剛好相反——買反1才是加避險。這天是賣反1、在縮避險。','對——<b>正2買(加槓桿做多)＋反1賣(避險縮手)</b>同向偏多，是法人對「整個大盤」的方向票。分三隻手還能看外投自誰在主導。','它恰是最宏觀的一票——代表法人對大盤本身加減碼，濾掉個股單日雜訊。']},
 
  {type:'ab',sky:'sky-clear',bg:'range',label:'第 09 段 · 完整研判',title:'台股報告，到底幫你做什麼？',
   text:'十段都讀完了。<br><br>台股報告幫你的，是<b>「選股方向＋大盤體檢」</b>：<br>資金輪動到哪類、哪些是強勢候選池、<br>法人籌碼在吸還在倒、AI 哪一圈在擴散——<br>它給你<b>池子和邏輯，你自己挑</b>。',
@@ -203,22 +203,22 @@ const ANS=[
    ['REL(相對強度)','這支「贏大盤幾 %」：正＝跑贏、負＝跑輸；抗跌也算贏。不是「漲多少」'],
    ['REL5／REL20／REL60','近 5 日／約 1 月／約 3 月的相對強度，分別看短、中、長線'],
    ['資金位階','用 REL 把板塊/個股排出強弱位階——誰在資金主流、誰在邊緣']]},
- {answer:'不能。要「價(REL)」也強才是量價共振；只有量、價不強，可能是背離。',terms:[
-   ['量(三大法人買賣超)','外資＋投信＋自營的淨買/淨賣金額(萬元)；是「淨額」，不是成交量'],
-   ['價(REL 相對強度)','股價相對大盤的強弱；量強不代表價也強'],
-   ['共振 / 背離','量和價都強＝共振(真強)；一強一弱＝背離(先打問號)']]},
- {answer:'「賣超金額最大就倒貨」「跌 2% 就棄守」＝不能；「電子漲停遍地/買超佔多數」「雙買 267 檔」＝可以。',terms:[
-   ['賣超金額 ≠ 出貨量','買賣超是「淨額」，不是成交量；不能只憑它喊倒貨/避險'],
-   ['價 → 量 → 廣度','判多空的順序：先看價格結構，再看量，再看金額；不可只抓一個'],
-   ['廣度','全市場漲/跌停、買超/賣超家數；先定 risk-on/off，個股型態才有意義']]},
+ {answer:'被動是價量背離——價攻漲停、5 日籌碼卻流出 −53,741 張，是投機拉抬不是穩穩流入，留意退燒；對照記憶體價漲＋籌碼 +187,409 張才是共振。',terms:[
+   ['價(漲跌／相對強度)','誰在漲；漲停也可能只是投機拉抬'],
+   ['量(三大法人籌碼)','外資＋投信＋自營淨買賣張數——誰真的在買'],
+   ['共振 / 背離','價量同向＝共振(真強)；價漲量卻跑＝背離(先打問號、留意退燒)']]},
+ {answer:'「被動漲停＝流入」「台積沒領軍就回檔」＝不能(各只看一個數字)；「記憶體 +187,409 張續流」「229:227 打平但近漲停 20:1 分化」＝可以。',terms:[
+   ['價量要對齊','價漲不代表籌碼流入——被動漲停但 5 日籌碼流出就是背離，不能只看價'],
+   ['價 → 量 → 廣度','判多空順序：先看價、再看量(籌碼)、再看廣度；不可只抓一個'],
+   ['廣度先定調','上漲:下跌、近漲停家數；先定 risk-on/off，個股型態才有意義']]},
  {answer:'吸籌。月線(中線)和當日都在買＝資金持續流入，是四型裡最強的累積。',terms:[
    ['吸籌','法人月線＋當日持續買，資金穩定流入——最強的一型'],
    ['反轉 / 換手 / 賣超','反轉＝由賣轉買；換手＝買賣互見方向不明；賣超＝持續賣'],
    ['雙買','中線(月線)與當日同時站在買方，方向最明確']]},
- {answer:'偏右(約 80)。價、量、廣度三者都偏多，是乾淨的 risk-on 日。',terms:[
+ {answer:'中間偏右(約 62)。偏多(記憶體吸籌、漲停遍地)，但廣度只打平、靠投機盤衝漲停、主線台積電休息＝偏多但有雜質，不是乾淨 risk-on。',terms:[
    ['risk-on / 避險','資金敢全面做多 vs 收手觀望、抱防禦'],
-   ['買超佔比','當日買超金額 ÷ 總量的比重；過半＝買盤主導'],
-   ['廣度先於個股','先用漲停家數、買賣超家數定當天基調，再看個股怎麼動']]},
+   ['普漲 vs 投機分化','普漲＝廣度也旺；投機分化＝廣度打平但少數股衝漲停(近漲停 20:1)'],
+   ['廣度先於個股','先用上漲下跌、近漲停家數定當天基調，再看個股怎麼動']]},
  {answer:'先標「待確認」，看隔日 REL5 能不能站穩、續強，再決定——別追在漲停板。',terms:[
    ['漲停爆量','單日鎖漲停＋大量；可能是真起漲，也可能是脈衝(隔天打回)'],
    ['脈衝 vs 真起漲','看隔日 REL5 有沒有站穩續強：站穩＝真起漲，打回＝脈衝'],
@@ -239,10 +239,10 @@ const ANS=[
    ['供應鏈定位','把每家公司在供應鏈的位置標出來'],
    ['錢往上游、算力往下游','口訣：資金先聚上游，算力/強勢往下游擴'],
    ['位置對齊','把「公司在哪段」＋「資金在哪段」對起來，才知道站不站在風口']]},
- {answer:'因為它濾掉單日雜訊，看法人對「整個大盤」一週是加碼還減碼——最宏觀的方向票。',terms:[
-   ['大盤型 ETF','追蹤整個大盤/權值的 ETF(如 0050 這類)；買賣它＝對大盤本身表態'],
-   ['週買賣超方向','以「週」為單位的法人淨買賣，濾掉單日雜訊'],
-   ['方向票','個股是選股、ETF 週向是法人對整個台股的加減碼態度']]},
+ {answer:'買正2＋賣反1＝做多加碼、避險縮手＝方向偏多；是法人對「整個大盤」的方向票，還能拆三隻手看誰主導。',terms:[
+   ['0050／正2／反1','0050 做多大盤、正2 是 2x 槓桿做多、反1 是避險偏空(−1x)'],
+   ['買正2＋賣反1＝偏多','加槓桿做多又縮避險＝同向偏多；反過來(賣正2買反1)＝轉防禦'],
+   ['三隻手','外資／投信／自營分開看，知道是誰在對大盤加減碼']]},
  {answer:'看「錢往哪類板塊流、大盤健不健康、有哪些強勢候選」，自己判斷選股方向。',terms:[
    ['選股方向＋大盤體檢','台股報告的定位：給資金流向、候選池、籌碼邏輯，你自己挑'],
    ['候選池','符合條件的一批強勢股名單；是「池子」不是「明牌」'],
@@ -331,7 +331,7 @@ function showResult(){PB.style.width='100%';const s=state.score,mx=ROUNDS.length
   <div class="chapter-label t-label" style="margin-bottom:0.8rem">台股報告讀完</div>
   <div class="result-icon">📊</div>
   <div class="result-type t-main">你會讀台股報告了</div><div class="result-vow" style="font-size:19px;font-weight:800;color:#e8c86a;margin:0.35rem auto 0.1rem;max-width:420px;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)">「我不再只盯誰漲最多了。」</div>
-  <div class="result-desc t-sub">你剛跟著報告<b>十段主線</b>把台股讀了一遍：<br><b>板塊動態圖 → 資金位階(REL·四視角) → 量價共振 → 籌碼四型態(三隻手) → AI 核心競爭力 → AI 三圈擴散 → AI 信號流階梯 → AI 供應鏈定位 → 大盤ETF週向 → 完整研判</b>。<br><br>核心一句：<b>台股最會騙人的，就是只看一個數字。</b><br><br>判讀得分：${s} / ${mx}（${tier}）</div>
+  <div class="result-desc t-sub">你剛跟著報告<b>十段主線</b>把台股讀了一遍：<br><b>量版動態圖 → 資金位階(REL·四視角) → 量價共振/背離 → 籌碼四型態 → AI 核心競爭力 → AI 三圈擴散 → AI 信號流階梯 → AI 供應鏈定位 → 大盤ETF三隻手(0050/正2/反1) → 完整研判</b>。<br><br>核心一句：<b>台股最會騙人的，就是只看一個數字。</b><br><br>判讀得分：${s} / ${mx}（${tier}）</div>
   <div class="t-sub" style="font-size:13px;line-height:1.9;margin-bottom:1.3rem;max-width:430px;margin:0 auto 1.3rem">這套讀法，就是把一堆數字讀成「一個能自己判斷的方向」。接下來，拿它去讀真的台股報告。</div>
   <div style="display:flex;flex-direction:column;align-items:center;gap:0.65rem;max-width:340px;margin:0 auto">
     <a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">先訂免費電子報，每天練這套讀法 →</a>
@@ -405,7 +405,7 @@ showStart();
       +'<h3>領取《'+name+'報告》檢核</h3>'
       +'<p>輸入你訂閱用的 <b style="color:#e8c86a">email 與會員密碼</b>，系統會記下你已看懂這份報告怎麼判讀。</p>'
       +'<input id="yc-email" type="email" placeholder="訂閱用的 email" autocomplete="off">'
-      +'<div style="position:relative"><input id="yc-pw" type="text" placeholder="你的會員密碼" autocomplete="off" style="padding-right:40px"><button type="button" id="yc-eye" aria-label="顯示或隱藏密碼" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:18px;line-height:1;opacity:.6;padding:4px;color:inherit">🙈</button></div>'
+      +'<input id="yc-pw" type="password" placeholder="你的會員密碼" autocomplete="off">'
       +'<div class="yc-hint">這組密碼只是會員存取碼，請勿使用你其他重要帳號的密碼。</div>'
       +'<button id="yc-submit">送出，領取徽章</button>'
       +'<div id="yc-msg"></div>'
@@ -449,7 +449,7 @@ showStart();
       .catch(function(){btn.disabled=false;msg.className='err';msg.textContent='連線失敗，請檢查網路後再試';});
   }
   $('yc-submit').onclick=submit;
-  $('yc-pw').addEventListener('keydown',function(e){if(e.key==='Enter')submit();});var _ye=$('yc-eye');if(_ye)_ye.addEventListener('click',function(){var p=$('yc-pw');if(p.type==='password'){p.type='text';this.textContent='🙈';}else{p.type='password';this.textContent='👁';}});
+  $('yc-pw').addEventListener('keydown',function(e){if(e.key==='Enter')submit();});
   $('yc-email').addEventListener('keydown',function(e){if(e.key==='Enter')submit();});
 })();
 </script>
@@ -457,5 +457,4 @@ showStart();
 <!-- yoda-logo-sig -->
 <img alt="Yoda" src="https://yoda-research-next.vercel.app/yoda-logo.png" style="position:fixed;right:14px;bottom:12px;height:52px;width:auto;opacity:.5;z-index:9990;pointer-events:none">
 <script>(function(){try{var K='yr_vid',v=localStorage.getItem(K);if(!v){v=Date.now().toString(36)+Math.random().toString(36).slice(2,8);localStorage.setItem(K,v);}var seg=location.pathname.split('/').filter(Boolean).pop()||'home';fetch('https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec',{method:'POST',body:JSON.stringify({action:'hit',page:decodeURIComponent(seg),path:location.pathname,host:location.hostname,ref:document.referrer,vid:v})});}catch(e){}})();</script>
-<script src="https://yoda-research-next.vercel.app/yoda-game-badge.js" defer></script>
 </body></html>
