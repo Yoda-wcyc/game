@@ -110,6 +110,26 @@ const SVG_QTR=`<svg viewBox="0 0 300 118" style="width:100%;max-width:290px;marg
 // §08 核心邏輯鍊（A → B → C，箭頭流動變色）
 const SVG_CHAIN=`<svg viewBox="0 0 300 120" style="width:100%;max-width:290px;margin:0.55rem auto 0;display:block"><g font-family="'PingFang TC',sans-serif"><rect x="8" y="44" width="70" height="32" rx="6" fill="rgba(224,165,38,0.14)" stroke="rgba(224,165,38,0.5)"/><text x="43" y="64" fill="#f0d488" font-size="11" text-anchor="middle">現象</text><rect x="115" y="44" width="70" height="32" rx="6" fill="rgba(224,165,38,0.14)" stroke="rgba(224,165,38,0.5)"/><text x="150" y="64" fill="#f0d488" font-size="11" text-anchor="middle">機制</text><rect x="222" y="44" width="70" height="32" rx="6" fill="rgba(224,165,38,0.14)" stroke="rgba(224,165,38,0.5)"/><text x="257" y="64" fill="#f0d488" font-size="11" text-anchor="middle">所以怎麼看</text><text x="96" y="65" fill="#e0a526" font-size="18" text-anchor="middle">→<animate attributeName="fill-opacity" values="0.3;1;0.3" dur="1.6s" repeatCount="indefinite"/></text><text x="203" y="65" fill="#e0a526" font-size="18" text-anchor="middle">→<animate attributeName="fill-opacity" values="0.3;1;0.3" dur="1.6s" begin="0.5s" repeatCount="indefinite"/></text><text x="150" y="24" fill="#f0d488" font-size="11" text-anchor="middle">🔗 核心邏輯鍊（先看這裡）</text><text x="150" y="104" fill="rgba(255,255,255,0.5)" font-size="9" text-anchor="middle">研判最前面，一條線把骨幹講完</text></g></svg>`;
 
+// §01 四支溫度計（水銀柱持續上下＝溫度一直在變）
+function thermo4SVG(){
+ const T=[{x:48,c:'#ffb060',lab:'資金流',lo:28,hi:60},{x:114,c:'#ffcc80',lab:'情緒',lo:22,hi:70},{x:186,c:'#5b8def',lab:'風險',lo:14,hi:42},{x:252,c:'#7fd0a0',lab:'廣度',lo:40,hi:68}];
+ const bot=118;
+ const body=T.map((t,i)=>{const beg=(i*0.55).toFixed(2)+'s';const y0=bot-t.lo,y1=bot-t.hi;
+  return `<g><rect x="${t.x-6}" y="16" width="12" height="98" rx="6" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.28)"/>`
+   +`<line x1="${t.x+7}" y1="34" x2="${t.x+11}" y2="34" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><line x1="${t.x+7}" y1="58" x2="${t.x+11}" y2="58" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><line x1="${t.x+7}" y1="82" x2="${t.x+11}" y2="82" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>`
+   +`<circle cx="${t.x}" cy="122" r="12" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.28)"/><circle cx="${t.x}" cy="122" r="8" fill="${t.c}"/>`
+   +`<rect x="${t.x-3.5}" width="7" rx="3.5" fill="${t.c}"><animate attributeName="height" values="${t.lo};${t.hi};${t.lo}" dur="2.6s" begin="${beg}" repeatCount="indefinite"/><animate attributeName="y" values="${y0};${y1};${y0}" dur="2.6s" begin="${beg}" repeatCount="indefinite"/></rect>`
+   +`<text x="${t.x}" y="150" fill="rgba(255,255,255,0.78)" font-size="10.5" text-anchor="middle">${t.lab}</text></g>`;
+ }).join('');
+ return `<svg viewBox="0 0 300 160" style="width:100%;max-width:290px;margin:0.5rem auto 0.2rem;display:block">${body}</svg>`;
+}
+// 結果頁工具箱：把所有動畫 SVG 縮小排一格，給「擁有很多工具」的感覺
+function toolkitGrid(){
+ const tools=[[thermo4SVG(),'四支溫度計'],[SVG_RRG,'板塊動態圖'],[SVG_TRI,'三線歷史'],[SVG_BREADTH,'廣度雙折線'],[SVG_GAMMA,'Gamma 地圖'],[SVG_QTR,'一季事件軸'],[SVG_CHAIN,'核心邏輯鍊']];
+ const cells=tools.map(t=>`<div style="background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.18);border-radius:8px;padding:6px 5px 4px"><div style="height:64px;overflow:hidden;display:flex;align-items:center;justify-content:center">${t[0]}</div><div style="font-size:10px;color:rgba(255,255,255,0.72);margin-top:3px;letter-spacing:.5px">${t[1]}</div></div>`).join('');
+ return `<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px;max-width:460px;margin:0.5rem auto 1.1rem">${cells}</div>`;
+}
+
 const OPENING={sky:'sky-dawn',bg:'farhills',label:'序',title:'你只會看第 8 段',quotes:[
  '你訂了報告，卻每次直接拉到最後一段看結論。',
  '前面七段像天書——一堆分數、指標、會動的圖、隱形的牆，看不懂。',
@@ -253,7 +273,8 @@ function renderGaugeIntro(i){const r=ROUNDS[i];
    <div style="margin-bottom:0.55rem"><b style="color:#e0a526">③ 風險偏好</b>：資金在冒險（敢衝）還是避險（抱穩、抱現金）。</div>
    <div style="margin-bottom:0.55rem"><b style="color:#e0a526">④ 廣度</b>：上漲的是「多數股」，還是「少數大牛股」在撐。</div>
   </div>
-  <div class="round-text t-sub" style="font-size:12.5px;margin-top:0.2rem;opacity:0.85">每一支都是很多細指標壓成的一個「溫度」。來，試讀第三支：風險偏好。</div>
+  ${thermo4SVG()}
+  <div class="round-text t-sub" style="font-size:12.5px;margin-top:0.2rem;opacity:0.85">四支溫度計的水銀柱一直在動——市場的溫度每天都在變。每一支都是很多細指標壓成的一個「溫度」。來，試讀第三支：風險偏好。</div>
   <button class="continue-btn" onclick="renderGauge(${i})">試讀看看 ›</button>`);}
 function prog(){PB.style.width=(Math.max(0,state.idx)/ROUNDS.length*100)+'%';}
 function dots(i){return `<div class="step-dots">${ROUNDS.map((_,k)=>`<i class="${k<=i?'on':''}"></i>`).join('')}</div>`;}
@@ -355,7 +376,9 @@ function showResult(){PB.style.width='100%';const s=state.score;
   <div class="result-icon">📖</div>
   <div class="result-type t-main">你會讀整份報告了</div><div class="result-vow" style="font-size:19px;font-weight:800;color:#e8c86a;margin:0.35rem auto 0.1rem;max-width:420px;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)">「我不再只看結論」</div>
   <div class="result-desc t-sub">你剛走完市場觀察八段：<br>封面四表 → 核心指標 → 板塊動態圖 → 板塊對位（三線＋核心邏輯鍊）→ 市場廣度雙折線 → Gamma 防線 → 未來一季事件 → 完整研判。<br><br>最重要的是你懂了：<b>報告是一條「因 → 果」的線索鏈，完整研判最前面那條核心邏輯鍊，是前面一格一格推出來的。它給的是地圖，不是明牌。</b><br><br>判讀得分：${s} / 8（${tier}）</div>
-  <div class="t-sub" style="font-size:13px;line-height:1.9;margin-bottom:1.3rem;max-width:410px;margin:0 auto 1.3rem">下一步，就是拿這套讀法，去讀這週真正的市場觀察。</div>
+  <div class="t-label" style="font-size:11px;letter-spacing:2px;margin:0.2rem 0 0.1rem">你現在會用的判讀工具（每一張都會動）</div>
+  ${toolkitGrid()}
+  <div class="t-sub" style="font-size:13px;line-height:1.9;margin-bottom:1.3rem;max-width:410px;margin:0 auto 1.3rem">這些圖你都看懂了。下一步，就是拿這整套工具，去讀這週真正的市場觀察。</div>
   <div style="display:flex;flex-direction:column;align-items:center;gap:0.65rem;max-width:340px;margin:0 auto">
     <a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">訂電子報，每週帶你讀懂這份報告 →</a>
     <a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">你會讀了——來看這週的市場觀察 →</a>
