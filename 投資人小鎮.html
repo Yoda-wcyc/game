@@ -1,0 +1,263 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>投資人小鎮 · Yoda Research</title>
+<style>
+:root{--bg:#0a0e18;--panel:rgba(255,255,255,.04);--bd:rgba(255,255,255,.12);--txt:#e8ecf6;--dim:#93a0bd;--gold:#e0b64a;
+ --g:#a5d6a7;--y:#e0c56a;--o:#ff9f4a;--r:#ff8a8a;
+ --sans:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC','Microsoft JhengHei',sans-serif;--mono:'SF Mono',Consolas,monospace;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:radial-gradient(120% 80% at 50% -10%,#141a2e,#0a0e18 60%);color:var(--txt);font-family:var(--sans);line-height:1.5;padding:16px 14px 40px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:920px;margin:0 auto}
+h1{font-size:22px;font-weight:800;letter-spacing:-.01em}
+.sub{font-size:12.5px;color:var(--dim);margin:3px 0 14px}
+.panel{background:var(--panel);border:1px solid var(--bd);border-radius:14px;padding:14px 16px;margin-bottom:14px}
+.ph{font-size:11px;letter-spacing:2px;color:var(--dim);margin-bottom:8px}
+.mkt-info{display:flex;gap:16px;align-items:baseline;flex-wrap:wrap;margin-top:6px;font-size:13px}
+.mkt-info b{font-size:19px;font-family:var(--mono)}
+.pill{font-size:11px;font-weight:700;padding:2px 10px;border-radius:999px}
+.ctrl{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:2px 0 14px}
+.btn{font-size:13px;font-weight:700;color:#1a1200;background:var(--gold);border:none;border-radius:9px;padding:9px 16px;cursor:pointer}
+.btn.g{background:transparent;color:var(--txt);border:1px solid var(--bd)}
+.spd{font-size:12px;color:var(--dim)}
+input[type=range]{accent-color:var(--gold);width:120px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+.card{background:rgba(255,255,255,.03);border:1px solid var(--bd);border-radius:11px;padding:10px 12px;position:relative;overflow:hidden;transition:transform .3s}
+.card .barbg{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,rgba(224,182,74,.16),rgba(224,182,74,.03));transition:width .35s;z-index:0}
+.card>*{position:relative;z-index:1}
+.crow{display:flex;align-items:center;gap:9px}
+.emoji{font-size:22px;flex:0 0 auto}
+.cname{font-size:14px;font-weight:700}
+.ctag{font-size:10.5px;color:var(--dim)}
+.cnet{margin-left:auto;text-align:right}
+.cnet .v{font-size:16px;font-weight:800;font-family:var(--mono)}
+.cnet .p{font-size:11.5px;font-family:var(--mono)}
+.up{color:var(--g)}.down{color:var(--r)}
+.rank{font-family:var(--mono);font-size:12px;color:var(--dim);width:20px;flex:0 0 auto;text-align:center}
+.blown{opacity:.55}
+.bust{display:inline-block;font-size:10px;font-weight:700;color:#fff;background:var(--r);border-radius:5px;padding:1px 6px;margin-left:6px}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;font-size:11px;color:var(--dim)}
+.legend i{display:inline-block;width:10px;height:3px;border-radius:2px;margin-right:4px;vertical-align:middle}
+svg{display:block;width:100%}
+.note{font-size:11.5px;color:var(--dim);margin-top:8px;line-height:1.7}
+</style>
+
+<div class="wrap">
+  <h1>投資人小鎮 <span style="font-size:13px;color:var(--dim);font-weight:400">· Phase 1 原型</span></h1>
+  <div class="sub">8 種投資人性格 × 一輪景氣循環（2020→現在，合成回放）。看誰複利滾大、誰爆倉、誰空手錯過。</div>
+
+  <div class="panel">
+    <div class="ph">大盤指數 · 一輪循環</div>
+    <svg id="mkt" viewBox="0 0 880 180" preserveAspectRatio="none" style="height:170px"></svg>
+    <div class="mkt-info">
+      <span>指數 <b id="mPrice">100</b></span>
+      <span id="mPhasePill" class="pill">—</span>
+      <span class="spd" id="mSeg">—</span>
+      <span class="spd" id="mProg">第 0 週</span>
+    </div>
+  </div>
+
+  <div class="ctrl">
+    <button class="btn" id="play">▶ 播放</button>
+    <button class="btn g" id="reset">↺ 重來</button>
+    <span class="spd">速度</span><input type="range" id="speed" min="1" max="20" value="8">
+    <span class="spd" id="statusMsg"></span>
+  </div>
+
+  <div class="panel">
+    <div class="ph">小鎮排行 · 資產規模（起始資金 100）</div>
+    <div class="grid" id="agents"></div>
+  </div>
+
+  <div class="panel">
+    <div class="ph">資產曲線（對數尺度）</div>
+    <svg id="nw" viewBox="0 0 880 200" style="height:190px"></svg>
+    <div class="legend" id="legend"></div>
+    <div class="note" id="insight"></div>
+  </div>
+</div>
+
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);return e;}
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+
+/* ===== 市場:合成回放 2020→現在 ===== */
+function genMarket(){
+  const rng=mulberry32(7);
+  // [名稱, 週數, 段總漲跌, 波動, 階段]
+  const segs=[
+    ['2020 疫情崩盤',5,-0.34,0.055,'衰退'],
+    ['V 型復甦',30,0.88,0.020,'復甦'],
+    ['2021 過熱',10,0.14,0.028,'榮景'],
+    ['2022 Fed 升息',22,-0.27,0.032,'衰退'],
+    ['2023 整理',16,0.06,0.024,'復甦'],
+    ['2023底–2025初 成長',42,0.66,0.018,'成長'],
+    ['2025 關稅戰',6,-0.13,0.038,'衰退'],
+    ['榮景至今',26,0.30,0.022,'榮景'],
+  ];
+  let p=100,out=[];
+  for(const[nm,wk,dr,vol,ph]of segs){
+    const sd=Math.pow(1+dr,1/wk)-1;
+    for(let i=0;i<wk;i++){const r=sd+(rng()-0.5)*2*vol;p*=(1+r);out.push({price:+p.toFixed(2),ret:r,phase:ph,seg:nm});}
+  }
+  return out;
+}
+const MKT=genMarket();
+const PHCOL={'復甦':'var(--g)','成長':'var(--y)','榮景':'var(--o)','衰退':'var(--r)'};
+const PHHEX={'復甦':'#a5d6a7','成長':'#e0c56a','榮景':'#ff9f4a','衰退':'#ff8a8a'};
+
+/* ===== 8 位投資人:規則制策略 ===== */
+// decide 回傳「市場曝險倍數」(0=空手,1=滿倉,>1=槓桿)。beta=個股波動放大。cost=每次調倉摩擦。
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+const AGENTS=[
+ {id:'store',name:'存股阿伯',tag:'長線·大盤ETF·保守',emoji:'🧓',color:'#7fd6a6',beta:1.0,cost:0.0005,
+  decide:c=>c.dd<-0.20?1.2:1.0},
+ {id:'value',name:'價值老貓',tag:'長線·個股·紀律逆勢',emoji:'🐈',color:'#7fb8ff',beta:1.1,cost:0.002,
+  decide:c=>clamp(0.4+2.6*((c.ma50-c.price)/c.ma50),0,1.5)},
+ {id:'mom',name:'動能少年',tag:'短線·個股·追高FOMO',emoji:'🚀',color:'#ffcc66',beta:1.7,cost:0.004,
+  decide:c=>c.mom10>0?1.8:1.55},
+ {id:'gambler',name:'當沖賭俠',tag:'當沖·期貨·極貪槓桿',emoji:'🎲',color:'#ff8a8a',beta:1.0,cost:0.01,
+  decide:c=>2.4*(c.rng()<0.5?1:-1)},
+ {id:'disc',name:'紀律哥',tag:'中線·大盤·順勢停損',emoji:'🛡️',color:'#b39ddb',beta:1.0,cost:0.0015,
+  decide:c=>c.price>c.ma20?1.0:0.0},
+ {id:'retail',name:'韭菜小散',tag:'短線·個股·追漲殺跌',emoji:'😰',color:'#e59866',beta:1.5,cost:0.006,
+  decide:c=>c.mom10>0.06?1.6:(c.mom10<-0.06?0.0:1.0)},
+ {id:'cash',name:'空手仙人',tag:'現金·極保守·常錯過',emoji:'🧘',color:'#90a4ae',beta:1.0,cost:0.001,
+  decide:function(c){ if(this._t>0){this._t--;return 1.0;} if(c.dd<-0.22){this._t=7;return 1.0;} return 0.0; },_t:0},
+ {id:'lev2',name:'槓桿正2哥',tag:'中線·槓桿ETF·貪',emoji:'⚡',color:'#f4a261',beta:1.0,cost:0.002,
+  decide:c=>2.0},
+];
+const START=100;
+
+/* ===== 模擬狀態 ===== */
+let sim, playing=false, timer=null;
+function reset(){
+  sim=AGENTS.map(a=>({a,net:START,exp:1,hist:[START],blown:false}));
+  AGENTS.forEach(a=>{if('_t'in a)a._t=0;});
+  window.i=0;
+  playing=false; if(timer){clearInterval(timer);timer=null;} $('play').textContent='▶ 播放';
+  $('statusMsg').textContent=''; render(); drawMkt();
+}
+function ctxAt(i){
+  const p=MKT[i].price;
+  const lo=Math.max(0,i-19), ma20=avg(i,20), ma50=avg(i,50);
+  let peak=0; for(let k=0;k<=i;k++)peak=Math.max(peak,MKT[k].price);
+  const dd=p/peak-1;
+  const mom10=i>=10?p/MKT[i-10].price-1:0;
+  return {i,price:p,ma20,ma50,dd,mom10,rng:seedRng(i)};
+}
+function avg(i,n){let s=0,c=0;for(let k=Math.max(0,i-n+1);k<=i;k++){s+=MKT[k].price;c++;}return s/c;}
+const _r=mulberry32(999); const _seq=[]; function seedRng(i){ // 給賭俠每步一個穩定亂數
+  while(_seq.length<=i)_seq.push(mulberry32(1000+_seq.length)());
+  let idx=0; return ()=>{return _seq[i];};
+}
+function step(){
+  if(window.i>=MKT.length-1){pause();$('statusMsg').textContent='循環走完。';return;}
+  window.i++;
+  const i=window.i, ret=MKT[i].ret, ctx=ctxAt(i);
+  for(const s of sim){
+    if(s.blown){s.hist.push(s.net);continue;}
+    let e=s.a.decide.call(s.a,ctx);
+    const changed=Math.abs(e-s.exp)>0.05;
+    s.exp=e;
+    let eff=e*s.a.beta*ret - (changed?s.a.cost:s.a.cost*0.15);
+    if(eff<=-0.55){ // 槓桿/賭俠 單週重擊 → 爆倉
+      s.net=START*0.02; s.blown=true;
+    }else{
+      s.net=s.net*(1+eff);
+      if(s.net<START*0.02){s.net=START*0.02;s.blown=true;}
+    }
+    s.hist.push(s.net);
+  }
+  render(); drawMkt();
+}
+function pause(){playing=false;if(timer){clearInterval(timer);timer=null;}$('play').textContent='▶ 播放';}
+function play(){
+  if(window.i>=MKT.length-1)reset();
+  playing=true;$('play').textContent='⏸ 暫停';
+  const spd=+$('speed').value;
+  timer=setInterval(step, 420/spd);
+}
+
+/* ===== 繪圖 ===== */
+function drawMkt(){
+  const svg=$('mkt'); svg.innerHTML='';
+  const W=880,H=180, n=MKT.length;
+  let mn=1e9,mx=-1e9; for(const m of MKT){mn=Math.min(mn,m.price);mx=Math.max(mx,m.price);}
+  const x=k=>k/(n-1)*W, y=v=>H-8-(v-mn)/(mx-mn)*(H-20);
+  // 階段底色帶
+  let seg0=0;
+  for(let k=1;k<=n;k++){ if(k===n||MKT[k].phase!==MKT[seg0].phase){
+     svg.appendChild(el('rect',{x:x(seg0),y:0,width:x(k-1)-x(seg0)+2,height:H,fill:PHHEX[MKT[seg0].phase],opacity:0.08})); seg0=k; } }
+  // 已走的線 vs 未走
+  const cur=window.i||0;
+  let dPast='M'+x(0)+','+y(MKT[0].price);
+  for(let k=1;k<=cur;k++)dPast+=' L'+x(k)+','+y(MKT[k].price);
+  svg.appendChild(el('path',{d:dPast,fill:'none',stroke:'#e0b64a','stroke-width':2.2}));
+  let dFut='M'+x(cur)+','+y(MKT[cur].price);
+  for(let k=cur+1;k<n;k++)dFut+=' L'+x(k)+','+y(MKT[k].price);
+  svg.appendChild(el('path',{d:dFut,fill:'none',stroke:'rgba(255,255,255,0.14)','stroke-width':1.4}));
+  svg.appendChild(el('circle',{cx:x(cur),cy:y(MKT[cur].price),r:4.5,fill:PHHEX[MKT[cur].phase]}));
+  const m=MKT[cur];
+  $('mPrice').textContent=m.price.toFixed(0);
+  const pill=$('mPhasePill'); pill.textContent=m.phase; pill.style.color=PHHEX[m.phase]; pill.style.background=PHHEX[m.phase]+'22';
+  $('mSeg').textContent=m.seg; $('mProg').textContent='第 '+cur+' / '+(n-1)+' 週';
+}
+function fmt(v){return v>=1000?(v/1000).toFixed(1)+'k':v.toFixed(1);}
+function render(){
+  const box=$('agents');
+  const ranked=[...sim].sort((a,b)=>b.net-a.net);
+  const maxNet=Math.max(...sim.map(s=>s.net));
+  box.innerHTML='';
+  ranked.forEach((s,idx)=>{
+    const pct=(s.net/START-1)*100, up=pct>=0;
+    const d=document.createElement('div'); d.className='card'+(s.blown?' blown':'');
+    d.innerHTML=`<div class="barbg" style="width:${Math.max(2,s.net/maxNet*100)}%"></div>
+      <div class="crow"><span class="rank">${idx+1}</span><span class="emoji">${s.a.emoji}</span>
+        <div><div class="cname">${s.a.name}${s.blown?'<span class="bust">爆倉</span>':''}</div><div class="ctag">${s.a.tag}</div></div>
+        <div class="cnet"><div class="v ${up?'up':'down'}">${fmt(s.net)}</div><div class="p ${up?'up':'down'}">${up?'+':''}${pct.toFixed(0)}%</div></div>
+      </div>`;
+    box.appendChild(d);
+  });
+  drawNW();
+}
+function drawNW(){
+  const svg=$('nw'); svg.innerHTML='';
+  const W=880,H=200, n=MKT.length, cur=window.i||0;
+  let mx=START; for(const s of sim)for(const v of s.hist)mx=Math.max(mx,v);
+  const lo=Math.log10(START*0.02), hi=Math.log10(mx*1.05);
+  const x=k=>k/(n-1)*W, y=v=>H-6-(Math.log10(Math.max(v,START*0.02))-lo)/(hi-lo)*(H-14);
+  // 起始線
+  svg.appendChild(el('line',{x1:0,y1:y(START),x2:W,y2:y(START),stroke:'rgba(255,255,255,0.12)','stroke-dasharray':'3 4'}));
+  for(const s of sim){
+    if(s.hist.length<2)continue;
+    let d='M'+x(0)+','+y(s.hist[0]);
+    for(let k=1;k<s.hist.length;k++)d+=' L'+x(k)+','+y(s.hist[k]);
+    svg.appendChild(el('path',{d,fill:'none',stroke:s.a.color,'stroke-width':s.blown?1.3:2,opacity:s.blown?0.5:0.95}));
+  }
+  const lg=$('legend'); lg.innerHTML=sim.map(s=>`<span><i style="background:${s.a.color}"></i>${s.a.name}</span>`).join('');
+  updateInsight();
+}
+function updateInsight(){
+  const cur=window.i||0;
+  if(cur<MKT.length-1){$('insight').textContent='';return;}
+  const r=[...sim].sort((a,b)=>b.net-a.net);
+  const win=r[0], lose=r[r.length-1], busts=sim.filter(s=>s.blown).map(s=>s.a.name);
+  const top2=r.slice(0,2).map(s=>s.a.name).join('、');
+  $('insight').innerHTML=`一輪走完（停在<b style="color:var(--o)">榮景</b>）—— 目前領先 <b style="color:${win.a.color}">${win.a.name}</b>（${fmt(win.net)}），墊底 <b style="color:${lose.a.color}">${lose.a.name}</b>（${fmt(lose.net)}）。`
+    +(busts.length?` 爆倉：<b style="color:var(--r)">${busts.join('、')}</b>。`:'')
+    +`<br>⚠ 關鍵洞察：現在停在<b>榮景頂</b>，<b>追高／槓桿型（${top2}）反而最風光</b>——因為<b>衰退還沒發生</b>。這正是最危險的一刻：他們的帳面，全是「還沒還的槓桿」。`
+    +`<br>紀律／長線（紀律哥、存股阿伯）不是最亮，但一路穩穩複利、沒有一次大回撤——<b>真正的考驗在下一格：衰退。</b>（Phase 2 會讓你按一個鈕丟出衰退，看誰爆。）`;
+}
+
+/* ===== 綁定 ===== */
+$('play').onclick=()=>{playing?pause():play();};
+$('reset').onclick=reset;
+$('speed').oninput=()=>{if(playing){pause();play();}};
+reset();
+</script>
+
+<script src="https://yoda-research-next.vercel.app/yoda-game-badge.js" defer></script>
