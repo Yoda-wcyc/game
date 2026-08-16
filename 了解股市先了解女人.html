@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-TW"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DFFP3JL6EY"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-DFFP3JL6EY');
+</script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>了解股市，先了解女人 · Yoda Research</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;min-height:100%;font-family:-apple-system,'PingFang TC','Noto Sans TC',sans-serif;background:#000}
+#game{width:100%;min-height:100vh;position:relative;overflow:hidden}
+.scene{width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:3rem 1.5rem}
+.sky-start{background:linear-gradient(180deg,#0a0a1a,#1a1a3e 45%,#3a2a5e 100%)}
+.sky-dawn{background:linear-gradient(180deg,#1a1a2e,#e8b86d 60%,#f4a261)}
+.sky-noon{background:linear-gradient(180deg,#0d47a1,#1976d2 50%,#bbdefb)}
+.sky-valley{background:linear-gradient(180deg,#1b2631,#2e4057 42%,#5d7a8a)}
+.sky-storm{background:linear-gradient(180deg,#0b0b12,#171733 50%,#33409e)}
+.sky-clouds{background:linear-gradient(180deg,#0d47a1,#1565c0 42%,#90caf9)}
+.sky-clear{background:linear-gradient(180deg,#173a68,#4a7cc0 44%,#a6cff0 82%,#d9edfb)}
+.sky-result{background:linear-gradient(180deg,#003459,#00587a 42%,#0288d1)}
+.ink-bg{position:absolute;bottom:0;left:0;width:100%;height:170px;pointer-events:none}
+.overlay{position:relative;z-index:10;text-align:center;max-width:640px;width:100%}
+.t-main{color:#f2f5ff}.t-sub{color:rgba(228,234,247,0.84)}.t-label{color:rgba(205,214,236,0.58)}
+.sky-dawn .t-main,.sky-start .t-main{color:#fff7e6}.sky-dawn .t-sub,.sky-start .t-sub{color:rgba(255,242,214,0.82)}
+.chapter-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:0.5rem}
+.chapter-title{font-size:27px;font-weight:300;margin-bottom:1rem;line-height:1.3}
+.chapter-quote{font-size:15px;line-height:1.95;margin-bottom:2rem;font-style:italic;max-width:480px;margin:0 auto 2rem}
+.round-text{font-size:15px;line-height:1.9;margin-bottom:1.3rem;max-width:520px;margin:0 auto 1.3rem}
+.round-q{font-size:16px;font-weight:400;margin-bottom:1.3rem;line-height:1.5}
+.transition-quote{font-size:17px;max-width:430px;line-height:2.1;font-style:italic;color:rgba(216,228,255,0.86)}
+.choices{display:flex;flex-direction:column;gap:0.7rem;width:100%;max-width:480px;margin:0 auto}
+.choice-btn{background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.28);color:#fff;padding:0.9rem 1.2rem;border-radius:8px;cursor:pointer;font-size:14px;line-height:1.6;text-align:left;transition:all .2s;backdrop-filter:blur(6px)}
+.choice-btn:hover{background:rgba(0,0,0,0.45);border-color:rgba(255,255,255,0.6);transform:translateX(4px)}
+.continue-btn{background:transparent;border:1px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.8);padding:0.6rem 2rem;border-radius:4px;cursor:pointer;font-size:13px;margin-top:1.3rem;letter-spacing:1px;transition:all .2s}
+.continue-btn:hover{border-color:rgba(255,255,255,0.9);color:#fff}
+.feedback{font-size:13px;line-height:1.8;max-width:440px;margin:0.7rem auto 0;min-height:42px}
+/* 儀表滑桿 */
+.gauge-wrap{max-width:340px;margin:0 auto}
+input[type=range].gsl{width:100%;-webkit-appearance:none;appearance:none;background:transparent;height:22px;margin-top:0.2rem}
+input[type=range].gsl::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;cursor:pointer;margin-top:-7px;box-shadow:0 1px 6px rgba(0,0,0,.4)}
+input[type=range].gsl::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:linear-gradient(90deg,#5b8def,#e0a526,#e05353)}
+input[type=range].gsl::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:none;cursor:pointer}
+input[type=range].gsl::-moz-range-track{height:8px;border-radius:4px;background:linear-gradient(90deg,#5b8def,#e0a526,#e05353)}
+.gsl-ends{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,0.6);margin-top:0.3rem}
+/* 分類 */
+.cls-list{max-width:470px;margin:0 auto 0.8rem;display:flex;flex-direction:column;gap:0.5rem}
+.cls-row{display:flex;align-items:center;gap:0.6rem;background:rgba(0,0,0,0.26);border:1px solid rgba(255,255,255,0.22);border-radius:8px;padding:0.5rem 0.7rem;flex-wrap:wrap}
+.cls-name{flex:1;text-align:left;font-size:13.5px;color:#fff;line-height:1.5;min-width:100%;margin-bottom:0.35rem}
+.cls-btns{display:flex;gap:0.4rem;width:100%}
+.cls-btn{border:1px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.2);color:#fff;border-radius:6px;padding:0.4rem 0.8rem;font-size:12.5px;cursor:pointer;transition:all .15s;flex:1}
+.cls-btn.atk.on{background:rgba(224,83,83,0.32);border-color:#e05353}
+.cls-btn.def.on{background:rgba(91,141,239,0.32);border-color:#5b8def}
+.cls-row.right{border-color:rgba(120,220,140,0.7)}
+.cls-row.wrong{border-color:rgba(229,120,120,0.7)}
+.result-icon{font-size:50px;margin-bottom:0.5rem}
+.result-type{font-size:23px;font-weight:300;margin-bottom:0.7rem}
+.result-desc{font-size:14px;line-height:1.9;max-width:460px;margin:0 auto 1.3rem}
+.yoda-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);color:#fff;padding:0.85rem 2.2rem;border-radius:6px;font-size:14px;cursor:pointer;text-decoration:none;margin:0.3rem;transition:opacity .2s}
+.yoda-btn:hover{opacity:.88}
+.yoda-btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.85)}
+.progress-bar{position:fixed;top:0;left:0;height:2px;background:rgba(224,165,38,0.65);transition:width .4s;z-index:100}
+.mute-btn{position:fixed;top:14px;right:14px;z-index:101;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(6px)}
+.step-dots{display:flex;gap:6px;justify-content:center;margin-bottom:1rem;flex-wrap:wrap}
+.step-dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.25)}
+.step-dots i.on{background:#e0a526}
+.layer-list{max-width:500px;margin:0 auto 0.6rem;text-align:left;font-size:13.5px;line-height:1.7;color:rgba(255,255,255,0.92);display:grid;grid-template-columns:max-content 1fr;column-gap:14px;row-gap:0.5rem;align-items:start}
+.layer-list .ly{display:contents}
+.layer-list .ly b{color:#e0a526;white-space:nowrap}
+.layer-list .ly>span{min-width:0}
+.data-chip{display:inline-block;background:rgba(224,165,38,0.14);border:1px solid rgba(224,165,38,0.4);border-radius:6px;padding:2px 9px;margin:2px;font-size:12.5px;color:#f0d488}
+</style></head><body>
+<audio id="bgm" loop preload="auto"><source src="day_one.mp3"></audio>
+<button id="muteBtn" class="mute-btn" onclick="toggleMute()">🔊</button>
+<div class="progress-bar" id="progress"></div>
+<div id="game"></div>
+<script>
+const G=document.getElementById('game'),PB=document.getElementById('progress');
+const BGM=document.getElementById('bgm'),MUTEBTN=document.getElementById('muteBtn');
+let bgmStarted=false,bgmMuted=false;try{bgmMuted=localStorage.getItem('yoda_bgm_muted')==='1';}catch(e){}
+if(BGM)BGM.volume=0.30;
+function mIcon(){if(MUTEBTN)MUTEBTN.textContent=bgmMuted?'🔇':'🔊';}mIcon();
+function toggleMute(){bgmMuted=!bgmMuted;try{localStorage.setItem('yoda_bgm_muted',bgmMuted?'1':'0');}catch(e){}if(bgmMuted){if(BGM)BGM.pause();}else if(BGM)BGM.play().then(()=>bgmStarted=true).catch(()=>{});mIcon();}
+window.toggleMute=toggleMute;
+document.addEventListener('click',()=>{if(!bgmStarted&&!bgmMuted&&BGM)BGM.play().then(()=>bgmStarted=true).catch(()=>{});});
+
+// ===== 水墨背景 bg(type,sky) =====
+function inkCols(sky){const dark=['sky-storm','sky-valley','sky-dawn','sky-dusk','sky-night','sky-start'].includes(sky);
+  return dark?['rgba(210,220,245,0.10)','rgba(180,195,230,0.16)','rgba(222,232,252,0.32)']:['rgba(30,35,60,0.10)','rgba(25,30,55,0.16)','rgba(20,25,50,0.28)'];}
+const MOTIFS={
+ farhills:(f,n,l)=>`<path d="M0,70 C120,50 220,58 340,44 C460,32 560,52 700,40 C840,30 960,50 1080,42 L1200,46 L1200,120 L0,120Z" fill="${f}"/><path d="M0,86 C160,74 300,82 460,70 C640,58 780,76 940,68 C1060,62 1140,72 1200,70 L1200,120 L0,120Z" fill="${n}"/><path d="M0,70 C120,50 220,58 340,44 C460,32 560,52 700,40 C840,30 960,50 1080,42 L1200,46" fill="none" stroke="${l}" stroke-width="1.4"/>`,
+ range:(f,n,l)=>`<path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38 L1200,120 L0,120Z" fill="${f}"/><path d="M0,82 C160,66 320,76 480,60 C640,46 800,70 960,60 C1080,54 1160,64 1200,62 L1200,120 L0,120Z" fill="${n}"/><path d="M0,100 C220,90 420,96 640,86 C860,78 1020,92 1200,84 L1200,120 L0,120Z" fill="${n}"/><path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38" fill="none" stroke="${l}" stroke-width="1.2" opacity="0.85"/>`,
+ peak:(f,n,l)=>`<path d="M0,104 C260,100 430,94 520,56 C560,40 600,20 640,20 C680,20 720,42 760,60 C860,100 1000,102 1200,100 L1200,120 L0,120Z" fill="${n}"/><path d="M600,28 C612,42 628,54 640,60" fill="none" stroke="${l}" stroke-width="1.4"/><rect x="300" y="62" width="620" height="10" fill="${f}"/><path d="M120,86 h240 M470,86 h180 M760,90 h300" stroke="${f}" stroke-width="8" stroke-linecap="round" opacity="0.7"/>`,
+ river:(f,n,l)=>`<path d="M0,90 C300,82 500,86 1200,84 L1200,120 L0,120Z" fill="${f}"/><path d="M470,82 Q540,98 610,82" fill="none" stroke="${l}" stroke-width="1.8" stroke-linecap="round"/><path d="M120,94 q80,-4 160,0 t160,0 M700,96 q80,-4 160,0 t160,0" fill="none" stroke="${l}" stroke-width="1" opacity="0.6"/>`};
+function bg(type,sky){const m=MOTIFS[type];if(!m)return '';const[f,n,l]=inkCols(sky);return `<svg class="ink-bg" viewBox="0 0 1200 120" preserveAspectRatio="none">${m(f,n,l)}</svg>`;}
+
+const OPENING={sky:'sky-dawn',bg:'farhills',label:'序',title:'最難懂的循環，住在你家',quotes:[
+ '你研究 K 線、盯 Fed 利率、背一堆總經指標……<br>結果最看不懂的那個循環，天天跟你同床。',
+ '但有個祕密：<b>女人的情緒週期，跟景氣循環是同一條波浪。</b><br>復甦 → 成長 → 榮景 → 衰退，女人和市場，一模一樣。<br>搞懂一個，另一個免費附贈。<br><span style="opacity:.72;font-size:13px">（而且這兩個你都躲不掉——不如學會衝浪。）</span>',
+]};
+
+const ROUNDS=[
+ {type:'ab',sky:'sky-valley',bg:'river',label:'第 ① 段 · 復甦',title:'她突然回訊了 / 大盤落底翻紅',
+  text:'她冷了一週，今天突然主動敲你「在幹嘛」；<br>就像大盤跌了三個月，昨天終於一根<b>帶量長紅</b>翻上來。<br>兩個都在<b>谷底剛翻上</b>——半信半疑、大家還在怕。<svg viewBox="0 0 320 158" style="width:100%;max-width:300px;margin:0.65rem auto 0.15rem;display:block" aria-hidden="true"><path d="M20,125 C75,125 95,32 160,32 C225,32 245,125 300,125" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="2"/><circle r="3" fill="rgba(224,165,38,0.4)"><animateMotion dur="7s" repeatCount="indefinite" path="M20,125 C75,125 95,32 160,32 C225,32 245,125 300,125"/></circle><text x="60" y="143" fill="#f0d488" font-size="11.5" text-anchor="middle" font-weight="bold">復甦</text><text x="112" y="46" fill="rgba(255,255,255,0.42)" font-size="10" text-anchor="middle">成長</text><text x="160" y="22" fill="rgba(255,255,255,0.42)" font-size="10" text-anchor="middle">榮景</text><text x="214" y="52" fill="rgba(255,255,255,0.42)" font-size="10" text-anchor="middle">衰退</text><circle cx="65" cy="100" r="7" fill="#a5d6a7"><animate attributeName="r" values="6;10;6" dur="1.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.5;1" dur="1.4s" repeatCount="indefinite"/></circle><g><path d="M65,95 L65,77 M59,83 L65,77 L71,83" stroke="#a5d6a7" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><animateTransform attributeName="transform" type="translate" values="0,4;0,-4;0,4" dur="1.5s" repeatCount="indefinite"/></g></svg>',
+  q:'這時候，你會？',
+  choices:['先觀望——萬一又跌回去 / 她又變臉，不就白搭','主動一點、分批靠近——谷底翻上的紅利最甜，別人還在怕時卡位','直接 all in / 狂送花猛追——要嘛不做，要做就做滿'],correct:1,
+  fb:['等你「確認」，通常都漲一段了 / 她也被別人的溫暖接走了——復甦最甜那段，是在半信半疑時吃到的。','對——<b>復甦期主動一點</b>：成本最低、位置最好。她剛回暖你就在、大盤剛翻你就布局，整段上升波都是你的。','別暴衝——復甦是<b>分批</b>不是梭哈；愛是慢慢靠近不是嚇跑人。留點子彈給後面。']},
+
+ {type:'ab',sky:'sky-noon',bg:'range',label:'第 ② 段 · 成長',title:'越聊越熱 / 多頭確立',
+  text:'你們越聊越開、她眼睛會笑了；<br>大盤站上季線、獲利擴散、<b>多頭趨勢確立</b>。<br>這是<b>主升段 × 熱戀期</b>——明確、順、越來越好。<svg viewBox="0 0 320 158" style="width:100%;max-width:300px;margin:0.65rem auto 0.15rem;display:block" aria-hidden="true"><path d="M20,125 C75,125 95,32 160,32 C225,32 245,125 300,125" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="2"/><circle r="3" fill="rgba(224,165,38,0.4)"><animateMotion dur="7s" repeatCount="indefinite" path="M20,125 C75,125 95,32 160,32 C225,32 245,125 300,125"/></circle><text x="60" y="143" fill="rgba(255,255,255,0.42)" font-size="10" text-anchor="middle">復甦</text><text x="112" y="46" fill="#f0d488" font-size="11.5" text-anchor="middle" font-weight="bold">成長</text><text x="160" y="22" fill="rgba(255,255,255,0.42)" font-size="10" text-anchor="middle">榮景</text><text x="214" y="52" fill="rgba(255,255,255,0.42)" font-size="10" text-anchor="middle">衰退</text><circle cx="112" cy="55" r="7" fill="#e0c56a"><animate attributeName="r" values="6;10;6" dur="1.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.5;1" dur="1.4s" repeatCount="indefinite"/></circle><g><path d="M112,50 L112,32 M106,38 L112,32 L118,38" stroke="#e0c56a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><animateTransform attributeName="transform" type="translate" values="0,4;0,-4;0,4" dur="1.5s" repeatCount="indefinite"/></g></svg>',
+  q:'趨勢正好，你會？',
+  choices:['太順了、先落袋為安 / 保持距離，免得樂極生悲','順勢經營、加碼——趨勢確立時抱住，別太早下車','以為會永遠這樣，開始擺爛、不用心'],correct:1,
+  fb:['太早下車=錯過主升段；熱戀期就先縮=把最好一段讓給別人。趨勢確立時，續抱勝過亂動。','對——<b>成長期順勢</b>：讓複利跑、讓信任累積。主升段和熱戀期，都是靠「抱住」賺到的。','擺爛最傷——趨勢會繼續，但你不經營，紅利就跟你無關。順勢≠躺平。']},
+
+ {type:'ab',sky:'sky-storm',bg:'peak',label:'第 ③ 段 · 榮景',title:'甜到最高點 / 人人喊多',
+  text:'她對你好到像偶像劇、你開始覺得理所當然；<br>大盤人人喊多、估值貴到嚇人、<b>利多都不太會漲了</b>。<br>兩個都到了<b>高峰，而且開始過熱</b>。<svg viewBox="0 0 320 158" style="width:100%;max-width:300px;margin:0.65rem auto 0.15rem;display:block" aria-hidden="true"><path d="M20,125 C75,125 95,32 160,32 C225,32 245,125 300,125" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="2"/><circle r="3" fill="rgba(224,165,38,0.4)"><animateMotion dur="7s" repeatCount="indefinite" path="M20,125 C75,125 95,32 160,32 C225,32 245,125 300,125"/></circle><text x="60" y="143" fill="rgba(255,255,255,0.42)" font-size="10" text-anchor="middle">復甦</text><text x="112" y="46" fill="rgba(255,255,255,0.42)" font-size="10" text-anchor="middle">成長</text><text x="160" y="22" fill="#f0d488" font-size="11.5" text-anchor="middle" font-weight="bold">榮景</text><text x="214" y="52" fill="rgba(255,255,255,0.42)" font-size="10" text-anchor="middle">衰退</text><circle cx="160" cy="32" r="9" fill="none" stroke="#ff9f4a" stroke-width="2"><animate attributeName="r" values="8;22;8" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0;0.7" dur="1.8s" repeatCount="indefinite"/></circle><circle cx="160" cy="32" r="7" fill="#ff9f4a"><animate attributeName="r" values="6;10;6" dur="1.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.5;1" dur="1.4s" repeatCount="indefinite"/></circle><text x="160" y="52" fill="#ff9f4a" font-size="9.5" text-anchor="middle">過熱</text></svg>',
+  q:'甜到最高點，你會？',
+  choices:['把她的好當理所當然 / 加槓桿追高——反正會一直更好','享受、但別貪——留一手：獲利了結一部分、感情別透支','嚇到不敢動，全部出清 / 立刻分手避險'],correct:1,
+  fb:['高峰把好視為理所當然=最容易被反轉打臉；追高加槓桿=套在最高點。過熱時貪，最貴。','對——<b>榮景期別貪、留一手</b>：保住獲利、不透支感情。高峰不是叫你落跑，是叫你別上頭。','過度反應也不對——榮景還沒結束就清倉 / 分手，是把好日子提早關掉。留一手≠逃跑。']},
+
+ {type:'ab',sky:'sky-storm',bg:'peak',label:'第 ④ 段 · 衰退',title:'她突然變冷 / 第一根長黑',
+  text:'她莫名敏感、愛抱怨、對你冷淡；<br>大盤爆一根<b>長黑</b>、獲利下修、利多不漲。<br>兩個都從高點<b>反轉往下</b>了。<svg viewBox="0 0 320 158" style="width:100%;max-width:300px;margin:0.65rem auto 0.15rem;display:block" aria-hidden="true"><path d="M20,125 C75,125 95,32 160,32 C225,32 245,125 300,125" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="2"/><circle r="3" fill="rgba(224,165,38,0.4)"><animateMotion dur="7s" repeatCount="indefinite" path="M20,125 C75,125 95,32 160,32 C225,32 245,125 300,125"/></circle><text x="60" y="143" fill="rgba(255,255,255,0.42)" font-size="10" text-anchor="middle">復甦</text><text x="112" y="46" fill="rgba(255,255,255,0.42)" font-size="10" text-anchor="middle">成長</text><text x="160" y="22" fill="rgba(255,255,255,0.42)" font-size="10" text-anchor="middle">榮景</text><text x="214" y="52" fill="#f0d488" font-size="11.5" text-anchor="middle" font-weight="bold">衰退</text><circle cx="212" cy="60" r="7" fill="#ff8a8a"><animate attributeName="r" values="6;10;6" dur="1.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.5;1" dur="1.4s" repeatCount="indefinite"/></circle><g><path d="M212,65 L212,83 M206,77 L212,83 L218,77" stroke="#ff8a8a" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><animateTransform attributeName="transform" type="translate" values="0,-4;0,4;0,-4" dur="1.5s" repeatCount="indefinite"/></g></svg>',
+  q:'開始下滑，你最該做的是？',
+  choices:['急著查「我做錯什麼」、瘋狂解釋 / 頻繁停損進出想救回來','認清是週期、穩住——降風險留現金 / 別修理她，準備在谷底給支持','恐慌殺光 / 直接冷戰擺爛，眼不見為淨'],correct:1,
+  fb:['急著「修理」最反效果：她要的是被理解不是被解決；帳戶要的是紀律不是亂進出。越救越沉。','對——<b>衰退期別恐慌、別修理</b>：認清是循環，保住本金 / 保住感情，還能卡到谷底那個「下一輪的位置」。','恐慌殺 / 冷戰=在最低點認賠，還順手把關係也砍了。衰退是過程，不是世界末日。']},
+
+ {type:'ab',sky:'sky-clear',bg:'range',label:'收束 · 主動衝浪的紅利',title:'主動對應週期，你到底賺到什麼？',
+  text:'你擋不住循環——她會有低潮、市場會有衰退，這是物理定律。<br>但「<b>主動對應</b>」和「被循環拖著走」，結局差超多。<svg viewBox="0 0 320 158" style="width:100%;max-width:300px;margin:0.65rem auto 0.15rem;display:block" aria-hidden="true"><path d="M20,125 C75,125 95,32 160,32 C225,32 245,125 300,125" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="2"/><circle r="3" fill="rgba(224,165,38,0.4)"><animateMotion dur="7s" repeatCount="indefinite" path="M20,125 C75,125 95,32 160,32 C225,32 245,125 300,125"/></circle><text x="60" y="143" fill="rgba(255,255,255,0.42)" font-size="10" text-anchor="middle">復甦</text><text x="112" y="46" fill="rgba(255,255,255,0.42)" font-size="10" text-anchor="middle">成長</text><text x="160" y="22" fill="rgba(255,255,255,0.42)" font-size="10" text-anchor="middle">榮景</text><text x="214" y="52" fill="rgba(255,255,255,0.42)" font-size="10" text-anchor="middle">衰退</text><circle r="6" fill="#f0d488"><animateMotion dur="5s" repeatCount="indefinite" path="M20,125 C75,125 95,32 160,32 C225,32 245,125 300,125"/><animate attributeName="r" values="5;8;5" dur="1.2s" repeatCount="indefinite"/></circle><path d="M20,95 C75,95 95,10 160,10 C225,10 245,95 300,95" fill="none" stroke="rgba(224,165,38,0.35)" stroke-width="1.6" stroke-dasharray="4 4"/><path d="M300,120 L300,96 M294,104 L300,96 L306,104" stroke="#f0d488" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><animateTransform attributeName="transform" type="translate" values="0,4;0,-4;0,4" dur="1.6s" repeatCount="indefinite"/></path><text x="252" y="18" fill="rgba(224,165,38,0.75)" font-size="9.5" text-anchor="middle">下一輪·墊高</text></svg>',
+  q:'主動適應週期，最大的好處是？',
+  choices:['可以預測她 / 預測大盤，提前避開所有低潮','低潮變進場點、高峰不套牢、感情不透支——少受傷、多複利、每輪墊高一點','從此不會再有低潮和衰退'],correct:1,
+  fb:['沒人能預測轉折的「那一天」——主動適應不是預測，是「順著週期調整動作」。','對——這就是紅利：<b>低潮不再是災難，是你的進場點；高峰不再讓你上頭，是你的收割點。</b>你不消滅波浪，你學會衝浪——每一輪都墊高一點。','低潮和衰退不會消失——但你能讓它們從「傷害」變成「機會」。這才是整件事的重點。']}
+];
+const TRANSITIONS=[null,'熱戀期／主升段，爽——<br>但別忘了，浪，會有頂。',null,'四階段走完一圈了。<br>所以——主動衝浪，到底換來什麼？',null];
+
+let state={idx:-1,score:0,gv:50,cls:[],mChecked:false};
+
+// 名詞白話＋答案（給我答案用）
+const ANS=[
+ {answer:'主動一點、分批靠近。谷底翻上的紅利最甜，成本最低、位置最好。',terms:[
+   ['復甦','谷底剛翻上：利率仍低、獲利回升、市場半信半疑；她剛走出低潮、開始回暖'],
+   ['分批不是梭哈','復甦可能有假動作，分批進場／慢慢靠近，留子彈也留退路'],
+   ['半信半疑最甜','大家還在怕時卡位，成本最低——等「確認」通常已漲一段']]},
+ {answer:'順勢經營、加碼。趨勢確立時抱住，別太早下車。',terms:[
+   ['成長','主升段／熱戀期：趨勢確立、獲利擴散、越來越順'],
+   ['順勢≠躺平','抱住趨勢是續抱，不是擺爛不經營'],
+   ['太早下車','把最好的一段讓給別人；主升段是靠「抱住」賺到的']]},
+ {answer:'享受、但別貪，留一手。獲利了結一部分、感情別透支。',terms:[
+   ['榮景','高峰過熱：估值貴、人人喊多、利多鈍化；她好到你開始視為理所當然'],
+   ['別貪、留一手','高峰不是叫你落跑，是叫你別上頭、別追高加槓桿'],
+   ['過熱訊號','利多不漲、情緒過熱＝反轉風險升高']]},
+ {answer:'認清是週期、穩住。別恐慌殺、別急著修理，準備在谷底給支持。',terms:[
+   ['衰退','從高點反轉往下：獲利下修、恐慌蔓延；她變冷、情緒浮上'],
+   ['別修理','她要被理解不是被解決；帳戶要紀律不是亂進出'],
+   ['谷底＝下一輪的位置','衰退的底，就是下一輪復甦的起點，別在最低點認賠']]},
+ {answer:'低潮變進場點、高峰不套牢、感情不透支——少受傷、多複利、每輪墊高一點。',terms:[
+   ['主動適應 ≠ 預測','沒人能預測轉折那一天；是順著週期調整動作，不是算命'],
+   ['紅利','低潮從災難變機會、高峰從上頭變收割；每一輪都比上一輪站得更高'],
+   ['衝浪','你消滅不了波浪，但可以學會衝——她和市場都一樣']]}
+];
+function giveAnswer(i){const r=ROUNDS[i],a=ANS[i];
+ const gloss=`<div style="font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.5);margin:0.85rem 0 0.5rem">名詞白話</div>`+a.terms.map(t=>`<div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,0.9);margin-bottom:0.42rem;text-align:left"><b style="color:#e0a526">${t[0]}</b>：${t[1]}</div>`).join('');
+ const box=inner=>`<div style="max-width:480px;margin:0.5rem auto 0;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.28);border-radius:10px;padding:1rem 1.2rem;backdrop-filter:blur(6px)">${inner}</div>`;
+ const ansLine=`<div style="font-size:14px;line-height:1.7;color:#fff;text-align:left"><b style="color:#a5d6a7">答案：</b>${a.answer}</div>`;
+ if(r.type==='classify'){
+   r.items.forEach((it,k)=>state.cls[k]=it[1]);
+   const rows=r.items.map(it=>`<div class="cls-row right"><div class="cls-name">${it[0]}</div><div class="cls-btns"><button class="cls-btn ${it[1]} on" disabled>${it[1]==='atk'?r.catA:r.catB}</button></div></div>`).join('');
+   G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main">${r.q}</div><div class="cls-list">${rows}</div>${box(ansLine+`<div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,0.86);margin-top:0.55rem;text-align:left">${r.reveal}</div>`+gloss)}<button class="continue-btn" onclick="record(${i})">懂了，繼續 ›</button>`);
+ }else if(r.type==='gauge'){
+   G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="gauge-wrap">${gaugeSVG(r.ans,r.left,r.right)}<div class="feedback" style="margin-top:0.6rem">${r.fb(r.ans)}</div></div>${box(ansLine+gloss)}<button class="continue-btn" onclick="record(${i})">懂了，繼續 ›</button>`);
+ }else{
+   const ch=r.choices.map((c,k)=>`<div class="choice-btn" style="cursor:default;${k===r.correct?'border-color:#a5d6a7;background:rgba(80,200,110,0.14)':'opacity:0.45'}">${k===r.correct?'✓ ':''}${c}</div>`).join('');
+   G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="choices">${ch}</div><div class="feedback" style="color:#a5d6a7;min-height:auto;font-size:14px">${r.fb[r.correct]}</div>${box(gloss)}<button class="continue-btn" onclick="record(${i})">懂了，繼續 ›</button>`);
+ }}
+
+function prog(){PB.style.width=(Math.max(0,state.idx)/ROUNDS.length*100)+'%';}
+function dots(i){return `<div class="step-dots">${ROUNDS.map((_,k)=>`<i class="${k<=i?'on':''}"></i>`).join('')}</div>`;}
+function fade(fn){G.style.transition='opacity .32s';G.style.opacity='0';setTimeout(()=>{fn();G.style.opacity='1';},330);}
+function scene(sky,bgtype,inner){return `<div class="scene ${sky}">${bg(bgtype,sky)}<div class="overlay">${inner}</div></div>`;}
+function head(r){const layers=r.layers?`<div class="layer-list">${r.layers.map(ly=>`<div class="ly"><b>${ly[0]}</b><span>${ly[1]}</span></div>`).join('')}</div>`:'';const chips=r.chips?`<div style="max-width:480px;margin:0 auto 0.4rem">${r.chips.map(c=>`<span class="data-chip">${c}</span>`).join('')}</div>`:'';return `<div class="chapter-label t-label">${r.label}</div><div class="chapter-title t-main" style="font-size:22px;margin-bottom:0.9rem">${r.title}</div><div class="round-text t-sub">${r.text}</div>${layers}${chips}`;}
+
+function showStart(){G.innerHTML=scene('sky-start','farhills',`
+  <div class="chapter-label t-label" style="margin-bottom:1rem">YODA RESEARCH · 判斷力學校</div>
+  <div class="chapter-title t-main" style="font-size:30px;font-weight:200;letter-spacing:1px;margin-bottom:0.4rem">了解股市，先了解女人</div>
+  <div class="t-sub" style="font-size:14px;margin-bottom:0.3rem;font-style:italic">女人的情緒週期，就是景氣循環——搞懂一個，另一個就通了</div>
+  <div class="t-label" style="font-size:12px;margin-bottom:2.6rem">約 4 分鐘 · 四階段：復甦 → 成長 → 榮景 → 衰退 · 純調侃、非投資建議</div>
+  <button class="continue-btn" style="font-size:15px;padding:0.85rem 3.2rem;border-radius:6px;letter-spacing:2px" onclick="fade(startOpening)">開始</button>`);}
+let oi=0;function startOpening(){oi=0;renderOpening();}
+function renderOpening(){const q=OPENING.quotes[oi],last=oi>=OPENING.quotes.length-1;
+ G.innerHTML=scene(OPENING.sky,OPENING.bg,`<div class="chapter-label t-label">${OPENING.label}</div><div class="chapter-title t-main">${OPENING.title}</div><div class="chapter-quote t-sub">${q}</div><button class="continue-btn" onclick="nextOpening()">${last?'開始第一站 ›':'繼續 ›'}</button>`);}
+function nextOpening(){oi++;if(oi>=OPENING.quotes.length)fade(()=>showRound(0));else fade(renderOpening);}
+
+function showRound(i){state.idx=i;prog();const r=ROUNDS[i];
+ if(r.type==='gauge')renderGauge(i);else if(r.type==='classify')renderClassify(i);else renderAB(i);}
+
+// 儀表滑桿
+function gaugeSVG(val,leftLbl,rightLbl){const min=0,max=100,f=v=>Math.PI*(1-(v-min)/(max-min)),R=120,ax=250+R*Math.cos(f(val)),ay=170-R*Math.sin(f(val));
+ return `<svg viewBox="0 0 500 200" style="width:100%;max-width:320px"><path d="M130,170 A120,120 0 0,1 370,170" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="14"/><line x1="250" y1="170" x2="${ax}" y2="${ay}" stroke="#e0a526" stroke-width="5" stroke-linecap="round"/><circle cx="250" cy="170" r="8" fill="#e0a526"/><text x="250" y="128" fill="#fff" font-size="26" font-weight="300" text-anchor="middle">${val}</text><text x="130" y="192" fill="rgba(91,141,239,0.9)" font-size="11" text-anchor="middle">${leftLbl||'左'}</text><text x="370" y="192" fill="rgba(224,83,83,0.9)" font-size="11" text-anchor="middle">${rightLbl||'右'}</text></svg>`;}
+function renderGauge(i){const r=ROUNDS[i];state.gv=50;
+ function draw(){G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main" style="font-size:14.5px">${r.q}</div>
+   <div class="gauge-wrap">${gaugeSVG(state.gv,r.left,r.right)}<input type="range" class="gsl" min="0" max="100" value="${state.gv}" oninput="state.gv=parseInt(this.value);drawGauge()">
+   <div class="gsl-ends"><span>${r.left}</span><span>${r.right}</span></div></div>
+   <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;margin-top:0.6rem"><button class="continue-btn" onclick="gaugeDone(${i})">就這樣 ›</button><button class="continue-btn" style="opacity:0.72" onclick="giveAnswer(${i})">給我答案</button></div>`);}
+ window.drawGauge=draw;draw();}
+function gaugeDone(i){const r=ROUNDS[i];if(r.correct(state.gv))state.score++;
+ G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="gauge-wrap">${gaugeSVG(state.gv,r.left,r.right)}<div class="feedback" style="margin-top:0.8rem">${r.fb(state.gv)}</div></div><button class="continue-btn" onclick="record(${i})">繼續 ›</button>`);}
+
+// 二選一 / 三選一
+function renderAB(i){const r=ROUNDS[i];
+ G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main">${r.q}</div>
+  <div class="choices">${r.choices.map((c,k)=>`<button class="choice-btn" onclick="abPick(${i},${k})">${c}</button>`).join('')}</div>
+  <button class="continue-btn" style="opacity:0.72" onclick="giveAnswer(${i})">給我答案</button>`);}
+function abPick(i,k){const r=ROUNDS[i];if(k===r.correct)state.score++;
+ const col=k===r.correct?'#a5d6a7':'#ffcc80';
+ G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="feedback" style="color:${col};min-height:auto;font-size:14px">${r.fb[k]}</div><button class="continue-btn" onclick="record(${i})">繼續 ›</button>`);}
+
+// 分類（可以下結論 / 不能）
+function renderClassify(i){const r=ROUNDS[i];if(state.cls.length!==r.items.length)state.cls=r.items.map(()=>null);
+ function draw(){const rows=r.items.map((it,k)=>`<div class="cls-row" id="cr${k}"><div class="cls-name">${it[0]}</div><div class="cls-btns">
+   <button class="cls-btn atk ${state.cls[k]==='atk'?'on':''}" onclick="setCls(${k},'atk')">${r.catA}</button>
+   <button class="cls-btn def ${state.cls[k]==='def'?'on':''}" onclick="setCls(${k},'def')">${r.catB}</button></div></div>`).join('');
+  const done=state.cls.every(x=>x!==null);
+  G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main">${r.q}</div><div class="cls-list">${rows}</div>
+   <div class="feedback" id="fbc" style="min-height:24px"></div>
+   <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap">${done?`<button class="continue-btn" onclick="clsCheck(${i})">檢查</button>`:''}<button class="continue-btn" style="opacity:0.72" onclick="giveAnswer(${i})">給我答案</button></div>`);}
+ window.drawCls=draw;draw();}
+function setCls(k,v){state.cls[k]=v;window.drawCls();}
+function clsCheck(i){const r=ROUNDS[i];let ok=0;
+ r.items.forEach((it,k)=>{const row=document.getElementById('cr'+k);const right=state.cls[k]===it[1];if(right)ok++;row.classList.add(right?'right':'wrong');});
+ if(ok>=r.items.length-1)state.score++;
+ document.getElementById('fbc').innerHTML=`<span style="color:${ok===r.items.length?'#a5d6a7':'#ffcc80'}">答對 ${ok}/${r.items.length}。${r.reveal}</span>`;
+ const cb=G.querySelector('.continue-btn');if(cb)cb.parentElement.outerHTML=`<button class="continue-btn" onclick="record(${i})">繼續 ›</button>`;}
+
+function record(i){const t=TRANSITIONS[i];if(t)fade(()=>showTrans(t,i));else advance(i);}
+function showTrans(txt,i){G.innerHTML=`<div class="scene" style="background:linear-gradient(180deg,#020408,#0a0714,#141020);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:3rem 1.5rem"><div class="overlay"><div class="transition-quote">${txt}</div><button class="continue-btn" onclick="advance(${i})">繼續 ›</button></div></div>`;}
+function advance(i){const n=i+1;if(n>=ROUNDS.length)fade(showResult);else fade(()=>showRound(n));}
+
+// 結果頁「工具牆」：把九段學到的圖縮小陳列，給讀者「手上多了很多工具」的收穫感
+const TOOLBOX=[
+ ['量版動態圖','<svg viewBox="0 0 100 84"><rect x="6" y="6" width="88" height="64" fill="none" stroke="rgba(255,255,255,0.16)"/><line x1="50" y1="6" x2="50" y2="70" stroke="rgba(255,255,255,0.2)"/><line x1="6" y1="38" x2="94" y2="38" stroke="rgba(255,255,255,0.2)"/><path d="M28,52 C46,46 64,42 80,30" fill="none" stroke="rgba(224,182,74,0.5)" stroke-width="1.5" stroke-dasharray="2 2"/><circle r="4" fill="#e0b64a"><animateMotion dur="3s" repeatCount="indefinite" path="M28,52 C46,46 64,42 80,30"/></circle></svg>'],
+ ['相對強度 REL','<svg viewBox="0 0 100 84"><line x1="8" y1="50" x2="92" y2="50" stroke="rgba(255,255,255,0.3)"/><rect x="26" y="50" width="18" height="12" fill="rgba(120,160,255,0.75)"/><rect x="58" y="20" width="18" height="30" fill="rgba(224,120,110,0.85)"/></svg>'],
+ ['量價共振/背離','<svg viewBox="0 0 100 84"><line x1="8" y1="52" x2="46" y2="52" stroke="rgba(255,255,255,0.25)"/><rect x="16" y="30" width="9" height="22" fill="rgba(127,168,255,0.8)"/><rect x="30" y="24" width="9" height="28" fill="rgba(224,182,74,0.9)"/><line x1="54" y1="52" x2="92" y2="52" stroke="rgba(255,255,255,0.25)"/><rect x="76" y="18" width="9" height="34" fill="rgba(224,182,74,0.9)"/><rect x="62" y="52" width="9" height="18" fill="rgba(127,168,255,0.45)"><animate attributeName="opacity" values="1;0.4;1" dur="1.6s" repeatCount="indefinite"/></rect></svg>'],
+ ['籌碼四型態','<svg viewBox="0 0 100 84"><rect x="10" y="8" width="80" height="64" fill="none" stroke="rgba(255,255,255,0.14)"/><line x1="50" y1="8" x2="50" y2="72" stroke="rgba(255,255,255,0.2)"/><line x1="10" y1="40" x2="90" y2="40" stroke="rgba(255,255,255,0.2)"/><circle cx="68" cy="24" r="4" fill="rgba(224,182,74,0.5)"/><circle cx="74" cy="20" r="4" fill="rgba(224,182,74,0.7)"/><circle cx="70" cy="26" r="7" fill="none" stroke="#e6c463" stroke-width="1.5"><animate attributeName="r" values="5;13;13" dur="2.4s" repeatCount="indefinite"/><animate attributeName="stroke-opacity" values="0.7;0;0" dur="2.4s" repeatCount="indefinite"/></circle></svg>'],
+ ['AI 核心競爭力','<svg viewBox="0 0 100 84"><circle cx="50" cy="42" r="30" fill="rgba(207,111,114,0.16)"/><circle cx="50" cy="42" r="20" fill="rgba(207,111,114,0.32)"/><circle cx="50" cy="42" r="10" fill="rgba(207,111,114,0.7)"/><path d="M50,42 L80,42 A30,30 0 0 1 65,68 Z" fill="rgba(255,255,255,0.15)"><animateTransform attributeName="transform" type="rotate" from="0 50 42" to="360 50 42" dur="3.6s" repeatCount="indefinite"/></path><circle cx="50" cy="42" r="5" fill="rgba(18,22,36,0.7)"/></svg>'],
+ ['AI 三圈擴散','<svg viewBox="0 0 100 84"><circle cx="50" cy="42" r="30" fill="none" stroke-width="6" stroke="#5cae88" stroke-opacity="0.2"><animate attributeName="stroke-opacity" values="0.12;0.8;0.12" dur="2.4s" begin="1.4s" repeatCount="indefinite"/></circle><circle cx="50" cy="42" r="20" fill="none" stroke-width="6" stroke="#e0a526" stroke-opacity="0.2"><animate attributeName="stroke-opacity" values="0.12;0.85;0.12" dur="2.4s" begin="0.7s" repeatCount="indefinite"/></circle><circle cx="50" cy="42" r="10" fill="none" stroke-width="6" stroke="#cf6f72" stroke-opacity="0.3"><animate attributeName="stroke-opacity" values="0.2;0.95;0.2" dur="2.4s" begin="0s" repeatCount="indefinite"/></circle></svg>'],
+ ['信號流階梯','<svg viewBox="0 0 100 84"><rect x="30" y="12" width="40" height="7" rx="1.5" fill="rgba(224,182,74,0.92)"/><rect x="30" y="12" width="40" height="7" rx="1.5" fill="#ffe9a8"><animate attributeName="opacity" values="0.15;0.75;0.15" dur="2s" repeatCount="indefinite"/></rect><rect x="30" y="22" width="40" height="7" rx="1.5" fill="rgba(224,182,74,0.68)"/><rect x="30" y="32" width="40" height="7" rx="1.5" fill="rgba(224,182,74,0.5)"/><rect x="30" y="42" width="40" height="7" rx="1.5" fill="rgba(224,182,74,0.36)"/><rect x="30" y="52" width="40" height="7" rx="1.5" fill="rgba(224,182,74,0.24)"/><rect x="30" y="62" width="40" height="7" rx="1.5" fill="rgba(224,182,74,0.16)"/></svg>'],
+ ['供應鏈定位','<svg viewBox="0 0 100 84"><rect x="24" y="10" width="52" height="16" rx="3" fill="rgba(127,168,255,0.16)" stroke="rgba(127,168,255,0.5)"/><rect x="24" y="32" width="52" height="16" rx="3" fill="rgba(224,182,74,0.22)" stroke="#e0b64a" stroke-width="1.5"><animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="2.2s" repeatCount="indefinite"/></rect><rect x="24" y="54" width="52" height="16" rx="3" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.22)"/></svg>'],
+ ['ETF 三隻手','<svg viewBox="0 0 100 84"><line x1="8" y1="46" x2="92" y2="46" stroke="rgba(255,255,255,0.3)"/><rect x="18" y="38" width="16" height="8" fill="rgba(224,120,110,0.72)"/><rect x="42" y="18" width="16" height="28" fill="rgba(224,120,110,0.92)"/><rect x="66" y="46" width="16" height="24" fill="rgba(120,185,140,0.88)"/></svg>']
+];
+function toolboxHTML(){return '<div style="max-width:380px;margin:0.3rem auto 1.5rem">'
+ +'<div class="t-label" style="font-size:11px;letter-spacing:2px;margin-bottom:0.2rem">你現在手上的九件工具</div>'
+ +'<div class="t-sub" style="font-size:12px;margin-bottom:0.7rem;opacity:0.82">同一份台股報告，你已經會看這九張圖</div>'
+ +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem">'
+ +TOOLBOX.map(function(t){return '<div style="background:rgba(0,0,0,0.24);border:1px solid rgba(255,255,255,0.12);border-radius:9px;padding:0.35rem 0.3rem 0.4rem">'
+   +'<div style="width:100%;max-width:78px;margin:0 auto">'+t[1]+'</div>'
+   +'<div style="font-size:10.5px;color:rgba(255,255,255,0.72);margin-top:0.15rem;line-height:1.3">'+t[0]+'</div></div>';}).join('')
+ +'</div></div>';}
+function showResult(){PB.style.width='100%';const s=state.score,mx=ROUNDS.length;
+ const tier=s>=mx-1?'穩':s>=Math.ceil(mx/2)?'入門':'再走一次';
+ G.innerHTML=scene('sky-result','range',`
+  <div class="chapter-label t-label" style="margin-bottom:0.8rem">一輪循環走完</div>
+  <div class="result-icon">📊</div>
+  <div class="result-type t-main">你，會衝浪了</div><div class="result-vow" style="font-size:19px;font-weight:800;color:#e8c86a;margin:0.35rem auto 0.1rem;max-width:420px;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)">「低潮不是壞掉，是我進場的位置。」</div>
+  <div class="result-desc t-sub">你剛把兩條波浪疊在一起走了一圈：<br><b>復甦 → 成長 → 榮景 → 衰退</b>，女人和市場，同一條。<br><br>紅利：<b>低潮變進場點、高峰不套牢、感情不透支——每一輪墊高一點。</b><br>一句話：<b>低潮要的是被理解／被布局，不是被修理／被恐慌。</b><br><br>判讀得分：${s} / ${mx}（${tier}）</div>
+  <div style="max-width:400px;margin:0.5rem auto 1.1rem"><div class="t-label" style="font-size:11px;letter-spacing:2px;margin-bottom:0.5rem">四階段 · 一句心法</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.45rem">
+    <div style="background:rgba(0,0,0,0.24);border-left:3px solid #a5d6a7;border-radius:7px;padding:0.5rem 0.6rem;text-align:left"><b style="color:#a5d6a7;font-size:13px">復甦</b><div style="font-size:11.5px;color:rgba(255,255,255,0.82);margin-top:2px">別人怕時，你布局／給支持</div></div>
+    <div style="background:rgba(0,0,0,0.24);border-left:3px solid #e0c56a;border-radius:7px;padding:0.5rem 0.6rem;text-align:left"><b style="color:#e0c56a;font-size:13px">成長</b><div style="font-size:11.5px;color:rgba(255,255,255,0.82);margin-top:2px">順勢抱住，別太早下車</div></div>
+    <div style="background:rgba(0,0,0,0.24);border-left:3px solid #ff9f4a;border-radius:7px;padding:0.5rem 0.6rem;text-align:left"><b style="color:#ff9f4a;font-size:13px">榮景</b><div style="font-size:11.5px;color:rgba(255,255,255,0.82);margin-top:2px">別貪、留一手，別上頭</div></div>
+    <div style="background:rgba(0,0,0,0.24);border-left:3px solid #ff8a8a;border-radius:7px;padding:0.5rem 0.6rem;text-align:left"><b style="color:#ff8a8a;font-size:13px">衰退</b><div style="font-size:11.5px;color:rgba(255,255,255,0.82);margin-top:2px">別恐慌、別修理，等谷底</div></div>
+  </div></div>
+  <div class="t-sub" style="font-size:13px;line-height:1.9;margin-bottom:1.3rem;max-width:430px;margin:0 auto 1.3rem">這套衝浪法，女人和市場通用。接下來，拿它去讀真的市場——和真的她。</div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:0.65rem;max-width:340px;margin:0 auto">
+    <a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">先訂免費電子報，每天練這套衝浪法 →</a>
+    <a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">拿這套循環，去讀這期市場觀察 →</a>
+    <button class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0;border:none" id="shareBtn" onclick="shareGame()">分享：讓還在跟女人／跟大盤硬碰硬的朋友，也學會衝浪</button>
+  </div>
+  <a href="javascript:void(0)" onclick="restart()" style="display:inline-block;margin-top:0.9rem;font-size:12px;color:rgba(255,255,255,0.55);text-decoration:underline">重玩一次</a>
+  <div id="sfb" style="font-size:12px;color:rgba(160,220,255,0.7);margin-top:0.5rem;height:16px"></div>
+  <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1.4rem">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" style="color:rgba(224,165,38,0.6);text-decoration:none">BiBiPiano</a></div>`);}
+function restart(){state={idx:-1,score:0,gv:50,cls:[],mChecked:false};oi=0;PB.style.width='0%';fade(showStart);}
+function shareGame(){const url=window.location.href.split('?')[0];const t='我剛玩了《了解股市，先了解女人》——原來女人的情緒週期就是景氣循環，主動衝浪比硬碰硬爽多了。';
+ const fb=document.getElementById('sfb');
+ if(navigator.share){navigator.share({title:'了解股市，先了解女人 · Yoda',text:t,url}).catch(()=>{});return;}
+ navigator.clipboard.writeText(url).then(()=>{fb.textContent='網址已複製，貼去分享吧';setTimeout(()=>fb.textContent='',2500);}).catch(()=>{fb.textContent=url;});}
+['startOpening','nextOpening','showRound','renderGauge','gaugeDone','setCls','clsCheck','giveAnswer','abPick','record','advance','showResult','restart','shareGame','fade','renderClassify','renderAB'].forEach(n=>window[n]=eval(n));
+window.state=state;
+showStart();
+</script><!-- ===== Yoda 會員檢核徽章模組 · 僅在網址帶 ?cert=TYPE 時啟用（一般遊玩完全不受影響） ===== -->
+<script>
+(function(){
+  var GAS_URL='https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec';
+  var TYPES={mw:'市場觀察',tw:'台股',us:'美股',key:'簡報',macro:'總經',flag:'關鍵'};
+  var t=new URLSearchParams(location.search).get('cert');
+  if(!t||!TYPES[t]) return;
+  var name=TYPES[t];
+  var css=document.createElement('style');
+  css.textContent=
+  '#yc-bar{position:fixed;left:0;right:0;bottom:0;z-index:9998;background:linear-gradient(0deg,rgba(8,10,18,.97),rgba(8,10,18,.86));'
+  +'border-top:1px solid rgba(212,175,55,.4);padding:11px 16px;padding-bottom:calc(11px + env(safe-area-inset-bottom));'
+  +'display:flex;align-items:center;gap:12px;backdrop-filter:blur(10px);'
+  +"font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC','Microsoft JhengHei',sans-serif}"
+  +'#yc-bar .yc-txt{flex:1;min-width:0;font-size:13px;line-height:1.5;color:#dfe6f4}'
+  +'#yc-bar .yc-txt b{color:#e8c86a}'
+  +'#yc-go{flex:0 0 auto;padding:10px 18px;border-radius:999px;border:none;cursor:pointer;font-weight:700;font-size:14px;'
+  +'color:#1a1200;background:linear-gradient(135deg,#d4af37,#f0d488);box-shadow:0 4px 14px rgba(212,175,55,.35)}'
+  +'#yc-mask{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.62);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:18px}'
+  +'#yc-mask.on{display:flex}'
+  +'#yc-modal{width:100%;max-width:400px;background:#0d1120;border:1px solid rgba(212,175,55,.34);border-radius:18px;padding:24px 22px;'
+  +'box-shadow:0 20px 60px rgba(0,0,0,.6);color:#eef2fb;'
+  +"font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC','Microsoft JhengHei',sans-serif}"
+  +'#yc-modal h3{font-size:19px;font-weight:800;margin:0 0 6px}'
+  +'#yc-modal p{font-size:13.5px;line-height:1.6;color:#aab3c8;margin:0 0 14px}'
+  +'#yc-modal input{width:100%;padding:12px 14px;font-size:15px;border-radius:11px;border:1px solid rgba(255,255,255,.16);'
+  +'background:#05070f;color:#fff;outline:none;margin-bottom:6px}'
+  +'#yc-modal input:focus{border-color:#d4af37}'
+  +'#yc-modal .yc-hint{font-size:11.5px;color:#8590a6;margin:0 0 14px}'
+  +'#yc-submit{width:100%;padding:13px;border-radius:11px;border:none;cursor:pointer;font-weight:800;font-size:15px;'
+  +'color:#1a1200;background:linear-gradient(135deg,#d4af37,#f0d488)}'
+  +'#yc-submit:disabled{opacity:.55;cursor:default}'
+  +'#yc-msg{font-size:13px;margin-top:11px;min-height:18px;line-height:1.5}'
+  +'#yc-msg.ok{color:#7fd6a6}#yc-msg.err{color:#f08a8a}'
+  +'#yc-close,#yc-close2{background:none;border:none;color:#8590a6;font-size:13px;text-decoration:underline;cursor:pointer;display:block;margin:12px auto 0}'
+  +'#yc-done .yc-badge{font-size:54px;line-height:1;margin:2px 0 8px;text-align:center}';
+  document.head.appendChild(css);
+
+  var bar=document.createElement('div');
+  bar.id='yc-bar';
+  bar.innerHTML='<div class="yc-txt">🎓 玩到最後了嗎？完成這個導覽，<b>領取《'+name+'報告》檢核徽章</b></div><button id="yc-go">領取檢核</button>';
+  document.body.appendChild(bar);
+  // 只在最後結果頁才浮出「領取檢核」——沒玩到結果頁不顯示（2026-08-06）
+  var ycCertified=false;
+  function ycOnResult(){return !!document.querySelector('.result-name,.result-type');}
+  function ycSync(){bar.style.display=(!ycCertified&&ycOnResult())?'flex':'none';}
+  ycSync();
+  new MutationObserver(ycSync).observe(document.body,{childList:true,subtree:true});
+
+  var mask=document.createElement('div');
+  mask.id='yc-mask';
+  mask.innerHTML='<div id="yc-modal">'
+    +'<div id="yc-form">'
+      +'<h3>領取《'+name+'報告》檢核</h3>'
+      +'<p>輸入你訂閱用的 <b style="color:#e8c86a">email 與會員密碼</b>，系統會記下你已看懂這份報告怎麼判讀。</p>'
+      +'<input id="yc-email" type="email" placeholder="訂閱用的 email" autocomplete="off">'
+      +'<input id="yc-pw" type="password" placeholder="你的會員密碼" autocomplete="off">'
+      +'<div class="yc-hint">這組密碼只是會員存取碼，請勿使用你其他重要帳號的密碼。</div>'
+      +'<button id="yc-submit">送出，領取徽章</button>'
+      +'<div id="yc-msg"></div>'
+      +'<button id="yc-close">稍後再說</button>'
+    +'</div>'
+    +'<div id="yc-done" style="display:none">'
+      +'<div class="yc-badge">🏅</div>'
+      +'<h3 style="text-align:center">已通過《'+name+'報告》檢核</h3>'
+      +'<p id="yc-done-txt" style="text-align:center"></p>'
+      +'<button id="yc-close2">完成</button>'
+    +'</div>'
+  +'</div>';
+  document.body.appendChild(mask);
+
+  var $=function(id){return document.getElementById(id);};
+  function openModal(){mask.classList.add('on');setTimeout(function(){$('yc-email').focus();},50);}
+  function closeModal(){mask.classList.remove('on');}
+  $('yc-go').onclick=openModal;
+  $('yc-close').onclick=closeModal;
+  $('yc-close2').onclick=closeModal;
+  mask.addEventListener('click',function(e){if(e.target===mask)closeModal();});
+
+  function submit(){
+    var email=$('yc-email').value.trim(), pw=$('yc-pw').value.trim(), msg=$('yc-msg');
+    if(!email||!pw){msg.className='err';msg.textContent='請輸入 email 與會員密碼';return;}
+    var btn=$('yc-submit');btn.disabled=true;msg.className='';msg.textContent='驗證中…';
+    fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'certify',email:email,password:pw,reportType:t})})
+      .then(function(r){return r.json();})
+      .then(function(res){
+        btn.disabled=false;
+        if(res&&res.done){
+          $('yc-form').style.display='none';
+          $('yc-done').style.display='block';
+          $('yc-done-txt').innerHTML=(res.alreadyCertified?'你先前已通過（'+res.certifiedAt+'）。':'通過日：'+res.certifiedAt+'。')
+            +'<br>之後就能安心收到每期《'+name+'報告》了。';
+          ycCertified=true;bar.style.display='none';
+        }else{
+          msg.className='err';msg.textContent=(res&&res.error)?res.error:'驗證失敗，請稍後再試';
+        }
+      })
+      .catch(function(){btn.disabled=false;msg.className='err';msg.textContent='連線失敗，請檢查網路後再試';});
+  }
+  $('yc-submit').onclick=submit;
+  $('yc-pw').addEventListener('keydown',function(e){if(e.key==='Enter')submit();});
+  $('yc-email').addEventListener('keydown',function(e){if(e.key==='Enter')submit();});
+})();
+</script>
+
+<!-- yoda-logo-sig -->
+<img alt="Yoda" src="https://yoda-research-next.vercel.app/yoda-logo.png" style="position:fixed;right:14px;bottom:12px;height:52px;width:auto;opacity:.5;z-index:9990;pointer-events:none">
+<script>(function(){try{var K='yr_vid',v=localStorage.getItem(K);if(!v){v=Date.now().toString(36)+Math.random().toString(36).slice(2,8);localStorage.setItem(K,v);}var seg=location.pathname.split('/').filter(Boolean).pop()||'home';fetch('https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec',{method:'POST',body:JSON.stringify({action:'hit',page:decodeURIComponent(seg),path:location.pathname,host:location.hostname,ref:document.referrer,vid:v})});}catch(e){}})();</script>
+<script src="https://yoda-research-next.vercel.app/yoda-game-badge.js" defer></script>
+</body></html>
