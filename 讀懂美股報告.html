@@ -142,9 +142,7 @@ function bg(type,sky){const m=MOTIFS[type];if(!m)return '';const[f,n,l]=inkCols(
 // ===== 共用小工具 =====
 const MINUTES=6;                       // showStart 與 shareGame 共用同一個數字，不再各寫各的
 const DAY='2026-09-11';                // 本支所有讀數的收盤日（報告日 2026-09-12）
-function cn(n){const a=['零','一','二','三','四','五','六','七','八','九','十'];
- if(n<0)return String(n); if(n<=10)return a[n]; if(n<20)return '十'+a[n-10];
- return a[Math.floor(n/10)]+'十'+(n%10?a[n%10]:'');}
+// 原 cn 中文數字轉換：2026-09-14 全面改用阿拉伯數字（與《讀懂台股報告》一致），已無呼叫端
 function esc(s){return String(s);}
 
 // ===== 當期真實讀數（全部取自 美股分析_20260912 與 usbreadth-snap/ledger-20260911）=====
@@ -368,7 +366,7 @@ const TRANSITIONS=[
 // 章節、站名、開場第三句——全部由陣列算，不寫死中文數字
 const CHAPS=ROUNDS.map(r=>r.label.slice(0,3)).filter((v,k,a)=>a.indexOf(v)===k);
 const STEPNAMES=ROUNDS.map(r=>r.label.split(' · ')[1]).filter((v,k,a)=>a.indexOf(v)===k);
-OPENING.quotes[2]='這一趟走 '+cn(ROUNDS.length)+' 站，跟著報告 '+CHAPS[0]+'→'+CHAPS[CHAPS.length-1]+' 走一遍。<br>每一站只做一件事：<b>把一張圖，讀成一句話</b>。<br>'+cn(ROUNDS.length)+'句話擺在一起，就是一個判斷。';
+OPENING.quotes[2]='這一趟走 '+ROUNDS.length+' 站，跟著報告 '+CHAPS[0]+'→'+CHAPS[CHAPS.length-1]+' 走一遍。<br>每一站只做一件事：<b>把一張圖，讀成一句話</b>。<br>'+ROUNDS.length+' 句話擺在一起，就是一個判斷。';
 
 // ===== 名詞白話＋答案（每一關的「給我答案」都吃這份）=====
 const ANS=[
@@ -772,7 +770,7 @@ function showStart(){G.innerHTML=scene('sky-start','farhills',`
   <div class="chapter-label t-label" style="margin-bottom:1rem">YODA RESEARCH · 判斷力學校</div>
   <div class="chapter-title t-main" style="font-size:30px;font-weight:200;letter-spacing:1px;margin-bottom:0.4rem">讀懂美股報告</div>
   <div class="t-sub" style="font-size:14px;margin-bottom:0.3rem;font-style:italic">看得懂每一個數字，卻拼不出一個判斷——這一趟就是來解決這件事</div>
-  <div class="t-label" style="font-size:12px;margin-bottom:2.6rem;line-height:1.9">約 ${MINUTES} 分鐘 · ${cn(ROUNDS.length)} 站，跟著報告 ${CHAPS.length} 個章節（${CHAPS[0]}→${CHAPS[CHAPS.length-1]}）走一遍<br>${STEPNAMES.join('→')}<br>數據取自 ${DAY} 美股收盤（報告日 2026-09-12）</div>
+  <div class="t-label" style="font-size:12px;margin-bottom:2.6rem;line-height:1.9">約 ${MINUTES} 分鐘 · ${ROUNDS.length} 站，跟著報告 ${CHAPS.length} 個章節（${CHAPS[0]}→${CHAPS[CHAPS.length-1]}）走一遍<br>${STEPNAMES.join('→')}<br>數據取自 ${DAY} 美股收盤（報告日 2026-09-12）</div>
   <button class="continue-btn" style="font-size:15px;padding:0.85rem 3.2rem;border-radius:6px;letter-spacing:2px" onclick="fade(startOpening)">開始</button>`);}
 let oi=0;function startOpening(){oi=0;renderOpening();}
 function renderOpening(){const q=OPENING.quotes[oi],last=oi>=OPENING.quotes.length-1;
@@ -794,8 +792,8 @@ const TOOLBOX=[
  ['驗證點雙向表','<svg viewBox="0 0 100 84"><rect x="10" y="14" width="34" height="18" rx="3" fill="none" stroke="#7fd6a6" stroke-width="1.5"/><path d="M18,23 l4,5 l7,-10" fill="none" stroke="#7fd6a6" stroke-width="1.8"/><rect x="54" y="14" width="34" height="18" rx="3" fill="none" stroke="#e88a8c" stroke-width="1.5"/><line x1="63" y1="19" x2="79" y2="28" stroke="#e88a8c" stroke-width="1.8"/><line x1="79" y1="19" x2="63" y2="28" stroke="#e88a8c" stroke-width="1.8"/><rect x="10" y="42" width="34" height="18" rx="3" fill="none" stroke="rgba(127,214,166,0.45)" stroke-width="1.5"/><rect x="54" y="42" width="34" height="18" rx="3" fill="none" stroke="rgba(232,138,140,0.45)" stroke-width="1.5"/></svg>']
 ];
 function toolboxHTML(){return '<div style="max-width:380px;margin:0.3rem auto 1.5rem">'
- +'<div class="t-label" style="font-size:11px;letter-spacing:2px;margin-bottom:0.2rem">你現在手上的'+cn(TOOLBOX.length)+'件工具</div>'
- +'<div class="t-sub" style="font-size:12px;margin-bottom:0.7rem;opacity:0.82">同一份美股報告，你已經會看這'+cn(TOOLBOX.length)+'張圖</div>'
+ +'<div class="t-label" style="font-size:11px;letter-spacing:2px;margin-bottom:0.2rem">你現在手上有 '+TOOLBOX.length+' 件工具</div>'
+ +'<div class="t-sub" style="font-size:12px;margin-bottom:0.7rem;opacity:0.82">同一份美股報告，你已經會看這 '+TOOLBOX.length+' 張圖</div>'
  +'<div class="tbx-grid">'
  +TOOLBOX.map(function(t){return '<div class="tbx-cell"><div style="width:100%;max-width:78px;margin:0 auto">'+t[1]+'</div>'
    +'<div style="font-size:10.5px;color:rgba(255,255,255,0.72);margin-top:0.15rem;line-height:1.3">'+t[0]+'</div></div>';}).join('')
@@ -809,8 +807,8 @@ function showResult(){PB.style.width='100%';const s=state.score,mx=ROUNDS.length
   <div class="result-type t-main">你會讀美股報告了</div>
   <div class="result-vow" style="font-size:19px;font-weight:800;color:#e8c86a;margin:0.35rem auto 0.1rem;max-width:430px">「我不只看得懂數字了——<br>我能用它們拼出一個判斷。」</div>
   <div class="result-desc t-sub">開場那句「<b>看得懂每一個數字，卻拼不出一個判斷</b>」，現在有答案了：<br><br>
-  你剛跟著報告 <b>${CHAPS[0]}→${CHAPS[CHAPS.length-1]}</b> 走了 ${cn(mx)} 站——<br><b>${line}</b>。<br><br>
-  這 ${cn(mx)} 句話擺在一起，就是一個判斷：<br><b>先數有多少人在場 → 再問錢是新的還是換位子 → 再看錢換到哪一格 → 才挑股票 → 最後把還沒開的牌事先寫好兩面。</b><br><br>
+  你剛跟著報告 <b>${CHAPS[0]}→${CHAPS[CHAPS.length-1]}</b> 走了 ${mx} 站——<br><b>${line}</b>。<br><br>
+  這 ${mx} 句話擺在一起，就是一個判斷：<br><b>先數有多少人在場 → 再問錢是新的還是換位子 → 再看錢換到哪一格 → 才挑股票 → 最後把還沒開的牌事先寫好兩面。</b><br><br>
   核心一句：<b>美股一切相對 SPY——贏大盤才叫強。</b><br><br>
   判讀得分：${s} / ${mx}（${tier}）　·　數據取自 ${DAY} 美股收盤</div>
   ${toolboxHTML()}
@@ -825,7 +823,7 @@ function showResult(){PB.style.width='100%';const s=state.score,mx=ROUNDS.length
   <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1.4rem">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" style="color:rgba(224,165,38,0.6);text-decoration:none">BiBiPiano</a>，版權為原作者所有</div>`);}
 function restart(){resetState();oi=0;PB.style.width='0%';fade(showStart);}
 function shareGame(){const url=window.location.href.split('?')[0];
- const t='我剛玩了《讀懂美股報告》——'+MINUTES+' 分鐘 '+cn(ROUNDS.length)+' 站，從「看得懂每個數字卻拼不出判斷」，變成能自己讀出一個方向。';
+ const t='我剛玩了《讀懂美股報告》——'+MINUTES+' 分鐘 '+ROUNDS.length+' 站，從「看得懂每個數字卻拼不出判斷」，變成能自己讀出一個方向。';
  const fb=document.getElementById('sfb');
  if(navigator.share){navigator.share({title:'讀懂美股報告 · Yoda',text:t,url}).catch(()=>{});return;}
  navigator.clipboard.writeText(url).then(()=>{fb.textContent='網址已複製，貼去分享吧';setTimeout(()=>fb.textContent='',2500);}).catch(()=>{fb.textContent=url;});}
