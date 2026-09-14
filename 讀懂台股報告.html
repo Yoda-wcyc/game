@@ -31,8 +31,8 @@ html,body{width:100%;min-height:100%;font-family:-apple-system,'PingFang TC','No
 .chapter-title{font-size:27px;font-weight:300;margin-bottom:1rem;line-height:1.3}
 .chapter-quote{font-size:15px;line-height:1.95;margin-bottom:2rem;font-style:italic;max-width:480px;margin:0 auto 2rem}
 .round-text{font-size:15px;line-height:1.85;max-width:480px;margin:0 auto 0.8rem}
-.layer-list .ly b{position:relative;padding-left:11px}
-.layer-list .ly b::before{content:'';position:absolute;left:0;top:0.52em;width:5px;height:5px;border-radius:50%;background:#e0a526}
+.layer-list .ly>b{position:relative;padding-left:11px}
+.layer-list .ly>b::before{content:'';position:absolute;left:0;top:0.52em;width:5px;height:5px;border-radius:50%;background:#e0a526}
 .round-q{font-size:16px;font-weight:400;margin-bottom:1.3rem;line-height:1.5}
 .transition-quote{font-size:17px;max-width:430px;line-height:2.1;font-style:italic;color:rgba(216,228,255,0.86)}
 .choices{display:flex;flex-direction:column;gap:0.7rem;width:100%;max-width:480px;margin:0 auto}
@@ -40,7 +40,7 @@ html,body{width:100%;min-height:100%;font-family:-apple-system,'PingFang TC','No
 .choice-btn:hover{background:rgba(0,0,0,0.45);border-color:rgba(255,255,255,0.6);transform:translateX(4px)}
 .continue-btn{background:transparent;border:1px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.8);padding:0.6rem 2rem;border-radius:4px;cursor:pointer;font-size:13px;margin-top:1.3rem;letter-spacing:1px;transition:all .2s}
 .continue-btn:hover{border-color:rgba(255,255,255,0.9);color:#fff}
-.feedback{font-size:13px;line-height:1.8;max-width:440px;margin:0.7rem auto 0;min-height:42px}
+.feedback{font-size:13px;line-height:1.8;max-width:460px;margin:0.7rem auto 0;min-height:42px;background:rgba(0,0,0,0.34);border-radius:10px;padding:0.6rem 0.9rem}
 /* 儀表滑桿 */
 .gauge-wrap{max-width:340px;margin:0 auto}
 input[type=range].gsl{width:100%;-webkit-appearance:none;appearance:none;background:transparent;height:22px;margin-top:0.2rem}
@@ -72,9 +72,58 @@ input[type=range].gsl::-moz-range-track{height:8px;border-radius:4px;background:
 .step-dots i.on{background:#e0a526}
 .layer-list{max-width:480px;margin:0 auto 0.7rem;text-align:left;font-size:13.5px;line-height:1.65;color:rgba(255,255,255,0.9);display:grid;grid-template-columns:max-content 1fr;column-gap:13px;row-gap:0.62rem;align-items:start;background:rgba(0,0,0,0.22);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:0.85rem 0.95rem}
 .layer-list .ly{display:contents}
-.layer-list .ly b{color:#e0a526;white-space:nowrap}
+.layer-list .ly>b{color:#e0a526;white-space:nowrap}
 .layer-list .ly>span{min-width:0}
 .data-chip{display:inline-block;background:rgba(224,165,38,0.14);border:1px solid rgba(224,165,38,0.4);border-radius:6px;padding:2px 9px;margin:2px;font-size:12.5px;color:#f0d488}
+/* ===== 2026-09-14 改版：12 關新題型（place／hotspot／sort／match／slider／flip／build） ===== */
+.t-main,.t-sub,.t-label,.chapter-quote,.feedback,.round-q,.round-text{text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)}
+.sowhat{max-width:480px;margin:0 auto 0.7rem;font-size:13.5px;line-height:1.8;color:#f4e3b4;border-left:2px solid rgba(224,165,38,0.75);padding:0.15rem 0 0.15rem 0.7rem;text-align:left;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)}
+.fig-note{max-width:480px;margin:0.2rem auto 0.6rem;font-size:12px;line-height:1.7;color:rgba(255,255,255,0.66);text-shadow:0 1px 2px rgba(0,0,0,.6)}
+/* 兩段式點選歸位 place / build */
+.pl-pool{display:flex;flex-wrap:wrap;gap:0.45rem;justify-content:center;max-width:500px;margin:0 auto 0.8rem}
+.pl-card{background:rgba(0,0,0,0.32);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:9px;padding:0.5rem 0.75rem;font-size:13px;line-height:1.55;cursor:pointer;transition:all .15s;text-align:left}
+.pl-card:hover{border-color:rgba(255,255,255,0.65)}
+.pl-card.sel{border-color:#e0a526;background:rgba(224,165,38,0.24);box-shadow:0 0 0 1px rgba(224,165,38,0.5)}
+.pl-slots{display:flex;flex-direction:column;gap:0.5rem;max-width:500px;margin:0 auto 0.7rem}
+.pl-slot{display:grid;grid-template-columns:max-content 1fr;column-gap:12px;align-items:center;background:rgba(0,0,0,0.24);border:1px dashed rgba(255,255,255,0.32);border-radius:10px;padding:0.55rem 0.7rem;cursor:pointer;transition:all .15s;text-align:left}
+.pl-slot:hover{border-color:rgba(255,255,255,0.6)}
+.pl-slot.armed{border-color:#e0a526;border-style:solid}
+.pl-slot.right{border-style:solid;border-color:rgba(120,220,140,0.8)}
+.pl-slot.wrong{border-style:solid;border-color:rgba(229,120,120,0.8)}
+.pl-slot .sl-t{font-size:12.5px;line-height:1.5;color:rgba(255,255,255,0.82);white-space:normal;max-width:180px}
+.pl-slot .sl-v{display:flex;flex-wrap:wrap;gap:0.3rem;justify-content:flex-end;min-height:26px;align-items:center}
+.pl-chip{background:rgba(224,165,38,0.2);border:1px solid rgba(224,165,38,0.62);color:#f4dc9a;border-radius:7px;padding:0.28rem 0.55rem;font-size:12.5px;line-height:1.4}
+.pl-slot.wide{grid-template-columns:1fr}
+.pl-slot.wide .sl-t{max-width:none;margin-bottom:0.35rem}
+.pl-slot.wide .sl-v{justify-content:flex-start;min-height:34px}
+/* 排序 sort */
+.st-list{display:flex;flex-direction:column;gap:0.35rem;max-width:460px;margin:0 auto 0.7rem}
+.st-row{display:grid;grid-template-columns:max-content 1fr;column-gap:10px;align-items:center;background:rgba(0,0,0,0.26);border:1px solid rgba(255,255,255,0.24);border-radius:8px;padding:0.42rem 0.6rem;cursor:pointer;font-size:13px;text-align:left;color:#fff;transition:all .13s}
+.st-row:hover{border-color:rgba(255,255,255,0.6)}
+.st-row.sel{border-color:#e0a526;background:rgba(224,165,38,0.22)}
+.st-row.right{border-color:rgba(120,220,140,0.8)}
+.st-row.wrong{border-color:rgba(229,120,120,0.7)}
+.st-row b{color:#e0a526;font-size:12px;min-width:14px;display:inline-block}
+/* 連連看 match */
+.mt-wrap{position:relative;max-width:520px;margin:0 auto 0.7rem}
+.mt-lines{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.mt-cols{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;column-gap:46px;row-gap:0.5rem}
+.mt-col{display:flex;flex-direction:column;gap:0.5rem}
+.mt-item{background:rgba(0,0,0,0.34);border:1px solid rgba(255,255,255,0.26);border-radius:9px;padding:0.5rem 0.6rem;font-size:12.5px;line-height:1.55;color:#fff;cursor:pointer;text-align:left;transition:all .13s}
+.mt-item:hover{border-color:rgba(255,255,255,0.62)}
+.mt-item.sel{border-color:#e0a526;background:rgba(224,165,38,0.24)}
+.mt-item.on{border-color:rgba(224,165,38,0.72)}
+.mt-item.right{border-color:rgba(120,220,140,0.85)}
+.mt-item.wrong{border-color:rgba(229,120,120,0.8)}
+.mt-item .sm{display:block;font-size:11.5px;color:rgba(255,255,255,0.62);margin-top:2px}
+/* 熱區 */
+.hz{cursor:pointer}
+.hz:hover{fill:rgba(255,255,255,0.09)}
+/* 翻牌 */
+.fp-bets{display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;max-width:470px;margin:0 auto 0.6rem}
+.fp-bet{flex:1 1 190px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:10px;padding:0.75rem 0.8rem;font-size:13.5px;line-height:1.6;cursor:pointer;transition:all .15s}
+.fp-bet:hover{border-color:rgba(255,255,255,0.7);transform:translateY(-2px)}
+.btnrow{display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap}
 </style></head><body>
 <audio id="bgm" loop preload="auto"><source src="day_one.mp3"></audio>
 <button id="muteBtn" class="mute-btn" onclick="toggleMute()">🔊</button>
@@ -100,331 +149,725 @@ const MOTIFS={
  river:(f,n,l)=>`<path d="M0,90 C300,82 500,86 1200,84 L1200,120 L0,120Z" fill="${f}"/><path d="M470,82 Q540,98 610,82" fill="none" stroke="${l}" stroke-width="1.8" stroke-linecap="round"/><path d="M120,94 q80,-4 160,0 t160,0 M700,96 q80,-4 160,0 t160,0" fill="none" stroke="${l}" stroke-width="1" opacity="0.6"/>`};
 function bg(type,sky){const m=MOTIFS[type];if(!m)return '';const[f,n,l]=inkCols(sky);return `<svg class="ink-bg" viewBox="0 0 1200 120" preserveAspectRatio="none">${m(f,n,l)}</svg>`;}
 
-const OPENING={sky:'sky-dawn',bg:'farhills',label:'序',title:'一堆數字，你只抓了一個',quotes:[
- '你打開台股報告——REL、法人買賣超、漲停家數…<br>你多半只抓「誰買超最多」或「誰漲最多」，<br>然後就下結論。',
- '但台股最容易騙人的，就是<b>只看一個數字</b>。<br>報告的關鍵，是把<b>價、量、廣度一起看</b>——<br>少看一個，你就會把「換手」讀成「倒貨」。',
+// ================= 當期真實讀數 · 資料日 2026-09-11（取自《台股分析_20260911》）=================
+const ASOF='2026-09-11';
+const BD_D=["06/18","06/22","06/23","06/24","06/25","06/26","06/29","06/30","07/01","07/02","07/03","07/06","07/07","07/08","07/09","07/13","07/14","07/15","07/16","07/17","07/20","07/21","07/22","07/23","07/24","07/27","07/28","07/29","07/30","07/31","08/03","08/04","08/05","08/06","08/07","08/10","08/11","08/12","08/13","08/14","08/17","08/18","08/19","08/20","08/21","08/24","08/25","08/26","08/27","08/28","08/31","09/01","09/02","09/03","09/04","09/07","09/08","09/09","09/10","09/11"];
+const BD_IX=[46465,47742,47101,46044,46255,44572,45000,46126,47019,46744,46781,46556,45479,45734,45355,45381,44738,45632,45625,42671,42450,44233,44826,44851,43655,43634,41603,40039,39933,43120,43386,43361,44612,44397,44226,44929,45121,45518,46021,45811,45857,45309,44719,44934,45224,44762,45169,45833,45975,46331,46128,46949,46165,45858,46551,47326,47106,47183,46940,46185];
+const BD_P5=[64.0,57.8,38.4,37.0,32.6,13.0,28.0,51.7,52.8,70.0,82.2,74.5,34.3,27.2,25.6,26.8,21.4,48.2,45.4,16.9,17.3,35.8,53.1,58.0,38.5,31.8,13.4,12.5,11.1,48.1,74.1,75.5,75.1,68.9,62.0,71.7,59.4,63.2,56.9,36.7,40.8,26.3,27.0,48.9,57.5,51.1,47.3,67.9,65.1,56.9,40.4,44.0,38.8,23.0,43.0,40.5,31.6,44.2,30.5,21.7];
+const BD_P20=[58.9,60.1,50.6,50.7,47.4,29.7,34.2,43.0,43.0,50.8,68.5,69.2,48.8,46.4,44.8,39.0,29.7,41.9,39.7,23.2,24.2,30.8,30.4,30.0,27.6,28.1,17.2,15.1,12.5,19.8,22.5,27.2,37.5,42.9,46.1,59.5,58.8,64.0,64.9,58.4,59.7,51.0,50.4,59.3,62.7,59.3,57.4,67.6,65.7,61.5,52.5,55.0,51.4,39.2,46.8,45.9,37.0,42.2,36.5,29.4];
+const BD_P60=[63.6,64.0,59.5,60.3,58.9,45.6,49.5,54.5,54.0,58.4,66.3,67.1,57.2,55.5,54.8,51.2,44.4,51.0,49.6,36.2,34.6,39.7,40.7,39.4,37.6,36.7,27.5,23.9,21.4,26.9,29.4,30.9,33.7,35.2,36.4,40.5,40.3,42.2,41.6,38.9,40.1,36.6,34.9,39.1,40.6,38.7,37.7,42.7,44.1,44.0,42.7,45.2,45.0,39.5,42.6,42.3,40.3,41.8,39.5,35.4];
+const BD_P240=[58.7,58.2,57.1,57.7,57.4,52.9,54.8,56.7,56.5,57.9,61.1,62.4,58.7,58.3,58.2,57.3,54.6,57.7,56.5,49.2,48.3,51.8,51.9,51.5,50.7,50.0,44.0,38.8,35.9,41.6,44.8,47.0,48.9,49.6,50.4,52.9,52.6,54.2,53.1,51.9,52.2,50.1,49.7,51.3,52.1,51.4,51.2,54.2,54.5,53.7,53.6,54.1,53.5,51.5,53.3,52.1,50.8,52.0,51.2,48.6];
+// 半導體 122 檔：月線買賣超前十大（億元）·全格合計 +371 億·價 34% 贏（42/122）
+const SEMI=[['聯發科',302.5],['南亞科',261.3],['台積電',193.8],['創意',133.5],['日月光投控',107.9],['力積電',90.0],['精材',84.1],['聯詠',83.0],['信驊',74.3],['華邦電',64.9]];
+const SEMI_TOT=371;
+function semiLeft(n){let t=SEMI_TOT;for(let k=0;k<n;k++)t-=SEMI[k][1];return t;}
+
+// ================= 共用小工具 =================
+let PULSE=null;
+function startPulse(){if(PULSE)return;PULSE=setInterval(function(){
+  const t=Date.now()/1000;
+  const a=(0.34+0.46*(0.5+0.5*Math.sin(t*3.0))).toFixed(2);
+  const els=document.querySelectorAll('.gpulse');for(let i=0;i<els.length;i++)els[i].setAttribute('opacity',a);
+  const rr=6+11*(((t*0.42)%1));
+  const rs=(0.62*(1-((t*0.42)%1))).toFixed(2);
+  const rg=document.querySelectorAll('.gring');for(let i=0;i<rg.length;i++){rg[i].setAttribute('r',rr.toFixed(1));rg[i].setAttribute('stroke-opacity',rs);}
+},70);}
+
+// 2×2 象限盒（三關共用：板塊動態圖／籌碼四型態／現貨×期貨）
+// cells 順序＝左上、右上、左下、右下
+function quadBox(o,sel,rev){
+  const X0=40,Y0=20,X1=286,Y1=214,mx=(X0+X1)/2,my=(Y0+Y1)/2,cw=(X1-X0)/2,ch=(Y1-Y0)/2;
+  const box=[[X0,Y0],[mx,Y0],[X0,my],[mx,my]];
+  let s='<svg viewBox="0 0 300 250" style="width:100%;max-width:300px;margin:0.4rem auto 0;display:block">';
+  s+='<rect x="'+X0+'" y="'+Y0+'" width="'+(X1-X0)+'" height="'+(Y1-Y0)+'" fill="none" stroke="rgba(255,255,255,0.16)"/>';
+  for(let i=0;i<4;i++){
+    const c=o.cells[i],x=box[i][0],y=box[i][1];
+    const on=sel&&sel.indexOf(c.k)>=0, good=rev&&rev.indexOf(c.k)>=0;
+    let fill='rgba(255,255,255,0.02)';
+    if(good)fill='rgba(120,220,140,0.22)';else if(on)fill='rgba(224,165,38,0.24)';
+    s+='<rect class="hz" data-k="'+c.k+'" x="'+x+'" y="'+y+'" width="'+cw+'" height="'+ch+'" fill="'+fill+'" stroke="'+((on||good)?(good?'#7fd6a6':'#e0a526'):'rgba(255,255,255,0.10)')+'" stroke-width="'+((on||good)?2:1)+'" onclick="hsPick(\''+c.k+'\')"/>';
+    s+='<text x="'+(x+cw/2)+'" y="'+(y+22)+'" fill="'+(c.col||'rgba(255,255,255,0.86)')+'" font-size="12.5" font-weight="700" text-anchor="middle" pointer-events="none">'+c.n+'</text>';
+    if(c.s)s+='<text x="'+(x+cw/2)+'" y="'+(y+39)+'" fill="rgba(255,255,255,0.6)" font-size="10.5" text-anchor="middle" pointer-events="none">'+c.s+'</text>';
+    if(c.s2)s+='<text x="'+(x+cw/2)+'" y="'+(y+54)+'" fill="rgba(255,255,255,0.5)" font-size="10" text-anchor="middle" pointer-events="none">'+c.s2+'</text>';
+  }
+  s+='<line x1="'+mx+'" y1="'+Y0+'" x2="'+mx+'" y2="'+Y1+'" stroke="rgba(255,255,255,0.3)" pointer-events="none"/>';
+  s+='<line x1="'+X0+'" y1="'+my+'" x2="'+X1+'" y2="'+my+'" stroke="rgba(255,255,255,0.3)" pointer-events="none"/>';
+  s+=(o.extra||'');
+  s+='<text x="163" y="234" fill="rgba(255,255,255,0.55)" font-size="10" text-anchor="middle" pointer-events="none">'+o.xlab+'</text>';
+  s+='<text x="14" y="117" fill="rgba(255,255,255,0.55)" font-size="10" text-anchor="middle" transform="rotate(-90 14 117)" pointer-events="none">'+o.ylab+'</text>';
+  return s+'</svg>';
+}
+// 折線圖（市場寬度用）
+function lineChart(o){
+  const W=300,H=o.h||96,L=34,R=292,T=10,B=H-16;
+  let s='<svg viewBox="0 0 300 '+H+'" style="width:100%;max-width:300px;margin:0 auto;display:block">';
+  s+='<text x="'+L+'" y="8" fill="rgba(255,255,255,0.62)" font-size="9.5">'+o.title+'</text>';
+  let lo=Infinity,hi=-Infinity;
+  o.series.forEach(function(se){se.v.forEach(function(v){if(v<lo)lo=v;if(v>hi)hi=v;});});
+  if(o.min!=null)lo=Math.min(lo,o.min);if(o.max!=null)hi=Math.max(hi,o.max);
+  const pad=(hi-lo)*0.12||1;lo-=pad;hi+=pad;
+  const n=o.series[0].v.length;
+  const px=function(i){return n<2?L:L+(R-L)*i/(n-1);};
+  const py=function(v){return B-(B-T)*(v-lo)/(hi-lo);};
+  if(o.band){s+='<rect x="'+L+'" y="'+py(o.band[1])+'" width="'+(R-L)+'" height="'+Math.max(0,py(o.band[0])-py(o.band[1]))+'" fill="rgba(255,255,255,0.07)"/>';}
+  const lbs=[];
+  o.series.forEach(function(se){
+    let d='';for(let i=0;i<se.v.length;i++)d+=(i?'L':'M')+px(i).toFixed(1)+','+py(se.v[i]).toFixed(1)+' ';
+    s+='<path d="'+d+'" fill="none" stroke="'+se.c+'" stroke-width="'+(se.w||2)+'"/>';
+    const li=se.v.length-1;
+    s+='<circle cx="'+px(li).toFixed(1)+'" cy="'+py(se.v[li]).toFixed(1)+'" r="3" fill="'+se.c+'" class="gpulse"/>';
+    lbs.push({y:py(se.v[li])-6,c:se.c,t:se.lab});
+  });
+  lbs.sort(function(a,b){return a.y-b.y;});
+  for(let i=0;i<lbs.length;i++){lbs[i].y=Math.max(lbs[i].y,T+9);if(i&&lbs[i].y-lbs[i-1].y<11)lbs[i].y=lbs[i-1].y+11;}
+  lbs.forEach(function(l){s+='<text x="'+(R-2)+'" y="'+l.y.toFixed(1)+'" fill="'+l.c+'" font-size="10" text-anchor="end">'+l.t+'</text>';});
+  s+='<text x="'+L+'" y="'+(H-4)+'" fill="rgba(255,255,255,0.45)" font-size="9">'+o.x0+'</text>';
+  s+='<text x="'+R+'" y="'+(H-4)+'" fill="rgba(255,255,255,0.45)" font-size="9" text-anchor="end">'+o.x1+'</text>';
+  return s+'</svg>';
+}
+
+const OPENING={sky:'sky-dawn',bg:'farhills',label:'序',title:'每個數字你都看得懂，判斷卻拼不出來',quotes:[
+ '你把台股報告從頭滑到尾。<br>吸籌 49.9%、外資賣超 951 億、站上月線 29%——<br>每一個數字，你都看得懂。',
+ '然後你關掉它，<br>還是講不出今天到底該怎麼想。<br><b>看得懂每一個數字，卻拼不出一個判斷。</b>',
+ '問題不在數字，在<b>順序</b>。<br>報告十段本來就是一條裝配線：<br>先對單位、再看錢往哪搬、再看隊伍散不散，<br>最後才輪到「所以呢」。',
+ '接下來十二站，一站一張圖、一件事。<br>走完，你會用三張圖拼出一個判斷。<br><span style="opacity:.75;font-size:13px">（所有讀數都是 '+ASOF+' 那天的真實數字）</span>',
 ]};
 
 const ROUNDS=[
- {type:'ab',sky:'sky-dawn',bg:'farhills',label:'§00 · 今日重點',title:'先讀開頭這一段：30 秒抓重點',
-  text:'報告最前面是「<b>今日重點</b>」——不想讀完十段，先看這裡就好。',
-  layers:[['定調','今天整體怎麼看，一句話'],['主線','錢在哪、誰最扎實'],['警戒','哪裡有雜訊／背離'],['盯什麼','下一步要看哪個訊號成立'],['情境決策樹','每條岔路都畫出「成立走這、不成立走那」，不單押一個結果']],
-  chips:['8/27 定調：錢開始回補','主線：記憶體（南亞科 +179.7 億）','警戒：廣度反變窄','盯：量站門檻＋收上波段高（差 46.26 點）'],
-  q:'報告最前面的「今日重點」，最適合拿來做什麼？',
-  choices:['跳過，數字都在後面','30 秒先抓「定調／主線／警戒／盯什麼」，再決定往下鑽哪幾段','照著它直接買股票'],correct:1,
-  fb:['正好相反——它是報告特地放最前面的懶人包，先看它最省時。','對——<b>今日重點＝先抓框架</b>：一句定調、主線在哪、警戒什麼、下一步盯什麼訊號。決策樹再告訴你「條件成立走哪、不成立走哪」。抓完框架，再回頭鑽你在意那幾段的細節。','它給的是「怎麼看」不是「買什麼」——「盯什麼」是要你自己等訊號成立，不是進場指令(報告從不喊買賣)。']},
+// ── 01 §01 place：量不是張數 ───────────────────────────────────
+{type:'place',sky:'sky-dawn',bg:'farhills',label:'§01 · 名詞與使用說明',
+ title:'報告說「量」，講的不是張數',
+ text:'你大概也這樣讀過：<br>看到「買超二十萬張」覺得好多，<br>看到「買超兩百億」反而沒感覺。',
+ so:'但這兩個不是同一種東西，也不能互換。<br>報告裡不同段落的「量」單位不一樣——<br>單位對錯了，後面十一站全部會歪。',
+ layers:[['報告的「量」','三大法人（外資＋投信＋自營）買賣超<b>金額</b>，單位＝億元'],
+   ['不是','成交張數，也不是成交量'],
+   ['⚠ 換段就換單位','大盤 ETF 那段用「張」、期貨那段用「口」'],
+   ['1D%','當天漲跌幅，跟量完全無關']],
+ chips:['資料日 '+ASOF],
+ q:'先點下面一張讀數，再點它該去的格子：',
+ cards:[['a','−213.4 億'],['b','−66,987 張'],['c','淨空 84,745 口'],['d','−1.61%']],
+ slots:[['s1','報告講個股／板塊的「量」','a'],['s2','大盤 ETF 0050 的量','b'],['s3','外資期指的部位','c'],['s4','加權指數當天的價','d']],
+ done:'四個都是 '+ASOF+' 的真實讀數：台積電被賣 213.4 億、0050 被賣 66,987 張、外資期指淨空 84,745 口、加權跌 1.61%。<br><b>看到數字先看單位</b>——億元是錢、張是股票、口是期貨合約、% 是價。'},
 
- {type:'ab',sky:'sky-valley',bg:'range',label:'§02 · 量版籌碼資金流動態圖',title:'會動的板塊圖：位置＋方向＋量',
-  text:'報告第一張圖：每個板塊是一顆<b>泡泡</b>，重點看它<b>往哪走</b>。',
-  layers:[['橫軸','相對強度——現在強不強'],['縱軸','動能——正在轉強還是轉弱'],['泡泡大小','成交量佔比，越大＝量越集中'],['120 天軌跡','點下去拖出尾巴，看這段怎麼移動'],['四象限','領先／改善／落後／轉弱']],
-  chips:['8/12：記憶體 改善 → 領先'],
-  svg:'<svg viewBox="0 0 300 236" style="width:100%;max-width:270px;margin:0.6rem auto;display:block"><rect x="34" y="16" width="232" height="196" fill="none" stroke="rgba(255,255,255,0.14)"/><line x1="150" y1="16" x2="150" y2="212" stroke="rgba(255,255,255,0.22)"/><line x1="34" y1="114" x2="266" y2="114" stroke="rgba(255,255,255,0.22)"/><text x="214" y="32" fill="#ff6b7d" font-size="12" text-anchor="middle" font-weight="700">領先</text><text x="88" y="32" fill="#ffd28a" font-size="12" text-anchor="middle">改善</text><text x="88" y="204" fill="#7fd0a0" font-size="12" text-anchor="middle">落後</text><text x="214" y="204" fill="#9ab8ff" font-size="12" text-anchor="middle">轉弱</text><text x="150" y="228" fill="rgba(255,255,255,0.5)" font-size="10" text-anchor="middle">← 弱　相對強度　強 →</text><path d="M92,96 C130,88 172,84 210,80" fill="none" stroke="rgba(224,165,38,0.55)" stroke-width="2" stroke-dasharray="3 3"/><circle cx="92" cy="96" r="3" fill="rgba(224,165,38,0.4)"/><circle cx="150" cy="86" r="4" fill="rgba(224,165,38,0.7)"/><circle r="9" fill="#e0a526" opacity="0.9"><animateMotion dur="3.2s" repeatCount="indefinite" keyPoints="0;1;1;0" keyTimes="0;0.5;0.62;1" calcMode="linear" path="M92,96 C130,88 172,84 210,80"/></circle><text x="212" y="66" fill="#fff" font-size="10" text-anchor="middle">記憶體</text></svg>',
-  q:'一個板塊的點，從「改善」往「領先」移動，代表？',
-  choices:['由弱轉強、動能在增強——「轉強確立」的軌跡','已經最強、準備要崩了','沒意義，圖好看而已'],correct:0,
-  fb:['對——改善→領先＝相對強度和動能同步上升，是「轉強確立」。動態圖比單看排名，多了「往哪走」這個資訊。','「最強就要崩」是猜頂——動態圖只給你位置和方向，不預測崩盤。','很有意義——看多數板塊聚在哪個象限，就能讀出大盤整體是強是弱。']},
+// ── 02 §01 ab：兩軸不要混 ───────────────────────────────────
+{type:'ab',sky:'sky-dawn',bg:'farhills',label:'§01 · 兩軸怎麼讀',
+ title:'位階(量) 和 階段(價)，是兩把尺',
+ text:'表格裡每一檔都有兩欄，你多半只看得懂一欄，<br>另一欄就當它是同一件事的另一種說法滑過去。',
+ so:'它們不是同一件事。<br>一欄回答「誰在拿錢買」，一欄回答「價格走到哪一段」。<br>兩欄要分開讀，再交叉看。',
+ layers:[['位階(量)','法人這一個月、這五天在買還在賣：🔥續買／🌱翻買／⚠收手／❄續賣'],
+   ['階段(價)','用 REL5／REL20／REL60 判價格走到哪一段：⇑主升／≈跟盤／⇓弱勢…'],
+   ['REL','贏大盤幾 %，正＝跑贏、負＝跑輸（<b>抗跌也算贏</b>）——不是漲跌幅'],
+   ['⚠ 一定要標明','講的時候要說清楚是哪一軸，例：台積電＝價.跟盤／量.續買']],
+ chips:[ASOF+' 台積電：階段(價) ≈跟盤','位階(量) 🔥續買','5日 +218.4 億｜月線 +193.8 億'],
+ svg:'<svg viewBox="0 0 300 150" style="width:100%;max-width:290px;margin:0.5rem auto 0;display:block"><rect x="18" y="16" width="122" height="112" rx="8" fill="rgba(6,10,22,0.62)" stroke="rgba(127,168,255,0.6)"/><text x="79" y="36" fill="#9ab8ff" font-size="12" font-weight="700" text-anchor="middle">位階(量)</text><text x="79" y="55" fill="rgba(255,255,255,0.72)" font-size="10.5" text-anchor="middle">誰在拿錢買</text><text x="79" y="82" fill="#fff" font-size="13" font-weight="700" text-anchor="middle">🔥續買</text><text x="79" y="102" fill="rgba(255,255,255,0.6)" font-size="10" text-anchor="middle">5日 +218.4 億</text><text x="79" y="117" fill="rgba(255,255,255,0.6)" font-size="10" text-anchor="middle">月線 +193.8 億</text><rect x="160" y="16" width="122" height="112" rx="8" fill="rgba(6,10,22,0.62)" stroke="rgba(224,165,38,0.6)"/><text x="221" y="36" fill="#e6c463" font-size="12" font-weight="700" text-anchor="middle">階段(價)</text><text x="221" y="55" fill="rgba(255,255,255,0.72)" font-size="10.5" text-anchor="middle">走到哪一段</text><text x="221" y="82" fill="#fff" font-size="13" font-weight="700" text-anchor="middle">≈跟盤</text><text x="221" y="102" fill="rgba(255,255,255,0.6)" font-size="10" text-anchor="middle">三個窗口都</text><text x="221" y="117" fill="rgba(255,255,255,0.6)" font-size="10" text-anchor="middle">貼著大盤</text><text x="150" y="145" fill="rgba(255,255,255,0.55)" font-size="10" text-anchor="middle">同一天、同一檔、兩把不同的尺</text></svg>',
+ q:'台積電 '+ASOF+' 這一列寫「階段(價) ≈跟盤｜位階(量) 🔥續買」，這兩欄在講什麼？',
+ choices:['同一件事講兩次——都是說它很強','兩把尺：量講法人在買還在賣、價講它相對大盤走到哪一段——這天是錢在買、但價只是跟著大盤走','量是成交量、價是股價，看哪個數字大就好'],correct:1,
+ fb:['不是同一件事。這一天它們剛好講出相反的味道：錢一直在買（月線 +193.8 億），價卻只是貼著大盤跑。','對——<b>量講誰在買、價講走到哪一段</b>。台積電這天 🔥續買＋≈跟盤，意思是錢在買、但價格沒有走出自己的方向。兩欄不一樣，才是有訊息的地方（第九站會專門練這個）。','「量」在這份報告裡是法人買賣超金額、不是成交量；「價」是相對大盤的位置、不是股價高低。']},
 
- {type:'ab',sky:'sky-noon',bg:'farhills',label:'§03 · 板塊資金位階',title:'REL 不是「漲多少」',
-  text:'這段用 <b>REL</b> 幫板塊與個股排位階——先講清楚：<b>REL 不是「漲多少」</b>。',
-  layers:[['REL 相對強度','贏大盤幾 %：正＝跑贏、負＝跑輸'],['REL5／20／60','近 5 日／約 1 月／約 3 月，分看短中長'],['四視角切換','合計／外資／投信／自營，看不同法人眼裡的位階'],['⚠ 抗跌也算贏','比的是「比大盤多漲或多跌」，不是自己漲多少']],
-  chips:['台積電 +0.83 但 REL5 −1.05','力積電 REL5 +18.61'],
-  svg:'<svg viewBox="0 0 300 148" style="width:100%;max-width:280px;margin:0.55rem auto 0;display:block"><line x1="30" y1="74" x2="285" y2="74" stroke="rgba(255,255,255,0.32)"/><text x="24" y="78" fill="rgba(255,255,255,0.5)" font-size="9" text-anchor="end">0</text><rect x="74" y="74" width="46" height="15" fill="rgba(120,160,255,0.75)"/><text x="97" y="106" fill="#9ab8ff" font-size="10.5" text-anchor="middle">台積電</text><text x="97" y="120" fill="#9ab8ff" font-size="9.5" text-anchor="middle">價+0.83</text><text x="97" y="133" fill="#9ab8ff" font-size="9.5" text-anchor="middle">REL5 −1.05</text><rect x="192" y="20" width="46" height="54" fill="rgba(224,120,110,0.85)"/><text x="215" y="106" fill="#e88a8c" font-size="10.5" text-anchor="middle">力積電</text><text x="215" y="120" fill="#e88a8c" font-size="9.5" text-anchor="middle">REL5</text><text x="215" y="133" fill="#e88a8c" font-size="9.5" text-anchor="middle">+18.61</text><text x="150" y="146" fill="rgba(255,255,255,0.5)" font-size="9" text-anchor="middle">同是漲，贏大盤 vs 輸大盤差很大</text></svg>',
-  q:'今天 A 股漲 1%、大盤漲 3%；B 股跌 1%、大盤跌 5%。誰 REL 比較強？',
-  choices:['A 股，因為它是漲的','B 股——它跌得比大盤少 5%，等於贏大盤，抗跌也算贏','一樣，都沒贏'],correct:1,
-  fb:['A 股雖然漲，卻輸大盤 2%(大盤漲更多)——REL 是負的。','對——REL 比的是「相對大盤」。B 股逆勢抗跌、跑贏大盤 4%，REL 反而強。<b>漲最多的，不一定 REL 最強。</b>','有贏有輸——B 明顯跑贏大盤。看 REL 要跟大盤比，不是看自己漲跌。']},
+// ── 03 §02 hotspot：錢往哪個象限搬 ───────────────────────────
+{type:'hotspot',sky:'sky-valley',bg:'range',label:'§02 · 板塊動態圖',
+ title:'不要看它站哪裡，要看它往哪走',
+ text:'第一次看這張泡泡圖，多數人只看「誰在最右邊」，<br>看完就結論「那一格最強」。',
+ so:'但這張圖真正的資訊是<b>尾巴</b>。<br>同一個位置，尾巴往右上是在累積，往左下是在退——<br>一樣的點，兩種完全不同的意思。',
+ layers:[['橫軸','相對強度（用 REL5，近 5 日相對加權·非漲幅）：越右越強'],
+   ['縱軸','動能：這個強弱正在加速還是在鈍化'],
+   ['中心','就是加權指數本身'],
+   ['四象限','轉強 → 領先 → 轉弱 → 落後，資金輪動多半順時針走'],
+   ['尾巴','拖出來的軌跡就是它這一段怎麼移動的']],
+ chips:[ASOF+' 記憶體：REL5 +0.7%、REL20 −6.1%',ASOF+' 散熱：REL5 −4.4%、REL20 +6.4%'],
+ q:'記憶體這顆泡泡的尾巴，從左下一路拉到零軸右邊。<br>點出它正在走進哪一格：',
+ need:['lead'],
+ quad:{xlab:'← 弱　　相對強度（REL5）　　強 →',ylab:'鈍化 ←　動能　→ 加速',
+   cells:[{k:'imp',n:'轉強',s:'弱但在加速',col:'#ffd28a'},{k:'lead',n:'領先',s:'強且在加速',col:'#ff6b7d'},{k:'lag',n:'落後',s:'弱且續弱',col:'#7fd0a0'},{k:'weak',n:'轉弱',s:'強但在減速',col:'#9ab8ff'}],
+   extra:'<path d="M78,150 C112,132 140,112 176,86" fill="none" stroke="rgba(224,165,38,0.5)" stroke-width="2" stroke-dasharray="4 3" pointer-events="none"/><circle cx="78" cy="150" r="3" fill="rgba(224,165,38,0.35)" pointer-events="none"/><circle cx="128" cy="120" r="4.5" fill="rgba(224,165,38,0.6)" pointer-events="none"/><circle cx="176" cy="86" r="9" fill="#e0a526" class="gpulse" pointer-events="none"/><circle cx="176" cy="86" r="9" fill="none" stroke="#e0a526" stroke-width="2" class="gring" pointer-events="none"/><text x="176" y="72" fill="#fff" font-size="10" text-anchor="middle" font-weight="700" pointer-events="none">記憶體</text><path d="M198,64 C176,86 150,120 112,168" fill="none" stroke="rgba(127,214,166,0.42)" stroke-width="1.6" stroke-dasharray="3 3" pointer-events="none"/><circle cx="112" cy="168" r="7" fill="rgba(127,214,166,0.6)" pointer-events="none"/><text x="112" y="186" fill="#7fd0a0" font-size="10" text-anchor="middle" pointer-events="none">散熱</text>'},
+ note:'金色＝記憶體（尾巴往右上）　綠色＝散熱（尾巴往左下）',
+ fbOk:'對——<b>尾巴往右上＝相對強度在累積</b>，記憶體從 REL20 −6.1% 走到 REL5 +0.7%，是九格裡唯一貼到零軸右側的。<br>對照散熱：REL20 還有 +6.4%、REL5 已經 −4.4%，尾巴往左下，強度正在退。<br><b>同一張圖，看的不是站在哪，是往哪走。</b>',
+ fbNo:'再看一次尾巴的方向：它從左下往右上，代表相對強度和動能同時在往上——那是右上角那一格。<br>（左下＝落後、左上＝轉強、右下＝轉弱）'},
 
- {type:'ab',sky:'sky-valley',bg:'range',label:'§03 · 量價兩維度',title:'價漲停，量卻在跑——這叫背離',
-  text:'同一段要<b>量價一起看</b>——把「誰在漲」和「誰在買」分開問。',
-  layers:[['價','漲跌／相對強度——誰在漲'],['量','三大法人買賣超籌碼——誰真的在買'],['共振','兩個同向＝真強'],['背離','一個漲、一個跑＝先打問號']],
-  chips:['被動：價攻漲停，5 日籌碼 −53,741 張'],
-  svg:'<svg viewBox="0 0 300 184" style="width:100%;max-width:290px;margin:0.6rem auto 0;display:block"><text x="76" y="16" fill="#a5d6a7" font-size="11.5" font-weight="700" text-anchor="middle">量價共振</text><line x1="22" y1="104" x2="140" y2="104" stroke="rgba(255,255,255,0.25)"/><rect x="46" y="56" width="22" height="48" fill="rgba(127,168,255,0.8)"/><text x="57" y="120" fill="#9ab8ff" font-size="9" text-anchor="middle">量↑</text><rect x="90" y="48" width="22" height="56" fill="rgba(224,182,74,0.9)"/><text x="101" y="120" fill="#e6c463" font-size="9" text-anchor="middle">價↑</text><text x="76" y="176" fill="rgba(255,255,255,0.8)" font-size="9.5" text-anchor="middle">記憶體：真強</text><line x1="150" y1="24" x2="150" y2="150" stroke="rgba(255,255,255,0.16)"/><text x="224" y="16" fill="#ffcc80" font-size="11.5" font-weight="700" text-anchor="middle">量價背離</text><line x1="170" y1="104" x2="286" y2="104" stroke="rgba(255,255,255,0.25)"/><rect x="240" y="36" width="22" height="68" fill="rgba(224,182,74,0.9)"/><text x="251" y="120" fill="#e6c463" font-size="9" text-anchor="middle">價↑漲停</text><rect x="196" y="104" width="22" height="42" fill="rgba(127,168,255,0.42)"/><text x="207" y="160" fill="#9ab8ff" font-size="9" text-anchor="middle">量↓流出</text><text x="224" y="176" fill="#ffcc80" font-size="9.5" text-anchor="middle">被動：籌碼在跑<animate attributeName="opacity" values="1;0.4;1" dur="1.6s" repeatCount="indefinite"/></text></svg>',
-  q:'8/12 被動元件「價格攻漲停、但 5 日法人籌碼淨流出 5 萬多張」，怎麼讀？',
-  choices:['漲停就是最強，資金當然在大買','價量背離——價衝上去、籌碼卻在跑，是投機拉抬、留意退燒，不是穩穩流入','法人一定在偷偷買，跟就對了'],correct:1,
-  fb:['漲停 ≠ 資金流入。價衝、籌碼跑，正是要小心的背離。','對——<b>價漲＋籌碼流出＝量價背離</b>。被動這天是投機拉抬、不是法人穩穩吸，報告標「留意投機退燒」。對照記憶體是價量共振(價漲＋籌碼 +187,409 張)才扎實。','看到漲停就腦補「法人偷買」最危險——籌碼數據明明在流出。量價要一起看。']},
+// ── 04 §02 ab：三個鏡頭不同答案 ───────────────────────────────
+{type:'ab',sky:'sky-valley',bg:'range',label:'§02 · 三個鏡頭',
+ title:'量、價、量價共振——三個鏡頭，三個答案',
+ text:'你點開同一張圖的三個頁籤，<br>發現排名整個換掉了，於是覺得這張圖不可信。',
+ so:'不是圖不可信，是你問了三個不同的問題。<br>量問「誰在拿錢買」、價問「誰在漲」，<br>兩個鏡頭都點頭那一格，才叫共振。',
+ layers:[['量','三大法人買賣超金額——誰真的在拿錢買'],
+   ['價','相對強度 REL——誰跑贏大盤（跟法人買不買無關）'],
+   ['量價共振','兩個鏡頭同一個答案＝最高確信'],
+   ['背離','錢在買但價沒跟（佈局型）／價漲但錢沒進（缺籌碼支撐）'],
+   ['價 N% 贏','一群股票不看平均，看<b>有幾成成分股跑贏大盤</b>']],
+ chips:[ASOF+' 半導體：5日 +934 億｜價 34% 贏 (42/122)',ASOF+' 金融保險：月線 +625 億｜價 82% 贏 (27/33)'],
+ svg:'<svg viewBox="0 0 300 158" style="width:100%;max-width:296px;margin:0.5rem auto 0;display:block"><text x="76" y="14" fill="#9ab8ff" font-size="11" font-weight="700" text-anchor="middle">半導體</text><line x1="16" y1="96" x2="136" y2="96" stroke="rgba(255,255,255,0.25)"/><rect x="36" y="42" width="26" height="54" fill="rgba(127,168,255,0.85)"/><text x="49" y="110" fill="#9ab8ff" font-size="9.5" text-anchor="middle">量 大買</text><text x="49" y="122" fill="rgba(255,255,255,0.6)" font-size="9" text-anchor="middle">5日+934億</text><rect x="90" y="77" width="26" height="19" fill="rgba(224,182,74,0.5)"/><text x="103" y="110" fill="#e6c463" font-size="9.5" text-anchor="middle">價 34%贏</text><text x="103" y="122" fill="rgba(255,255,255,0.6)" font-size="9" text-anchor="middle">42/122</text><text x="76" y="146" fill="#ffcc80" font-size="10.5" text-anchor="middle" font-weight="700">兩個鏡頭不同意</text><line x1="150" y1="24" x2="150" y2="132" stroke="rgba(255,255,255,0.16)"/><text x="224" y="14" fill="#e88a8c" font-size="11" font-weight="700" text-anchor="middle">金融保險</text><line x1="164" y1="96" x2="286" y2="96" stroke="rgba(255,255,255,0.25)"/><rect x="186" y="52" width="26" height="44" fill="rgba(127,168,255,0.85)"/><text x="199" y="110" fill="#9ab8ff" font-size="9.5" text-anchor="middle">量 續買</text><text x="199" y="122" fill="rgba(255,255,255,0.6)" font-size="9" text-anchor="middle">月線+625億</text><rect x="238" y="51" width="26" height="45" fill="rgba(224,182,74,0.9)"/><text x="251" y="110" fill="#e6c463" font-size="9.5" text-anchor="middle">價 82%贏</text><text x="251" y="122" fill="rgba(255,255,255,0.6)" font-size="9" text-anchor="middle">27/33</text><text x="224" y="146" fill="#a5d6a7" font-size="10.5" text-anchor="middle" font-weight="700">兩個鏡頭同意<animate attributeName="opacity" values="1;0.45;1" dur="1.9s" repeatCount="indefinite"/></text></svg>',
+ q:'兩格法人都在買。半導體 5 日 +934 億，但只有 34% 的成分股贏大盤；<br>金融保險月線 +625 億，有 82% 贏大盤。哪一格才叫「量價共振」？',
+ choices:['半導體——它買最多，金額才是重點','金融保險——錢在買、價也跟上，兩個鏡頭給同一個答案','兩格都是，法人買了就是共振'],correct:1,
+ fb:['金額大只回答了「量」那個鏡頭。半導體 122 檔裡只有 42 檔跑贏大盤，價那個鏡頭沒點頭——這叫<b>錢進去了、隊伍沒跟上</b>。','對——<b>共振＝量和價兩邊都同意</b>。金融保險 27/33 檔贏大盤、月線又是全市場第一，強的是「寬的強」。半導體則是錢集中在少數幾檔（下一站就會拆給你看）。','法人買只是量那個鏡頭。要兩個鏡頭都點頭才叫共振，只有一個就是背離，得先打問號。']},
 
- {type:'classify',sky:'sky-storm',bg:'peak',label:'技能 · 量價鐵則',title:'別只憑一個數字，就喊「倒貨」',
-  text:'台股最常見的誤讀：<b>只看「賣超金額」就喊倒貨</b>。',
-  layers:[['鐵則','價 → 量 → 廣度，一起看'],['賣超金額','是「淨額」，不等於出貨量'],['廣度先定調','先看漲跌家數，個股型態才有意義']],
-  catA:'不能下結論',catB:'證據夠·可以',
-  q:'把每句分到「證據夠」或「不能下結論」：',
-  items:[
-   ['「被動元件攻漲停，所以資金正大舉流入被動」','atk'],
-   ['「記憶體 5 日法人買超 +187,409 張、AI 伺服器 +74,001 張，資金確實續流主線」','def'],
-   ['「台積電只漲 0.83、沒領軍，所以大盤要回檔了」','atk'],
-   ['「上漲 229:下跌 227 幾乎打平、但近漲停 20:1，是強弱分化的投機盤」','def']],
-  reveal:'「被動漲停＝流入」漏看 5 日籌碼正在流出(背離)、「台積沒領軍就回檔」只看一檔——都不能下結論。<b>價量廣度一起看、廣度先定調，個股型態才有意義。</b>'},
+// ── 05 §03 slider：一群股票看贏面 ───────────────────────────
+{type:'slider',sky:'sky-storm',bg:'peak',label:'§03 · 板塊資金位階',
+ title:'「這個板塊被大買」——被誰買，你確認過嗎',
+ text:'看到「半導體 5 日 +934 億」，<br>你很自然地把它讀成「半導體整片都在被買」。',
+ so:'一群股票的合計，是會被少數幾檔整個拉走的。<br>拉一下下面的拉桿，親手把它拉垮，你就知道為什麼<br>報告在每一格旁邊都加了一個「贏面 N%」。',
+ layers:[['板塊合計','把一格裡所有成分股的買賣超加起來——會被大單主導'],
+   ['贏面 N%','這一格有幾成成分股近 20 日跑贏大盤（一檔一票）'],
+   ['為什麼要兩個','合計說「錢有沒有進來」，贏面說「進來的錢有沒有分給大家」']],
+ chips:['半導體 122 檔｜月線合計 +371 億｜價 34% 贏 (42/122)'],
+ slider:{min:0,max:10,init:0},
+ q:'把拉桿往右拉，一檔一檔拿掉月線買最多的成分股。<br><b>拉到「半導體這一格的合計變成負的」為止。</b>',
+ correct:function(v){return v>=2;},
+ vlab:function(v){const t=semiLeft(v);return '拿掉前 <b>'+v+'</b> 大之後，其餘 <b>'+(122-v)+'</b> 檔月線合計＝<b style="color:'+(t>=0?'#ff8f8f':'#7fd6a6')+'">'+(t>=0?'+':'')+t.toFixed(1)+' 億</b>';},
+ fig:function(v){
+   const t=semiLeft(v),mxv=420;
+   let s='<svg viewBox="0 0 300 196" style="width:100%;max-width:300px;margin:0.4rem auto 0;display:block">';
+   s+='<line x1="20" y1="46" x2="286" y2="46" stroke="rgba(255,255,255,0.18)"/>';
+   for(let k=0;k<10;k++){
+     const x=24+k*26,h=SEMI[k][1]/9,off=k<v;
+     s+='<rect x="'+x+'" y="'+(46-h).toFixed(1)+'" width="18" height="'+h.toFixed(1)+'" fill="'+(off?'rgba(255,255,255,0.10)':'rgba(255,107,125,0.82)')+'"/>';
+     if(off)s+='<line x1="'+x+'" y1="'+(46-h).toFixed(1)+'" x2="'+(x+18)+'" y2="46" stroke="rgba(255,255,255,0.45)" stroke-width="1.2"/>';
+   }
+   s+='<text x="150" y="62" fill="rgba(255,255,255,0.55)" font-size="9.5" text-anchor="middle">月線買超前十大（打叉＝已拿掉）</text>';
+   s+='<line x1="20" y1="134" x2="286" y2="134" stroke="rgba(255,255,255,0.32)"/>';
+   s+='<text x="16" y="138" fill="rgba(255,255,255,0.5)" font-size="9" text-anchor="end">0</text>';
+   const bh=Math.max(4,Math.min(44,Math.abs(t)/mxv*112)),pos=t>=0;
+   s+='<rect x="112" y="'+(pos?(134-bh).toFixed(1):134)+'" width="76" height="'+bh.toFixed(1)+'" fill="'+(pos?'rgba(255,107,125,0.9)':'rgba(120,200,150,0.9)')+'"/>';
+   s+='<text x="150" y="'+(pos?(134-bh-9).toFixed(1):'125')+'" fill="'+(pos?'#ff8f8f':'#7fd6a6')+'" font-size="15" font-weight="700" text-anchor="middle">'+(pos?'+':'')+t.toFixed(1)+' 億</text>';
+   s+='<text x="150" y="192" fill="rgba(255,255,255,0.6)" font-size="10" text-anchor="middle">其餘 '+(122-v)+' 檔的月線合計</text>';
+   return s+'</svg>';},
+ fbOk:'對——<b>只要拿掉兩檔（聯發科 +302.5、南亞科 +261.3），+371 億就翻成 −192.8 億。</b><br>「半導體被大買」這句話，其實只有幾檔在買。<br>所以報告在每一格旁邊都寫贏面：半導體 <b>34% 贏（42/122）</b>——122 檔裡只有 42 檔跑贏大盤。<br><b>合計會被一檔拉走，贏面才是這群人的真相。</b>',
+ fbNo:'還沒翻負。再往右拉一格試試——你會發現不用拉幾格就垮了。'},
 
- {type:'ab',sky:'sky-valley',bg:'range',label:'§04 · 法人籌碼四型態',title:'四型態：誰在真的累積',
-  text:'這段把個股按法人買賣分<b>四型</b>（引擎現算：X＝近5日、Y＝月線佔量比）。',
-  layers:[['吸籌','月線＋近5日雙買——資金持續流入，最強'],['反轉','由賣轉買——剛翻多，待確認'],['換手','買賣互見——方向不明'],['賣超','持續賣——最弱'],['四視角','合計／外資／投信／自營可切換'],['展開三隻手','點任一檔看外資/投信/自營＋千張大戶＋散戶融資'],['⚠ 配色','<span style="color:#ff6b7d">紅＝強勢</span>（吸籌）、<span style="color:#7fd0a0">綠＝弱勢</span>（賣超）——跟美股相反']],
-  chips:['吸籌 A 407 檔','賣超 D 321 檔','吸籌佔比 55.9%'],
-  svg:'<svg viewBox="0 0 260 214" style="width:100%;max-width:250px;margin:0.55rem auto 0;display:block"><rect x="34" y="16" width="192" height="166" fill="none" stroke="rgba(255,255,255,0.14)"/><line x1="130" y1="16" x2="130" y2="182" stroke="rgba(255,255,255,0.22)"/><line x1="34" y1="99" x2="226" y2="99" stroke="rgba(255,255,255,0.22)"/><text x="180" y="34" fill="#ff6b7d" font-size="12" text-anchor="middle" font-weight="700">吸籌</text><text x="180" y="172" fill="#ffd28a" font-size="11" text-anchor="middle">反轉</text><text x="80" y="34" fill="rgba(255,255,255,0.6)" font-size="11" text-anchor="middle">換手</text><text x="80" y="172" fill="#7fd0a0" font-size="11" text-anchor="middle">賣超</text><text x="130" y="200" fill="rgba(255,255,255,0.5)" font-size="9.5" text-anchor="middle">← 近5日賣　近5日買 →</text><text x="20" y="99" fill="rgba(255,255,255,0.5)" font-size="9" text-anchor="middle" transform="rotate(-90 20 99)">月線賣 ← → 月線買</text><circle cx="168" cy="52" r="4" fill="rgba(255,107,125,0.55)"/><circle cx="190" cy="60" r="4" fill="rgba(255,107,125,0.62)"/><circle cx="178" cy="70" r="4" fill="rgba(255,107,125,0.72)"/><circle cx="200" cy="48" r="4" fill="rgba(255,107,125,0.5)"/><circle cx="184" cy="44" r="9" fill="none" stroke="#ff6b7d" stroke-width="2"><animate attributeName="r" values="7;16;16" dur="2.4s" repeatCount="indefinite"/><animate attributeName="stroke-opacity" values="0.7;0;0" dur="2.4s" repeatCount="indefinite"/></circle><text x="184" y="120" fill="rgba(255,255,255,0.55)" font-size="9" text-anchor="middle">記憶體集中在此角</text></svg>',
-  q:'一批「月線買＋近5日也買」的雙買股票，屬哪一型、代表什麼？',
-  choices:['賣超——金額有進有出','吸籌——中線(月線)和近5日都在買，資金「持續」流入，是最強的一型','換手——只是這幾天剛好買'],correct:1,
-  fb:['雙買是「買＋買」，不是賣超。看的是買賣方向，不是金額大小。','對——<b>吸籌＝持續買</b>(月線這條中線也站買方)。比「剛轉買」的反轉更扎實，是四型裡最強的累積。8/27 吸籌佔比 55.9% 比賣超多，但要注意：這和「上漲家數」走反方向(法人買的股票變多、會漲的股票變少)，訊號打架先別急著下結論。','換手是買賣互見、方向不明；雙買方向很明確，是吸籌。']},
+// ── 06 §04 slider：家數 vs 指數（情緒轉折點）─────────────────
+{type:'slider',sky:'sky-storm',bg:'peak',label:'§04 · 市場寬度',
+ title:'指數還在，隊伍已經散了',
+ text:'你打開行情，指數跟一個月前差不多，<br>於是你想「還好啊，沒什麼事」。<br>可是你手上那幾檔，就是一直在跌。',
+ so:'指數是幾檔權值股扛出來的分數，<br>家數才是全場有幾個人還站著。<br>這兩件事會分家——而且分家的時候，指數不會告訴你。',
+ layers:[['站上均線家數比例','全市場每一檔對自己的均線是站上還跌破，加總起來的比例'],
+   ['怎麼判','超過六成算寬、低於四成算窄，四到六成是拉鋸（圖上那條灰帶）'],
+   ['短線 vs 長線','5／10／20 日動得快（洗盤溫度計）；120／240 日動得慢（結構有沒有壞）'],
+   ['⚠ 最容易漏的','指數沒跌、短線家數卻塌了＝漲的只剩幾檔大的，其他人沒跟']],
+ chips:[ASOF+' 站上月線 29.4%',ASOF+' 站上年線 48.6%','一週前站上月線 45.9%'],
+ slider:{min:10,max:60,init:60},
+ q:'拉動期間。<br><b>找出一段：加權指數比期初還高，但「站上月線的家數」卻少了四成以上。</b>',
+ correct:function(v){const st=60-v;return BD_IX[59]>BD_IX[st]&&(BD_P20[59]/BD_P20[st])<=0.6;},
+ vlab:function(v){const st=60-v;const dx=(100*(BD_IX[59]/BD_IX[st]-1)).toFixed(1);const dp=(100*(BD_P20[59]/BD_P20[st]-1)).toFixed(0);
+   return '近 <b>'+v+'</b> 個交易日（'+BD_D[st]+' → '+BD_D[59]+'）：<br>加權 <b style="color:'+(dx>=0?'#ff8f8f':'#7fd6a6')+'">'+(dx>=0?'+':'')+dx+'%</b>　·　站上月線家數 <b style="color:'+(dp>=0?'#ff8f8f':'#7fd6a6')+'">'+(dp>=0?'+':'')+dp+'%</b>';},
+ fig:function(v){const st=60-v;
+   return lineChart({title:'加權指數',h:88,x0:BD_D[st],x1:BD_D[59],series:[{v:BD_IX.slice(st),c:'#e0a526',lab:'加權',w:2}]})
+    +lineChart({title:'站上均線的家數比例（%）',h:104,x0:BD_D[st],x1:BD_D[59],band:[40,60],min:0,max:80,series:[
+      {v:BD_P20.slice(st),c:'#ff6b7d',lab:'月線20',w:2},
+      {v:BD_P240.slice(st),c:'#b58cff',lab:'年線240',w:1.6},
+      {v:BD_P5.slice(st),c:'#e2e8f0',lab:'5日',w:1.2}]});},
+ note:'灰帶＝40～60% 拉鋸區。三條線同時往下掉，才是全面轉弱。',
+ fbOk:'找到了——這就是這一站要你親眼看到的東西。<br>以 <b>近 20 個交易日</b>為例：加權從 45,857 走到 46,185（<b>+0.7%，指數是漲的</b>），<br>但站上月線的家數從 <b>59.7% 掉到 29.4%</b>——<b>幾乎砍半</b>。<br>年線那條還有 48.6%（一週前 53.3%），掉得慢很多。<br><b>短的線在塌、長的線還撐著＝短線在洗，結構還沒壞。</b>三條一起掉才是全面轉弱。',
+ fbNo:'再找找。提示：往「二十天上下」那一段拉——那一段指數幾乎沒動，家數卻掉了一半。'},
 
- {type:'gauge',sky:'sky-noon',bg:'range',label:'讀當天 · 8/12 風向',title:'把 8/12 這天，讀成一個風向',
-  text:'把價、量、廣度合起來讀 8/12——這天不是「普漲」，是哪一種多方？',
-  chips:['上漲 229:跌 227 打平','近漲停 20:1','記憶體吸籌 +187,409 張','台積電 +0.83 守盤未領軍','被動漲停但籌碼 −53,741 張','投信反手買金融'],
-  q:'往左＝避險收手，往右＝全面 risk-on。8/12 你會放哪？',
-  left:'避險(收手)',right:'risk-on(全面)',ans:62,
-  correct:v=>v>=50&&v<=78,
-  fb:v=>v<50?'太保守了——記憶體大買 +187,409 張、漲停遍地，明顯偏多，指針該過中線。':v>78?'別急著全押——廣度只打平(229:227)、主線台積電在休息、被動還爆出背離。偏多，但要留一手。':'對——偏多沒錯(記憶體吸籌、漲停遍地)，但<b>不是乾淨的全面 risk-on</b>：廣度只打平、靠投機盤衝漲停、台積電守盤沒領軍。<b>偏多但有雜質</b>，指針落中間偏右最貼切。'},
+// ── 07 §05 hotspot：地基讀數 ─────────────────────────────────
+{type:'hotspot',sky:'sky-valley',bg:'range',label:'§05 · 法人籌碼四型態',
+ title:'整份報告的地基，只有一個數字',
+ text:'四型態這張圖有四格、四種顏色、上千檔股票，<br>你看完只記得「紅的比較多還是綠的比較多」。',
+ so:'不用記那麼多。<br>這張圖只產出一個要帶走的數字：<b>吸籌佔比</b>。<br>而它只用四格裡的兩格算。',
+ layers:[['A 吸籌','月線在買＋近 5 日也在買——一路買沒停過'],
+   ['B 低檔反轉','月線還在賣、近 5 日翻買——本來在賣、這五天掉頭'],
+   ['C 換手','月線在買、近 5 日轉賣——買一個月後縮手'],
+   ['D 賣超出貨','月線在賣＋近 5 日也在賣——一路賣'],
+   ['⚠ 配色','<span style="color:#ff6b7d">紅＝強勢</span>（吸籌）、<span style="color:#7fd0a0">綠＝弱勢</span>（賣超）——跟美股習慣相反']],
+ chips:[ASOF+'：A 391 · B 104 · C 140 · D 392','吸籌佔比 49.9%（前一日 52.2%）'],
+ q:'吸籌佔比是整份報告的地基讀數。<br>它只用四格裡的兩格算——<b>點出是哪兩格</b>（要點兩格）：',
+ need:['A','D'],
+ quad:{xlab:'← 近 5 日賣　　　　近 5 日買 →',ylab:'月線賣 ←　　→ 月線買',
+   cells:[{k:'C',n:'C 換手',s:'140 檔',s2:'月買·5日賣',col:'rgba(255,255,255,0.75)'},{k:'A',n:'A 吸籌',s:'391 檔',s2:'月買·5日買',col:'#ff6b7d'},{k:'D',n:'D 賣超出貨',s:'392 檔',s2:'月賣·5日賣',col:'#7fd0a0'},{k:'B',n:'B 低檔反轉',s:'104 檔',s2:'月賣·5日買',col:'#ffd28a'}],
+   extra:''},
+ fbOk:'對——<b>吸籌佔比 ＝ A ÷（A＋D）</b>，只比「一路買」和「一路賣」這兩群人誰的名單長。<br>B 和 C 是方向不一致的中間人，不進這個算式。<br>'+ASOF+'：391 ÷（391＋392）＝ <b>49.9%</b>，前一日 52.2%——<b>跌破五成</b>。<br>過五成＝買方名單比賣方長。這一個數字，是整份報告的地基。',
+ fbNo:'再想一次：這個算式要比的是「一路買」和「一路賣」兩群人。<br>方向不一致的那兩格（買一個月又縮手、賣一個月又翻買）不算進去。'},
 
- {type:'ab',sky:'sky-storm',bg:'peak',label:'技能 · 脈衝紀律',title:'漲停爆量，先別急著追',
-  text:'漲停爆量那種「當日異動」——<b>先別急著追</b>。',
-  layers:[['脈衝 vs 真起漲','單日暴衝可能隔天就打回'],['紀律','看隔日 REL5 站不站得穩，站穩才算數'],['⚡當日異動','報告是提醒你去觀察，不是進場訊號']],
-  chips:['8/12 漲停：南亞科 +6.53、國巨、奇鋐…'],
-  q:'看到一支「今天漲停爆量、報告列⚡當日異動」的股票，你該怎麼做？',
-  choices:['隔天開盤立刻衝進去，怕買不到','先標「待確認」，看隔日 REL5 站不站得穩、有沒有續強，再決定——別追在漲停板','報告有列就是叫我買'],correct:1,
-  fb:['追漲停板風險最高——單日暴衝可能是脈衝，隔天就打回。','對——單日暴衝要分「真起漲」還「脈衝」：<b>看隔日 REL5 有沒有站穩、續強</b>。站穩才算數。','報告列「當日異動」是<b>提醒你觀察</b>，不是進場訊號(它從不喊買賣)。']},
+// ── 08 §05 match：廣度和強弱分開算 ───────────────────────────
+{type:'match',sky:'sky-valley',bg:'range',label:'§05 · 家數口徑 vs 金額口徑',
+ title:'同一天，兩個口徑給了相反的答案',
+ text:'你看到「吸籌佔比 49.9%」就想：買方輸了。<br>翻到下一行「金額佔比 50.5%」，買方又贏了。<br>於是你覺得報告自打嘴巴。',
+ so:'兩個都是對的，因為它們在量不同的東西。<br>家數在量<b>廣度</b>、金額在量<b>強弱</b>——<br>一輸一贏，本身就是一句判讀。',
+ layers:[['家數口徑','一檔一票，回答「買方的名單長不長」＝廣度'],
+   ['金額口徑','錢多的一票抵很多票，回答「買方的錢重不重」＝強弱'],
+   ['一起讀','家數輸、金額平＝名單縮了，但錢還撐著＝方向未出']],
+ q:'左邊四個是 '+ASOF+' 的真實讀數，右邊四個是它們各自回答的問題。<br>點左邊一項，再點右邊一項，把它們接起來：',
+ left:[['n','A 391 檔 vs D 392 檔<span class="sm">吸籌佔比 49.9%</span>'],
+   ['m','A 組月線 +5,800 億 vs D 組 −5,691 億<span class="sm">金額佔比 50.5%</span>'],
+   ['w','金額口徑的五日窗 46.3%<span class="sm">（前一日 63.5%）</span>'],
+   ['a','上市 229 檔漲 / 779 檔跌<span class="sm">（漲停 8、跌停 7）</span>']],
+ right:[['m','<b>強弱</b>：買方的<b>錢</b>夠不夠重<span class="sm">大單一票抵很多票</span>'],
+   ['a','<b>當天的漲跌家數</b>：今天多數股票在漲還在跌<span class="sm">跟法人買不買無關</span>'],
+   ['n','<b>廣度</b>：買方的<b>名單</b>長不長<span class="sm">一檔一票，不管金額</span>'],
+   ['w','<b>短窗</b>：最近這五天，錢站到哪一邊<span class="sm">比月線那把尺敏感</span>']],
+ fbOk:'對——同一天：<b>家數 49.9%（買方名單略輸）、金額 50.5%（買方的錢略贏）、五日窗 46.3%（短窗已偏賣方）。</b><br>不是矛盾，是三件事：名單縮了、錢還勢均力敵、最近五天錢在往賣方走。<br><b>家數講廣度、金額講強弱，兩個要分開報。</b>',
+ fbNo:'再看一次：算「幾檔」的是廣度，算「幾億」的是強弱；「五日窗」是把同一個算法換成更短的尺；漲跌家數則是當天股價，跟法人無關。'},
 
- {type:'ab',sky:'sky-clouds',bg:'range',label:'§05 · AI 核心競爭力分類',title:'AI 不是一批，是分三層',
-  text:'AI 不是一批——第一步先按<b>核心競爭力</b>分三層。',
-  layers:[['核心層','越不可取代：獨家製程、卡關鍵環節'],['外圍層','替代性高，比較像「沾邊」'],['徑向圖','同心環＝層，顏色越深＝越強'],['先問一句','看到「AI」先問：它在哪一層？']],
-  svg:'<svg viewBox="0 0 160 176" style="width:100%;max-width:186px;margin:0.55rem auto 0;display:block"><path d="M80.0,60.0 L80.0,46.0 A34,34 0 0 1 104.0,56.0 L94.1,65.9 A20,20 0 0 0 80.0,60.0 Z" fill="rgba(207,111,114,0.41)"/><path d="M94.1,65.9 L104.0,56.0 A34,34 0 0 1 114.0,80.0 L100.0,80.0 A20,20 0 0 0 94.1,65.9 Z" fill="rgba(207,111,114,0.69)"/><path d="M100.0,80.0 L114.0,80.0 A34,34 0 0 1 104.0,104.0 L94.1,94.1 A20,20 0 0 0 100.0,80.0 Z" fill="rgba(207,111,114,0.85)"/><path d="M94.1,94.1 L104.0,104.0 A34,34 0 0 1 80.0,114.0 L80.0,100.0 A20,20 0 0 0 94.1,94.1 Z" fill="rgba(207,111,114,0.69)"/><path d="M80.0,100.0 L80.0,114.0 A34,34 0 0 1 56.0,104.0 L65.9,94.1 A20,20 0 0 0 80.0,100.0 Z" fill="rgba(207,111,114,0.41)"/><path d="M65.9,94.1 L56.0,104.0 A34,34 0 0 1 46.0,80.0 L60.0,80.0 A20,20 0 0 0 65.9,94.1 Z" fill="rgba(207,111,114,0.36)"/><path d="M60.0,80.0 L46.0,80.0 A34,34 0 0 1 56.0,56.0 L65.9,65.9 A20,20 0 0 0 60.0,80.0 Z" fill="rgba(207,111,114,0.59)"/><path d="M65.9,65.9 L56.0,56.0 A34,34 0 0 1 80.0,46.0 L80.0,60.0 A20,20 0 0 0 65.9,65.9 Z" fill="rgba(207,111,114,0.83)"/><path d="M80.0,40.0 L80.0,26.0 A54,54 0 0 1 118.2,41.8 L108.3,51.7 A40,40 0 0 0 80.0,40.0 Z" fill="rgba(207,111,114,0.27)"/><path d="M108.3,51.7 L118.2,41.8 A54,54 0 0 1 134.0,80.0 L120.0,80.0 A40,40 0 0 0 108.3,51.7 Z" fill="rgba(207,111,114,0.45)"/><path d="M120.0,80.0 L134.0,80.0 A54,54 0 0 1 118.2,118.2 L108.3,108.3 A40,40 0 0 0 120.0,80.0 Z" fill="rgba(207,111,114,0.55)"/><path d="M108.3,108.3 L118.2,118.2 A54,54 0 0 1 80.0,134.0 L80.0,120.0 A40,40 0 0 0 108.3,108.3 Z" fill="rgba(207,111,114,0.45)"/><path d="M80.0,120.0 L80.0,134.0 A54,54 0 0 1 41.8,118.2 L51.7,108.3 A40,40 0 0 0 80.0,120.0 Z" fill="rgba(207,111,114,0.27)"/><path d="M51.7,108.3 L41.8,118.2 A54,54 0 0 1 26.0,80.0 L40.0,80.0 A40,40 0 0 0 51.7,108.3 Z" fill="rgba(207,111,114,0.23)"/><path d="M40.0,80.0 L26.0,80.0 A54,54 0 0 1 41.8,41.8 L51.7,51.7 A40,40 0 0 0 40.0,80.0 Z" fill="rgba(207,111,114,0.39)"/><path d="M51.7,51.7 L41.8,41.8 A54,54 0 0 1 80.0,26.0 L80.0,40.0 A40,40 0 0 0 51.7,51.7 Z" fill="rgba(207,111,114,0.54)"/><path d="M80.0,20.0 L80.0,6.0 A74,74 0 0 1 132.3,27.7 L122.4,37.6 A60,60 0 0 0 80.0,20.0 Z" fill="rgba(207,111,114,0.14)"/><path d="M122.4,37.6 L132.3,27.7 A74,74 0 0 1 154.0,80.0 L140.0,80.0 A60,60 0 0 0 122.4,37.6 Z" fill="rgba(207,111,114,0.23)"/><path d="M140.0,80.0 L154.0,80.0 A74,74 0 0 1 132.3,132.3 L122.4,122.4 A60,60 0 0 0 140.0,80.0 Z" fill="rgba(207,111,114,0.28)"/><path d="M122.4,122.4 L132.3,132.3 A74,74 0 0 1 80.0,154.0 L80.0,140.0 A60,60 0 0 0 122.4,122.4 Z" fill="rgba(207,111,114,0.23)"/><path d="M80.0,140.0 L80.0,154.0 A74,74 0 0 1 27.7,132.3 L37.6,122.4 A60,60 0 0 0 80.0,140.0 Z" fill="rgba(207,111,114,0.14)"/><path d="M37.6,122.4 L27.7,132.3 A74,74 0 0 1 6.0,80.0 L20.0,80.0 A60,60 0 0 0 37.6,122.4 Z" fill="rgba(207,111,114,0.12)"/><path d="M20.0,80.0 L6.0,80.0 A74,74 0 0 1 27.7,27.7 L37.6,37.6 A60,60 0 0 0 20.0,80.0 Z" fill="rgba(207,111,114,0.20)"/><path d="M37.6,37.6 L27.7,27.7 A74,74 0 0 1 80.0,6.0 L80.0,20.0 A60,60 0 0 0 37.6,37.6 Z" fill="rgba(207,111,114,0.27)"/><path d="M80,80 L154,80 A74,74 0 0 1 136.7,127.6 Z" fill="rgba(255,255,255,0.15)"><animateTransform attributeName="transform" type="rotate" from="0 80 80" to="360 80 80" dur="3.6s" repeatCount="indefinite"/></path><circle cx="80" cy="80" r="30" fill="none" stroke="#ffd28a" stroke-width="2" stroke-opacity="0"><animate attributeName="stroke-opacity" values="0.55;0;0" dur="2.6s" repeatCount="indefinite"/><animate attributeName="r" values="18;58;58" dur="2.6s" repeatCount="indefinite"/></circle><circle cx="80" cy="80" r="15" fill="rgba(18,22,36,0.6)"/><text x="80" y="77" fill="#e58a8c" font-size="8" text-anchor="middle" font-weight="700">核心</text><text x="80" y="88" fill="rgba(255,255,255,0.65)" font-size="6.5" text-anchor="middle">最強</text><text x="80" y="170" fill="rgba(255,255,255,0.55)" font-size="9" text-anchor="middle">環＝三層(內核心→外外圍)、色深＝越強</text></svg>',
-  q:'兩家都掛「AI 概念」：A 是先進製程的唯一供應、B 是替代性高的組裝代工。<br>報告會把誰放核心層？',
-  choices:['B，因為它比較便宜','A——獨家、卡關鍵環節、不可取代，才是核心層；B 替代性高、擺外圍','都放核心，都是 AI'],correct:1,
-  fb:['便宜不等於核心——核心看的是「不可取代」，不是股價高低。','對——<b>核心競爭力＝不可取代性</b>。獨家製程/關鍵瓶頸放核心層，替代性高的組裝放外圍。「都是 AI」但強度與續航天差地別。','「都放核心」正是報告要破的迷思——分三層，就是要你分辨誰真核心、誰只是沾邊。']},
+// ── 09 §06 place：兩欄不一樣的才要看 ─────────────────────────
+{type:'place',sky:'sky-clouds',bg:'range',label:'§06 · AI 個股分層',
+ title:'兩欄一致的，其實沒什麼好看',
+ text:'你在名單上找「兩欄都紅」的股票，<br>覺得那種才是好標的。',
+ so:'兩欄都紅只是在告訴你「已經發生的事」。<br>真正有訊息的，是兩欄<b>打架</b>的那幾檔——<br>錢和價各講一套，代表故事還沒講完。',
+ layers:[['一致','價和量指同一個方向＝已經反映完，資訊量低'],
+   ['打架','錢在買但價沒走／價在走但錢在退＝有事情正在發生'],
+   ['⚠ 打架 ≠ 買點','它只是告訴你「這一檔值得回頭多看兩眼」，不是進場訊號']],
+ chips:[ASOF+' AI 三層：頭部 40% 贏、中段 36% 贏、尾端 58% 贏'],
+ q:'先點一張股票卡，再點它該進的那一欄（每欄兩張）：',
+ cards:[['a','<b>聯發科</b><br>價 ⇑主升｜量 🔥續買'],['b','<b>世芯-KY</b><br>價 ⇓弱勢｜量 ❄續賣'],
+   ['c','<b>台積電</b><br>價 ≈跟盤｜量 🔥續買'],['d','<b>華邦電</b><br>價 ⇓弱勢｜量 🔥續買']],
+ slots:[['s1','兩欄一致','a,b'],['s2','兩欄打架','c,d']],wide:true,
+ done:'<b>一致的兩檔</b>：聯發科（價主升＋量續買＝錢和價都到齊）、世芯-KY（價弱勢＋量續賣＝兩邊一起壞）。<br><b>打架的兩檔</b>：台積電（月線 +193.8 億一直在買，價卻只是跟著大盤）、華邦電（月線 +64.9 億在買，價卻是最弱的那一檔）。<br>打架不代表要買——它代表<b>這一檔的故事還沒說完，值得你回頭多看兩眼</b>。'},
 
- {type:'ab',sky:'sky-valley',bg:'range',label:'§06 · AI 三圈擴散分析',title:'三圈：錢擴散到第幾圈了',
-  text:'再把 AI 由核心往外畫<b>三圈</b>，看錢擴散到第幾圈。',
-  layers:[['① 算力核心','最裡圈'],['② 不可或缺瓶頸','中圈'],['③ 基建外溢','外圈'],['幾檔創 3 月新高','每圈都標——多檔一起創高＝資金擴散到那一圈'],['怎麼用','判斷資金主攻哪一圈，不是看到 AI 就買']],
-  svg:'<svg viewBox="0 0 160 180" style="width:100%;max-width:190px;margin:0.55rem auto 0;display:block"><circle cx="80" cy="82" r="70" fill="none" stroke-width="15" stroke="#5cae88" stroke-opacity="0.16"><animate attributeName="stroke-opacity" values="0.1;0.82;0.1" dur="2.4s" begin="1.4s" repeatCount="indefinite"/><animate attributeName="stroke" values="#5cae88;#e0a526;#cf6f72;#e0a526;#5cae88" dur="2.4s" begin="1.4s" repeatCount="indefinite"/></circle><circle cx="80" cy="82" r="47" fill="none" stroke-width="15" stroke="#e0a526" stroke-opacity="0.16"><animate attributeName="stroke-opacity" values="0.1;0.85;0.1" dur="2.4s" begin="0.7s" repeatCount="indefinite"/><animate attributeName="stroke" values="#5cae88;#e0a526;#cf6f72;#e0a526;#5cae88" dur="2.4s" begin="0.7s" repeatCount="indefinite"/></circle><circle cx="80" cy="82" r="24" fill="none" stroke-width="15" stroke="#cf6f72" stroke-opacity="0.2"><animate attributeName="stroke-opacity" values="0.16;0.96;0.16" dur="2.4s" begin="0s" repeatCount="indefinite"/><animate attributeName="stroke" values="#cf6f72;#ffd28a;#cf6f72" dur="2.4s" begin="0s" repeatCount="indefinite"/></circle><text x="80" y="85" fill="rgba(255,255,255,0.9)" font-size="8" text-anchor="middle" font-weight="700">核心</text><text x="80" y="43" fill="rgba(255,255,255,0.82)" font-size="7.5" text-anchor="middle" font-weight="600">瓶頸</text><text x="80" y="19" fill="rgba(255,255,255,0.78)" font-size="7.5" text-anchor="middle" font-weight="600">基建</text><text x="80" y="174" fill="rgba(255,255,255,0.55)" font-size="9" text-anchor="middle">算力核心 → 瓶頸 → 基建，一圈一圈往外擴</text></svg>',
-  q:'報告顯示「算力核心圈多檔創 3 月新高、外面兩圈還沒跟上」。這代表？',
-  choices:['AI 全部很強，隨便一檔都能買','錢集中在最核心的算力圈、還沒外溢——挑就挑「正在擴散的那一圈」','算力圈要崩了'],correct:1,
-  fb:['「AI 全都強」是把一圈套到全部——分三圈就是要你看「哪一圈在擴散」。','對——<b>擴散未外溢</b>：資金還鎖在算力核心，瓶頸與基建圈落後。要挑「正在創高、正在擴散」的圈，不是全部 AI 一把抓。','分圈看的是資金流向、不是預測崩盤——核心圈創高代表它現在最強。']},
+// ── 10 §07 sort：錢卡在哪一段 ────────────────────────────────
+{type:'sort',sky:'sky-noon',bg:'farhills',label:'§07 · AI 硬體信號流階梯',
+ title:'把鏈條排回去，你才看得出錢卡在哪',
+ text:'「AI 很強」——這句話你聽過幾百次。<br>可是強在哪一段？沒人講得出來。',
+ so:'AI 硬體不是一團，是一條有順序的鏈。<br>先把順序排對，再把錢填進去，<br>你就會看到錢其實只停在前面幾格。',
+ layers:[['八段','報告把 AI 硬體拆成八段，從訊號進來一路到散熱'],
+   ['怎麼用','看月線的錢集中在上游還是已經一段一段往下傳'],
+   ['上游強、下游弱','＝擴散還沒走完，下游要等訊號傳到才輪得到']],
+ chips:[ASOF+' 核心運算 +546 億（前一日 +1,169）',ASOF+' 散熱防禦 +471 億·贏面 86%'],
+ q:'順序被打亂了。<br>點兩張卡就會互換位置——把八段排回報告裡的順序：',
+ items:['1 訊號輸入／網通接口','2 高速傳輸／載板','3 核心運算','4 記憶體暫存','5 周邊驅動IC','6 供電功率','7 被動濾波','8 散熱防禦'],
+ shuffle:[2,5,0,7,3,6,1,4],
+ fbOk:'排對了。把 '+ASOF+' 的錢填回去看：<br><b>核心運算 +546 億</b>（前一日 +1,169，一天少一半，台積電那一筆就在這段）<br><b>散熱防禦 +471 億</b>（幾乎沒動，贏面 86% 是八段最高）<br><b>記憶體暫存 +193 億</b>　·　<b>高速傳輸／載板 +160 億</b>（連兩天回補）<br>最弱：<b>被動濾波 −535 億、供電功率 −501 億</b>。<br><b>錢集中在前面幾段、後面兩段還在失血＝擴散還沒走完。</b>'},
 
- {type:'ab',sky:'sky-noon',bg:'farhills',label:'§07 · AI 硬體信號流階梯',title:'8 階段：強勢一階一階往下傳',
-  text:'把 AI 硬體拆成<b>8 個階段</b>，看強勢走到第幾階。',
-  layers:[['階梯順序','最上游算力 → 傳輸 → 設備 → 下游'],['看什麼','資金與強度卡在上游，還是已一階一階往下傳'],['讀圖','越上面越亮＝還卡在上游，尚未下傳']],
-  svg:'<svg viewBox="0 0 230 200" style="width:100%;max-width:222px;margin:0.55rem auto 0;display:block"><text x="115" y="12" fill="rgba(255,255,255,0.72)" font-size="9" text-anchor="middle">↑ 上游·算力（強勢集中在這）</text><rect x="58" y="22" width="114" height="13" rx="3" fill="rgba(224,182,74,0.92)"/><rect x="58" y="22" width="114" height="13" rx="3" fill="#ffe9a8"><animate attributeName="opacity" values="0.15;0.75;0.15" dur="2s" repeatCount="indefinite"/></rect><rect x="58" y="40" width="114" height="13" rx="3" fill="rgba(224,182,74,0.72)"/><rect x="58" y="58" width="114" height="13" rx="3" fill="rgba(224,182,74,0.57)"/><rect x="58" y="76" width="114" height="13" rx="3" fill="rgba(224,182,74,0.45)"/><rect x="58" y="94" width="114" height="13" rx="3" fill="rgba(224,182,74,0.35)"/><rect x="58" y="112" width="114" height="13" rx="3" fill="rgba(224,182,74,0.27)"/><rect x="58" y="130" width="114" height="13" rx="3" fill="rgba(224,182,74,0.2)"/><rect x="58" y="148" width="114" height="13" rx="3" fill="rgba(224,182,74,0.14)"/><text x="48" y="32" fill="rgba(255,255,255,0.45)" font-size="8" text-anchor="end">1</text><text x="48" y="158" fill="rgba(255,255,255,0.45)" font-size="8" text-anchor="end">8</text><text x="115" y="180" fill="rgba(255,255,255,0.55)" font-size="9" text-anchor="middle">↓ 下游（燈還沒亮＝尚未接棒）</text></svg>',
-  q:'信號流顯示「強勢集中在最上游算力階、下游各階還很弱」。怎麼讀？',
-  choices:['整條 AI 鏈都強','強勢還在最上游、尚未往下傳——資金卡在前段，下游要等訊號傳到才輪得到','下游永遠不會強'],correct:1,
-  fb:['整條都強的話，各階都會亮——現在只有上游亮，代表訊號還沒傳下去。','對——<b>信號流看「傳到第幾階」</b>。強勢卡在上游＝下游還沒接棒；等訊號一階一階往下傳，才輪到中下游。','沒有「永遠」——階梯是動態的，訊號會往下傳；現在只是還沒到。']},
+// ── 11 §08 hotspot：外資只有半張臉 ───────────────────────────
+{type:'hotspot',sky:'sky-clear',bg:'farhills',label:'§08 · 大盤 ETF 與外資期現貨',
+ title:'只看現貨，你只看到外資的半張臉',
+ text:'新聞說「外資今天賣超九百多億」，<br>你就把它讀成外資看空。',
+ so:'現貨只是一隻手。<br>同一批外資在期貨那邊還有另一隻手——<br>兩隻手同方向，才叫姿態；反方向，多半是避險。',
+ layers:[['橫軸','現股買賣超：左＝賣、右＝買'],
+   ['縱軸','期指淨未平倉：上＝淨多、下＝淨空'],
+   ['同向','兩隻手一起偏空／偏多＝姿態明確'],
+   ['反向','現貨賣＋期貨多（或相反）＝多半是避險，不是換邊'],
+   ['⚠ 微台是散戶','大台＋小台才算外資；微台淨多單是散戶的部位，不是外資的']],
+ chips:[ASOF+' 外資現貨 −951.5 億',ASOF+' 外資期指淨空 84,745 口（再加空 1,136）','微台散戶淨多單 51,803 口'],
+ q:'把 '+ASOF+' 外資的兩隻手放進去——<b>點出它落在哪一格</b>：',
+ need:['ss'],
+ quad:{xlab:'← 現股賣超　　　　現股買超 →',ylab:'期指淨空 ←　　→ 期指淨多',
+   cells:[{k:'sl',n:'現貨賣·期貨多',s:'多半是避險',col:'rgba(255,255,255,0.7)'},{k:'bl',n:'現貨買·期貨多',s:'兩手偏多',col:'#ff6b7d'},{k:'ss',n:'現貨賣·期貨空',s:'兩手偏空',col:'#7fd0a0'},{k:'bs',n:'現貨買·期貨空',s:'多半是避險',col:'rgba(255,255,255,0.7)'}],
+   extra:'<circle cx="96" cy="156" r="9" fill="#7fd6a6" class="gpulse" pointer-events="none"/><circle cx="96" cy="156" r="9" fill="none" stroke="#7fd6a6" stroke-width="2" class="gring" pointer-events="none"/><rect x="30" y="180" width="132" height="17" rx="5" fill="rgba(4,8,16,0.82)" pointer-events="none"/><text x="96" y="192" fill="#8fe6b6" font-size="10" text-anchor="middle" pointer-events="none">−951.5 億 / 淨空 84,745 口</text>'},
+ fbOk:'對——<b>現貨賣超 951.5 億（左）＋ 期指再加空 1,136 口到淨空 84,745 口（下）＝ 左下格，兩隻手同方向。</b><br>報告把它寫成「同方向加碼收傘」：前一天兩隻手是散開的，這一天一起用力。<br>⚠ 但期指空單本來就有長期避險成分，<b>不能單獨拿來當看空證據</b>——要它跟現貨連兩天同方向才算數。<br>⚠ 還有第三隻手不是外資：<b>微台淨多單 51,803 口是散戶</b>，兩天從 12,402 加到 51,803，跌勢裡越買越多。',
+ fbNo:'再想一次：現貨是賣超（負的）→ 往左；期指是淨空、而且還在加空 → 往下。'},
 
- {type:'ab',sky:'sky-clear',bg:'range',label:'§08 · AI 供應鏈定位',title:'錢往上游、算力往下游',
-  text:'幫每家 AI 公司在供應鏈上<b>定位</b>。',
-  layers:[['口訣','錢往上游走、算力往下游擴'],['怎麼對齊','把「公司在哪一段」＋「資金在哪一段」對起來看'],['台股主場','中游基建：載板／散熱／被動／伺服器組裝']],
-  svg:'<svg viewBox="0 0 260 172" style="width:100%;max-width:256px;margin:0.55rem auto 0;display:block"><line x1="30" y1="140" x2="30" y2="38" stroke="#a5d6a7" stroke-width="2"/><polygon points="30,26 23,40 37,40" fill="#a5d6a7"/><text x="30" y="158" fill="#a5d6a7" font-size="9" text-anchor="middle">錢往上</text><line x1="232" y1="34" x2="232" y2="134" stroke="#9ab8ff" stroke-width="2"/><polygon points="232,146 225,132 239,132" fill="#9ab8ff"/><text x="232" y="158" fill="#9ab8ff" font-size="9" text-anchor="middle">算力往下</text><rect x="58" y="26" width="144" height="36" rx="5" fill="rgba(127,168,255,0.16)" stroke="rgba(127,168,255,0.5)"/><text x="130" y="48" fill="#c8d6ff" font-size="11" text-anchor="middle">上游·算力核心</text><rect x="58" y="68" width="144" height="36" rx="5" fill="rgba(224,182,74,0.22)" stroke="#e0b64a" stroke-width="2"/><rect x="58" y="68" width="144" height="36" rx="5" fill="none" stroke="#ffe9a8" stroke-width="2"><animate attributeName="stroke-opacity" values="0.15;0.9;0.15" dur="2.2s" repeatCount="indefinite"/></rect><text x="130" y="90" fill="#f0d488" font-size="11" text-anchor="middle" font-weight="700">中游·基建（台股主場）</text><rect x="58" y="110" width="144" height="36" rx="5" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.22)"/><text x="130" y="132" fill="rgba(255,255,255,0.75)" font-size="11" text-anchor="middle">下游·網通光電</text></svg>',
-  q:'一家公司位在供應鏈中下游，但報告顯示「資金與強度這期集中在上游」。怎麼看它？',
-  choices:['它一定會漲，反正是 AI','它現在不站在資金流入的位置——先觀察，等強勢往下游傳到它那段再說','馬上重壓'],correct:1,
-  fb:['「是 AI 就會漲」正是要破的——位置對不對，比標籤重要。','對——<b>定位＝把公司位置和資金位置對齊</b>。資金在上游、它在下游，就先不站在風口；等信號流傳到它那段。','重壓在資金還沒到的位置，風險最高——先等定位對上。']},
-
- {type:'ab',sky:'sky-clear',bg:'farhills',label:'§09 · 大盤ETF·法人三隻手',title:'0050／正2／反1：法人這週往哪站？',
-  text:'拉高鏡頭：法人對<b>三檔大盤 ETF</b> 怎麼站。',
-  layers:[['0050','做多大盤'],['正2','2x 槓桿做多'],['反1','避險偏空'],['偏多組合','買正2＋賣反1＝做多加碼、避險縮手'],['⚠ 誰的腳','同一個買超，是外資加碼、還是自營避險/造市？退保險 ≠ 外資換邊']],
-  chips:['0050 +31,581 翻正','正2 +140,027 續買','反1 −86,869 翻負'],
-  svg:'<svg viewBox="0 0 300 196" style="width:100%;max-width:290px;margin:0.6rem auto 0;display:block"><line x1="20" y1="80" x2="286" y2="80" stroke="rgba(255,255,255,0.3)"/><text x="16" y="84" fill="rgba(255,255,255,0.5)" font-size="9" text-anchor="end">0</text><rect x="55" y="62" width="42" height="18" fill="rgba(224,120,110,0.72)"/><rect x="129" y="28" width="42" height="52" fill="rgba(224,120,110,0.92)"/><rect x="203" y="80" width="42" height="40" fill="rgba(120,185,140,0.88)"/><text x="76" y="150" fill="rgba(255,255,255,0.85)" font-size="10.5" text-anchor="middle">0050</text><text x="150" y="150" fill="rgba(255,255,255,0.85)" font-size="10.5" text-anchor="middle">正2</text><text x="224" y="150" fill="rgba(255,255,255,0.85)" font-size="10.5" text-anchor="middle">反1</text><text x="76" y="164" fill="#e88a8c" font-size="9.5" text-anchor="middle">+31,581 翻正</text><text x="150" y="164" fill="#e88a8c" font-size="9.5" text-anchor="middle">+140,027 買</text><text x="224" y="164" fill="#7fd6a6" font-size="9.5" text-anchor="middle">−86,869 翻負</text><text x="150" y="188" fill="rgba(255,255,255,0.6)" font-size="9.5" text-anchor="middle">三腳全站起來＝偏多，但要看是誰的腳</text></svg>',
-  q:'8/27 三檔 ETF「0050 翻正買、正2 續買、反1 翻負賣」，這組合怎麼讀？',
-  choices:['資金在避險、方向轉空','三腳全站＝偏多，但要再拆「誰的腳」——退避險 ≠ 外資換邊','ETF 不重要，看個股就好'],correct:1,
-  fb:['剛好相反——買反1才是加避險。這天是賣反1、在縮避險。','對——三檔同向偏多沒錯，但<b>關鍵在拆三隻手</b>：這波撐盤多是自營避險/造市，外資在 0050 那腳反而還在賣、月線也只剩 0050 仍賣。<b>「保險在退」不等於「外資回頭加碼」</b>——方向偏多、但地基還沒真的換邊。','它恰是最宏觀的一票——但別只看合計，要拆外資/投信/自營，才知道是誰在對大盤加減碼。']},
-
- {type:'ab',sky:'sky-storm',bg:'peak',label:'§10 · 完整研判怎麼讀',title:'開票表＋邏輯鍊：把研判變成可打勾的門檻',
-  text:'完整研判不是一段感想，它被<b>工程化</b>成三樣東西。',
-  layers:[['核心邏輯鍊','A→B→C 橫向因果，一眼看懂「為什麼這樣判」'],['開票表','拆成一條條可打勾的門檻：◐尚未／✓成立／✗跌破'],['距離尺','量出哪一條門檻會先被踩到，你就知道盯哪個數字']],
-  chips:['8/27 鍊條：錢到齊 → 價沒接','解決條件：量站門檻＋收上波段高（差 46.26 點）'],
-  q:'報告把「解決條件」寫成一條條開票門檻(量站門檻◐、收上波段高◐)，用意是？',
-  choices:['讓報告看起來很專業','把研判變成「可被事實打勾／打叉」的門檻——你自己盯哪條先成立，而不是聽它喊多空','告訴你幾點幾分進場'],correct:1,
-  fb:['不是為了好看——是為了<b>可證偽</b>：每條門檻都能被隔天的數字驗證或推翻。','對——<b>開票表＝把判斷拆成可打勾的門檻</b>，配距離尺看哪條會先動。報告不替你下結論，而是給你一張「該盯什麼、成立沒」的計分卡，判斷權還在你手上。','它從不給進場點——開票表是「條件成立與否」的追蹤表，不是買賣訊號。']},
-
- {type:'ab',sky:'sky-clear',bg:'range',label:'§10 · 收束',title:'台股報告，到底幫你做什麼？',
-  text:'從<b>今日重點</b>到<b>完整研判</b>，十段都走過了。',
-  layers:[['台股報告給你','選股方向 ＋ 大盤體檢'],['具體是','錢輪動到哪類、哪些是強勢候選池'],['還有','法人籌碼在吸還在倒、AI 哪一圈在擴散'],['關鍵','它給你池子和邏輯，<b>你自己挑</b>']],
-  q:'所以台股報告最適合幫你做的決策是？',
-  choices:['直接告訴我買哪一支、買在幾塊','看「錢往哪類板塊流、大盤健不健康、有哪些強勢候選」，自己判斷選股方向','看它今天喊多還喊空，照做就好'],correct:1,
-  fb:['報告不喊買哪支、不給價位——那是明牌，不是判斷力。','對——它給你<b>資金流向＋候選池＋籌碼邏輯</b>，選誰、進不進，你自己決定。','它不喊單。台股報告給的是「錢在哪、誰強、健不健康」，決定權一直在你手上。']}
+// ── 12 §09 flip + build：門檻要寫在事前 ─────────────────────
+{type:'flip',sky:'sky-storm',bg:'peak',label:'§09 · 完整研判',
+ title:'門檻寫在事前，才不會事後改口',
+ text:'最後一段你通常只看一句「所以呢」，<br>然後隔天不管漲跌，都能找到理由說「我早就知道」。',
+ so:'報告不讓自己這樣。<br>它把研判拆成一條條<b>事前就寫死的門檻</b>：<br>成立打勾、跌破打叉，隔天回來對答案——改不了口。',
+ layers:[['核心邏輯鍊','A→B→C 橫向因果，一眼看懂「為什麼這樣判」'],
+   ['開票表','每條門檻只有三種結果：◐尚未／✓成立／✗跌破'],
+   ['距離尺','量出哪一條門檻會先被踩到，你就知道要盯哪個數字'],
+   ['驗證點總表','把「什麼時候開牌」也寫進日曆——時間到了回來對答案']],
+ chips:[ASOF+' 開票：一張到手、一張待續、六張落空'],
+ q:'先押一張牌。<br>'+ASOF+' 前一天，報告寫死了轉折界線＝<b>加權跌破二十日均線（MA20 46,025）</b>。<br>當天加權大跌 755.64 點（−1.61%）——<b>你押它守不守得住？</b>',
+ bets:[['keep','✓ 守住<br><span style="font-size:12px;opacity:.75">跌是跌，但沒破那條線</span>'],['break','✗ 跌破<br><span style="font-size:12px;opacity:.75">跌 755 點，這條線守不住</span>']],
+ betOk:'keep',
+ reveal:'<svg viewBox="0 0 300 120" style="width:100%;max-width:300px;margin:0.4rem auto 0;display:block"><line x1="24" y1="86" x2="282" y2="86" stroke="#e0a526" stroke-width="2" stroke-dasharray="5 4"/><text x="282" y="80" fill="#e0a526" font-size="10" text-anchor="end">MA20　46,025</text><path d="M24,34 L70,30 L116,26 L162,22 L208,30 L245,44 L282,66" fill="none" stroke="#f2f5ff" stroke-width="2"/><circle cx="282" cy="66" r="5" fill="#f2f5ff" class="gpulse"/><circle cx="282" cy="66" r="5" fill="none" stroke="#f2f5ff" stroke-width="1.6" class="gring"/><text x="282" y="58" fill="#fff" font-size="10" text-anchor="end">46,184.85</text><path d="M282,66 L282,86" stroke="#7fd6a6" stroke-width="2"/><text x="200" y="106" fill="#7fd6a6" font-size="11" text-anchor="middle">緩衝只剩 160 點（0.35%）</text><text x="24" y="16" fill="rgba(255,255,255,0.55)" font-size="9.5">加權指數</text></svg>',
+ revealTxt:'<b>守住了——收 46,184.85，離 MA20 只剩 160 點（0.35%）。</b><br>當天九張門檻開出來：一張到手（守住 MA20）、一張待續（外資 20 日累計 +116.5 億還沒轉負）、六張落空、一張晚上才開。<br>重點不是猜對——是<b>這條線在事前就寫死了</b>，所以今天只能記「突破失敗、退回整理區」，不能升級成「趨勢轉折」。措辭被門檻綁住，改不了口。',
+ buildQ:'最後一件事，親手做：<br>報告把「什麼時候開牌」也排進日曆。<br><b>先點一張驗證點卡，再點它該去的日期。</b>',
+ cards:[['a','FOMC ＋ 點陣圖<br><span style="font-size:11.5px;opacity:.7">升息機率已墊到約七成</span>'],
+   ['b','台灣央行理監事會<br><span style="font-size:11.5px;opacity:.7">升息半碼機率升溫</span>'],
+   ['c','四巫日 ＋ 富時季審<br><span style="font-size:11.5px;opacity:.7">被動資金換股</span>']],
+ slots:[['d1','09/16（二）','a'],['d2','09/17（三）','b'],['d3','09/18（四）','c']],
+ done:'排好了。這三格就是接下來三天的開牌日——<br>時間到了，你回來對答案，而不是回來找理由。<br><b>門檻寫在事前，事後才改不了定調。</b>'}
 ];
-const TRANSITIONS=['抓完重點——現在往下走，第一張圖：錢正在往哪個板塊移動？',null,null,'價、量分清楚了。<br>那——一個數字，能不能下結論？',null,null,null,'基本功齊了——台股權重最大的那批 AI，報告怎麼拆成四段？',null,null,null,'AI 四段讀完了。<br>最後拉高鏡頭：法人對「整個大盤」怎麼站？','大盤、板塊、籌碼、AI 都看完了——<br>報告怎麼把它們收成「一個可以打勾的判斷」？',null,null];
 
-let state={idx:-1,score:0,gv:50,cls:[],mChecked:false};
+const TRANSITIONS=[
+ null,
+ '單位對上了、兩把尺分開了。<br>接下來看錢——它現在在哪一格。',
+ null,
+ '鏡頭的事講完了。<br>下面兩站，把「一群股票」和「整個市場」<br>從指數手上拆下來看。',
+ null,
+ '指數還在，隊伍散了。<br>那——法人那邊呢？',
+ null,
+ null,
+ '個股的兩欄看完了。<br>把它們接成一條鏈：錢，卡在哪一段？',
+ null,
+ '錢的位置全攤開了。<br>最後一件事：<br>怎麼把這些變成一個「事前就寫死」的判斷？',
+ null
+];
 
-// 名詞白話＋答案（給我答案用）
+let state={idx:-1,score:0,sv:0,pl:{},plSel:null,plFor:-1,hs:[],hsFor:-1,so:null,soSel:null,soFor:-1,mt:{},mtSel:null,mtFor:-1,fp:0,slFor:-1};
+
+// ================= 給我答案：正解 ＋ 這一頁每個術語的白話 =================
 const ANS=[
- {answer:'先花 30 秒抓「定調／主線／警戒／盯什麼」四個標籤，再看決策樹每條岔路的成立／不成立去向，然後才決定往下鑽哪一段。',terms:[
-   ['今日重點','報告最前面的懶人包：把當天壓成定調／主線／警戒／盯什麼四行，先看它最省時'],
-   ['情境決策樹','每條岔路都畫出「訊號成立走這、不成立走那」，教你分岔思考、不是單押一個結果'],
-   ['盯什麼','下一步要看哪個訊號成立(如量站門檻＋收上波段高同一天)——是觀察點，不是買賣指令']]},
- {answer:'由弱轉強。改善→領先＝相對強度和動能同步上升，是「轉強確立」的軌跡。',terms:[
-   ['板塊動態圖','把每個板塊畫成一個點：位置＝相對強度、方向＝動能；比單看排名多了「往哪走」'],
-   ['相對強度(橫軸)','這個板塊贏大盤多少——越右越強'],
-   ['動能(縱軸)','強度正在轉強還轉弱——越上越是在改善']]},
- {answer:'B 股。REL 比的是「相對大盤」，B 逆勢抗跌、跑贏大盤 4%，比漲 1% 卻輸大盤的 A 更強。',terms:[
-   ['REL(相對強度)','這支「贏大盤幾 %」：正＝跑贏、負＝跑輸；抗跌也算贏。不是「漲多少」'],
-   ['REL5／REL20／REL60','近 5 日／約 1 月／約 3 月的相對強度，分別看短、中、長線'],
-   ['資金位階','用 REL 把板塊/個股排出強弱位階——誰在資金主流、誰在邊緣']]},
- {answer:'被動是價量背離——價攻漲停、5 日籌碼卻流出 −53,741 張，是投機拉抬不是穩穩流入，留意退燒；對照記憶體價漲＋籌碼 +187,409 張才是共振。',terms:[
-   ['價(漲跌／相對強度)','誰在漲；漲停也可能只是投機拉抬'],
-   ['量(三大法人籌碼)','外資＋投信＋自營淨買賣張數——誰真的在買'],
-   ['共振 / 背離','價量同向＝共振(真強)；價漲量卻跑＝背離(先打問號、留意退燒)']]},
- {answer:'「被動漲停＝流入」「台積沒領軍就回檔」＝不能(各只看一個數字)；「記憶體 +187,409 張續流」「229:227 打平但近漲停 20:1 分化」＝可以。',terms:[
-   ['價量要對齊','價漲不代表籌碼流入——被動漲停但 5 日籌碼流出就是背離，不能只看價'],
-   ['價 → 量 → 廣度','判多空順序：先看價、再看量(籌碼)、再看廣度；不可只抓一個'],
-   ['廣度先定調','上漲:下跌、近漲停家數；先定 risk-on/off，個股型態才有意義']]},
- {answer:'吸籌。月線(中線)和當日都在買＝資金持續流入，是四型裡最強的累積。',terms:[
-   ['吸籌','法人月線＋當日持續買，資金穩定流入——最強的一型'],
-   ['反轉 / 換手 / 賣超','反轉＝由賣轉買；換手＝買賣互見方向不明；賣超＝持續賣'],
-   ['紅＝強、綠＝弱','報告全篇同一套視覺語言：紅色才是強勢（吸籌、領先）、綠色是弱勢（賣超、落後）——跟美股習慣相反'],
-   ['雙買','中線(月線)與當日同時站在買方，方向最明確']]},
- {answer:'中間偏右(約 62)。偏多(記憶體吸籌、漲停遍地)，但廣度只打平、靠投機盤衝漲停、主線台積電休息＝偏多但有雜質，不是乾淨 risk-on。',terms:[
-   ['risk-on / 避險','資金敢全面做多 vs 收手觀望、抱防禦'],
-   ['普漲 vs 投機分化','普漲＝廣度也旺；投機分化＝廣度打平但少數股衝漲停(近漲停 20:1)'],
-   ['廣度先於個股','先用上漲下跌、近漲停家數定當天基調，再看個股怎麼動']]},
- {answer:'先標「待確認」，看隔日 REL5 能不能站穩、續強，再決定——別追在漲停板。',terms:[
-   ['漲停爆量','單日鎖漲停＋大量；可能是真起漲，也可能是脈衝(隔天打回)'],
-   ['脈衝 vs 真起漲','看隔日 REL5 有沒有站穩續強：站穩＝真起漲，打回＝脈衝'],
-   ['⚡當日異動','報告提醒你「這支今天跳動大、去觀察」，不是進場訊號']]},
- {answer:'A。核心競爭力＝不可取代性：獨家製程、卡關鍵環節放核心層；替代性高的組裝擺外圍。',terms:[
-   ['核心競爭力分三層','越核心＝越不可取代(獨家/卡瓶頸)；越外圍＝替代性越高、越像沾邊'],
-   ['不是「AI 就買」','同掛 AI 概念，強度與續航差很多——先問它在哪一層'],
-   ['三層架構','報告把 AI 個股按核心度分三層，不當成同一批']]},
- {answer:'錢還鎖在算力核心圈、尚未外溢——挑「正在創高、正在擴散」的那一圈，不是全部 AI 一把抓。',terms:[
-   ['AI 三圈','由核心往外：算力核心 → 不可或缺瓶頸 → 基建外溢'],
-   ['三圈擴散','每圈「幾檔創 3 月新高」——多檔一起創高＝資金擴散到那一圈'],
-   ['擴散未外溢','資金集中最核心圈、外圈沒跟＝還沒外溢；要挑正在擴散的圈']]},
- {answer:'強勢還卡在最上游算力階、尚未往下傳——下游要等訊號一階一階傳到才輪得到。',terms:[
-   ['信號流階梯','把 AI 硬體拆 8 個階段位階(上游算力→傳輸→設備→下游)'],
-   ['傳到第幾階','看強勢/資金集中在上游還是已往下游傳'],
-   ['卡在上游','上游亮、下游弱＝訊號還沒接棒；階梯是動態、會往下傳']]},
- {answer:'它不站在資金流入的位置——先觀察，等強勢往下游傳到它那段再說；別重壓在資金還沒到的位置。',terms:[
-   ['供應鏈定位','把每家公司在供應鏈的位置標出來'],
-   ['錢往上游、算力往下游','口訣：資金先聚上游，算力/強勢往下游擴'],
-   ['位置對齊','把「公司在哪段」＋「資金在哪段」對起來，才知道站不站在風口']]},
- {answer:'買正2＋賣反1＝做多加碼、避險縮手＝方向偏多；是法人對「整個大盤」的方向票，還能拆三隻手看誰主導。',terms:[
-   ['0050／正2／反1','0050 做多大盤、正2 是 2x 槓桿做多、反1 是避險偏空(−1x)'],
-   ['買正2＋賣反1＝偏多','加槓桿做多又縮避險＝同向偏多；反過來(賣正2買反1)＝轉防禦'],
-   ['三隻手','外資／投信／自營分開看，知道是誰在對大盤加減碼']]},
- {answer:'完整研判被工程化成三樣：核心邏輯鍊(A→B→C 為什麼這樣判)＋開票表(一條條可打勾 ◐✓✗ 的門檻)＋距離尺(哪條門檻會先被踩到)。你照著盯條件成立沒，而不是聽它喊多空。',terms:[
-   ['核心邏輯鍊','把研判寫成 A→B→C 橫向因果，一眼看懂推論怎麼來'],
-   ['開票表','把研判拆成可打勾門檻(◐尚未／✓成立／✗跌破)——每條可被事實推翻，是可證偽的計分卡'],
-   ['距離尺','量出哪一條門檻離成立最近、會先被踩到(如差 46.26 點收上波段高)']]},
- {answer:'看「錢往哪類板塊流、大盤健不健康、有哪些強勢候選」，自己判斷選股方向。',terms:[
-   ['選股方向＋大盤體檢','台股報告的定位：給資金流向、候選池、籌碼邏輯，你自己挑'],
-   ['候選池','符合條件的一批強勢股名單；是「池子」不是「明牌」'],
-   ['不喊買賣(G-5)','報告只研判市場、不指示你買哪支或買在幾塊——決定權在你']]}
+ {answer:'−213.4 億 → 個股／板塊的量（三大法人買賣超金額）；−66,987 張 → 大盤 ETF 0050；淨空 84,745 口 → 外資期指；−1.61% → 加權指數當天的價。',terms:[
+   ['量（億元）','報告講的「量」＝外資＋投信＋自營三家的買賣超<b>金額</b>。正＝淨買、負＝淨賣'],
+   ['張','股票的單位，一張＝一千股。個股成交量、ETF 的買賣超才用張'],
+   ['口','期貨合約的單位。台指期一口代表一整籃指數，不是股票'],
+   ['1D%','當天股價漲跌幅，只講價、不講量']]},
+ {answer:'兩把尺。位階(量) 講法人這一個月和這五天在買還在賣；階段(價) 講這一檔相對大盤走到哪一段。台積電這天是錢在買、價只跟著大盤走。',terms:[
+   ['位階(量)','用「月線(20日) × 近5日」判法人動作：🔥續買（都在買）／🌱翻買（本來賣、五天翻買）／⚠收手（買一個月後轉賣）／❄續賣（都在賣）'],
+   ['階段(價)','用 REL5／REL20／REL60 三個窗口判價格走到哪一段：⇑主升（三個都贏還在加速）／≈跟盤（三個都貼著大盤·沒有自己的方向）／⇓弱勢（三個都輸）'],
+   ['REL 相對強度','贏大盤幾 %：正＝跑贏、負＝跑輸。<b>抗跌也算贏</b>，不是「漲多少」'],
+   ['月線','接在「籌碼／買賣超」後面＝法人近 20 個交易日累計；接在「股價」後面才是 20 日均線。兩個不同']]},
+ {answer:'領先（右上角）。尾巴從左下拉到零軸右邊＝相對強度和動能同時在往上，是「轉強確立」的軌跡。',terms:[
+   ['板塊動態圖','把每個板塊畫成一顆泡泡：位置＝相對強度、方向＝動能，還會拖出一條移動軌跡'],
+   ['相對強度（橫軸）','這一格贏大盤幾 %（用 REL5，近 5 日相對加權·非漲幅）——越右越強'],
+   ['動能（縱軸）','這個強弱正在加速還是在鈍化——越上越是在改善'],
+   ['四象限','轉強（弱但在加速）→ 領先（強且加速）→ 轉弱（強但減速）→ 落後（弱且續弱），資金輪動多半順時針'],
+   ['看尾巴','同一個位置，尾巴往右上＝在累積、往左下＝在退。位置只講現在，尾巴才講方向']]},
+ {answer:'金融保險。量（月線 +625 億）和價（82% 贏）兩個鏡頭給同一個答案，才叫共振；半導體是量大、價只有 34% 贏，屬於背離。',terms:[
+   ['三個鏡頭','量＝法人拿錢買什麼；價＝誰跑贏大盤；量價綜合＝把兩者擺一起看一不一致'],
+   ['共振','法人在買、價也在漲＝最高確信'],
+   ['背離','法人買了但還沒漲（佈局型），或漲了但法人沒買（追高、缺籌碼支撐）——先打問號'],
+   ['價 N% 贏','一群股票不用單一標籤，改看「有幾成成分股近 20 日跑贏大盤」。34% 贏＝這一格的強是窄的']]},
+ {answer:'拉到 2 就翻負：拿掉聯發科（+302.5）和南亞科（+261.3），半導體月線合計從 +371 億變成 −192.8 億。所以要看贏面：34% 贏（42/122）。',terms:[
+   ['板塊合計','一格裡所有成分股的買賣超金額加起來。金額口徑，會被少數大單整個拉走'],
+   ['贏面 N%','這一格有幾成成分股近 20 日跑贏大盤（一檔一票、不管金額）。它回答「這個強是寬的還是窄的」'],
+   ['為什麼要兩個一起看','合計說「錢有沒有進來」，贏面說「進來的錢有沒有分給大家」。只看一個就會把「幾檔在漲」讀成「一片在漲」']]},
+ {answer:'把期間拉到 20 日附近：加權從 45,857 走到 46,185（+0.7%，指數是漲的），站上月線的家數卻從 59.7% 掉到 29.4%——幾乎砍半。',terms:[
+   ['市場寬度','不看指數、改用「家數」看市場：全市場每一檔對自己的均線是站上還是跌破，加總起來的比例'],
+   ['站上均線家數比例','超過六成算寬、低於四成算窄，四到六成是拉鋸（圖上灰帶）'],
+   ['短線 vs 長線','5／10／20 日動得快，是短線在洗還是在補的溫度計；120／240 日動得慢，看結構有沒有壞'],
+   ['指數 ≠ 市場','指數是幾檔權值股扛出來的分數。指數沒跌、短線家數卻塌了＝漲的只剩幾檔大的']]},
+ {answer:'A 吸籌 和 D 賣超出貨。吸籌佔比 ＝ A ÷（A＋D）＝ 391 ÷ 783 ＝ 49.9%（前一日 52.2%），跌破五成。',terms:[
+   ['四型態','用「法人月線 × 近 5 日」的買賣方向把全市場股票分四格'],
+   ['A 吸籌','月線在買＋近 5 日也在買＝一路買沒停過（最強的一型）'],
+   ['D 賣超出貨','月線在賣＋近 5 日也在賣＝一路賣（最弱的一型）'],
+   ['B 低檔反轉 / C 換手','方向不一致的中間人：B＝本來賣、這五天翻買；C＝買一個月後縮手。不進吸籌佔比的算式'],
+   ['吸籌佔比','A ÷（A＋D）：「持續在買」的家數，佔「持續在買＋持續在賣」的比例。過五成＝買方名單比賣方長'],
+   ['紅＝強、綠＝弱','台股報告全篇同一套：紅色是強勢（吸籌、領先），綠色是弱勢（賣超、落後）——跟美股習慣相反']]},
+ {answer:'家數（391 vs 392、49.9%）→ 廣度；金額（+5,800 億 vs −5,691 億、50.5%）→ 強弱；五日窗 46.3% → 短窗錢站哪邊；229 漲 / 779 跌 → 當天漲跌家數。',terms:[
+   ['廣度（家數口徑）','一檔一票，不管金額大小。回答「買方的名單長不長」'],
+   ['強弱（金額口徑）','按買賣超金額算，大單一票抵很多票。回答「買方的錢夠不夠重」'],
+   ['五日窗','把同一個算法換成更短的尺（近 5 日）。比月線敏感，先反映最近幾天的變化'],
+   ['漲跌家數','當天上漲和下跌的股票各幾檔——講的是股價，跟法人買不買無關'],
+   ['一輸一贏怎麼讀','名單縮了但錢還撐著＝勢均力敵、方向未出；兩個都輸才是全面轉弱']]},
+ {answer:'一致：聯發科（價⇑主升＋量🔥續買）、世芯-KY（價⇓弱勢＋量❄續賣）。打架：台積電（量續買但價只跟盤）、華邦電（量續買但價最弱）。',terms:[
+   ['兩欄一致','價和量指同一個方向＝已經反映完的事，資訊量低'],
+   ['兩欄打架','錢在買但價沒走、或價在走但錢在退＝有事情正在發生，值得回頭多看兩眼'],
+   ['⇑主升 / ≈跟盤 / ⇓弱勢','價那一軸的位置：三個窗口都贏還在加速／三個都貼著大盤沒方向／三個都輸大盤'],
+   ['🔥續買 / ❄續賣','量那一軸的位置：月線和近五日都在買／都在賣'],
+   ['⚠ 打架不是買點','它只告訴你「這一檔還有故事沒說完」，不是進場訊號——報告從不喊買賣']]},
+ {answer:'訊號輸入／網通接口 → 高速傳輸／載板 → 核心運算 → 記憶體暫存 → 周邊驅動IC → 供電功率 → 被動濾波 → 散熱防禦。',terms:[
+   ['信號流階梯','把 AI 硬體拆成八段，照訊號流動的順序排；看錢和強度停在第幾段'],
+   ['月線買賣超','法人近 20 個交易日在這一段累計買了或賣了多少億'],
+   ['上游強、下游弱','錢集中在前面幾段、後面幾段還在失血＝擴散還沒走完，下游要等訊號傳到才輪得到'],
+   ['贏面','這一段有幾成成分股跑贏大盤。散熱防禦 86% 是八段最高']]},
+ {answer:'左下格（現貨賣＋期貨空）。外資現貨賣超 951.5 億、期指再加空 1,136 口到淨空 84,745 口，兩隻手同方向。',terms:[
+   ['現貨那隻手','外資在集中市場＋櫃買的股票買賣超金額（億元）'],
+   ['期指淨未平倉（淨OI）','外資在台指期還沒平掉的部位：淨多＝押漲、淨空＝押跌或避險'],
+   ['兩隻手同向','現貨和期貨一起偏空／偏多＝姿態明確；一邊買一邊空多半只是避險，不是換邊'],
+   ['⚠ 期指空單有避險成分','不能單獨拿來當看空證據，要它跟現貨連著同方向才算數'],
+   ['⚠ 微台是散戶','大台＋小台才算外資的部位；微台淨多單（51,803 口）是散戶的，不是外資的']]},
+ {answer:'守住了——收 46,184.85，在 MA20 46,025 之上，緩衝只剩 160 點。三張驗證點卡：09/16 FOMC＋點陣圖、09/17 台灣央行、09/18 四巫日＋富時季審。',terms:[
+   ['核心邏輯鍊','把研判寫成 A→B→C 的橫向因果，一眼看懂這個結論是怎麼推出來的'],
+   ['開票表','把研判拆成一條條事前寫死的門檻，隔天只有三種結果：◐尚未／✓成立／✗跌破'],
+   ['距離尺','量出哪一條門檻離成立最近、會先被踩到（例：離 MA20 只剩 160 點）'],
+   ['驗證點總表','把「什麼時候開牌」也排進日曆——時間到了回來對答案，而不是回來找理由'],
+   ['MA20（二十日均線）','近 20 天收盤價的平均。這裡是價的均線，不是法人月線買賣超']]}
 ];
-function giveAnswer(i){const r=ROUNDS[i],a=ANS[i];
- const gloss=`<div style="font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.5);margin:0.85rem 0 0.5rem">名詞白話</div>`+a.terms.map(t=>`<div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,0.9);margin-bottom:0.42rem;text-align:left"><b style="color:#e0a526">${t[0]}</b>：${t[1]}</div>`).join('');
- const box=inner=>`<div style="max-width:480px;margin:0.5rem auto 0;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.28);border-radius:10px;padding:1rem 1.2rem;backdrop-filter:blur(6px)">${inner}</div>`;
- const ansLine=`<div style="font-size:14px;line-height:1.7;color:#fff;text-align:left"><b style="color:#a5d6a7">答案：</b>${a.answer}</div>`;
- if(r.type==='classify'){
-   r.items.forEach((it,k)=>state.cls[k]=it[1]);
-   const rows=r.items.map(it=>`<div class="cls-row right"><div class="cls-name">${it[0]}</div><div class="cls-btns"><button class="cls-btn ${it[1]} on" disabled>${it[1]==='atk'?r.catA:r.catB}</button></div></div>`).join('');
-   G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main">${r.q}</div><div class="cls-list">${rows}</div>${box(ansLine+`<div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,0.86);margin-top:0.55rem;text-align:left">${r.reveal}</div>`+gloss)}<button class="continue-btn" onclick="record(${i})">懂了，繼續 ›</button>`);
- }else if(r.type==='gauge'){
-   G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="gauge-wrap">${gaugeSVG(r.ans,r.left,r.right)}<div class="feedback" style="margin-top:0.6rem">${r.fb(r.ans)}</div></div>${box(ansLine+gloss)}<button class="continue-btn" onclick="record(${i})">懂了，繼續 ›</button>`);
- }else{
-   const ch=r.choices.map((c,k)=>`<div class="choice-btn" style="cursor:default;${k===r.correct?'border-color:#a5d6a7;background:rgba(80,200,110,0.14)':'opacity:0.45'}">${k===r.correct?'✓ ':''}${c}</div>`).join('');
-   G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="choices">${ch}</div><div class="feedback" style="color:#a5d6a7;min-height:auto;font-size:14px">${r.fb[r.correct]}</div>${box(gloss)}<button class="continue-btn" onclick="record(${i})">懂了，繼續 ›</button>`);
- }}
 
+// ================= 引擎 =================
 function prog(){PB.style.width=(Math.max(0,state.idx)/ROUNDS.length*100)+'%';}
-function dots(i){return `<div class="step-dots">${ROUNDS.map((_,k)=>`<i class="${k<=i?'on':''}"></i>`).join('')}</div>`;}
-function fade(fn){G.style.transition='opacity .32s';G.style.opacity='0';setTimeout(()=>{fn();G.style.opacity='1';},330);}
-function scene(sky,bgtype,inner){return `<div class="scene ${sky}">${bg(bgtype,sky)}<div class="overlay">${inner}</div></div>`;}
-function head(r){const layers=r.layers?`<div class="layer-list">${r.layers.map(ly=>`<div class="ly"><b>${ly[0]}</b><span>${ly[1]}</span></div>`).join('')}</div>`:'';const chips=r.chips?`<div style="max-width:480px;margin:0 auto 0.4rem">${r.chips.map(c=>`<span class="data-chip">${c}</span>`).join('')}</div>`:'';const fig=r.svg?`<div style="margin:0.5rem auto 0.2rem">${r.svg}</div>`:'';return `<div class="chapter-label t-label">${r.label}</div><div class="chapter-title t-main" style="font-size:22px;margin-bottom:0.9rem">${r.title}</div><div class="round-text t-sub">${r.text}</div>${layers}${chips}${fig}`;}
+function dots(i){return '<div class="step-dots">'+ROUNDS.map(function(_,k){return '<i class="'+(k<=i?'on':'')+'"></i>';}).join('')+'</div>';}
+function fade(fn){G.style.transition='opacity .32s';G.style.opacity='0';setTimeout(function(){fn();G.style.opacity='1';},330);}
+function scene(sky,bgtype,inner){return '<div class="scene '+sky+'">'+bg(bgtype,sky)+'<div class="overlay">'+inner+'</div></div>';}
+function head(r){
+ const layers=r.layers?'<div class="layer-list">'+r.layers.map(function(ly){return '<div class="ly"><b>'+ly[0]+'</b><span>'+ly[1]+'</span></div>';}).join('')+'</div>':'';
+ const chips=r.chips?'<div style="max-width:480px;margin:0 auto 0.4rem">'+r.chips.map(function(c){return '<span class="data-chip">'+c+'</span>';}).join('')+'</div>':'';
+ const so=r.so?'<div class="sowhat">'+r.so+'</div>':'';
+ const fig=r.svg?'<div style="margin:0.5rem auto 0.2rem">'+r.svg+'</div>':'';
+ return '<div class="chapter-label t-label">'+r.label+'</div><div class="chapter-title t-main" style="font-size:22px;margin-bottom:0.9rem">'+r.title+'</div><div class="round-text t-sub">'+r.text+'</div>'+so+layers+chips+fig;}
+function note(r){return r.note?'<div class="fig-note">'+r.note+'</div>':'';}
+function btnGive(i){return '<button class="continue-btn" style="opacity:0.72" onclick="giveAnswer('+i+')">給我答案</button>';}
+function okBox(txt){return '<div style="max-width:480px;margin:0.7rem auto 0;background:rgba(0,0,0,0.32);border:1px solid rgba(255,255,255,0.26);border-radius:10px;padding:0.9rem 1.1rem;font-size:13.5px;line-height:1.8;color:#fff;text-align:left;backdrop-filter:blur(6px)">'+txt+'</div>';}
 
-function showStart(){G.innerHTML=scene('sky-start','farhills',`
-  <div class="chapter-label t-label" style="margin-bottom:1rem">YODA RESEARCH · 判斷力學校</div>
-  <div class="chapter-title t-main" style="font-size:30px;font-weight:200;letter-spacing:1px;margin-bottom:0.4rem">讀懂台股報告</div>
-  <div class="t-sub" style="font-size:14px;margin-bottom:0.3rem;font-style:italic">量、價、廣度一起看——別被單一數字騙</div>
-  <div class="t-label" style="font-size:12px;margin-bottom:2.6rem">約 5 分鐘 · 跟著報告十段走(含 AI 四段) · 數據取自 2026-08 台股報告</div>
-  <button class="continue-btn" style="font-size:15px;padding:0.85rem 3.2rem;border-radius:6px;letter-spacing:2px" onclick="fade(startOpening)">開始</button>`);}
+function showStart(){
+ const mins=Math.max(6,Math.round(ROUNDS.length*0.75));
+ G.innerHTML=scene('sky-start','farhills',
+  '<div class="chapter-label t-label" style="margin-bottom:1rem">YODA RESEARCH · 判斷力學校</div>'
+  +'<div class="chapter-title t-main" style="font-size:30px;font-weight:200;letter-spacing:1px;margin-bottom:0.4rem">讀懂台股報告</div>'
+  +'<div class="t-sub" style="font-size:14px;margin-bottom:0.3rem;font-style:italic">看得懂每一個數字，卻拼不出一個判斷</div>'
+  +'<div class="t-label" style="font-size:12px;line-height:1.9;margin-bottom:2.6rem">約 '+mins+' 分鐘 · '+ROUNDS.length+' 站，跟著報告十段走<br>所有讀數都是 '+ASOF+' 那天的真實數字</div>'
+  +'<button class="continue-btn" style="font-size:15px;padding:0.85rem 3.2rem;border-radius:6px;letter-spacing:2px" onclick="fade(startOpening)">開始</button>');}
 let oi=0;function startOpening(){oi=0;renderOpening();}
 function renderOpening(){const q=OPENING.quotes[oi],last=oi>=OPENING.quotes.length-1;
- G.innerHTML=scene(OPENING.sky,OPENING.bg,`<div class="chapter-label t-label">${OPENING.label}</div><div class="chapter-title t-main">${OPENING.title}</div><div class="chapter-quote t-sub">${q}</div><button class="continue-btn" onclick="nextOpening()">${last?'開始第一站 ›':'繼續 ›'}</button>`);}
-function nextOpening(){oi++;if(oi>=OPENING.quotes.length)fade(()=>showRound(0));else fade(renderOpening);}
+ G.innerHTML=scene(OPENING.sky,OPENING.bg,'<div class="chapter-label t-label">'+OPENING.label+'</div><div class="chapter-title t-main">'+OPENING.title+'</div><div class="chapter-quote t-sub">'+q+'</div><button class="continue-btn" onclick="nextOpening()">'+(last?'開始第一站 ›':'繼續 ›')+'</button>');}
+function nextOpening(){oi++;if(oi>=OPENING.quotes.length)fade(function(){showRound(0);});else fade(renderOpening);}
 
 function showRound(i){state.idx=i;prog();const r=ROUNDS[i];
- if(r.type==='gauge')renderGauge(i);else if(r.type==='classify')renderClassify(i);else renderAB(i);}
+ if(r.type==='ab')renderAB(i);
+ else if(r.type==='place')renderPlace(i);
+ else if(r.type==='hotspot')renderHotspot(i);
+ else if(r.type==='slider')renderSlider(i);
+ else if(r.type==='sort')renderSort(i);
+ else if(r.type==='match')renderMatch(i);
+ else if(r.type==='flip')renderFlip(i);}
 
-// 儀表滑桿
-function gaugeSVG(val,leftLbl,rightLbl){const min=0,max=100,f=v=>Math.PI*(1-(v-min)/(max-min)),R=120,ax=250+R*Math.cos(f(val)),ay=170-R*Math.sin(f(val));
- return `<svg viewBox="0 0 500 200" style="width:100%;max-width:320px"><path d="M130,170 A120,120 0 0,1 370,170" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="14"/><line x1="250" y1="170" x2="${ax}" y2="${ay}" stroke="#e0a526" stroke-width="5" stroke-linecap="round"/><circle cx="250" cy="170" r="8" fill="#e0a526"/><text x="250" y="128" fill="#fff" font-size="26" font-weight="300" text-anchor="middle">${val}</text><text x="130" y="192" fill="rgba(91,141,239,0.9)" font-size="11" text-anchor="middle">${leftLbl||'左'}</text><text x="370" y="192" fill="rgba(224,83,83,0.9)" font-size="11" text-anchor="middle">${rightLbl||'右'}</text></svg>`;}
-function renderGauge(i){const r=ROUNDS[i];state.gv=50;
- function draw(){G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main" style="font-size:14.5px">${r.q}</div>
-   <div class="gauge-wrap">${gaugeSVG(state.gv,r.left,r.right)}<input type="range" class="gsl" min="0" max="100" value="${state.gv}" oninput="state.gv=parseInt(this.value);drawGauge()">
-   <div class="gsl-ends"><span>${r.left}</span><span>${r.right}</span></div></div>
-   <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;margin-top:0.6rem"><button class="continue-btn" onclick="gaugeDone(${i})">就這樣 ›</button><button class="continue-btn" style="opacity:0.72" onclick="giveAnswer(${i})">給我答案</button></div>`);}
- window.drawGauge=draw;draw();}
-function gaugeDone(i){const r=ROUNDS[i];if(r.correct(state.gv))state.score++;
- G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="gauge-wrap">${gaugeSVG(state.gv,r.left,r.right)}<div class="feedback" style="margin-top:0.8rem">${r.fb(state.gv)}</div></div><button class="continue-btn" onclick="record(${i})">繼續 ›</button>`);}
-
-// 二選一 / 三選一
+// ── 選擇題 ──
 function renderAB(i){const r=ROUNDS[i];
- G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main">${r.q}</div>
-  <div class="choices">${r.choices.map((c,k)=>`<button class="choice-btn" onclick="abPick(${i},${k})">${c}</button>`).join('')}</div>
-  <button class="continue-btn" style="opacity:0.72" onclick="giveAnswer(${i})">給我答案</button>`);}
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+note(r)+'<div class="round-q t-main">'+r.q+'</div>'
+  +'<div class="choices">'+r.choices.map(function(c,k){return '<button class="choice-btn" onclick="abPick('+i+','+k+')">'+c+'</button>';}).join('')+'</div>'
+  +btnGive(i));}
 function abPick(i,k){const r=ROUNDS[i];if(k===r.correct)state.score++;
  const col=k===r.correct?'#a5d6a7':'#ffcc80';
- G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="feedback" style="color:${col};min-height:auto;font-size:14px">${r.fb[k]}</div><button class="continue-btn" onclick="record(${i})">繼續 ›</button>`);}
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="feedback" style="color:'+col+';min-height:auto;font-size:14px">'+r.fb[k]+'</div><button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');}
 
-// 分類（可以下結論 / 不能）
-function renderClassify(i){const r=ROUNDS[i];if(state.cls.length!==r.items.length)state.cls=r.items.map(()=>null);
- function draw(){const rows=r.items.map((it,k)=>`<div class="cls-row" id="cr${k}"><div class="cls-name">${it[0]}</div><div class="cls-btns">
-   <button class="cls-btn atk ${state.cls[k]==='atk'?'on':''}" onclick="setCls(${k},'atk')">${r.catA}</button>
-   <button class="cls-btn def ${state.cls[k]==='def'?'on':''}" onclick="setCls(${k},'def')">${r.catB}</button></div></div>`).join('');
-  const done=state.cls.every(x=>x!==null);
-  G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main">${r.q}</div><div class="cls-list">${rows}</div>
-   <div class="feedback" id="fbc" style="min-height:24px"></div>
-   <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap">${done?`<button class="continue-btn" onclick="clsCheck(${i})">檢查</button>`:''}<button class="continue-btn" style="opacity:0.72" onclick="giveAnswer(${i})">給我答案</button></div>`);}
- window.drawCls=draw;draw();}
-function setCls(k,v){state.cls[k]=v;window.drawCls();}
-function clsCheck(i){const r=ROUNDS[i];let ok=0;
- r.items.forEach((it,k)=>{const row=document.getElementById('cr'+k);const right=state.cls[k]===it[1];if(right)ok++;row.classList.add(right?'right':'wrong');});
+// ── 兩段式點選歸位（place / build 共用）──
+function placeBody(i,cards,slots,wide,rev,marks){
+ const used={};Object.keys(state.pl).forEach(function(s){state.pl[s].forEach(function(c){used[c]=1;});});
+ const pool=cards.filter(function(c){return !used[c[0]];});
+ let h='<div class="pl-pool">'+(pool.length?pool.map(function(c){
+   return '<div class="pl-card'+(state.plSel===c[0]?' sel':'')+'" onclick="plCard(\''+c[0]+'\')">'+c[1]+'</div>';}).join(''):'<div class="t-label" style="font-size:12px">都放好了 —— 按「檢查」</div>')+'</div>';
+ h+='<div class="pl-slots">'+slots.map(function(s){
+   const got=state.pl[s[0]]||[];
+   const chips=got.map(function(cid){const cc=cards.filter(function(x){return x[0]===cid;})[0];return '<span class="pl-chip">'+cc[1]+'</span>';}).join('');
+   let cls='pl-slot'+(wide?' wide':'');
+   if(marks&&marks[s[0]]!==undefined)cls+=marks[s[0]]?' right':' wrong';
+   else if(state.plSel)cls+=' armed';
+   return '<div class="'+cls+'" onclick="plSlot(\''+s[0]+'\','+i+')"><div class="sl-t">'+s[1]+'</div><div class="sl-v">'+(chips||'<span style="font-size:11.5px;color:rgba(255,255,255,0.4)">點這裡放進來</span>')+'</div></div>';}).join('')+'</div>';
+ return h;}
+function plCard(id){state.plSel=(state.plSel===id?null:id);window.plDraw();}
+function plSlot(sid,i){const r=ROUNDS[i];const slots=(r.type==='flip')?r.slots:r.slots;
+ const cap=slots.filter(function(s){return s[0]===sid;})[0][2].split(',').length;
+ if(state.plSel){
+   Object.keys(state.pl).forEach(function(k){state.pl[k]=state.pl[k].filter(function(c){return c!==state.plSel;});});
+   if(!state.pl[sid])state.pl[sid]=[];
+   if(state.pl[sid].length>=cap)state.pl[sid].shift();
+   state.pl[sid].push(state.plSel);state.plSel=null;
+ }else if(state.pl[sid]&&state.pl[sid].length){state.pl[sid].pop();}
+ window.plDraw();}
+function plFull(slots){let n=0;Object.keys(state.pl).forEach(function(k){n+=state.pl[k].length;});
+ let need=0;slots.forEach(function(s){need+=s[2].split(',').length;});return n===need;}
+function plMarks(slots){const m={};slots.forEach(function(s){
+  const want=s[2].split(',').sort().join(',');const got=(state.pl[s[0]]||[]).slice().sort().join(',');m[s[0]]=(want===got);});return m;}
+function renderPlace(i){const r=ROUNDS[i];
+ if(state.plFor!==i){state.plFor=i;state.pl={};state.plSel=null;}
+ function draw(){G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+note(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+   +placeBody(i,r.cards,r.slots,r.wide)
+   +'<div class="btnrow">'+(plFull(r.slots)?'<button class="continue-btn" onclick="plCheck('+i+')">檢查</button>':'')+btnGive(i)+'</div>');}
+ window.plDraw=draw;draw();}
+function plCheck(i){const r=ROUNDS[i];const m=plMarks(r.slots);
+ let ok=0;Object.keys(m).forEach(function(k){if(m[k])ok++;});
+ if(ok===r.slots.length)state.score++;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+placeBody(i,r.cards,r.slots,r.wide,true,m)
+  +'<div class="feedback" style="color:'+(ok===r.slots.length?'#a5d6a7':'#ffcc80')+';min-height:auto;font-size:13.5px">放對 '+ok+'/'+r.slots.length+' 格</div>'
+  +okBox(r.done)+'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');}
+
+// ── 點圖熱區 ──
+function hsPick(k){const i=state.hsFor,r=ROUNDS[i];const p=state.hs.indexOf(k);
+ if(p>=0)state.hs.splice(p,1);
+ else{if(state.hs.length>=r.need.length)state.hs.shift();state.hs.push(k);}
+ window.hsDraw();}
+function renderHotspot(i){const r=ROUNDS[i];
+ if(state.hsFor!==i){state.hsFor=i;state.hs=[];}
+ function draw(){const done=state.hs.length===r.need.length;
+  G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+   +quadBox(r.quad,state.hs,null)+note(r)
+   +'<div class="btnrow">'+(done?'<button class="continue-btn" onclick="hsCheck('+i+')">檢查</button>':'')+btnGive(i)+'</div>');}
+ window.hsDraw=draw;draw();}
+function hsCheck(i){const r=ROUNDS[i];
+ const ok=r.need.slice().sort().join(',')===state.hs.slice().sort().join(',');
+ if(ok)state.score++;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+quadBox(r.quad,state.hs,r.need)+note(r)
+  +okBox('<span style="color:'+(ok?'#a5d6a7':'#ffcc80')+'">'+(ok?'答對了。':'差一點——正解已經標綠。')+'</span><br>'+(ok?r.fbOk:r.fbNo+'<br><br>'+r.fbOk))
+  +'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');}
+
+// ── 滑桿 ──
+function slUpd(){const i=state.slFor,r=ROUNDS[i];
+ const f=document.getElementById('slfig');if(f)f.innerHTML=r.fig(state.sv);
+ const l=document.getElementById('slval');if(l)l.innerHTML=r.vlab(state.sv);}
+function renderSlider(i){const r=ROUNDS[i];
+ if(state.slFor!==i){state.slFor=i;state.sv=r.slider.init;}
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+  +'<div id="slfig">'+r.fig(state.sv)+'</div>'+note(r)
+  +'<div class="gauge-wrap" style="max-width:440px"><input type="range" class="gsl" min="'+r.slider.min+'" max="'+r.slider.max+'" value="'+state.sv+'" oninput="state.sv=parseInt(this.value);slUpd()">'
+  +'<div class="gsl-ends"><span>'+r.slider.min+'</span><span>'+r.slider.max+'</span></div></div>'
+  +'<div id="slval" class="feedback" style="min-height:38px;font-size:13.5px;color:#fff">'+r.vlab(state.sv)+'</div>'
+  +'<div class="btnrow"><button class="continue-btn" onclick="slDone('+i+')">就這樣 ›</button>'+btnGive(i)+'</div>');}
+function slDone(i){const r=ROUNDS[i];const ok=r.correct(state.sv);if(ok)state.score++;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div id="slfig">'+r.fig(state.sv)+'</div>'+note(r)
+  +'<div class="feedback" style="min-height:auto;font-size:13.5px;color:#fff">'+r.vlab(state.sv)+'</div>'
+  +okBox('<span style="color:'+(ok?'#a5d6a7':'#ffcc80')+'">'+(ok?'到了。':'還沒到——不過答案在這裡。')+'</span><br>'+(ok?r.fbOk:r.fbNo+'<br><br>'+r.fbOk))
+  +'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');}
+
+// ── 排序（點兩張互換）──
+function soPick(k){if(state.soSel===null){state.soSel=k;}
+ else if(state.soSel===k){state.soSel=null;}
+ else{const a=state.so[state.soSel];state.so[state.soSel]=state.so[k];state.so[k]=a;state.soSel=null;}
+ window.soDraw();}
+function soBody(r,marks){return '<div class="st-list">'+state.so.map(function(v,k){
+  let cls='st-row'+(state.soSel===k?' sel':'');
+  if(marks)cls+=(v===k?' right':' wrong');
+  return '<div class="'+cls+'" onclick="soPick('+k+')"><b>'+(k+1)+'</b><span>'+r.items[v].replace(/^\d+\s/,'')+'</span></div>';}).join('')+'</div>';}
+function renderSort(i){const r=ROUNDS[i];
+ if(state.soFor!==i){state.soFor=i;state.so=r.shuffle.slice();state.soSel=null;}
+ function draw(){G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+   +soBody(r)+note(r)
+   +'<div class="btnrow"><button class="continue-btn" onclick="soCheck('+i+')">檢查</button>'+btnGive(i)+'</div>');}
+ window.soDraw=draw;draw();}
+function soCheck(i){const r=ROUNDS[i];let ok=0;state.so.forEach(function(v,k){if(v===k)ok++;});
  if(ok>=r.items.length-1)state.score++;
- document.getElementById('fbc').innerHTML=`<span style="color:${ok===r.items.length?'#a5d6a7':'#ffcc80'}">答對 ${ok}/${r.items.length}。${r.reveal}</span>`;
- const cb=G.querySelector('.continue-btn');if(cb)cb.parentElement.outerHTML=`<button class="continue-btn" onclick="record(${i})">繼續 ›</button>`;}
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+soBody(r,true)
+  +'<div class="feedback" style="color:'+(ok===r.items.length?'#a5d6a7':'#ffcc80')+';min-height:auto;font-size:13.5px">排對 '+ok+'/'+r.items.length+' 格</div>'
+  +okBox(r.fbOk)+'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');}
 
-function record(i){const t=TRANSITIONS[i];if(t)fade(()=>showTrans(t,i));else advance(i);}
-function showTrans(txt,i){G.innerHTML=`<div class="scene" style="background:linear-gradient(180deg,#020408,#0a0714,#141020);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:3rem 1.5rem"><div class="overlay"><div class="transition-quote">${txt}</div><button class="continue-btn" onclick="advance(${i})">繼續 ›</button></div></div>`;}
-function advance(i){const n=i+1;if(n>=ROUNDS.length)fade(showResult);else fade(()=>showRound(n));}
+// ── 連連看 ──
+function mtPick(side,k){if(side==='L'){state.mtSel=(state.mtSel===k?null:k);}
+ else if(state.mtSel){
+   Object.keys(state.mt).forEach(function(l){if(state.mt[l]===k)delete state.mt[l];});
+   state.mt[state.mtSel]=k;state.mtSel=null;}
+ window.mtDraw();}
+function mtLines(){const svg=document.getElementById('mtlines');if(!svg)return;
+ const wrap=document.getElementById('mtwrap');if(!wrap)return;
+ const wb=wrap.getBoundingClientRect();let s='';
+ Object.keys(state.mt).forEach(function(l){
+   const a=document.getElementById('mtL'+l),b=document.getElementById('mtR'+state.mt[l]);
+   if(!a||!b)return;
+   const ra=a.getBoundingClientRect(),rb=b.getBoundingClientRect();
+   const x1=ra.right-wb.left,y1=ra.top-wb.top+ra.height/2,x2=rb.left-wb.left,y2=rb.top-wb.top+rb.height/2;
+   const mid=(x1+x2)/2;
+   s+='<path d="M'+x1+','+y1+' C'+mid+','+y1+' '+mid+','+y2+' '+x2+','+y2+'" fill="none" stroke="rgba(224,165,38,0.85)" stroke-width="2"/>';
+   s+='<circle cx="'+x1+'" cy="'+y1+'" r="3.5" fill="#e0a526"/><circle cx="'+x2+'" cy="'+y2+'" r="3.5" fill="#e0a526"/>';});
+ svg.innerHTML=s;svg.setAttribute('viewBox','0 0 '+wb.width+' '+wb.height);}
+function mtBody(r,marks){
+ let h='<div class="mt-wrap" id="mtwrap"><svg class="mt-lines" id="mtlines" preserveAspectRatio="none"></svg><div class="mt-cols"><div class="mt-col">';
+ h+=r.left.map(function(x){let c='mt-item'+(state.mtSel===x[0]?' sel':'')+(state.mt[x[0]]?' on':'');
+   if(marks)c+=(state.mt[x[0]]===x[0]?' right':' wrong');
+   return '<div class="'+c+'" id="mtL'+x[0]+'" onclick="mtPick(\'L\',\''+x[0]+'\')">'+x[1]+'</div>';}).join('');
+ h+='</div><div class="mt-col">';
+ h+=r.right.map(function(x){const linked=Object.keys(state.mt).filter(function(l){return state.mt[l]===x[0];}).length>0;
+   return '<div class="mt-item'+(linked?' on':'')+'" id="mtR'+x[0]+'" onclick="mtPick(\'R\',\''+x[0]+'\')">'+x[1]+'</div>';}).join('');
+ return h+'</div></div></div>';}
+function renderMatch(i){const r=ROUNDS[i];
+ if(state.mtFor!==i){state.mtFor=i;state.mt={};state.mtSel=null;}
+ function draw(){const done=Object.keys(state.mt).length===r.left.length;
+  G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+   +mtBody(r)+note(r)
+   +'<div class="btnrow">'+(done?'<button class="continue-btn" onclick="mtCheck('+i+')">檢查</button>':'')+btnGive(i)+'</div>');
+  mtLines();}
+ window.mtDraw=draw;draw();}
+function mtCheck(i){const r=ROUNDS[i];let ok=0;r.left.forEach(function(x){if(state.mt[x[0]]===x[0])ok++;});
+ if(ok===r.left.length)state.score++;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+mtBody(r,true)
+  +'<div class="feedback" style="color:'+(ok===r.left.length?'#a5d6a7':'#ffcc80')+';min-height:auto;font-size:13.5px">接對 '+ok+'/'+r.left.length+' 條</div>'
+  +okBox(ok===r.left.length?r.fbOk:r.fbNo+'<br><br>'+r.fbOk)
+  +'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');
+ mtLines();}
 
-// 結果頁「工具牆」：把九段學到的圖縮小陳列，給讀者「手上多了很多工具」的收穫感
+// ── 翻牌 ＋ 建構收尾 ──
+function renderFlip(i){const r=ROUNDS[i];
+ if(state.fpFor!==i){state.fpFor=i;state.fp=0;state.pl={};state.plSel=null;state.plFor=i;}
+ if(state.fp===0){
+   G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+    +'<div class="fp-bets">'+r.bets.map(function(b){return '<button class="fp-bet" onclick="fpBet('+i+',\''+b[0]+'\')">'+b[1]+'</button>';}).join('')+'</div>'
+    +btnGive(i));
+ }else{fpBuild(i);}}
+function fpBet(i,k){const r=ROUNDS[i];if(k===r.betOk)state.score++;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+r.reveal
+  +okBox('<span style="color:'+(k===r.betOk?'#a5d6a7':'#ffcc80')+'">'+(k===r.betOk?'你押對了。':'押反了——但重點不在猜對。')+'</span><br>'+r.revealTxt)
+  +'<button class="continue-btn" onclick="fpNext('+i+')">最後一件事 ›</button>');}
+function fpNext(i){state.fp=1;fade(function(){fpBuild(i);});}
+function fpBuild(i){const r=ROUNDS[i];
+ G.innerHTML=scene('sky-clear','range',dots(i)
+  +'<div class="chapter-label t-label">'+r.label+' · 收尾</div><div class="chapter-title t-main" style="font-size:22px;margin-bottom:0.9rem">親手把開牌日排進日曆</div>'
+  +'<div class="round-q t-main" style="font-size:15px">'+r.buildQ+'</div>'
+  +placeBody(i,r.cards,r.slots,true)
+  +'<div class="btnrow">'+(plFull(r.slots)?'<button class="continue-btn" onclick="fpDone('+i+')">排好了 ›</button>':'')+btnGive(i)+'</div>');
+ window.plDraw=function(){fpBuild(i);};}
+function fpDone(i){const r=ROUNDS[i];const m=plMarks(r.slots);
+ let ok=0;Object.keys(m).forEach(function(k){if(m[k])ok++;});
+ G.innerHTML=scene('sky-clear','range',dots(i)
+  +'<div class="chapter-label t-label">'+r.label+' · 收尾</div><div class="chapter-title t-main" style="font-size:22px;margin-bottom:0.9rem">親手把開牌日排進日曆</div>'
+  +placeBody(i,r.cards,r.slots,true,true,m)
+  +okBox(r.done)+'<button class="continue-btn" onclick="record('+i+')">看我學會了什麼 ›</button>');}
+
+// ── 給我答案：就地揭示 ──
+function giveAnswer(i){const r=ROUNDS[i],a=ANS[i];
+ const gloss='<div style="font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.5);margin:0.9rem 0 0.5rem">名詞白話</div>'
+  +'<div class="layer-list" style="background:none;border:none;padding:0;margin:0">'+a.terms.map(function(t){return '<div class="ly"><b>'+t[0]+'</b><span>'+t[1]+'</span></div>';}).join('')+'</div>';
+ const ansLine='<div style="font-size:14px;line-height:1.75;color:#fff;text-align:left"><b style="color:#a5d6a7">答案：</b>'+a.answer+'</div>';
+ let mid='';
+ if(r.type==='ab'){
+   mid='<div class="choices">'+r.choices.map(function(c,k){return '<div class="choice-btn" style="cursor:default;'+(k===r.correct?'border-color:#a5d6a7;background:rgba(80,200,110,0.14)':'opacity:0.45')+'">'+(k===r.correct?'✓ ':'')+c+'</div>';}).join('')+'</div>'
+     +'<div class="feedback" style="color:#a5d6a7;min-height:auto;font-size:13.5px">'+r.fb[r.correct]+'</div>';
+ }else if(r.type==='place'){
+   state.pl={};r.slots.forEach(function(s){state.pl[s[0]]=s[2].split(',');});state.plSel=null;
+   mid=placeBody(i,r.cards,r.slots,r.wide,true,plMarks(r.slots))+'<div style="font-size:13.5px;line-height:1.8;color:rgba(255,255,255,0.9);text-align:left;max-width:480px;margin:0.5rem auto 0">'+r.done+'</div>';
+ }else if(r.type==='hotspot'){
+   state.hs=r.need.slice();mid=quadBox(r.quad,state.hs,r.need)+note(r)+'<div style="font-size:13.5px;line-height:1.8;color:rgba(255,255,255,0.9);text-align:left;max-width:480px;margin:0.5rem auto 0">'+r.fbOk+'</div>';
+ }else if(r.type==='slider'){
+   state.sv=(r.slider.min===0?2:20);
+   mid='<div id="slfig">'+r.fig(state.sv)+'</div><div class="feedback" style="min-height:auto;font-size:13.5px;color:#fff">'+r.vlab(state.sv)+'</div>'
+     +'<div style="font-size:13.5px;line-height:1.8;color:rgba(255,255,255,0.9);text-align:left;max-width:480px;margin:0.5rem auto 0">'+r.fbOk+'</div>';
+ }else if(r.type==='sort'){
+   state.so=r.items.map(function(_,k){return k;});state.soSel=null;
+   mid=soBody(r,true)+'<div style="font-size:13.5px;line-height:1.8;color:rgba(255,255,255,0.9);text-align:left;max-width:480px;margin:0.5rem auto 0">'+r.fbOk+'</div>';
+ }else if(r.type==='match'){
+   state.mt={};r.left.forEach(function(x){state.mt[x[0]]=x[0];});state.mtSel=null;
+   mid=mtBody(r,true)+'<div style="font-size:13.5px;line-height:1.8;color:rgba(255,255,255,0.9);text-align:left;max-width:480px;margin:0.5rem auto 0">'+r.fbOk+'</div>';
+ }else if(r.type==='flip'){
+   if(state.fp===0){mid=r.reveal+'<div style="font-size:13.5px;line-height:1.8;color:rgba(255,255,255,0.9);text-align:left;max-width:480px;margin:0.5rem auto 0">'+r.revealTxt+'</div>';}
+   else{state.pl={};r.slots.forEach(function(s){state.pl[s[0]]=s[2].split(',');});state.plSel=null;
+     mid=placeBody(i,r.cards,r.slots,true,true,plMarks(r.slots))+'<div style="font-size:13.5px;line-height:1.8;color:rgba(255,255,255,0.9);text-align:left;max-width:480px;margin:0.5rem auto 0">'+r.done+'</div>';}
+ }
+ const nextBtn=(r.type==='flip'&&state.fp===0)?'<button class="continue-btn" onclick="fpNext('+i+')">最後一件事 ›</button>':'<button class="continue-btn" onclick="record('+i+')">懂了，繼續 ›</button>';
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+mid+okBox(ansLine+gloss)+nextBtn);
+ if(r.type==='match')mtLines();}
+
+function record(i){const t=TRANSITIONS[i];if(t)fade(function(){showTrans(t,i);});else advance(i);}
+function showTrans(txt,i){G.innerHTML='<div class="scene" style="background:linear-gradient(180deg,#020408,#0a0714,#141020);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:3rem 1.5rem"><div class="overlay"><div class="transition-quote">'+txt+'</div><button class="continue-btn" onclick="advance('+i+')">繼續 ›</button></div></div>';}
+function advance(i){const n=i+1;if(n>=ROUNDS.length)fade(showResult);else fade(function(){showRound(n);});}
+
+// ================= 結果頁：工具牆 =================
 const TOOLBOX=[
- ['今日重點·決策樹','<svg viewBox="0 0 100 84"><circle cx="50" cy="16" r="6" fill="#e0b64a"/><line x1="50" y1="22" x2="28" y2="44" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/><line x1="50" y1="22" x2="72" y2="44" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/><circle cx="28" cy="50" r="5" fill="rgba(120,185,140,0.8)"/><circle cx="72" cy="50" r="5" fill="rgba(224,120,110,0.7)"/><line x1="28" y1="55" x2="20" y2="70" stroke="rgba(255,255,255,0.3)" stroke-width="1.2"/><line x1="28" y1="55" x2="36" y2="70" stroke="rgba(255,255,255,0.3)" stroke-width="1.2"/></svg>'],
- ['量版動態圖','<svg viewBox="0 0 100 84"><rect x="6" y="6" width="88" height="64" fill="none" stroke="rgba(255,255,255,0.16)"/><line x1="50" y1="6" x2="50" y2="70" stroke="rgba(255,255,255,0.2)"/><line x1="6" y1="38" x2="94" y2="38" stroke="rgba(255,255,255,0.2)"/><path d="M28,52 C46,46 64,42 80,30" fill="none" stroke="rgba(224,182,74,0.5)" stroke-width="1.5" stroke-dasharray="2 2"/><circle r="4" fill="#e0b64a"><animateMotion dur="3s" repeatCount="indefinite" path="M28,52 C46,46 64,42 80,30"/></circle></svg>'],
- ['相對強度 REL','<svg viewBox="0 0 100 84"><line x1="8" y1="50" x2="92" y2="50" stroke="rgba(255,255,255,0.3)"/><rect x="26" y="50" width="18" height="12" fill="rgba(120,160,255,0.75)"/><rect x="58" y="20" width="18" height="30" fill="rgba(224,120,110,0.85)"/></svg>'],
- ['量價共振/背離','<svg viewBox="0 0 100 84"><line x1="8" y1="52" x2="46" y2="52" stroke="rgba(255,255,255,0.25)"/><rect x="16" y="30" width="9" height="22" fill="rgba(127,168,255,0.8)"/><rect x="30" y="24" width="9" height="28" fill="rgba(224,182,74,0.9)"/><line x1="54" y1="52" x2="92" y2="52" stroke="rgba(255,255,255,0.25)"/><rect x="76" y="18" width="9" height="34" fill="rgba(224,182,74,0.9)"/><rect x="62" y="52" width="9" height="18" fill="rgba(127,168,255,0.45)"><animate attributeName="opacity" values="1;0.4;1" dur="1.6s" repeatCount="indefinite"/></rect></svg>'],
- ['籌碼四型態','<svg viewBox="0 0 100 84"><rect x="10" y="8" width="80" height="64" fill="none" stroke="rgba(255,255,255,0.14)"/><line x1="50" y1="8" x2="50" y2="72" stroke="rgba(255,255,255,0.2)"/><line x1="10" y1="40" x2="90" y2="40" stroke="rgba(255,255,255,0.2)"/><circle cx="68" cy="24" r="4" fill="rgba(255,107,125,0.5)"/><circle cx="74" cy="20" r="4" fill="rgba(255,107,125,0.7)"/><circle cx="70" cy="26" r="7" fill="none" stroke="#ff6b7d" stroke-width="1.5"><animate attributeName="r" values="5;13;13" dur="2.4s" repeatCount="indefinite"/><animate attributeName="stroke-opacity" values="0.7;0;0" dur="2.4s" repeatCount="indefinite"/></circle></svg>'],
- ['AI 核心競爭力','<svg viewBox="0 0 100 84"><circle cx="50" cy="42" r="30" fill="rgba(207,111,114,0.16)"/><circle cx="50" cy="42" r="20" fill="rgba(207,111,114,0.32)"/><circle cx="50" cy="42" r="10" fill="rgba(207,111,114,0.7)"/><path d="M50,42 L80,42 A30,30 0 0 1 65,68 Z" fill="rgba(255,255,255,0.15)"><animateTransform attributeName="transform" type="rotate" from="0 50 42" to="360 50 42" dur="3.6s" repeatCount="indefinite"/></path><circle cx="50" cy="42" r="5" fill="rgba(18,22,36,0.7)"/></svg>'],
- ['AI 三圈擴散','<svg viewBox="0 0 100 84"><circle cx="50" cy="42" r="30" fill="none" stroke-width="6" stroke="#5cae88" stroke-opacity="0.2"><animate attributeName="stroke-opacity" values="0.12;0.8;0.12" dur="2.4s" begin="1.4s" repeatCount="indefinite"/></circle><circle cx="50" cy="42" r="20" fill="none" stroke-width="6" stroke="#e0a526" stroke-opacity="0.2"><animate attributeName="stroke-opacity" values="0.12;0.85;0.12" dur="2.4s" begin="0.7s" repeatCount="indefinite"/></circle><circle cx="50" cy="42" r="10" fill="none" stroke-width="6" stroke="#cf6f72" stroke-opacity="0.3"><animate attributeName="stroke-opacity" values="0.2;0.95;0.2" dur="2.4s" begin="0s" repeatCount="indefinite"/></circle></svg>'],
- ['信號流階梯','<svg viewBox="0 0 100 84"><rect x="30" y="12" width="40" height="7" rx="1.5" fill="rgba(224,182,74,0.92)"/><rect x="30" y="12" width="40" height="7" rx="1.5" fill="#ffe9a8"><animate attributeName="opacity" values="0.15;0.75;0.15" dur="2s" repeatCount="indefinite"/></rect><rect x="30" y="22" width="40" height="7" rx="1.5" fill="rgba(224,182,74,0.68)"/><rect x="30" y="32" width="40" height="7" rx="1.5" fill="rgba(224,182,74,0.5)"/><rect x="30" y="42" width="40" height="7" rx="1.5" fill="rgba(224,182,74,0.36)"/><rect x="30" y="52" width="40" height="7" rx="1.5" fill="rgba(224,182,74,0.24)"/><rect x="30" y="62" width="40" height="7" rx="1.5" fill="rgba(224,182,74,0.16)"/></svg>'],
- ['供應鏈定位','<svg viewBox="0 0 100 84"><rect x="24" y="10" width="52" height="16" rx="3" fill="rgba(127,168,255,0.16)" stroke="rgba(127,168,255,0.5)"/><rect x="24" y="32" width="52" height="16" rx="3" fill="rgba(224,182,74,0.22)" stroke="#e0b64a" stroke-width="1.5"><animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="2.2s" repeatCount="indefinite"/></rect><rect x="24" y="54" width="52" height="16" rx="3" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.22)"/></svg>'],
- ['ETF 三隻手','<svg viewBox="0 0 100 84"><line x1="8" y1="46" x2="92" y2="46" stroke="rgba(255,255,255,0.3)"/><rect x="18" y="38" width="16" height="8" fill="rgba(224,120,110,0.72)"/><rect x="42" y="18" width="16" height="28" fill="rgba(224,120,110,0.92)"/><rect x="66" y="46" width="16" height="24" fill="rgba(120,185,140,0.88)"/></svg>'],
- ['開票表·距離尺','<svg viewBox="0 0 100 84"><rect x="20" y="14" width="10" height="10" rx="2" fill="none" stroke="#7fd6a6" stroke-width="1.5"/><path d="M22,19 l2.5,3 l4,-6" fill="none" stroke="#7fd6a6" stroke-width="1.5"/><line x1="38" y1="19" x2="80" y2="19" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/><rect x="20" y="34" width="10" height="10" rx="2" fill="none" stroke="#e0b64a" stroke-width="1.5"/><circle cx="25" cy="39" r="2" fill="#e0b64a"><animate attributeName="opacity" values="1;0.3;1" dur="1.6s" repeatCount="indefinite"/></circle><line x1="38" y1="39" x2="80" y2="39" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/><rect x="20" y="54" width="10" height="10" rx="2" fill="none" stroke="#e88a8c" stroke-width="1.5"/><line x1="21" y1="55" x2="29" y2="63" stroke="#e88a8c" stroke-width="1.5"/><line x1="38" y1="59" x2="80" y2="59" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/></svg>']
+ ['量的單位','<svg viewBox="0 0 100 84"><text x="50" y="30" fill="#e0b64a" font-size="15" font-weight="700" text-anchor="middle">億元</text><text x="26" y="52" fill="rgba(255,255,255,0.42)" font-size="11" text-anchor="middle">張</text><text x="74" y="52" fill="rgba(255,255,255,0.42)" font-size="11" text-anchor="middle">口</text><text x="50" y="70" fill="rgba(255,255,255,0.42)" font-size="11" text-anchor="middle">%</text><circle cx="50" cy="25" r="17" fill="none" stroke="#e0b64a" stroke-width="1.5" class="gpulse"/></svg>'],
+ ['量價兩把尺','<svg viewBox="0 0 100 84"><rect x="8" y="18" width="36" height="48" rx="5" fill="rgba(127,168,255,0.16)" stroke="rgba(127,168,255,0.55)"/><text x="26" y="46" fill="#9ab8ff" font-size="10" text-anchor="middle">量</text><rect x="56" y="18" width="36" height="48" rx="5" fill="rgba(224,165,38,0.16)" stroke="rgba(224,165,38,0.55)"/><text x="74" y="46" fill="#e6c463" font-size="10" text-anchor="middle">價</text></svg>'],
+ ['板塊動態圖','<svg viewBox="0 0 100 84"><rect x="8" y="8" width="84" height="64" fill="none" stroke="rgba(255,255,255,0.16)"/><line x1="50" y1="8" x2="50" y2="72" stroke="rgba(255,255,255,0.22)"/><line x1="8" y1="40" x2="92" y2="40" stroke="rgba(255,255,255,0.22)"/><path d="M24,60 C40,52 56,42 74,28" fill="none" stroke="rgba(224,182,74,0.55)" stroke-width="1.6" stroke-dasharray="3 2"/><circle cx="74" cy="28" r="5" fill="#e0b64a" class="gpulse"/></svg>'],
+ ['三個鏡頭','<svg viewBox="0 0 100 84"><line x1="10" y1="60" x2="90" y2="60" stroke="rgba(255,255,255,0.25)"/><rect x="18" y="32" width="14" height="28" fill="rgba(127,168,255,0.8)"/><rect x="43" y="24" width="14" height="36" fill="rgba(224,182,74,0.85)"/><rect x="68" y="20" width="14" height="40" fill="rgba(165,214,167,0.85)"/><text x="50" y="76" fill="rgba(255,255,255,0.5)" font-size="9" text-anchor="middle">量·價·共振</text></svg>'],
+ ['贏面 N%','<svg viewBox="0 0 100 84"><line x1="10" y1="44" x2="90" y2="44" stroke="rgba(255,255,255,0.3)"/><rect x="16" y="20" width="12" height="24" fill="rgba(255,107,125,0.85)"/><rect x="33" y="30" width="12" height="14" fill="rgba(255,107,125,0.55)"/><rect x="50" y="44" width="12" height="16" fill="rgba(120,200,150,0.7)"/><rect x="67" y="44" width="12" height="22" fill="rgba(120,200,150,0.85)"/><text x="50" y="78" fill="#e0b64a" font-size="10" text-anchor="middle" font-weight="700">34% 贏</text></svg>'],
+ ['市場寬度','<svg viewBox="0 0 100 84"><rect x="10" y="30" width="80" height="18" fill="rgba(255,255,255,0.07)"/><path d="M10,20 L30,16 L50,18 L70,14 L90,17" fill="none" stroke="#e0b64a" stroke-width="1.8"/><path d="M10,32 L30,30 L50,40 L70,52 L90,64" fill="none" stroke="#ff6b7d" stroke-width="1.8"/><circle cx="90" cy="64" r="3.5" fill="#ff6b7d" class="gpulse"/></svg>'],
+ ['四型態·吸籌佔比','<svg viewBox="0 0 100 84"><rect x="10" y="8" width="80" height="64" fill="none" stroke="rgba(255,255,255,0.14)"/><rect x="50" y="8" width="40" height="32" fill="rgba(255,107,125,0.24)"/><rect x="10" y="40" width="40" height="32" fill="rgba(120,200,150,0.22)"/><line x1="50" y1="8" x2="50" y2="72" stroke="rgba(255,255,255,0.24)"/><line x1="10" y1="40" x2="90" y2="40" stroke="rgba(255,255,255,0.24)"/><text x="70" y="28" fill="#ff6b7d" font-size="9" text-anchor="middle">A</text><text x="30" y="60" fill="#7fd0a0" font-size="9" text-anchor="middle">D</text></svg>'],
+ ['廣度 vs 強弱','<svg viewBox="0 0 100 84"><text x="28" y="26" fill="rgba(255,255,255,0.75)" font-size="9" text-anchor="middle">家數</text><text x="28" y="42" fill="#e0b64a" font-size="11" text-anchor="middle" font-weight="700">49.9%</text><line x1="52" y1="16" x2="52" y2="64" stroke="rgba(255,255,255,0.2)"/><text x="74" y="26" fill="rgba(255,255,255,0.75)" font-size="9" text-anchor="middle">金額</text><text x="74" y="42" fill="#e0b64a" font-size="11" text-anchor="middle" font-weight="700">50.5%</text><text x="50" y="70" fill="rgba(255,255,255,0.5)" font-size="8.5" text-anchor="middle">廣度／強弱</text></svg>'],
+ ['兩欄打架','<svg viewBox="0 0 100 84"><rect x="10" y="16" width="34" height="20" rx="4" fill="rgba(255,107,125,0.4)"/><rect x="56" y="16" width="34" height="20" rx="4" fill="rgba(120,200,150,0.35)"/><rect x="10" y="48" width="34" height="20" rx="4" fill="rgba(255,107,125,0.4)"/><rect x="56" y="48" width="34" height="20" rx="4" fill="rgba(255,107,125,0.4)"/><path d="M46,26 L54,26" stroke="#ffcc80" stroke-width="2"/><text x="50" y="22" fill="#ffcc80" font-size="10" text-anchor="middle">⚡</text></svg>'],
+ ['信號流八段','<svg viewBox="0 0 100 84"><rect x="30" y="10" width="40" height="7" rx="1.5" fill="rgba(224,182,74,0.95)" class="gpulse"/><rect x="30" y="20" width="40" height="7" rx="1.5" fill="rgba(224,182,74,0.7)"/><rect x="30" y="30" width="40" height="7" rx="1.5" fill="rgba(224,182,74,0.5)"/><rect x="30" y="40" width="40" height="7" rx="1.5" fill="rgba(224,182,74,0.34)"/><rect x="30" y="50" width="40" height="7" rx="1.5" fill="rgba(120,200,150,0.3)"/><rect x="30" y="60" width="40" height="7" rx="1.5" fill="rgba(120,200,150,0.45)"/></svg>'],
+ ['現貨×期貨','<svg viewBox="0 0 100 84"><rect x="10" y="8" width="80" height="64" fill="none" stroke="rgba(255,255,255,0.14)"/><line x1="50" y1="8" x2="50" y2="72" stroke="rgba(255,255,255,0.24)"/><line x1="10" y1="40" x2="90" y2="40" stroke="rgba(255,255,255,0.24)"/><circle cx="28" cy="58" r="6" fill="#7fd6a6" class="gpulse"/><text x="28" y="30" fill="rgba(255,255,255,0.4)" font-size="8" text-anchor="middle">避險</text><text x="72" y="30" fill="rgba(255,255,255,0.4)" font-size="8" text-anchor="middle">偏多</text></svg>'],
+ ['開票表·驗證點','<svg viewBox="0 0 100 84"><rect x="18" y="12" width="10" height="10" rx="2" fill="none" stroke="#7fd6a6" stroke-width="1.5"/><path d="M20,17 l2.5,3 l4,-6" fill="none" stroke="#7fd6a6" stroke-width="1.5"/><line x1="36" y1="17" x2="82" y2="17" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/><rect x="18" y="34" width="10" height="10" rx="2" fill="none" stroke="#e0b64a" stroke-width="1.5"/><circle cx="23" cy="39" r="2.4" fill="#e0b64a" class="gpulse"/><line x1="36" y1="39" x2="82" y2="39" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/><rect x="18" y="56" width="10" height="10" rx="2" fill="none" stroke="#e88a8c" stroke-width="1.5"/><line x1="19" y1="57" x2="27" y2="65" stroke="#e88a8c" stroke-width="1.5"/><line x1="36" y1="61" x2="82" y2="61" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/></svg>']
 ];
 function toolboxHTML(){return '<div style="max-width:380px;margin:0.3rem auto 1.5rem">'
- +'<div class="t-label" style="font-size:11px;letter-spacing:2px;margin-bottom:0.2rem">你現在手上的十一件工具</div>'
- +'<div class="t-sub" style="font-size:12px;margin-bottom:0.7rem;opacity:0.82">同一份台股報告，你已經會看這十一張圖</div>'
+ +'<div class="t-label" style="font-size:11px;letter-spacing:2px;margin-bottom:0.2rem">你現在手上有 '+TOOLBOX.length+' 件工具</div>'
+ +'<div class="t-sub" style="font-size:12px;margin-bottom:0.7rem;opacity:0.82">同一份台股報告，這 '+TOOLBOX.length+' 張圖你都會看了</div>'
  +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem">'
  +TOOLBOX.map(function(t){return '<div style="background:rgba(0,0,0,0.24);border:1px solid rgba(255,255,255,0.12);border-radius:9px;padding:0.35rem 0.3rem 0.4rem">'
    +'<div style="width:100%;max-width:78px;margin:0 auto">'+t[1]+'</div>'
    +'<div style="font-size:10.5px;color:rgba(255,255,255,0.72);margin-top:0.15rem;line-height:1.3">'+t[0]+'</div></div>';}).join('')
  +'</div></div>';}
+
 function showResult(){PB.style.width='100%';const s=state.score,mx=ROUNDS.length;
- const tier=s>=mx-1?'穩':s>=Math.ceil(mx/2)?'入門':'再走一次';
- G.innerHTML=scene('sky-result','range',`
-  <div class="chapter-label t-label" style="margin-bottom:0.8rem">台股報告讀完</div>
-  <div class="result-icon">📊</div>
-  <div class="result-type t-main">你會讀台股報告了</div><div class="result-vow" style="font-size:19px;font-weight:800;color:#e8c86a;margin:0.35rem auto 0.1rem;max-width:420px;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)">「我不再只盯誰漲最多了。」</div>
-  <div class="result-desc t-sub">你剛跟著報告的<b>§00→§10 主線</b>把台股讀了一遍：<br><b>今日重點(定調/主線/警戒/盯什麼·決策樹) → 量版動態圖 → 資金位階(REL·四視角) → 量價共振/背離 → 籌碼四型態(X 5日·Y 月線) → AI 核心競爭力 → AI 三圈擴散 → AI 信號流階梯 → AI 供應鏈定位 → 大盤ETF三隻手(還要看誰的腳) → 完整研判(開票表·邏輯鍊·距離尺)</b>。<br><br>核心一句：<b>台股最會騙人的，就是只看一個數字。</b><br><br>判讀得分：${s} / ${mx}（${tier}）</div>
-  ${toolboxHTML()}
-  <div class="t-sub" style="font-size:13px;line-height:1.9;margin-bottom:1.3rem;max-width:430px;margin:0 auto 1.3rem">這套讀法，就是把一堆數字讀成「一個能自己判斷的方向」。接下來，拿它去讀真的台股報告。</div>
-  <div style="display:flex;flex-direction:column;align-items:center;gap:0.65rem;max-width:340px;margin:0 auto">
-    <a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">先訂免費電子報，每天練這套讀法 →</a>
-    <a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">拿這套讀法，去讀這期台股報告 →</a>
-    <button class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0;border:none" id="shareBtn" onclick="shareGame()">分享：讓只看「誰漲最多」的朋友，也學會量價一起看</button>
-  </div>
-  <a href="javascript:void(0)" onclick="restart()" style="display:inline-block;margin-top:0.9rem;font-size:12px;color:rgba(255,255,255,0.55);text-decoration:underline">重玩一次</a>
-  <div id="sfb" style="font-size:12px;color:rgba(160,220,255,0.7);margin-top:0.5rem;height:16px"></div>
-  <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1.4rem">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" style="color:rgba(224,165,38,0.6);text-decoration:none">BiBiPiano</a></div>`);}
-function restart(){state={idx:-1,score:0,gv:50,cls:[],mChecked:false};oi=0;PB.style.width='0%';fade(showStart);}
-function shareGame(){const url=window.location.href.split('?')[0];const t='我剛玩了《讀懂台股報告》——3 分鐘學會把價、量、廣度一起看，不再只盯「誰漲最多」。';
+ const tier=s>=mx-2?'穩':s>=Math.ceil(mx/2)?'入門':'再走一次';
+ const chain=['單位','兩把尺','象限','鏡頭','贏面','寬度','吸籌佔比','廣度/強弱','兩欄','鏈條','兩隻手','門檻'];
+ G.innerHTML=scene('sky-result','range',
+  '<div class="chapter-label t-label" style="margin-bottom:0.8rem">'+ROUNDS.length+' 站走完</div>'
+  +'<div class="result-icon">📊</div>'
+  +'<div class="result-type t-main">你能用三張圖，拼出一個判斷了</div>'
+  +'<div class="result-vow" style="font-size:19px;font-weight:800;color:#e8c86a;margin:0.35rem auto 0.1rem;max-width:430px;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)">「我不再只盯誰漲最多了。」</div>'
+  +'<div class="result-desc t-sub">開場那句是：<b>看得懂每一個數字，卻拼不出一個判斷</b>。<br>現在你知道問題出在順序——'+ROUNDS.length+' 站，就是報告十段的裝配線：<br><br>'
+    +'<b>'+chain.join(' → ')+'</b><br><br>'
+    +'三張圖就夠拼出一個判斷：<br>①<b>市場寬度</b>看隊伍散不散　②<b>吸籌佔比</b>看錢在吸還在倒　③<b>開票表</b>把它變成事前寫死的門檻。<br><br>'
+    +'核心一句：<b>台股最會騙人的，是只看一個數字；<br>最會救你的，是三個口徑同時問一句「那另外兩個呢」。</b><br><br>'
+    +'判讀得分：'+s+' / '+mx+'（'+tier+'）</div>'
+  +toolboxHTML()
+  +'<div class="t-sub" style="font-size:13px;line-height:1.9;max-width:430px;margin:0 auto 1.3rem">你身邊那個每天問「今天哪一支會漲」的朋友，<br>其實只是還沒人告訴他，答案要從第三張圖開始看。</div>'
+  +'<div style="display:flex;flex-direction:column;align-items:center;gap:0.65rem;max-width:340px;margin:0 auto">'
+  +'<a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">訂免費電子報，每天陪你把這 '+ROUNDS.length+' 站走一遍 →</a>'
+  +'<a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">現在去讀這期台股報告，看你認不認得出這幾張圖 →</a>'
+  +'<button class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0;border:none" id="shareBtn" onclick="shareGame()">分享：送給那個只看「誰漲最多」的朋友</button>'
+  +'</div>'
+  +'<a href="javascript:void(0)" onclick="restart()" style="display:inline-block;margin-top:0.9rem;font-size:12px;color:rgba(255,255,255,0.55);text-decoration:underline">重玩一次</a>'
+  +'<div id="sfb" style="font-size:12px;color:rgba(160,220,255,0.7);margin-top:0.5rem;height:16px"></div>'
+  +'<div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1.4rem">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" style="color:rgba(224,165,38,0.6);text-decoration:none">BiBiPiano</a>，版權為原作者所有</div>');}
+function restart(){state={idx:-1,score:0,sv:0,pl:{},plSel:null,plFor:-1,hs:[],hsFor:-1,so:null,soSel:null,soFor:-1,mt:{},mtSel:null,mtFor:-1,fp:0,fpFor:-1,slFor:-1};window.state=state;oi=0;PB.style.width='0%';fade(showStart);}
+function shareGame(){const url=window.location.href.split('?')[0];
+ const mins=Math.max(6,Math.round(ROUNDS.length*0.75));
+ const t='我剛走完《讀懂台股報告》'+ROUNDS.length+' 站——'+mins+' 分鐘，學會用三張圖拼出一個判斷，不再只盯「誰漲最多」。';
  const fb=document.getElementById('sfb');
- if(navigator.share){navigator.share({title:'讀懂台股報告 · Yoda',text:t,url}).catch(()=>{});return;}
- navigator.clipboard.writeText(url).then(()=>{fb.textContent='網址已複製，貼去分享吧';setTimeout(()=>fb.textContent='',2500);}).catch(()=>{fb.textContent=url;});}
-['startOpening','nextOpening','showRound','renderGauge','gaugeDone','setCls','clsCheck','giveAnswer','abPick','record','advance','showResult','restart','shareGame','fade','renderClassify','renderAB'].forEach(n=>window[n]=eval(n));
+ if(navigator.share){navigator.share({title:'讀懂台股報告 · Yoda',text:t,url:url}).catch(function(){});return;}
+ navigator.clipboard.writeText(url).then(function(){fb.textContent='網址已複製，貼去分享吧';setTimeout(function(){fb.textContent='';},2500);}).catch(function(){fb.textContent=url;});}
+
+['startOpening','nextOpening','showRound','renderAB','abPick','renderPlace','plCard','plSlot','plCheck',
+ 'renderHotspot','hsPick','hsCheck','renderSlider','slUpd','slDone','renderSort','soPick','soCheck',
+ 'renderMatch','mtPick','mtCheck','mtLines','renderFlip','fpBet','fpNext','fpBuild','fpDone',
+ 'giveAnswer','record','showTrans','advance','showResult','restart','shareGame','fade','startPulse'].forEach(function(n){window[n]=eval(n);});
 window.state=state;
+startPulse();
 showStart();
 </script><!-- ===== Yoda 會員檢核徽章模組 · 僅在網址帶 ?cert=TYPE 時啟用（一般遊玩完全不受影響） ===== -->
 <script>
