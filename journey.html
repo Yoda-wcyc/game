@@ -169,12 +169,12 @@ const TRANSITIONS=[
 ];
 
 const PERSONALITIES=[
-  {icon:'🔥',name:'衝動型',desc:'你跟著感覺走，市場讓你又愛又恨。情緒是你最大的資產，也是最大的敵人。<br><br>下一步：先建立一個「冷卻期」——每次想出手，等24小時再做決定。'},
-  {icon:'🧊',name:'分析癱瘓型',desc:'你懂得很多，但就是下不了手。你需要的不是更多資訊，而是一個「夠好就行」的決策標準。<br><br>下一步：設定3個條件都滿足就進場的規則，然後執行它。'},
-  {icon:'🌿',name:'緩慢覺醒型',desc:'你走過了彎路，正在找到自己的節奏。你比大多數人更了解自己的盲點，這是最珍貴的資產。<br><br>下一步：把你的交易記錄下來，你會發現屬於自己的模式。'},
-  {icon:'🏔️',name:'系統型',desc:'你已經開始用框架思考，而不是追單一個股。這是成熟投資者的標誌。<br><br>下一步：用小倉位測試你的系統，驗證之後再逐步放大。'},
-  {icon:'🔭',name:'融合型',desc:'你走過了三條路的掙扎，開始建立屬於自己的視角。總經、技術、基本面，你不再選邊，而是開始整合。<br><br>下一步：找到你最擅長的那一塊，讓它成為系統的核心。'},
-  {icon:'⚖️',name:'配重師',desc:'你懂得長短並行、工具互補，並且誠實面對了自己真正想要什麼。<br><br>下一步：你已經準備好了。去找一個能幫你把這套系統落地的框架。'}
+  {icon:'🔥',name:'衝動型',desc:'你跟著感覺走，市場讓你又愛又恨。情緒是你最大的資產，也是最大的敵人。<br><br>衝動型常見的處理方式，是加一段冷卻時間——把想法和決定隔開，讓情緒不要直接變成動作。'},
+  {icon:'🧊',name:'分析癱瘓型',desc:'你懂得很多，但就是下不了手。你需要的不是更多資訊，而是一個「夠好就行」的決策標準。<br><br>分析癱瘓型的常見解法，是把判斷標準先寫成文字——條件不齊就先不動，而不是靠當下的感覺決定。'},
+  {icon:'🌿',name:'緩慢覺醒型',desc:'你走過了彎路，正在找到自己的節奏。你比大多數人更了解自己的盲點，這是最珍貴的資產。<br><br>緩慢覺醒型的常見做法，是把自己的紀錄留下來——回頭看，才看得出屬於自己的模式。'},
+  {icon:'🏔️',name:'系統型',desc:'你已經開始用框架思考，而不是追單一個股。這是成熟投資者的標誌。<br><br>系統型的常見做法，是先在小規模上驗證方法在不同環境是否都成立，再談規模。'},
+  {icon:'🔭',name:'融合型',desc:'你走過了三條路的掙扎，開始建立屬於自己的視角。總經、技術、基本面，你不再選邊，而是開始整合。<br><br>融合型的常見路徑，是先認出自己最擅長的那一塊，再讓它成為整套系統的核心。'},
+  {icon:'⚖️',name:'配重師',desc:'你懂得長短並行、工具互補，並且誠實面對了自己真正想要什麼。<br><br>配重師的下一段，通常是把這套想法變成一個可重複執行的框架。'}
 ];
 
 const BALANCE_ITEMS=[
@@ -442,5 +442,11 @@ showStart();
 <!-- yoda-logo-sig -->
 <img alt="Yoda" src="https://yoda-research-next.vercel.app/yoda-logo.png" style="position:fixed;right:14px;bottom:12px;height:52px;width:auto;opacity:.5;z-index:9990;pointer-events:none">
 <script>(function(){try{var K='yr_vid',v=localStorage.getItem(K);if(!v){v=Date.now().toString(36)+Math.random().toString(36).slice(2,8);localStorage.setItem(K,v);}var seg=location.pathname.split('/').filter(Boolean).pop()||'home';fetch('https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec',{method:'POST',body:JSON.stringify({action:'hit',page:decodeURIComponent(seg),path:location.pathname,host:location.hostname,ref:document.referrer,vid:v})});}catch(e){}})();</script>
+
+<!-- 法遵統一免責（2026-09-14 Yoda 核定；正本＝subscribe.html 頁尾）x2-06 -->
+<div class="yoda-legal" style="position:relative;z-index:5;max-width:760px;margin:26px auto 84px;padding:15px 18px;border:1px solid rgba(128,128,128,.32);border-radius:10px;font-size:12px;line-height:1.9;color:#8d8d99;font-family:inherit;text-align:left;">
+  本頁為報告閱讀教學與投資教育內容，僅供研究學習參考，不構成投資建議、要約或個別有價證券之推介、分析意見或買賣建議，亦不構成任何買賣、進出場或部位建議。本服務非證券投資顧問事業，撰稿者未具證券投資分析人員資格，不提供代客操作或獲利保證；頁內示範數據為特定日期之歷史資料，不代表現況，文中個股僅為讀數示範，不代表推薦。投資均有風險，決策與盈虧由用戶自行判斷並承擔。<br>
+  © 2026 Yoda Research · 獨立研究者，個人觀點與市場資料整理分享
+</div>
 </body>
 </html>

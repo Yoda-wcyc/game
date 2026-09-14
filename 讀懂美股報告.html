@@ -274,7 +274,8 @@ const ROUNDS=[
  layers:[['A · 量價選股','量比 × 相對大盤，可切 5／20／60 日'],
    ['B · 趨勢選股','八條長期結構條件<b>全部同時成立</b>才入選'],
    ['同一個母體','兩塊都用 939 檔（已濾掉 20 日均額不足 8,000 萬美元的）'],
-   ['兩套不互相取代','答的不是同一個問題，所以並存']],
+   ['兩套不互相取代','答的不是同一個問題，所以並存'],
+['⚠ 篩選器是條件檢索工具','輸出是符合條件的清單，不是推薦名單；入選不代表該買、落選不代表該賣，也不含任何進出價位']],
  left:['A · 量價選股','B · 趨勢選股','母體 939 檔','交集 12 檔'],
  right:['兩塊共用同一批股票（已濾掉 20 日均額不足 8,000 萬美元的）',
    '問「最近幾天誰在動」：量比 × 相對大盤，可切 5／20／60 日',
@@ -289,7 +290,8 @@ const ROUNDS=[
  layers:[['量比','近五日均額 ÷ 這檔<b>自己</b>的 120 日均額；1.00x＝跟平常一樣'],
    ['REL5','近五日相對大盤（非漲幅）；正＝贏 SPY、負＝輸 SPY'],
    ['怎麼放','量比 ≥ 1 放右邊（量增）、&lt; 1 放左邊（量縮）；REL5 &gt; 0 放上面（價強）、≤ 0 放下面（價弱）'],
-   ['先看形狀','全池落在哪一格最多＝今天是什麼盤；形狀定調完，才點進去看個股']],
+   ['先看形狀','全池落在哪一格最多＝今天是什麼盤；形狀定調完，才點進去看個股'],
+['⚠ 篩選器是條件檢索工具','輸出是符合條件的清單，不是推薦名單；量比與相對強度都是可自行重算的公開統計值，示範讀數為特定日期之歷史資料']],
  slots:[['pv','💧 價強量縮','量比 &lt; 1｜REL5 &gt; 0','269 檔'],
    ['hot','🔥 量增價強','量比 ≥ 1｜REL5 &gt; 0','91 檔'],
    ['cold','❄ 量縮價弱','量比 &lt; 1｜REL5 ≤ 0','414 檔'],
@@ -886,7 +888,7 @@ showStart();
   mask.innerHTML='<div id="yc-modal">'
     +'<div id="yc-form">'
       +'<h3>領取《'+name+'報告》檢核</h3>'
-      +'<p>輸入你訂閱用的 <b style="color:#e8c86a">email 與會員密碼</b>，系統會記下你已看懂這份報告怎麼判讀。</p>'
+      +'<p>輸入你的 <b style="color:#e8c86a">email 與會員存取碼</b>（僅用於比對身分），系統會記下你已完成本教材。</p>'
       +'<input id="yc-email" type="email" placeholder="訂閱用的 email" autocomplete="off">'
       +'<input id="yc-pw" type="password" placeholder="你的會員密碼" autocomplete="off">'
       +'<div class="yc-hint">這組密碼只是會員存取碼，請勿使用你其他重要帳號的密碼。</div>'
@@ -923,7 +925,7 @@ showStart();
           $('yc-form').style.display='none';
           $('yc-done').style.display='block';
           $('yc-done-txt').innerHTML=(res.alreadyCertified?'你先前已通過（'+res.certifiedAt+'）。':'通過日：'+res.certifiedAt+'。')
-            +'<br>之後就能安心收到每期《'+name+'報告》了。';
+            +'<br>此紀錄只是教材完成紀錄，與訂閱權益、報告寄送無關。';
           ycCertified=true;bar.style.display='none';
         }else{
           msg.className='err';msg.textContent=(res&&res.error)?res.error:'驗證失敗，請稍後再試';
@@ -940,4 +942,10 @@ showStart();
 <!-- yoda-logo-sig -->
 <img alt="Yoda" src="https://yoda-research-next.vercel.app/yoda-logo.png" style="position:fixed;right:14px;bottom:12px;height:52px;width:auto;opacity:.5;z-index:9990;pointer-events:none">
 <script>(function(){try{var K='yr_vid',v=localStorage.getItem(K);if(!v){v=Date.now().toString(36)+Math.random().toString(36).slice(2,8);localStorage.setItem(K,v);}var seg=location.pathname.split('/').filter(Boolean).pop()||'home';fetch('https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec',{method:'POST',body:JSON.stringify({action:'hit',page:decodeURIComponent(seg),path:location.pathname,host:location.hostname,ref:document.referrer,vid:v})});}catch(e){}})();</script>
+
+<!-- 法遵統一免責（2026-09-14 Yoda 核定；正本＝subscribe.html 頁尾）x2-06 -->
+<div class="yoda-legal" style="position:relative;z-index:5;max-width:760px;margin:26px auto 84px;padding:15px 18px;border:1px solid rgba(128,128,128,.32);border-radius:10px;font-size:12px;line-height:1.9;color:#8d8d99;font-family:inherit;text-align:left;">
+  本頁為報告閱讀教學與投資教育內容，僅供研究學習參考，不構成投資建議、要約或個別有價證券之推介、分析意見或買賣建議，亦不構成任何買賣、進出場或部位建議。本服務非證券投資顧問事業，撰稿者未具證券投資分析人員資格，不提供代客操作或獲利保證；頁內示範數據為特定日期之歷史資料，不代表現況，文中個股僅為讀數示範，不代表推薦。投資均有風險，決策與盈虧由用戶自行判斷並承擔。<br>
+  © 2026 Yoda Research · 獨立研究者，個人觀點與市場資料整理分享
+</div>
 </body></html>
