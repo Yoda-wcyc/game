@@ -732,25 +732,14 @@ const ROUNDS=[
    ['縱軸 · 期貨','外資台指期淨未平倉的<b>窗內增減</b>（口；大台＋小台折成同一單位）。往上＝往多（加多單或回補空單）、往下＝加空'],
    ['四格','右上 偏多｜右下 避險｜左上 保守調節｜左下 偏空'],
    ['按兵不動帶','期指增減在 ±1,000 口內＝期貨沒動作，只剩現貨那隻手在表態'],
-   ['同一章還有','② 外資多空力道／避險比重（下一站）、大盤 ETF 法人買賣超張數（0050／正2／反1）、ETF 溢價熱度（這一站最後一題）']],
+   ['同一章還有','② 外資多空力道／避險比重（下一站）、大盤 ETF 法人買賣超張數（0050／正2／反1）、ETF 溢價熱度（下一站最後一題）']],
  chips:['資料日 '+ASOF,'報告預設看 20 日窗'],
  q:'下面是 '+FUT.d[FQ_LAST]+' 同一天、'+FQ.length+' 個窗口的讀數。<br>先點上面的窗口，再點圖上它落在哪一格——<b>每個窗口都要點</b>：',
  fbOk:'同一天、'+FQ.length+' 個窗口：<br>'+FQ.map(function(f){return '<b>'+f.n+' → <span style="color:'+FQ_CELL[f.ans].c+'">'+FQ_CELL[f.ans].n+'</span></b>（現貨 '+fqNum(f.x,' 億')+'、期指 '+fqNum(f.y,' 口')+'）';}).join('<br>')
   +'<br><br>只看當日是<b>'+FQ_CELL[FQ[0].ans].n+'</b>；拉到 5 日是<b>'+FQ_CELL[FQ[1].ans].n+'</b>；20 日、60 日都是<b>'+FQ_CELL[FQ[2].ans].n+'</b>——'+FQ_CELL[FQ[2].ans].d+'。<br>'
   +'所以報告把預設窗放在 20 日：單日的落點太跳。<br>'
   +'⚠ 5 日的期指 '+fqNum(FQ[1].y,' 口')+'，離按兵不動帶只差 '+(Math.abs(Math.round(FQ[1].y))-FUT.band).toLocaleString('en-US')+' 口；20 日的 '+fqNum(FQ[2].y,' 口')+' 比前一天多，是窗口起點換日造成的——那一天實際是加空。<br>'
-  +'<b>一天的落點只是註腳，不要用一天下定論。</b>',
- etfLabel:'§08 · 外資姿態與大盤 ETF · ETF 溢價熱度',
- etfTitle:'ETF 溢價熱度高，代表看多嗎？',
- etfText:'這一章最後一塊是「ETF 溢價熱度」（報告預設看近 3 月）：<br>'+EPC.n+' 檔 ETF 的市價比淨值貴多少，用成交值加權成一條線；<br>線下面的細柱，是外資對同一組 '+EPC.n+' 檔 ETF 的每日買賣超。<br>線衝高的那幾天，你很自然會讀成「溢價熱度高＝看多」。',
- etfQ:'近 3 月最高的那一天（'+EPC.hi[1]+'，+'+EPC.hi[0].toFixed(2)+'%），<b>押一個讀法：</b>',
- etfBets:[['bull','溢價熱度高<br><span style="font-size:12px;opacity:.75">＝看多台股的證據</span>'],
-   ['top','溢價這麼高<br><span style="font-size:12px;opacity:.75">＝接下來要跌了</span>'],
-   ['mm','不一定<br><span style="font-size:12px;opacity:.75">主動式 ETF 的溢價是造市申贖</span>']],
- etfOk:'mm',
- etfReveal:'<b>不一定。</b>溢價熱度是<b>價格面</b>的讀數：ETF 的市價比淨值貴多少。<br>裡面的主動式 ETF，溢價跟著<b>造市與申購贖回</b>在變——錢進的是 ETF 這個殼，不是有人在看多台股。<br>'
-  +EPC.now[1]+' 這條線只有 +'+EPC.now[0].toFixed(2)+'%；近 3 月最高 +'+EPC.hi[0].toFixed(2)+'%（'+EPC.hi[1]+'）、最低 −'+Math.abs(EPC.lo[0]).toFixed(2)+'%（'+EPC.lo[1]+'）。<br>'
-  +'同一章的大盤 ETF 張數圖也一樣：正2、反1 的法人買賣超，大半是自營商的避險部位。<br><b>錢往哪裡去，看個股和產業，不看 ETF。</b>'},
+  +'<b>一天的落點只是註腳，不要用一天下定論。</b>'},
 
 // ── §08 fxhedge：② 外資多空力道（點圖例開線→點線作答）＋避險比重（押牌）──────
 {type:'fxhedge',key:'多空力道',sky:'sky-clear',bg:'range',label:'§08 · 外資姿態與大盤 ETF · 外資多空力道／避險比重',
@@ -783,7 +772,18 @@ const ROUNDS=[
    run:'要看外資跑不跑，看的是現貨累計會不會一路往下掉，不是這個比重。'},
  hReveal:'<b>保險變'+(FH.h20<0?'少':'多')+'了。</b>避險比重量的是<b>保險買了多少</b>：今天外資每 100 元台股持股，配了 '+FH.hNow.toFixed(2)+' 元的期貨空單；<b>九成九還是多方部位</b>。<br>'
   +'近 20 日'+fhPP(FH.h20)+'、近 60 日'+fhPP(FH.h60)+'——保險比一個月前、一季前都'+(FH.h20<0?'少':'多')+'一點。報告只看<b>現值和升降方向</b>，不排名次、不算百分位。<br>'
-  +'所以期貨淨空 '+Math.abs(FXH.a.n).toLocaleString('en-US')+' 口聽起來很大，放回外資的持股去比，<b>是保險，不是在押台股下跌</b>。'},
+  +'所以期貨淨空 '+Math.abs(FXH.a.n).toLocaleString('en-US')+' 口聽起來很大，放回外資的持股去比，<b>是保險，不是在押台股下跌</b>。',
+ etfLabel:'§08 · 外資姿態與大盤 ETF · ETF 溢價熱度',
+ etfTitle:'ETF 溢價熱度高，代表看多嗎？',
+ etfText:'這一章最後一塊是「ETF 溢價熱度」（報告預設看近 3 月）：<br>'+EPC.n+' 檔 ETF 的市價比淨值貴多少，用成交值加權成一條線；<br>線下面的細柱，是外資對同一組 '+EPC.n+' 檔 ETF 的每日買賣超。<br>線衝高的那幾天，你很自然會讀成「溢價熱度高＝看多」。',
+ etfQ:'近 3 月最高的那一天（'+EPC.hi[1]+'，+'+EPC.hi[0].toFixed(2)+'%），<b>押一個讀法：</b>',
+ etfBets:[['bull','溢價熱度高<br><span style="font-size:12px;opacity:.75">＝看多台股的證據</span>'],
+   ['top','溢價這麼高<br><span style="font-size:12px;opacity:.75">＝接下來要跌了</span>'],
+   ['mm','不一定<br><span style="font-size:12px;opacity:.75">主動式 ETF 的溢價是造市申贖</span>']],
+ etfOk:'mm',
+ etfReveal:'<b>不一定。</b>溢價熱度是<b>價格面</b>的讀數：ETF 的市價比淨值貴多少。<br>裡面的主動式 ETF，溢價跟著<b>造市與申購贖回</b>在變——錢進的是 ETF 這個殼，不是有人在看多台股。<br>'
+  +EPC.now[1]+' 這條線只有 +'+EPC.now[0].toFixed(2)+'%；近 3 月最高 +'+EPC.hi[0].toFixed(2)+'%（'+EPC.hi[1]+'）、最低 −'+Math.abs(EPC.lo[0]).toFixed(2)+'%（'+EPC.lo[1]+'）。<br>'
+  +'同一章的大盤 ETF 張數圖也一樣：正2、反1 的法人買賣超，大半是自營商的避險部位。<br><b>錢往哪裡去，看個股和產業，不看 ETF。</b>'},
 
 // ── §09 chain：核心邏輯鍊 ＋ 驗證點總表（建構收尾）─────────────────
 {type:'chain',key:'邏輯鍊',sky:'sky-storm',bg:'peak',label:'§09 · 完整研判',
@@ -918,15 +918,7 @@ const ANS=[
    ['窗內增減（期貨）','選定的窗口裡，外資台指期淨未平倉變了多少口（大台＋小台折成同一單位，小台 4 口＝大台 1 口）。往上＝往多、往下＝加空'],
    ['偏多／避險／保守調節／偏空','買＋期指往多／買＋期指加空／賣＋期指往多／賣＋期指加空'],
    ['按兵不動帶','期指增減在 ±1,000 口內＝期貨沒動作；帶內現貨買＝偏多（現貨主導），帶內現貨賣＝兩邊都沒動作'],
-   ['窗格','當日／5日／20日／60日。單日的落點太跳，報告預設看 20 日']],
-  answer2:'不一定。溢價熱度是價格面的讀數（市價比淨值貴多少）；主動式 ETF 的溢價來自造市與申購贖回，不能讀成「溢價熱度高＝看多」。',
-  terms2:[
-   ['溢價／折價','ETF 的市價比淨值貴＝溢價；比淨值便宜＝折價'],
-   ['ETF 溢價熱度','12 檔 ETF 的溢價用成交值加權成一條線，是價格面的讀數；報告預設看近 3 月，線下細柱是外資對同一組 12 檔的每日買賣超'],
-   ['造市','券商在買賣兩邊掛單，讓 ETF 的市價貼著淨值'],
-   ['申購贖回','用一籃股票換 ETF 份額（或反過來），ETF 的規模跟著變'],
-   ['大盤 ETF 法人買賣超張數','0050／正2／反1 近 N 天的法人買賣超（張），可切三大合計／外資／投信／自營'],
-   ['錢往哪裡去','看個股與產業，不看 ETF']]},
+   ['窗格','當日／5日／20日／60日。單日的落點太跳，報告預設看 20 日']]},
  {answer:'這一週推總線的是'+FXH_LN[FH.ans].n+'：總線 '+fhYi(FH.wk.tot)+' 億＝現貨 '+fhYi(FH.wk.sp)+' 億＋期貨 '+fhYi(FH.wk.fu)+' 億。整個 20 日窗則是期貨 '+fhYi(FH.end.fu)+' 億撐住、現貨 '+fhYi(FH.end.sp)+' 億。',terms:[
    ['外資多空力道','外資現貨買賣超＋期貨淨口數變化×加權指數×200，換成同一個單位（億元）的一條線'],
    ['窗首歸零累計','窗口第一天從 0 開始往下加，線的高低＝這個窗口裡累計推了多少'],
@@ -938,7 +930,15 @@ const ANS=[
    ['外資避險比重','外資期貨淨空的名目金額 ÷ 外資持有台股的總市值（%）'],
    ['名目金額','期貨口數×加權指數×200（大台＋小台÷4）'],
    ['期貨保險','用期貨空單把一部分持股的漲跌鎖住；持股還在，只是配了保險'],
-   ['只看方向','報告只看現值和近 20／60 日升降，不排名次、不看百分位']]},
+   ['只看方向','報告只看現值和近 20／60 日升降，不排名次、不看百分位']],
+  answer3:'不一定。溢價熱度是價格面的讀數（市價比淨值貴多少）；主動式 ETF 的溢價來自造市與申購贖回，不能讀成「溢價熱度高＝看多」。',
+  terms3:[
+   ['溢價／折價','ETF 的市價比淨值貴＝溢價；比淨值便宜＝折價'],
+   ['ETF 溢價熱度','12 檔 ETF 的溢價用成交值加權成一條線，是價格面的讀數；報告預設看近 3 月，線下細柱是外資對同一組 12 檔的每日買賣超'],
+   ['造市','券商在買賣兩邊掛單，讓 ETF 的市價貼著淨值'],
+   ['申購贖回','用一籃股票換 ETF 份額（或反過來），ETF 的規模跟著變'],
+   ['大盤 ETF 法人買賣超張數','0050／正2／反1 近 N 天的法人買賣超（張），可切三大合計／外資／投信／自營'],
+   ['錢往哪裡去','看個股與產業，不看 ETF']]},
  {answer:'邏輯鍊：事實（錢集中在 IC 設計、封裝基板、封測）→ 機制（權值和記憶體在來回）→ 含意（錢在半導體裡挑線）→ 判定（五日、十日守得住，主線就還在）。驗證點那一列：現值基準＝七月底以來 +3,036.9 億、近一季 −5,422.3 億；✓順風確認＝九月的累計翻正、期貨持續回補；✗翻案訊號＝這一波的累計一路往下掉、期貨轉成連著加空；牽動哪一環＝這一波的方向。',terms:[
    ['核心邏輯鍊','把研判寫成「事實 → 機制 → 含意 → 判定」，一眼看懂這個結論是怎麼推出來的'],
    ['驗證點總表','把研判拆成一條條事前寫好的牌，每一條都有順風和翻案兩個方向'],
@@ -1189,7 +1189,6 @@ function fqLine(k){const f=FQ[k],p=state.fqPicks[k];
  return '<div class="feedback" style="min-height:auto;font-size:13px;color:'+(p===f.ans?'#a5d6a7':'#ffcc80')+'">'+(p===f.ans?'✓ 對：':'✗ 差一點，落點在「'+C.n+'」：')+f.n+'窗＝<b style="color:'+C.c+'">'+C.n+'</b>——'+C.d+'</div>';}
 function renderFxquad(i){
  if(state.fqFor!==i){state.fqFor=i;state.fqStep=0;state.fqWin=0;state.fqPicks={};state.fqChecked=false;}
- if(state.fqStep===1){fqEtf(i);return;}
  fqDraw(i,null);}
 function fqDraw(i,at){const r=ROUNDS[i],k=state.fqWin,done=state.fqPicks[k]!==undefined,nx=fqNextWin();
  G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
@@ -1209,8 +1208,7 @@ function fqCheck(i){const r=ROUNDS[i];let ok=0;FQ.forEach(function(f,k){if(state
  if(!state.fqChecked){state.fqChecked=true;if(ok>=FQ.length-1)state.score++;}
  G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+fqSeg()+fqMini()
   +'<div class="feedback" style="color:'+(ok===FQ.length?'#a5d6a7':'#ffcc80')+';min-height:auto;font-size:13.5px">'+FQ.length+' 個窗口點對 '+ok+' 個</div>'
-  +okBox(r.fbOk)+'<button class="continue-btn" onclick="fqNext('+i+')">再一題 ›</button>');}
-function fqNext(i){state.fqStep=1;fade(function(){fqEtf(i);});}
+  +okBox(r.fbOk)+'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');}
 function fqEtfHead(r){return '<div class="chapter-label t-label">'+r.etfLabel+'</div><div class="chapter-title t-main" style="font-size:22px;margin-bottom:0.9rem">'+r.etfTitle+'</div><div class="round-text t-sub">'+r.etfText+'</div>'+premSvg();}
 function fqEtf(i){const r=ROUNDS[i];
  G.innerHTML=scene(r.sky,r.bg,dots(i)+fqEtfHead(r)+'<div class="round-q t-main" style="font-size:15px;margin-top:0.8rem">'+r.etfQ+'</div>'
@@ -1225,6 +1223,7 @@ function fqBet(i,k){const r=ROUNDS[i],ok=k===r.etfOk;
 function renderFxhedge(i){
  if(state.fhFor!==i){state.fhFor=i;state.fhStep=0;state.fhVis={tot:true,sp:false,fu:false};state.fhPick=null;state.fhGave=false;}
  if(state.fhStep===1){fhA(i);return;}
+ if(state.fhStep===2){fqEtf(i);return;}
  fhDraw(i);}
 function fhDraw(i){const r=ROUNDS[i],v=state.fhVis,both=v.sp&&v.fu,p=state.fhPick,done=p!=null;
  let tail;
@@ -1249,7 +1248,8 @@ function fhA(i){const r=ROUNDS[i];
 function fhBet(i,k){const r=ROUNDS[i],ok=k===r.hOk;
  G.innerHTML=scene(r.sky,r.bg,dots(i)+fhAHead(r)
   +okBox('<span style="color:'+(ok?'#a5d6a7':'#ffcc80')+'">'+(ok?'對，是保險。':r.hNo[k])+'</span><br>'+r.hReveal)
-  +'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');}
+  +'<button class="continue-btn" onclick="fhNext2('+i+')">最後一題：ETF 溢價熱度 ›</button>');}
+function fhNext2(i){state.fhStep=2;fade(function(){fqEtf(i);});}
 
 // ── 邏輯鍊：先排序、再建構一列驗證點（收尾建構行為）──
 function renderChain(i){const r=ROUNDS[i];
@@ -1282,7 +1282,7 @@ function chDone(i){const r=ROUNDS[i];const m=plMarks(r.slots);
 
 // ── 給我答案：就地揭示 ──
 function giveAnswer(i){const r=ROUNDS[i],a0=ANS[i];
- const a=(((r.type==='fxquad'&&state.fqStep===1)||(r.type==='fxhedge'&&state.fhStep===1))&&a0.answer2)?{answer:a0.answer2,terms:a0.terms2}:a0;
+ const a=(r.type==='fxhedge'&&state.fhStep===2&&a0.answer3)?{answer:a0.answer3,terms:a0.terms3}:(r.type==='fxhedge'&&state.fhStep===1&&a0.answer2)?{answer:a0.answer2,terms:a0.terms2}:a0;
  const gloss='<div style="font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.5);margin:0.9rem 0 0.5rem">名詞白話</div>'
   +'<div class="layer-list" style="background:none;border:none;padding:0;margin:0">'+a.terms.map(function(t){return '<div class="ly"><b>'+t[0]+'</b><span>'+t[1]+'</span></div>';}).join('')+'</div>';
  const ansLine='<div style="font-size:14px;line-height:1.75;color:#fff;text-align:left"><b style="color:#a5d6a7">答案：</b>'+a.answer+'</div>';
@@ -1315,9 +1315,10 @@ function giveAnswer(i){const r=ROUNDS[i],a0=ANS[i];
    else{state.pl={};r.slots.forEach(function(s){state.pl[s[0]]=s[2].split(',');});state.plSel=null;
      mid=placeBody(i,r.cards,r.slots,true,true,plMarks(r.slots))+'<div style="font-size:13.5px;line-height:1.8;color:rgba(255,255,255,0.9);text-align:left;max-width:480px;margin:0.5rem auto 0">'+r.done+'</div>';}
  }else if(r.type==='fxquad'){
-   if(state.fqStep===0){FQ.forEach(function(f,k){state.fqPicks[k]=f.ans;});state.fqChecked=true;
-     mid=fqMini()+'<div style="font-size:13.5px;line-height:1.8;color:rgba(255,255,255,0.9);text-align:left;max-width:480px;margin:0.5rem auto 0">'+r.fbOk+'</div>';}
-   else{mid='<div class="fp-bets">'+r.etfBets.map(function(b){return '<div class="fp-bet" style="cursor:default;'+(b[0]===r.etfOk?'border-color:#a5d6a7;background:rgba(80,200,110,0.14)':'opacity:0.45')+'">'+(b[0]===r.etfOk?'✓ ':'')+b[1]+'</div>';}).join('')+'</div>'
+   FQ.forEach(function(f,k){state.fqPicks[k]=f.ans;});state.fqChecked=true;
+   mid=fqMini()+'<div style="font-size:13.5px;line-height:1.8;color:rgba(255,255,255,0.9);text-align:left;max-width:480px;margin:0.5rem auto 0">'+r.fbOk+'</div>';
+ }else if(r.type==='fxhedge'&&state.fhStep===2){
+   {mid='<div class="fp-bets">'+r.etfBets.map(function(b){return '<div class="fp-bet" style="cursor:default;'+(b[0]===r.etfOk?'border-color:#a5d6a7;background:rgba(80,200,110,0.14)':'opacity:0.45')+'">'+(b[0]===r.etfOk?'✓ ':'')+b[1]+'</div>';}).join('')+'</div>'
      +'<div style="font-size:13.5px;line-height:1.8;color:rgba(255,255,255,0.9);text-align:left;max-width:480px;margin:0.5rem auto 0">'+r.etfReveal+'</div>';}
  }else if(r.type==='fxhedge'){
    if(state.fhStep===0){state.fhVis={tot:true,sp:true,fu:true};state.fhGave=true;
@@ -1327,10 +1328,10 @@ function giveAnswer(i){const r=ROUNDS[i],a0=ANS[i];
  }
  let nextBtn='<button class="continue-btn" onclick="record('+i+')">懂了，繼續 ›</button>';
  if(r.type==='fxhedge'&&state.fhStep===0)nextBtn='<button class="continue-btn" onclick="fhNext('+i+')">下一題：避險比重 ›</button>';
- if(r.type==='fxquad'&&state.fqStep===0)nextBtn='<button class="continue-btn" onclick="fqNext('+i+')">再一題 ›</button>';
+ if(r.type==='fxhedge'&&state.fhStep===1)nextBtn='<button class="continue-btn" onclick="fhNext2('+i+')">最後一題：ETF 溢價熱度 ›</button>';
  if(r.type==='flip'&&state.fp===0&&r.cards)nextBtn='<button class="continue-btn" onclick="fpNext('+i+')">最後一件事 ›</button>';
  if(r.type==='chain'&&state.chStep===0)nextBtn='<button class="continue-btn" onclick="chNext('+i+')">最後一件事 ›</button>';
- const hd=(r.type==='fxquad'&&state.fqStep===1)?fqEtfHead(r):(r.type==='fxhedge'&&state.fhStep===1)?fhAHead(r):head(r);
+ const hd=(r.type==='fxhedge'&&state.fhStep===2)?fqEtfHead(r):(r.type==='fxhedge'&&state.fhStep===1)?fhAHead(r):head(r);
  G.innerHTML=scene(r.sky,r.bg,dots(i)+hd+mid+okBox(ansLine+gloss)+nextBtn);
  if(r.type==='match')mtLines();}
 
@@ -1402,8 +1403,8 @@ function shareGame(){const url=window.location.href.split('?')[0];
  'renderHotspot','hsPick','hsCheck','renderSlider','slUpd','slDone','renderSort','soPick','soCheck',
  'renderMatch','mtPick','mtCheck','mtLines','renderFlip','fpBet','fpNext','fpBuild','fpDone',
  'renderChain','chCheck','chNext','chBuild','chDone','gameMins',
- 'renderFxquad','fqPick','fqWinSel','fqCheck','fqNext','fqEtf','fqBet',
- 'renderFxhedge','fhToggle','fhPick','fhNext','fhA','fhBet',
+ 'renderFxquad','fqPick','fqWinSel','fqCheck','fqEtf','fqBet',
+ 'renderFxhedge','fhToggle','fhPick','fhNext','fhNext2','fhA','fhBet',
  'giveAnswer','record','showTrans','advance','showResult','restart','shareGame','fade','startPulse'].forEach(function(n){window[n]=eval(n);});
 window.state=state;
 startPulse();
