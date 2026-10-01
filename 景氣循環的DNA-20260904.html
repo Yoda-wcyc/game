@@ -13,6 +13,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>景氣循環的 DNA｜帶你把 2026-09 總經報告走一遍 · Yoda Research</title>
+<link rel="icon" href="data:,">
 <style>
 :root{
   --gold:#d4af37; --gold-dim:#b8960a;
@@ -62,7 +63,7 @@ h2{font-size:22px;font-weight:700;line-height:1.42;margin-bottom:12px}
 .lead{font-size:17px;color:#dfe6f4;margin:6px 0 18px}
 p.body{font-size:16px;color:#e6ebf6;margin:11px 0}
 .dim{color:var(--dim)} .hl{color:var(--gold);font-weight:700}
-.up{color:#7fd6a6;font-weight:700}.down{color:#f08a8a;font-weight:700}.warnc{color:var(--warn);font-weight:700}
+.up{color:#f08a8a;font-weight:700}.down{color:#7fd6a6;font-weight:700}.warnc{color:var(--warn);font-weight:700}
 .data-box{background:rgba(255,255,255,.045);border:1px solid var(--card-bd);border-radius:12px;padding:14px 16px;margin:14px 0;font-size:15px;line-height:1.7}
 .data-box .row{display:flex;justify-content:space-between;gap:12px;padding:3px 0}
 /* 定義型 data-box：左標籤／右說明對齊成兩欄，標籤不再被擠到換行；不影響數值型(.stat/.sig)表 2026-08-06 */
@@ -262,16 +263,16 @@ const S=[
 {type:'project',sky:'sky-noon',bg:'farhills'},
 // 2 過場
 {type:'mono',sky:'sky-night',bg:'reed',lines:['報告不是拿來背的，','是拿來一段一段走的。']},
-// 3 §00 溫度條定位
-{type:'templocate',sky:'sky-valley',bg:'range',tag:'§00 · 市場位階總覽',h:'開頭那兩支溫度條，指針該釘哪一格？',
- data:'<b>報告的第一眼</b>：需求近一季回溫、生產與訂單創多年新高、獲利連七季雙位數——<br>但循環已經走到 2020 年起算的<b class="hl">第 6 年</b>，投機溫度也不低。',
+// 3 §01 溫度條定位
+{type:'templocate',sky:'sky-valley',bg:'range',tag:'§01 · 市場位階總覽',h:'位階總覽那兩支溫度條，指針該釘哪一格？',
+ data:'<b>位階總覽的第一眼</b>：需求近一季回溫、生產與訂單創多年新高、獲利連七季雙位數——<br>但循環已經走到 2020 年起算的<b class="hl">第 6 年</b>，投機溫度也不低。',
  q:'把「景氣大循環」的指針釘上去：',
  zones:[{t:'🌱 復甦',s:'最壞已過'},{t:'📈 成長',s:'太平盛世'},{t:'🔥 榮景',s:'最後高潮·加速'},{t:'⚠ 衰退',s:'就業惡化'}],
  correct:2,
  reveal:'報告釘在<b class="hl">榮景期</b>——不是衰退：兩具引擎（服務＋製造）同步加速、庫存回補還在前面，<b class="hl">循環在延長、不在收尾</b>；「末升警戒」要全面爆量＋資金變緊才算，都沒觸發。製造業那支推到 <b class="hl">73%</b>。<br>但這期多了一個轉折：<b class="hl">「消費」這一格第一次從加分項變成扣分項</b>（零售 −0.6%、信心 51.0、非農 −2.3 萬、GDPNow 消費格 4.1%→2.5%）——五組末端訊號還沒全亮（初領、HY 利差、ISM 都健康），但需求端已經投下這波循環的第一張反對票。要盯的不是 PMI 本身，是 <b class="hl">ISM 新訂單能不能守住 55</b>——那是需求傳到生產端的第一個路口。',
  gloss:'<div class="gl"><b>溫度條</b><span>把循環位置畫成一條 0–100 的尺，指針＝報告對「現在幾點」的判斷</span></div><div class="gl"><b>榮景期</b><span>循環最後的高潮段：加速、樂觀、風險意識下降——可以走很久</span></div><div class="gl"><b>錯配</b><span>需求跑得比供給快（客戶庫存「太低」）：初期是動能，過頭才是問題</span></div>'},
-// 4 §01 量的鏈條排序
-{type:'sort',sky:'sky-valley',bg:'range',tag:'§01 · 本月解析',h:'把「量的鏈條」照傳導順序排好',
+// 4 §02 量的鏈條排序
+{type:'sort',sky:'sky-valley',bg:'range',tag:'§02 · 本月解析',h:'把「量的鏈條」照傳導順序排好',
  sub:'這個月報告的主線是一條鏈。點選排序：誰是起點、誰收尾？（依序點 1→5）',
  items:[
   {id:'demand',label:'終端需求（零售銷售）',hint:'消費者掏錢',rank:0,kind:'起點'},
@@ -281,8 +282,8 @@ const S=[
   {id:'eps',label:'企業獲利（財報 EPS）',hint:'最後結出來的果',rank:4,kind:'收尾'}],
  reveal:'順序＝<b class="hl">需求 → 訂單 → 生產 → 庫存 → 獲利</b>。訂單是需求的影子、生產追著訂單、庫存墊在生產後面、獲利收在最尾端。本期五個環節<b class="hl">同向往上</b>，而庫存那一環還空著——這就是「下半年還有一段沒走」的理由。',
  gloss:'<div class="gl"><b>傳導</b><span>下游先動、上游後動，一環扣一環——所以判斷要沿著鏈看，不是單點看</span></div><div class="gl"><b>伏筆</b><span>庫存極低＋需求還在走＝補貨壓力在累積，回補啟動會再疊一層動能</span></div>'},
-// 5 §01 庫存剪刀口
-{type:'flip',sky:'sky-valley',bg:'range',tag:'§01 · 本月解析',h:'賣的速度是補的三倍，這代表什麼？',
+// 5 §02 庫存剪刀口
+{type:'flip',sky:'sky-valley',bg:'range',tag:'§02 · 本月解析',h:'賣的速度是補的三倍，這代表什麼？',
  setup:`<div class="data-box">
  <div class="row"><b>中盤商銷售年增</b><span class="hl">+14.1%</span></div>
  <div class="row"><b>中盤商庫存年增</b><span class="dim">+4.4%</span></div>
@@ -294,8 +295,8 @@ const S=[
  revealGood:'對。庫存低<b class="hl">單獨存在</b>時什麼都不是——真正的訊號是「庫存低＋需求還在走」同時成立。此時補貨不是選項而是壓力：越晚補、越貴。回補一旦啟動，訂單與生產會在需求之上再疊一層。',
  revealBad:'方向反了。「不敢進貨」的版本，銷售也會同步轉弱——但這裡銷售年增 +14.1%、是庫存增速的三倍。<b class="hl">賣得太快補不上</b>，才是這組數字的長相；這是回補循環的前夜，不是信心崩壞。',
  gloss:'<div class="gl"><b>庫存銷售比</b><span>手上的貨 ÷ 每月賣掉的量：越低＝貨架越薄，低到極端就非補不可</span></div><div class="gl"><b>回補循環</b><span>三層一起補貨時，拉貨沿供應鏈往上游放大——先進訂單、再進生產、最後進財報</span></div>'},
-// 6 §01 三把尺
-{type:'classify',sky:'sky-valley',bg:'range',tag:'§01 · 本月解析',h:'同一個月的通膨，三句話都是真的——把尺歸位',
+// 6 §02 三把尺
+{type:'classify',sky:'sky-valley',bg:'range',tag:'§02 · 本月解析',h:'同一個月的通膨，三句話都是真的——把尺歸位',
  sub:'八月市場為「會不會升息」吵翻天，因為三把尺講三個故事。點選每句話用的是哪把尺：',
  cats:['單月年化','年增率','六個月年化'],
  items:[
@@ -306,8 +307,8 @@ const S=[
  gloss:'<div class="gl"><b>單月年化</b><span>把一個月的漲幅乘 12：最靈敏、也最毛躁</span></div><div class="gl"><b>年增率</b><span>跟一年前比：最平滑、但反應最慢</span></div><div class="gl"><b>六個月年化</b><span>近半年速度換算成年率：介於中間，抓「正在加速還是減速」最準</span></div>'},
 // 7 過場
 {type:'mono',sky:'sky-night',bg:'river',lines:['主線讀完了。','下面的分頁，是查證用的。']},
-// 8 §02 先行/同步/滯後
-{type:'classify',sky:'sky-storm',bg:'peak',tag:'§02 · 景氣循環投資框架',h:'把這幾個指標歸位',
+// 8 §03 先行/同步/滯後
+{type:'classify',sky:'sky-storm',bg:'peak',tag:'§03 · 景氣循環投資框架',h:'把這幾個指標歸位',
  sub:'框架分頁教的第一件事：有些燈先亮、有些燈最後才亮。預判只能看先行。',
  cats:['先行','同步','滯後'],
  items:[
@@ -318,16 +319,16 @@ const S=[
   {id:'default',label:'違約率',hint:'撐不下去才違約',cat:2}],
  reveal:'新訂單與初領＝<b class="hl">先行</b>（還沒發生就先動）；GDP＝<b class="hl">同步</b>；失業率與違約率＝<b class="hl">滯後</b>（都結束了才確認）。所以「失業率還很低」永遠不是安全的理由——它是最後一盞熄的燈。',
  gloss:'<div class="gl"><b>先行指標</b><span>景氣還沒轉、它先動——預判用這排</span></div><div class="gl"><b>同步指標</b><span>跟當下一起動——確認現況用</span></div><div class="gl"><b>滯後指標</b><span>景氣轉完才反映——拿來預判必被騙</span></div>'},
-// 9 §03 利率咬到誰
-{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'§03 · 利率 vs 企業＋消費端',h:'利率咬人了沒？咬到誰？',
+// 9 §04 利率咬到誰
+{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'§04 · 利率 vs 企業＋消費端',h:'利率咬人了沒？咬到誰？',
  data:'<div class="data-box"><div class="row"><b>企業端</b><span class="dim">高收益債利差仍在低位、利息覆蓋率還撐得住</span></div><div class="row"><b>消費端</b><span class="dim">卡債與車貸拖欠率先往上走</span></div></div>',
  q:'這個分頁的當期結論是——',
  opts:['企業先滲血：槓桿高的先倒','消費端先滲血：本輪第一次「分家」','兩邊都還毫髮無傷'],
  correct:1,
  reveal:'本輪的特別之處：<b class="hl">企業端還撐得住、消費端已開始滲血</b>——兩邊第一次走不同方向。下一道門檻在企業那邊：非投資級的利息覆蓋率 2.89 倍，貼近歷史警戒線；它一破，「分家」就結束了。',
  gloss:'<div class="gl"><b>高收益債利差</b><span>體質差的公司借錢的額外代價：走闊＝市場開始怕、收窄＝不怕</span></div><div class="gl"><b>利息覆蓋率</b><span>獲利 ÷ 利息支出：低於警戒＝賺的錢快付不起利息</span></div>'},
-// 10 §04 估值儀表
-{type:'gauge',sky:'sky-storm',bg:'peak',tag:'§04 · 市場估值',h:'估值燒到哪了？',
+// 10 §05 估值儀表
+{type:'gauge',sky:'sky-storm',bg:'peak',tag:'§05 · 市場估值',h:'估值燒到哪了？',
  value:41.2,min:10,max:45,threshold:35,unit:'×',
  data:'席勒本益比（CAPE）41.2 倍＝1881 年有紀錄以來第 <b class="hl">98.9</b> 百分位；股債之間的風險溢酬只剩約 0.03%。',
  q:'估值站在歷史極端，正確的讀法是——',
@@ -335,16 +336,16 @@ const S=[
  correct:1,
  reveal:'估值從來不是<b class="hl">擇時</b>工具——歷史上它可以在極端待很多年。它真正告訴你的是<b class="hl">安全邊際</b>：現在的價格沒有預留犯錯空間，所以同樣一顆壞消息，摔起來會比估值便宜時重。這跟「持續做多」不衝突，但它決定你要不要繫安全帶。',
  gloss:'<div class="gl"><b>CAPE</b><span>用十年平均獲利算的本益比，拉平景氣波動——適合跨年代比較</span></div><div class="gl"><b>風險溢酬</b><span>股票報酬率減債券殖利率：近零＝股票沒比債券多給補償</span></div>'},
-// 11 §05 GDPNow
-{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'§05 · GDP 與宏觀',h:'GDPNow 十一天從 6.2% 砍到 4.3%——砍的是哪一格？',
+// 11 §06 GDPNow
+{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'§06 · GDP 與宏觀',h:'GDPNow 十一天從 6.2% 砍到 4.3%——砍的是哪一格？',
  data:'<div class="data-box"><div class="row"><b>GDPNow Q3</b><span class="dim">6.2%（8/03)→ 4.3%（8/14）</span></div><div class="row"><b>水位</b><span class="dim">4.3% 依然遠高於長期趨勢</span></div></div>',
  q:'被砍掉的整整一塊，來自——',
  opts:['淨出口：關稅反噬','消費：那格從 4.1 掉到 2.5','政府支出：預算僵局'],
  correct:1,
- reveal:'砍的正是<b class="hl">消費那一格</b>——而元兇就是 7 月零售那根 −0.6%。§01 已經拆過這根柱子：它是促銷從 7 月搬到 6 月挖出來的坑，年增率還在 5% 高檔。所以這裡的正確讀法是：<b class="hl">水位不低（4.3%）、方向被單月失真拖累</b>——8 月零售回正與否，就是開票日。',
+ reveal:'砍的正是<b class="hl">消費那一格</b>——而元兇就是 7 月零售那根 −0.6%。§02 已經拆過這根柱子：它是促銷從 7 月搬到 6 月挖出來的坑，年增率還在 5% 高檔。所以這裡的正確讀法是：<b class="hl">水位不低（4.3%）、方向被單月失真拖累</b>——8 月零售回正與否，就是開票日。',
  gloss:'<div class="gl"><b>GDPNow</b><span>亞特蘭大聯準銀的即時 GDP 估計：數據一出就重算，波動大但方向誠實</span></div>'},
-// 12 §06 失業率陷阱
-{type:'flip',sky:'sky-dusk',bg:'lonepine',tag:'§06 · 就業市場',h:'失業率往下降——好消息？',
+// 12 §07 失業率陷阱
+{type:'flip',sky:'sky-dusk',bg:'lonepine',tag:'§07 · 就業市場',h:'失業率往下降——好消息？',
  setup:`<div class="data-box">
  <div class="row"><b>非農就業</b><span class="dim">連兩月負值（7 月 −2.3 萬）</span></div>
  <div class="row"><b>失業率</b><span class="hl">反而下降</span></div>
@@ -353,36 +354,36 @@ const S=[
        {t:'假好消息：分母在縮，不是就業在增<small>放棄找工作的人不算失業</small>',good:true}],
  correct:1,
  revealGood:'看穿了。失業率＝失業人數 ÷ <b class="hl">有在找工作的人</b>——放棄找工作的人直接從分母消失，失業率就「假性」變好。非農連兩月負＋勞參率創半世紀低位，真相是<b class="hl">不請人、也不裁人的凍結狀態</b>。真正要盯的是初領失業金四週均值：不連四週往上、不破 22 萬，就還不是裁員潮。',
- revealBad:'這正是滯後指標的經典陷阱（§02 那盞最後熄的燈）。失業率下降的原因是<b class="hl">分母縮了</b>——勞參率 61.4% 是疫情之外半世紀最低。就業的真相是「凍結」：不請人、也還沒裁人。',
+ revealBad:'這正是滯後指標的經典陷阱（§03 那盞最後熄的燈）。失業率下降的原因是<b class="hl">分母縮了</b>——勞參率 61.4% 是疫情之外半世紀最低。就業的真相是「凍結」：不請人、也還沒裁人。',
  gloss:'<div class="gl"><b>勞動參與率</b><span>有工作＋在找工作的人佔人口比例：它驟降會讓失業率假性變好看</span></div><div class="gl"><b>初領失業金</b><span>裁員的第一張骨牌，週頻先行指標——四週均值 19.9 萬 vs 警戒 22 萬</span></div>'},
-// 13 §07 通膨天秤
-{type:'scale',sky:'sky-dusk',bg:'lonepine',tag:'§07 · 通貨膨脹',h:'官方說在降、荷包說在升——天秤往哪倒？',
+// 13 §08 通膨天秤
+{type:'scale',sky:'sky-dusk',bg:'lonepine',tag:'§08 · 通貨膨脹',h:'官方說在降、荷包說在升——天秤往哪倒？',
  setup:'<p class="body">官方口徑的核心通膨緩緩往下；但能源年增 <b class="hl">+14.7%</b>、一年期通膨預期回升到 4.3%——<b class="hl">體感在升</b>。唯一的安全閥：5–10 年長期預期連三個月穩在 3.3%。</p>',
  leftLabel:'通膨已受控',rightLabel:'通膨失控',
  opts:[{t:'通膨問題解除，可以翻頁了',tilt:-0.75},
        {t:'官方降、體感升——但長期的錨還握著',tilt:0.1},
        {t:'已經二次失控，升息壓不住',tilt:0.85}],
  correct:1,
- reveal:'天秤幾乎持平、微偏右——<b class="hl">「貴」，但不是「脫錨」</b>。判斷的關鍵不在今天的讀數，在那條 5–10 年的錨：它守住，一切只是貴；它一鬆，報告裡所有門檻的順序都要重排。這也是 §00 溫度條敢釘在榮景期的前提。',
+ reveal:'天秤幾乎持平、微偏右——<b class="hl">「貴」，但不是「脫錨」</b>。判斷的關鍵不在今天的讀數，在那條 5–10 年的錨：它守住，一切只是貴；它一鬆，報告裡所有門檻的順序都要重排。這也是 §01 溫度條敢釘在榮景期的前提。',
  gloss:'<div class="gl"><b>通膨預期的錨</b><span>大眾對長期（5–10 年）通膨的預期：錨在，央行就有時間；錨鬆，就是另一個世界</span></div>'},
-// 14 §08 PMI 突破
-{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'§08 · PMI 景氣',h:'橫盤半年之後，7 月跳上 55.6',
+// 14 §11 PMI 突破
+{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'§11 · PMI 景氣',h:'橫盤半年之後，7 月跳上 55.6',
  data:'<div class="data-box"><div class="row"><b>ISM 製造 2026</b><span class="dim">52.6 → 52.4 → 52.7 → 52.7 → 54.0 → 53.3 → <b class="hl">55.6</b></span></div><div class="row"><b>細節</b><span class="dim">新訂單 56.7 撐住·就業 52.8＝33 個月來第一次轉正·價格鬆綁到 71.1；服務 54.1 同步擴張</span></div><div class="row"><b>上游前哨</b><span class="dim">台灣外銷訂單、全球半導體銷售同創新高</span></div></div>',
  q:'雙輪同時 >50、上游比下游強——這個組合是——',
- opts:['過熱衝頂：均值回歸在即','橫盤後的向上突破：教科書式健康擴張','數據互相矛盾，不可信'],
+ opts:['漲過頭到頂：均值回歸在即','橫盤後的向上突破：教科書式健康擴張','數據互相矛盾，不可信'],
  correct:1,
  reveal:'製造在 52–53 橫了半年、7 月<b class="hl">帶量突破</b>；服務同步在線上；供應鏈最上游（台灣外銷訂單 952.6 億·連 17 紅、半導體 YoY +123.6%）比下游還熱。這是「擴張＋成本降溫」的健康組合，而且<b class="hl">有跨市場的上游證據</b>、不是美國單邊自嗨。<br>但本期加了一句但書：<b class="hl">擴張還在，推力卻從訂單換成了慣性</b>——PMI（企業問卷）和零售信心（家庭行為）這個月第一次講出相反的話。翻案門檻：<b class="hl">台灣外銷訂單轉負，或 ISM 任一輪跌破 50 且新訂單同步下墜</b>。',
  gloss:'<div class="gl"><b>PMI</b><span>採購經理人指數：50 是榮枯線，數字是「擴張的廣度」不是速度</span></div><div class="gl"><b>上游前哨</b><span>台灣外銷訂單與半導體銷售走在美國數據前面——供應鏈的探照燈</span></div>'},
-// 15 §09 獲利面寬
-{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'§09 · 企業獲利',h:'獲利大增三成——但真正該看的是另一個數字',
+// 15 §12 獲利面寬
+{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'§12 · 企業獲利',h:'獲利大增三成——但真正該看的是另一個數字',
  data:'<div class="data-box"><div class="row"><b>Q2 獲利年增</b><span class="dim">+47%（剔除兩大巨頭一次性貢獻後仍 +32%）</span></div><div class="row"><b>連續紀錄</b><span class="hl">第七個季度雙位數增長</span></div><div class="row"><b>面寬</b><span class="hl">11 個部門有 10 個在增長</span></div></div>',
  q:'為什麼報告強調「10/11」比「+47%」更重要？',
  opts:['增速可以靠少數巨頭撐出來，面寬才看得出擴張是不是全體的','面寬是落後數據，其實不重要','因為 47% 有灌水，10/11 才是真的'],
  correct:0,
- reveal:'<b class="hl">增速會騙人、面寬很難騙</b>。兩家巨頭的一次性貢獻能把 32% 灌成 47%，但灌不出「11 個部門 10 個在增長」。面寬夠寬，代表任一環節回落都有別的環節接手——這是榮景期「穩不穩」的判準。<br>本期新增一層警訊：<b class="hl">水準沒問題，有問題的是速度</b>——年增率 <b class="hl">Q3 +27.4% 就是高點</b>，Q4 +25.2%、CY2027 只剩 +13.6%（幾乎腰斬）。這不是空頭訊號（+13.6% 仍是好年份），而是<b class="hl">估值的計價基礎要換</b>：現在的價格是用 +30% 成長買單的。<b class="hl">分子的加速度先轉負</b>，才是這一格真正的變化。',
+ reveal:'<b class="hl">增速會騙人、面寬很難騙</b>。兩家巨頭的一次性貢獻能把 32% 灌成 47%，但灌不出「11 個部門 10 個在增長」。面寬夠寬，代表任一環節回落都有別的環節接手——這是榮景期「穩不穩」的判準。<br>本期新增一層訊號：<b class="hl">水準沒問題，有問題的是速度</b>——年增率 <b class="hl">Q3 +27.4% 就是高點</b>，Q4 +25.2%、CY2027 只剩 +13.6%（幾乎腰斬）。這不是空頭訊號（+13.6% 仍是好年份），而是<b class="hl">估值的計價基礎要換</b>：現在的價格是用 +30% 成長買單的。<b class="hl">分子的加速度先轉負</b>，才是這一格真正的變化。',
  gloss:'<div class="gl"><b>面寬</b><span>有多少部門／公司在同步增長：寬＝全體擴張，窄＝靠少數巨頭撐</span></div>'},
-// 16 §10 估值跌 vs 體質跌
-{type:'flip',sky:'sky-storm',bg:'peak',tag:'§10 · 風險與流動性',h:'那天大跌，跌的是估值還是體質？',
+// 16 §13 估值跌 vs 體質跌
+{type:'flip',sky:'sky-storm',bg:'peak',tag:'§13 · 風險與流動性',h:'那天大跌，跌的是估值還是體質？',
  setup:`<div class="data-box">
  <div class="row"><b>8/28 央行放鷹</b><span class="dim">吃低利率估值的族群全被打（鈾、迷因、白銀、生技…）</span></div>
  <div class="row"><b>同一天</b><span class="hl">高收益債利差反而收窄（2.70%→2.63%）</span></div></div>`,
@@ -392,16 +393,16 @@ const S=[
  revealGood:'對。分辨「估值跌」與「體質跌」最快的一條線是<b class="hl">信用利差</b>——體質有問題它會先走闊，而且不等股票跌完才動。那天它收窄，被打的又全是靠低利率撐估值的族群：這是政策定價，不是景氣定價。<br>不過這一格今年<b class="hl">第一次亮得刺眼的是槓桿</b>：FINRA 融資餘額 <b class="hl">1.53 兆創紀錄</b>（YoY +51.5%）、投資人信用餘額 −1.06 兆創新低、債現比 3.40。死亡交叉的兩個條件<b class="hl">還沒同時成立</b>（融資餘額還在往上、沒從高點墜落），所以現在該記的不是「危險了」，而是<b class="hl">將來真的跌，回音會比過去大</b>——槓桿決定的是振幅，不是時點。',
  revealBad:'差一步。如果是體質出問題，<b class="hl">信用利差不可能同日收窄</b>——怕經濟的錢會先從最脆弱的公司債逃跑。那天被打的全是「靠低利率撐估值」的族群，不吃折現率的反而收紅——這是折現率的故事。',
  gloss:'<div class="gl"><b>信用利差</b><span>爛公司借錢的額外代價：它是「市場怕不怕經濟」最誠實的一票</span></div><div class="gl"><b>折現率</b><span>未來的錢換算成今天值多少的利率：它一升，越遙遠的獲利折得越狠</span></div>'},
-// 17 §11 Fed 兩隻手
-{type:'phasepick',sky:'sky-dusk',bg:'lonepine',tag:'§11 · FED 升/降息意向',h:'央行現在的姿勢，用一句話講——',
+// 17 §14 Fed 兩隻手
+{type:'phasepick',sky:'sky-dusk',bg:'lonepine',tag:'§14 · FED 升/降息意向',h:'央行現在的姿勢，用一句話講——',
  data:'<div class="data-box"><div class="row"><b>量（資產負債表）</b><span class="hl">縮表去年底結束，每月緩步買回短債＝溫和放大</span></div><div class="row"><b>價（利率）</b><span class="dim">升息定價被就業數據拆掉：7/31 曾有 67% 升息機率 → 9/16「維持利率」機率升到 69%</span></div><div class="row"><b>但長端不領情</b><span class="dim">10Y 週內測 4.75%＝19 個月高、30Y 上 19 年高</span></div></div>',
  q:'正確的一句是——',
  opts:['全面轉鴿：降息週期啟動','量在幫忙、價還懸著——順風和變數並存','全面緊縮：量價齊收'],
  correct:1,
  reveal:'把政策拆成兩隻手看：<b class="hl">量的手已轉順風</b>（縮表去年底止、資產負債表緩步回升到 6.73 兆）；<b class="hl">價的手轉鴿但還沒開票</b>（非農轉負後，升息定價退潮、9/16 維持機率 69%）。<br>真正的重點在下一句：<b class="hl">短端鴿了，長端不跟</b>——8/13 的 30 年標售寫明了原因：得標 <b class="hl">5.216%（25 年最高）</b>、Bid-to-Cover 2.39 低於均值、經銷商被迫吃貨。買方在要更多補償。所以答案不在 Fed 這一卡，<b class="hl">在下一卡（財政）</b>。',
  gloss:'<div class="gl"><b>縮表／擴表</b><span>央行資產負債表縮小＝抽水、放大＝注水——「量」的鬆緊</span></div><div class="gl"><b>節奏 vs 方向</b><span>方向看鏈條斷沒斷，節奏看政策順不順——別把節奏的顛簸當成方向的反轉</span></div>'},
-// 18 §12 長端的另一半
-{type:'phasepick',sky:'sky-dusk',bg:'lonepine',tag:'§12 · 財政政策',h:'長端利率黏在近二十年高位——誰在推？',
+// 18 §15 長端的另一半
+{type:'phasepick',sky:'sky-dusk',bg:'lonepine',tag:'§15 · 財政政策',h:'長端利率黏在近二十年高位——誰在推？',
  data:'<div class="data-box"><div class="row"><b>30 年期</b><span class="dim">上 19 年高；10Y 測 4.75%＝19 個月高</span></div><div class="row"><b>國債總量</b><span class="dim">跨過 40 兆美元關口</span></div><div class="row"><b>7 月赤字</b><span class="hl">4,320 億＝史上最大的 7 月</span></div><div class="row"><b>關稅收入</b><span class="dim">最高法院判 IEEPA 關稅違法·7 月退稅 333.8 億 → 淨關稅收入轉負 −85.5 億</span></div></div>',
  q:'報告對「推手」的判定是——',
  opts:['景氣太熱：成長預期推高利率','通膨失控：通膨預期推高利率','發債的人自己：供給壓力借用了利率的身體'],
@@ -416,18 +417,18 @@ const S=[
  items:[
   {t:'九月真的升息',s:'節奏轉逆：折現率再重估一輪，低利率估值族群首當其衝——方向未變、安全帶要繫'},
   {t:'ISM 新訂單跌破 55',s:'需求傳到生產端的第一個路口失守：PMI 與零售信心的背離，收斂到壞的那邊'},
-  {t:'庫存年增率遲遲不回升',s:'回補劇本落空：§01 那條鏈的「伏筆」沒兌現，「下半年還有一段」的理由少一半'},
+  {t:'庫存年增率遲遲不回升',s:'回補劇本落空：§02 那條鏈的「伏筆」沒兌現，「下半年還有一段」的理由少一半'},
   {t:'獲利面寬收窄過半',s:'鏈條從尾端斷：擴張變成少數巨頭的獨角戲——這比增速放緩嚴重得多'},
   {t:'明年上半年高基期窗',s:'時點已知的那顆鬧鐘：年增率讀數會自然回落，若疊上通膨黏著就是雙殺'},
-  {t:'長期通膨預期的錨鬆離 3.3%',s:'所有門檻重排：從「貴」變「脫錨」，§07 的安全閥失效——整份報告要重寫'}],
+  {t:'長期通膨預期的錨鬆離 3.3%',s:'所有門檻重排：從「貴」變「脫錨」，§08 的安全閥失效——整份報告要重寫'}],
  },
 // 21 讀報告 SOP
 {type:'checklist',sky:'sky-clear',bg:'range',tag:'收束 · 你的讀報順序',h:'下次打開總經報告，照這個順序走',
  sub:'把這四步收進口袋——這就是整份報告的用法：',
  items:[
-  {t:'先看 §00 兩支溫度條',s:'十秒鐘知道「現在幾點」——位置先於一切'},
-  {t:'讀 §01 本月解析',s:'主線一篇讀完：這個月真正變了的是哪幾件、鏈條斷了沒'},
-  {t:'有疑問，往下查分頁',s:'§02–§12 是查證用的資料庫——順序不重要，帶著問題去查'},
+  {t:'先看 §01 兩支溫度條',s:'十秒鐘知道「現在幾點」——位置先於一切'},
+  {t:'讀 §02 本月解析',s:'主線一篇讀完：這個月真正變了的是哪幾件、鏈條斷了沒'},
+  {t:'有疑問，往下查分頁',s:'§03–§15 是查證用的資料庫——順序不重要，帶著問題去查'},
   {t:'盯住可證偽踩點',s:'翻案條件先寫好：踩到就改判斷，沒踩到就別被雜訊搖'}],
  },
 // 22 結果
@@ -480,12 +481,12 @@ const RENDER={
    <h1>景氣循環的 DNA</h1>
    <p class="lead">現在幾點鐘？<br>這一課帶你把整份總經報告走一遍：<br>先定位、再讀主線、最後學會查證。</p>
    <button class="cta" onclick="next()">開始 →</button>
-   <div class="neutral-note">※ 只教「怎麼讀報告、怎麼判位階」，不預測漲跌、不喊買賣。數據版本：2026-09-04 總經報告（報告段號 §00–§12）。</div></div>`},
+   <div class="neutral-note">※ 只教「怎麼讀報告、怎麼判位階」，不預測漲跌、不喊買賣。數據版本：2026-09-04 總經報告；段號已對齊 2026-10-01 報告（§00–§15）。</div></div>`},
 
  project:{html:()=>`<div class="card">
    <span class="tag">對號入座</span><h2>打開一份總經報告，你會從哪裡讀起？</h2>
-   <p class="body">十三個段落、幾十張表——大多數人<b class="hl">從頭滑到尾</b>，滑完只記得「數據好像都還不錯」。</p>
-   <p class="body dim">這一課給你一個固定的讀法：先看位置（§00）、再讀主線（§01）、最後帶著問題查分頁（§02–§12）。</p>
+   <p class="body">十六個段落、幾十張表——大多數人<b class="hl">從頭滑到尾</b>，滑完只記得「數據好像都還不錯」。</p>
+   <p class="body dim">這一課給你一個固定的讀法：先看位置（§01）、再讀主線（§02）、最後帶著問題查分頁（§03–§15）。</p>
    <button class="btn" onclick="next()">我都從頭滑到尾<small>滑完其實沒記住什麼</small></button>
    <button class="btn" onclick="next()">數字太多，常常直接關掉<small>想要一個不迷路的讀法</small></button></div>`},
 
@@ -645,7 +646,7 @@ function drawGauge(i,s){
 function gaugeAnim(i,from,to,s){
   const svg=el('g'+i); if(!svg)return; const t0=Date.now(),dur=800;
   if(svg._iv)clearInterval(svg._iv);
-  svg._iv=setInterval(()=>{ let p=Math.min(1,(Date.now()-t0)/dur); const e=1-Math.pow(1-p,3);
+  svg._iv=setInterval(()=>{ if(!el('gn'+i)){clearInterval(svg._iv);svg._iv=null;return;} let p=Math.min(1,(Date.now()-t0)/dur); const e=1-Math.pow(1-p,3);
     const v=from+(to-from)*e; setNeedle(i,v,s);
     if(p>=1){clearInterval(svg._iv);svg._iv=null;}},16);
 }
