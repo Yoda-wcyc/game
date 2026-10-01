@@ -1,0 +1,1685 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>短除法：最大公因數與最小公倍數</title>
+<link rel="icon" href="data:,">
+<meta name="description"content="兩個數一起除、一直除到不能再除。左邊乘起來是最大公因數，整個 L 形乘起來是最小公倍數。給小五、小六的短除法互動教學。">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+
+:root{
+  --paper:#F7F9FB;
+  --grid:#DCE4EC;
+  --ink:#1F2A44;
+  --ink-soft:#55607A;
+  --x:#2F6FDB;
+  --x-soft:#DCE8FB;
+  --red:#D64545;
+  --red-soft:rgba(214,69,69,.10);
+  --hl:rgba(255,227,110,.62);
+  --hl-line:rgba(255,227,110,.30);
+  --hl-solid:#FFE36E;
+  --card:#FFFFFF;
+  --line:#C9D3DE;
+  --shadow:rgba(31,42,68,.10);
+  --focus:#2F6FDB;
+  --btn-bg:#FFFFFF;
+  --btn-ink:#1F2A44;
+  --btn-primary:#1F2A44;
+  --btn-primary-ink:#F7F9FB;
+  --gcd:#2F6FDB;
+  --gcd-soft:#DCE8FB;
+  --lcm:#D64545;
+  --lcm-soft:rgba(214,69,69,.10);
+  --p2:#2F6FDB;
+  --p3:#C46E1C;
+  --p5:#23885A;
+  --p7:#7A4FCF;
+  --px:#5D6B82;
+  --blk-on:#FFFFFF;
+  --font-hand:"LXGW WenKai TC","LXGW WenKai","Kaiti TC","BiauKai","DFKai-SB","標楷體",serif;
+  --font-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei","Heiti TC",system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#1E2B26;
+    --grid:#2E3D37;
+    --ink:#EDEFEA;
+    --ink-soft:#B4BDB5;
+    --x:#7EB0FF;
+    --x-soft:#223A55;
+    --red:#FF7B7B;
+    --red-soft:rgba(255,123,123,.14);
+    --hl:rgba(255,227,110,.30);
+    --hl-line:rgba(255,227,110,.12);
+    --hl-solid:#FFE36E;
+    --card:#23332D;
+    --line:#3B4D45;
+    --shadow:rgba(0,0,0,.35);
+    --focus:#9CC3FF;
+    --btn-bg:#23332D;
+    --btn-ink:#EDEFEA;
+    --btn-primary:#EDEFEA;
+    --btn-primary-ink:#1E2B26;
+    --gcd:#7EB0FF;
+    --gcd-soft:#223A55;
+    --lcm:#FF7B7B;
+    --lcm-soft:rgba(255,123,123,.14);
+    --p2:#7EB0FF;
+    --p3:#F2A65A;
+    --p5:#5FD39A;
+    --p7:#B99BFF;
+    --px:#A8B4C4;
+    --blk-on:#10161F;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#1E2B26;
+  --grid:#2E3D37;
+  --ink:#EDEFEA;
+  --ink-soft:#B4BDB5;
+  --x:#7EB0FF;
+  --x-soft:#223A55;
+  --red:#FF7B7B;
+  --red-soft:rgba(255,123,123,.14);
+  --hl:rgba(255,227,110,.30);
+  --hl-line:rgba(255,227,110,.12);
+  --hl-solid:#FFE36E;
+  --card:#23332D;
+  --line:#3B4D45;
+  --shadow:rgba(0,0,0,.35);
+  --focus:#9CC3FF;
+  --btn-bg:#23332D;
+  --btn-ink:#EDEFEA;
+  --btn-primary:#EDEFEA;
+  --btn-primary-ink:#1E2B26;
+  --gcd:#7EB0FF;
+  --gcd-soft:#223A55;
+  --lcm:#FF7B7B;
+  --lcm-soft:rgba(255,123,123,.14);
+  --p2:#7EB0FF;
+  --p3:#F2A65A;
+  --p5:#5FD39A;
+  --p7:#B99BFF;
+  --px:#A8B4C4;
+  --blk-on:#10161F;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px;
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:1.125rem;
+  line-height:1.65;
+  overflow-x:clip;
+}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:clamp(16px,4vw,36px);padding-block:22px 72px}
+.op{display:inline-block;margin:0 .22em;color:var(--ink)}
+
+/* ---------- 標題 ---------- */
+.kicker{margin:0;color:var(--ink-soft);font-size:1rem}
+h1{font-family:var(--font-hand);font-size:clamp(2.2rem,1.6rem + 2.4vw,3.2rem);line-height:1.2;margin:.1em 0 .3em;letter-spacing:.04em}
+h1 small{display:block;font-size:.5em;letter-spacing:.02em;color:var(--ink-soft);margin-top:.2em}
+.lede{max-width:62ch;margin:0 0 1.1rem;font-size:clamp(1.1rem,1rem + .4vw,1.25rem)}
+.lede strong{font-weight:700;background:linear-gradient(transparent 58%,var(--hl) 58%)}
+
+/* ---------- 模式切換 ---------- */
+.modes{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 14px}
+.mode{font:inherit;font-size:1.1rem;font-weight:700;min-height:52px;padding:0 18px;border-radius:12px;border:2px solid var(--line);background:var(--btn-bg);color:var(--ink);cursor:pointer;touch-action:manipulation;display:inline-flex;align-items:center;gap:.45em}
+.mode .sw{display:inline-block;width:18px;height:18px;border-radius:5px;border:3px solid var(--gcd)}
+.mode .sw.l{border-color:var(--lcm);border-top-color:transparent;border-right-color:transparent;border-radius:2px}
+.mode .sw.both{border-color:var(--gcd);box-shadow:5px 5px 0 -2px var(--lcm)}
+.mode[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 -5px 0 var(--hl-solid)}
+
+/* ---------- 題目選單 ---------- */
+.tabs{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin:0 0 6px;max-height:17rem;overflow-y:auto;padding:3px}
+.tab{font:inherit;text-align:left;background:var(--btn-bg);color:var(--ink);border:2px solid var(--line);border-radius:10px;padding:8px 14px;cursor:pointer;display:flex;flex-direction:column;min-height:62px;justify-content:center;min-width:0}
+.tab:hover{border-color:var(--ink-soft)}
+.tab[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 -5px 0 var(--hl-solid)}
+.tab-k{font-size:.9rem;color:var(--ink-soft)}
+.tab-eq{font-size:1.2rem;white-space:nowrap;font-weight:600;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
+.tab-add{border-style:dashed;align-items:center;font-weight:700;font-size:1.1rem}
+.store-note{margin:4px 0 0;font-size:.95rem;color:var(--red)}
+.store-note[hidden]{display:none}
+
+/* ---------- 控制列 ---------- */
+.controls{position:sticky;top:0;z-index:30;display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 0;background:var(--paper);border-bottom:1px solid var(--grid)}
+.btn{font:inherit;font-size:1.1rem;font-weight:700;min-height:52px;padding:0 20px;border-radius:12px;border:2px solid var(--ink);background:var(--btn-bg);color:var(--btn-ink);cursor:pointer;touch-action:manipulation}
+.btn.primary{background:var(--btn-primary);color:var(--btn-primary-ink)}
+.btn.small{min-height:44px;padding:0 12px;font-size:1rem;border-width:1.5px;border-radius:10px}
+.btn.danger{border-color:var(--red);color:var(--red)}
+.btn:disabled{opacity:.38;cursor:not-allowed}
+.btn[hidden]{display:none}
+.btn[aria-pressed="true"]{box-shadow:inset 0 -5px 0 var(--hl-solid)}
+.stepinfo{margin-left:auto;font-size:1rem;color:var(--ink-soft)}
+
+/* ---------- 老師旁白＋口訣卡 ---------- */
+.talk{display:grid;gap:14px;margin:14px 0;grid-template-columns:minmax(0,1fr)}
+@media (min-width:900px){.talk{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);align-items:stretch}}
+.teacher{position:relative;padding:14px 18px 14px 28px;background:var(--card);border:1px solid var(--line);border-radius:12px;font-family:var(--font-hand);min-height:128px}
+.teacher::before{content:"";position:absolute;left:12px;top:14px;bottom:14px;width:4px;border-radius:2px;background:var(--red)}
+.say{font-size:clamp(1.3rem,1.1rem + .7vw,1.6rem);line-height:1.5;margin:0 0 6px}
+.why{font-size:clamp(1.15rem,1.05rem + .4vw,1.35rem);margin:0;color:var(--red)}
+.why b{background:linear-gradient(transparent 58%,var(--hl) 58%);font-weight:700}
+.teacher.oops{border-color:var(--red);box-shadow:0 0 0 3px var(--red-soft)}
+
+.rules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-content:start}
+.rules-h{grid-column:1/-1;margin:0;font-family:var(--font-hand);font-size:1.15rem;color:var(--ink-soft)}
+.rule{position:relative;border:2px solid var(--line);border-radius:12px;padding:8px 12px 10px;background:var(--card);transition:background-color .35s,border-color .35s,transform .35s;min-width:0}
+.rule b{display:block;font-family:var(--font-hand);font-size:clamp(1.12rem,1rem + .35vw,1.3rem);line-height:1.4}
+.rule .no{display:inline-block;min-width:1.3em;font-family:var(--font-body);font-weight:700;color:var(--red)}
+.rule small{display:block;font-size:.92rem;color:var(--ink-soft);line-height:1.45}
+.rule .tip{display:block;margin-top:4px;font-family:var(--font-hand);font-size:1rem;color:var(--red);background:linear-gradient(transparent 58%,var(--hl) 58%)}
+.rule .tip[hidden]{display:none}
+.rule.r3{box-shadow:inset 5px 0 0 var(--gcd)}
+.rule.r4{box-shadow:inset 5px 0 0 var(--lcm)}
+.rule.lit{border-color:var(--red);background:var(--hl-line);transform:translateY(-2px)}
+.rule.lit.r1,.rule.lit.r2{box-shadow:0 0 0 3px var(--hl-solid)}
+.rule.lit.r3{box-shadow:inset 5px 0 0 var(--gcd),0 0 0 3px var(--hl-solid)}
+.rule.lit.r4{box-shadow:inset 5px 0 0 var(--lcm),0 0 0 3px var(--hl-solid)}
+
+/* ---------- 舞台 ---------- */
+.stage{display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:900px){.stage{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);align-items:start}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 1px 2px var(--shadow),0 8px 22px var(--shadow);padding:14px 16px 16px;min-width:0}
+.panel h2{font-family:var(--font-hand);font-size:1.4rem;margin:0 0 6px;display:flex;flex-wrap:wrap;gap:.2em .6em;align-items:baseline}
+.h2-sub{font-family:var(--font-body);font-size:1rem;color:var(--ink-soft);font-weight:400}
+
+/* 作業簿 */
+.board-panel{position:relative;background-color:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:30px 30px;border-left:4px double var(--red)}
+.dots{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 6px;padding:0;list-style:none}
+.dot{font:inherit;font-size:1rem;font-weight:700;min-width:44px;height:44px;border-radius:22px;border:2px solid var(--line);background:var(--card);color:var(--ink-soft);cursor:pointer;padding:0 12px}
+.dot.done{border-color:var(--ink-soft);color:var(--ink)}
+.dot[aria-current="step"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.sd-scroll{overflow-x:auto;overflow-y:hidden;padding:2px 0 6px}
+.sd-wrap{position:relative;display:inline-block;min-width:100%;--sdfs:clamp(27px,1.1vw + 21px,38px);font-size:var(--sdfs);padding:.35em .5em .3em .3em}
+.sd{display:grid;grid-template-columns:auto auto auto minmax(0,auto);justify-content:start;font-variant-numeric:tabular-nums lining-nums;line-height:1.25}
+.sd-row{grid-column:1/-1;display:grid;grid-template-columns:subgrid;align-items:center;border-radius:8px}
+.sd-row.current{background:var(--hl-line)}
+.sd-d{position:relative;min-width:1.6em;align-self:stretch;display:flex;align-items:center;justify-content:flex-end;padding:.1em .42em .14em .2em;font-weight:700}
+.sd-n{position:relative;align-self:stretch;display:flex;align-items:center;justify-content:flex-end;min-width:2.3em;padding:.1em .38em .14em}
+.v{display:inline-block;border-radius:6px;padding:0 .05em}
+.sd-d.line::after{content:"";position:absolute;right:0;top:.16em;bottom:0;width:3px;border-radius:2px;background:var(--ink);transform-origin:50% 0}
+.sd-n.line::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;border-radius:2px;background:var(--ink);transform-origin:0 50%}
+.sd-row.drawing .sd-d.line::after{animation:vline .35s ease-out both}
+.sd-row.drawing .sd-n.line::after{animation:hline .5s .3s ease-out both}
+@keyframes vline{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes hline{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.sd-d.ask .v{min-width:1.15em;text-align:center;border:2.5px dashed var(--red);border-radius:8px;color:var(--red);font-family:var(--font-hand);line-height:1.1}
+.sd-d.ask.shake .v{animation:shake .45s}
+@keyframes shake{0%,100%{transform:none}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+.sd-tag{align-self:center;font-family:var(--font-hand);font-size:.5em;padding-left:1em;display:flex;flex-wrap:wrap;gap:.15em .8em;line-height:1.5;min-width:0}
+.calc{display:inline-block;padding:0 .3em;border-radius:4px;background:linear-gradient(transparent 45%,var(--hl) 45%);color:var(--ink);font-family:var(--font-body);font-weight:500;white-space:nowrap}
+.calc b{font-weight:700;color:var(--red)}
+.sd-tag.writing .calc{animation:write .8s steps(12,end) both}
+.sd-tag.writing .calc + .calc{animation-delay:.35s}
+@keyframes write{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+.tag-pen{color:var(--red);font-weight:700;white-space:nowrap}
+.pending{visibility:hidden}
+.arrive{animation:arrive .55s cubic-bezier(.2,1.4,.4,1)}
+@keyframes arrive{0%{transform:scale(.4);opacity:0}100%{transform:scale(1);opacity:1}}
+.drop{animation:drop .6s cubic-bezier(.2,1.3,.4,1)}
+@keyframes drop{from{transform:translateY(-1em);opacity:0}to{transform:none;opacity:1}}
+.v.ping{animation:ping 1s ease-out}
+@keyframes ping{0%{background:var(--hl-solid);transform:scale(1.25)}100%{background:transparent;transform:scale(1)}}
+.sd-ov{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.sd-ov path{fill:none;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:0}
+.sd-ov .ov-gcd{stroke:var(--gcd)}
+.sd-ov .ov-lcm{stroke:var(--lcm);stroke-width:4}
+.sd-ov path.wait{opacity:0}
+.sd-ov path.draw{animation:ovdraw .9s ease-out both}
+@keyframes ovdraw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+
+/* 選除數 */
+.chooser{margin-top:8px;padding:12px 0 0;border-top:2px dashed var(--line)}
+.chooser[hidden],.done-box[hidden]{display:none}
+.ch-h{margin:0 0 8px;font-family:var(--font-hand);font-size:1.25rem}
+.picks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;max-width:420px}
+.key{font:inherit;font-size:1.6rem;font-weight:700;min-height:60px;border-radius:12px;border:2px solid var(--ink-soft);background:var(--btn-bg);color:var(--ink);cursor:pointer;touch-action:manipulation;font-variant-numeric:tabular-nums}
+.key:active{background:var(--hl-line)}
+.own{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin:12px 0}
+.own label{font-size:1rem;color:var(--ink-soft);flex:1 1 100%}
+.qfield{display:block;font:inherit;font-size:1.5rem;min-height:56px;padding:4px 14px;border:2px solid var(--ink-soft);border-radius:12px;background:var(--paper);color:var(--ink);font-variant-numeric:tabular-nums;width:100%}
+.qfield.short{width:7.5em;flex:0 0 auto}
+.btn.stop{border-color:var(--red);color:var(--red);width:100%;max-width:420px}
+.done-box{margin-top:10px;padding:12px 0 0;border-top:2px dashed var(--line)}
+.done-box p{margin:0 0 8px;font-family:var(--font-hand);font-size:1.25rem}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+/* 結算 */
+.result{margin-top:6px}
+.result:empty{display:none}
+.res-grid{display:grid;gap:12px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:640px){.res-grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.res-card{border:3px solid var(--gcd);border-radius:14px;padding:10px 14px;background:var(--card);font-size:clamp(1.12rem,1rem + .5vw,1.35rem);min-width:0}
+.res-card.lcm{border-color:var(--lcm)}
+.res-h{margin:0 0 .2em;font-family:var(--font-hand);font-weight:700;font-size:1.15em;display:flex;flex-wrap:wrap;align-items:baseline;gap:0 .5em}
+.res-h small{font-family:var(--font-body);font-weight:400;font-size:.72em;color:var(--ink-soft)}
+.res-card.gcd .res-h{color:var(--gcd)}
+.res-card.lcm .res-h{color:var(--lcm)}
+.formula{display:flex;flex-wrap:wrap;align-items:baseline;margin:.2em 0 .35em;font-size:1.15em;font-variant-numeric:tabular-nums}
+.mf{display:inline-flex;align-items:baseline;white-space:nowrap}
+.ans{font-weight:700;padding:0 .2em;border-radius:4px;background:linear-gradient(transparent 55%,var(--hl) 55%)}
+.vrow{margin:.2em 0;font-size:.95em}
+.wrow{margin:.4em 0 0;font-family:var(--font-hand);color:var(--red);font-size:1em;line-height:1.5}
+.note{margin:.2em 0;font-size:.9em;color:var(--ink-soft)}
+.stamp{display:inline-block;margin-left:.4em;font-family:var(--font-hand);font-weight:700;font-size:1.15em;color:var(--red);border:4px double var(--red);border-radius:10px;padding:0 .45em;transform:rotate(-8deg);white-space:nowrap}
+.stamp.go{animation:stamp .55s cubic-bezier(.2,1.5,.4,1) both}
+@keyframes stamp{from{transform:rotate(-8deg) scale(2.6);opacity:0}to{transform:rotate(-8deg) scale(1);opacity:1}}
+.rise{animation:rise .45s ease-out both}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.disc{margin-top:12px;border:2px dashed var(--ink-soft);border-radius:14px;padding:10px 14px;background:var(--hl-line);font-size:clamp(1.1rem,1rem + .4vw,1.3rem)}
+.disc-h{margin:0;font-family:var(--font-hand);font-weight:700;font-size:1.15em}
+.disc p{margin:.2em 0}
+.more{margin:10px 0 0;font-size:1rem;color:var(--ink-soft)}
+
+/* 質因數積木 */
+.blocks-panel{position:relative}
+.bk{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start}
+.bk[hidden]{display:none}
+.bk-common{min-width:72px;border:2px dashed var(--line);border-radius:12px;padding:6px;display:flex;flex-direction:column;align-items:center;gap:6px;min-height:118px;transition:border-color .3s,box-shadow .3s}
+.bk-common.on-gcd{border:3px solid var(--gcd);box-shadow:0 0 0 4px var(--gcd-soft)}
+.bk-lab{margin:0;font-size:.82rem;color:var(--ink-soft);text-align:center;line-height:1.3}
+.bk-col{display:flex;flex-direction:column;gap:5px;align-items:center}
+.bk-empty{font-size:.85rem;color:var(--ink-soft)}
+.bk-rows{display:grid;gap:12px;padding-top:4px}
+.bk-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.bk-num{font-size:1.5rem;font-weight:700;min-width:2.1em;text-align:right;font-variant-numeric:tabular-nums}
+.bk-eq{color:var(--ink-soft);font-weight:700}
+.bk-line{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.blk{display:inline-flex;align-items:center;justify-content:center;min-width:36px;height:36px;padding:0 6px;border-radius:8px;font-weight:700;font-size:1.15rem;line-height:1;color:var(--blk-on);box-shadow:inset 0 -3px 0 rgba(0,0,0,.18);font-variant-numeric:tabular-nums}
+.blk.p2{background:var(--p2)}
+.blk.p3{background:var(--p3)}
+.blk.p5{background:var(--p5)}
+.blk.p7{background:var(--p7)}
+.blk.px{background:var(--px)}
+.blk-none{color:var(--ink-soft);font-size:1rem}
+.bk-fly{position:absolute;left:0;top:0;z-index:20;pointer-events:none;margin:0}
+.bk-res{display:grid;gap:10px;margin-top:12px}
+.bk-res:empty{display:none}
+.bk-r{margin:0;padding:8px 10px;border-radius:12px;border:3px solid var(--gcd);background:var(--card)}
+.bk-r.lcm{border-color:var(--lcm)}
+.bk-r b{font-family:var(--font-hand)}
+.bk-r.gcd b{color:var(--gcd)}
+.bk-r.lcm b{color:var(--lcm)}
+.bk-union{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin:.35em 0 0}
+.bk-plus{font-weight:700;color:var(--ink-soft);margin:0 .15em}
+.bk-cap{font-family:var(--font-hand);font-size:1.15rem;margin:12px 0 0;min-height:2.6em}
+.bk-off{margin:6px 0 0;font-family:var(--font-hand);font-size:1.2rem;line-height:1.55;background:var(--paper);border:2px dashed var(--red);border-radius:12px;padding:12px 16px}
+.bk-off[hidden]{display:none}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;margin:10px 0 0;padding:0;list-style:none;font-size:.92rem;color:var(--ink-soft)}
+.legend li{display:flex;align-items:center;gap:6px}
+.legend .blk{min-width:24px;height:24px;font-size:.85rem;border-radius:6px}
+
+/* ---------- 出題與管理 ---------- */
+.sec{margin-top:36px}
+.sec > h2{font-family:var(--font-hand);font-size:clamp(1.6rem,1.3rem + 1vw,2rem);margin:0 0 4px}
+.sec > p.sub{margin:0 0 12px;color:var(--ink-soft)}
+.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.box + .box{margin-top:14px}
+.box h3{font-family:var(--font-hand);font-size:1.35rem;margin:0 0 8px}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:520px}
+.pair label{display:block;font-size:1rem;color:var(--ink-soft)}
+.fmsg{display:block;min-height:1.5em;font-family:var(--font-hand);font-size:1.05rem;color:var(--red);line-height:1.4;margin-top:2px}
+.preview{margin:10px 0 2px;font-size:1.3rem;min-height:1.8em}
+.hint{min-height:1.8em;margin:2px 0 12px;font-family:var(--font-hand);font-size:1.25rem;color:var(--red)}
+.hint.ok{color:var(--ink)}
+.mlist{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.mrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:8px 10px;border:1.5px solid var(--line);border-radius:12px;background:var(--paper)}
+.mrow.on{border-color:var(--ink);box-shadow:inset 4px 0 0 var(--hl-solid)}
+.mnum{font-weight:700;min-width:2em;color:var(--ink-soft)}
+.mtag{font-size:.9rem;padding:0 .6em;border-radius:999px;border:1.5px solid var(--line);color:var(--ink-soft);white-space:nowrap}
+.meq{font-size:1.25rem;white-space:nowrap;flex:1 1 120px;min-width:0;font-variant-numeric:tabular-nums}
+.mbtns,.mconfirm{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.mconfirm{font-family:var(--font-hand);font-size:1.15rem;color:var(--red)}
+.mbtns[hidden],.mconfirm[hidden],.confirm[hidden]{display:none}
+.confirm{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px;font-family:var(--font-hand);font-size:1.15rem;color:var(--red)}
+textarea{display:block;width:100%;font:inherit;font-size:1.1rem;padding:10px 12px;border:2px solid var(--ink-soft);border-radius:10px;background:var(--paper);color:var(--ink);resize:vertical;min-height:64px}
+.msg{min-height:1.6em;margin:8px 0 0;font-family:var(--font-hand);font-size:1.15rem}
+.msg.bad{color:var(--red)}
+
+/* ---------- 常見錯誤 ---------- */
+.flips{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(270px,1fr))}
+.flip{font:inherit;color:inherit;text-align:left;background:none;border:0;padding:0;cursor:pointer;perspective:1200px;display:block;width:100%}
+.flip-in{display:grid;transition:transform .6s;transform-style:preserve-3d}
+.flip[aria-pressed="true"] .flip-in{transform:rotateY(180deg)}
+.face{grid-area:1/1;display:block;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 1px 2px var(--shadow),0 6px 16px var(--shadow);min-width:0}
+.face.back{transform:rotateY(180deg);background-color:var(--paper)}
+.face-h{display:block;font-family:var(--font-hand);font-weight:700;font-size:1.3rem;margin-bottom:6px}
+.face-h .red{color:var(--red)}
+.work{display:block;font-size:1.2rem;line-height:1.7}
+.face-note{display:block;font-family:var(--font-hand);font-size:1.12rem;margin-top:6px}
+.face-note.red{color:var(--red)}
+.tap{display:block;margin-top:8px;font-size:.95rem;color:var(--ink-soft)}
+.oops{position:relative;display:inline-block;padding:0 .12em}
+.oops::after{content:"";position:absolute;inset:-.12em -.25em;border:3px solid var(--red);border-radius:50%;transform:rotate(-5deg);pointer-events:none}
+.good{color:var(--red);font-weight:700}
+.minis{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:flex-start}
+.minis > span{display:flex;flex-direction:column;gap:2px}
+.mini-cap{font-size:.95rem;font-weight:700}
+.mini-cap.g{color:var(--gcd)}
+.mini-cap.l{color:var(--lcm)}
+.mini{display:inline-grid;grid-template-columns:auto auto auto auto;font-size:1.35rem;line-height:1.3;font-variant-numeric:tabular-nums;margin:4px 0}
+.m-row{grid-column:1/-1;display:grid;grid-template-columns:subgrid;align-items:center}
+.m-d{min-width:1.3em;text-align:right;padding:0 .3em 0 .1em;font-weight:700}
+.m-n{min-width:2em;text-align:right;padding:0 .3em}
+.m-row:not(.m-last) .m-d{border-right:2.5px solid var(--ink)}
+.m-row:not(.m-last) .m-n{border-bottom:2.5px solid var(--ink)}
+.m-x{font-family:var(--font-hand);font-size:.62em;color:var(--red);padding-left:.6em;white-space:nowrap}
+.mk-gcd .m-row:not(.m-last) .m-d{background:var(--gcd-soft);color:var(--gcd);box-shadow:inset 0 0 0 2px var(--gcd)}
+.mk-lcm .m-row:not(.m-last) .m-d,.mk-lcm .m-last .m-n{background:var(--lcm-soft);color:var(--lcm);box-shadow:inset 0 0 0 2px var(--lcm)}
+
+footer{margin-top:40px;color:var(--ink-soft);font-size:.98rem}
+
+/* ---------- 分享這個遊戲 ---------- */
+.share-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:0 0 16px}
+footer .share-row{margin:14px 0 0}
+.btn.share{display:inline-flex;align-items:center;gap:.4em;box-shadow:inset 0 -5px 0 var(--hl-solid)}
+.share-msg{margin:0;min-height:1.6em;font-family:var(--font-hand);font-size:1.15rem;color:var(--ink)}
+.share-url{display:block;flex:1 1 100%;max-width:36rem;font:inherit;font-size:1rem;padding:8px 12px;border:2px solid var(--ink-soft);border-radius:10px;background:var(--paper);color:var(--ink)}
+.share-url[hidden]{display:none}
+
+@media (max-width:640px){
+  .btn{padding:0 14px;font-size:1.05rem}
+  .stepinfo{margin-left:0;width:100%}
+  .tabs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mode{flex:1 1 calc(50% - 10px);justify-content:center;padding:0 10px;font-size:1.05rem}
+  .rules{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .rule{padding:7px 9px 9px}
+  .sd-wrap{--sdfs:25px;padding:.3em .3em .3em .15em}
+  .sd-n{min-width:2em;padding-inline:.3em}
+  .sd-tag{flex-direction:column;align-items:flex-start;gap:0;padding-left:.5em;font-size:.5em}
+  .bk{grid-template-columns:minmax(0,1fr)}
+  .bk-common{flex-direction:row;flex-wrap:wrap;min-height:0;align-items:center;justify-content:flex-start}
+  .bk-common .bk-lab{width:100%;text-align:left}
+  .bk-col{flex-direction:row;flex-wrap:wrap}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.001ms!important;transition-delay:0s!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <p class="kicker">小學五、六年級．用短除法找最大公因數和最小公倍數</p>
+    <h1>短除法<small>最大公因數與最小公倍數</small></h1>
+    <p class="lede">兩個數一起除、一直除到不能再除。<strong>左邊乘起來，就是最大公因數；</strong><strong>整個 L 形乘起來，就是最小公倍數。</strong>每一步都由你來選除數，選錯了老師會提醒你。也可以自己出題。</p>
+    <div class="share-row">
+      <button type="button" class="btn share" id="btn-share-top" data-share="top">🔗 分享這個遊戲</button>
+      <p class="share-msg" id="share-msg-top" role="status" aria-live="polite"></p>
+      <input class="share-url" id="share-url-top" type="text" readonly hidden aria-label="遊戲網址">
+    </div>
+  </header>
+
+  <div class="modes" id="modes" role="group" aria-label="要找什麼">
+    <button type="button" class="mode" id="mode-gcd" data-mode="gcd" aria-pressed="true"><i class="sw" aria-hidden="true"></i>找最大公因數</button>
+    <button type="button" class="mode" id="mode-lcm" data-mode="lcm" aria-pressed="false"><i class="sw l" aria-hidden="true"></i>找最小公倍數</button>
+    <button type="button" class="mode" id="mode-both" data-mode="both" aria-pressed="false"><i class="sw both" aria-hidden="true"></i>兩個一起看</button>
+  </div>
+
+  <nav class="tabs" id="tabs" aria-label="選一題"></nav>
+  <p class="store-note" id="store-note" hidden>這個瀏覽器不能記住你加的題目，重新整理就會消失。</p>
+
+  <div class="controls" id="controls" role="group" aria-label="步驟控制">
+    <button type="button" class="btn" id="btn-prev">上一步</button>
+    <button type="button" class="btn primary" id="btn-next" title="老師幫你走一步">下一步</button>
+    <button type="button" class="btn" id="btn-play" aria-pressed="false">自動播放</button>
+    <button type="button" class="btn" id="btn-reset">重來</button>
+    <span class="stepinfo" id="stepinfo" aria-live="polite"></span>
+  </div>
+
+  <section class="talk" aria-label="老師說明">
+    <div class="teacher" id="teacher" aria-live="polite">
+      <p class="say" id="say"></p>
+      <p class="why" id="why"></p>
+    </div>
+    <div class="rules" aria-label="短除法口訣">
+      <p class="rules-h">短除法口訣</p>
+      <div class="rule r1" id="rule-1"><b><span class="no">1</span>找一個兩個數都能除盡的數</b><small>寫在左邊</small><span class="tip" id="rule-tip" hidden>用 2、3、5、7 這些小的質數最好找</span></div>
+      <div class="rule r2" id="rule-2"><b><span class="no">2</span>除完寫下面，一直除到只剩 1 是公因數</b><small>商寫在下一行</small></div>
+      <div class="rule r3" id="rule-3"><b><span class="no">3</span>左邊全部乘起來，就是最大公因數</b><small>只乘左邊那一直排</small></div>
+      <div class="rule r4" id="rule-4"><b><span class="no">4</span>L 形全部乘起來，就是最小公倍數</b><small>左邊一排＋最下面一排</small></div>
+    </div>
+  </section>
+
+  <section class="stage" aria-label="作業簿和質因數積木">
+    <div class="panel board-panel" id="board-panel">
+      <h2>作業簿 <span class="h2-sub" id="board-title"></span></h2>
+      <ol class="dots" id="dots" aria-label="跳到第幾步"></ol>
+      <div class="sd-scroll">
+        <div class="sd-wrap" id="sd-wrap">
+          <div class="sd" id="sd" role="img" aria-label="短除法直式"></div>
+          <svg class="sd-ov" id="sd-ov" aria-hidden="true"></svg>
+        </div>
+      </div>
+      <div class="chooser" id="chooser">
+        <p class="ch-h" id="ch-h">選一個兩個數都能除盡的數：</p>
+        <div class="picks" role="group" aria-label="常用的除數">
+          <button type="button" class="key" id="pick-2" data-d="2">2</button>
+          <button type="button" class="key" id="pick-3" data-d="3">3</button>
+          <button type="button" class="key" id="pick-5" data-d="5">5</button>
+          <button type="button" class="key" id="pick-7" data-d="7">7</button>
+        </div>
+        <div class="own">
+          <label for="div-input">也可以自己寫一個數：</label>
+          <input class="qfield short" id="div-input" type="text" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="例如 4">
+          <button type="button" class="btn" id="div-go">用這個數除</button>
+        </div>
+        <button type="button" class="btn stop" id="btn-stop">找不到了（只剩 1）</button>
+      </div>
+      <div class="done-box" id="done-box" hidden>
+        <p>這題完成了！可以換別的除數再做一次，結果會一樣喔。</p>
+        <div class="row">
+          <button type="button" class="btn" id="btn-again">換別的除數再做一次</button>
+          <button type="button" class="btn primary" id="btn-nextq">下一題 →</button>
+        </div>
+      </div>
+      <div class="result" id="result" aria-live="polite"></div>
+    </div>
+
+    <div class="panel blocks-panel" id="blocks-panel">
+      <h2>質因數積木 <span class="h2-sub">每個數拆成質數小方塊</span></h2>
+      <div class="bk" id="bk">
+        <div class="bk-common" id="bk-common-box">
+          <p class="bk-lab">兩個數<br>一起拿掉的</p>
+          <div class="bk-col" id="bk-common"></div>
+        </div>
+        <div class="bk-rows">
+          <div class="bk-row"><span class="bk-num" id="bk-num-a"></span><span class="bk-eq">=</span><span class="bk-line" id="bk-line-a"></span></div>
+          <div class="bk-row"><span class="bk-num" id="bk-num-b"></span><span class="bk-eq">=</span><span class="bk-line" id="bk-line-b"></span></div>
+        </div>
+      </div>
+      <p class="bk-off" id="bk-off" hidden></p>
+      <div class="bk-res" id="bk-res"></div>
+      <p class="bk-cap" id="bk-cap"></p>
+      <ul class="legend" aria-label="圖例">
+        <li><span class="blk p2">2</span>質數 2</li>
+        <li><span class="blk p3">3</span>質數 3</li>
+        <li><span class="blk p5">5</span>質數 5</li>
+        <li><span class="blk p7">7</span>質數 7</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec" id="editor-sec" aria-labelledby="editor-h">
+    <h2 id="editor-h">自己出題</h2>
+    <p class="sub">寫兩個 2 到 200 的整數，例如 12 和 18。答案會先藏起來，要自己除除看。</p>
+    <div class="box">
+      <div class="pair">
+        <div>
+          <label for="num-a">第一個數</label>
+          <input class="qfield" id="num-a" type="text" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="例如 12">
+          <span class="fmsg" id="num-a-msg" role="status" aria-live="polite"></span>
+        </div>
+        <div>
+          <label for="num-b">第二個數</label>
+          <input class="qfield" id="num-b" type="text" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="例如 18">
+          <span class="fmsg" id="num-b-msg" role="status" aria-live="polite"></span>
+        </div>
+      </div>
+      <p class="preview" id="q-preview"></p>
+      <p class="hint" id="q-msg" role="status" aria-live="polite"></p>
+      <div class="row">
+        <button type="button" class="btn primary" id="btn-add">加到題目清單</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="manage-sec" aria-labelledby="manage-h">
+    <h2 id="manage-h">管理題目</h2>
+    <p class="sub">可以練習、刪除、調順序。清單最少 1 題，最多 30 題。</p>
+    <div class="box">
+      <ol class="mlist" id="manage-list"></ol>
+      <p class="msg" id="manage-msg" role="status" aria-live="polite"></p>
+      <div class="row" style="margin-top:10px">
+        <button type="button" class="btn small danger" id="btn-restore">恢復預設題目</button>
+      </div>
+      <div class="confirm" id="restore-confirm" hidden>
+        <span>確定恢復預設的 6 題？你加的題目會不見。</span>
+        <button type="button" class="btn small danger" id="btn-restore-yes">恢復</button>
+        <button type="button" class="btn small" id="btn-restore-no">取消</button>
+      </div>
+    </div>
+    <div class="box">
+      <h3>把題目帶到別台電腦</h3>
+      <label for="code-out" class="h2-sub">題目代碼（複製起來，貼到別台電腦）</label>
+      <textarea id="code-out" readonly rows="2"></textarea>
+      <div class="row" style="margin-top:8px"><button type="button" class="btn small" id="btn-copy">複製題目代碼</button></div>
+      <label for="code-in" class="h2-sub" style="display:block;margin-top:14px">貼上題目代碼（會加在清單後面）</label>
+      <textarea id="code-in" rows="2" placeholder="例如 12,18; 30,45"></textarea>
+      <div class="row" style="margin-top:8px"><button type="button" class="btn small" id="btn-import">匯入</button></div>
+      <p class="msg" id="code-msg" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="oops-h">
+    <h2 id="oops-h">常見錯誤</h2>
+    <p class="sub">點一下卡片，翻過來看正解。</p>
+    <div class="flips">
+      <button type="button" class="flip" id="mistake-1" aria-pressed="false">
+        <span class="flip-in">
+          <span class="face front">
+            <span class="face-h"><span class="red">錯誤 1</span>　除到一半就停了</span>
+            <span class="mini-slot" data-mini="half-wrong"></span>
+            <span class="work">最大公因數 ＝ 2 × 3 ＝ <span class="oops">6</span></span>
+            <span class="face-note red">4 和 6 都是雙數，還能一起除以 2，不能停！</span>
+            <span class="tap">點一下看正解</span>
+          </span>
+          <span class="face back" aria-hidden="true">
+            <span class="face-h">正解：除到只剩 1 是公因數才停</span>
+            <span class="mini-slot" data-mini="half-right"></span>
+            <span class="work">最大公因數 ＝ 2 × 3 × 2 ＝ <span class="good">12</span></span>
+            <span class="face-note">剩 2 和 3，除了 1 沒有數能一起除盡，這時候才停。</span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="flip" id="mistake-2" aria-pressed="false">
+        <span class="flip-in">
+          <span class="face front">
+            <span class="face-h"><span class="red">錯誤 2</span>　最大公因數和最小公倍數搞混</span>
+            <span class="mini-slot" data-mini="mix-wrong"></span>
+            <span class="work">最大公因數 ＝ 2 × 3 × 2 × 3 ＝ <span class="oops">36</span></span>
+            <span class="face-note red">把最下面的 2 和 3 也乘進去了，那是最小公倍數的算法！</span>
+            <span class="tap">點一下看正解</span>
+          </span>
+          <span class="face back" aria-hidden="true">
+            <span class="face-h">正解：看要找哪一個</span>
+            <span class="minis">
+              <span><span class="mini-cap g">最大公因數：只乘左邊</span><span class="mini-slot" data-mini="mix-gcd"></span><span class="work">2 × 3 ＝ <span class="good">6</span></span></span>
+              <span><span class="mini-cap l">最小公倍數：乘整個 L 形</span><span class="mini-slot" data-mini="mix-lcm"></span><span class="work">2 × 3 × 2 × 3 ＝ <span class="good">36</span></span></span>
+            </span>
+            <span class="face-note">最大公因數只乘左邊那一直排；最小公倍數連最下面一排也要乘。</span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="flip" id="mistake-3" aria-pressed="false">
+        <span class="flip-in">
+          <span class="face front">
+            <span class="face-h"><span class="red">錯誤 3</span>　最小公倍數忘了乘最下面的數</span>
+            <span class="mini-slot" data-mini="mix-gcd"></span>
+            <span class="work">最小公倍數 ＝ 2 × 3 ＝ <span class="oops">6</span></span>
+            <span class="face-note red">只乘左邊，算出來的是最大公因數。6 比 12 還小，不可能是 12 的倍數！</span>
+            <span class="tap">點一下看正解</span>
+          </span>
+          <span class="face back" aria-hidden="true">
+            <span class="face-h">正解：L 形全部都要乘</span>
+            <span class="mini-slot" data-mini="mix-lcm"></span>
+            <span class="work">最小公倍數 ＝ 2 × 3 × 2 × 3 ＝ <span class="good">36</span></span>
+            <span class="face-note">檢查：36 ÷ 12 ＝ 3，36 ÷ 18 ＝ 2，兩個都除得盡！</span>
+          </span>
+        </span>
+      </button>
+      <button type="button" class="flip" id="mistake-4" aria-pressed="false">
+        <span class="flip-in">
+          <span class="face front">
+            <span class="face-h"><span class="red">錯誤 4</span>　用不能整除的數去除</span>
+            <span class="mini-slot" data-mini="div-wrong"></span>
+            <span class="face-note red">18 ÷ 4 ＝ 4.5，出現小數了！4 不能同時除盡 12 和 18。</span>
+            <span class="tap">點一下看正解</span>
+          </span>
+          <span class="face back" aria-hidden="true">
+            <span class="face-h">正解：換一個兩個數都能除盡的數</span>
+            <span class="mini-slot" data-mini="div-right"></span>
+            <span class="face-note">12 和 18 都能被 2 除盡（也都能被 3 除盡），商都是整數。</span>
+          </span>
+        </span>
+      </button>
+    </div>
+  </section>
+
+  <footer>
+    <p>鍵盤也可以用：← 上一步、→ 下一步（老師幫你走一步）。數字比較大、質因數積木超過 8 顆的時候，積木會先休息，請看作業簿的直式。你加的題目只存在這台電腦的這個瀏覽器裡。</p>
+    <div class="share-row">
+      <button type="button" class="btn share" id="btn-share-bottom" data-share="bottom">🔗 分享這個遊戲</button>
+      <p class="share-msg" id="share-msg-bottom" role="status" aria-live="polite"></p>
+      <input class="share-url" id="share-url-bottom" type="text" readonly hidden aria-label="遊戲網址">
+    </div>
+  </footer>
+</main>
+
+<script>
+(function(){
+'use strict';
+
+/* ================= 基本工具 ================= */
+var RM = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches:false };
+function reduced(){ return !!RM.matches; }
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]; }); }
+function rep(ch, k){ var s = ''; for (var i = 0; i < k; i++) s += ch; return s; }
+
+/* ================= 數學：短除法求解器 ================= */
+function gcd(a, b){ a = Math.abs(a); b = Math.abs(b); while (b){ var t = a % b; a = b; b = t; } return a; }
+function lcmOf(a, b){ return a / gcd(a, b) * b; }
+function factorize(n){
+  var out = [], p = 2;
+  while (n > 1 && p * p <= n){ while (n % p === 0){ out.push(p); n /= p; } p++; }
+  if (n > 1) out.push(n);
+  return out;
+}
+function prod(arr){ return arr.reduce(function(s, x){ return s * x; }, 1); }
+/* 這一步可以接受的除數：所有比 1 大、能同時除盡兩個數的數 */
+function commonDivisors(a, b){ var g = gcd(a, b), out = []; for (var d = 2; d <= g; d++) if (g % d === 0) out.push(d); return out; }
+function smallestCommonPrime(a, b){ var g = gcd(a, b); return g > 1 ? factorize(g)[0] : 0; }
+function canStop(a, b){ return gcd(a, b) === 1; }
+function judge(a, b, d){
+  if (typeof d !== 'number' || !isFinite(d) || !Number.isInteger(d) || d < 0) return { ok:false, code:'int' };
+  if (d === 0) return { ok:false, code:'zero' };
+  if (d === 1) return { ok:false, code:'one' };
+  var okA = a % d === 0, okB = b % d === 0;
+  if (okA && okB) return { ok:true, qa:a / d, qb:b / d };
+  return { ok:false, code:'nodiv', okA:okA, okB:okB };
+}
+function walk(a, b, divs){
+  var rows = [], ca = a, cb = b;
+  for (var k = 0; k < divs.length; k++){
+    var j = judge(ca, cb, divs[k]);
+    if (!j.ok) return null;
+    rows.push({ a:ca, b:cb, d:divs[k] }); ca = j.qa; cb = j.qb;
+  }
+  return { rows:rows, ra:ca, rb:cb };
+}
+function settleOf(a, b, divs){
+  var w = walk(a, b, divs);
+  if (!w) return null;
+  var lF = divs.concat([w.ra, w.rb]);
+  return { rows:w.rows, ra:w.ra, rb:w.rb, coprime:gcd(w.ra, w.rb) === 1, g:prod(divs), l:prod(lF), gF:divs.slice(), lF:lF };
+}
+/* 標準解：每次用最小的共同質數 */
+function solve(a, b){
+  var divs = [], ca = a, cb = b, p, guard = 0;
+  while ((p = smallestCommonPrime(ca, cb)) && guard++ < 40){ divs.push(p); ca /= p; cb /= p; }
+  return settleOf(a, b, divs);
+}
+/* 所有可能的除法路徑（每一步可以用任何公因數） */
+function allPaths(a, b, cap){
+  var res = [];
+  (function dfs(ca, cb, path){
+    if (res.length >= cap) return;
+    var ds = commonDivisors(ca, cb);
+    if (!ds.length){ res.push(path.slice()); return; }
+    ds.forEach(function(d){ path.push(d); dfs(ca / d, cb / d, path); path.pop(); });
+  })(a, b, []);
+  return res;
+}
+function factText(d){ return factorize(d).join(' × '); }
+function isSmallPrime(d){ return d === 2 || d === 3 || d === 5 || d === 7; }
+
+/* 直式文字版（自我檢查與回報用） */
+function sdText(a, b, divs){
+  var s = settleOf(a, b, divs);
+  if (!s) return '（路徑不合法）';
+  var W = Math.max(String(a).length, String(b).length), DW = 1, out = [];
+  divs.forEach(function(d){ DW = Math.max(DW, String(d).length); });
+  function L(x, w){ x = String(x); while (x.length < w) x = ' ' + x; return x; }
+  s.rows.forEach(function(r){
+    out.push(L(r.d, DW) + ' │ ' + L(r.a, W) + '   ' + L(r.b, W));
+    out.push(L('', DW) + ' └' + rep('─', W * 2 + 5));
+  });
+  out.push(L('', DW) + '   ' + L(s.ra, W) + '   ' + L(s.rb, W) + (s.rows.length ? '   ← 只剩 1 是公因數，停' : '   ← 一開始就只剩 1 是公因數（互質），停'));
+  out.push('最大公因數 = ' + (divs.length > 1 ? divs.join(' × ') + ' = ' : '') + s.g);
+  out.push('最小公倍數（L 形）= ' + s.lF.join(' × ') + ' = ' + s.l);
+  return out.join('\n');
+}
+
+/* ================= 輸入檢查 ================= */
+var NUM_MSG = {
+  empty:'這一格還沒填數字喔。',
+  nonnum:'只能填數字喔。',
+  decimal:'只能用整數，不能有小數點喔。',
+  neg:'不能用負數喔，請用 2 到 200 的整數。',
+  zero:'0 不行喔，請用 2 到 200 的整數。',
+  one:'1 太小了，請用 2 到 200 的整數。',
+  big:'超過 200 了，請用 2 到 200 的整數。'
+};
+function normNum(s){
+  s = String(s == null ? '' : s);
+  s = s.replace(/[０-９]/g, function(c){ return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); });
+  s = s.replace(/[．。]/g, '.').replace(/[－−]/g, '-').replace(/＋/g, '+');
+  return s.replace(/^[\s　]+|[\s　]+$/g, '');
+}
+function numFail(code){ return { ok:false, code:code, msg:NUM_MSG[code] }; }
+function parseNum(raw){
+  var s = normNum(raw);
+  if (!s) return numFail('empty');
+  if (/^-\d*(\.\d*)?$/.test(s) && /\d/.test(s)) return numFail('neg');
+  if (/^\d*\.\d*$/.test(s) && /\d/.test(s)) return numFail('decimal');
+  if (!/^\d+$/.test(s)) return numFail('nonnum');
+  var v = Number(s);
+  if (v === 0) return numFail('zero');
+  if (v === 1) return numFail('one');
+  if (v > 200) return numFail('big');
+  return { ok:true, v:v };
+}
+/* 除數輸入框：只要是整數就交給 judge 判斷 */
+function parseDivisor(raw){
+  var s = normNum(raw);
+  if (!s) return { ok:false, msg:'先寫一個數字，再按「用這個數除」喔。' };
+  if (/^\d*\.\d*$/.test(s) && /\d/.test(s)) return { ok:false, msg:'短除法要用整數去除，不能有小數點喔。' };
+  if (/^-/.test(s)) return { ok:false, msg:'要用比 1 大的整數去除喔。' };
+  if (!/^\d+$/.test(s) || s.length > 6) return { ok:false, msg:'只能寫數字喔。' };
+  return { ok:true, v:Number(s) };
+}
+
+/* ================= 狀態 ================= */
+var BUILTIN = [[12, 18], [8, 12], [15, 25], [24, 36], [42, 56], [9, 16]];
+var BUILTIN_TAG = ['熱身', '熱身', '5 的倍數', '要除三次', '會用到 7', '互質'];
+var MAX_ITEMS = 30, MAX_BLOCKS = 8;
+function builtinList(){ return BUILTIN.map(function(p){ return { a:p[0], b:p[1], own:false }; }); }
+function samePair(x, y){ return (x.a === y.a && x.b === y.b) || (x.a === y.b && x.b === y.a); }
+var S = { list:[], idx:0, P:null, T:[{ type:'start' }], i:0, mode:'gcd', playing:false, early:0, store:null, storeOK:true, ov:{ gcd:true, lcm:true } };
+var timers = [], anims = [];
+function later(fn, ms){ var id = setTimeout(fn, ms); timers.push(id); return id; }
+function clearAll(){
+  timers.forEach(clearTimeout); timers = [];
+  anims.forEach(function(a){ try { a.cancel(); } catch (e){} }); anims = [];
+  var fl = document.querySelectorAll('.bk-fly'); for (var i = 0; i < fl.length; i++) fl[i].remove();
+}
+
+/* ================= 儲存（每次讀寫都包 try/catch） ================= */
+var STORE_KEY = 'duanchu-list-v1', MODE_KEY = 'duanchu-mode-v1';
+var BROKEN_STORE = { getItem:function(){ throw new Error('no storage'); }, setItem:function(){ throw new Error('no storage'); }, removeItem:function(){ throw new Error('no storage'); } };
+function getStore(){ try { var s = window.localStorage; return s || BROKEN_STORE; } catch (e){ return BROKEN_STORE; } }
+function cleanItem(it){
+  if (!it) return null;
+  var a = parseNum(String(it.a)), b = parseNum(String(it.b));
+  if (!a.ok || !b.ok) return null;
+  return { a:a.v, b:b.v, own:!!it.own };
+}
+function loadList(store){
+  var raw;
+  try { raw = store.getItem(STORE_KEY); } catch (e){ return { list:builtinList(), ok:false }; }
+  if (raw == null) return { list:builtinList(), ok:true };
+  try {
+    var d = JSON.parse(raw), out = [];
+    if (!d || !Array.isArray(d.items)) return { list:builtinList(), ok:true, bad:true };
+    d.items.forEach(function(it){
+      var c = cleanItem(it);
+      if (!c || out.length >= MAX_ITEMS) return;
+      if (!out.some(function(o){ return samePair(o, c); })) out.push(c);
+    });
+    if (!out.length) return { list:builtinList(), ok:true, bad:true };
+    return { list:out, ok:true };
+  } catch (e){ return { list:builtinList(), ok:true, bad:true }; }
+}
+function saveList(store, list){
+  try { store.setItem(STORE_KEY, JSON.stringify({ v:1, items:list })); return true; } catch (e){ return false; }
+}
+function probeStore(store){
+  try { store.setItem(STORE_KEY + '-probe', '1'); store.removeItem(STORE_KEY + '-probe'); return true; } catch (e){ return false; }
+}
+function loadMode(store){
+  try { var m = store.getItem(MODE_KEY); return m === 'lcm' || m === 'both' ? m : 'gcd'; } catch (e){ return 'gcd'; }
+}
+function saveMode(store, m){ try { store.setItem(MODE_KEY, m); return true; } catch (e){ return false; } }
+function persist(){
+  var ok = saveList(S.store, S.list);
+  if (!ok) S.storeOK = false;
+  $('store-note').hidden = S.storeOK;
+}
+
+/* 題目代碼 */
+function exportCode(list){ return list.map(function(it){ return it.a + ',' + it.b; }).join('; '); }
+function importCode(list, text){
+  var out = list.slice(), added = [], skipped = [];
+  String(text || '').split(/[;；\n\r]+/).map(function(s){ return s.trim(); }).filter(Boolean).forEach(function(piece){
+    var parts = normNum(piece).split(/[,，、和與\s　]+/).filter(Boolean);
+    if (parts.length !== 2){ skipped.push({ text:piece, why:'要寫兩個數，例如 12,18。' }); return; }
+    var a = parseNum(parts[0]), b = parseNum(parts[1]);
+    if (!a.ok){ skipped.push({ text:piece, why:a.msg }); return; }
+    if (!b.ok){ skipped.push({ text:piece, why:b.msg }); return; }
+    var it = { a:a.v, b:b.v, own:true };
+    if (out.some(function(o){ return samePair(o, it); })){ skipped.push({ text:piece, why:'清單裡已經有這題了。' }); return; }
+    if (out.length >= MAX_ITEMS){ skipped.push({ text:piece, why:'清單滿了（最多 30 題）。' }); return; }
+    out.push(it); added.push(it);
+  });
+  return { list:out, added:added, skipped:skipped };
+}
+function category(it){
+  if (it.own) return '自己出的';
+  for (var k = 0; k < BUILTIN.length; k++) if (samePair(it, { a:BUILTIN[k][0], b:BUILTIN[k][1] })) return BUILTIN_TAG[k];
+  return '題目';
+}
+
+/* ================= 時間軸 ================= */
+function curDivs(upto){
+  var out = [], n = upto == null ? S.i : upto;
+  for (var k = 1; k <= n; k++) if (S.T[k].type === 'div') out.push(S.T[k].d);
+  return out;
+}
+function settled(){ return S.T[S.i].type === 'settle'; }
+function curPair(){ var w = walk(S.P.a, S.P.b, curDivs()); return { a:w.ra, b:w.rb, n:w.rows.length }; }
+
+/* ================= 作業簿：直式 ================= */
+var MODE_GOAL = { gcd:'找最大公因數', lcm:'找最小公倍數', both:'最大公因數和最小公倍數一起看' };
+function renderBoard(kind){
+  var P = S.P, divs = curDivs(), w = walk(P.a, P.b, divs), n = w.rows.length, st = settled(), h = '';
+  w.rows.forEach(function(r, k){
+    var nx = k + 1 < n ? w.rows[k + 1] : { a:w.ra, b:w.rb };
+    h += '<div class="sd-row" data-r="' + k + '">' +
+      '<span class="sd-d line" id="sd-d-' + k + '"><span class="v">' + r.d + '</span></span>' +
+      '<span class="sd-n line" id="sd-a-' + k + '"><span class="v">' + r.a + '</span></span>' +
+      '<span class="sd-n line" id="sd-b-' + k + '"><span class="v">' + r.b + '</span></span>' +
+      '<span class="sd-tag"><span class="calc">' + r.a + ' ÷ ' + r.d + ' = <b>' + nx.a + '</b></span><span class="calc">' + r.b + ' ÷ ' + r.d + ' = <b>' + nx.b + '</b></span></span></div>';
+  });
+  var tag = st ? '<span class="tag-pen">' + (n ? '只剩 1 是公因數，停' : '一開始就只剩 1 是公因數，停') + '</span>' : '';
+  h += '<div class="sd-row current" data-r="' + n + '">' +
+    '<span class="sd-d ' + (st ? 'blank' : 'ask') + '" id="sd-d-' + n + '"><span class="v">' + (st ? '' : '?') + '</span></span>' +
+    '<span class="sd-n" id="sd-a-' + n + '"><span class="v">' + w.ra + '</span></span>' +
+    '<span class="sd-n" id="sd-b-' + n + '"><span class="v">' + w.rb + '</span></span>' +
+    '<span class="sd-tag" id="sd-tag-last">' + tag + '</span></div>';
+  $('sd').innerHTML = h;
+  $('sd').setAttribute('aria-label', '短除法直式：' + P.a + ' 和 ' + P.b + (n ? '，左邊的除數 ' + divs.join('、') : '') + '，最下面剩 ' + w.ra + ' 和 ' + w.rb);
+  $('result').innerHTML = st ? resultHTML() : '';
+  var total = 0;
+  if (kind === 'div' && n > 0){
+    var row = $('sd').querySelector('.sd-row[data-r="' + (n - 1) + '"]');
+    var lastRow = $('sd').querySelector('.sd-row[data-r="' + n + '"]');
+    var tg = row.querySelector('.sd-tag');
+    row.classList.add('drawing');
+    row.querySelector('.sd-d .v').classList.add('arrive');
+    tg.classList.add('pending');
+    var nums = lastRow.querySelectorAll('.sd-n .v'), ask = lastRow.querySelector('.sd-d');
+    Array.prototype.forEach.call(nums, function(v){ v.classList.add('pending'); });
+    ask.classList.add('pending');
+    later(function(){ tg.classList.remove('pending'); tg.classList.add('writing'); }, 450);
+    later(function(){ Array.prototype.forEach.call(nums, function(v){ v.classList.remove('pending'); v.classList.add('drop'); }); }, 1250);
+    later(function(){ ask.classList.remove('pending'); ask.classList.add('arrive'); }, 1700);
+    total = 1900;
+  }
+  layoutOverlay(kind === 'settle');
+  if (st && kind === 'settle'){
+    var lt = $('sd-tag-last');
+    lt.classList.add('pending');
+    later(function(){ lt.classList.remove('pending'); lt.classList.add('arrive'); }, 100);
+    total = runSeq($('result'), 500);
+  }
+  return total;
+}
+function unionRect(els, wr){
+  var b = { x0:1e9, y0:1e9, x1:-1e9, y1:-1e9 };
+  els.forEach(function(e){
+    var r = e.getBoundingClientRect();
+    b.x0 = Math.min(b.x0, r.left - wr.left); b.y0 = Math.min(b.y0, r.top - wr.top);
+    b.x1 = Math.max(b.x1, r.right - wr.left); b.y1 = Math.max(b.y1, r.bottom - wr.top);
+  });
+  return b;
+}
+function rrPath(x0, y0, x1, y1, r){
+  r = Math.max(2, Math.min(r, (x1 - x0) / 2, (y1 - y0) / 2));
+  function f(v){ return Math.round(v * 10) / 10; }
+  return 'M' + f(x0 + r) + ',' + f(y0) + 'H' + f(x1 - r) + 'A' + f(r) + ',' + f(r) + ' 0 0 1 ' + f(x1) + ',' + f(y0 + r) +
+    'V' + f(y1 - r) + 'A' + f(r) + ',' + f(r) + ' 0 0 1 ' + f(x1 - r) + ',' + f(y1) +
+    'H' + f(x0 + r) + 'A' + f(r) + ',' + f(r) + ' 0 0 1 ' + f(x0) + ',' + f(y1 - r) +
+    'V' + f(y0 + r) + 'A' + f(r) + ',' + f(r) + ' 0 0 1 ' + f(x0 + r) + ',' + f(y0) + 'Z';
+}
+function lPath(D, B){
+  function f(v){ return Math.round(v * 10) / 10; }
+  return 'M' + f(D.x0) + ',' + f(D.y0) + 'H' + f(D.x1) + 'V' + f(B.y0) + 'H' + f(B.x1) + 'V' + f(B.y1) + 'H' + f(D.x0) + 'Z';
+}
+/* 結算時的框：最大公因數＝藍色圈住左邊一直排；最小公倍數＝紅筆描 L 形 */
+function layoutOverlay(fresh){
+  var svg = $('sd-ov'), wrap = $('sd-wrap');
+  if (!S.P || !settled()){ svg.innerHTML = ''; return; }
+  var wr = wrap.getBoundingClientRect();
+  svg.setAttribute('viewBox', '0 0 ' + (Math.round(wr.width * 10) / 10) + ' ' + (Math.round(wr.height * 10) / 10));
+  var n = curDivs().length, dEls = [], k;
+  for (k = 0; k < n; k++) dEls.push($('sd-d-' + k).querySelector('.v'));
+  var bEls = [$('sd-a-' + n).querySelector('.v'), $('sd-b-' + n).querySelector('.v')];
+  var h = '', em = parseFloat(getComputedStyle(wrap).fontSize) || 30;
+  function cls(kind){ return 'ov-' + kind + (S.ov[kind] ? '' : ' wait'); }
+  if (S.mode !== 'lcm' && n > 0){
+    var D = unionRect(dEls, wr), gx = em * 0.28, gy = em * 0.12;
+    h += '<path class="' + cls('gcd') + '" pathLength="1" d="' + rrPath(D.x0 - gx, D.y0 - gy, D.x1 + gx, D.y1 + gy, em * 0.5) + '"/>';
+  }
+  if (S.mode !== 'gcd'){
+    var B = unionRect(bEls, wr), px = em * 0.46, py = em * 0.2;
+    if (n > 0){
+      var D2 = unionRect(dEls, wr);
+      h += '<path class="' + cls('lcm') + '" pathLength="1" d="' + lPath({ x0:D2.x0 - px, y0:D2.y0 - py, x1:D2.x1 + px }, { y0:B.y0 - py, x1:B.x1 + px, y1:B.y1 + py }) + '"/>';
+    } else {
+      h += '<path class="' + cls('lcm') + '" pathLength="1" d="' + rrPath(B.x0 - px, B.y0 - py, B.x1 + px, B.y1 + py, em * 0.3) + '"/>';
+    }
+  }
+  svg.innerHTML = h;
+}
+function drawOv(kind){
+  S.ov[kind] = true;
+  var p = $('sd-ov').querySelector('.ov-' + kind);
+  if (p){ p.classList.remove('wait'); p.classList.add('draw'); }
+  if (kind === 'gcd') $('bk-common-box').classList.add('on-gcd');
+}
+function ping(id){
+  var e = $(id); if (!e) return;
+  var v = e.querySelector('.v') || e;
+  v.classList.remove('ping'); void v.offsetWidth; v.classList.add('ping');
+}
+/* 依序出現：每個 .sq 輪流亮出來 */
+function runSeq(root, t0){
+  var els = root.querySelectorAll('.sq'), t = t0;
+  Array.prototype.forEach.call(els, function(el){ el.classList.add('pending'); });
+  Array.prototype.forEach.call(els, function(el){
+    var isStamp = el.classList.contains('stamp'), draw = el.getAttribute('data-draw');
+    t += draw ? 150 : isStamp ? 520 : 360;
+    var at = t;
+    later(function(){
+      el.classList.remove('pending');
+      if (draw){ drawOv(draw); return; }
+      el.classList.add(isStamp ? 'go' : 'rise');
+      var pg = el.getAttribute('data-ping');
+      if (pg) ping(pg);
+    }, at);
+    if (draw) t += 800;
+  });
+  return t + 600;
+}
+var WHY = {
+  gcd:'左邊每一個，都是兩個數一起拿掉的公因數，乘起來就是它們最大的公共部分。',
+  gcd0:'除了 1，沒有數能同時除盡它們，所以兩個數最大的公共部分就是 1。',
+  lcm:'左邊是兩個數共有的部分，只算一次；最下面是各自多出來的部分，也要算進去，才是兩個數都裝得下的最小的數。',
+  lcm0:'互質的兩個數沒有共有的部分，最小公倍數就是直接相乘。'
+};
+function facHTML(list, refs){
+  return list.map(function(f, k){
+    return '<span class="sq mf" data-ping="' + refs[k] + '">' + (k ? '<span class="op">×</span>' : '') + f + '</span>';
+  }).join('');
+}
+function resultHTML(){
+  var P = S.P, s = settleOf(P.a, P.b, curDivs()), n = s.rows.length, m = S.mode, k;
+  var dRefs = []; for (k = 0; k < n; k++) dRefs.push('sd-d-' + k);
+  var lRefs = dRefs.concat(['sd-a-' + n, 'sd-b-' + n]);
+  var g = '<div class="res-card gcd"><span class="sq" data-draw="gcd" hidden></span>' +
+    '<p class="sq res-h">最大公因數<small>只乘左邊那一直排（藍框）</small></p>' +
+    '<p class="formula">' + (n ? facHTML(s.gF, dRefs) + '<span class="sq mf"><span class="op">=</span><b class="ans" id="ans-gcd">' + s.g + '</b></span>'
+                                : '<span class="sq mf">左邊沒有除數，所以是&nbsp;</span><span class="sq mf"><b class="ans" id="ans-gcd">1</b></span>') + '</p>' +
+    '<p class="sq vrow">驗算：' + P.a + ' ÷ ' + s.g + ' = ' + (P.a / s.g) + '，' + P.b + ' ÷ ' + s.g + ' = ' + (P.b / s.g) + '，都除得盡 <span class="sq stamp" id="stamp-gcd">✓ 正確</span></p>' +
+    '<p class="sq wrow">為什麼？' + (n ? WHY.gcd : WHY.gcd0) + '</p></div>';
+  var l = '<div class="res-card lcm"><span class="sq" data-draw="lcm" hidden></span>' +
+    '<p class="sq res-h">最小公倍數<small>L 形全部乘起來（紅框）</small></p>' +
+    '<p class="formula">' + facHTML(s.lF, lRefs) + '<span class="sq mf"><span class="op">=</span><b class="ans" id="ans-lcm">' + s.l + '</b></span></p>' +
+    (n ? '' : '<p class="sq note">互質的兩個數，最小公倍數就是直接相乘。</p>') +
+    '<p class="sq vrow">驗算：' + s.l + ' ÷ ' + P.a + ' = ' + (s.l / P.a) + '，' + s.l + ' ÷ ' + P.b + ' = ' + (s.l / P.b) + '，都除得盡 <span class="sq stamp" id="stamp-lcm">✓ 正確</span></p>' +
+    '<p class="sq wrow">為什麼？' + (n ? WHY.lcm : WHY.lcm0) + '</p></div>';
+  if (m === 'gcd') return '<div class="res-grid">' + g + '</div><p class="sq more">想把兩個答案放在一起比？按上面的「兩個一起看」。</p>';
+  if (m === 'lcm') return '<div class="res-grid">' + l + '</div><p class="sq more">想把兩個答案放在一起比？按上面的「兩個一起看」。</p>';
+  return '<div class="res-grid two">' + g + l + '</div>' +
+    '<div class="sq disc" id="disc"><p class="disc-h">🔍 小發現</p><p>最大公因數 × 最小公倍數 ＝ 兩數相乘</p>' +
+    '<p class="formula">' + s.g + '<span class="op">×</span>' + s.l + '<span class="op">=</span><b class="ans">' + (s.g * s.l) + '</b>，' +
+    P.a + '<span class="op">×</span>' + P.b + '<span class="op">=</span><b class="ans">' + (P.a * P.b) + '</b>，一樣！</p></div>';
+}
+
+/* ================= 質因數積木 ================= */
+function pcls(p){ return p === 2 ? 'p2' : p === 3 ? 'p3' : p === 5 ? 'p5' : p === 7 ? 'p7' : 'px'; }
+function blockState(a, b, divs){
+  var A = factorize(a).map(function(p, k){ return { id:'a' + k, p:p }; });
+  var B = factorize(b).map(function(p, k){ return { id:'b' + k, p:p }; });
+  var C = [], total = A.length + B.length;
+  divs.forEach(function(d){
+    factorize(d).forEach(function(p){
+      var ia = -1, ib = -1, k;
+      for (k = 0; k < A.length; k++) if (A[k].p === p){ ia = k; break; }
+      for (k = 0; k < B.length; k++) if (B[k].p === p){ ib = k; break; }
+      if (ia < 0 || ib < 0) return;
+      C.push({ id:'c' + C.length, p:p, from:[A[ia].id, B[ib].id] });
+      A.splice(ia, 1); B.splice(ib, 1);
+    });
+  });
+  return { A:A, B:B, C:C, total:total };
+}
+function blk(p, id, from){
+  return '<span class="blk ' + pcls(p) + '"' + (id ? ' data-id="' + id + '"' : '') + (from ? ' data-from="' + from + '"' : '') + '>' + p + '</span>';
+}
+function relRect(el, host){
+  var r = el.getBoundingClientRect(), h = host.getBoundingClientRect();
+  return { x:r.left - h.left - host.clientLeft, y:r.top - h.top - host.clientTop, w:r.width, h:r.height };
+}
+function renderBlocks(kind){
+  var panel = $('blocks-panel'), P = S.P, divs = curDivs(), bs = blockState(P.a, P.b, divs), st = settled();
+  var w = walk(P.a, P.b, divs), old = {};
+  if (kind){
+    Array.prototype.forEach.call(panel.querySelectorAll('.blk[data-id]'), function(e){ old[e.getAttribute('data-id')] = relRect(e, panel); });
+  }
+  $('bk-common-box').classList.toggle('on-gcd', st && S.mode !== 'lcm' && S.ov.gcd);
+  if (bs.total > MAX_BLOCKS){
+    $('bk').hidden = true; $('bk-res').innerHTML = ''; $('bk-cap').textContent = '';
+    $('bk-off').hidden = false;
+    $('bk-off').textContent = P.a + ' 和 ' + P.b + ' 拆成質數小方塊一共有 ' + bs.total + ' 顆，超過 8 顆，太擠了。這一題積木先休息，請看左邊作業簿的直式。';
+    return;
+  }
+  $('bk').hidden = false; $('bk-off').hidden = true;
+  $('bk-common').innerHTML = bs.C.length ? bs.C.map(function(c){ return blk(c.p, c.id, c.from.join(',')); }).join('') : '<span class="bk-empty">還沒有</span>';
+  $('bk-num-a').textContent = w.ra; $('bk-num-b').textContent = w.rb;
+  $('bk-line-a').innerHTML = bs.A.length ? bs.A.map(function(x){ return blk(x.p, x.id); }).join('') : '<span class="blk-none">1（沒有方塊了）</span>';
+  $('bk-line-b').innerHTML = bs.B.length ? bs.B.map(function(x){ return blk(x.p, x.id); }).join('') : '<span class="blk-none">1（沒有方塊了）</span>';
+  var res = '', cap = '';
+  if (st){
+    var s = settleOf(P.a, P.b, divs);
+    if (S.mode !== 'lcm'){
+      res += '<p class="bk-r gcd"><b>最大公因數</b>＝兩排共同的方塊（藍框）：' +
+        (bs.C.length ? bs.C.map(function(c){ return c.p; }).join(' × ') + ' ＝ ' + s.g : '沒有共同的方塊，所以是 1') + '</p>';
+    }
+    if (S.mode !== 'gcd'){
+      var u = '', k = 0;
+      bs.C.forEach(function(c){ u += blk(c.p, 'u' + (k++), c.id); });
+      if (bs.A.length){ u += '<span class="bk-plus">＋</span>'; bs.A.forEach(function(x){ u += blk(x.p, 'u' + (k++), x.id); }); }
+      if (bs.B.length){ u += '<span class="bk-plus">＋</span>'; bs.B.forEach(function(x){ u += blk(x.p, 'u' + (k++), x.id); }); }
+      res += '<div class="bk-r lcm"><b>最小公倍數</b>＝共同的方塊只放一份，再補上兩排各自剩下的：' +
+        '<div class="bk-union">' + (u || '<span class="blk-none">（沒有方塊）</span>') + '<span class="bk-plus">＝</span><b class="ans">' + s.l + '</b></div></div>';
+    }
+    cap = S.mode === 'gcd' ? '最大公因數＝兩排共同的方塊。'
+        : S.mode === 'lcm' ? '最小公倍數＝共同的方塊算一次，再補上兩排各自剩下的方塊。'
+        : '藍框是共同的方塊（最大公因數）；共同的放一份、再補上各自剩下的，就是最小公倍數。';
+  } else if (!divs.length){
+    cap = P.a + ' ＝ ' + factText(P.a) + '，' + P.b + ' ＝ ' + factText(P.b) + '。';
+  } else {
+    var d = S.T[S.i].type === 'div' ? S.T[S.i].d : divs[divs.length - 1];
+    var f = factorize(d);
+    cap = f.length > 1 ? '除以 ' + d + '：兩排同時拿掉 ' + f.join(' 和 ') + '（因為 ' + d + ' ＝ ' + f.join(' × ') + '），放到左邊。'
+                       : '除以 ' + d + '：兩排同時拿掉一顆 ' + d + '，放到左邊。';
+  }
+  $('bk-res').innerHTML = res;
+  $('bk-cap').textContent = cap;
+  if (!kind || reduced()) return;
+  /* 飛行動畫：從舊位置飛到新位置 */
+  var targets = panel.querySelectorAll('.blk[data-from]'), n = 0;
+  Array.prototype.forEach.call(targets, function(t){
+    var id = t.getAttribute('data-id');
+    if (kind === 'div' && old[id]) return;            /* 原本就在的不用飛 */
+    if (kind === 'div' && id.charAt(0) !== 'c') return;
+    if (kind === 'settle' && id.charAt(0) !== 'u') return;
+    var to = relRect(t, panel), froms = t.getAttribute('data-from').split(','), delay = kind === 'div' ? 250 : 900 + n * 170;
+    n++;
+    t.style.visibility = 'hidden';
+    var left = froms.length;
+    froms.forEach(function(fid){
+      var src = panel.querySelector('.blk[data-id="' + fid + '"]');
+      var fr = src ? relRect(src, panel) : old[fid];
+      if (!fr){ left--; if (!left) t.style.visibility = ''; return; }
+      var fly = document.createElement('span');
+      fly.className = 'blk ' + pcls(+t.textContent) + ' bk-fly'; fly.textContent = t.textContent; fly.setAttribute('aria-hidden', 'true');
+      fly.style.width = fr.w + 'px'; fly.style.height = fr.h + 'px';
+      panel.appendChild(fly);
+      var a = fly.animate([
+        { transform:'translate(' + fr.x + 'px,' + fr.y + 'px) scale(1)' },
+        { transform:'translate(' + ((fr.x + to.x) / 2) + 'px,' + (Math.min(fr.y, to.y) - 30) + 'px) scale(1.25)', offset:0.5 },
+        { transform:'translate(' + to.x + 'px,' + to.y + 'px) scale(1)' }
+      ], { duration:900, delay:delay, easing:'ease-in-out', fill:'both' });
+      anims.push(a);
+      a.onfinish = function(){ fly.remove(); left--; if (!left) t.style.visibility = ''; };
+    });
+  });
+}
+
+/* ================= 老師旁白 ================= */
+function renderText(){
+  var P = S.P, st = S.T[S.i], say = '', why = '';
+  if (st.type === 'start'){
+    say = '題目：' + P.a + ' 和 ' + P.b + '。找一個兩個數都能除盡的數，寫在左邊。';
+    why = '提示：先試試看 2、3、5、7 這些小的質數。';
+  } else if (st.type === 'div'){
+    var before = walk(P.a, P.b, curDivs(S.i - 1)), now = curPair(), d = st.d;
+    say = (st.by === 'auto' ? '老師幫你選 ' + d + '：' : '') + before.ra + ' 和 ' + before.rb + ' 都能被 ' + d + ' 除盡：' +
+      before.ra + ' ÷ ' + d + ' = ' + now.a + '，' + before.rb + ' ÷ ' + d + ' = ' + now.b + '，商寫在下面。';
+    if (factorize(d).length > 1) say += '（' + d + ' 也可以！除以 ' + d + ' 就等於一次拿掉 ' + factText(d) + '，結果一樣。）';
+    why = '接下來看 <b>' + now.a + ' 和 ' + now.b + '</b>：還能一起除嗎？還能就繼續除，找不到就按「找不到了」。';
+  } else {
+    var s = settleOf(P.a, P.b, curDivs()), n = s.rows.length;
+    if (S.mode === 'gcd'){
+      say = n ? '只剩 1 是公因數了，停！把左邊一排除數圈起來乘：' + s.gF.join(' × ') + ' = ' + s.g + '。'
+              : P.a + ' 和 ' + P.b + ' 一開始就找不到公因數（互質），最大公因數是 1。';
+      why = n ? WHY.gcd : WHY.gcd0;
+    } else if (S.mode === 'lcm'){
+      say = (n ? '停！沿著 L 形，把左邊一排和最下面一排全部乘起來：' : P.a + ' 和 ' + P.b + ' 互質，L 形就只有最下面這一排：') + s.lF.join(' × ') + ' = ' + s.l + '。';
+      why = n ? WHY.lcm : WHY.lcm0;
+    } else {
+      say = '停！藍框只圈左邊＝最大公因數 ' + s.g + '；紅色 L 形＝最小公倍數 ' + s.l + '。';
+      why = '兩個框只差在<b>最下面那一排</b>：最大公因數不乘它，最小公倍數要乘它。';
+    }
+  }
+  $('say').textContent = say;
+  $('why').innerHTML = why;
+  $('teacher').classList.remove('oops');
+}
+function renderRules(){
+  var st = S.T[S.i], lit = {};
+  if (st.type === 'start') lit.r1 = 1;
+  else if (st.type === 'div') lit.r2 = 1;
+  else { if (S.mode !== 'lcm') lit.r3 = 1; if (S.mode !== 'gcd') lit.r4 = 1; }
+  ['r1', 'r2', 'r3', 'r4'].forEach(function(r, k){ $('rule-' + (k + 1)).classList.toggle('lit', !!lit[r]); });
+  var ds = curDivs();
+  $('rule-tip').hidden = !(ds.length && ds.every(isSmallPrime));
+}
+function feedback(say, why){
+  $('say').textContent = say;
+  $('why').innerHTML = why;
+  $('teacher').classList.add('oops');
+  ['r1', 'r2', 'r3', 'r4'].forEach(function(r, k){ $('rule-' + (k + 1)).classList.toggle('lit', k === 0); });
+  var ask = $('sd').querySelector('.sd-d.ask');
+  if (ask){ ask.classList.remove('shake'); void ask.offsetWidth; ask.classList.add('shake'); }
+}
+
+/* ================= 控制 ================= */
+var LABEL = { start:'題目', div:'除以', settle:'結算' };
+function stepLabel(st){ return st.type === 'div' ? '除以 ' + st.d : LABEL[st.type]; }
+function renderControls(){
+  if (!S.P) return;
+  var st = settled();
+  $('btn-prev').disabled = S.i === 0;
+  $('btn-next').disabled = st;
+  $('btn-play').textContent = S.playing ? '暫停' : '自動播放';
+  $('btn-play').setAttribute('aria-pressed', S.playing ? 'true' : 'false');
+  $('stepinfo').textContent = '第 ' + (S.i + 1) + ' 步：' + stepLabel(S.T[S.i]);
+  $('chooser').hidden = st; $('done-box').hidden = !st;
+  var c = curPair();
+  $('ch-h').textContent = '選一個能同時除盡 ' + c.a + ' 和 ' + c.b + ' 的數：';
+  renderDots();
+}
+function renderDots(){
+  var h = '';
+  S.T.forEach(function(st, k){
+    var lab = stepLabel(st), txt = st.type === 'div' ? '÷' + st.d : st.type === 'start' ? '題' : '答';
+    h += '<li><button type="button" class="dot' + (k < S.i ? ' done' : '') + '" id="step-dot-' + k + '" data-k="' + k + '" aria-label="第 ' + (k + 1) + ' 步：' + lab + '" title="' + lab + '"' + (k === S.i ? ' aria-current="step"' : '') + '>' + txt + '</button></li>';
+  });
+  $('dots').innerHTML = h;
+}
+function renderAll(kind){
+  S.ov = kind === 'settle' ? { gcd:false, lcm:false } : { gcd:true, lcm:true };
+  var t = renderBoard(kind);
+  renderBlocks(kind);
+  renderText(); renderRules(); renderControls();
+  return t;
+}
+function goTo(i, animate){
+  var N = S.T.length;
+  i = Math.max(0, Math.min(N - 1, i));
+  clearAll();
+  var prevI = S.i; S.i = i; S.early = 0;
+  var anim = !!animate && !reduced() && i === prevI + 1;
+  return renderAll(anim ? S.T[i].type : null);
+}
+function stopPlay(){ if (S.playing){ S.playing = false; renderControls(); } }
+/* 下一步：有之前走過的就照著走，沒有就由老師用最小的質數幫忙 */
+function advance(anim){
+  if (settled()) return 0;
+  if (S.i < S.T.length - 1) return goTo(S.i + 1, anim);
+  var c = curPair(), p = smallestCommonPrime(c.a, c.b);
+  S.T.push(p ? { type:'div', d:p, by:'auto' } : { type:'settle' });
+  return goTo(S.i + 1, anim);
+}
+function next(){ stopPlay(); advance(true); }
+function prev(){ stopPlay(); goTo(S.i - 1, false); }
+function playTick(){
+  if (!S.playing) return;
+  if (settled()){ S.playing = false; renderControls(); return; }
+  var t = advance(true);
+  if (settled()){ S.playing = false; renderControls(); return; }
+  later(playTick, reduced() ? 2200 : t + 1800);
+}
+function choose(d, viaInput){
+  stopPlay();
+  if (settled()) return false;
+  var c = curPair(), j = judge(c.a, c.b, d), tail = canStop(c.a, c.b) ? '如果真的找不到，就按「找不到了（只剩 1）」。' : '';
+  if (!j.ok){
+    if (j.code === 'zero') feedback('嗯……再想一下。', '不能除以 0 喔，換一個比 1 大的數。');
+    else if (j.code === 'one') feedback('嗯……再想一下。', '除以 1 數字都不會變，要找一個比 1 大的數喔。' + tail);
+    else if (j.code === 'int') feedback('嗯……再想一下。', '短除法要用整數去除喔。');
+    else {
+      var msg;
+      if (!j.okA && !j.okB) msg = c.a + ' ÷ ' + d + ' 和 ' + c.b + ' ÷ ' + d + ' 都除不盡喔，換一個兩個數都能除盡的數。';
+      else if (!j.okA) msg = c.b + ' ÷ ' + d + ' = ' + (c.b / d) + ' 可以，可是 <b>' + c.a + ' ÷ ' + d + ' 除不盡</b>喔，換一個兩個數都能除盡的數。';
+      else msg = c.a + ' ÷ ' + d + ' = ' + (c.a / d) + ' 可以，可是 <b>' + c.b + ' ÷ ' + d + ' 除不盡</b>喔，換一個兩個數都能除盡的數。';
+      feedback('嗯……再想一下。', msg + tail);
+    }
+    return false;
+  }
+  S.T = S.T.slice(0, S.i + 1);
+  S.T.push({ type:'div', d:d, by:viaInput ? 'input' : 'me' });
+  goTo(S.i + 1, true);
+  return true;
+}
+function stopEarly(){
+  stopPlay();
+  if (settled()) return false;
+  var c = curPair();
+  if (!canStop(c.a, c.b)){
+    S.early++;
+    var hint = '還有一個數可以同時除盡 <b>' + c.a + ' 和 ' + c.b + '</b> 喔。';
+    if (S.early >= 2) hint += '提示：試試看 ' + smallestCommonPrime(c.a, c.b) + '。';
+    feedback('先別停！', hint);
+    return false;
+  }
+  S.T = S.T.slice(0, S.i + 1);
+  S.T.push({ type:'settle' });
+  goTo(S.i + 1, true);
+  return true;
+}
+function setMode(m, quiet){
+  if (m !== 'gcd' && m !== 'lcm' && m !== 'both') m = 'gcd';
+  S.mode = m;
+  if (!quiet) saveMode(S.store, m);
+  Array.prototype.forEach.call(document.querySelectorAll('.mode'), function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-mode') === m ? 'true' : 'false'); });
+  if (!S.P) return;
+  setTitle();
+  if (settled()){ stopPlay(); clearAll(); renderAll(reduced() ? null : 'settle'); }
+  else { renderText(); renderRules(); }
+}
+
+/* ================= 題目清單 ================= */
+function setTitle(){ $('board-title').textContent = '第 ' + (S.idx + 1) + ' 題：' + S.P.a + ' 和 ' + S.P.b + '．' + MODE_GOAL[S.mode]; }
+function renderTabs(){
+  var h = '';
+  S.list.forEach(function(it, k){
+    h += '<button type="button" class="tab" id="tab-' + k + '" data-k="' + k + '" aria-pressed="' + (k === S.idx ? 'true' : 'false') + '">' +
+         '<span class="tab-k">第 ' + (k + 1) + ' 題．' + category(it) + '</span><span class="tab-eq">' + it.a + ' 和 ' + it.b + '</span></button>';
+  });
+  h += '<button type="button" class="tab tab-add" id="btn-goto-editor">＋ 自己出題</button>';
+  $('tabs').innerHTML = h;
+}
+function renderManage(){
+  var h = '', n = S.list.length;
+  S.list.forEach(function(it, k){
+    h += '<li class="mrow' + (k === S.idx ? ' on' : '') + '" id="mrow-' + k + '">' +
+      '<span class="mnum">' + (k + 1) + '</span><span class="mtag">' + category(it) + '</span>' +
+      '<span class="meq">' + it.a + ' 和 ' + it.b + '</span>' +
+      '<span class="mbtns" id="mbtns-' + k + '">' +
+        '<button type="button" class="btn small" id="m-play-' + k + '" data-act="play" data-k="' + k + '">練習</button>' +
+        '<button type="button" class="btn small" id="m-up-' + k + '" data-act="up" data-k="' + k + '"' + (k === 0 ? ' disabled' : '') + '>↑ 上移</button>' +
+        '<button type="button" class="btn small" id="m-down-' + k + '" data-act="down" data-k="' + k + '"' + (k === n - 1 ? ' disabled' : '') + '>↓ 下移</button>' +
+        '<button type="button" class="btn small danger" id="m-del-' + k + '" data-act="del" data-k="' + k + '"' + (n <= 1 ? ' disabled title="清單最少要有 1 題"' : '') + '>刪除</button>' +
+      '</span>' +
+      '<span class="mconfirm" id="mconfirm-' + k + '" hidden>確定刪除？' +
+        '<button type="button" class="btn small danger" id="m-del-yes-' + k + '" data-act="delyes" data-k="' + k + '">刪除</button>' +
+        '<button type="button" class="btn small" id="m-del-no-' + k + '" data-act="delno" data-k="' + k + '">取消</button>' +
+      '</span></li>';
+  });
+  $('manage-list').innerHTML = h;
+  $('code-out').value = exportCode(S.list);
+}
+function refreshLists(){ renderTabs(); renderManage(); }
+function loadProblem(k){
+  stopPlay(); clearAll();
+  S.idx = Math.max(0, Math.min(S.list.length - 1, k));
+  S.P = { a:S.list[S.idx].a, b:S.list[S.idx].b };
+  S.T = [{ type:'start' }]; S.i = 0; S.early = 0;
+  var tabs = $('tabs').querySelectorAll('.tab[data-k]');
+  for (var t = 0; t < tabs.length; t++) tabs[t].setAttribute('aria-pressed', +tabs[t].getAttribute('data-k') === S.idx ? 'true' : 'false');
+  var rows = $('manage-list').querySelectorAll('.mrow');
+  for (var r = 0; r < rows.length; r++) rows[r].classList.toggle('on', r === S.idx);
+  $('div-input').value = '';
+  setTitle();
+  renderAll(null);
+}
+function setMsg(id, text, bad){ var m = $(id); m.textContent = text; m.classList.toggle('bad', !!bad); }
+
+/* ================= 事件：作答 ================= */
+Array.prototype.forEach.call(document.querySelectorAll('.picks .key'), function(b){
+  b.addEventListener('click', function(){ choose(+b.getAttribute('data-d'), false); });
+});
+function useInput(){
+  var r = parseDivisor($('div-input').value);
+  if (!r.ok){ stopPlay(); feedback('嗯……再想一下。', r.msg); return; }
+  if (choose(r.v, true)) $('div-input').value = '';
+}
+$('div-go').addEventListener('click', useInput);
+$('div-input').addEventListener('keydown', function(e){ if (e.key === 'Enter'){ e.preventDefault(); useInput(); } });
+$('btn-stop').addEventListener('click', stopEarly);
+function restart(){ stopPlay(); S.T = [{ type:'start' }]; S.i = 0; goTo(0, false); }
+$('btn-again').addEventListener('click', restart);
+$('btn-nextq').addEventListener('click', function(){ loadProblem((S.idx + 1) % S.list.length); $('tabs').scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block:'nearest' }); });
+$('modes').addEventListener('click', function(e){ var b = e.target.closest('.mode'); if (b) setMode(b.getAttribute('data-mode')); });
+
+/* ================= 事件：步驟 ================= */
+$('btn-next').addEventListener('click', next);
+$('btn-prev').addEventListener('click', prev);
+$('btn-reset').addEventListener('click', restart);
+$('btn-play').addEventListener('click', function(){
+  if (S.playing){ stopPlay(); return; }
+  if (settled()) goTo(0, false);
+  S.playing = true; renderControls();
+  later(playTick, 400);
+});
+$('dots').addEventListener('click', function(e){
+  var b = e.target.closest('.dot'); if (!b) return;
+  var k = +b.getAttribute('data-k'); stopPlay(); goTo(k, k === S.i + 1);
+});
+$('tabs').addEventListener('click', function(e){
+  var b = e.target.closest('.tab'); if (!b) return;
+  if (b.id === 'btn-goto-editor'){
+    $('editor-sec').scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block:'start' });
+    try { $('num-a').focus({ preventScroll:true }); } catch (err){}
+    return;
+  }
+  loadProblem(+b.getAttribute('data-k'));
+});
+document.addEventListener('keydown', function(e){
+  if (e.altKey || e.ctrlKey || e.metaKey) return;
+  var t = e.target;
+  if (t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+  if (e.key === 'ArrowRight'){ e.preventDefault(); next(); }
+  else if (e.key === 'ArrowLeft'){ e.preventDefault(); prev(); }
+});
+Array.prototype.forEach.call(document.querySelectorAll('.flip'), function(card){
+  card.addEventListener('click', function(){
+    var on = card.getAttribute('aria-pressed') !== 'true';
+    card.setAttribute('aria-pressed', on ? 'true' : 'false');
+    card.querySelector('.front').setAttribute('aria-hidden', on ? 'true' : 'false');
+    card.querySelector('.back').setAttribute('aria-hidden', on ? 'false' : 'true');
+  });
+});
+var rzT = 0;
+if (window.ResizeObserver){
+  new ResizeObserver(function(){
+    if (rzT) cancelAnimationFrame(rzT);
+    rzT = requestAnimationFrame(function(){ if (S.P && settled()) layoutOverlay(false); });
+  }).observe($('sd-wrap'));
+}
+
+/* ================= 事件：出題 ================= */
+function checkPair(){
+  var ra = $('num-a').value, rb = $('num-b').value, a = parseNum(ra), b = parseNum(rb);
+  var ta = normNum(ra) !== '', tb = normNum(rb) !== '';
+  $('num-a-msg').textContent = ta && !a.ok ? a.msg : '';
+  $('num-b-msg').textContent = tb && !b.ok ? b.msg : '';
+  var ok = a.ok && b.ok;
+  $('q-preview').textContent = ok ? '你的題目：' + a.v + ' 和 ' + b.v : '';
+  if (!ta && !tb) setHint('', false);
+  else if (ok) setHint('可以做！答案藏起來了，加進清單自己除除看。', true);
+  else if (!ta || !tb) setHint('兩格都要填數字喔。', false);
+  else setHint('', false);
+  $('btn-add').disabled = !ok;
+  return { ok:ok, a:a, b:b };
+}
+function setHint(text, ok){ var m = $('q-msg'); m.textContent = text; m.classList.toggle('ok', !!ok); }
+['num-a', 'num-b'].forEach(function(id){
+  $(id).addEventListener('input', checkPair);
+  $(id).addEventListener('keydown', function(e){
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    if (id === 'num-a' && !normNum($('num-b').value)) $('num-b').focus(); else $('btn-add').click();
+  });
+});
+$('btn-add').addEventListener('click', function(){
+  var r = checkPair(); if (!r.ok) return;
+  var it = { a:r.a.v, b:r.b.v, own:true };
+  if (S.list.length >= MAX_ITEMS){ setHint('題目清單最多 30 題喔，先刪掉一些再加。', false); return; }
+  var dup = -1; S.list.forEach(function(o, k){ if (dup < 0 && samePair(o, it)) dup = k; });
+  if (dup >= 0){ setHint('這題已經在清單裡了，是第 ' + (dup + 1) + ' 題。', false); return; }
+  S.list.push(it); persist(); refreshLists();
+  loadProblem(S.list.length - 1);
+  $('num-a').value = ''; $('num-b').value = ''; checkPair();
+  setHint('加好了！它是第 ' + S.list.length + ' 題，已經幫你打開了，往上看作業簿。', true);
+});
+
+/* ================= 事件：管理 ================= */
+$('manage-list').addEventListener('click', function(e){
+  var b = e.target.closest('button[data-act]'); if (!b) return;
+  var k = +b.getAttribute('data-k'), act = b.getAttribute('data-act'), cur = S.list[S.idx];
+  if (act === 'play'){ loadProblem(k); $('tabs').scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block:'start' }); return; }
+  if (act === 'up' || act === 'down'){
+    var t = act === 'up' ? k - 1 : k + 1;
+    if (t < 0 || t >= S.list.length) return;
+    var tmp = S.list[k]; S.list[k] = S.list[t]; S.list[t] = tmp;
+    persist(); refreshLists();
+    S.idx = S.list.indexOf(cur); loadProblem(S.idx);
+    setMsg('manage-msg', '順序換好了。', false);
+    var nb = $((act === 'up' ? 'm-up-' : 'm-down-') + t); if (nb && !nb.disabled) nb.focus(); else { var pb = $('m-play-' + t); if (pb) pb.focus(); }
+    return;
+  }
+  if (act === 'del'){
+    if (S.list.length <= 1){ setMsg('manage-msg', '清單最少要有 1 題。', true); return; }
+    $('mbtns-' + k).hidden = true; $('mconfirm-' + k).hidden = false; $('m-del-no-' + k).focus();
+    return;
+  }
+  if (act === 'delno'){ $('mbtns-' + k).hidden = false; $('mconfirm-' + k).hidden = true; $('m-del-' + k).focus(); return; }
+  if (act === 'delyes'){
+    if (S.list.length <= 1) return;
+    var removed = S.list.splice(k, 1)[0];
+    persist(); refreshLists();
+    var ni = S.list.indexOf(cur); if (ni < 0) ni = Math.min(k, S.list.length - 1);
+    loadProblem(ni);
+    setMsg('manage-msg', '已經刪掉「' + removed.a + ' 和 ' + removed.b + '」。', false);
+  }
+});
+$('btn-restore').addEventListener('click', function(){ $('restore-confirm').hidden = false; $('btn-restore-no').focus(); });
+$('btn-restore-no').addEventListener('click', function(){ $('restore-confirm').hidden = true; $('btn-restore').focus(); });
+$('btn-restore-yes').addEventListener('click', function(){
+  S.list = builtinList(); persist(); refreshLists(); loadProblem(0);
+  $('restore-confirm').hidden = true;
+  setMsg('manage-msg', '已經恢復成預設的 6 題。', false);
+});
+$('btn-copy').addEventListener('click', function(){
+  var ta = $('code-out'), text = ta.value;
+  function fallback(){ ta.focus(); ta.select(); setMsg('code-msg', '已經幫你選好了，請按 Ctrl+C（平板長按）複製。', false); }
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){ setMsg('code-msg', '複製好了！到別台電腦貼上、按「匯入」。', false); }, fallback);
+    } else fallback();
+  } catch (e){ fallback(); }
+});
+$('btn-import').addEventListener('click', function(){
+  var r = importCode(S.list, $('code-in').value);
+  if (!r.added.length && !r.skipped.length){ setMsg('code-msg', '先貼上題目代碼，再按「匯入」。', true); return; }
+  if (r.added.length){ S.list = r.list; persist(); refreshLists(); loadProblem(S.idx); }
+  var msg = r.added.length ? '匯入了 ' + r.added.length + ' 題。' : '沒有匯入任何一題。';
+  if (r.skipped.length) msg += ' 沒匯入：' + r.skipped.map(function(s){ return '「' + s.text + '」（' + s.why + '）'; }).join('、');
+  setMsg('code-msg', msg, r.skipped.length > 0);
+  if (r.added.length) $('code-in').value = '';
+});
+
+/* ================= 常見錯誤卡上的小直式 ================= */
+function miniHTML(rows, last, opt){
+  opt = opt || {};
+  var h = '<span class="mini' + (opt.gcd ? ' mk-gcd' : '') + (opt.lcm ? ' mk-lcm' : '') + '">';
+  rows.forEach(function(r){ h += '<span class="m-row"><span class="m-d">' + r[0] + '</span><span class="m-n">' + r[1] + '</span><span class="m-n">' + r[2] + '</span><span></span></span>'; });
+  h += '<span class="m-row m-last"><span class="m-d"></span><span class="m-n">' + last[0] + '</span><span class="m-n">' + (opt.oopsB ? '<span class="oops">' + last[1] + '</span>' : last[1]) + '</span><span class="m-x">' + (opt.note || '') + '</span></span></span>';
+  return h;
+}
+var MINIS = {
+  'half-wrong':miniHTML([[2, 24, 36], [3, 12, 18]], [4, 6], { gcd:true, note:'← 就停了？' }),
+  'half-right':miniHTML([[2, 24, 36], [3, 12, 18], [2, 4, 6]], [2, 3], { gcd:true, note:'← 這裡才停' }),
+  'mix-wrong':miniHTML([[2, 12, 18], [3, 6, 9]], [2, 3], { lcm:true }),
+  'mix-gcd':miniHTML([[2, 12, 18], [3, 6, 9]], [2, 3], { gcd:true }),
+  'mix-lcm':miniHTML([[2, 12, 18], [3, 6, 9]], [2, 3], { lcm:true }),
+  'div-wrong':miniHTML([[4, 12, 18]], [3, '4.5'], { oopsB:true, note:'← 小數！' }),
+  'div-right':miniHTML([[2, 12, 18]], [6, 9], { note:'← 都是整數' })
+};
+Array.prototype.forEach.call(document.querySelectorAll('.mini-slot'), function(s){ s.outerHTML = MINIS[s.getAttribute('data-mini')] || ''; });
+
+/* ================= 分享這個遊戲 ================= */
+/* 先叫原生分享匣（桌機也叫）；使用者取消就不動；其他失敗或沒有分享匣 → 複製連結 → execCommand → 顯示可選取的網址 */
+var SHARE = {
+  title:'數學-短除法',
+  text:'用短除法找最大公因數和最小公倍數，每一步自己選除數，也可以自己出題',
+  url:'https://yoda-wcyc.github.io/game/' + encodeURIComponent('數學-短除法.html')
+};
+var SHARE_WHY = { 'no-share':'（這個瀏覽器沒有分享選單，改成複製連結）', 'share-fail':'（分享選單打不開，改成複製連結）' };
+function shareSay(pos, text, reason){ var m = $('share-msg-' + pos); m.textContent = text; m.setAttribute('data-reason', reason || ''); }
+function shareShowUrl(pos, reason){
+  var box = $('share-url-' + pos);
+  box.value = SHARE.url; box.hidden = false;
+  try { box.focus({ preventScroll:true }); box.select(); } catch (e){}
+  shareSay(pos, '沒辦法自動複製。網址在下面，請長按或按 Ctrl+C 複製。', reason);
+}
+function shareCopy(pos, why, reason){
+  var done = '已複製連結 ✓ 可以貼給朋友了' + (SHARE_WHY[why] || '');
+  function legacy(){
+    var ok = false, ta = document.createElement('textarea');
+    ta.value = SHARE.url; ta.setAttribute('readonly', '');
+    ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;pointer-events:none';
+    document.body.appendChild(ta); ta.select();
+    try { ok = document.execCommand('copy'); } catch (e){ ok = false; }
+    document.body.removeChild(ta);
+    if (ok) shareSay(pos, done, reason); else shareShowUrl(pos, reason);
+  }
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(SHARE.url).then(function(){ shareSay(pos, done, reason); }, legacy);
+      return;
+    }
+  } catch (e){}
+  legacy();
+}
+Array.prototype.forEach.call(document.querySelectorAll('[data-share]'), function(b){
+  b.addEventListener('click', function(){
+    var pos = b.getAttribute('data-share');
+    $('share-url-' + pos).hidden = true;
+    shareSay(pos, '', '');
+    if (!navigator.share){ shareCopy(pos, 'no-share', 'no-share'); return; }
+    var p;
+    try { p = navigator.share({ title:SHARE.title, text:SHARE.text, url:SHARE.url }); }
+    catch (err){ shareCopy(pos, 'share-fail', 'share:' + ((err && err.name) || 'error')); return; }
+    Promise.resolve(p).then(function(){}, function(err){
+      if (err && err.name === 'AbortError') return;
+      shareCopy(pos, 'share-fail', 'share:' + ((err && err.name) || 'error'));
+    });
+  });
+});
+
+/* ================= 自我檢查 ================= */
+function mockStore(mode){
+  var data = {};
+  return {
+    getItem:function(k){ if (mode === 'throw') throw new Error('x'); return Object.prototype.hasOwnProperty.call(data, k) ? data[k] : null; },
+    setItem:function(k, v){ if (mode === 'throw' || mode === 'readonly') throw new Error('x'); data[k] = String(v); },
+    removeItem:function(k){ if (mode === 'throw') throw new Error('x'); delete data[k]; }
+  };
+}
+function selfCheck(){
+  var out = { builtin:[], coprime:[], paths:[], judge:[], input:[], storage:[], blocks:[], allOk:true };
+  var EXP = [[6, 36], [4, 24], [5, 75], [12, 72], [14, 168], [1, 144]];
+  BUILTIN.forEach(function(p, k){
+    var a = p[0], b = p[1], s = solve(a, b), errs = [], ca = a, cb = b;
+    if (s.g !== EXP[k][0]) errs.push('最大公因數錯');
+    if (s.l !== EXP[k][1]) errs.push('最小公倍數錯');
+    if (s.g !== gcd(a, b)) errs.push('最大公因數和輾轉相除法不一致');
+    if (s.l !== lcmOf(a, b)) errs.push('最小公倍數和公式不一致');
+    if (s.g * s.l !== a * b) errs.push('最大公因數 × 最小公倍數 ≠ 兩數相乘');
+    if (!s.coprime) errs.push('最下面一排不是互質');
+    s.rows.forEach(function(r, j){
+      if (r.a !== ca || r.b !== cb || ca % r.d || cb % r.d || r.d < 2) errs.push('第 ' + (j + 1) + ' 行除不盡');
+      ca /= r.d; cb /= r.d;
+    });
+    if (ca !== s.ra || cb !== s.rb) errs.push('最下面一排算錯');
+    if (k === 3 && s.rows.length < 3) errs.push('24 和 36 應該要除三次以上');
+    if (k === 4 && s.gF.indexOf(7) < 0) errs.push('42 和 56 應該會用到 7');
+    if (k === 5 && (s.rows.length !== 0 || !canStop(a, b))) errs.push('9 和 16 應該一開始就停');
+    out.builtin.push({ q:a + ' 和 ' + b, ok:!errs.length, gcd:s.g, lcm:s.l, product:a * b, divisors:s.gF, bottom:[s.ra, s.rb], L:s.lF, errs:errs, text:sdText(a, b, s.gF) });
+    if (errs.length) out.allOk = false;
+  });
+  [[9, 16], [7, 13], [2, 3], [25, 36], [199, 200], [8, 15], [17, 18]].forEach(function(p){
+    var s = solve(p[0], p[1]);
+    var ok = s.g === 1 && s.l === p[0] * p[1] && s.rows.length === 0 && commonDivisors(p[0], p[1]).length === 0 && canStop(p[0], p[1]) && s.g * s.l === p[0] * p[1];
+    out.coprime.push({ q:p[0] + ' 和 ' + p[1], gcd:s.g, lcm:s.l, ok:ok });
+    if (!ok) out.allOk = false;
+  });
+  BUILTIN.concat([[120, 180], [96, 144], [150, 200], [64, 96], [200, 200], [128, 192]]).forEach(function(p){
+    var ps = allPaths(p[0], p[1], 5000), gs = {}, ls = {}, ok = ps.length > 0;
+    ps.forEach(function(path){
+      var s = settleOf(p[0], p[1], path);
+      if (!s || !s.coprime) ok = false; else { gs[s.g] = 1; ls[s.l] = 1; }
+    });
+    var gk = Object.keys(gs), lk = Object.keys(ls);
+    ok = ok && gk.length === 1 && lk.length === 1 && +gk[0] === gcd(p[0], p[1]) && +lk[0] === lcmOf(p[0], p[1]);
+    out.paths.push({ q:p[0] + ' 和 ' + p[1], paths:ps.length, gcd:gk.join('/'), lcm:lk.join('/'), ok:ok });
+    if (!ok) out.allOk = false;
+  });
+  [[24, 36, [4, 3], 12, 72], [24, 36, [12], 12, 72], [24, 36, [2, 2, 3], 12, 72], [24, 36, [3, 4], 12, 72], [42, 56, [14], 14, 168], [42, 56, [7, 2], 14, 168]].forEach(function(c){
+    var s = settleOf(c[0], c[1], c[2]), ok = !!s && s.coprime && s.g === c[3] && s.l === c[4];
+    out.paths.push({ q:c[0] + ' 和 ' + c[1] + ' 先除 ' + c[2].join('、'), gcd:s ? s.g : null, lcm:s ? s.l : null, ok:ok });
+    if (!ok) out.allOk = false;
+  });
+  function jc(name, ok){ out.judge.push({ name:name, ok:!!ok }); if (!ok) out.allOk = false; }
+  jc('18 ÷ 4 除不盡 → 擋下', judge(12, 18, 4).code === 'nodiv' && judge(12, 18, 4).okA === true && judge(12, 18, 4).okB === false);
+  jc('除以 1 → 擋下', judge(12, 18, 1).code === 'one');
+  jc('除以 0 → 擋下', judge(12, 18, 0).code === 'zero');
+  jc('除以 2 → 可以，商 6 和 9', judge(12, 18, 2).ok && judge(12, 18, 2).qa === 6 && judge(12, 18, 2).qb === 9);
+  jc('除以 6（不是質數）→ 也可以', judge(12, 18, 6).ok);
+  jc('除以 2.5 → 擋下', judge(10, 15, 2.5).code === 'int');
+  jc('12、18 可以接受的除數 = 2、3、6', commonDivisors(12, 18).join(',') === '2,3,6');
+  jc('24、36 可以接受的除數 = 2、3、4、6、12', commonDivisors(24, 36).join(',') === '2,3,4,6,12');
+  jc('9、16 沒有可以接受的除數', commonDivisors(9, 16).length === 0);
+  jc('剩 4、6 不能停', !canStop(4, 6));
+  jc('剩 2、3 可以停', canStop(2, 3));
+  jc('不合法的路徑會被擋', settleOf(12, 18, [4]) === null);
+  var IN = [['12', 12], ['200', 200], ['2', 2], ['１２', 12], [' 36 ', 36], ['036', 36], ['', 'empty'], ['   ', 'empty'], ['　', 'empty'], ['0', 'zero'], ['00', 'zero'],
+    ['1', 'one'], ['201', 'big'], ['999', 'big'], ['1.5', 'decimal'], ['12.0', 'decimal'], ['３．５', 'decimal'], ['.5', 'decimal'], ['-5', 'neg'], ['abc', 'nonnum'],
+    ['1 2', 'nonnum'], ['12a', 'nonnum'], ['+12', 'nonnum'], ['1e2', 'nonnum'], [null, 'empty']];
+  IN.forEach(function(c){
+    var r = parseNum(c[0]), ok = typeof c[1] === 'number' ? (r.ok && r.v === c[1]) : (!r.ok && r.code === c[1]);
+    out.input.push({ input:c[0], expect:typeof c[1] === 'number' ? String(c[1]) : '擋下（' + c[1] + '）', got:r.ok ? String(r.v) : r.msg, ok:ok });
+    if (!ok) out.allOk = false;
+  });
+  [['4', 4], ['', false], ['2.5', false], ['-2', false], ['x', false]].forEach(function(c){
+    var r = parseDivisor(c[0]), ok = c[1] === false ? !r.ok : (r.ok && r.v === c[1]);
+    out.input.push({ input:'除數 ' + c[0], expect:c[1] === false ? '擋下' : String(c[1]), got:r.ok ? String(r.v) : r.msg, ok:ok });
+    if (!ok) out.allOk = false;
+  });
+  function st(name, ok, note){ out.storage.push({ name:name, ok:!!ok, note:note || '' }); if (!ok) out.allOk = false; }
+  var r1 = loadList(mockStore('throw'));
+  st('讀取丟錯 → 退回內建 6 題並標記不能存', !r1.ok && r1.list.length === 6 && r1.list[0].a === 12 && r1.list[0].b === 18);
+  st('寫入丟錯 → saveList 回傳 false、不當掉', saveList(mockStore('throw'), builtinList()) === false && saveList(mockStore('readonly'), builtinList()) === false);
+  st('探測寫入失敗 → 顯示不能存', probeStore(mockStore('readonly')) === false && probeStore(BROKEN_STORE) === false);
+  var m2 = mockStore('ok'), l2 = builtinList().concat([{ a:30, b:45, own:true }]);
+  st('正常存讀來回一致', saveList(m2, l2) && JSON.stringify(loadList(m2).list) === JSON.stringify(l2));
+  var m3 = mockStore('ok'); m3.setItem(STORE_KEY, '{壞掉的 JSON');
+  var r3 = loadList(m3); st('存的資料壞掉 → 退回內建', r3.ok && r3.list.length === 6);
+  var m4 = mockStore('ok'); m4.setItem(STORE_KEY, JSON.stringify({ v:1, items:[{ a:0, b:5 }, { a:12, b:18, own:true }, { a:'x', b:3 }, { a:300, b:4 }, { a:18, b:12 }] }));
+  var r4 = loadList(m4); st('存的題目有壞的 → 跳過壞的和重複的', r4.list.length === 1 && r4.list[0].a === 12);
+  st('模式讀取丟錯 → 退回最大公因數', loadMode(mockStore('throw')) === 'gcd' && saveMode(mockStore('throw'), 'lcm') === false);
+  var m5 = mockStore('ok'); saveMode(m5, 'both'); st('模式存讀來回一致', loadMode(m5) === 'both');
+  var ex = exportCode(builtinList()), im = importCode([{ a:100, b:150, own:true }], ex + '; 0,5; 12,18,24; 7.5,3; 30和45');
+  st('題目代碼匯出再匯入 → 7 題進來、3 題被跳過', im.added.length === 7 && im.skipped.length === 3, ex);
+  var big = []; for (var i = 2; i <= 31; i++) big.push({ a:i, b:i + 100, own:true });
+  st('清單滿 30 題 → 匯入被擋', importCode(big, '50,60').skipped.length === 1);
+  BUILTIN.concat([[128, 192], [96, 144]]).forEach(function(p){
+    var s = solve(p[0], p[1]), bs = blockState(p[0], p[1], s.gF);
+    var cP = prod(bs.C.map(function(c){ return c.p; })), uP = cP * prod(bs.A.map(function(x){ return x.p; })) * prod(bs.B.map(function(x){ return x.p; }));
+    var ok = cP === s.g && uP === s.l && bs.C.length + bs.A.length + bs.B.length + bs.C.length === bs.total;
+    var shown = bs.total <= MAX_BLOCKS;
+    out.blocks.push({ q:p[0] + ' 和 ' + p[1], total:bs.total, shown:shown, common:cP, union:uP, ok:ok });
+    if (!ok) out.allOk = false;
+  });
+  var allShown = out.blocks.slice(0, 6).every(function(b){ return b.shown; }) && !out.blocks[6].shown;
+  out.blocks.push({ q:'6 題例題都顯示積木、128 和 192 改成只顯示直式', ok:allShown });
+  if (!allShown) out.allOk = false;
+  return out;
+}
+window.sdSelfCheck = selfCheck;
+
+/* ================= 啟動 ================= */
+S.store = getStore();
+var loaded = loadList(S.store);
+S.list = loaded.list;
+S.storeOK = loaded.ok && probeStore(S.store);
+$('store-note').hidden = S.storeOK;
+setMode(loadMode(S.store), true);
+refreshLists();
+loadProblem(0);
+checkPair();
+try {
+  var res = selfCheck();
+  document.body.setAttribute('data-selfcheck', JSON.stringify(res));
+  if (window.console) console.log('[自我檢查]', res.allOk ? '全部通過' : '有錯誤');
+} catch (err){
+  document.body.setAttribute('data-selfcheck', JSON.stringify({ allOk:false, error:String(err) }));
+}
+})();
+</script>
+
+<!-- yoda-logo-sig -->
+<img alt="Yoda" src="https://yoda-research-next.vercel.app/yoda-logo.png" style="position:fixed;right:14px;bottom:12px;height:52px;width:auto;opacity:.5;z-index:9990;pointer-events:none">
+<script>(function(){try{var K='yr_vid',v=localStorage.getItem(K);if(!v){v=Date.now().toString(36)+Math.random().toString(36).slice(2,8);localStorage.setItem(K,v);}var seg=location.pathname.split('/').filter(Boolean).pop()||'home';fetch('https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec',{method:'POST',body:JSON.stringify({action:'hit',page:decodeURIComponent(seg),path:location.pathname,host:location.hostname,ref:document.referrer,vid:v})}).catch(function(){});}catch(e){}})();</script>
+</body>
+</html>
