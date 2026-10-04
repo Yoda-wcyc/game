@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
-<head>
+<html lang="zh-TW"><head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DFFP3JL6EY"></script>
 <script>
@@ -9,771 +8,995 @@
   gtag('js', new Date());
   gtag('config', 'G-DFFP3JL6EY');
 </script>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>景氣循環的 DNA｜帶你把 2026-09 總經報告走一遍 · Yoda Research</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>景氣循環的 DNA｜帶你把 2026-10 總經報告走一遍 · Yoda Research</title>
 <link rel="icon" href="data:,">
+<!-- 2026-10-04 改版：對齊《總經_20261003》（§00 行情推演～§15 財政政策，讀數到 10/02）。檔名沿用 20260904，因為報告 nav 金鈕與 ?cert=macro 入口都連這個檔名。設計表：_design\總經_v2026-10-04_逐關設計.md -->
 <style>
-:root{
-  --gold:#d4af37; --gold-dim:#b8960a;
-  --card:rgba(9,12,22,.68); --card-bd:rgba(255,255,255,.14);
-  --text:#eef2fb; --dim:#aab3c8; --ink:#e7ecf7;
-  --good:#5fbf8f; --bad:#e06b6b; --warn:#e8b45f;
-  --recovery:#30d158; --growth:#2997ff; --boom:#ff9f0a; --recession:#ff453a;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%}
-body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC','Microsoft JhengHei',sans-serif;
-  color:var(--text);background:#05060f;overflow-x:hidden;-webkit-font-smoothing:antialiased;line-height:1.72}
-
-.sky-layer{position:fixed;inset:0;z-index:-3;transition:background .8s ease}
-.ink-layer{position:fixed;left:0;right:0;bottom:0;height:24vh;min-height:150px;z-index:-2;pointer-events:none}
-.ink-layer .ink-bg{width:100%;height:100%;display:block}
-.veil{position:fixed;inset:0;z-index:-1;background:radial-gradient(120% 80% at 50% 8%,transparent 40%,rgba(0,0,0,.36));pointer-events:none}
-body.sky-noon  .sky-layer{background:linear-gradient(180deg,#22345f,#5f79b0 42%,#d9b978 80%,#edd199)}
-body.sky-storm .sky-layer{background:linear-gradient(180deg,#0b0b12,#171733 50%,#33409e)}
-body.sky-night .sky-layer{background:linear-gradient(180deg,#05060f,#0e1630 55%,#182a54)}
-body.sky-dusk  .sky-layer{background:linear-gradient(180deg,#241436,#6a3a63 42%,#c9743f 80%,#e79a56)}
-body.sky-clear .sky-layer{background:linear-gradient(180deg,#173a68,#4a7cc0 44%,#a6cff0 82%,#d9edfb)}
-body.sky-valley .sky-layer{background:linear-gradient(180deg,#0c1420,#243247 52%,#3d5470)}
-
-.progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:100;
-  background:linear-gradient(90deg,var(--gold-dim),var(--gold));transition:width .5s ease;box-shadow:0 0 8px rgba(212,175,55,.6)}
-.mute{position:fixed;top:12px;right:14px;z-index:101;width:38px;height:38px;border-radius:50%;
-  border:1px solid var(--card-bd);background:rgba(9,12,22,.55);color:var(--text);font-size:17px;cursor:pointer;backdrop-filter:blur(8px)}
-.counter{position:fixed;top:14px;left:16px;z-index:101;font-size:12px;color:var(--dim);
-  font-family:'SF Mono',Consolas,monospace;background:rgba(9,12,22,.5);padding:4px 10px;border-radius:999px;backdrop-filter:blur(8px)}
-
-.stage{position:relative;z-index:1;min-height:100%;display:flex;align-items:center;justify-content:center;padding:64px 18px 54px}
-#scene{width:100%;max-width:640px;animation:fade .5s ease both}
-@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-.fadeout{animation:fo .3s ease both}
-@keyframes fo{to{opacity:0;transform:translateY(-10px)}}
-
-.card{background:var(--card);border:1px solid var(--card-bd);border-radius:18px;padding:28px 24px;
-  backdrop-filter:blur(14px);box-shadow:0 18px 50px rgba(0,0,0,.42)}
-.eyebrow{font-size:12px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:12px}
-.tag{display:inline-block;font-size:12px;padding:3px 11px;border-radius:999px;background:rgba(212,175,55,.16);
-  color:var(--gold);border:1px solid rgba(212,175,55,.3);margin-bottom:12px;letter-spacing:1px}
-.tag.teach{background:rgba(41,151,255,.16);color:#7fb8ff;border-color:rgba(41,151,255,.35)}
-.tag.prac{background:rgba(95,191,143,.16);color:#7fd6a6;border-color:rgba(95,191,143,.35)}
-h1{font-size:33px;font-weight:800;line-height:1.28;letter-spacing:.5px;margin-bottom:8px}
-h2{font-size:22px;font-weight:700;line-height:1.42;margin-bottom:12px}
-.lead{font-size:17px;color:#dfe6f4;margin:6px 0 18px}
-p.body{font-size:16px;color:#e6ebf6;margin:11px 0}
-.dim{color:var(--dim)} .hl{color:var(--gold);font-weight:700}
-.up{color:#f08a8a;font-weight:700}.down{color:#7fd6a6;font-weight:700}.warnc{color:var(--warn);font-weight:700}
-.data-box{background:rgba(255,255,255,.045);border:1px solid var(--card-bd);border-radius:12px;padding:14px 16px;margin:14px 0;font-size:15px;line-height:1.7}
-.data-box .row{display:flex;justify-content:space-between;gap:12px;padding:3px 0}
-/* 定義型 data-box：左標籤／右說明對齊成兩欄，標籤不再被擠到換行；不影響數值型(.stat/.sig)表 2026-08-06 */
-.data-box:has(.row>.dim){display:grid;grid-template-columns:max-content minmax(0,1fr);column-gap:14px;row-gap:5px}
-.data-box:has(.row>.dim) .row{display:contents}
-.data-box:has(.row>.dim) .row>b{align-self:start}
-.data-box:has(.row>.dim) .row>.dim{align-self:start;text-align:left}
-.data-box .row b{color:#fff;font-weight:700}
-.stat{font-family:'SF Mono',Consolas,monospace}
-
-.btn{display:block;width:100%;text-align:left;font-size:16px;color:var(--text);background:rgba(255,255,255,.05);
-  border:1px solid var(--card-bd);border-radius:13px;padding:15px 17px;margin:10px 0;cursor:pointer;transition:all .16s;line-height:1.5}
-.btn:hover{background:rgba(255,255,255,.11);border-color:var(--gold);transform:translateY(-1px)}
-.btn small{display:block;color:var(--dim);font-size:13px;margin-top:3px}
-.btn.pick-good{border-color:var(--good);background:rgba(95,191,143,.18)}
-.btn.pick-bad{border-color:var(--bad);background:rgba(224,107,107,.15)}
-.btn:disabled{cursor:default}
-.cta{display:inline-block;margin-top:18px;padding:13px 30px;border-radius:999px;font-size:16px;font-weight:700;
-  color:#1a1200;background:linear-gradient(135deg,var(--gold),#f0d488);border:none;cursor:pointer;box-shadow:0 6px 20px rgba(212,175,55,.32);transition:transform .15s}
-.cta:hover{transform:translateY(-2px)}
-.cta.ghost{background:transparent;color:var(--gold);border:1px solid var(--gold);box-shadow:none}
-.center{text-align:center}
-
-.help{margin-top:14px;text-align:center}
-.help button{background:none;border:none;color:var(--dim);font-size:13px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
-.help button:hover{color:var(--gold)}
-.reveal{display:none;margin-top:16px;padding:15px 16px;border-radius:12px;background:rgba(212,175,55,.08);
-  border:1px solid rgba(212,175,55,.35);font-size:15px;line-height:1.66}
-.reveal.show{display:block;animation:fade .35s ease both}
-.reveal b{color:var(--gold)}
-.gloss{margin-top:10px;padding-top:10px;border-top:1px dashed rgba(255,255,255,.16);font-size:13.5px;color:var(--dim)}
-.gloss-h{font-size:11px;letter-spacing:2px;color:rgba(212,175,55,.85);margin-bottom:6px}
-.gloss-grid{display:grid;grid-template-columns:max-content 1fr;column-gap:12px;row-gap:6px;align-items:start}
-.gloss-grid .gl{display:contents}
-.gloss-grid .gl b{color:#dbe3f2;white-space:nowrap;font-weight:600}
-.gloss span{color:#dbe3f2}
-
-.mono-wrap{text-align:center;padding:6vh 8px}
-.mono-wrap p{font-size:25px;font-weight:300;letter-spacing:1.5px;line-height:1.9;color:#f2f4fb;opacity:0;animation:mfade 1.1s ease forwards}
-.mono-wrap p:nth-child(2){animation-delay:.9s}
-.mono-wrap .next{margin-top:30px;opacity:0;animation:mfade 1s ease forwards;animation-delay:1.9s}
-@keyframes mfade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-
-/* 溫度條 */
-.tempbar{margin:16px 0 6px}
-.tempbar-track{display:grid;grid-template-columns:repeat(4,1fr);border-radius:12px;overflow:hidden;border:1px solid var(--card-bd)}
-.tz{padding:16px 6px;text-align:center;cursor:pointer;transition:all .16s;font-size:14px;font-weight:700;position:relative;border-right:1px solid rgba(0,0,0,.25)}
-.tz:last-child{border-right:none}
-.tz small{display:block;font-size:11.5px;font-weight:400;color:rgba(255,255,255,.7);margin-top:3px}
-.tz.z0{background:linear-gradient(180deg,rgba(48,209,88,.32),rgba(48,209,88,.14))}
-.tz.z1{background:linear-gradient(180deg,rgba(41,151,255,.32),rgba(41,151,255,.14))}
-.tz.z2{background:linear-gradient(180deg,rgba(255,159,10,.34),rgba(255,159,10,.16))}
-.tz.z3{background:linear-gradient(180deg,rgba(255,69,58,.34),rgba(255,69,58,.16))}
-.tz:hover{filter:brightness(1.25)}
-.tz.sel{outline:3px solid var(--gold);outline-offset:-3px;z-index:2}
-.tz.correct{outline:3px solid var(--good);outline-offset:-3px;z-index:2}
-.tz.wrong{outline:3px solid var(--bad);outline-offset:-3px}
-.tempbar-scale{display:grid;grid-template-columns:repeat(4,1fr);font-size:11px;color:var(--dim);margin-top:5px;text-align:center}
-
-/* 半圓儀表 */
-.gauge{width:100%;max-width:320px;display:block;margin:8px auto}
-.gauge .arc-bg{fill:none;stroke:rgba(255,255,255,.12);stroke-width:16;stroke-linecap:round}
-.gauge .arc-ok{fill:none;stroke:var(--good);stroke-width:16;stroke-linecap:round}
-.gauge .arc-hot{fill:none;stroke:var(--recession);stroke-width:16;stroke-linecap:round}
-.gauge .needle{stroke:var(--gold);stroke-width:4;stroke-linecap:round}
-.gauge .hub{fill:var(--gold)}
-.gauge text{fill:var(--dim);font-size:12px;font-family:'SF Mono',monospace}
-.gauge .val{fill:#fff;font-size:26px;font-weight:800;text-anchor:middle}
-.gauge .unit{fill:var(--dim);font-size:12px;text-anchor:middle}
-
-/* 天秤 */
-.scale{width:100%;max-width:340px;height:auto;display:block;margin:6px auto 2px}
-.scale .stand,.scale .beam,.scale .lstr,.scale .rstr{stroke:var(--ink);stroke-width:4;stroke-linecap:round}
-.scale .beam{stroke-width:5}.scale .base{fill:var(--ink)}.scale .pivot{fill:var(--gold)}
-.scale .lpan,.scale .rpan{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round}
-.scale text{fill:var(--text);font-size:14px;font-weight:700;text-anchor:middle;paint-order:stroke;stroke:rgba(0,0,0,.45);stroke-width:3px}
-.pick-row{display:flex;gap:10px;margin-top:8px}
-.pick-row .btn{margin:0;text-align:center}
-
-/* 分類（先行/同步/滯後） */
-.clf-item{border:1px solid var(--card-bd);border-radius:12px;padding:11px 13px;margin:9px 0;background:rgba(255,255,255,.04)}
-.clf-item .name{font-size:15px;font-weight:600;margin-bottom:7px}
-.clf-item .name small{display:block;color:var(--dim);font-size:12.5px;font-weight:400;margin-top:2px}
-.clf-btns{display:flex;gap:7px}
-.clf-btns button{flex:1;font-size:13px;padding:8px 4px;border-radius:9px;border:1px solid var(--card-bd);
-  background:rgba(255,255,255,.05);color:var(--text);cursor:pointer;transition:all .14s}
-.clf-btns button:hover{border-color:var(--gold)}
-.clf-btns button.on{background:rgba(212,175,55,.22);border-color:var(--gold);color:#fff;font-weight:700}
-.clf-item.right{border-color:var(--good);background:rgba(95,191,143,.12)}
-.clf-item.wrong{border-color:var(--bad);background:rgba(224,107,107,.12)}
-
-/* 排序（誰先變） */
-.sort-item{display:flex;align-items:center;gap:12px;border:1px solid var(--card-bd);border-radius:12px;
-  padding:13px 15px;margin:9px 0;background:rgba(255,255,255,.04);cursor:pointer;transition:all .15s}
-.sort-item:hover{border-color:var(--gold)}
-.sort-item.picked{opacity:.55;border-color:var(--good)}
-.sort-item .rank{flex:0 0 30px;height:30px;border-radius:50%;border:2px solid var(--dim);display:flex;
-  align-items:center;justify-content:center;font-weight:800;font-size:15px;color:var(--dim)}
-.sort-item.picked .rank{background:var(--gold);border-color:var(--gold);color:#1a1200}
-.sort-item .lbl{font-size:15px;line-height:1.45}
-.sort-item .lbl small{display:block;color:var(--dim);font-size:12.5px}
-.sort-item .tag-lead{margin-left:auto;font-size:11px;padding:2px 8px;border-radius:999px;flex-shrink:0}
-
-/* 檢查表 */
-.check{display:flex;align-items:flex-start;gap:12px;padding:13px 14px;margin:9px 0;border-radius:12px;
-  border:1px solid var(--card-bd);background:rgba(255,255,255,.04);cursor:pointer;transition:all .15s}
-.check:hover{border-color:var(--gold)}
-.check.on{border-color:var(--good);background:rgba(95,191,143,.14)}
-.check .box{flex:0 0 24px;height:24px;border-radius:7px;border:2px solid var(--dim);display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;transition:all .15s}
-.check.on .box{background:var(--good);border-color:var(--good)}
-.check .lbl{font-size:15px;line-height:1.5}
-.check .lbl small{display:block;color:var(--dim);font-size:12.5px;margin-top:2px}
-/* 翻牌（榮景末前哨清單） */
-.flipwrap{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0 4px}
-@media(max-width:520px){.flipwrap{grid-template-columns:1fr}}
-.flipcard{perspective:1100px;cursor:pointer;min-height:158px}
-.flipinner{position:relative;width:100%;height:100%;min-height:158px;transition:transform .55s cubic-bezier(.4,.15,.2,1);transform-style:preserve-3d}
-.flipcard.on .flipinner{transform:rotateY(180deg)}
-.flipface{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:12px;border:1px solid var(--card-bd);padding:15px;display:flex;flex-direction:column;justify-content:center;overflow:auto}
-.flipfront{background:rgba(255,255,255,.05);opacity:1;transition:opacity 0s .27s}
-.flipcard.on .flipfront{opacity:0}
-.flipcard:hover .flipfront{border-color:var(--gold)}
-.flipfront .ft{font-size:15px;line-height:1.5;font-weight:700;color:var(--text)}
-.flipfront .hint{margin-top:9px;font-size:11.5px;color:var(--dim)}
-.flipback{background:rgba(95,191,143,.14);border-color:var(--good);transform:rotateY(180deg);opacity:0;transition:opacity 0s .27s}
-.flipcard.on .flipback{opacity:1}
-.flipback .bh{font-size:11px;color:var(--good);font-weight:700;letter-spacing:.05em;margin-bottom:6px}
-.flipback .bt{font-size:12.5px;line-height:1.55;color:#e6ebf6}
-
-/* 結果 */
-.result-emoji{font-size:62px;text-align:center;line-height:1;margin:4px 0}
-.result-name{text-align:center;font-size:27px;font-weight:800;color:var(--gold);margin-bottom:3px}
-.result-vow{text-align:center;font-size:18px;font-weight:700;color:var(--gold);margin:10px 0 4px;text-shadow:0 1px 2px rgba(0,0,0,.6)}
-.result-tier{text-align:center;font-size:12.5px;letter-spacing:2px;color:var(--dim);margin-bottom:8px}
-.result-score{text-align:center;font-size:14px;color:var(--dim);margin-bottom:14px}
-.unlock{border:1px solid rgba(212,175,55,.4);border-radius:12px;padding:14px 16px;margin:14px 0;background:rgba(212,175,55,.07);font-size:15px;line-height:1.66}
-.unlock b{color:var(--gold)}
-.fpt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0}
-.fpt{border:1px solid var(--card-bd);border-radius:12px;overflow:hidden;font-size:13px;min-width:560px}
-.fpt .fpt-row{display:grid;grid-template-columns:1.25fr .82fr .82fr .95fr .82fr 1.15fr;border-top:1px solid var(--card-bd)}
-.fpt .fpt-row:first-child{border-top:none}
-.fpt .fpt-row>div{padding:8px 6px;border-right:1px solid var(--card-bd);line-height:1.4}
-.fpt .fpt-row>div:last-child{border-right:none}
-.fpt .fpt-head{background:rgba(255,255,255,.06);font-weight:700;text-align:center;font-size:12px}
-.fpt .fpt-ind{font-weight:600;color:#dbe3f2}
-.fpt .cur{background:rgba(212,175,55,.13);color:#e8c86a;font-weight:600}
-.act-btns{display:flex;flex-direction:column;gap:12px;margin-top:20px}
-.act-btn{display:block;text-align:center;padding:15px 18px;border-radius:13px;font-size:15.5px;font-weight:700;text-decoration:none;transition:transform .15s}
-.act-btn:hover{transform:translateY(-2px)}
-.act-sub{background:linear-gradient(135deg,var(--gold),#f0d488);color:#1a1200;box-shadow:0 6px 20px rgba(212,175,55,.3)}
-.act-report{background:rgba(255,255,255,.07);color:var(--text);border:1px solid var(--gold)}
-.act-share{background:rgba(255,255,255,.07);color:var(--text);border:1px solid var(--card-bd)}
-.replay{text-align:center;margin-top:16px}.replay a{color:var(--dim);font-size:13px;text-decoration:underline;cursor:pointer}
-.credit{text-align:center;margin-top:18px;font-size:11.5px;color:var(--dim);line-height:1.7}.credit a{color:var(--dim)}
-.neutral-note{font-size:12px;color:var(--dim);text-align:center;margin-top:12px;opacity:.85}
-@media(max-width:480px){h1{font-size:27px}h2{font-size:19px}.card{padding:22px 16px}.mono-wrap p{font-size:21px}
-  .fpt .fpt-row{grid-template-columns:1.25fr .82fr .82fr .95fr .82fr 1.15fr;font-size:11px}}
-</style>
-</head>
-<body class="sky-noon">
-<div class="sky-layer"></div>
-<div class="ink-layer" id="ink"></div>
-<div class="veil"></div>
-<div class="progress" id="prog"></div>
-<div class="counter" id="counter"></div>
-<button class="mute" id="mute" title="靜音">🔊</button>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;min-height:100%;font-family:-apple-system,'PingFang TC','Noto Sans TC','Microsoft JhengHei',sans-serif;background:#000}
+#game{width:100%;min-height:100vh;position:relative;overflow:hidden}
+.scene{width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:3rem 1.5rem}
+.sky-start{background:linear-gradient(180deg,#0a0a1a,#1a1a3e 45%,#3a2a5e 100%)}
+.sky-dawn{background:linear-gradient(180deg,#1a1a2e,#e8b86d 60%,#f4a261)}
+.sky-noon{background:linear-gradient(180deg,#0d47a1,#1976d2 50%,#bbdefb)}
+.sky-valley{background:linear-gradient(180deg,#1b2631,#2e4057 42%,#5d7a8a)}
+.sky-storm{background:linear-gradient(180deg,#0b0b12,#171733 50%,#33409e)}
+.sky-dusk{background:linear-gradient(180deg,#241436,#6a3a63 42%,#c9743f 80%,#e79a56)}
+.sky-clouds{background:linear-gradient(180deg,#0d47a1,#1565c0 42%,#90caf9)}
+.sky-clear{background:linear-gradient(180deg,#173a68,#4a7cc0 44%,#a6cff0 82%,#d9edfb)}
+.sky-result{background:linear-gradient(180deg,#003459,#00587a 42%,#0288d1)}
+.ink-bg{position:absolute;bottom:0;left:0;width:100%;height:170px;pointer-events:none}
+.overlay{position:relative;z-index:10;text-align:center;max-width:640px;width:100%}
+.t-main{color:#f2f5ff}.t-sub{color:rgba(228,234,247,0.84)}.t-label{color:rgba(205,214,236,0.58)}
+.sky-dawn .t-main,.sky-start .t-main{color:#fff7e6}.sky-dawn .t-sub,.sky-start .t-sub{color:rgba(255,242,214,0.82)}
+/* 漸層可讀性保底：直接壓在天色漸層上的文字加暗色暈邊（SKILL-game §三） */
+.t-main,.t-sub,.t-label,.chapter-quote,.feedback,.round-q,.round-text{text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)}
+.chapter-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:0.5rem}
+.chapter-title{font-size:27px;font-weight:300;margin-bottom:1rem;line-height:1.3}
+.chapter-quote{font-size:15px;line-height:1.95;font-style:italic;max-width:480px;margin:0 auto 2rem}
+.round-text{font-size:15px;line-height:1.85;max-width:480px;margin:0 auto 0.8rem}
+.round-q{font-size:16px;font-weight:400;margin-bottom:1.1rem;line-height:1.6}
+.transition-quote{font-size:17px;max-width:430px;line-height:2.1;font-style:italic;color:rgba(216,228,255,0.86)}
+.choices{display:flex;flex-direction:column;gap:0.7rem;width:100%;max-width:480px;margin:0 auto}
+.choice-btn{background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.28);color:#fff;padding:0.9rem 1.2rem;border-radius:8px;cursor:pointer;font-size:14px;line-height:1.6;text-align:left;transition:all .2s;backdrop-filter:blur(6px)}
+.choice-btn:hover{background:rgba(0,0,0,0.45);border-color:rgba(255,255,255,0.6);transform:translateX(4px)}
+.continue-btn{background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.45);color:rgba(255,255,255,0.92);padding:0.6rem 2rem;border-radius:4px;cursor:pointer;font-size:13px;margin-top:1.3rem;letter-spacing:1px;transition:all .2s}
+.continue-btn:hover{border-color:rgba(255,255,255,0.9);color:#fff}
+.feedback{font-size:13px;line-height:1.8;max-width:460px;margin:0.7rem auto 0;min-height:42px;background:rgba(0,0,0,0.34);border-radius:10px;padding:0.6rem 0.9rem}
+.gauge-wrap{max-width:340px;margin:0 auto}
+input[type=range].gsl{width:100%;-webkit-appearance:none;appearance:none;background:transparent;height:30px;margin-top:0.2rem;touch-action:pan-y}
+input[type=range].gsl::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;cursor:pointer;margin-top:-8px;box-shadow:0 1px 6px rgba(0,0,0,.4)}
+input[type=range].gsl::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:linear-gradient(90deg,#e0a526,#8a8fa3)}
+input[type=range].gsl::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#fff;border:none;cursor:pointer}
+input[type=range].gsl::-moz-range-track{height:8px;border-radius:4px;background:linear-gradient(90deg,#e0a526,#8a8fa3)}
+.gsl-ends{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,0.7);margin-top:0.3rem;text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.result-icon{font-size:50px;margin-bottom:0.5rem}
+.result-type{font-size:23px;font-weight:300;margin-bottom:0.7rem}
+.result-desc{font-size:14px;line-height:1.9;max-width:460px;margin:0 auto 1.3rem}
+.yoda-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);color:#fff;padding:0.85rem 2.2rem;border-radius:6px;font-size:14px;cursor:pointer;text-decoration:none;margin:0.3rem;transition:opacity .2s}
+.yoda-btn:hover{opacity:.88}
+.progress-bar{position:fixed;top:0;left:0;height:2px;background:rgba(224,165,38,0.65);transition:width .4s;z-index:100}
+.mute-btn{position:fixed;top:14px;right:14px;z-index:101;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(6px)}
+.step-dots{display:flex;gap:6px;justify-content:center;margin-bottom:1rem;flex-wrap:wrap}
+.step-dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.25)}
+.step-dots i.on{background:#e0a526}
+/* 詞→解釋兩欄對齊（core-render B-11b） */
+.layer-list{max-width:480px;margin:0 auto 0.7rem;text-align:left;font-size:13.5px;line-height:1.65;color:rgba(255,255,255,0.9);display:grid;grid-template-columns:max-content 1fr;column-gap:13px;row-gap:0.62rem;align-items:start;background:rgba(0,0,0,0.22);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:0.85rem 0.95rem}
+.layer-list .ly{display:contents}
+.layer-list .ly>b{color:#e0a526;white-space:nowrap;position:relative;padding-left:11px}
+.layer-list .ly>b::before{content:'';position:absolute;left:0;top:0.52em;width:5px;height:5px;border-radius:50%;background:#e0a526}
+.layer-list .ly>span{min-width:0}
+.data-chip{display:inline-block;background:rgba(0,0,0,0.3);border:1px solid rgba(224,165,38,0.5);border-radius:6px;padding:2px 9px;margin:2px;font-size:12.5px;color:#f4dc9a}
+.sowhat{max-width:480px;margin:0 auto 0.7rem;font-size:13.5px;line-height:1.8;color:#f4e3b4;border-left:2px solid rgba(224,165,38,0.75);padding:0.35rem 0.6rem 0.35rem 0.7rem;text-align:left;background:rgba(0,0,0,0.22);border-radius:0 8px 8px 0;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)}
+.fig-note{max-width:480px;margin:0.2rem auto 0.6rem;font-size:12px;line-height:1.7;color:rgba(255,255,255,0.7);text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.fig-box{background:rgba(6,10,22,0.5);border-radius:12px;padding:0.35rem 0.2rem;max-width:340px;margin:0.4rem auto 0.5rem}
+/* 兩段式點選歸位 place / build（點選式，不用原生拖曳 API） */
+.pl-pool{display:flex;flex-wrap:wrap;gap:0.45rem;justify-content:center;max-width:500px;margin:0 auto 0.8rem}
+.pl-card{background:rgba(0,0,0,0.38);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:9px;padding:0.5rem 0.75rem;font-size:13px;line-height:1.55;cursor:pointer;transition:all .15s;text-align:left}
+.pl-card:hover{border-color:rgba(255,255,255,0.65)}
+.pl-card.sel{border-color:#e0a526;background:rgba(224,165,38,0.24);box-shadow:0 0 0 1px rgba(224,165,38,0.5)}
+.pl-slots{display:flex;flex-direction:column;gap:0.5rem;max-width:500px;margin:0 auto 0.7rem}
+.pl-slot{display:grid;grid-template-columns:max-content 1fr;column-gap:12px;align-items:center;background:rgba(0,0,0,0.32);border:1px dashed rgba(255,255,255,0.32);border-radius:10px;padding:0.55rem 0.7rem;cursor:pointer;transition:all .15s;text-align:left}
+.pl-slot:hover{border-color:rgba(255,255,255,0.6)}
+.pl-slot.armed{border-color:#e0a526;border-style:solid}
+.pl-slot.right{border-style:solid;border-color:rgba(120,220,140,0.8)}
+.pl-slot.wrong{border-style:solid;border-color:rgba(229,120,120,0.8)}
+.pl-slot .sl-t{font-size:12.5px;line-height:1.5;color:rgba(255,255,255,0.88);white-space:normal;max-width:180px}
+.pl-slot .sl-v{display:flex;flex-wrap:wrap;gap:0.3rem;justify-content:flex-end;min-height:26px;align-items:center}
+.pl-chip{background:rgba(224,165,38,0.2);border:1px solid rgba(224,165,38,0.62);color:#f4dc9a;border-radius:7px;padding:0.28rem 0.55rem;font-size:12.5px;line-height:1.4}
+.pl-slot.wide{grid-template-columns:1fr}
+.pl-slot.wide .sl-t{max-width:none;margin-bottom:0.35rem}
+.pl-slot.wide .sl-v{justify-content:flex-start;min-height:34px}
+/* 排序：點兩張互換（不用上下鍵） */
+.st-list{display:flex;flex-direction:column;gap:0.35rem;max-width:460px;margin:0 auto 0.7rem}
+.st-row{display:grid;grid-template-columns:max-content 1fr;column-gap:10px;align-items:center;background:rgba(0,0,0,0.34);border:1px solid rgba(255,255,255,0.24);border-radius:8px;padding:0.5rem 0.65rem;cursor:pointer;font-size:13px;line-height:1.55;text-align:left;color:#fff;transition:all .13s}
+.st-row:hover{border-color:rgba(255,255,255,0.6)}
+.st-row.sel{border-color:#e0a526;background:rgba(224,165,38,0.22)}
+.st-row.right{border-color:rgba(120,220,140,0.8)}
+.st-row.wrong{border-color:rgba(229,120,120,0.7)}
+.st-row b{color:#e0a526;font-size:12px;min-width:14px;display:inline-block}
+/* 連連看 */
+.mt-wrap{position:relative;max-width:520px;margin:0 auto 0.7rem}
+.mt-lines{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.mt-cols{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;column-gap:34px;row-gap:0.5rem}
+.mt-col{display:flex;flex-direction:column;gap:0.5rem}
+.mt-item{background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.26);border-radius:9px;padding:0.5rem 0.6rem;font-size:12.5px;line-height:1.55;color:#fff;cursor:pointer;text-align:left;transition:all .13s}
+.mt-item:hover{border-color:rgba(255,255,255,0.62)}
+.mt-item.sel{border-color:#e0a526;background:rgba(224,165,38,0.24)}
+.mt-item.on{border-color:rgba(224,165,38,0.72)}
+.mt-item.right{border-color:rgba(120,220,140,0.85)}
+.mt-item.wrong{border-color:rgba(229,120,120,0.8)}
+/* 點圖熱區 */
+.hz{cursor:pointer}
+/* 翻牌 */
+.fp-bets{display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;max-width:470px;margin:0 auto 0.6rem}
+.fp-bet{flex:1 1 190px;background:rgba(0,0,0,0.34);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:10px;padding:0.75rem 0.8rem;font-size:13.5px;line-height:1.6;cursor:pointer;transition:all .15s}
+.fp-bet:hover{border-color:rgba(255,255,255,0.7);transform:translateY(-2px)}
+.btnrow{display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap}
+</style></head><body>
 <audio id="bgm" loop preload="auto"><source src="day_one.mp3"></audio>
-
-<div class="stage"><div id="scene"></div></div>
-
+<button id="muteBtn" class="mute-btn" onclick="toggleMute()">🔊</button>
+<div class="progress-bar" id="progress"></div>
+<div id="game"></div>
 <script>
-/* ===== 水墨背景引擎（取自 ink-gallery 正本） ===== */
-function inkCols(sky){
-  const dark=['sky-storm','sky-valley','sky-dawn','sky-dusk','sky-night','sky-blood','sky-gray','sky-start'].includes(sky);
-  return dark?['rgba(210,220,245,0.10)','rgba(180,195,230,0.16)','rgba(222,232,252,0.34)']
-             :['rgba(30,35,60,0.10)','rgba(25,30,55,0.16)','rgba(20,25,50,0.30)'];
-}
+const G=document.getElementById('game'),PB=document.getElementById('progress');
+const BGM=document.getElementById('bgm'),MUTEBTN=document.getElementById('muteBtn');
+let bgmStarted=false,bgmMuted=false;try{bgmMuted=localStorage.getItem('yoda_bgm_muted')==='1';}catch(e){}
+if(BGM)BGM.volume=0.30;
+function mIcon(){if(MUTEBTN)MUTEBTN.textContent=bgmMuted?'🔇':'🔊';}mIcon();
+function toggleMute(){bgmMuted=!bgmMuted;try{localStorage.setItem('yoda_bgm_muted',bgmMuted?'1':'0');}catch(e){}if(bgmMuted){if(BGM)BGM.pause();}else if(BGM)BGM.play().then(()=>bgmStarted=true).catch(()=>{});mIcon();}
+window.toggleMute=toggleMute;
+document.addEventListener('click',()=>{try{if(!bgmStarted&&!bgmMuted&&BGM)BGM.play().then(()=>bgmStarted=true).catch(()=>{});}catch(e){}});
+
+// ===== 水墨背景 bg(type,sky) =====
+function inkCols(sky){const dark=['sky-storm','sky-valley','sky-dawn','sky-dusk','sky-night','sky-start'].includes(sky);
+  return dark?['rgba(210,220,245,0.10)','rgba(180,195,230,0.16)','rgba(222,232,252,0.32)']:['rgba(30,35,60,0.10)','rgba(25,30,55,0.16)','rgba(20,25,50,0.28)'];}
 const MOTIFS={
-  farhills:{art:(f,n,l)=>`<path d="M0,70 C120,50 220,58 340,44 C460,32 560,52 700,40 C840,30 960,50 1080,42 L1200,46 L1200,120 L0,120Z" fill="${f}"/><path d="M0,86 C160,74 300,82 460,70 C640,58 780,76 940,68 C1060,62 1140,72 1200,70 L1200,120 L0,120Z" fill="${n}"/><path d="M0,70 C120,50 220,58 340,44 C460,32 560,52 700,40 C840,30 960,50 1080,42 L1200,46" fill="none" stroke="${l}" stroke-width="1.4"/>`},
-  peak:{art:(f,n,l)=>`<path d="M0,104 C260,100 430,94 520,56 C560,40 600,20 640,20 C680,20 720,42 760,60 C860,100 1000,102 1200,100 L1200,120 L0,120Z" fill="${n}"/><path d="M600,28 C612,42 628,54 640,60" fill="none" stroke="${l}" stroke-width="1.4"/><path d="M660,54 C700,74 780,88 900,92" fill="none" stroke="${l}" stroke-width="1.2" opacity="0.8"/><rect x="300" y="62" width="620" height="12" fill="${f}"/><path d="M120,86 h240 M470,86 h180 M760,90 h300" stroke="${f}" stroke-width="9" stroke-linecap="round" opacity="0.7"/>`},
-  river:{art:(f,n,l)=>`<path d="M0,90 C300,82 500,86 1200,84 L1200,120 L0,120Z" fill="${f}"/><path d="M470,82 Q540,98 610,82" fill="none" stroke="${l}" stroke-width="1.8" stroke-linecap="round"/><line x1="540" y1="84" x2="540" y2="64" stroke="${l}" stroke-width="1.4"/><path d="M540,66 L568,82 L540,82Z" fill="${n}"/><path d="M120,94 q80,-4 160,0 t160,0 M700,96 q80,-4 160,0 t160,0" fill="none" stroke="${l}" stroke-width="1" opacity="0.6"/>`},
-  range:{art:(f,n,l)=>`<path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38 L1200,120 L0,120Z" fill="${f}"/><path d="M0,82 C160,66 320,76 480,60 C640,46 800,70 960,60 C1080,54 1160,64 1200,62 L1200,120 L0,120Z" fill="${n}"/><path d="M0,100 C220,90 420,96 640,86 C860,78 1020,92 1200,84 L1200,120 L0,120Z" fill="${n}"/><path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38" fill="none" stroke="${l}" stroke-width="1.2" opacity="0.85"/>`},
-  reed:{art:(f,n,l)=>`<path d="M0,88 C300,80 640,86 1000,80 C1100,78 1160,82 1200,80 L1200,120 L0,120Z" fill="${f}"/><path d="M0,102 C360,96 760,100 1200,96 L1200,120 L0,120Z" fill="${n}"/><g stroke="${l}" stroke-width="1.3" fill="none" stroke-linecap="round" opacity="0.9"><path d="M120,96 C118,74 122,62 128,48 M124,66 C112,60 106,54 104,46 M124,66 C136,58 142,52 146,44"/><path d="M150,96 C150,78 152,66 156,54"/><path d="M1040,94 C1042,74 1040,62 1034,50 M1039,68 C1050,62 1056,56 1058,48 M1039,68 C1028,60 1022,56 1020,48"/></g>`},
-  lonepine:{art:(f,n,l)=>`<path d="M0,96 C260,86 520,92 760,84 C960,78 1080,88 1200,84 L1200,120 L0,120Z" fill="${f}"/><path d="M760,54 C900,60 1040,74 1200,72" fill="none" stroke="${l}" stroke-width="1.1" opacity="0.55"/><g stroke="${l}" stroke-width="1.5" fill="none" stroke-linecap="round"><path d="M250,92 L250,44"/><path d="M250,58 L224,50 M250,58 L280,48 M250,70 L226,64 M250,70 L282,62 M250,82 L230,78 M250,82 L276,74"/></g>`}
-};
-function bg(type,sky){const m=MOTIFS[type];if(!m)return '';const[f,n,l]=inkCols(sky);
-  return `<svg class="ink-bg" viewBox="0 0 1200 120" preserveAspectRatio="none">${m.art(f,n,l)}</svg>`;}
+ farhills:(f,n,l)=>`<path d="M0,70 C120,50 220,58 340,44 C460,32 560,52 700,40 C840,30 960,50 1080,42 L1200,46 L1200,120 L0,120Z" fill="${f}"/><path d="M0,86 C160,74 300,82 460,70 C640,58 780,76 940,68 C1060,62 1140,72 1200,70 L1200,120 L0,120Z" fill="${n}"/><path d="M0,70 C120,50 220,58 340,44 C460,32 560,52 700,40 C840,30 960,50 1080,42 L1200,46" fill="none" stroke="${l}" stroke-width="1.4"/>`,
+ range:(f,n,l)=>`<path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38 L1200,120 L0,120Z" fill="${f}"/><path d="M0,82 C160,66 320,76 480,60 C640,46 800,70 960,60 C1080,54 1160,64 1200,62 L1200,120 L0,120Z" fill="${n}"/><path d="M0,100 C220,90 420,96 640,86 C860,78 1020,92 1200,84 L1200,120 L0,120Z" fill="${n}"/><path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38" fill="none" stroke="${l}" stroke-width="1.2" opacity="0.85"/>`,
+ peak:(f,n,l)=>`<path d="M0,104 C260,100 430,94 520,56 C560,40 600,20 640,20 C680,20 720,42 760,60 C860,100 1000,102 1200,100 L1200,120 L0,120Z" fill="${n}"/><path d="M600,28 C612,42 628,54 640,60" fill="none" stroke="${l}" stroke-width="1.4"/><rect x="300" y="62" width="620" height="10" fill="${f}"/><path d="M120,86 h240 M470,86 h180 M760,90 h300" stroke="${f}" stroke-width="8" stroke-linecap="round" opacity="0.7"/>`,
+ river:(f,n,l)=>`<path d="M0,90 C300,82 500,86 1200,84 L1200,120 L0,120Z" fill="${f}"/><path d="M470,82 Q540,98 610,82" fill="none" stroke="${l}" stroke-width="1.8" stroke-linecap="round"/><path d="M120,94 q80,-4 160,0 t160,0 M700,96 q80,-4 160,0 t160,0" fill="none" stroke="${l}" stroke-width="1" opacity="0.6"/>`,
+ lonepine:(f,n,l)=>`<path d="M0,96 C260,86 520,92 760,84 C960,78 1080,88 1200,84 L1200,120 L0,120Z" fill="${f}"/><path d="M760,54 C900,60 1040,74 1200,72" fill="none" stroke="${l}" stroke-width="1.1" opacity="0.55"/><g stroke="${l}" stroke-width="1.5" fill="none" stroke-linecap="round"><path d="M250,92 L250,44"/><path d="M250,58 L224,50 M250,58 L280,48 M250,70 L226,64 M250,70 L282,62 M250,82 L230,78 M250,82 L276,74"/></g>`};
+function bg(type,sky){const m=MOTIFS[type];if(!m)return '';const[f,n,l]=inkCols(sky);return `<svg class="ink-bg" viewBox="0 0 1200 120" preserveAspectRatio="none">${m(f,n,l)}</svg>`;}
 
-/* ===== 四階段 ===== */
-const PHASE={recovery:{e:'🌱',n:'復甦期'},growth:{e:'📈',n:'成長期'},boom:{e:'🔥',n:'榮景期'},recession:{e:'⚠',n:'衰退期'}};
+// ================= 資料錨定：《總經_20261003》（期別 10/03，讀數最新到 10/02） =================
+const ASOF='10/03';
+const DATA_DAY='10/02';
+// 顏色慣例：漲／偏多／強＝紅、跌／偏空／弱＝綠（全報告同一套）；綠色 #a5d6a7 另用於「答對」回饋
+const C_UP='#ff6b7d',C_DN='#7fd0a0',C_Y='#ffd28a',C_O='#ffa060',C_G='#e0a526';
 
-/* ===== 場景資料（忠實 2026-08-01 總經報告定調：晚循環/榮景尾聲前哨 + 製造業擴張中段） ===== */
-const S=[
-// 0 開場
-{type:'title',sky:'sky-noon',bg:'farhills'},
-// 1 對號入座
-{type:'project',sky:'sky-noon',bg:'farhills'},
-// 2 過場
-{type:'mono',sky:'sky-night',bg:'reed',lines:['報告不是拿來背的，','是拿來一段一段走的。']},
-// 3 §01 溫度條定位
-{type:'templocate',sky:'sky-valley',bg:'range',tag:'§01 · 市場位階總覽',h:'位階總覽那兩支溫度條，指針該釘哪一格？',
- data:'<b>位階總覽的第一眼</b>：需求近一季回溫、生產與訂單創多年新高、獲利連七季雙位數——<br>但循環已經走到 2020 年起算的<b class="hl">第 6 年</b>，投機溫度也不低。',
- q:'把「景氣大循環」的指針釘上去：',
- zones:[{t:'🌱 復甦',s:'最壞已過'},{t:'📈 成長',s:'太平盛世'},{t:'🔥 榮景',s:'最後高潮·加速'},{t:'⚠ 衰退',s:'就業惡化'}],
- correct:2,
- reveal:'報告釘在<b class="hl">榮景期</b>——不是衰退：兩具引擎（服務＋製造）同步加速、庫存回補還在前面，<b class="hl">循環在延長、不在收尾</b>；「末升警戒」要全面爆量＋資金變緊才算，都沒觸發。製造業那支推到 <b class="hl">73%</b>。<br>但這期多了一個轉折：<b class="hl">「消費」這一格第一次從加分項變成扣分項</b>（零售 −0.6%、信心 51.0、非農 −2.3 萬、GDPNow 消費格 4.1%→2.5%）——五組末端訊號還沒全亮（初領、HY 利差、ISM 都健康），但需求端已經投下這波循環的第一張反對票。要盯的不是 PMI 本身，是 <b class="hl">ISM 新訂單能不能守住 55</b>——那是需求傳到生產端的第一個路口。',
- gloss:'<div class="gl"><b>溫度條</b><span>把循環位置畫成一條 0–100 的尺，指針＝報告對「現在幾點」的判斷</span></div><div class="gl"><b>榮景期</b><span>循環最後的高潮段：加速、樂觀、風險意識下降——可以走很久</span></div><div class="gl"><b>錯配</b><span>需求跑得比供給快（客戶庫存「太低」）：初期是動能，過頭才是問題</span></div>'},
-// 4 §02 量的鏈條排序
-{type:'sort',sky:'sky-valley',bg:'range',tag:'§02 · 本月解析',h:'把「量的鏈條」照傳導順序排好',
- sub:'這個月報告的主線是一條鏈。點選排序：誰是起點、誰收尾？（依序點 1→5）',
- items:[
-  {id:'demand',label:'終端需求（零售銷售）',hint:'消費者掏錢',rank:0,kind:'起點'},
-  {id:'orders',label:'新訂單（服務＋製造 PMI）',hint:'企業接單',rank:1,kind:'傳導'},
-  {id:'prod',label:'生產（製造業生產指數）',hint:'工廠開工',rank:2,kind:'傳導'},
-  {id:'inv',label:'庫存（三層庫存銷售比）',hint:'貨架上的貨',rank:3,kind:'伏筆'},
-  {id:'eps',label:'企業獲利（財報 EPS）',hint:'最後結出來的果',rank:4,kind:'收尾'}],
- reveal:'順序＝<b class="hl">需求 → 訂單 → 生產 → 庫存 → 獲利</b>。訂單是需求的影子、生產追著訂單、庫存墊在生產後面、獲利收在最尾端。本期五個環節<b class="hl">同向往上</b>，而庫存那一環還空著——這就是「下半年還有一段沒走」的理由。',
- gloss:'<div class="gl"><b>傳導</b><span>下游先動、上游後動，一環扣一環——所以判斷要沿著鏈看，不是單點看</span></div><div class="gl"><b>伏筆</b><span>庫存極低＋需求還在走＝補貨壓力在累積，回補啟動會再疊一層動能</span></div>'},
-// 5 §02 庫存剪刀口
-{type:'flip',sky:'sky-valley',bg:'range',tag:'§02 · 本月解析',h:'賣的速度是補的三倍，這代表什麼？',
- setup:`<div class="data-box">
- <div class="row"><b>中盤商銷售年增</b><span class="hl">+14.1%</span></div>
- <div class="row"><b>中盤商庫存年增</b><span class="dim">+4.4%</span></div>
- <div class="row"><b>庫存銷售比</b><span class="dim">5 月一度觸及 2012 年以來最低</span></div></div>
- <p class="body">零售端的庫存銷售比也壓在 2023 年以來最低、製造端客戶庫存指數 40.7＝「太低」區。<b class="hl">三層同時見底。</b></p>`,
- opts:[{t:'商家看壞後市，不敢進貨<small>庫存低＝信心差</small>',good:false},
-       {t:'東西賣得比補得快，回補壓力在累積<small>庫存低＋需求還在走</small>',good:true}],
- correct:1,
- revealGood:'對。庫存低<b class="hl">單獨存在</b>時什麼都不是——真正的訊號是「庫存低＋需求還在走」同時成立。此時補貨不是選項而是壓力：越晚補、越貴。回補一旦啟動，訂單與生產會在需求之上再疊一層。',
- revealBad:'方向反了。「不敢進貨」的版本，銷售也會同步轉弱——但這裡銷售年增 +14.1%、是庫存增速的三倍。<b class="hl">賣得太快補不上</b>，才是這組數字的長相；這是回補循環的前夜，不是信心崩壞。',
- gloss:'<div class="gl"><b>庫存銷售比</b><span>手上的貨 ÷ 每月賣掉的量：越低＝貨架越薄，低到極端就非補不可</span></div><div class="gl"><b>回補循環</b><span>三層一起補貨時，拉貨沿供應鏈往上游放大——先進訂單、再進生產、最後進財報</span></div>'},
-// 6 §02 三把尺
-{type:'classify',sky:'sky-valley',bg:'range',tag:'§02 · 本月解析',h:'同一個月的通膨，三句話都是真的——把尺歸位',
- sub:'八月市場為「會不會升息」吵翻天，因為三把尺講三個故事。點選每句話用的是哪把尺：',
- cats:['單月年化','年增率','六個月年化'],
- items:[
-  {id:'m1',label:'「八月核心通膨可望降到 2.5% 左右」',hint:'最短的尺',cat:0},
-  {id:'m2',label:'「核心通膨還在 3.3%，卡住沒動」',hint:'最常見的尺',cat:1},
-  {id:'m3',label:'「通膨在加速——3.5%、還在爬」',hint:'央行新主席特意舉的尺',cat:2}],
- reveal:'三句都對，差在尺：<b class="hl">單月年化</b>（月增 ×12）說壓力緩了；<b class="hl">年增率</b>說卡住沒動；<b class="hl">六個月年化</b>說在加速。九月「會不會升息」開不了票，就是因為三把尺沒對齊——看到通膨數字，先問它用的是哪把尺。',
- gloss:'<div class="gl"><b>單月年化</b><span>把一個月的漲幅乘 12：最靈敏、也最毛躁</span></div><div class="gl"><b>年增率</b><span>跟一年前比：最平滑、但反應最慢</span></div><div class="gl"><b>六個月年化</b><span>近半年速度換算成年率：介於中間，抓「正在加速還是減速」最準</span></div>'},
-// 7 過場
-{type:'mono',sky:'sky-night',bg:'river',lines:['主線讀完了。','下面的分頁，是查證用的。']},
-// 8 §03 先行/同步/滯後
-{type:'classify',sky:'sky-storm',bg:'peak',tag:'§03 · 景氣循環投資框架',h:'把這幾個指標歸位',
- sub:'框架分頁教的第一件事：有些燈先亮、有些燈最後才亮。預判只能看先行。',
- cats:['先行','同步','滯後'],
- items:[
-  {id:'neworder',label:'ISM 新訂單',hint:'企業先接單、後生產',cat:0},
-  {id:'icsa',label:'初領失業救濟金',hint:'裁員的第一張骨牌',cat:0},
-  {id:'gdp',label:'GDP',hint:'整台機器的總轉速',cat:1},
-  {id:'unrate',label:'失業率',hint:'事情發生完才反映',cat:2},
-  {id:'default',label:'違約率',hint:'撐不下去才違約',cat:2}],
- reveal:'新訂單與初領＝<b class="hl">先行</b>（還沒發生就先動）；GDP＝<b class="hl">同步</b>；失業率與違約率＝<b class="hl">滯後</b>（都結束了才確認）。所以「失業率還很低」永遠不是安全的理由——它是最後一盞熄的燈。',
- gloss:'<div class="gl"><b>先行指標</b><span>景氣還沒轉、它先動——預判用這排</span></div><div class="gl"><b>同步指標</b><span>跟當下一起動——確認現況用</span></div><div class="gl"><b>滯後指標</b><span>景氣轉完才反映——拿來預判必被騙</span></div>'},
-// 9 §04 利率咬到誰
-{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'§04 · 利率 vs 企業＋消費端',h:'利率咬人了沒？咬到誰？',
- data:'<div class="data-box"><div class="row"><b>企業端</b><span class="dim">高收益債利差仍在低位、利息覆蓋率還撐得住</span></div><div class="row"><b>消費端</b><span class="dim">卡債與車貸拖欠率先往上走</span></div></div>',
- q:'這個分頁的當期結論是——',
- opts:['企業先滲血：槓桿高的先倒','消費端先滲血：本輪第一次「分家」','兩邊都還毫髮無傷'],
- correct:1,
- reveal:'本輪的特別之處：<b class="hl">企業端還撐得住、消費端已開始滲血</b>——兩邊第一次走不同方向。下一道門檻在企業那邊：非投資級的利息覆蓋率 2.89 倍，貼近歷史警戒線；它一破，「分家」就結束了。',
- gloss:'<div class="gl"><b>高收益債利差</b><span>體質差的公司借錢的額外代價：走闊＝市場開始怕、收窄＝不怕</span></div><div class="gl"><b>利息覆蓋率</b><span>獲利 ÷ 利息支出：低於警戒＝賺的錢快付不起利息</span></div>'},
-// 10 §05 估值儀表
-{type:'gauge',sky:'sky-storm',bg:'peak',tag:'§05 · 市場估值',h:'估值燒到哪了？',
- value:41.2,min:10,max:45,threshold:35,unit:'×',
- data:'席勒本益比（CAPE）41.2 倍＝1881 年有紀錄以來第 <b class="hl">98.9</b> 百分位；股債之間的風險溢酬只剩約 0.03%。',
- q:'估值站在歷史極端，正確的讀法是——',
- opts:['見高就跑：這個位置必須離場','估值不報時間，它決定「壞消息來時摔多重」','估值無用：牛市裡看估值就輸了'],
- correct:1,
- reveal:'估值從來不是<b class="hl">擇時</b>工具——歷史上它可以在極端待很多年。它真正告訴你的是<b class="hl">安全邊際</b>：現在的價格沒有預留犯錯空間，所以同樣一顆壞消息，摔起來會比估值便宜時重。這跟「持續做多」不衝突，但它決定你要不要繫安全帶。',
- gloss:'<div class="gl"><b>CAPE</b><span>用十年平均獲利算的本益比，拉平景氣波動——適合跨年代比較</span></div><div class="gl"><b>風險溢酬</b><span>股票報酬率減債券殖利率：近零＝股票沒比債券多給補償</span></div>'},
-// 11 §06 GDPNow
-{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'§06 · GDP 與宏觀',h:'GDPNow 十一天從 6.2% 砍到 4.3%——砍的是哪一格？',
- data:'<div class="data-box"><div class="row"><b>GDPNow Q3</b><span class="dim">6.2%（8/03)→ 4.3%（8/14）</span></div><div class="row"><b>水位</b><span class="dim">4.3% 依然遠高於長期趨勢</span></div></div>',
- q:'被砍掉的整整一塊，來自——',
- opts:['淨出口：關稅反噬','消費：那格從 4.1 掉到 2.5','政府支出：預算僵局'],
- correct:1,
- reveal:'砍的正是<b class="hl">消費那一格</b>——而元兇就是 7 月零售那根 −0.6%。§02 已經拆過這根柱子：它是促銷從 7 月搬到 6 月挖出來的坑，年增率還在 5% 高檔。所以這裡的正確讀法是：<b class="hl">水位不低（4.3%）、方向被單月失真拖累</b>——8 月零售回正與否，就是開票日。',
- gloss:'<div class="gl"><b>GDPNow</b><span>亞特蘭大聯準銀的即時 GDP 估計：數據一出就重算，波動大但方向誠實</span></div>'},
-// 12 §07 失業率陷阱
-{type:'flip',sky:'sky-dusk',bg:'lonepine',tag:'§07 · 就業市場',h:'失業率往下降——好消息？',
- setup:`<div class="data-box">
- <div class="row"><b>非農就業</b><span class="dim">連兩月負值（7 月 −2.3 萬）</span></div>
- <div class="row"><b>失業率</b><span class="hl">反而下降</span></div>
- <div class="row"><b>勞動參與率</b><span class="dim">61.4%＝疫情之外 1976 年以來最低</span></div></div>`,
- opts:[{t:'好消息：就業市場韌性十足<small>失業率是最有名的就業數據</small>',good:false},
-       {t:'假好消息：分母在縮，不是就業在增<small>放棄找工作的人不算失業</small>',good:true}],
- correct:1,
- revealGood:'看穿了。失業率＝失業人數 ÷ <b class="hl">有在找工作的人</b>——放棄找工作的人直接從分母消失，失業率就「假性」變好。非農連兩月負＋勞參率創半世紀低位，真相是<b class="hl">不請人、也不裁人的凍結狀態</b>。真正要盯的是初領失業金四週均值：不連四週往上、不破 22 萬，就還不是裁員潮。',
- revealBad:'這正是滯後指標的經典陷阱（§03 那盞最後熄的燈）。失業率下降的原因是<b class="hl">分母縮了</b>——勞參率 61.4% 是疫情之外半世紀最低。就業的真相是「凍結」：不請人、也還沒裁人。',
- gloss:'<div class="gl"><b>勞動參與率</b><span>有工作＋在找工作的人佔人口比例：它驟降會讓失業率假性變好看</span></div><div class="gl"><b>初領失業金</b><span>裁員的第一張骨牌，週頻先行指標——四週均值 19.9 萬 vs 警戒 22 萬</span></div>'},
-// 13 §08 通膨天秤
-{type:'scale',sky:'sky-dusk',bg:'lonepine',tag:'§08 · 通貨膨脹',h:'官方說在降、荷包說在升——天秤往哪倒？',
- setup:'<p class="body">官方口徑的核心通膨緩緩往下；但能源年增 <b class="hl">+14.7%</b>、一年期通膨預期回升到 4.3%——<b class="hl">體感在升</b>。唯一的安全閥：5–10 年長期預期連三個月穩在 3.3%。</p>',
- leftLabel:'通膨已受控',rightLabel:'通膨失控',
- opts:[{t:'通膨問題解除，可以翻頁了',tilt:-0.75},
-       {t:'官方降、體感升——但長期的錨還握著',tilt:0.1},
-       {t:'已經二次失控，升息壓不住',tilt:0.85}],
- correct:1,
- reveal:'天秤幾乎持平、微偏右——<b class="hl">「貴」，但不是「脫錨」</b>。判斷的關鍵不在今天的讀數，在那條 5–10 年的錨：它守住，一切只是貴；它一鬆，報告裡所有門檻的順序都要重排。這也是 §01 溫度條敢釘在榮景期的前提。',
- gloss:'<div class="gl"><b>通膨預期的錨</b><span>大眾對長期（5–10 年）通膨的預期：錨在，央行就有時間；錨鬆，就是另一個世界</span></div>'},
-// 14 §11 PMI 突破
-{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'§11 · PMI 景氣',h:'橫盤半年之後，7 月跳上 55.6',
- data:'<div class="data-box"><div class="row"><b>ISM 製造 2026</b><span class="dim">52.6 → 52.4 → 52.7 → 52.7 → 54.0 → 53.3 → <b class="hl">55.6</b></span></div><div class="row"><b>細節</b><span class="dim">新訂單 56.7 撐住·就業 52.8＝33 個月來第一次轉正·價格鬆綁到 71.1；服務 54.1 同步擴張</span></div><div class="row"><b>上游前哨</b><span class="dim">台灣外銷訂單、全球半導體銷售同創新高</span></div></div>',
- q:'雙輪同時 >50、上游比下游強——這個組合是——',
- opts:['漲過頭到頂：均值回歸在即','橫盤後的向上突破：教科書式健康擴張','數據互相矛盾，不可信'],
- correct:1,
- reveal:'製造在 52–53 橫了半年、7 月<b class="hl">帶量突破</b>；服務同步在線上；供應鏈最上游（台灣外銷訂單 952.6 億·連 17 紅、半導體 YoY +123.6%）比下游還熱。這是「擴張＋成本降溫」的健康組合，而且<b class="hl">有跨市場的上游證據</b>、不是美國單邊自嗨。<br>但本期加了一句但書：<b class="hl">擴張還在，推力卻從訂單換成了慣性</b>——PMI（企業問卷）和零售信心（家庭行為）這個月第一次講出相反的話。翻案門檻：<b class="hl">台灣外銷訂單轉負，或 ISM 任一輪跌破 50 且新訂單同步下墜</b>。',
- gloss:'<div class="gl"><b>PMI</b><span>採購經理人指數：50 是榮枯線，數字是「擴張的廣度」不是速度</span></div><div class="gl"><b>上游前哨</b><span>台灣外銷訂單與半導體銷售走在美國數據前面——供應鏈的探照燈</span></div>'},
-// 15 §12 獲利面寬
-{type:'phasepick',sky:'sky-storm',bg:'peak',tag:'§12 · 企業獲利',h:'獲利大增三成——但真正該看的是另一個數字',
- data:'<div class="data-box"><div class="row"><b>Q2 獲利年增</b><span class="dim">+47%（剔除兩大巨頭一次性貢獻後仍 +32%）</span></div><div class="row"><b>連續紀錄</b><span class="hl">第七個季度雙位數增長</span></div><div class="row"><b>面寬</b><span class="hl">11 個部門有 10 個在增長</span></div></div>',
- q:'為什麼報告強調「10/11」比「+47%」更重要？',
- opts:['增速可以靠少數巨頭撐出來，面寬才看得出擴張是不是全體的','面寬是落後數據，其實不重要','因為 47% 有灌水，10/11 才是真的'],
- correct:0,
- reveal:'<b class="hl">增速會騙人、面寬很難騙</b>。兩家巨頭的一次性貢獻能把 32% 灌成 47%，但灌不出「11 個部門 10 個在增長」。面寬夠寬，代表任一環節回落都有別的環節接手——這是榮景期「穩不穩」的判準。<br>本期新增一層訊號：<b class="hl">水準沒問題，有問題的是速度</b>——年增率 <b class="hl">Q3 +27.4% 就是高點</b>，Q4 +25.2%、CY2027 只剩 +13.6%（幾乎腰斬）。這不是空頭訊號（+13.6% 仍是好年份），而是<b class="hl">估值的計價基礎要換</b>：現在的價格是用 +30% 成長買單的。<b class="hl">分子的加速度先轉負</b>，才是這一格真正的變化。',
- gloss:'<div class="gl"><b>面寬</b><span>有多少部門／公司在同步增長：寬＝全體擴張，窄＝靠少數巨頭撐</span></div>'},
-// 16 §13 估值跌 vs 體質跌
-{type:'flip',sky:'sky-storm',bg:'peak',tag:'§13 · 風險與流動性',h:'那天大跌，跌的是估值還是體質？',
- setup:`<div class="data-box">
- <div class="row"><b>8/28 央行放鷹</b><span class="dim">吃低利率估值的族群全被打（鈾、迷因、白銀、生技…）</span></div>
- <div class="row"><b>同一天</b><span class="hl">高收益債利差反而收窄（2.70%→2.63%）</span></div></div>`,
- opts:[{t:'體質出問題：經濟要轉彎了<small>跌這麼兇一定有事</small>',good:false},
-       {t:'估值重新計算：折現率的故事，不是景氣的故事<small>信用利差是分辨線</small>',good:true}],
- correct:1,
- revealGood:'對。分辨「估值跌」與「體質跌」最快的一條線是<b class="hl">信用利差</b>——體質有問題它會先走闊，而且不等股票跌完才動。那天它收窄，被打的又全是靠低利率撐估值的族群：這是政策定價，不是景氣定價。<br>不過這一格今年<b class="hl">第一次亮得刺眼的是槓桿</b>：FINRA 融資餘額 <b class="hl">1.53 兆創紀錄</b>（YoY +51.5%）、投資人信用餘額 −1.06 兆創新低、債現比 3.40。死亡交叉的兩個條件<b class="hl">還沒同時成立</b>（融資餘額還在往上、沒從高點墜落），所以現在該記的不是「危險了」，而是<b class="hl">將來真的跌，回音會比過去大</b>——槓桿決定的是振幅，不是時點。',
- revealBad:'差一步。如果是體質出問題，<b class="hl">信用利差不可能同日收窄</b>——怕經濟的錢會先從最脆弱的公司債逃跑。那天被打的全是「靠低利率撐估值」的族群，不吃折現率的反而收紅——這是折現率的故事。',
- gloss:'<div class="gl"><b>信用利差</b><span>爛公司借錢的額外代價：它是「市場怕不怕經濟」最誠實的一票</span></div><div class="gl"><b>折現率</b><span>未來的錢換算成今天值多少的利率：它一升，越遙遠的獲利折得越狠</span></div>'},
-// 17 §14 Fed 兩隻手
-{type:'phasepick',sky:'sky-dusk',bg:'lonepine',tag:'§14 · FED 升/降息意向',h:'央行現在的姿勢，用一句話講——',
- data:'<div class="data-box"><div class="row"><b>量（資產負債表）</b><span class="hl">縮表去年底結束，每月緩步買回短債＝溫和放大</span></div><div class="row"><b>價（利率）</b><span class="dim">升息定價被就業數據拆掉：7/31 曾有 67% 升息機率 → 9/16「維持利率」機率升到 69%</span></div><div class="row"><b>但長端不領情</b><span class="dim">10Y 週內測 4.75%＝19 個月高、30Y 上 19 年高</span></div></div>',
- q:'正確的一句是——',
- opts:['全面轉鴿：降息週期啟動','量在幫忙、價還懸著——順風和變數並存','全面緊縮：量價齊收'],
- correct:1,
- reveal:'把政策拆成兩隻手看：<b class="hl">量的手已轉順風</b>（縮表去年底止、資產負債表緩步回升到 6.73 兆）；<b class="hl">價的手轉鴿但還沒開票</b>（非農轉負後，升息定價退潮、9/16 維持機率 69%）。<br>真正的重點在下一句：<b class="hl">短端鴿了，長端不跟</b>——8/13 的 30 年標售寫明了原因：得標 <b class="hl">5.216%（25 年最高）</b>、Bid-to-Cover 2.39 低於均值、經銷商被迫吃貨。買方在要更多補償。所以答案不在 Fed 這一卡，<b class="hl">在下一卡（財政）</b>。',
- gloss:'<div class="gl"><b>縮表／擴表</b><span>央行資產負債表縮小＝抽水、放大＝注水——「量」的鬆緊</span></div><div class="gl"><b>節奏 vs 方向</b><span>方向看鏈條斷沒斷，節奏看政策順不順——別把節奏的顛簸當成方向的反轉</span></div>'},
-// 18 §15 長端的另一半
-{type:'phasepick',sky:'sky-dusk',bg:'lonepine',tag:'§15 · 財政政策',h:'長端利率黏在近二十年高位——誰在推？',
- data:'<div class="data-box"><div class="row"><b>30 年期</b><span class="dim">上 19 年高；10Y 測 4.75%＝19 個月高</span></div><div class="row"><b>國債總量</b><span class="dim">跨過 40 兆美元關口</span></div><div class="row"><b>7 月赤字</b><span class="hl">4,320 億＝史上最大的 7 月</span></div><div class="row"><b>關稅收入</b><span class="dim">最高法院判 IEEPA 關稅違法·7 月退稅 333.8 億 → 淨關稅收入轉負 −85.5 億</span></div></div>',
- q:'報告對「推手」的判定是——',
- opts:['景氣太熱：成長預期推高利率','通膨失控：通膨預期推高利率','發債的人自己：供給壓力借用了利率的身體'],
- correct:2,
- reveal:'用刪去法：長端創高那幾天股市在跌（不是成長預期）、市場隱含通膨預期在降（不是通膨預期）——<b class="hl">剩下的是供給</b>。<br>供給從哪來？<b class="hl">FY2026 前十月赤字 1.8 兆，已經超過 FY2025 全年</b>；關稅被判違法後還要退稅，淨關稅收入轉負，缺口只能靠發債補 → 期限溢價上升 → 10Y 下不去。這就是「就業轉弱、Fed 轉鴿，長端卻創高」最合理的解釋：<b class="hl">長端漲的不是成長預期，是供給</b>。發債的人回頭買回自己發的債，<b class="hl">買回規模加倍卻只換到一天的回落</b>——供給造成的利率壓力，降息治不了。',
- gloss:'<div class="gl"><b>期限溢價</b><span>把錢借得越久、要求的額外補償：供給一多，補償就漲</span></div><div class="gl"><b>買回</b><span>財政部回購舊債：等於減少市場上的長債供給——供給病的對症藥</span></div>'},
-// 19 過場
-{type:'mono',sky:'sky-night',bg:'river',lines:['整份報告讀完了。','最後：它什麼情況下會認錯？']},
-// 20 可證偽翻牌
-{type:'flipcards',sky:'sky-clear',bg:'range',tag:'收束 · 可證偽踩點',h:'這個判斷什麼時候該翻案？翻開來看',
- sub:'一個不肯講「怎樣算我錯」的判斷，不值得信。報告把翻案條件全寫好了：',
- items:[
-  {t:'九月真的升息',s:'節奏轉逆：折現率再重估一輪，低利率估值族群首當其衝——方向未變、安全帶要繫'},
-  {t:'ISM 新訂單跌破 55',s:'需求傳到生產端的第一個路口失守：PMI 與零售信心的背離，收斂到壞的那邊'},
-  {t:'庫存年增率遲遲不回升',s:'回補劇本落空：§02 那條鏈的「伏筆」沒兌現，「下半年還有一段」的理由少一半'},
-  {t:'獲利面寬收窄過半',s:'鏈條從尾端斷：擴張變成少數巨頭的獨角戲——這比增速放緩嚴重得多'},
-  {t:'明年上半年高基期窗',s:'時點已知的那顆鬧鐘：年增率讀數會自然回落，若疊上通膨黏著就是雙殺'},
-  {t:'長期通膨預期的錨鬆離 3.3%',s:'所有門檻重排：從「貴」變「脫錨」，§08 的安全閥失效——整份報告要重寫'}],
- },
-// 21 讀報告 SOP
-{type:'checklist',sky:'sky-clear',bg:'range',tag:'收束 · 你的讀報順序',h:'下次打開總經報告，照這個順序走',
- sub:'把這四步收進口袋——這就是整份報告的用法：',
- items:[
-  {t:'先看 §01 兩支溫度條',s:'十秒鐘知道「現在幾點」——位置先於一切'},
-  {t:'讀 §02 本月解析',s:'主線一篇讀完：這個月真正變了的是哪幾件、鏈條斷了沒'},
-  {t:'有疑問，往下查分頁',s:'§03–§15 是查證用的資料庫——順序不重要，帶著問題去查'},
-  {t:'盯住可證偽踩點',s:'翻案條件先寫好：踩到就改判斷，沒踩到就別被雜訊搖'}],
- },
-// 22 結果
-{type:'result',sky:'sky-clear',bg:'range'}
+let PULSE=null;
+function startPulse(){if(PULSE)return;PULSE=setInterval(function(){
+  const t=Date.now()/1000;
+  const a=(0.4+0.5*(0.5+0.5*Math.sin(t*3.0))).toFixed(2);
+  const els=document.querySelectorAll('.gpulse');for(let i=0;i<els.length;i++)els[i].setAttribute('opacity',a);
+},70);}
+function svgOpen(h){return '<svg viewBox="0 0 300 '+h+'" style="width:100%;max-width:330px;display:block;margin:0 auto">';}
+function box(s){return '<div class="fig-box">'+s+'</div>';}
+function tx(x,y,t,o){o=o||{};return '<text x="'+x+'" y="'+y+'" fill="'+(o.c||'rgba(255,255,255,0.78)')+'" font-size="'+(o.s||10.5)+'"'+(o.a?' text-anchor="'+o.a+'"':'')+(o.w?' font-weight="'+o.w+'"':'')+' pointer-events="none">'+t+'</text>';}
+// 熱區圓點：sel＝已點、rev＝正解
+function hsDot(k,x,y,sel,rev){const on=sel&&sel.indexOf(k)>=0,good=rev&&rev.indexOf(k)>=0;
+  const col=good?'#7fd6a6':(on?C_G:'rgba(255,255,255,0.85)');
+  return '<circle cx="'+x+'" cy="'+y+'" r="13" fill="rgba(255,255,255,0.001)" class="hz" onclick="hsPick(\''+k+'\')"/>'
+   +'<circle cx="'+x+'" cy="'+y+'" r="'+(on||good?7:5.5)+'" fill="'+(on||good?col:'rgba(10,14,30,0.9)')+'" stroke="'+col+'" stroke-width="2" pointer-events="none"'+(good?' class="gpulse"':'')+'/>';}
+function hsRect(k,x,y,w,h,sel,rev,inner){const on=sel&&sel.indexOf(k)>=0,good=rev&&rev.indexOf(k)>=0;
+  let fill='rgba(0,0,0,0.38)';if(good)fill='rgba(120,220,140,0.24)';else if(on)fill='rgba(224,165,38,0.26)';
+  return '<rect class="hz" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="8" fill="'+fill+'" stroke="'+(good?'#7fd6a6':(on?C_G:'rgba(255,255,255,0.32)'))+'" stroke-width="'+(on||good?2:1)+'" onclick="hsPick(\''+k+'\')"/>'+(inner||'');}
+
+// ── §00 半年推演圖：實線＝已公布、虛線＝推演；分岔在兩次 FOMC ──
+function outlookFig(sel,rev){
+  const Y=function(x){return 100-(x-70)*10/210;};
+  let s=svgOpen(196);
+  s+='<line x1="12" y1="150" x2="290" y2="150" stroke="rgba(255,255,255,0.25)"/>';
+  s+='<polyline points="20,118 35,116 50,112 62,104 70,100" fill="none" stroke="'+C_G+'" stroke-width="2.6"/>';
+  s+='<line x1="70" y1="18" x2="70" y2="150" stroke="rgba(255,255,255,0.45)" stroke-dasharray="3 3"/>';
+  s+=tx(70,14,'今天 10/2',{a:'middle',s:10,c:'#fff'});
+  s+=tx(14,30,'← 已公布',{s:9.5,c:'rgba(255,255,255,0.6)'});
+  s+=tx(286,30,'推演（未發生）→',{s:9.5,a:'end',c:'rgba(255,255,255,0.6)'});
+  s+='<line x1="70" y1="100" x2="280" y2="'+Y(280).toFixed(1)+'" stroke="'+C_G+'" stroke-width="2" stroke-dasharray="5 4" opacity="0.85"/>';
+  s+='<path d="M125,'+Y(125).toFixed(1)+' C170,80 220,58 280,44" fill="none" stroke="'+C_G+'" stroke-width="1.6" stroke-dasharray="4 4" opacity="0.4"/>';
+  s+='<path d="M195,'+Y(195).toFixed(1)+' C220,104 240,118 280,128" fill="none" stroke="'+C_G+'" stroke-width="1.6" stroke-dasharray="4 4" opacity="0.4"/>';
+  s+=tx(284,46,'長',{s:10,c:'rgba(255,255,255,0.7)'})+tx(284,93,'主',{s:10,c:'rgba(255,255,255,0.7)'})+tx(284,131,'短',{s:10,c:'rgba(255,255,255,0.7)'});
+  const pts=[['c1014',95,'10/14 CPI',166],['f1028',125,'10/28 FOMC',180],['c1110',155,'11/10 CPI',166],['f1209',195,'12/9 FOMC',180],['w2703',258,'明年 3 月',166]];
+  pts.forEach(function(p){const y=Y(p[1]);
+    s+='<line x1="'+p[1]+'" y1="'+(y+6)+'" x2="'+p[1]+'" y2="'+(p[3]-10)+'" stroke="rgba(255,255,255,0.18)" pointer-events="none"/>';
+    s+=tx(p[1],p[3],p[2],{a:'middle',s:9.5,c:'rgba(255,255,255,0.82)'});
+    s+=hsDot(p[0],p[1],y.toFixed(1),sel,rev);});
+  s+=tx(150,194,'金線＝Fed 政策利率（市場隱含，示意）',{a:'middle',s:9,c:'rgba(255,255,255,0.5)'});
+  return box(s+'</svg>');}
+
+// ── §01 兩支溫度條 ──
+function thermoFig(v){const L=20,W=260,X=function(p){return L+W*p/100;};
+  let s=svgOpen(178);
+  s+=tx(L,20,'景氣大循環溫度條',{s:11,c:'#fff',w:700});
+  const z1=[['🌱 復甦','rgba(48,209,88,0.45)'],['📈 成長','rgba(41,151,255,0.45)'],['🔥 榮景','rgba(255,159,10,0.5)'],['衰退','rgba(255,69,58,0.45)']];
+  z1.forEach(function(z,k){s+='<rect x="'+X(k*25)+'" y="40" width="'+(W/4)+'" height="18" fill="'+z[1]+'"/>'+tx(X(k*25+12.5),53,z[0],{a:'middle',s:9.5,c:'#fff'});});
+  s+='<line x1="'+X(75)+'" y1="32" x2="'+X(75)+'" y2="66" stroke="#fff" stroke-width="1.6" stroke-dasharray="3 2"/>'+tx(X(75),78,'75% 第四格門檻',{a:'middle',s:9,c:'rgba(255,255,255,0.75)'});
+  const nx=X(v);
+  s+='<polygon points="'+(nx-6)+',30 '+(nx+6)+',30 '+nx+',39" fill="'+C_G+'" class="gpulse"/>'+tx(nx,27,v+'%',{a:'middle',s:11,c:C_G,w:700});
+  s+=tx(L,108,'製造業週期溫度條（本題不動）',{s:11,c:'rgba(255,255,255,0.75)',w:700});
+  const z2=['衰退','復甦','擴張','錯配'];
+  z2.forEach(function(z,k){s+='<rect x="'+X(k*25)+'" y="122" width="'+(W/4)+'" height="14" fill="rgba(255,255,255,'+(0.07+k*0.05)+')" stroke="rgba(255,255,255,0.15)"/>'+tx(X(k*25+12.5),133,z,{a:'middle',s:9,c:'rgba(255,255,255,0.8)'});});
+  s+='<polygon points="'+(X(77)-5)+',114 '+(X(77)+5)+',114 '+X(77)+',121" fill="rgba(255,255,255,0.8)"/>'+tx(X(77),158,'77%＝錯配前緣',{a:'middle',s:9.5,c:'rgba(255,255,255,0.75)'});
+  return box(s+'</svg>');}
+function zoneOf(v){return v<25?'復甦期':v<50?'成長期':v<75?'榮景期':'衰退期';}
+
+// ── §02 一行時間軸 ──
+const TIMELINE_SVG=(function(){const ev=[['9/25 起','押 10 月再升息的機率大退'],['9/30','10 年期創 2002 年以來新高'],['10/1','ISM 製造業新訂單守回 55'],['10/2','九月非農：請人變慢'],['10/2','標普收在歷史高點附近']];
+  let s=svgOpen(196);s+='<line x1="58" y1="22" x2="58" y2="178" stroke="rgba(224,165,38,0.5)" stroke-width="2"/>';
+  ev.forEach(function(e,k){const y=22+k*39;
+    s+='<circle cx="58" cy="'+y+'" r="5" fill="'+(k===4?C_UP:C_G)+'"'+(k===4?' class="gpulse"':'')+'/>';
+    s+=tx(48,y+4,e[0],{a:'end',s:10.5,c:'rgba(255,255,255,0.7)'})+tx(70,y+4,e[1],{s:11.5,c:'#fff'});});
+  return box(s+'</svg>');})();
+
+// ── §02 量的鏈條（六環） ──
+function chainFig(sel,rev){
+  const N=[['job','就業','9 月非農 +2.9 萬',10,16],['csm','消費','8 月零售 +1.1%',108,16],['ord','訂單','ISM 新訂單 55.3',206,16],['pro','生產','生產分項 56.7',206,104],['inv','庫存','批發年增 +5.7%',108,104],['eps','獲利','連七季雙位數',10,104]];
+  let s=svgOpen(174);
+  s+='<path d="M94,39 L106,39 M192,39 L204,39 M248,62 L248,102 M204,127 L194,127 M106,127 L96,127" stroke="'+C_G+'" stroke-width="2" fill="none"/>';
+  s+='<path d="M102,35 L107,39 L102,43 M200,35 L205,39 L200,43 M244,98 L248,103 L252,98 M198,123 L193,127 L198,131 M100,123 L95,127 L100,131" stroke="'+C_G+'" stroke-width="2" fill="none"/>';
+  N.forEach(function(n){s+=hsRect(n[0],n[3],n[4],84,46,sel,rev,tx(n[3]+42,n[4]+19,n[1],{a:'middle',s:12.5,c:'#fff',w:700})+tx(n[3]+42,n[4]+36,n[2],{a:'middle',s:9.5,c:'rgba(255,255,255,0.72)'}));});
+  s+=tx(150,168,'由上排左邊開始，順著箭頭走一圈',{a:'middle',s:9.5,c:'rgba(255,255,255,0.5)'});
+  return box(s+'</svg>');}
+
+// ── §02 三把尺（示意：同一串月增，三種窗長） ──
+const RULER_SVG=(function(){const m=[0.32,0.40,0.34,0.30,0.26,0.13,0.13,0.25,0.22,0.18,0.20,0.23];
+  let s=svgOpen(150);
+  m.forEach(function(v,k){const x=24+k*22,h=v*150;s+='<rect x="'+x+'" y="'+(100-h)+'" width="14" height="'+h+'" rx="2" fill="rgba(224,165,38,'+(0.35+k*0.04)+')"/>';});
+  s+='<line x1="20" y1="100" x2="290" y2="100" stroke="rgba(255,255,255,0.3)"/>';
+  const br=[[24,284,112,'12 個月（年增率）'],[156,284,126,'6 個月（年化）'],[222,284,140,'3 個月（年化）']];
+  br.forEach(function(b){s+='<path d="M'+b[0]+','+(b[2]-6)+' L'+b[0]+','+b[2]+' L'+b[1]+','+b[2]+' L'+b[1]+','+(b[2]-6)+'" fill="none" stroke="rgba(255,255,255,0.6)"/>'+tx(b[0]-2,b[2]+3,b[3],{a:'end',s:9,c:'rgba(255,255,255,0.75)'});});
+  s+=tx(150,14,'示意：同一串月增，拿三種長度的窗去量',{a:'middle',s:9.5,c:'rgba(255,255,255,0.55)'});
+  return box(s.replace('<svg viewBox="0 0 300 150"','<svg viewBox="-60 0 360 150"')+'</svg>');})();
+
+// ── §04 高收益信用利差 ──
+const HY_SVG=(function(){const lo=2.4,hi=5.4,Y=function(v){return 150-(v-lo)/(hi-lo)*130;};
+  const p=[['9/12',2.72,40],['9/21',2.70,100],['9/24',2.80,160],['10/1',3.24,240]];
+  let s=svgOpen(176);
+  s+='<line x1="30" y1="'+Y(5.1)+'" x2="290" y2="'+Y(5.1)+'" stroke="rgba(255,255,255,0.45)" stroke-dasharray="4 3"/>'+tx(288,Y(5.1)-5,'1996 年以來月均約 5.1%',{a:'end',s:9.5,c:'rgba(255,255,255,0.7)'});
+  s+='<line x1="30" y1="'+Y(3.5)+'" x2="290" y2="'+Y(3.5)+'" stroke="'+C_O+'" stroke-dasharray="4 3"/>'+tx(288,Y(3.5)-5,'3.5%：開始定價違約的門檻',{a:'end',s:9.5,c:C_O});
+  s+='<polyline points="'+p.map(function(q){return q[2]+','+Y(q[1]).toFixed(1);}).join(' ')+'" fill="none" stroke="'+C_DN+'" stroke-width="2.4"/>';
+  p.forEach(function(q,k){s+='<circle cx="'+q[2]+'" cy="'+Y(q[1]).toFixed(1)+'" r="'+(k===3?6:4)+'" fill="'+C_DN+'"'+(k===3?' class="gpulse"':'')+'/>'+tx(q[2],Y(q[1])+16,q[1].toFixed(2)+'%',{a:'middle',s:9.5,c:'#fff'})+tx(q[2],168,q[0],{a:'middle',s:9.5,c:'rgba(255,255,255,0.6)'});});
+  return box(s+'</svg>');})();
+
+// ── §05 股債溢價：盈餘收益率 vs 10 年期 ──
+function erpFig(v){const y=v/100,ey=5.24,erp=ey-y,X=function(r){return 30+(r-4.0)/2.0*250;};
+  let s=svgOpen(150);
+  s+=tx(30,22,'股票的盈餘收益率',{s:10.5,c:'rgba(255,255,255,0.75)'});
+  s+='<rect x="30" y="28" width="'+(X(ey)-30)+'" height="16" rx="3" fill="'+C_UP+'" opacity="0.7"/>'+tx(X(ey)+5,40,'5.24%',{s:11,c:'#fff',w:700});
+  s+=tx(30,70,'10 年期公債',{s:10.5,c:'rgba(255,255,255,0.75)'});
+  s+='<rect x="30" y="76" width="'+(X(y)-30).toFixed(1)+'" height="16" rx="3" fill="'+C_G+'" opacity="0.85"/>'+tx((X(y)+5).toFixed(1),88,y.toFixed(2)+'%',{s:11,c:'#fff',w:700});
+  s+='<line x1="'+X(ey)+'" y1="24" x2="'+X(ey)+'" y2="98" stroke="rgba(255,255,255,0.4)" stroke-dasharray="3 2"/>';
+  s+=tx(150,124,'股債溢價（ERP）＝ 5.24 − '+y.toFixed(2)+' ＝ '+(erp>=0?'+':'−')+Math.abs(erp).toFixed(2)+'%',{a:'middle',s:12,c:(erp<0?C_DN:'#fff'),w:700});
+  s+=tx(150,142,'盈餘收益率＝前瞻盈餘 404.84 ÷ 標普 7,722.72',{a:'middle',s:9,c:'rgba(255,255,255,0.5)'});
+  return box(s+'</svg>');}
+function erpLab(v){const y=v/100,erp=5.24-y;return '10 年期 <b>'+y.toFixed(2)+'%</b> → 股債溢價 <b style="color:'+(erp<0?C_DN:'#fff')+'">'+(erp>=0?'+':'−')+Math.abs(erp).toFixed(2)+'%</b>'+(erp<0?'（買股票比買公債少拿補償）':'');}
+
+// ── §06 GDPNow ──
+const GDPNOW_SVG=(function(){const p=[['8/03',6.2,40],['8/14',4.3,110],['9/16',5.1,190],['9/25',5.0,260]],Y=function(v){return 130-(v-3.5)/3.2*100;};
+  let s=svgOpen(160);
+  s+='<polyline points="'+p.map(function(q){return q[2]+','+Y(q[1]).toFixed(1);}).join(' ')+'" fill="none" stroke="'+C_G+'" stroke-width="2.4"/>';
+  p.forEach(function(q,k){s+='<circle cx="'+q[2]+'" cy="'+Y(q[1]).toFixed(1)+'" r="'+(k===1?6:4)+'" fill="'+C_G+'"'+(k===1?' class="gpulse"':'')+'/>'+tx(q[2],Y(q[1])-10,q[1].toFixed(1)+'%',{a:'middle',s:11,c:'#fff',w:700})+tx(q[2],150,q[0],{a:'middle',s:9.5,c:'rgba(255,255,255,0.6)'});});
+  s+=tx(150,16,'亞特蘭大聯準銀 GDPNow · 第三季',{a:'middle',s:9.5,c:'rgba(255,255,255,0.55)'});
+  return box(s+'</svg>');})();
+
+// ── §07 勞參率＋初領四週均 ──
+const JOB_SVG=(function(){let s=svgOpen(150);
+  s+=tx(70,16,'勞動參與率',{a:'middle',s:10.5,c:'rgba(255,255,255,0.75)'});
+  [['8 月',61.6,40],['9 月',61.8,90]].forEach(function(b){const h=(b[1]-61.0)*90;s+='<rect x="'+(b[2]-15)+'" y="'+(120-h)+'" width="30" height="'+h+'" rx="3" fill="'+C_UP+'" opacity="0.7"/>'+tx(b[2],114-h,b[1]+'%',{a:'middle',s:10.5,c:'#fff',w:700})+tx(b[2],136,b[0],{a:'middle',s:9.5,c:'rgba(255,255,255,0.6)'});});
+  s+=tx(220,16,'初領失業金四週均（萬）',{a:'middle',s:10.5,c:'rgba(255,255,255,0.75)'});
+  const q=[20.75,20.63,20.4,20.25,20.0];
+  s+='<polyline points="'+q.map(function(v,k){return (160+k*28)+','+(40+(20.8-v)*80).toFixed(1);}).join(' ')+'" fill="none" stroke="'+C_DN+'" stroke-width="2.2"/>';
+  q.forEach(function(v,k){s+='<circle cx="'+(160+k*28)+'" cy="'+(40+(20.8-v)*80).toFixed(1)+'" r="3.5" fill="'+C_DN+'"/>';});
+  s+=tx(160,32,'20.75',{a:'middle',s:9.5,c:'#fff'})+tx(272,120,'20.0',{a:'middle',s:9.5,c:'#fff'});
+  s+=tx(216,136,'連四週往下（到 9/26 當週）',{a:'middle',s:9.5,c:'rgba(255,255,255,0.6)'});
+  return box(s+'</svg>');})();
+
+// ── §08 基期月份格 ──
+function baseFig(sel,rev){const M=[['m09','9 月'],['m10','10 月'],['m11','11 月'],['m12','12 月'],['m01','1 月'],['m02','2 月'],['m03','3 月'],['m04','4 月']];
+  let s=svgOpen(150);
+  s+=tx(80,16,'2026',{a:'middle',s:10,c:'rgba(255,255,255,0.6)'})+tx(216,16,'2027',{a:'middle',s:10,c:'rgba(255,255,255,0.6)'});
+  s+='<line x1="148" y1="10" x2="148" y2="112" stroke="rgba(255,255,255,0.25)"/>';
+  if(rev){s+='<rect x="74" y="26" width="178" height="62" rx="8" fill="rgba(255,160,96,0.18)" stroke="'+C_O+'" stroke-dasharray="3 2"/>'+tx(163,104,'墊高窗：年增會被去年偏低的分母墊高（算術）',{a:'middle',s:9.5,c:C_O});
+    s+=tx(277,104,'往下掉',{a:'middle',s:9.5,c:C_DN})+tx(54,104,'算不出來',{a:'middle',s:9.5,c:'#7fd6a6'});}
+  M.forEach(function(m,k){const x=6+k*36.5;s+=hsRect(m[0],x,34,32,46,sel,rev,tx(x+16,62,m[1],{a:'middle',s:11,c:'#fff',w:700}));});
+  s+=tx(150,140,'每一格＝那個月的 CPI 數據（下個月中公布）',{a:'middle',s:9.5,c:'rgba(255,255,255,0.5)'});
+  return box(s+'</svg>');}
+
+// ── §09 黃金七環 ──
+const GOLD_SVG=(function(){let s=svgOpen(196);
+  const up=[['①','貨幣政策'],['②','通膨動能'],['③','通膨預期'],['④','期限溢價']];
+  up.forEach(function(u,k){const y=12+k*34;s+='<rect x="8" y="'+y+'" width="96" height="26" rx="7" fill="rgba(0,0,0,0.38)" stroke="rgba(255,255,255,0.35)"/>'+tx(56,y+17,u[0]+' '+u[1],{a:'middle',s:11,c:'#fff'});
+    s+='<path d="M104,'+(y+13)+' L136,74" stroke="rgba(255,255,255,0.3)" fill="none"/>';});
+  s+='<rect x="136" y="58" width="72" height="32" rx="8" fill="rgba(127,208,160,0.22)" stroke="'+C_DN+'"/>'+tx(172,79,'⑤ 真實利率',{a:'middle',s:11.5,c:'#fff',w:700});
+  s+='<path d="M208,74 L232,104" stroke="'+C_G+'" stroke-width="2" fill="none"/>';
+  s+='<rect x="136" y="150" width="72" height="30" rx="8" fill="rgba(255,107,125,0.2)" stroke="'+C_UP+'"/>'+tx(172,170,'⑥ 官方買盤',{a:'middle',s:11.5,c:'#fff',w:700});
+  s+='<path d="M208,164 L232,128" stroke="'+C_G+'" stroke-width="2" fill="none"/>';
+  s+='<rect x="232" y="100" width="62" height="32" rx="8" fill="rgba(224,165,38,0.28)" stroke="'+C_G+'" class="gpulse"/>'+tx(263,121,'⑦ 黃金',{a:'middle',s:12,c:'#fff',w:700});
+  s+=tx(172,110,'利率路：抱黃金的代價',{a:'middle',s:9,c:'rgba(255,255,255,0.6)'})+tx(172,144,'買盤路：有沒有人在買',{a:'middle',s:9,c:'rgba(255,255,255,0.6)'});
+  return box(s+'</svg>');})();
+
+// ── §11 ISM 製造業 2026 ──
+const ISM_SVG=(function(){const pmi=[52.6,52.4,52.7,52.7,54.0,53.3,55.6,54.6,54.5],no=[[6,56.7],[7,53.7],[8,55.3]],X=function(k){return 30+k*31;},Y=function(v){return 150-(v-49)/9*130;};
+  let s=svgOpen(176);
+  s+='<line x1="24" y1="'+Y(55)+'" x2="292" y2="'+Y(55)+'" stroke="'+C_O+'" stroke-dasharray="4 3"/>'+tx(290,Y(55)-4,'55＝需求傳到生產端的路口',{a:'end',s:9,c:C_O});
+  s+='<line x1="24" y1="'+Y(50)+'" x2="292" y2="'+Y(50)+'" stroke="rgba(255,255,255,0.35)" stroke-dasharray="2 3"/>'+tx(290,Y(50)-4,'50 榮枯線',{a:'end',s:9,c:'rgba(255,255,255,0.6)'});
+  s+='<polyline points="'+pmi.map(function(v,k){return X(k)+','+Y(v).toFixed(1);}).join(' ')+'" fill="none" stroke="'+C_UP+'" stroke-width="2.2"/>';
+  no.forEach(function(p){s+='<rect x="'+(X(p[0])-5)+'" y="'+(Y(p[1])-5).toFixed(1)+'" width="10" height="10" fill="'+(p[0]===8?'rgba(255,255,255,0.15)':C_G)+'" stroke="'+C_G+'" stroke-width="1.5"/>';});
+  s+=tx(X(8),Y(55.3)-10,'9 月？',{a:'middle',s:10,c:C_G,w:700});
+  ['1','2','3','4','5','6','7','8','9'].forEach(function(m,k){s+=tx(X(k),170,m+'月',{a:'middle',s:9,c:'rgba(255,255,255,0.55)'});});
+  s+=tx(30,14,'紅線＝ISM 製造業　方塊＝新訂單',{s:9.5,c:'rgba(255,255,255,0.6)'});
+  return box(s+'</svg>');})();
+
+// ── §12 PEG：本益比 19.0 不動，成長率變 ──
+function pegFig(v){const peg=19.0/v,X=function(p){return 30+Math.min(p,2)/2*250;};
+  let s=svgOpen(130);
+  s+=tx(30,22,'PEG＝本益比 19.0 ÷ EPS 成長率 '+v+'%',{s:11,c:'#fff'});
+  s+='<rect x="30" y="40" width="250" height="16" rx="4" fill="rgba(255,255,255,0.12)"/>';
+  s+='<rect x="30" y="40" width="'+(X(peg)-30).toFixed(1)+'" height="16" rx="4" fill="'+(peg>1?C_O:C_G)+'" opacity="0.85"/>';
+  s+='<line x1="'+X(1)+'" y1="32" x2="'+X(1)+'" y2="64" stroke="#fff" stroke-dasharray="3 2"/>'+tx(X(1),78,'1.0',{a:'middle',s:10,c:'#fff'});
+  s+=tx(X(peg),34,peg.toFixed(2),{a:'middle',s:12,c:'#fff',w:700});
+  s+=tx(150,104,'1 以下＝成長還撐得住估值；1 以上＝緩衝變薄',{a:'middle',s:9.5,c:'rgba(255,255,255,0.6)'});
+  return box(s+'</svg>');}
+function pegLab(v){const p=19.0/v;return 'EPS 成長 <b>+'+v+'%</b> → PEG <b style="color:'+(p>1?C_O:'#fff')+'">'+p.toFixed(2)+'</b>';}
+
+// ── §13 融資餘額 ──
+const MARGIN_SVG=(function(){let s=svgOpen(140);
+  [['6 月（紀錄）',1.50,90],['8 月',1.45,210]].forEach(function(b){const h=(b[1]-1.0)*180;s+='<rect x="'+(b[2]-24)+'" y="'+(116-h)+'" width="48" height="'+h+'" rx="4" fill="'+C_UP+'" opacity="'+(b[2]===90?0.85:0.6)+'"/>'+tx(b[2],110-h,b[1].toFixed(2)+' 兆',{a:'middle',s:11,c:'#fff',w:700})+tx(b[2],132,b[0],{a:'middle',s:10,c:'rgba(255,255,255,0.65)'});});
+  s+=tx(150,16,'FINRA 融資餘額（美元）· 8 月年增 +37.2%',{a:'middle',s:9.5,c:'rgba(255,255,255,0.55)'});
+  return box(s+'</svg>');})();
+
+// ── §14 政策利率階梯 ──
+const STEP_SVG=(function(){let s=svgOpen(120);
+  s+='<polyline points="20,80 150,80 150,52 280,52" fill="none" stroke="'+C_G+'" stroke-width="3"/>';
+  s+='<polyline points="150,52 280,26" fill="none" stroke="'+C_G+'" stroke-width="1.6" stroke-dasharray="4 4" opacity="0.5"/>';
+  s+=tx(80,72,'3.50–3.75%',{a:'middle',s:10.5,c:'#fff'})+tx(215,46,'3.75–4.00%',{a:'middle',s:10.5,c:'#fff',w:700})+tx(150,100,'9/16 一致決升一碼',{a:'middle',s:10,c:C_G})+tx(262,22,'點陣圖：今年還要再至少一碼',{a:'end',s:9,c:'rgba(255,255,255,0.6)'});
+  return box(s+'</svg>');})();
+
+// ── §15 10 年期半年漲幅拆解 ──
+const DECOMP_SVG=(function(){let s=svgOpen(130);
+  const X=function(v){return 40+v*240;};
+  s+='<line x1="'+X(0)+'" y1="20" x2="'+X(0)+'" y2="96" stroke="rgba(255,255,255,0.4)"/>';
+  s+=tx(X(0)-4,40,'實質利率',{a:'end',s:10,c:'rgba(255,255,255,0.75)'})+'<rect x="'+X(0)+'" y="28" width="'+(X(0.91)-X(0))+'" height="16" rx="3" fill="'+C_G+'"/>'+tx(X(0.91)-4,40,'+0.91',{a:'end',s:11,c:'#1a1200',w:700});
+  s+=tx(X(0)-4,72,'通膨補償',{a:'end',s:10,c:'rgba(255,255,255,0.75)'})+'<rect x="'+X(-0.02)+'" y="60" width="'+(X(0)-X(-0.02))+'" height="16" rx="2" fill="'+C_DN+'"/>'+tx(X(0)+6,72,'−0.02',{s:11,c:'#fff',w:700});
+  s+=tx(150,116,'10 年期過去半年 +0.89 個百分點＝這兩塊加起來',{a:'middle',s:9.5,c:'rgba(255,255,255,0.6)'});
+  return box(s+'</svg>');})();
+
+const OPENING={sky:'sky-dawn',bg:'farhills',label:'序',title:'你心裡也在問同一句',quotes:function(){return [
+ '打開總經報告，最上面那一行問：<br><b>「就業轉弱了，股市為什麼還站在高點附近？」</b><br>你心裡也在問同一句。',
+ '往下是十六個段落、幾十張圖。<br>你從頭滑到尾，<br>滑完只記得「數據好像有好有壞」。',
+ '不是你看不懂。<br>是同一份報告裡，經濟這一端和股市這一端<br>講的是兩件事——沒人幫你分開。',
+ '接下來 '+ROUNDS.length+' 站，一站一張圖，從 §00 走到 §15，<br>最後親手把翻案條件寫進表。<br><span style="opacity:.78;font-size:13px">（讀數取自 '+ASOF+' 那期總經報告，資料到 '+DATA_DAY+'，用來練讀法，不是今天的判斷）</span>'];}};
+
+const ROUNDS=[
+// 1 ── §00 行情推演 · hotspot ──
+{type:'hotspot',sky:'sky-dawn',bg:'farhills',label:'§00 · 行情推演',short:'推演圖',
+ title:'虛線不是預測，是分岔圖',
+ text:'§00 是一張半年推演圖：<br>通膨、Fed 政策利率、標普三條線疊在一起。<br>你大概看到虛線，就當成「接下來會這樣走」。',
+ so:'實線＝已公布，虛線＝推演（還沒發生）；<br>越往右線越淡＝越不確定。<br>三條路從同一個地方分岔，<b>通膨與大盤跟著 Fed 那條走</b>。',
+ q:'點出三條路分岔的兩個位置：',
+ need:['f1028','f1209'],fig:outlookFig,
+ fbOk:'分岔點是 <b>10/28 與 12/9 兩次 Fed 會議</b>。<br>市場（10/2 收盤）押 10/28 不動 77.9%、升一碼 22.1%。<br><b>長</b>＝一季兩碼：條件是核心 PCE 月增連兩個月 0.30 以上、時薪回頭往上；<br><b>短</b>＝升一次就停：核心 PCE 月增連幾個月 0.2 以下、新增工作掉回零軸。<br>10/14、11/10 的 CPI 是開牌，不是分岔；明年 3 月是去年的油價那根滾出去，最容易被讀錯的那一段。<br><b>每開一張牌，這張圖就重畫一次——它是推演，不是預測。</b>',
+ fbNo:'差一點。分岔的是「Fed 怎麼決定」，所以兩個點都是會議日。'},
+
+// 2 ── §01 市場位階總覽 · slider ──
+{type:'slider',sky:'sky-noon',bg:'farhills',label:'§01 · 市場位階總覽',short:'溫度條',
+ title:'先看現在幾點鐘',
+ text:'§01 是兩支溫度條：景氣大循環、製造業週期。<br>你大概只看指針在哪個顏色。',
+ so:'要看的是<b>指針離下一格的門檻有多遠、要什麼條件才過線</b>。<br>報告這期的說法：<b>循環在延長，不在收尾</b>。',
+ chips:['10/3 再判','9 月非農 +2.9 萬','ISM 新訂單 55.3','末升條件：全面爆量＋資金真的緊'],
+ q:'拉景氣大循環那支的指針，<br>停在報告釘的位置：還在榮景期、沒過 75% 那條線。',
+ slider:{min:0,max:100,init:35,ans:74,lo:'復甦',hi:'衰退'},
+ fig:thermoFig,vlab:function(v){return '指針 <b>'+v+'%</b> → <b>'+zoneOf(v)+'</b>'+(v>=75?'（已過第四格門檻）':'');},
+ correct:function(v){return v>=70&&v<=74;},
+ fbOk:'報告釘在 <b>74%</b>。<br>過 75% 要看到「<b>全面爆量＋資金真的緊</b>」，10/3 再判一條都沒觸發。<br>往左的力量：9 月新增工作只有 +2.9 萬、前兩月下修；<br>往右的力量：製造新訂單守回 55、台灣 PMI 加速。<br>製造業那支在 <b>77%＝錯配前緣</b>：庫存偏低、補庫存，要靠訂單續命。',
+ fbNo:'「循環在延長、不在收尾」＝還在榮景期，而且沒跨過 75% 那條第四格門檻——貼著線下面。'},
+
+// 3 ── §02 結論 · 懸念句＋一行時間軸 · flip ──
+{type:'flip',sky:'sky-noon',bg:'farhills',label:'§02 · 本月解析 · 結論',short:'懸念',
+ title:'就業轉弱了，股市為什麼還站在高點附近？',
+ text:'這是報告最上面那一句懸念。<br>它下面接著一行時間軸，五件事照日期排開。',
+ so:'看時間軸的順序：<b>押注先退</b>，非農後到。<br>市場等的不是數據好不好，是「Fed 還要不要追」。',
+ svg:TIMELINE_SVG,
+ q:'你猜報告的答案是哪一個？',
+ bets:[['a','市場把升息往後挪：10 月再升一碼的押注一週內大退'],['b','數據其實沒變差：就業轉弱是假警報']],betOk:'a',
+ revealTxt:'答案是「<b>市場把升息往後挪</b>」——押 10 月再升一碼的機率，一週內從約六成半退到約兩成，大部分在非農之前就退了。<br>經濟這端在放慢，股市這端讀成「升息壓力暫緩」：<b>壞消息就是好消息</b>。<br>但數據沒有說謊——9 月新增工作真的只有 +2.9 萬。下一站，把兩端分開。'},
+
+// 4 ── §02 結論 · 兩端分開看 · place ──
+{type:'place',sky:'sky-noon',bg:'farhills',label:'§02 · 本月解析 · 兩端分開看',short:'兩端',
+ title:'經濟偏弱，不等於股市偏空',
+ text:'結論底下分成「經濟／信用這端」和「股市這端」，<br>後面還跟著三個誠實註記。',
+ so:'混成一句「偏空」會跟盤面打架。<br>先把證據放回它該在的那一端，<br>再看註記提醒你<b>別把好消息講過頭</b>。',
+ q:'先點一張卡，再點它該去的格子（每格兩張）：',
+ cards:[['c','10 月再升一碼的押注：一週內從約六成半退到約兩成'],['e','非農偏弱後，2 年期、10 年期反而小升（4.83%、5.28%）'],['a','9 月非農只有 +2.9 萬，前兩月合計下修 6 萬'],['f','12 月前至少再升一碼的機率，反而從約八成升到八成五'],['d','標普 10/2 收 7,723，離歷史高點不到 1%'],['b','高收益信用利差 10/1 走闊到 3.24%']],
+ slots:[['s1','<b style="color:'+C_DN+'">經濟／信用這端</b><br>偏弱','a,b'],['s2','<b style="color:'+C_UP+'">股市這端</b><br>順風','c,d'],['s3','<b style="color:'+C_Y+'">誠實註記</b><br>別講過頭','e,f']],
+ done:'三格合起來就是報告的結論：<br><b>經濟先慢下來，股市讀成好消息；壓力在估值和信用。</b><br>誠實註記一共三條：① 債市還沒點頭；② 市場是挪時間、不是取消（12 月前至少再升一碼反而升到八成五）；③ 信用壓力集中在最弱那一層，投資級利差只小幅走闊（0.86%）。'},
+
+// 5 ── §02 量的鏈條 · hotspot ──
+{type:'hotspot',sky:'sky-valley',bg:'range',label:'§02 · 本月解析 · 量的鏈條',short:'鏈條',
+ title:'鏈條上，哪一環轉暗了？',
+ text:'本月解析的主線是一條鏈：<br>有人領薪水 → 有人花錢 → 企業接單 → 開工 → 補貨 → 獲利。',
+ so:'讀法是沿著鏈看，<b>找出「這一期變了的那一環」</b>，<br>不是把每個數字都當成新聞。',
+ q:'點出這一期轉暗的那一環：',
+ need:['job'],fig:chainFig,
+ fbOk:'<b>就業</b>。9 月新增工作 +2.9 萬、近三個月平均 5.1 萬、時薪年增連三個月往下到 3.0%——<b>請人變慢</b>；<br>但初領失業金連四週往下（四週均 20.0 萬）——<b>不是裁人</b>。<br>其他環都還亮：訂單守回 55、生產續擴張、獲利連七季雙位數。<br>庫存那一環是伏筆：批發庫存年增由 +4.4% 翻到 +5.7%，<b>回補從批發那一層開始了</b>。<br>量的鏈條還沒斷，只是不再五環同向。',
+ fbNo:'其他五環的讀數都在往上；只有一環的讀數是「變慢」。'},
+
+// 6 ── §02 通膨三把尺 · match ──
+{type:'match',sky:'sky-valley',bg:'range',label:'§02 · 本月解析 · 通膨三把尺',short:'三把尺',
+ title:'同一個通膨，三把尺量',
+ text:'通膨這一格，報告同時寫了三種讀數。<br>你大概只記最大的那個數字。',
+ so:'差在窗口長短：<b>年增率</b>看 12 個月、<b>六個月年化</b>看半年、<b>三個月年化</b>看一季。<br>9/30 年度修正把核心 PCE 年增從 3.3% 修成 3.0%，三把尺上的數字都換了。',
+ svg:RULER_SVG,
+ q:'把每一把尺接到它的讀數（先點左、再點右）：',
+ left:[['a','年增率（核心 PCE，8 月）'],['b','六個月年化'],['c','三個月年化'],['d','扣掉能源與房屋的服務（8 月月增）']],
+ right:[['c','2.05%：已經貼近 2%'],['a','3.0%：還在 3% 附近，只是卡的位置比以為的低'],['d','0.37%：服務端還熱'],['b','2.7%：從年中高點回落，不再是「在爬」']],
+ fbNo:'有幾條接錯了——正解已經標出來。',
+ fbOk:'修正後<b>三把尺講同一個方向：壓力在緩，只是還沒回到 2%</b>。<br>還熱的只剩扣掉房屋的服務；總體 PCE 3.4% 是油價推的。<br>所以通膨這位證人，從「傾向升」退成「不再催」——不再給 Fed 加快的理由。<br>看到通膨數字，先問它用的是哪把尺。'},
+
+// 7 ── §03 景氣循環投資框架 · place ──
+{type:'place',sky:'sky-valley',bg:'range',label:'§03 · 景氣循環投資框架',short:'先行滯後',
+ title:'有些燈先亮，有些燈最後才亮',
+ text:'§03 不報今天的數字，是給你一把尺。<br>第一張就是「先行／同步／滯後」快速索引。',
+ so:'預判只能看先行；滯後的燈亮了，事情都發生完了。<br>先行、同步、滯後混在一起看，是誤判最大的來源。',
+ q:'把六個指標放進它該在的那一欄（每欄兩個）：',
+ cards:[['u','失業率'],['i','初領失業金'],['g','實質 GDP'],['r','CPI 房租'],['n','ISM 新訂單'],['p','ISM 製造業 PMI']],
+ slots:[['s1','<b style="color:'+C_Y+'">先行</b><br>還沒發生就先動','i,n'],['s2','<b style="color:'+C_G+'">同步</b><br>跟當下一起動','g,p'],['s3','<b style="color:'+C_O+'">滯後</b><br>轉完才反映','u,r']],
+ done:'這張索引拿來量 10/03 這一期：<br>9 月兩邊方向不一——非農放慢，初領反而回落；<br><b>先行與滯後這個月沒有互相確認</b>。<br>所以「失業率升到 4.2%」不能單獨拿來判轉折，它是最後才亮的那盞燈。'},
+
+// 8 ── §04 利率 vs 企業＋消費端 · flip ──
+{type:'flip',sky:'sky-storm',bg:'peak',label:'§04 · 利率 vs 企業＋消費端',short:'信用利差',
+ title:'信用利差一週走闊 44bp',
+ text:'§04 問的是：升息咬人了沒？咬到誰？<br>企業端第一格是高收益債的信用利差。',
+ so:'信用利差往上＝<b>借錢變難、利率變高</b>。<br>但一個讀數要升格成「重點」，先過三關：<br>① 幅度夠不夠大 ② 絕對值在過去的哪個位置 ③ 是不是跑得比別人快。',
+ svg:HY_SVG,
+ q:'10/1 走闊到 3.24%。報告怎麼定這件事？',
+ bets:[['a','借錢開始變難一點：第一道裂縫，還沒到銀行收緊放款'],['b','市場已經在定價違約潮']],betOk:'a',
+ revealTxt:'是<b>第一道裂縫</b>。三關都過：<br>① 一週 +44bp；② 位置升到近三年第 75 百分位；③ 同期 10 年期只升 6bp——<b>跑得比利率快</b>，這是這一期第一次。<br>但還沒到違約那一步：離 3.5% 還有 26bp，比 1996 年以來月均約 5.1% 低一截。<br>下一道門在企業：非投資級的利息覆蓋率 2.89 倍，貼近歷史警戒水位——那是壓力從消費端傳到企業端的路口。'},
+
+// 9 ── §05 市場估值 · slider ──
+{type:'slider',sky:'sky-storm',bg:'peak',label:'§05 · 市場估值',short:'股債溢價',
+ title:'買股票，還比買公債多拿補償嗎？',
+ text:'§05 量的是這艘船吃水多深。<br>你大概看到「本益比 19 倍、比五年均值低」就放心了。',
+ so:'另一把尺是<b>股債溢價（ERP）</b>：股票的盈餘收益率減 10 年期公債殖利率。<br>它貼近零，同一則壞消息會摔得比以前重。',
+ chips:['前瞻盈餘 404.84','標普 7,722.72（10/2）','席勒本益比 41.38 倍'],
+ q:'盈餘收益率 5.24% 不動。<br>把 10 年期拉到 10/2 收盤的 5.28%：',
+ slider:{min:450,max:560,init:470,ans:528,lo:'4.50%',hi:'5.60%'},
+ fig:erpFig,vlab:erpLab,correct:function(v){return Math.abs(v-528)<=1;},
+ fbOk:'股債溢價 <b>−0.04%</b>：10/2 <b>第一次轉負</b>——買股票不再比買公債多拿補償。<br>席勒本益比 41.38 倍＝1881 年以來第 99.1 百分位；前瞻本益比 19.0 倍反而略低於 10 年均值——兩把尺差在分母：一個看過去十年的盈餘，一個看明年的預估。<br><b>估值不報時間</b>，它決定的是壞消息來的時候能摔多重。',
+ fbNo:'還沒到 10/2 的位置——10 年期 10/2 收 5.28%。'},
+
+// 10 ── §06 GDP 與宏觀 · ab ──
+{type:'ab',sky:'sky-storm',bg:'peak',label:'§06 · GDP 與宏觀',short:'GDPNow',
+ title:'砍了一刀，又加回來',
+ text:'GDPNow 是數據一出就重算的即時 GDP 估計。<br>8 月中，它十一天內從 6.2% 砍到 4.3%。',
+ so:'這種跳動要先問：<b>砍在哪一格、原因是不是單月失真</b>。<br>方向比單次讀數誠實。',
+ svg:GDPNOW_SVG,
+ q:'8 月中那一刀主要砍在哪一格？後來為什麼又加回來？',
+ choices:['淨出口：關稅反噬，還沒止血','消費那一格：7 月零售的坑砍出來，8 月零售回正後又加回來','政府支出：預算僵局拖累'],correct:1,
+ fb:['不是。約八成砍在消費那一格——元兇是 7 月零售那根柱子。','對。消費格 4.6 → 2.5 → 4.2（9/25）。<br>7 月零售 −0.5% 是大型電商把促銷從 7 月搬到 6 月挖的坑；8 月零售 +1.1%、年增 +5.4%，坑填回來、刀也收回去。<br>同時第二季 GDP 第三估上修到 2.2%、消費 3.8%。<b>判斷用趨勢，不用單月</b>。下一次更新：第三季初估 10/29。','不是。被砍的整整一塊在消費格。']},
+
+// 11 ── §07 就業市場 · flip ──
+{type:'flip',sky:'sky-dusk',bg:'lonepine',label:'§07 · 就業市場',short:'失業率',
+ title:'失業率升到 4.2%——裁員變多了？',
+ text:'9 月失業率升到 4.2%。<br>你大概一看就覺得：人被裁了。',
+ so:'失業率＝失業人數 ÷ 有在找工作的人。<br>分母變大也會讓它往上。<br>所以要一起看<b>勞動參與率</b>和<b>初領失業金</b>。',
+ svg:JOB_SVG,
+ q:'兩張圖合起來，你猜報告怎麼讀？',
+ bets:[['a','裁員變多了：失業率往上就是壞消息'],['b','回來找工作的人變多、請人變慢——不是裁人']],betOk:'b',
+ revealTxt:'是後者。勞參率 61.6% → 61.8%：<b>回到職場找工作的人變多</b>，沒有全被吸收；<br>申請失業金的人還在往下（四週均 20.0 萬、連四週往下）。<br>這也是 §00 那一格「被忽略的勞參率」：它在變好，被非農的壞數字蓋過去了。<br>注意：上一份用「分母縮小的假利多」解釋失業率下降，<b>這一份報告自己收回</b>。<br>要改判成失速，要同時看到非農轉負、初領四週均連四週往上。'},
+
+// 12 ── §08 通貨膨脹 · hotspot ──
+{type:'hotspot',sky:'sky-dusk',bg:'lonepine',label:'§08 · 通貨膨脹',short:'基期',
+ title:'有一期年增率，根本算不出來',
+ text:'官方核心 CPI 降到 2.4%（8 月），<br>但 1 年通膨預期升到 4.6%、能源年增 16.3%——官方在降、體感在升。',
+ so:'安全閥是 5–10 年的長期預期：9 月從 3.3% 升到 3.4%，<b>鬆一格</b>；單月不算鬆脫，連兩個月才算。<br>另一件要先知道的事：<b>去年 10 月聯邦停擺，CPI 沒有採集</b>。',
+ q:'點出年增率「算不出來」的那一期：',
+ need:['m10'],fig:baseFig,
+ fbOk:'<b>2026 年 10 月那一期</b>（11/10 公布）：去年同月沒有數字，只能看月增。<br>接著 11 月到明年 3 月，年增拿偏低的去年指數當分母，<b>會被墊高——這是量測的算術，不是通膨在加速</b>；<br>明年 4 月去年補回的那根滾出去，年增又一次往下掉，同樣是算術。<br>分辨真假看月增：核心 PCE 月增連兩個月 0.30 以上才算加速。',
+ fbNo:'算不出來的是「去年同月沒有數字」的那一期。'},
+
+// 13 ── §09 黃金 · match ──
+{type:'match',sky:'sky-storm',bg:'peak',label:'§09 · 黃金',short:'黃金鍊條',
+ title:'黃金不是拿來猜漲跌的',
+ text:'§09 把推著黃金的東西畫成七環鍊條，<br>從 Fed 開會一路連到金價。',
+ so:'①到④吵的是同一件事，全部收斂到<b>⑤真實利率</b>（抱黃金的代價）；<br><b>⑥官方買盤</b>是另一條路，不管代價、只管有沒有人在買。<br>兩條路同時進⑦，誰大聲誰說了算。',
+ svg:GOLD_SVG,
+ q:'報告用三個歷史案例講機制。把案例接到它的機制（先點左、再點右）：',
+ left:[['a','1978-08 → 1980-01：真實利率 0.91% → −0.84%，黃金 +228%'],['b','2011-09 → 2015-12：真實利率 0.17% → 0.73%，黃金 −39%'],['c','2022 全年：真實利率 −1.04% → 1.58%，黃金 −0.1%']],
+ right:[['c','代價暴增，照關係該跌兩成，實際打平——買盤接住了'],['a','代價變便宜，買盤不用出手，黃金自己漲'],['b','代價一路變貴，那四年沒有人在接，跌了四年']],
+ fbNo:'有幾條接錯了——正解已經標出來。',
+ fbOk:'現在⑤真實利率 2.92%（10/2）；9/30 的 2.93% 是 2008 年 11 月以來最高。<br>照機制黃金該跌，近十二個月卻漲了 17.4%——<b>撐著的是⑥</b>。<br>所以這一節的結論不是「會漲」或「會跌」，<br>是：<b>它現在只剩一條腿站著</b>，而那條腿沒有公開的日頻數據可以盯。<br>歷史案例只拿來驗機制，不拿來算未來報酬。'},
+
+// 14 ── §10 利率循環與商品循環 · place ──
+{type:'place',sky:'sky-storm',bg:'peak',label:'§10 · 利率循環與商品循環',short:'三條路',
+ title:'首升第 0 個月，別急著對號入座',
+ text:'§10 拿 1954 年以來 16 輪升降息對照現在。<br>你大概想直接問：「這一輪像哪一次？」',
+ so:'歷史上首升之後有三條路：<b>A 正常的新一輪、B 老擴張再收緊、C 升一次就停</b>。<br>首升當月的讀數分不出走哪條——分岔要在之後才看得到。',
+ q:'把四張卡放進它該在的那一格：',
+ cards:[['d','9/16 首升一碼；10 年減 3 個月 +1.09、2 年減政策 +0.96'],['b','繼續升；首升後 13～15 個月倒掛'],['c','沒有第二次升息；10 年減 3 個月沒有倒掛'],['a','連續升；一年後 10 年減 3 個月還有 0.81～1.94']],
+ slots:[['s1','<b>A</b> 正常的新一輪（2004、2015）','a'],['s2','<b>B</b> 老擴張再收緊（1967、1988、1999）','b'],['s3','<b>C</b> 升一次就停（1997）','c'],['s4','<b style="color:'+C_G+'">現在</b>：三條路都還分不出來','d']],
+ done:'分岔看兩件事：① 3～6 個月內有沒有第二次升息；② 一年後 10 年減 3 個月收到多窄、2 年期有沒有跌到政策利率以下。<br>2015 年首升後也停了整整 12 個月——沒有第二次升息時，<b>要到一年後才分得出 C 還是 A</b>。所以現在不把這一輪釘在任何一條路上。<br>同一節也推翻一條常聽的說法：「2 年期跌破政策利率＝最後一次升息已過」，可判 10 輪只中 3 輪；1990 年後它跟最後一次升息同時發生——<b>是確認鐘，不是預告</b>。<br>商品也一樣：升息期沒有任何一項的大方向站得住。'},
+
+// 15 ── §11 PMI 景氣 · flip ──
+{type:'flip',sky:'sky-storm',bg:'peak',label:'§11 · PMI 景氣',short:'新訂單',
+ title:'8 月失守 55，9 月呢？',
+ text:'ISM 製造業 7 月跳上 55.6，之後守在 54 以上。<br>8 月新訂單掉到 53.7、失守 55，報告記了「半盞燈」。',
+ so:'55 是需求傳到生產端的第一個路口。<br>連兩個月失守才算數——<b>一盞燈要開兩次票</b>。',
+ svg:ISM_SVG,
+ q:'10/1 公布 9 月。你猜？',
+ bets:[['a','✓ 守回 55'],['b','✗ 連兩個月失守']],betOk:'a',
+ revealTxt:'<b>守回——新訂單 55.3</b>。8 月那半盞燈熄了，連兩月失守的計數歸零；但離 55 只差 0.3。<br>同一份：製造業 54.5 守住突破、物價指數跳到 77.9（成本端又熱起來）；服務業 8 月 55.4 再加速；台灣兩套 PMI 9 月都是 2021 年以來最快。<br>翻案門檻不變：<b>台灣外銷訂單轉負，或 ISM 任一具引擎跌破 50 且新訂單同步下墜</b>。'},
+
+// 16 ── §12 企業獲利 · slider ──
+{type:'slider',sky:'sky-dusk',bg:'lonepine',label:'§12 · 企業獲利',short:'獲利速度',
+ title:'水準沒問題，有問題的是速度',
+ text:'利潤率創 FactSet 追蹤以來新高，十一個部門十個成長。<br>你大概覺得：獲利這一格沒什麼好擔心。',
+ so:'要看的是<b>速度</b>：年增率第三季 +29.1% 就是高點，第四季 +26.8%，2027 年只剩 +15.4%（FactSet 9/25 期）。<br>PEG＝本益比 ÷ 成長率，看成長撐不撐得住估值。',
+ q:'本益比 19.0 倍不動（10/2）。<br>把成長率拉到 2027 年那一格（+15%）：',
+ slider:{min:10,max:32,init:21,ans:15,lo:'+10%',hi:'+32%'},
+ fig:pegFig,vlab:pegLab,correct:function(v){return v>=15&&v<=16;},
+ fbOk:'PEG 從現在的 0.90 跨過 1，到 1.2 以上。<br>這<b>不是空頭訊號</b>——+15% 仍是好年份；<br>是<b>估值的計價基礎要換</b>：現在的價格是用 2026 年 +32% 的成長買單的。<br>分子減速、分母（10 年期）被利率鎖住，兩件事撞在一起，才是這一格真正的變化。',
+ fbNo:'2027 年那一格是 +15.4%——拉到 15。'},
+
+// 17 ── §13 風險與流動性 · ab ──
+{type:'ab',sky:'sky-dusk',bg:'lonepine',label:'§13 · 風險與流動性',short:'槓桿',
+ title:'槓桿在紀錄附近，代表什麼？',
+ text:'§13 的國內三道防線，只有利率那道在惡化。<br>但槓桿這一格今年第一次亮得刺眼。',
+ so:'槓桿要分清楚它回答的是哪個問題：<br><b>什麼時候跌</b>，還是<b>跌起來多大</b>。',
+ svg:MARGIN_SVG,
+ q:'融資餘額 8 月 1.45 兆，只比 6 月的紀錄低約 3%。這一格在講什麼？',
+ choices:['下跌就在眼前，槓桿已經撐不住','槓桿決定的是振幅，不是時點：將來真的跌，回音會比過去大','槓桿高低跟行情無關，可以不看'],correct:1,
+ fb:['報告不是這樣讀。死亡交叉的條件沒有同時成立——融資餘額 8 月又回升，沒從高點墜落。','對。現在該記的不是「危險了」，而是「<b>將來真的跌，回音會比過去大</b>」。<br>死亡交叉的條件沒有同時成立：融資餘額 8 月又回升，沒從高點墜落；投資人信用餘額 −1.03 兆、債現比 3.42。<br>槓桿決定的是振幅，不是時點。','不是無關——它決定跌起來的振幅，只是不告訴你時點。']},
+
+// 18 ── §14 FED 升/降息意向 · sort ──
+{type:'sort',sky:'sky-clouds',bg:'range',label:'§14 · FED 升/降息意向',short:'押注',
+ title:'押注怎麼一路改口',
+ text:'§14 是「價的手」的全部線索：官方口徑、市場定價、會期行事曆。<br>9/16 那一碼已經落地。',
+ so:'市場意向看預期、Fed 意向看已實現數據。<br>把這三個月的押注排回順序，<br>你會看到市場不是取消升息，是<b>挪時間</b>。',
+ svg:STEP_SVG,
+ q:'由早到晚排回順序（點兩張互換）：',
+ items:['市場一度押 67% 會升息','7 月非農轉負，押注退成「維持」為主','一致決升一碼到 3.75–4.00%','通膨被年度修正往下修，10/28 再升一碼的押注掉到約四成','非農放慢：10/28 再升一碼剩 22.1%，但 12 月前至少再升一碼升到 85.2%'],
+ shuffle:[2,4,0,3,1],
+ fbOk:'會前押錯邊，9/16 落地升一碼——<b>錢變貴，不是水位退</b>。<br>之後市場先改口，但只是把那一碼往後挪、不是取消。<br>量的手（資產負債表）去年底止縮、緩步回升到 6.74 兆，是順風。<br>接下來看 <b>2 年期減政策利率</b>：現在約 +95bp；守 +50bp 上＝首升段、市場仍押升；貼近零（+30bp 以內）而且不再彈回＝確認升完了——<b>確認鐘，不是預告</b>。'},
+
+// 19 ── §15 財政政策 · place ──
+{type:'place',sky:'sky-clouds',bg:'range',label:'§15 · 財政政策',short:'拆解',
+ title:'長端利率創高，拆開看是誰在推？',
+ text:'30 年期 9/30 收 5.64%，2006 年恢復發行以來最高；<br>國債跨過 40 兆、赤字很大。<br>你大概直接下結論：是政府發太多債。',
+ so:'先拆再說。10 年期半年漲了 0.89，<br>報告把它拆成三塊：<b>能確定的、要看模型的、沒有貢獻的</b>。',
+ svg:DECOMP_SVG,
+ q:'把四張卡放進它該在的那一格：',
+ cards:[['c','借久要多付的保險費（期限溢價）占多少'],['a','前端帶頭：市場上修 Fed 要升多少，至少占四成'],['d','市場預期的通膨（通膨補償）'],['b','扣掉通膨的利率（實質利率）半年漲 0.91']],
+ slots:[['s1','<b style="color:'+C_G+'">能確定的</b>','a,b'],['s2','<b style="color:'+C_Y+'">看模型</b>：從零到一半，兩個模型答案相反','c'],['s3','<b>沒有貢獻</b>（半年小降 0.02）','d']],
+ done:'兩個期限溢價模型答案相反：紐約 Fed 的說保險費大致沒動，Fed 理事會的說占一半。<br>所以「長端利率是財政推的」「是 Fed 推的」，<b>兩句都不寫成定論</b>。<br>財政這一卡現在是<b>風險來源</b>：FY2026 前十一個月赤字 2.0 兆，已超過 FY2025 全年；淨利息支出 1.0 兆＝GDP 的 3.3%。<br>要盯的是保險費會不會開始自己漲——財政部買回執行期間（9/9–11/4），兩個模型一起往上，才算供給壓力回來。'},
+
+// 20 ── 驗證點總表 · build ──
+{type:'build',sky:'sky-clear',bg:'range',label:'驗證點總表 · 收尾',short:'驗證點',
+ title:'親手把兩個方向寫進驗證點',
+ text:'本月解析最後一節是驗證點總表：<br>開牌日、驗證點、現值基準、✓ 順風確認、✗ 翻案訊號、牽動哪一環。',
+ so:'每一條判斷都<b>事前</b>寫好兩邊。<br>下一張牌開出來，就回來對答案，不是回來找理由。',
+ q:'三條最近要開的牌，每條兩個方向。<br>把六張卡放進對的那一格：',
+ cards:[['d','再升一碼＝一季兩碼、比點陣圖快，折現率再重估一輪'],['a','租金月增守在 +0.25% 以下＝懸念延長'],['f','走闊逾 0.5 個百分點，或投資級跟長端利率同漲'],['c','不升，而且 2 年期減政策利率往 50bp 內收＝政策路徑重新錨住'],['e','守在 3.5% 以下＝信用安靜陪跑'],['b','租金月增衝上 +0.3%＝節奏轉逆']],
+ slots:[['s1','10/14 CPI（9 月）· <b style="color:'+C_UP+'">✓ 順風確認</b>','a'],['s2','10/14 CPI（9 月）· <b style="color:'+C_DN+'">✗ 翻案訊號</b>','b'],
+   ['s3','10/27–28 FOMC · <b style="color:'+C_UP+'">✓ 順風確認</b>','c'],['s4','10/27–28 FOMC · <b style="color:'+C_DN+'">✗ 翻案訊號</b>','d'],
+   ['s5','高收益利差（每日，現在 3.24%）· <b style="color:'+C_UP+'">✓ 順風確認</b>','e'],['s6','高收益利差（每日）· <b style="color:'+C_DN+'">✗ 翻案訊號</b>','f']],
+ done:'這就是驗證點總表的樣子：<b>同一個驗證點，兩個方向都事前寫好</b>。<br>報告 §01 還寫了四條改判條件：十月再升一碼／庫存回補只有一個月就縮手／獲利面寬收窄過半／通膨錨鬆脫——任一亮燈，回來重讀。<br>開場你只知道「好像有好有壞」；<br>現在你知道，這個判斷會被哪幾張牌推翻。'}
 ];
 
-/* ===== 狀態 / 導覽 ===== */
-let cur=0; const state={score:0,max:0,answered:{}};
-const el=id=>document.getElementById(id);
-const scene=()=>el('scene');
+const TRANSITIONS=[
+ '圖是推演。<br>先看現在站在哪。',
+ null,null,null,null,
+ '主線讀完了。<br>下面的分頁，是查證用的。',
+ null,null,null,null,null,
+ '景氣、就業、通膨查完了。<br>接下來兩節，拿利率當尺。',
+ null,null,null,null,null,null,
+ '整份報告讀完了。<br>最後：它什麼情況下會認錯？',
+ null
+];
 
-function applyEnv(i){
-  const s=S[i]; document.body.className=s.sky;
-  el('ink').innerHTML=bg(s.bg,s.sky);
-  el('prog').style.width=(i/(S.length-1)*100)+'%';
-  const qnum=S.slice(0,i+1).filter(x=>['classify','flip','phasepick','gauge','scale','templocate','sort'].includes(x.type)).length;
-  const qtot=S.filter(x=>['classify','flip','phasepick','gauge','scale','templocate','sort'].includes(x.type)).length;
-  el('counter').textContent = s.tag ? (['classify','flip','phasepick','gauge','scale','templocate','sort'].includes(s.type)?`第 ${qnum}/${qtot} 題`:'') : '';
-}
-function go(i){
-  const sc=scene(); sc.classList.add('fadeout');
-  setTimeout(()=>{ cur=i; sc.classList.remove('fadeout'); render(i); applyEnv(i);
-    window.scrollTo({top:0,behavior:'smooth'});},300);
-}
-function next(){ if(cur<S.length-1) go(cur+1); }
+let state={idx:-1,score:0,sv:0,pl:{},plSel:null,plFor:-1,hs:[],hsFor:-1,so:null,soSel:null,soFor:-1,mt:{},mtSel:null,mtFor:-1,fp:0,fpFor:-1,slFor:-1};
 
-/* ===== 主 render 分派 ===== */
-function render(i){
-  const s=S[i], sc=scene(); sc.style.animation='none'; void sc.offsetWidth; sc.style.animation='fade .5s ease both';
-  const R=RENDER[s.type]; sc.innerHTML=R.html(s,i); if(R.init) R.init(s,i);
-}
-function contBtn(label){return `<div class="center"><button class="cta" onclick="next()">${label||'繼續 →'}</button></div>`;}
-function helpBtn(i){return `<div class="help" id="help${i}"><button onclick="give(${i})">看不懂？給我答案</button></div>`;}
-function nextSlot(i){return `<div class="center" id="nx${i}" style="display:none;margin-top:6px"><button class="cta" onclick="next()">下一步 →</button></div>`;}
-function tagHTML(s){return s.tag?`<span class="tag ${s.tagc||''}">${s.tag}</span>`:'';}
+// ================= 給我答案：正解 ＋ 這一頁每個術語的白話 =================
+const ANS=[
+ {answer:'10/28 FOMC 與 12/9 FOMC。三條路（主路徑、長、短）在這兩次 Fed 會議分岔；CPI 是開牌，不是分岔。',terms:[
+   ['實線／虛線','實線＝已經公布的數字；虛線＝推演，還沒發生'],
+   ['分岔','同一條路在這裡分成幾條，看 Fed 怎麼決定'],
+   ['FOMC','Fed 的利率會議，一年八次'],
+   ['長／短分支','長＝一季兩碼、升得比點陣圖快；短＝升一次就停'],
+   ['推演','照目前的條件往前畫，每開一張牌就重畫，不是預測']]},
+ {answer:'74%：榮景期，貼在 75% 第四格門檻下面。過線要看到「全面爆量＋資金真的緊」，10/3 再判仍未觸發。',terms:[
+   ['溫度條','把循環位置畫成 0–100 的尺，指針＝報告對「現在幾點」的判斷'],
+   ['榮景期','循環最後的高潮段：加速、樂觀，可以走很久'],
+   ['第四格門檻','75% 那條線；過線要有明確條件，不是看感覺'],
+   ['錯配前緣','製造業：需求跑得比供給快、客戶庫存太低，補庫存在路上'],
+   ['再判','每次新數據開牌後，重新判一次指針要不要動']]},
+ {answer:'市場把升息往後挪：10 月再升一碼的押注一週內從約六成半退到約兩成——經濟偏弱，股市讀成升息壓力暫緩（壞消息就是好消息）。',terms:[
+   ['懸念句','報告最上面那一句問題，整份報告都在回答它'],
+   ['一行時間軸','把這一週的關鍵事件照日期排成一行'],
+   ['升息押注','期貨市場算出來的「下次會議升息」機率'],
+   ['非農','美國非農業就業人數的月增，看新增工作多不多'],
+   ['壞消息就是好消息','經濟數據轉弱，市場讀成 Fed 不用再追，股市反而順風']]},
+ {answer:'經濟／信用這端：非農 +2.9 萬、高收益利差 3.24%；股市這端：押注退到約兩成、標普離高點不到 1%；誠實註記：債市反而小升、12 月前至少再升一碼升到八成五。',terms:[
+   ['兩端分開看','經濟數據好壞是一端，股市怎麼讀這些數據是另一端'],
+   ['誠實註記','提醒你好消息的邊界在哪：債市點頭沒、壓力擴散沒'],
+   ['債市點頭','經濟轉弱後，公債殖利率有沒有跟著往下'],
+   ['投資級利差','體質好的公司比公債多付的利息；它不動＝壓力只在最弱那層'],
+   ['挪時間不是取消','近的會議不升了，但年底前升的機率反而更高']]},
+ {answer:'就業：請人變慢（9 月 +2.9 萬、近三月平均 5.1 萬），但初領失業金連四週往下——不是裁人。',terms:[
+   ['量的鏈條','就業 → 消費 → 訂單 → 生產 → 庫存 → 獲利，一環接一環'],
+   ['轉暗','這一環的讀數開始變慢，不等於斷掉'],
+   ['初領失業金','每週新申請失業救濟的人數；裁員的第一張骨牌'],
+   ['回補','貨架太薄，商家開始補貨；從批發那一層先動'],
+   ['五環同向','每一環都在往上；這期就業那一環沒跟上']]},
+ {answer:'年增率→3.0%；六個月年化→2.7%；三個月年化→2.05%；扣掉能源與房屋的服務→月增 0.37%。',terms:[
+   ['核心 PCE','扣掉食物與能源的個人消費物價，Fed 最看重的那一把'],
+   ['年增率','跟一年前比：最平滑、反應最慢'],
+   ['六個月／三個月年化','近半年、近一季的速度換算成一年：越短越靈敏'],
+   ['年度修正','官方每年重算一次歷史數據；9/30 把核心 PCE 從 3.3% 修成 3.0%'],
+   ['總體','全部東西一起算的物價，油和食物都在裡面']]},
+ {answer:'先行：初領失業金、ISM 新訂單；同步：實質 GDP、ISM 製造業 PMI；滯後：失業率、CPI 房租。',terms:[
+   ['先行指標','景氣還沒轉、它先動——預判用這排'],
+   ['同步指標','跟當下一起動——確認現況用'],
+   ['滯後指標','景氣轉完才反映——拿來預判一定被騙'],
+   ['ISM 新訂單','採購經理人說「新接的單」多不多；50 以上＝擴張'],
+   ['CPI 房租','租約半年一年才換，所以比市場租金慢一年以上']]},
+ {answer:'借錢開始變難一點：第一道裂縫，還沒到銀行收緊放款（離 3.5% 還有 26bp）。',terms:[
+   ['信用利差','體質差的公司借錢要比公債多付多少；往上＝借錢變難、利率變高'],
+   ['bp','基點＝0.01 個百分點；44bp＝0.44%'],
+   ['三關','幅度夠大、位置偏高、跑得比利率快——三關都過才升格成重點'],
+   ['百分位','在過去一段時間的所有讀數裡排第幾；第 75＝比四分之三的時候高'],
+   ['利息覆蓋率','獲利 ÷ 利息支出；越低越付不起利息']]},
+ {answer:'10 年期拉到 5.28%：股債溢價 5.24 − 5.28 ＝ −0.04%，10/2 第一次轉負。',terms:[
+   ['盈餘收益率','前瞻盈餘 ÷ 股價，本益比倒過來看'],
+   ['股債溢價（ERP）','盈餘收益率減 10 年期殖利率：買股票比買公債多拿多少補償'],
+   ['席勒本益比','用過去十年平均實質盈餘算的本益比，適合跨年代比'],
+   ['前瞻本益比','用未來 12 個月的盈餘預估算的本益比'],
+   ['百分位','99.1＝1881 年以來只有 0.9% 的月份比現在貴']]},
+ {answer:'消費那一格：7 月零售那根坑砍出來（4.6 → 2.5），8 月零售回正後又加回來（4.2）。',terms:[
+   ['GDPNow','亞特蘭大聯準銀的即時 GDP 估計：數據一出就重算'],
+   ['消費格','GDPNow 裡個人消費那一塊的貢獻'],
+   ['促銷移月','大型電商把年度活動從 7 月搬到 6 月，7 月的消費被提前挪走'],
+   ['第三估','同一季 GDP 第三次修正的數字'],
+   ['趨勢 vs 單月','一個月的讀數否決不了一季的方向']]},
+ {answer:'回來找工作的人變多、請人變慢——不是裁人。勞參率 61.6% → 61.8%，初領四週均連四週往下。',terms:[
+   ['失業率','失業人數 ÷ 有在找工作的人；分母變大也會讓它上升'],
+   ['勞動參與率','有工作＋在找工作的人占人口的比例'],
+   ['初領四週均','最近四週新申請失業金的平均，比單週穩'],
+   ['收回','報告承認上一份的解釋不對，直接寫出來'],
+   ['失速','非農轉負，而且初領四週均連四週往上，兩個一起才算']]},
+ {answer:'2026 年 10 月那一期（11/10 公布）：去年 10 月沒有採集，年增率算不出來，只能看月增。',terms:[
+   ['基期','算年增時拿來比的「去年同月」'],
+   ['墊高窗','去年那段指數偏低，今年 11 月到明年 3 月的年增會被算術墊高'],
+   ['長期通膨預期','民眾對 5–10 年後物價的看法；它穩住，就只是貴、不是變天'],
+   ['月增','跟上個月比；分辨真加速還是算術墊高，看這個'],
+   ['總體 CPI','全部東西一起算的物價，油和食物都在裡面']]},
+ {answer:'1978–80→代價變便宜、黃金自己漲；2011–15→代價一路變貴、跌了四年；2022→代價暴增卻打平、買盤接住了。',terms:[
+   ['真實利率','扣掉通膨後的利率（10 年期抗通膨公債）；抱黃金的代價'],
+   ['官方買盤','各國央行買黃金；不管代價，只管要不要多存'],
+   ['期限溢價','借錢借得越久，要多付的保險費'],
+   ['通膨預期','市場用債券價格算出來的未來通膨'],
+   ['只驗機制','歷史案例拿來確認「誰推誰」，不拿來算接下來漲跌幾趴']]},
+ {answer:'A 連續升、一年後 10 年減 3 個月還有 0.81～1.94；B 繼續升、13～15 個月倒掛；C 沒有第二次升息、沒倒掛；現在（首升一碼）三條路都還分不出來。',terms:[
+   ['首升','這一輪的第一次升息（9/16）'],
+   ['10 年減 3 個月','長短利率的差；變負＝倒掛'],
+   ['倒掛','短天期利率比長天期還高'],
+   ['確認鐘','2 年期貼近或跌破政策利率，只能確認升完了，不能提前預告'],
+   ['定錨','太早把這一輪認定成歷史上的某一次']]},
+ {answer:'✓ 守回 55：9 月新訂單 55.3，8 月那半盞燈熄了；但離 55 只差 0.3。',terms:[
+   ['ISM 製造業 PMI','採購經理人調查：50 是榮枯線'],
+   ['新訂單','企業新接的單，生產的前一站'],
+   ['半盞燈','只失守一個月，先記下；連兩個月才算數'],
+   ['物價指數','採購經理人付的價格；跳升＝成本又熱起來'],
+   ['翻案門檻','事前寫好的「看到這個就改判斷」條件']]},
+ {answer:'把成長率拉到 15%：PEG＝19.0 ÷ 15 ≈ 1.27，跨過 1。水準沒問題，速度在放慢——估值的計價基礎要換。',terms:[
+   ['EPS','每股盈餘'],
+   ['年增率','跟去年同期比，盈餘多了幾 %'],
+   ['PEG','本益比 ÷ 盈餘成長率；1 以下＝成長撐得住估值'],
+   ['面寬','有多少部門在同步成長：寬＝全體擴張，窄＝靠少數撐'],
+   ['計價基礎','市場拿哪一年、多快的成長來決定現在的價格']]},
+ {answer:'槓桿決定的是振幅，不是時點：將來真的跌，回音會比過去大。',terms:[
+   ['融資餘額','投資人借錢買股票的總額（FINRA 統計）'],
+   ['死亡交叉','報告用來判斷槓桿反轉的條件組，要同時成立才算'],
+   ['投資人信用餘額','現金減掉融資；越負＝借得越兇'],
+   ['振幅','跌起來的幅度'],
+   ['時點','什麼時候開始跌——槓桿不告訴你這個']]},
+ {answer:'67% 押升息 → 非農轉負、押注退成維持 → 9/16 升一碼 → 年度修正後押注掉到約四成 → 10/2 剩 22.1%，但 12 月前至少再升一碼 85.2%。',terms:[
+   ['點陣圖','每位 Fed 官員對未來利率的落點'],
+   ['一致決','投票的人全部同意'],
+   ['量的手／價的手','資產負債表大小／政策利率高低'],
+   ['2 年期減政策利率','市場押接下來兩年利率比現在高多少；+95bp＝還在押升'],
+   ['確認鐘','貼近零而且不再彈回，才確認升完；它是確認，不是預告']]},
+ {answer:'能確定的：前端帶頭（至少四成）、實質利率 +0.91；看模型：期限溢價（零到一半，兩個模型相反）；沒有貢獻：通膨補償（−0.02）。',terms:[
+   ['長端利率','10 年、30 年這種借很久的利率'],
+   ['前端','2 年期以內的利率，最跟著 Fed 走'],
+   ['期限溢價','借錢借得越久，要多付的保險費；要靠模型估'],
+   ['通膨補償','市場為了未來通膨多要的那一塊'],
+   ['買回','財政部回頭把舊債買回來，壓的是保險費那一塊']]},
+ {answer:'10/14 CPI：✓ 租金月增守 +0.25% 以下／✗ 衝上 +0.3%；10/27–28 FOMC：✓ 不升且 2 年期減政策往 50bp 內收／✗ 再升一碼；高收益利差：✓ 守 3.5% 以下／✗ 走闊逾 0.5 個百分點或投資級跟長端利率同漲。',terms:[
+   ['驗證點總表','把每一條判斷拆成事前寫死的門檻，開牌後對答案'],
+   ['✓ 順風確認','站在這一邊＝今天的判斷繼續成立'],
+   ['✗ 翻案訊號','翻到這一邊＝判斷要改'],
+   ['懸念延長','還不能下結論，要等下一張牌'],
+   ['折現率','把未來的錢換算成今天值多少的利率；它一升，估值就被重算']]}
+];
 
-/* 完成一題：計分、顯示解說、放行 */
-function glossHTML(s){return s.gloss?`<div class="gloss"><div class="gloss-h">白話</div><div class="gloss-grid">${s.gloss}</div></div>`:'';}
-function resolve(i,correct,revealHTML){
-  state.answered[i]=true; if(correct)state.score++;
-  const rv=el('rv'+i); if(rv){rv.innerHTML=revealHTML; rv.className='reveal show';}
-  const h=el('help'+i); if(h)h.style.display='none';
-  const nx=el('nx'+i); if(nx)nx.style.display='block';
-}
+// ================= 引擎（ROUNDS／ANS／TRANSITIONS 三陣列同索引；關數一律由 length 算） =================
+function prog(){PB.style.width=(Math.max(0,state.idx)/ROUNDS.length*100)+'%';}
+function dots(i){return '<div class="step-dots">'+ROUNDS.map(function(_,k){return '<i class="'+(k<=i?'on':'')+'"></i>';}).join('')+'</div>';}
+function fade(fn){G.style.transition='opacity .32s';G.style.opacity='0';setTimeout(function(){fn();G.style.opacity='1';window.scrollTo(0,0);},330);}
+function scene(sky,bgtype,inner){return '<div class="scene '+sky+'">'+bg(bgtype,sky)+'<div class="overlay">'+inner+'</div></div>';}
+function head(r){
+ const chips=r.chips?'<div style="max-width:480px;margin:0 auto 0.4rem">'+r.chips.map(function(c){return '<span class="data-chip">'+c+'</span>';}).join('')+'</div>':'';
+ const so=r.so?'<div class="sowhat">'+r.so+'</div>':'';
+ const fig=r.svg?'<div style="margin:0.5rem auto 0.2rem">'+r.svg+'</div>':'';
+ return '<div class="chapter-label t-label">'+r.label+'</div><div class="chapter-title t-main" style="font-size:22px;margin-bottom:0.9rem">'+r.title+'</div><div class="round-text t-sub">'+r.text+'</div>'+so+chips+fig;}
+function btnGive(i){return '<button class="continue-btn" style="opacity:0.72" onclick="giveAnswer('+i+')">給我答案</button>';}
+function okBox(txt){return '<div style="max-width:480px;margin:0.7rem auto 0;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.26);border-radius:10px;padding:0.9rem 1.1rem;font-size:13.5px;line-height:1.8;color:#fff;text-align:left;backdrop-filter:blur(6px)">'+txt+'</div>';}
+function mins(){return Math.max(8,Math.round(ROUNDS.length*0.75));}
 
-/* ===== 各型別 render ===== */
-const RENDER={
- title:{html:()=>`<div class="card center">
-   <div class="eyebrow">Yoda Research · 判斷力學校 · 總經科</div>
-   <h1>景氣循環的 DNA</h1>
-   <p class="lead">現在幾點鐘？<br>這一課帶你把整份總經報告走一遍：<br>先定位、再讀主線、最後學會查證。</p>
-   <button class="cta" onclick="next()">開始 →</button>
-   <div class="neutral-note">※ 只教「怎麼讀報告、怎麼判位階」，不預測漲跌、不喊買賣。數據版本：2026-09-04 總經報告；段號已對齊 2026-10-01 報告（§00–§15）。</div></div>`},
+function showStart(){
+ G.innerHTML=scene('sky-start','farhills',
+  '<div class="chapter-label t-label" style="margin-bottom:1rem">YODA RESEARCH · 判斷力學校 · 總經科</div>'
+  +'<div class="chapter-title t-main" style="font-size:30px;font-weight:200;letter-spacing:1px;margin-bottom:0.4rem">景氣循環的 DNA</div>'
+  +'<div class="t-sub" style="font-size:14px;margin-bottom:0.3rem;font-style:italic">帶你把一整份總經報告走一遍</div>'
+  +'<div class="t-label" style="font-size:12px;line-height:1.9;margin-bottom:2.6rem">約 '+mins()+' 分鐘 · '+ROUNDS.length+' 站<br>從 §00 行情推演，一路走到最後的驗證點總表<br>讀數取自 '+ASOF+' 那期總經報告（資料到 '+DATA_DAY+'），用來練讀法<br>只教怎麼讀報告，不預測漲跌、不喊買賣</div>'
+  +'<button class="continue-btn" style="font-size:15px;padding:0.85rem 3.2rem;border-radius:6px;letter-spacing:2px" onclick="fade(startOpening)">開始</button>');}
+let oi=0;function startOpening(){oi=0;renderOpening();}
+function renderOpening(){const qs=OPENING.quotes(),q=qs[oi],last=oi>=qs.length-1;
+ G.innerHTML=scene(OPENING.sky,OPENING.bg,'<div class="chapter-label t-label">'+OPENING.label+'</div><div class="chapter-title t-main">'+OPENING.title+'</div><div class="chapter-quote t-sub">'+q+'</div><button class="continue-btn" onclick="nextOpening()">'+(last?'從 §00 開始 ›':'繼續 ›')+'</button>');}
+function nextOpening(){oi++;if(oi>=OPENING.quotes().length)fade(function(){showRound(0);});else fade(renderOpening);}
 
- project:{html:()=>`<div class="card">
-   <span class="tag">對號入座</span><h2>打開一份總經報告，你會從哪裡讀起？</h2>
-   <p class="body">十六個段落、幾十張表——大多數人<b class="hl">從頭滑到尾</b>，滑完只記得「數據好像都還不錯」。</p>
-   <p class="body dim">這一課給你一個固定的讀法：先看位置（§01）、再讀主線（§02）、最後帶著問題查分頁（§03–§15）。</p>
-   <button class="btn" onclick="next()">我都從頭滑到尾<small>滑完其實沒記住什麼</small></button>
-   <button class="btn" onclick="next()">數字太多，常常直接關掉<small>想要一個不迷路的讀法</small></button></div>`},
+function showRound(i){state.idx=i;prog();const r=ROUNDS[i];
+ if(r.type==='ab')renderAB(i);
+ else if(r.type==='place')renderPlace(i);
+ else if(r.type==='build')renderBuild(i);
+ else if(r.type==='hotspot')renderHotspot(i);
+ else if(r.type==='slider')renderSlider(i);
+ else if(r.type==='sort')renderSort(i);
+ else if(r.type==='match')renderMatch(i);
+ else if(r.type==='flip')renderFlip(i);}
 
- mono:{html:(s)=>`<div class="mono-wrap">${s.lines.map(l=>`<p>${l}</p>`).join('')}
-   <div class="next"><button class="cta ghost" onclick="next()">繼續 →</button></div></div>`},
+// ── 選擇題 ──
+function renderAB(i){const r=ROUNDS[i];
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main">'+r.q+'</div>'
+  +'<div class="choices">'+r.choices.map(function(c,k){return '<button class="choice-btn" onclick="abPick('+i+','+k+')">'+c+'</button>';}).join('')+'</div>'
+  +btnGive(i));}
+function abPick(i,k){const r=ROUNDS[i];if(k===r.correct)state.score++;
+ const col=k===r.correct?'#a5d6a7':'#ffcc80';
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="feedback" style="color:'+col+';min-height:auto;font-size:14px;text-align:left">'+r.fb[k]+(k===r.correct?'':'<br><br><span style="color:#fff">正解：'+r.choices[r.correct]+'</span>')+'</div><button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');}
 
- teach:{html:(s)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2>${s.html}${contBtn()}</div>`},
+// ── 兩段式點選歸位（place / build 共用；點選式，不用原生拖曳 API）──
+function placeBody(i,cards,slots,wide,rev,marks){
+ const used={};Object.keys(state.pl).forEach(function(s){state.pl[s].forEach(function(c){used[c]=1;});});
+ const pool=cards.filter(function(c){return !used[c[0]];});
+ let h='<div class="pl-pool">'+(pool.length?pool.map(function(c){
+   return '<div class="pl-card'+(state.plSel===c[0]?' sel':'')+'" onclick="plCard(\''+c[0]+'\')">'+c[1]+'</div>';}).join(''):(rev?'':'<div class="t-label" style="font-size:12px">都放好了 —— 按下面的按鈕</div>'))+'</div>';
+ h+='<div class="pl-slots">'+slots.map(function(s){
+   const got=state.pl[s[0]]||[];
+   const chips=got.map(function(cid){const cc=cards.filter(function(x){return x[0]===cid;})[0];return '<span class="pl-chip">'+cc[1]+'</span>';}).join('');
+   let cls='pl-slot'+(wide?' wide':'');
+   if(marks&&marks[s[0]]!==undefined)cls+=marks[s[0]]?' right':' wrong';
+   else if(state.plSel)cls+=' armed';
+   return '<div class="'+cls+'" onclick="'+(rev?'':'plSlot(\''+s[0]+'\','+i+')')+'"><div class="sl-t">'+s[1]+'</div><div class="sl-v">'+(chips||'<span style="font-size:11.5px;color:rgba(255,255,255,0.45)">點這裡放進來</span>')+'</div></div>';}).join('')+'</div>';
+ return h;}
+function plCard(id){state.plSel=(state.plSel===id?null:id);if(window.plDraw)window.plDraw();}
+function plSlot(sid,i){const r=ROUNDS[i];
+ const cap=r.slots.filter(function(s){return s[0]===sid;})[0][2].split(',').length;
+ if(state.plSel){
+   Object.keys(state.pl).forEach(function(k){state.pl[k]=state.pl[k].filter(function(c){return c!==state.plSel;});});
+   if(!state.pl[sid])state.pl[sid]=[];
+   if(state.pl[sid].length>=cap)state.pl[sid].shift();
+   state.pl[sid].push(state.plSel);state.plSel=null;
+ }else if(state.pl[sid]&&state.pl[sid].length){state.pl[sid].pop();}
+ if(window.plDraw)window.plDraw();}
+function plFull(slots){let n=0;Object.keys(state.pl).forEach(function(k){n+=state.pl[k].length;});
+ let need=0;slots.forEach(function(s){need+=s[2].split(',').length;});return n===need;}
+function plMarks(slots){const m={};slots.forEach(function(s){
+  const want=s[2].split(',').sort().join(',');const got=(state.pl[s[0]]||[]).slice().sort().join(',');m[s[0]]=(want===got);});return m;}
+function renderPlace(i){const r=ROUNDS[i];
+ if(state.plFor!==i){state.plFor=i;state.pl={};state.plSel=null;}
+ function draw(){G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+   +placeBody(i,r.cards,r.slots,r.wide)
+   +'<div class="btnrow">'+(plFull(r.slots)?'<button class="continue-btn" onclick="plCheck('+i+')">檢查</button>':'')+btnGive(i)+'</div>');}
+ window.plDraw=draw;draw();}
+function plCheck(i){const r=ROUNDS[i];const m=plMarks(r.slots);
+ let ok=0;Object.keys(m).forEach(function(k){if(m[k])ok++;});
+ if(ok===r.slots.length)state.score++;
+ window.plDraw=null;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+placeBody(i,r.cards,r.slots,r.wide,true,m)
+  +'<div class="feedback" style="color:'+(ok===r.slots.length?'#a5d6a7':'#ffcc80')+';min-height:auto;font-size:13.5px">放對 '+ok+'/'+r.slots.length+' 格'+(ok===r.slots.length?'':'（紅框那幾格放錯了，按「給我答案」看正解）')+'</div>'
+  +okBox(r.done)+'<div class="btnrow">'+(ok===r.slots.length?'':btnGive(i))+'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button></div>');}
 
- classify:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2><p class="body dim">${s.sub}</p>
-   <div id="clf${i}">${s.items.map(it=>`
-     <div class="clf-item" id="ci-${it.id}"><div class="name">${it.label}<small>${it.hint}</small></div>
-     <div class="clf-btns">${(s.cats||['先行','同步','滯後']).map((c,k)=>`<button onclick="clfPick('${it.id}',${k},this)">${c}</button>`).join('')}</div></div>`).join('')}</div>
-   <div class="reveal" id="rv${i}"></div>${helpBtn(i)}${nextSlot(i)}</div>`,
-  init:(s,i)=>{clfState={};}},
+// ── 建構收尾（build：結尾親手寫進表）──
+function renderBuild(i){const r=ROUNDS[i];
+ if(state.plFor!==i){state.plFor=i;state.pl={};state.plSel=null;}
+ function draw(){G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+   +placeBody(i,r.cards,r.slots,true)
+   +'<div class="btnrow">'+(plFull(r.slots)?'<button class="continue-btn" onclick="bdDone('+i+')">寫好了 ›</button>':'')+btnGive(i)+'</div>');}
+ window.plDraw=draw;draw();}
+function bdDone(i){const r=ROUNDS[i];const m=plMarks(r.slots);
+ let ok=0;Object.keys(m).forEach(function(k){if(m[k])ok++;});
+ if(ok===r.slots.length)state.score++;
+ window.plDraw=null;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+'<div class="chapter-label t-label">'+r.label+'</div><div class="chapter-title t-main" style="font-size:22px;margin-bottom:0.9rem">'+r.title+'</div>'
+  +placeBody(i,r.cards,r.slots,true,true,m)
+  +'<div class="feedback" style="color:'+(ok===r.slots.length?'#a5d6a7':'#ffcc80')+';min-height:auto;font-size:13.5px">放對 '+ok+'/'+r.slots.length+' 格'+(ok===r.slots.length?'':'（紅框那幾格放錯了，按「給我答案」看正解）')+'</div>'
+  +okBox(r.done)+'<div class="btnrow">'+(ok===r.slots.length?'':btnGive(i))+'<button class="continue-btn" onclick="record('+i+')">看我學會了什麼 ›</button></div>');}
 
- flip:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2>${s.setup}
-   <div id="pk${i}">${s.opts.map((o,idx)=>`<button class="btn" onclick="flipPick(${i},${idx})">${o.t}</button>`).join('')}</div>
-   <div class="reveal" id="rv${i}"></div>${helpBtn(i)}${nextSlot(i)}</div>`},
+// ── 點圖熱區（題目本身是圖：r.fig(已點, 正解)）──
+function hsPick(k){const i=state.hsFor,r=ROUNDS[i];if(!r||r.type!=='hotspot'||!window.hsDraw)return;const p=state.hs.indexOf(k);
+ if(p>=0)state.hs.splice(p,1);
+ else{if(state.hs.length>=r.need.length)state.hs.shift();state.hs.push(k);}
+ window.hsDraw();}
+function renderHotspot(i){const r=ROUNDS[i];
+ if(state.hsFor!==i){state.hsFor=i;state.hs=[];}
+ function draw(){const done=state.hs.length===r.need.length;
+  G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+   +r.fig(state.hs,null)
+   +'<div class="btnrow">'+(done?'<button class="continue-btn" onclick="hsCheck('+i+')">檢查</button>':'')+btnGive(i)+'</div>');}
+ window.hsDraw=draw;draw();}
+function hsCheck(i){const r=ROUNDS[i];
+ const ok=r.need.slice().sort().join(',')===state.hs.slice().sort().join(',');
+ if(ok)state.score++;
+ window.hsDraw=null;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+r.fig(state.hs,r.need)
+  +okBox('<span style="color:'+(ok?'#a5d6a7':'#ffcc80')+'">'+(ok?'答對了。':'差一點——正解已經標出來（綠色）。')+'</span><br>'+(ok?r.fbOk:r.fbNo+'<br><br>'+r.fbOk))
+  +'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');}
 
- phasepick:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2>${s.data}
-   <p class="body"><b>${s.q}</b></p>
-   <div id="pk${i}">${s.opts.map((o,idx)=>`<button class="btn" onclick="ppPick(${i},${idx})">${o}</button>`).join('')}</div>
-   <div class="reveal" id="rv${i}"></div>${helpBtn(i)}${nextSlot(i)}</div>`},
+// ── 拉桿 ──
+function slUpd(){const i=state.slFor,r=ROUNDS[i];
+ const f=document.getElementById('slfig');if(f)f.innerHTML=r.fig(state.sv);
+ const l=document.getElementById('slval');if(l)l.innerHTML=r.vlab(state.sv);}
+function renderSlider(i){const r=ROUNDS[i];
+ if(state.slFor!==i){state.slFor=i;state.sv=r.slider.init;}
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+  +'<div id="slfig">'+r.fig(state.sv)+'</div>'
+  +'<div class="gauge-wrap" style="max-width:440px"><input type="range" class="gsl" min="'+r.slider.min+'" max="'+r.slider.max+'" value="'+state.sv+'" oninput="state.sv=parseInt(this.value);slUpd()">'
+  +'<div class="gsl-ends"><span>'+r.slider.lo+'</span><span>'+r.slider.hi+'</span></div></div>'
+  +'<div id="slval" class="feedback" style="min-height:38px;font-size:13.5px;color:#fff">'+r.vlab(state.sv)+'</div>'
+  +'<div class="btnrow"><button class="continue-btn" onclick="slDone('+i+')">就這樣 ›</button>'+btnGive(i)+'</div>');}
+function slDone(i){const r=ROUNDS[i];const ok=r.correct(state.sv);if(ok)state.score++;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div id="slfig">'+r.fig(state.sv)+'</div>'
+  +'<div class="feedback" style="min-height:auto;font-size:13.5px;color:#fff">'+r.vlab(state.sv)+'</div>'
+  +okBox('<span style="color:'+(ok?'#a5d6a7':'#ffcc80')+'">'+(ok?'到了。':'還沒到——答案在這裡。')+'</span><br>'+(ok?r.fbOk:r.fbNo+'<br><br>'+r.fbOk))
+  +'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');}
 
- gauge:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2>${s.data}
-   <svg viewBox="0 0 240 150" class="gauge" id="g${i}">
-     <path class="arc-bg" d="M24,130 A96,96 0 0 1 216,130"/>
-     <path class="arc-hot" id="ghot${i}" d=""/>
-     <line class="needle" id="gn${i}" x1="120" y1="130" x2="120" y2="46"/>
-     <circle class="hub" cx="120" cy="130" r="7"/>
-     <text x="24" y="146">${s.min}</text><text x="210" y="146">${s.max}</text>
-     <text class="val" id="gv${i}" x="120" y="118">–</text><text class="unit" x="120" y="134">${s.unit}</text></svg>
-   <p class="body"><b>${s.q}</b></p>
-   <div id="pk${i}">${s.opts.map((o,idx)=>`<button class="btn" onclick="gaugePick(${i},${idx})">${o}</button>`).join('')}</div>
-   <div class="reveal" id="rv${i}"></div>${helpBtn(i)}${nextSlot(i)}</div>`,
-  init:(s,i)=>drawGauge(i,s)},
+// ── 排序（點兩張互換，不用上下鍵）──
+function soPick(k){if(state.soSel===null){state.soSel=k;}
+ else if(state.soSel===k){state.soSel=null;}
+ else{const a=state.so[state.soSel];state.so[state.soSel]=state.so[k];state.so[k]=a;state.soSel=null;}
+ if(window.soDraw)window.soDraw();}
+function soBody(r,marks){return '<div class="st-list">'+state.so.map(function(v,k){
+  let cls='st-row'+(state.soSel===k&&!marks?' sel':'');
+  if(marks)cls+=(v===k?' right':' wrong');
+  return '<div class="'+cls+'" onclick="'+(marks?'':'soPick('+k+')')+'"><b>'+(k+1)+'</b><span>'+r.items[v]+'</span></div>';}).join('')+'</div>';}
+function renderSort(i){const r=ROUNDS[i];
+ if(state.soFor!==i){state.soFor=i;state.so=r.shuffle.slice();state.soSel=null;}
+ function draw(){G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+   +soBody(r)
+   +'<div class="btnrow"><button class="continue-btn" onclick="soCheck('+i+')">檢查</button>'+btnGive(i)+'</div>');}
+ window.soDraw=draw;draw();}
+function soCheck(i){const r=ROUNDS[i];let ok=0;state.so.forEach(function(v,k){if(v===k)ok++;});
+ if(ok===r.items.length)state.score++;
+ window.soDraw=null;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+soBody(r,true)
+  +'<div class="feedback" style="color:'+(ok===r.items.length?'#a5d6a7':'#ffcc80')+';min-height:auto;font-size:13.5px">排對 '+ok+'/'+r.items.length+' 格</div>'
+  +okBox((ok===r.items.length?'':'正確順序由上到下：<br>'+r.items.map(function(t,k){return (k+1)+'　'+t;}).join('<br>')+'<br><br>')+r.fbOk)+'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');}
 
- scale:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2>${s.setup}
-   <svg viewBox="0 0 360 210" class="scale" id="sc${i}">
-     <line class="stand" x1="180" y1="58" x2="180" y2="188"/>
-     <polygon class="base" points="152,188 208,188 198,202 162,202"/>
-     <line class="beam" x1="60" y1="58" x2="300" y2="58"/><circle class="pivot" cx="180" cy="58" r="7"/>
-     <line class="lstr" x1="60" y1="58" x2="60" y2="102"/><path class="lpan" d="M-28,0 Q0,18 28,0"/>
-     <text class="llabel" x="60" y="128">${s.leftLabel}</text>
-     <line class="rstr" x1="300" y1="58" x2="300" y2="102"/><path class="rpan" d="M-28,0 Q0,18 28,0"/>
-     <text class="rlabel" x="300" y="128">${s.rightLabel}</text></svg>
-   <div class="pick-row" id="pk${i}">${s.opts.map((o,idx)=>`<button class="btn" onclick="scalePick(${i},${idx})">${o.t}</button>`).join('')}</div>
-   <div class="reveal" id="rv${i}"></div>${helpBtn(i)}${nextSlot(i)}</div>`,
-  init:(s,i)=>renderScale(el('sc'+i),0)},
+// ── 連連看 ──
+function mtPick(side,k){if(side==='L'){state.mtSel=(state.mtSel===k?null:k);}
+ else if(state.mtSel){
+   Object.keys(state.mt).forEach(function(l){if(state.mt[l]===k)delete state.mt[l];});
+   state.mt[state.mtSel]=k;state.mtSel=null;}
+ if(window.mtDraw)window.mtDraw();}
+function mtLines(){const svg=document.getElementById('mtlines');if(!svg)return;
+ const wrap=document.getElementById('mtwrap');if(!wrap)return;
+ const wb=wrap.getBoundingClientRect();let s='';
+ Object.keys(state.mt).forEach(function(l){
+   const a=document.getElementById('mtL'+l),b=document.getElementById('mtR'+state.mt[l]);
+   if(!a||!b)return;
+   const ra=a.getBoundingClientRect(),rb=b.getBoundingClientRect();
+   const x1=ra.right-wb.left,y1=ra.top-wb.top+ra.height/2,x2=rb.left-wb.left,y2=rb.top-wb.top+rb.height/2;
+   const mid=(x1+x2)/2;
+   s+='<path d="M'+x1+','+y1+' C'+mid+','+y1+' '+mid+','+y2+' '+x2+','+y2+'" fill="none" stroke="rgba(224,165,38,0.85)" stroke-width="2"/>';
+   s+='<circle cx="'+x1+'" cy="'+y1+'" r="3.5" fill="#e0a526"/><circle cx="'+x2+'" cy="'+y2+'" r="3.5" fill="#e0a526"/>';});
+ svg.innerHTML=s;svg.setAttribute('viewBox','0 0 '+Math.max(1,wb.width)+' '+Math.max(1,wb.height));}
+function mtBody(r,marks){
+ let h='<div class="mt-wrap" id="mtwrap"><svg class="mt-lines" id="mtlines" preserveAspectRatio="none"></svg><div class="mt-cols"><div class="mt-col">';
+ h+=r.left.map(function(x){let c='mt-item'+(state.mtSel===x[0]?' sel':'')+(state.mt[x[0]]?' on':'');
+   if(marks)c+=(state.mt[x[0]]===x[0]?' right':' wrong');
+   return '<div class="'+c+'" id="mtL'+x[0]+'" onclick="'+(marks?'':'mtPick(\'L\',\''+x[0]+'\')')+'">'+x[1]+'</div>';}).join('');
+ h+='</div><div class="mt-col">';
+ h+=r.right.map(function(x){const linked=Object.keys(state.mt).filter(function(l){return state.mt[l]===x[0];}).length>0;
+   return '<div class="mt-item'+(linked?' on':'')+'" id="mtR'+x[0]+'" onclick="'+(marks?'':'mtPick(\'R\',\''+x[0]+'\')')+'">'+x[1]+'</div>';}).join('');
+ return h+'</div></div></div>';}
+function renderMatch(i){const r=ROUNDS[i];
+ if(state.mtFor!==i){state.mtFor=i;state.mt={};state.mtSel=null;}
+ function draw(){const done=Object.keys(state.mt).length===r.left.length;
+  G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+   +mtBody(r)
+   +'<div class="btnrow">'+(done?'<button class="continue-btn" onclick="mtCheck('+i+')">檢查</button>':'')+btnGive(i)+'</div>');
+  mtLines();}
+ window.mtDraw=draw;draw();}
+function mtCheck(i){const r=ROUNDS[i];let ok=0;r.left.forEach(function(x){if(state.mt[x[0]]===x[0])ok++;});
+ if(ok===r.left.length)state.score++;
+ const wrongOnes=r.left.filter(function(x){return state.mt[x[0]]!==x[0];});
+ const fix=wrongOnes.length?'正解：<br>'+wrongOnes.map(function(x){const rr=r.right.filter(function(y){return y[0]===x[0];})[0];return x[1]+' → '+rr[1];}).join('<br>')+'<br><br>':'';
+ window.mtDraw=null;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+mtBody(r,true)
+  +'<div class="feedback" style="color:'+(ok===r.left.length?'#a5d6a7':'#ffcc80')+';min-height:auto;font-size:13.5px">接對 '+ok+'/'+r.left.length+' 條</div>'
+  +okBox(ok===r.left.length?r.fbOk:r.fbNo+'<br>'+fix+r.fbOk)
+  +'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');
+ mtLines();}
 
- templocate:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2>${s.data}
-   <div class="tempbar"><div class="tempbar-track" id="tb${i}">${s.zones.map((z,idx)=>`
-     <div class="tz z${idx}" onclick="tempPick(${i},${idx})"><span>${z.t}</span><small>${z.s}</small></div>`).join('')}</div></div>
-   <div class="reveal" id="rv${i}"></div>${helpBtn(i)}${nextSlot(i)}</div>`},
+// ── 翻牌：先押、再翻開看報告怎麼開 ──
+function renderFlip(i){const r=ROUNDS[i];
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+  +'<div class="fp-bets">'+r.bets.map(function(b){return '<button class="fp-bet" onclick="fpBet('+i+',\''+b[0]+'\')">'+b[1]+'</button>';}).join('')+'</div>'
+  +btnGive(i));}
+function fpBet(i,k){const r=ROUNDS[i];const ok=k===r.betOk;if(ok)state.score++;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)
+  +okBox('<span style="color:'+(ok?'#a5d6a7':'#ffcc80')+'">'+(ok?'你猜對了。':'猜反了——翻開來看報告怎麼讀。')+'</span><br>'+r.revealTxt)
+  +'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');}
 
- sort:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2><p class="body dim">${s.sub}</p>
-   <div id="st${i}">${s.items.map(it=>`
-     <div class="sort-item" id="si-${it.id}" onclick="sortTap(${i},'${it.id}')">
-       <div class="rank">–</div><div class="lbl">${it.label}<small>${it.hint}</small></div>
-       <span class="tag-lead" style="background:${it.kind==='先行'?'rgba(95,191,143,.2)':it.kind==='同步'?'rgba(232,180,95,.2)':it.kind==='滯後'?'rgba(224,107,107,.2)':'rgba(212,175,55,.18)'};color:${it.kind==='先行'?'#7fd6a6':it.kind==='同步'?'#e8b45f':it.kind==='滯後'?'#f08a8a':'#e0c064'}">${it.kind}</span></div>`).join('')}</div>
-   <div class="reveal" id="rv${i}"></div>${helpBtn(i)}${nextSlot(i)}</div>`,
-  init:(s,i)=>{sortState=[];}},
+// ── 給我答案：就地揭示 ──
+function giveAnswer(i){const r=ROUNDS[i],a=ANS[i];
+ const gloss='<div style="font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.55);margin:0.9rem 0 0.5rem">名詞白話</div>'
+  +'<div class="layer-list" style="background:none;border:none;padding:0;margin:0">'+a.terms.map(function(t){return '<div class="ly"><b>'+t[0]+'</b><span>'+t[1]+'</span></div>';}).join('')+'</div>';
+ const ansLine='<div style="font-size:14px;line-height:1.75;color:#fff;text-align:left"><b style="color:#a5d6a7">答案：</b>'+a.answer+'</div>';
+ const expl=function(t){return '<div style="font-size:13.5px;line-height:1.8;color:rgba(255,255,255,0.92);text-align:left;max-width:480px;margin:0.5rem auto 0;background:rgba(0,0,0,0.36);border-radius:10px;padding:0.6rem 0.8rem">'+t+'</div>';};
+ let mid='';
+ window.plDraw=null;window.hsDraw=null;window.soDraw=null;window.mtDraw=null;
+ if(r.type==='ab'){
+   mid='<div class="choices">'+r.choices.map(function(c,k){return '<div class="choice-btn" style="cursor:default;'+(k===r.correct?'border-color:#a5d6a7;background:rgba(80,200,110,0.18)':'opacity:0.45')+'">'+(k===r.correct?'✓ ':'')+c+'</div>';}).join('')+'</div>'
+     +expl(r.fb[r.correct]);
+ }else if(r.type==='place'||r.type==='build'){
+   state.pl={};r.slots.forEach(function(s){state.pl[s[0]]=s[2].split(',');});state.plSel=null;
+   mid=placeBody(i,r.cards,r.slots,r.type==='build'||r.wide,true,plMarks(r.slots))+expl(r.done);
+ }else if(r.type==='hotspot'){
+   state.hs=r.need.slice();mid=r.fig(state.hs,r.need)+expl(r.fbOk);
+ }else if(r.type==='slider'){
+   state.sv=r.slider.ans;
+   mid='<div id="slfig">'+r.fig(state.sv)+'</div><div class="feedback" style="min-height:auto;font-size:13.5px;color:#fff">'+r.vlab(state.sv)+'</div>'+expl(r.fbOk);
+ }else if(r.type==='sort'){
+   state.so=r.items.map(function(_,k){return k;});state.soSel=null;
+   mid=soBody(r,true)+expl(r.fbOk);
+ }else if(r.type==='match'){
+   state.mt={};r.left.forEach(function(x){state.mt[x[0]]=x[0];});state.mtSel=null;
+   mid=mtBody(r,true)+expl(r.fbOk);
+ }else if(r.type==='flip'){
+   mid='<div class="fp-bets">'+r.bets.map(function(b){return '<div class="fp-bet" style="cursor:default;'+(b[0]===r.betOk?'border-color:#a5d6a7;background:rgba(80,200,110,0.18)':'opacity:0.45')+'">'+(b[0]===r.betOk?'✓ ':'')+b[1]+'</div>';}).join('')+'</div>'+expl(r.revealTxt);
+ }
+ const nextBtn='<button class="continue-btn" onclick="record('+i+')">'+(r.type==='build'?'看我學會了什麼 ›':'懂了，繼續 ›')+'</button>';
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+mid+okBox(ansLine+gloss+'<div style="margin-top:0.6rem;font-size:12px;color:rgba(255,255,255,0.6)">（走「給我答案」不計分，但一樣帶你過關。）</div>')+nextBtn);
+ if(r.type==='match')mtLines();}
 
- flipcards:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2><p class="body dim">${s.sub}</p>
-   <div class="flipwrap" id="ck${i}">${s.items.map((it)=>`
-     <div class="flipcard" onclick="flipReveal(this,${i})"><div class="flipinner">
-       <div class="flipface flipfront"><div class="ft">${it.t}</div><div class="hint">👆 ${s.hint2||'翻開看「為什麼代表向下」'}</div></div>
-       <div class="flipface flipback"><div class="bh">${s.backh||'為什麼危險'}</div><div class="bt">${it.s}</div></div>
-     </div></div>`).join('')}</div>
-   <div class="center" style="margin-top:8px"><button class="cta" id="ckbtn${i}" onclick="next()" disabled>全部翻開後繼續</button></div></div>`},
+function record(i){const t=TRANSITIONS[i];if(t)fade(function(){showTrans(t,i);});else advance(i);}
+function showTrans(txt,i){G.innerHTML='<div class="scene" style="background:linear-gradient(180deg,#020408,#0a0714,#141020);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:3rem 1.5rem">'+bg('river','sky-night')+'<div class="overlay"><div class="transition-quote">'+txt+'</div><button class="continue-btn" onclick="advance('+i+')">繼續 ›</button></div></div>';}
+function advance(i){const n=i+1;if(n>=ROUNDS.length)fade(showResult);else fade(function(){showRound(n);});}
 
- checklist:{html:(s,i)=>`<div class="card">${tagHTML(s)}<h2>${s.h}</h2><p class="body dim">${s.sub}</p>
-   <div id="ck${i}">${s.items.map(it=>`
-     <div class="check" onclick="chkToggle(this,${i})"><div class="box">✓</div>
-       <div class="lbl">${it.t}<small>${it.s}</small></div></div>`).join('')}</div>
-   <div class="center" style="margin-top:8px"><button class="cta" id="ckbtn${i}" onclick="next()" disabled>全部勾選後繼續</button></div></div>`},
+// ================= 結果頁 =================
+function showResult(){PB.style.width='100%';const s=state.score,mx=ROUNDS.length;
+ const tier=s>=mx-3?'穩':s>=Math.ceil(mx/2)?'入門':'再走一次';
+ const chain=ROUNDS.map(function(r){return r.short;});
+ G.innerHTML=scene('sky-result','range',
+  '<div class="chapter-label t-label" style="margin-bottom:0.8rem">'+ROUNDS.length+' 站走完 · YODA RESEARCH · 總經科</div>'
+  +'<div class="result-icon">🧭</div>'
+  +'<div class="result-type t-main">我會自己讀完一份總經報告了</div>'
+  +'<div class="result-vow" style="font-size:19px;font-weight:800;color:#e8c86a;margin:0.35rem auto 0.6rem;max-width:430px;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)">「我不再問市場漲不漲，我先問：鏈條斷了沒。」</div>'
+  +'<div class="result-desc t-sub">開場那句問：<b>就業轉弱了，股市為什麼還站在高點附近？</b><br>現在你答得出來：<br>市場把升息往後挪——經濟這端在放慢，股市這端讀成好消息；<br>只是債市還沒點頭、信用最弱那一層在變貴、估值的緩衝用完了。<br><br>'
+    +'<b>'+chain.join(' → ')+'</b><br><br>'
+    +'下次打開總經報告，照這個順序走：<br>① §01 先看兩支溫度條離門檻多遠<br>② §02 結論先把經濟端和股市端分開讀<br>③ 驗證點總表上，哪一張牌最先開<br><br>'
+    +'<span style="font-size:12.5px;opacity:.85">這期定調（轉述 '+ASOF+' 報告的當期判讀，不構成投資建議）：景氣大循環榮景期 74%、製造業 77% 錯配前緣；改判條件＝十月再升一碼／庫存回補只有一個月就縮手／獲利面寬收窄過半／通膨錨鬆脫。</span><br><br>'
+    +'判讀得分：'+s+' / '+mx+'（'+tier+'）</div>'
+  +'<div class="t-sub" style="font-size:13px;line-height:1.9;max-width:430px;margin:0 auto 1.3rem">你身邊那個一看到非農變差就說「完了」的朋友，<br>缺的就是「兩端分開看」那一站。</div>'
+  +'<div style="display:flex;flex-direction:column;align-items:center;gap:0.65rem;max-width:340px;margin:0 auto">'
+  +'<a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">訂電子報，每月陪你讀一次景氣 DNA →</a>'
+  +'<a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">你會讀了——來看這一期的總經報告 →</a>'
+  +'<button class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0;border:none" id="shareBtn" onclick="shareGame()">分享：送給那個一看到壞數據就慌的朋友</button>'
+  +'</div>'
+  +'<a href="javascript:void(0)" onclick="restart()" style="display:inline-block;margin-top:0.9rem;font-size:12px;color:rgba(255,255,255,0.6);text-decoration:underline">重玩一次</a>'
+  +'<div id="sfb" style="font-size:12px;color:rgba(160,220,255,0.75);margin-top:0.5rem;height:16px"></div>'
+  +'<div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:1.4rem">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" rel="noopener" style="color:rgba(224,165,38,0.7);text-decoration:none">BiBiPiano</a>，版權為原作者所有<br>Yoda Research · 判斷力學校 · 總經科第二節點</div>');}
+function restart(){state={idx:-1,score:0,sv:0,pl:{},plSel:null,plFor:-1,hs:[],hsFor:-1,so:null,soSel:null,soFor:-1,mt:{},mtSel:null,mtFor:-1,fp:0,fpFor:-1,slFor:-1};window.state=state;oi=0;PB.style.width='0%';fade(showStart);}
+function shareGame(){const url=window.location.href.split('?')[0];
+ const t='景氣循環的 DNA——就業轉弱了，股市為什麼還站在高點附近？我走完 '+ROUNDS.length+' 站，答得出來了。';
+ const fb=document.getElementById('sfb');
+ if(navigator.share){navigator.share({title:'景氣循環的 DNA · Yoda',text:t,url:url}).catch(function(){});return;}
+ try{navigator.clipboard.writeText(url).then(function(){fb.textContent='網址已複製，貼去分享吧';setTimeout(function(){fb.textContent='';},2500);}).catch(function(){fb.textContent=url;});}
+ catch(e){try{const ta=document.createElement('textarea');ta.value=url;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();fb.textContent='網址已複製，貼去分享吧';}catch(e2){fb.textContent=url;}}}
 
- result:{html:()=>{
-   let ratio=state.max?state.score/state.max:0, t;
-   if(ratio>=0.8) t={e:'🧭',n:'讀懂 DNA 的人',tier:'LV.3 · 看的是數據，不是感覺',
-     d:'你已經能把幾十個指標的當下長相，拼成一張景氣 DNA，還分得出哪些先行、哪些滯後。這正是判斷力的底層。',
-     u:'<b>技能解鎖：景氣定位（完整）。</b>先行/同步/滯後、兩條溫度條、末段前哨、財政緩衝——你都握住了。這把尺，你可以自己量了。'};
-   else if(ratio>=0.5) t={e:'📈',n:'DNA 學徒',tier:'LV.2 · 開始會讀',
-     d:'你抓到訣竅了：讀數據的「長相」而不是聽標題。剩下的是練熟——尤其別被滯後指標的假利多騙。',
-     u:'<b>技能解鎖：DNA 比對 + 先行意識。</b>再把「誰先變」練熟，你的定位就準了。'};
-   else t={e:'🌱',n:'感覺派',tier:'LV.1 · 還在用感覺',
-     d:'你還在用「數據好像不錯」在判斷。這一課種下了另一個習慣：先問「這是先行還是滯後？現在指向哪一段？」',
-     u:'<b>技能解鎖：看見「DNA」這件事。</b>下次數據出來，先分先行/滯後、再判位階。光這一步，你就比昨天多一隻眼睛。'};
-   return `<div class="card">
-     <div class="result-emoji">${t.e}</div><div class="result-name">${t.n}</div>
-     <div class="result-tier">${t.tier}</div><div class="result-score">你讀對了 ${state.score} / ${state.max} 段 DNA</div>
-     <p class="body center">${t.d}</p><div class="unlock">${t.u}</div>
-     <div class="result-vow">「我不再問市場漲不漲，我先問：鏈條斷了沒。」</div>
-     <p class="body center dim" style="font-size:14px">這期定調：<b class="warnc">榮景期 · 再加速段（74%）</b>。量的鏈條五環同向、庫存回補還在前面；唯一懸著的是九月「會不會升息」——它決定節奏，不決定方向。可證偽踩點：九月真升息／庫存年增不回升／獲利面寬收窄／長期通膨錨鬆離 3.3%。（本段僅為報告當期判讀的轉述，不構成任何投資建議。）</p><p class="body center dim" style="font-size:14px;display:none">舊版佔位（GDP +1.5%），但最深的領先指標（耐久財核心訂單 +14.3%、職缺、生產力）還強＝<b>轉折未確認</b>——盯它們何時翻空，別猜頂。</p>
-     <div class="fpt-wrap"><div class="fpt">
-       <div class="fpt-row fpt-head"><div>指標</div><div>🌱復甦</div><div>📈成長</div><div>🔥榮景</div><div>⚠衰退</div><div>📍當前</div></div>
-       <div class="fpt-row"><div class="fpt-ind">初領失業金</div><div>高峰回落</div><div>低檔穩</div><div class="warnc">U型反轉</div><div class="down">飆升</div><div class="cur">19.9萬·低檔穩</div></div>
-       <div class="fpt-row"><div class="fpt-ind">非農就業</div><div>止跌</div><div>穩增</div><div>見頂放緩</div><div class="down">轉負</div><div class="cur">−2.3萬·凍結</div></div>
-       <div class="fpt-row"><div class="fpt-ind">職缺 JOLTS</div><div>回升</div><div>高</div><div>見頂高</div><div class="down">下滑</div><div class="cur">7.6M·高檔</div></div>
-       <div class="fpt-row"><div class="fpt-ind">勞動生產力</div><div>回升</div><div>強</div><div>見頂</div><div class="down">轉弱</div><div class="cur">+2.8%·強</div></div>
-       <div class="fpt-row"><div class="fpt-ind">產能利用率</div><div>低</div><div>回升</div><div class="warnc">破82-83%</div><div class="down">下滑</div><div class="cur">76%·未過熱</div></div>
-       <div class="fpt-row"><div class="fpt-ind">耐久財核心訂單</div><div>回升</div><div>加速</div><div>高·將見頂</div><div class="down">下修</div><div class="cur">+14.3%·強</div></div>
-       <div class="fpt-row"><div class="fpt-ind">實質消費PCE</div><div>止跌</div><div>穩擴</div><div>透支/借貸</div><div class="down">轉負</div><div class="cur">+2.1%·所得驅動</div></div>
-       <div class="fpt-row"><div class="fpt-ind">可支配所得</div><div>回升</div><div>穩增</div><div>見頂</div><div class="down">下滑</div><div class="cur">由負轉正</div></div>
-       <div class="fpt-row"><div class="fpt-ind">Forward EPS</div><div>止跌</div><div>加速</div><div>高·將見頂</div><div class="down">下修</div><div class="cur">續上修</div></div>
-       <div class="fpt-row"><div class="fpt-ind">通膨 CPI/PCE</div><div>低</div><div>溫和</div><div>黏·高</div><div>回落</div><div class="cur">核心3.3%·黏</div></div>
-       <div class="fpt-row"><div class="fpt-ind">殖利率曲線</div><div>陡</div><div>走平</div><div class="warnc">倒掛</div><div>轉正</div><div class="cur">10Y−2Y +37bp·走平</div></div>
-       <div class="fpt-row"><div class="fpt-ind">ERP估值</div><div>高</div><div>中</div><div class="warnc">近零</div><div>修復</div><div class="cur">+0.03%·近零</div></div>
-     </div></div>
-     <div class="act-btns">
-       <a class="act-btn act-sub" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">訂電子報，每月帶你讀一次景氣 DNA →</a>
-       <a class="act-btn act-report" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">到 Yoda Research 看這期完整總經報告 →</a>
-       <button class="act-btn act-share" onclick="share()">分享：讓還在看標題的朋友也學會讀 DNA</button></div>
-     <div class="replay"><a onclick="replay()">重玩一次</a></div>
-     <div class="credit">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" rel="noopener">BiBiPiano</a>，版權為原作者所有。<br>Yoda Research · 判斷力學校 · 總經科第二節點</div></div>`;}}
-};
-
-/* ===== 互動處理 ===== */
-// 分類
-let clfState={};
-function clfPick(id,cat,btn){
-  const i=cur; if(state.answered[i])return;
-  clfState[id]=cat;
-  const item=el('ci-'+id); item.querySelectorAll('.clf-btns button').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  if(Object.keys(clfState).length===S[i].items.length){
-    let ok=0; S[i].items.forEach(it=>{ const right=clfState[it.id]===it.cat;
-      el('ci-'+it.id).classList.add(right?'right':'wrong'); if(right)ok++;});
-    const all=ok===S[i].items.length;
-    resolve(i,all,`<b>${all?'全對 ✓':`對了 ${ok}/${S[i].items.length}`}。</b>`+S[i].reveal+glossHTML(S[i]));
-  }
-}
-// 翻面
-function flipPick(i,idx){ if(state.answered[i])return;
-  const s=S[i], correct=idx===s.correct;
-  document.querySelectorAll('#pk'+i+' .btn').forEach((b,k)=>{b.disabled=true;
-    if(k===s.correct)b.classList.add('pick-good'); else if(k===idx)b.classList.add('pick-bad');});
-  resolve(i,correct,(correct?s.revealGood:s.revealBad)+glossHTML(s));
-}
-// 階段選擇
-function ppPick(i,idx){ if(state.answered[i])return;
-  const s=S[i], correct=idx===s.correct;
-  document.querySelectorAll('#pk'+i+' .btn').forEach((b,k)=>{b.disabled=true;
-    if(k===s.correct)b.classList.add('pick-good'); else if(k===idx)b.classList.add('pick-bad');});
-  resolve(i,correct,(correct?'':'<b>再看一次 —— </b>')+s.reveal+glossHTML(s));
-}
-// 儀表
-function drawGauge(i,s){
-  const svg=el('g'+i); if(!svg)return;
-  // 過熱區弧線（threshold→max）
-  const a0=Math.PI, a1=0, frac=(s.threshold-s.min)/(s.max-s.min);
-  const ang=a0+(a1-a0)*frac; const cx=120,cy=130,r=96;
-  const x1=cx+r*Math.cos(ang), y1=cy-r*Math.sin(ang), x2=cx+r*Math.cos(0), y2=cy-r*Math.sin(0);
-  el('ghot'+i).setAttribute('d',`M${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 0 1 ${x2.toFixed(1)},${y2.toFixed(1)}`);
-  gaugeAnim(i,s.min,s.value,s);
-}
-function gaugeAnim(i,from,to,s){
-  const svg=el('g'+i); if(!svg)return; const t0=Date.now(),dur=800;
-  if(svg._iv)clearInterval(svg._iv);
-  svg._iv=setInterval(()=>{ if(!el('gn'+i)){clearInterval(svg._iv);svg._iv=null;return;} let p=Math.min(1,(Date.now()-t0)/dur); const e=1-Math.pow(1-p,3);
-    const v=from+(to-from)*e; setNeedle(i,v,s);
-    if(p>=1){clearInterval(svg._iv);svg._iv=null;}},16);
-}
-function setNeedle(i,v,s){
-  const cx=120,cy=130,len=84, frac=(v-s.min)/(s.max-s.min), ang=Math.PI+(0-Math.PI)*frac;
-  el('gn'+i).setAttribute('x2',(cx+len*Math.cos(ang)).toFixed(1));
-  el('gn'+i).setAttribute('y2',(cy-len*Math.sin(ang)).toFixed(1));
-  el('gv'+i).textContent=Math.round(v);
-}
-function gaugePick(i,idx){ if(state.answered[i])return;
-  const s=S[i], correct=idx===s.correct;
-  document.querySelectorAll('#pk'+i+' .btn').forEach((b,k)=>{b.disabled=true;
-    if(k===s.correct)b.classList.add('pick-good'); else if(k===idx)b.classList.add('pick-bad');});
-  resolve(i,correct,(correct?'':'<b>再想一下 —— </b>')+s.reveal+glossHTML(s));
-}
-// 天秤
-function renderScale(svg,t){ if(!svg)return;
-  const cx=180,cy=58,arm=120,drop=44, rad=t*22*Math.PI/180;
-  const Lx=cx-arm*Math.cos(rad),Ly=cy-arm*Math.sin(rad),Rx=cx+arm*Math.cos(rad),Ry=cy+arm*Math.sin(rad);
-  const q=c=>svg.querySelector(c);
-  const b=q('.beam');b.setAttribute('x1',Lx);b.setAttribute('y1',Ly);b.setAttribute('x2',Rx);b.setAttribute('y2',Ry);
-  const ls=q('.lstr');ls.setAttribute('x1',Lx);ls.setAttribute('y1',Ly);ls.setAttribute('x2',Lx);ls.setAttribute('y2',Ly+drop);
-  const rs=q('.rstr');rs.setAttribute('x1',Rx);rs.setAttribute('y1',Ry);rs.setAttribute('x2',Rx);rs.setAttribute('y2',Ry+drop);
-  q('.lpan').setAttribute('transform',`translate(${Lx},${Ly+drop})`);
-  q('.rpan').setAttribute('transform',`translate(${Rx},${Ry+drop})`);
-  const ll=q('.llabel');ll.setAttribute('x',Lx);ll.setAttribute('y',Ly+drop+26);
-  const rl=q('.rlabel');rl.setAttribute('x',Rx);rl.setAttribute('y',Ry+drop+26);
-  svg._t=t;
-}
-function animateScale(svg,target,cb){ const start=(typeof svg._t==='number')?svg._t:0,t0=Date.now(),dur=750;
-  if(svg._iv)clearInterval(svg._iv);
-  svg._iv=setInterval(()=>{ let p=Math.min(1,(Date.now()-t0)/dur); const e=1-Math.pow(1-p,3);
-    renderScale(svg,start+(target-start)*e); if(p>=1){clearInterval(svg._iv);svg._iv=null;if(cb)cb();}},16);
-}
-function scalePick(i,idx){ if(state.answered[i])return;
-  const s=S[i], correct=idx===s.correct, svg=el('sc'+i);
-  document.querySelectorAll('#pk'+i+' .btn').forEach((b,k)=>{b.disabled=true;
-    if(k===s.correct)b.classList.add('pick-good'); else if(k===idx)b.classList.add('pick-bad');});
-  animateScale(svg,s.opts[idx].tilt,()=>{ if(!correct) setTimeout(()=>animateScale(svg,s.opts[s.correct].tilt),400);});
-  resolve(i,correct,(correct?'':'<b>再看一次 —— </b>')+s.reveal+glossHTML(s));
-}
-// 溫度條
-function tempPick(i,idx){ if(state.answered[i])return;
-  const s=S[i], correct=idx===s.correct;
-  document.querySelectorAll('#tb'+i+' .tz').forEach((z,k)=>{ z.style.pointerEvents='none';
-    if(k===s.correct)z.classList.add('correct'); else if(k===idx)z.classList.add('wrong');});
-  resolve(i,correct,(correct?'':'<b>再想一下 —— </b>')+s.reveal+glossHTML(s));
-}
-// 排序
-let sortState=[];
-function sortTap(i,id){ if(state.answered[i])return; if(sortState.includes(id))return;
-  sortState.push(id);
-  const item=el('si-'+id); item.classList.add('picked'); item.querySelector('.rank').textContent=sortState.length;
-  if(sortState.length===S[i].items.length){
-    let ok=0; S[i].items.forEach(it=>{ if(sortState[it.rank]===it.id)ok++;});
-    const all=ok===S[i].items.length;
-    // 顯示正解順序
-    const order=[...S[i].items].sort((a,b)=>a.rank-b.rank).map(it=>it.label.split(' ')[0]).join(' → ');
-    resolve(i,all,`<b>${all?'順序正確 ✓':'再看一次順序。'}</b>正解：<b>${order}</b>。`+S[i].reveal+glossHTML(S[i]));
-  }
-}
-// 檢查表
-function chkToggle(elm,i){ elm.classList.toggle('on');
-  const all=document.querySelectorAll('#ck'+i+' .check').length;
-  const on=document.querySelectorAll('#ck'+i+' .check.on').length;
-  const btn=el('ckbtn'+i);
-  if(on===all){btn.disabled=false; btn.textContent='收進口袋 →';} else {btn.disabled=true; btn.textContent='全部勾選後繼續';}
-}
-// 翻牌揭示（一次性翻開，全翻完放行）
-function flipReveal(elm,i){ elm.classList.add('on');
-  const all=document.querySelectorAll('#ck'+i+' .flipcard').length;
-  const on=document.querySelectorAll('#ck'+i+' .flipcard.on').length;
-  const btn=el('ckbtn'+i);
-  if(on===all){btn.disabled=false; btn.textContent='收進口袋 →';}
-}
-
-/* ===== 給我答案（就地揭示＋放行，不計分） ===== */
-function give(i){ if(state.answered[i])return; state.answered[i]=true;
-  const s=S[i];
-  if(s.type==='classify'){ S[i].items.forEach(it=>{ const item=el('ci-'+it.id);
-      item.querySelectorAll('.clf-btns button').forEach(b=>b.classList.remove('on'));
-      item.querySelectorAll('.clf-btns button')[it.cat].classList.add('on');
-      item.classList.add('right'); item.querySelectorAll('.clf-btns button').forEach(b=>b.disabled=true);});
-    showGive(i,`<b>答案已填上。</b>`+(s.reveal||'')+glossHTML(s));}
-  else if(s.type==='flip'||s.type==='phasepick'||s.type==='gauge'){
-    document.querySelectorAll('#pk'+i+' .btn').forEach((b,k)=>{b.disabled=true; if(k===s.correct)b.classList.add('pick-good');});
-    if(s.type==='gauge'){}
-    showGive(i,`<b>答案：第 ${s.correct+1} 個選項。</b>`+(s.reveal||s.revealGood||'')+glossHTML(s));}
-  else if(s.type==='scale'){ const svg=el('sc'+i);
-    document.querySelectorAll('#pk'+i+' .btn').forEach((b,k)=>{b.disabled=true; if(k===s.correct)b.classList.add('pick-good');});
-    animateScale(svg,s.opts[s.correct].tilt);
-    showGive(i,`<b>答案：${s.opts[s.correct].t}。</b>`+s.reveal+glossHTML(s));}
-  else if(s.type==='templocate'){ document.querySelectorAll('#tb'+i+' .tz').forEach((z,k)=>{z.style.pointerEvents='none'; if(k===s.correct)z.classList.add('correct');});
-    showGive(i,`<b>答案：${s.zones[s.correct].t}。</b>`+s.reveal+glossHTML(s));}
-  else if(s.type==='sort'){ const order=[...s.items].sort((a,b)=>a.rank-b.rank);
-    document.querySelectorAll('#st'+i+' .sort-item').forEach(x=>x.style.pointerEvents='none');
-    order.forEach((it,r)=>{ const item=el('si-'+it.id); item.classList.add('picked'); item.querySelector('.rank').textContent=r+1;});
-    showGive(i,`<b>正解順序：${order.map(it=>it.label.split('（')[0]).join(' → ')}。</b>`+(s.reveal||'')+glossHTML(s));}
-}
-function showGive(i,html){ const rv=el('rv'+i); rv.innerHTML=html+'<div style="margin-top:8px" class="dim">（走「給我答案」不計分，但一樣帶你過關。）</div>';
-  rv.className='reveal show'; const h=el('help'+i); if(h)h.style.display='none'; const nx=el('nx'+i); if(nx)nx.style.display='block';}
-
-/* ===== 分享 / 重玩 ===== */
-function share(){ const url='https://yoda-research-next.vercel.app/';
-  const text='景氣循環的 DNA——我剛把整份總經報告走了一遍：量的鏈條、庫存伏筆、三把通膨尺，還有什麼情況該翻案。';
-  if(navigator.share){navigator.share({title:'景氣循環的 DNA',text,url}).catch(()=>{});}
-  else{ const done=()=>alert('已複製連結，貼給朋友吧！');
-    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text+' '+url).then(done).catch(fb); else fb();
-    function fb(){try{const ta=document.createElement('textarea');ta.value=text+' '+url;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();}catch(e){alert(url);}}}
-}
-function replay(){location.reload();}
-
-/* ===== BGM ===== */
-(function(){ const bgm=el('bgm'),btn=el('mute'); let muted=false;
-  try{muted=localStorage.getItem('yoda_bgm_muted')==='1';}catch(e){}
-  bgm.volume=0.30; bgm.muted=muted; btn.textContent=muted?'🔇':'🔊';
-  function play(){ if(!muted)bgm.play().catch(()=>{}); document.removeEventListener('click',play);}
-  document.addEventListener('click',play);
-  btn.addEventListener('click',e=>{ e.stopPropagation(); muted=!muted; bgm.muted=muted; btn.textContent=muted?'🔇':'🔊';
-    try{localStorage.setItem('yoda_bgm_muted',muted?'1':'0');}catch(e){} if(!muted)bgm.play().catch(()=>{});});
-})();
-
-/* ===== init ===== */
-state.max=S.filter(x=>['classify','flip','phasepick','gauge','scale','templocate','sort'].includes(x.type)).length;
-render(0); applyEnv(0);
-</script>
-<!-- ===== Yoda 會員檢核徽章模組 · 僅在網址帶 ?cert=TYPE 時啟用（一般遊玩完全不受影響） ===== -->
+['startOpening','nextOpening','showRound','renderAB','abPick','renderPlace','plCard','plSlot','plCheck','renderBuild','bdDone',
+ 'renderHotspot','hsPick','hsCheck','renderSlider','slUpd','slDone','renderSort','soPick','soCheck',
+ 'renderMatch','mtPick','mtCheck','mtLines','renderFlip','fpBet',
+ 'giveAnswer','record','showTrans','advance','showResult','restart','shareGame','fade','startPulse'].forEach(function(n){window[n]=eval(n);});
+window.state=state;
+window.addEventListener('resize',function(){if(document.getElementById('mtwrap'))mtLines();});
+startPulse();
+showStart();
+</script><!-- ===== Yoda 會員檢核徽章模組 · 僅在網址帶 ?cert=TYPE 時啟用（一般遊玩完全不受影響） ===== -->
 <script>
 (function(){
   var GAS_URL='https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec';
@@ -827,9 +1050,9 @@ render(0); applyEnv(0);
   mask.innerHTML='<div id="yc-modal">'
     +'<div id="yc-form">'
       +'<h3>領取《'+name+'報告》檢核</h3>'
-      +'<p>輸入你的<b style="color:#e8c86a">會員密碼</b>（訂閱時自設的那組），系統會記下你已看懂這份報告怎麼判讀。</p>'
+      +'<p>輸入你的<b style="color:#e8c86a">會員存取碼</b>（訂閱時自設的那組，僅用於比對身分），系統會記下你已完成本教材。</p>'
       +'<input id="yc-email" type="email" placeholder="訂閱用的 email" autocomplete="off">'
-      +'<div style="position:relative"><input id="yc-pw" type="text" placeholder="你的會員密碼" autocomplete="off" style="padding-right:40px"><button type="button" id="yc-eye" aria-label="顯示或隱藏密碼" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:18px;line-height:1;opacity:.6;padding:4px;color:inherit">🙈</button></div>'
+      +'<input id="yc-pw" type="password" placeholder="你的會員密碼" autocomplete="off">'
       +'<div class="yc-hint">這組密碼只是會員存取碼，請勿使用你其他重要帳號的密碼。</div>'
       +'<button id="yc-submit">送出，領取徽章</button>'
       +'<div id="yc-msg"></div>'
@@ -864,7 +1087,7 @@ render(0); applyEnv(0);
           $('yc-form').style.display='none';
           $('yc-done').style.display='block';
           $('yc-done-txt').innerHTML=(res.alreadyCertified?'你先前已通過（'+res.certifiedAt+'）。':'通過日：'+res.certifiedAt+'。')
-            +'<br>之後就能安心收到每期《'+name+'報告》了。';
+            +'<br>此紀錄只是教材完成紀錄，與訂閱權益、報告寄送無關。';
           ycCertified=true;bar.style.display='none';
         }else{
           msg.className='err';msg.textContent=(res&&res.error)?res.error:'驗證失敗，請稍後再試';
@@ -873,7 +1096,7 @@ render(0); applyEnv(0);
       .catch(function(){btn.disabled=false;msg.className='err';msg.textContent='連線失敗，請檢查網路後再試';});
   }
   $('yc-submit').onclick=submit;
-  $('yc-pw').addEventListener('keydown',function(e){if(e.key==='Enter')submit();});var _ye=$('yc-eye');if(_ye)_ye.addEventListener('click',function(){var p=$('yc-pw');if(p.type==='password'){p.type='text';this.textContent='🙈';}else{p.type='password';this.textContent='👁';}});
+  $('yc-pw').addEventListener('keydown',function(e){if(e.key==='Enter')submit();});
 })();
 </script>
 
@@ -882,5 +1105,10 @@ render(0); applyEnv(0);
 <!-- yoda-logo-sig -->
 <img alt="Yoda" src="https://yoda-research-next.vercel.app/yoda-logo.png" style="position:fixed;right:14px;bottom:12px;height:52px;width:auto;opacity:.5;z-index:9990;pointer-events:none">
 <script>(function(){try{var K='yr_vid',v=localStorage.getItem(K);if(!v){v=Date.now().toString(36)+Math.random().toString(36).slice(2,8);localStorage.setItem(K,v);}var seg=location.pathname.split('/').filter(Boolean).pop()||'home';fetch('https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec',{method:'POST',body:JSON.stringify({action:'hit',page:decodeURIComponent(seg),path:location.pathname,host:location.hostname,ref:document.referrer,vid:v})});}catch(e){}})();</script>
-</body>
-</html>
+
+<!-- 法遵統一免責（2026-09-14 Yoda 核定；正本＝subscribe.html 頁尾）x2-06 -->
+<div class="yoda-legal" style="position:relative;z-index:5;max-width:760px;margin:26px auto 84px;padding:15px 18px;border:1px solid rgba(128,128,128,.32);border-radius:10px;font-size:12px;line-height:1.9;color:#8d8d99;font-family:inherit;text-align:left;">
+  本頁為報告閱讀教學與投資教育內容，僅供研究學習參考，不構成投資建議、要約或個別有價證券之推介、分析意見或買賣建議，亦不構成任何買賣、進出場或部位建議。本服務非證券投資顧問事業，撰稿者未具證券投資分析人員資格，不提供代客操作或獲利保證；頁內示範數據為特定日期之歷史資料，不代表現況，文中個股僅為讀數示範，不代表推薦。投資均有風險，決策與盈虧由用戶自行判斷並承擔。<br>
+  © 2026 Yoda Research · 獨立研究者，個人觀點與市場資料整理分享
+</div>
+</body></html>

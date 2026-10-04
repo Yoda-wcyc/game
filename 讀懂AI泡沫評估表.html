@@ -10,6 +10,7 @@
 </script>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>讀懂 AI 泡沫評估表（風險在哪一格）· Yoda Research</title>
+<!-- 2026-10-04 改版：對齊 AI泡沫評估表_20261003（讀數截止 2026-10-02）；改用與《看懂市場觀察》同一套互動引擎，關數由 ROUNDS.length 算。 -->
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100%;min-height:100%;font-family:-apple-system,'PingFang TC','Noto Sans TC',sans-serif;background:#000}
@@ -27,54 +28,91 @@ html,body{width:100%;min-height:100%;font-family:-apple-system,'PingFang TC','No
 .overlay{position:relative;z-index:10;text-align:center;max-width:640px;width:100%}
 .t-main{color:#f2f5ff}.t-sub{color:rgba(228,234,247,0.84)}.t-label{color:rgba(205,214,236,0.58)}
 .sky-dawn .t-main,.sky-start .t-main{color:#fff7e6}.sky-dawn .t-sub,.sky-start .t-sub{color:rgba(255,242,214,0.82)}
+/* 漸層可讀性保底：直接壓在天色漸層上的文字加暗色暈邊（SKILL-game §三） */
+.t-main,.t-sub,.t-label,.chapter-quote,.feedback,.round-q,.round-text{text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)}
 .chapter-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:0.5rem}
 .chapter-title{font-size:27px;font-weight:300;margin-bottom:1rem;line-height:1.3}
 .chapter-quote{font-size:15px;line-height:1.95;margin-bottom:2rem;font-style:italic;max-width:480px;margin:0 auto 2rem}
 .round-text{font-size:15px;line-height:1.85;max-width:480px;margin:0 auto 0.8rem}
-.layer-list .ly b{position:relative;padding-left:11px}
-.layer-list .ly b::before{content:'';position:absolute;left:0;top:0.52em;width:5px;height:5px;border-radius:50%;background:#e0a526}
 .round-q{font-size:16px;font-weight:400;margin-bottom:1.3rem;line-height:1.5}
 .transition-quote{font-size:17px;max-width:430px;line-height:2.1;font-style:italic;color:rgba(216,228,255,0.86)}
 .choices{display:flex;flex-direction:column;gap:0.7rem;width:100%;max-width:480px;margin:0 auto}
 .choice-btn{background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.28);color:#fff;padding:0.9rem 1.2rem;border-radius:8px;cursor:pointer;font-size:14px;line-height:1.6;text-align:left;transition:all .2s;backdrop-filter:blur(6px)}
 .choice-btn:hover{background:rgba(0,0,0,0.45);border-color:rgba(255,255,255,0.6);transform:translateX(4px)}
-.continue-btn{background:transparent;border:1px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.8);padding:0.6rem 2rem;border-radius:4px;cursor:pointer;font-size:13px;margin-top:1.3rem;letter-spacing:1px;transition:all .2s}
+.continue-btn{background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.45);color:rgba(255,255,255,0.92);padding:0.6rem 2rem;border-radius:4px;cursor:pointer;font-size:13px;margin-top:1.3rem;letter-spacing:1px;transition:all .2s}
 .continue-btn:hover{border-color:rgba(255,255,255,0.9);color:#fff}
-.feedback{font-size:13px;line-height:1.8;max-width:440px;margin:0.7rem auto 0;min-height:42px}
-/* 儀表滑桿 */
+.feedback{font-size:13px;line-height:1.8;max-width:460px;margin:0.7rem auto 0;min-height:42px;background:rgba(0,0,0,0.34);border-radius:10px;padding:0.6rem 0.9rem}
 .gauge-wrap{max-width:340px;margin:0 auto}
-input[type=range].gsl{width:100%;-webkit-appearance:none;appearance:none;background:transparent;height:22px;margin-top:0.2rem}
-input[type=range].gsl::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;cursor:pointer;margin-top:-7px;box-shadow:0 1px 6px rgba(0,0,0,.4)}
-input[type=range].gsl::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:linear-gradient(90deg,#5b8def,#e0a526,#e05353)}
-input[type=range].gsl::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:none;cursor:pointer}
-input[type=range].gsl::-moz-range-track{height:8px;border-radius:4px;background:linear-gradient(90deg,#5b8def,#e0a526,#e05353)}
-.gsl-ends{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,0.6);margin-top:0.3rem}
-/* 分類 */
-.cls-list{max-width:470px;margin:0 auto 0.8rem;display:flex;flex-direction:column;gap:0.5rem}
-.cls-row{display:flex;align-items:center;gap:0.6rem;background:rgba(0,0,0,0.26);border:1px solid rgba(255,255,255,0.22);border-radius:8px;padding:0.5rem 0.7rem;flex-wrap:wrap}
-.cls-name{flex:1;text-align:left;font-size:13.5px;color:#fff;line-height:1.5;min-width:100%;margin-bottom:0.35rem}
-.cls-btns{display:flex;gap:0.4rem;width:100%}
-.cls-btn{border:1px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.2);color:#fff;border-radius:6px;padding:0.4rem 0.8rem;font-size:12.5px;cursor:pointer;transition:all .15s;flex:1}
-.cls-btn.atk.on{background:rgba(224,83,83,0.32);border-color:#e05353}
-.cls-btn.def.on{background:rgba(91,141,239,0.32);border-color:#5b8def}
-.cls-row.right{border-color:rgba(120,220,140,0.7)}
-.cls-row.wrong{border-color:rgba(229,120,120,0.7)}
+input[type=range].gsl{width:100%;-webkit-appearance:none;appearance:none;background:transparent;height:30px;margin-top:0.2rem;touch-action:pan-y}
+input[type=range].gsl::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;cursor:pointer;margin-top:-8px;box-shadow:0 1px 6px rgba(0,0,0,.4)}
+input[type=range].gsl::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:linear-gradient(90deg,#e0a526,#8a8fa3)}
+input[type=range].gsl::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#fff;border:none;cursor:pointer}
+input[type=range].gsl::-moz-range-track{height:8px;border-radius:4px;background:linear-gradient(90deg,#e0a526,#8a8fa3)}
+.gsl-ends{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,0.7);margin-top:0.3rem;text-shadow:0 1px 2px rgba(0,0,0,.6)}
 .result-icon{font-size:50px;margin-bottom:0.5rem}
 .result-type{font-size:23px;font-weight:300;margin-bottom:0.7rem}
 .result-desc{font-size:14px;line-height:1.9;max-width:460px;margin:0 auto 1.3rem}
 .yoda-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);color:#fff;padding:0.85rem 2.2rem;border-radius:6px;font-size:14px;cursor:pointer;text-decoration:none;margin:0.3rem;transition:opacity .2s}
 .yoda-btn:hover{opacity:.88}
-.yoda-btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.85)}
 .progress-bar{position:fixed;top:0;left:0;height:2px;background:rgba(224,165,38,0.65);transition:width .4s;z-index:100}
 .mute-btn{position:fixed;top:14px;right:14px;z-index:101;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(6px)}
 .step-dots{display:flex;gap:6px;justify-content:center;margin-bottom:1rem;flex-wrap:wrap}
 .step-dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.25)}
 .step-dots i.on{background:#e0a526}
+/* 詞→解釋兩欄對齊（core-render B-11b） */
 .layer-list{max-width:480px;margin:0 auto 0.7rem;text-align:left;font-size:13.5px;line-height:1.65;color:rgba(255,255,255,0.9);display:grid;grid-template-columns:max-content 1fr;column-gap:13px;row-gap:0.62rem;align-items:start;background:rgba(0,0,0,0.22);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:0.85rem 0.95rem}
 .layer-list .ly{display:contents}
-.layer-list .ly b{color:#e0a526;white-space:nowrap}
+.layer-list .ly>b{color:#e0a526;white-space:nowrap;position:relative;padding-left:11px}
+.layer-list .ly>b::before{content:'';position:absolute;left:0;top:0.52em;width:5px;height:5px;border-radius:50%;background:#e0a526}
 .layer-list .ly>span{min-width:0}
-.data-chip{display:inline-block;background:rgba(224,165,38,0.14);border:1px solid rgba(224,165,38,0.4);border-radius:6px;padding:2px 9px;margin:2px;font-size:12.5px;color:#f0d488}
+.data-chip{display:inline-block;background:rgba(0,0,0,0.3);border:1px solid rgba(224,165,38,0.5);border-radius:6px;padding:2px 9px;margin:2px;font-size:12.5px;color:#f4dc9a}
+.sowhat{max-width:480px;margin:0 auto 0.7rem;font-size:13.5px;line-height:1.8;color:#f4e3b4;border-left:2px solid rgba(224,165,38,0.75);padding:0.35rem 0.6rem 0.35rem 0.7rem;text-align:left;background:rgba(0,0,0,0.22);border-radius:0 8px 8px 0;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)}
+.fig-note{max-width:480px;margin:0.2rem auto 0.6rem;font-size:12px;line-height:1.7;color:rgba(255,255,255,0.7);text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.fig-box{background:rgba(6,10,22,0.42);border-radius:12px;padding:0.35rem 0.2rem;max-width:330px;margin:0.4rem auto 0.5rem}
+/* 兩段式點選歸位 place / build（點選式，不用原生拖曳 API） */
+.pl-pool{display:flex;flex-wrap:wrap;gap:0.45rem;justify-content:center;max-width:500px;margin:0 auto 0.8rem}
+.pl-card{background:rgba(0,0,0,0.34);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:9px;padding:0.5rem 0.75rem;font-size:13px;line-height:1.55;cursor:pointer;transition:all .15s;text-align:left}
+.pl-card:hover{border-color:rgba(255,255,255,0.65)}
+.pl-card.sel{border-color:#e0a526;background:rgba(224,165,38,0.24);box-shadow:0 0 0 1px rgba(224,165,38,0.5)}
+.pl-slots{display:flex;flex-direction:column;gap:0.5rem;max-width:500px;margin:0 auto 0.7rem}
+.pl-slot{display:grid;grid-template-columns:max-content 1fr;column-gap:12px;align-items:center;background:rgba(0,0,0,0.28);border:1px dashed rgba(255,255,255,0.32);border-radius:10px;padding:0.55rem 0.7rem;cursor:pointer;transition:all .15s;text-align:left}
+.pl-slot:hover{border-color:rgba(255,255,255,0.6)}
+.pl-slot.armed{border-color:#e0a526;border-style:solid}
+.pl-slot.right{border-style:solid;border-color:rgba(120,220,140,0.8)}
+.pl-slot.wrong{border-style:solid;border-color:rgba(229,120,120,0.8)}
+.pl-slot .sl-t{font-size:12.5px;line-height:1.5;color:rgba(255,255,255,0.86);white-space:normal;max-width:180px}
+.pl-slot .sl-v{display:flex;flex-wrap:wrap;gap:0.3rem;justify-content:flex-end;min-height:26px;align-items:center}
+.pl-chip{background:rgba(224,165,38,0.2);border:1px solid rgba(224,165,38,0.62);color:#f4dc9a;border-radius:7px;padding:0.28rem 0.55rem;font-size:12.5px;line-height:1.4}
+.pl-slot.wide{grid-template-columns:1fr}
+.pl-slot.wide .sl-t{max-width:none;margin-bottom:0.35rem}
+.pl-slot.wide .sl-v{justify-content:flex-start;min-height:34px}
+/* 排序：點兩張互換（不用上下鍵） */
+.st-list{display:flex;flex-direction:column;gap:0.35rem;max-width:460px;margin:0 auto 0.7rem}
+.st-row{display:grid;grid-template-columns:max-content 1fr;column-gap:10px;align-items:center;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.24);border-radius:8px;padding:0.5rem 0.65rem;cursor:pointer;font-size:13px;line-height:1.55;text-align:left;color:#fff;transition:all .13s}
+.st-row:hover{border-color:rgba(255,255,255,0.6)}
+.st-row.sel{border-color:#e0a526;background:rgba(224,165,38,0.22)}
+.st-row.right{border-color:rgba(120,220,140,0.8)}
+.st-row.wrong{border-color:rgba(229,120,120,0.7)}
+.st-row b{color:#e0a526;font-size:12px;min-width:14px;display:inline-block}
+/* 連連看 */
+.mt-wrap{position:relative;max-width:520px;margin:0 auto 0.7rem}
+.mt-lines{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.mt-cols{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;column-gap:34px;row-gap:0.5rem}
+.mt-col{display:flex;flex-direction:column;gap:0.5rem}
+.mt-item{background:rgba(0,0,0,0.36);border:1px solid rgba(255,255,255,0.26);border-radius:9px;padding:0.5rem 0.6rem;font-size:12.5px;line-height:1.55;color:#fff;cursor:pointer;text-align:left;transition:all .13s}
+.mt-item:hover{border-color:rgba(255,255,255,0.62)}
+.mt-item.sel{border-color:#e0a526;background:rgba(224,165,38,0.24)}
+.mt-item.on{border-color:rgba(224,165,38,0.72)}
+.mt-item.right{border-color:rgba(120,220,140,0.85)}
+.mt-item.wrong{border-color:rgba(229,120,120,0.8)}
+/* 點圖熱區 */
+.hz{cursor:pointer}
+.hz:hover{fill:rgba(255,255,255,0.09)}
+/* 翻牌 */
+.fp-bets{display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;max-width:470px;margin:0 auto 0.6rem}
+.fp-bet{flex:1 1 190px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:10px;padding:0.75rem 0.8rem;font-size:13.5px;line-height:1.6;cursor:pointer;transition:all .15s}
+.fp-bet:hover{border-color:rgba(255,255,255,0.7);transform:translateY(-2px)}
+.btnrow{display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap}
 </style></head><body>
 <audio id="bgm" loop preload="auto"><source src="day_one.mp3"></audio>
 <button id="muteBtn" class="mute-btn" onclick="toggleMute()">🔊</button>
@@ -88,7 +126,7 @@ if(BGM)BGM.volume=0.30;
 function mIcon(){if(MUTEBTN)MUTEBTN.textContent=bgmMuted?'🔇':'🔊';}mIcon();
 function toggleMute(){bgmMuted=!bgmMuted;try{localStorage.setItem('yoda_bgm_muted',bgmMuted?'1':'0');}catch(e){}if(bgmMuted){if(BGM)BGM.pause();}else if(BGM)BGM.play().then(()=>bgmStarted=true).catch(()=>{});mIcon();}
 window.toggleMute=toggleMute;
-document.addEventListener('click',()=>{if(!bgmStarted&&!bgmMuted&&BGM)BGM.play().then(()=>bgmStarted=true).catch(()=>{});});
+document.addEventListener('click',()=>{try{if(!bgmStarted&&!bgmMuted&&BGM)BGM.play().then(()=>bgmStarted=true).catch(()=>{});}catch(e){}});
 
 // ===== 水墨背景 bg(type,sky) =====
 function inkCols(sky){const dark=['sky-storm','sky-valley','sky-dawn','sky-dusk','sky-night','sky-start'].includes(sky);
@@ -100,237 +138,608 @@ const MOTIFS={
  river:(f,n,l)=>`<path d="M0,90 C300,82 500,86 1200,84 L1200,120 L0,120Z" fill="${f}"/><path d="M470,82 Q540,98 610,82" fill="none" stroke="${l}" stroke-width="1.8" stroke-linecap="round"/><path d="M120,94 q80,-4 160,0 t160,0 M700,96 q80,-4 160,0 t160,0" fill="none" stroke="${l}" stroke-width="1" opacity="0.6"/>`};
 function bg(type,sky){const m=MOTIFS[type];if(!m)return '';const[f,n,l]=inkCols(sky);return `<svg class="ink-bg" viewBox="0 0 1200 120" preserveAspectRatio="none">${m(f,n,l)}</svg>`;}
 
-const OPENING={sky:'sky-dawn',bg:'farhills',label:'序',title:'泡沫，不是一個是非題',quotes:[
+// ================= 資料錨定：2026-10-03 AI 泡沫評估表（讀數截止 2026-10-02） =================
+// 溫度與六格只抄報告與 Skill\ai_score.py（data\ai_score_20261003.json）輸出，不手算
+const ASOF='10/03';
+const DATA_DAY='2026-10-02';
+const C_UP='#ff6b7d',C_DN='#7fd0a0',C_Y='#ffd28a',C_O='#ffa060';
+
+let PULSE=null;
+function startPulse(){if(PULSE)return;PULSE=setInterval(function(){
+  const t=Date.now()/1000;
+  const a=(0.4+0.5*(0.5+0.5*Math.sin(t*3.0))).toFixed(2);
+  const els=document.querySelectorAll('.gpulse');for(let i=0;i<els.length;i++)els[i].setAttribute('opacity',a);
+},70);}
+function qtag(t,c){return '<span style="display:inline-block;padding:3px 9px;border-radius:5px;background:'+c+';color:#fff;font-weight:700;font-size:12.5px;line-height:1.5">'+t+'</span>';}
+
+// 風險溫度條：09/01 同尺 58（淡點）→ 10/03 63
+const TEMP_SVG=(function(){const X=function(v){return 20+v*2.6;};
+  let s='<svg viewBox="0 0 300 92" style="width:100%;max-width:300px;display:block;margin:0 auto">';
+  s+='<defs><linearGradient id="tg" x1="0" x2="1"><stop offset="0" stop-color="#7fd0a0"/><stop offset="0.5" stop-color="#e0c05a"/><stop offset="1" stop-color="#ff6b7d"/></linearGradient></defs>';
+  s+='<text x="150" y="13" fill="rgba(255,255,255,0.6)" font-size="10" text-anchor="middle">風險溫度 0–100（同一把尺）</text>';
+  s+='<rect x="20" y="26" width="260" height="12" rx="6" fill="url(#tg)" opacity="0.85"/>';
+  [25,50,75].forEach(function(t){s+='<line x1="'+X(t)+'" y1="22" x2="'+X(t)+'" y2="42" stroke="rgba(0,0,0,0.45)"/>';});
+  s+='<circle cx="'+X(58)+'" cy="32" r="5" fill="rgba(255,255,255,0.55)"/><text x="'+X(58)+'" y="56" fill="rgba(255,255,255,0.65)" font-size="9.5" text-anchor="middle">09/01 · 58</text>';
+  s+='<circle cx="'+X(63)+'" cy="32" r="7" fill="#fff" stroke="#e0a526" stroke-width="2" class="gpulse"/><text x="'+X(63)+'" y="20" fill="#fff" font-size="12" font-weight="700" text-anchor="middle">63</text>';
+  s+='<text x="20" y="74" fill="rgba(255,255,255,0.55)" font-size="8.5">基本面支撐</text><text x="'+X(50)+'" y="74" fill="rgba(255,255,255,0.55)" font-size="8.5" text-anchor="middle">泡沫特徵明顯</text><text x="280" y="74" fill="rgba(255,255,255,0.55)" font-size="8.5" text-anchor="end">脆度極高</text>';
+  s+='<text x="150" y="88" fill="rgba(255,255,255,0.75)" font-size="9.5" text-anchor="middle">量的是「同一個壞消息打下來會多痛」，不是倒數計時</text>';
+  return '<div class="fig-box">'+s+'</svg></div>';})();
+
+// 01 估值：四格（點出已跨線那一格）
+const VAL=[['v1','CAPE','41.38 倍（10/2）','1881 年以來高位區'],['v2','巴菲特指標','約 234%（10/2）','有紀錄以來最高區'],['v3','股票風險溢價','約 −0.03%（9/30）','門檻 0%'],['v4','PEG','1.20（9/30）','中性']];
+function valSVG(sel,rev){
+  let s='<svg viewBox="0 0 300 168" style="width:100%;max-width:320px;display:block;margin:0.4rem auto 0">';
+  VAL.forEach(function(c,i){const x=8+(i%2)*146,y=6+Math.floor(i/2)*80,on=sel&&sel.indexOf(c[0])>=0,good=rev&&rev.indexOf(c[0])>=0;
+    const st=good?'#7fd6a6':(on?'#e0a526':'rgba(255,255,255,0.35)');
+    s+='<rect x="'+x+'" y="'+y+'" width="138" height="72" rx="9" fill="'+(good?'rgba(120,220,140,0.2)':(on?'rgba(224,165,38,0.22)':'rgba(0,0,0,0.36)'))+'" stroke="'+st+'" stroke-width="'+((on||good)?2.2:1.2)+'" style="cursor:pointer" onclick="hsPick(\''+c[0]+'\')"/>';
+    s+='<text x="'+(x+69)+'" y="'+(y+19)+'" fill="rgba(255,255,255,0.8)" font-size="11" text-anchor="middle" pointer-events="none">'+c[1]+'</text>';
+    s+='<text x="'+(x+69)+'" y="'+(y+42)+'" fill="#fff" font-size="14" font-weight="700" text-anchor="middle" pointer-events="none">'+c[2]+'</text>';
+    s+='<text x="'+(x+69)+'" y="'+(y+61)+'" fill="rgba(255,255,255,0.6)" font-size="10" text-anchor="middle" pointer-events="none">'+c[3]+'</text>';});
+  return s+'</svg>';}
+
+// 02 資本支出熱度：本業賺的現金（一整條）被資本支出吃掉幾成
+function capFig(v){const W=240,x0=30,w=Math.min(v,110)/110*W;
+  let s='<svg viewBox="0 0 300 130" style="width:100%;max-width:320px;display:block;margin:0.3rem auto 0;background:rgba(6,10,22,0.42);border-radius:12px">';
+  const full=100/110*W;
+  s+='<rect x="'+x0+'" y="40" width="'+full.toFixed(1)+'" height="26" rx="5" fill="rgba(127,208,160,0.18)" stroke="#7fd0a0"/>';
+  s+='<text x="'+(x0+full/2).toFixed(1)+'" y="32" fill="#c8ecd8" font-size="10" text-anchor="middle">本業賺的現金（OCF）＝100%</text>';
+  s+='<rect x="'+x0+'" y="74" width="'+w.toFixed(1)+'" height="22" rx="5" fill="'+(v>100?'rgba(255,107,125,0.55)':v>=80?'rgba(255,160,96,0.5)':'rgba(224,165,38,0.4)')+'"/>';
+  s+='<line x1="'+(x0+40/110*W).toFixed(1)+'" y1="70" x2="'+(x0+40/110*W).toFixed(1)+'" y2="100" stroke="rgba(255,255,255,0.6)" stroke-dasharray="3 3"/>';
+  s+='<text x="'+(x0+40/110*W).toFixed(1)+'" y="112" fill="rgba(255,255,255,0.6)" font-size="9" text-anchor="middle">常態約 40%</text>';
+  s+='<text x="'+(x0+w+4).toFixed(1)+'" y="90" fill="#fff" font-size="11" font-weight="700">'+v+'%</text>';
+  s+='<text x="150" y="125" fill="rgba(255,255,255,0.55)" font-size="9" text-anchor="middle">下面那條＝蓋機房花掉的錢（CapEx）</text>';
+  return s+'</svg>';}
+function capLab(v){const z=v<50?'自己賺的錢還有剩':v<80?'一半以上拿去蓋機房':v<=100?'自己賺的錢快不夠付了':'自己賺的不夠，要靠借';return 'CapEx ÷ OCF <b>'+v+'%</b> → <b>'+z+'</b>';}
+
+// 03 集中度：站在一年高點附近的成分股比例
+const NH_SVG=(function(){const X=function(v){return 30+v*2.4;};
+  let s='<svg viewBox="0 0 300 96" style="width:100%;max-width:300px;display:block;margin:0 auto">';
+  s+='<rect x="30" y="34" width="240" height="14" rx="7" fill="rgba(255,255,255,0.12)"/>';
+  s+='<rect x="30" y="34" width="'+(22.6*2.4).toFixed(1)+'" height="14" rx="7" fill="'+C_DN+'" class="gpulse"/>';
+  s+='<line x1="'+X(55)+'" y1="28" x2="'+X(55)+'" y2="54" stroke="#fff" stroke-dasharray="3 3"/>';
+  s+='<text x="'+X(55)+'" y="68" fill="rgba(255,255,255,0.7)" font-size="9.5" text-anchor="middle">回到 55% 以上＝下修分數的條件</text>';
+  s+='<text x="'+(30+22.6*2.4)+'" y="26" fill="#fff" font-size="11" font-weight="700" text-anchor="middle">22.6%</text>';
+  s+='<text x="150" y="88" fill="rgba(255,255,255,0.6)" font-size="9.5" text-anchor="middle">標普成分股中，離 52 週高點 10% 以內的比例（10/2）</text>';
+  return '<div class="fig-box">'+s+'</svg></div>';})();
+
+// 06 五條路徑：記號亮了幾個
+const PATHS=[['pA1','A1 需求失速',0,3],['pA2','A2 效率衝擊',1,3],['pB','B 政策收緊·貨幣',4,4],['pBr','B 政策收緊·監管',1,4],['pC','C 盈餘持續超預期',2,4]];
+function pathSVG(sel,rev){
+  let s='<svg viewBox="0 0 300 206" style="width:100%;max-width:320px;display:block;margin:0.4rem auto 0;background:rgba(6,10,22,0.42);border-radius:12px">';
+  PATHS.forEach(function(p,i){const y=10+i*38,on=sel&&sel.indexOf(p[0])>=0,good=rev&&rev.indexOf(p[0])>=0;
+    s+='<rect x="8" y="'+y+'" width="284" height="32" rx="8" fill="'+(good?'rgba(120,220,140,0.2)':(on?'rgba(224,165,38,0.22)':'rgba(0,0,0,0.3)'))+'" stroke="'+(good?'#7fd6a6':(on?'#e0a526':'rgba(255,255,255,0.28)'))+'" stroke-width="'+((on||good)?2:1)+'" style="cursor:pointer" onclick="hsPick(\''+p[0]+'\')"/>';
+    s+='<text x="18" y="'+(y+21)+'" fill="#fff" font-size="12" pointer-events="none">'+p[1]+'</text>';
+    for(let k=0;k<p[3];k++){const cx=198+k*18;s+='<circle cx="'+cx+'" cy="'+(y+16)+'" r="6" fill="'+(k<p[2]?'#e0a526':'none')+'" stroke="'+(k<p[2]?'#e0a526':'rgba(255,255,255,0.4)')+'" pointer-events="none"/>';}
+    s+='<text x="284" y="'+(y+20)+'" fill="rgba(255,255,255,0.7)" font-size="10" text-anchor="end" pointer-events="none">'+p[2]+'／'+p[3]+'</text>';});
+  s+='<text x="150" y="202" fill="rgba(255,255,255,0.55)" font-size="9" text-anchor="middle">金點＝已亮的記號</text>';
+  return s+'</svg>';}
+
+// 三、開票：股票風險溢價一路收窄到負
+const ERP_SVG=(function(){const pts=[0.40,0.29,0.18,0.06,-0.03],X=function(i){return 50+i*52;},Y=function(v){return 70-v*120;};
+  let s='<svg viewBox="0 0 300 130" style="width:100%;max-width:300px;display:block;margin:0 auto">';
+  s+='<line x1="30" y1="'+Y(0)+'" x2="290" y2="'+Y(0)+'" stroke="rgba(255,255,255,0.55)" stroke-dasharray="4 3"/><text x="292" y="'+(Y(0)+4)+'" fill="rgba(255,255,255,0.6)" font-size="9" text-anchor="end">0%</text>';
+  s+='<line x1="30" y1="'+Y(0.5)+'" x2="290" y2="'+Y(0.5)+'" stroke="'+C_UP+'" stroke-opacity="0.6" stroke-dasharray="2 3"/><text x="34" y="'+(Y(0.5)-4)+'" fill="'+C_UP+'" font-size="9">+0.5%＝補償回來</text>';
+  s+='<polyline points="'+pts.map(function(v,i){return X(i)+','+Y(v).toFixed(1);}).join(' ')+'" fill="none" stroke="#e0a526" stroke-width="2.2"/>';
+  s+='<circle cx="'+X(0)+'" cy="'+Y(0.40)+'" r="3.5" fill="rgba(224,165,38,0.6)"/><text x="'+X(0)+'" y="'+(Y(0.40)-8)+'" fill="rgba(255,255,255,0.75)" font-size="9.5" text-anchor="middle">8 月底 +0.40</text>';
+  s+='<circle cx="'+X(4)+'" cy="'+Y(-0.03).toFixed(1)+'" r="5.5" fill="'+C_DN+'" class="gpulse"/><text x="'+X(4)+'" y="'+(Y(-0.03)+18).toFixed(1)+'" fill="#fff" font-size="10" font-weight="700" text-anchor="middle">9/30 約 −0.03%</text>';
+  s+='<text x="150" y="126" fill="rgba(255,255,255,0.55)" font-size="9" text-anchor="middle">股票風險溢價（示意：連續四次收窄）</text>';
+  return '<div class="fig-box">'+s+'</svg></div>';})();
+
+const OPENING={sky:'sky-dawn',bg:'farhills',label:'序',title:'泡沫，不是一個是非題',quotes:function(){return [
  '「AI 是不是泡沫？」——這題吵了兩年，<br>因為大家想要一個是或否的答案。',
- '但泡沫不是是非題，是<b>溫度題</b>。<br>這份報告把它拆成六個維度打分，<br>算出一個 0–100 的風險溫度——<br>再告訴你：<b>風險現在集中在哪一格</b>。',
-]};
+ '這個月的問法又換了：<br>「AI 公司的營收一年翻好幾倍，這還算泡沫嗎？」<br>你想要的，還是一個是或否。',
+ '但泡沫不是是非題，是<b>溫度題</b>。<br>這份報告把它拆成六格打分，算出一個 0–100 的風險溫度，<br>再告訴你：<b>風險現在集中在哪一環</b>。',
+ '接下來 '+ROUNDS.length+' 站，一站一張圖，從報告最上面走到最後。<br><span style="opacity:.78;font-size:13px">（讀數取自 '+ASOF+' 那份 AI 泡沫評估表，截止 '+DATA_DAY+'；用來練讀法，不是今天的判斷）</span>'];}};
 
 const ROUNDS=[
- {type:'ab',sky:'sky-dawn',bg:'farhills',label:'§00 · 本月解析',title:'先讀開頭：這個月變了什麼',
-  text:'報告最前面把當月壓成四行——<b>不想讀完六張卡，先看這裡</b>。',
-  layers:[['定調','風險溫度微降到 <b>76</b>，但降的是「爆掉的<b>速度</b>」，不是「爆掉的<b>機率</b>」'],['主線','資本支出還在加速，缺口愈來愈靠外部融資——市場開始替借最兇的那家用高收益債的價格計價'],['警戒','表外租賃承諾遠大於帳面債務；政策風向月底明確轉鷹'],['盯什麼','融資餘額能否連兩個月從高點退、下一批新券的定價條件、CDS 離門檻剩多少'],['本月一句話','需求端的疑問被財報消掉了，<b>風險整個集中到資金成本</b>']],
-  svg:'<svg viewBox="0 0 300 116" style="width:100%;max-width:290px;margin:0 auto;display:block"><text x="150" y="14" fill="rgba(255,255,255,0.6)" font-size="10" text-anchor="middle">風險溫度 0–100</text><rect x="20" y="30" width="260" height="14" rx="7" fill="none" stroke="rgba(255,255,255,0.2)"/><rect x="20" y="30" width="198" height="14" rx="7" fill="url(#tg)"/><defs><linearGradient id="tg" x1="0" x2="1"><stop offset="0" stop-color="#7fd0a0"/><stop offset="0.6" stop-color="#e0c05a"/><stop offset="1" stop-color="#ff6b7d"/></linearGradient></defs><g><line x1="218" y1="24" x2="218" y2="50" stroke="#fff" stroke-width="2"/><text x="218" y="66" fill="#ff8a96" font-size="13" text-anchor="middle" font-weight="700">76</text><animateTransform attributeName="transform" type="translate" values="0,0;-4,0;0,0" dur="2.6s" repeatCount="indefinite"/></g><text x="238" y="20" fill="rgba(255,255,255,0.5)" font-size="9">上期 78</text><text x="150" y="88" fill="rgba(255,255,255,0.85)" font-size="10.5" text-anchor="middle">降的是「爆掉的速度」，不是「爆掉的機率」</text><text x="150" y="106" fill="rgba(255,255,255,0.55)" font-size="9" text-anchor="middle">五項風險相加 − 盈餘抵消 ＝ 風險溫度</text></svg>',
-  q:'「風險溫度從 78 降到 76」，正確的讀法是？',
-  choices:['泡沫在消退，可以放心了','降的是爆掉的速度、不是機率——需求端疑問被消掉，風險換位置到融資端','溫度降就是報告看多了'],correct:1,
-  fb:['溫度降不等於風險消失——這期它只是換了位置，從需求端移到資金成本。','對——<b>速度與機率是兩件事</b>。輝達財報把「有沒有人買」這題結案，所以爆掉的速度變慢；但錢從哪來變貴、變難，機率並沒有跟著降。','報告不喊多空——它只描述市場，溫度是「同一個壞消息打下來會多痛」的刻度。']},
+// ── §00 · sort：懸念句＋一行時間軸 ─────────────────────────
+{type:'sort',sky:'sky-dawn',bg:'farhills',label:'§00 · 本月解析 · 第一句與時間軸',short:'時間軸',
+ title:'先問你心裡那一題，再排一行時間軸',
+ text:'本月解析第一句是一個問題：<br>「AI 公司的營收一年翻好幾倍，這還算泡沫嗎？」<br>你大概只看了它下面的結論，就往下滑。',
+ so:'第一句＝你今天心裡的問題＋一句話回答。<br>結論後面接一行時間軸：<b>只排事實發生的順序</b>，最多五格，不評論。<br>看懂這一行，你就知道這個月是怎麼一步一步走過來的。',
+ q:'九月到十月初的五件事被打散了。<br>排回發生的順序（點兩張互換）：',
+ items:['聯準會多年來第一次升息','Anthropic、OpenAI 同一天發新模型、同一天降價','借錢變貴從 AI 借款人擴散到整個垃圾債','股票對公債的補償第一次轉負','九月就業數字放慢'],
+ shuffle:[3,0,4,2,1],
+ fbOk:'9/16 升息 → 9/22 同一天發新模型、降價 → 9 月底 擴散到整個垃圾債 → 9/30 補償轉負 → 10/2 就業放慢。<br><br>第一句的回答是：<b>用營收算不貴；危險在那疊不管用不用得到都要付的長約</b>——<br>付款的錢，要在借錢越來越貴的時候籌。<br>估值表上，Anthropic 用去年的營收算約 435 倍，用現在一年的營收步調算約 20 倍：<b>差在分母</b>。<br>它對六家供應商簽了十年約 5,180 億美元的承諾，約八成不管用不用得到都要付。'},
 
- {type:'ab',sky:'sky-noon',bg:'farhills',label:'§一 · 這份報告怎麼用',title:'三個問題、六個維度、一個溫度',
-  text:'整份報告只回答<b>三個問題</b>，其他都是證據。',
-  layers:[['① 風險變了多少','看 §00 本月解析＋最上面那條風險溫度（0–100）'],['② 為什麼','01–06 六張資料卡，每張負責一個維度的證據'],['③ 接下來怎麼辦','驗證點總表（何時開牌、兩邊答案）＋最末的開票與觸發距離'],['六個維度','①估值多貴 ②資本支出多兇 ③集中度多高 ④情緒與槓桿多滿 ⑤歷史像不像 ⑥盈餘撐多少'],['怎麼算溫度','<b>五項風險相加 − 盈餘抵消 ＝ 風險溫度</b>（⑥盈餘是唯一的減分項）'],['⚠ 溫度高的意思','不是「明天會崩」，是<b>同一個壞消息打下來會更痛</b>'],['守則','只描述市場、不指示動作']],
-  q:'報告把「盈餘」設計成唯一的減分項，用意是？',
-  choices:['讓分數好看一點','讓「這次有真盈餘」的反駁拿到實際權重，不會被五個警示淹掉','因為盈餘不重要，隨便給個分'],correct:1,
-  fb:['不是為了好看——是為了讓反方證據有位置。','對——五個警示各自加分，<b>盈餘負責扣分</b>。這樣「這次不一樣、真的有獲利」這個反駁才有實際權重，而不是被警示一面倒地淹掉。這也是為什麼溫度會降。','正好相反：盈餘是這輪泡沫討論中最強的反方證據，所以它被獨立成一個維度。']},
+// ── §00 · match：五問（彩色標籤） ─────────────────────────
+{type:'match',sky:'sky-dawn',bg:'farhills',label:'§00 · 本月解析 · 五問',short:'五問',
+ title:'兩個數字，五個標籤',
+ text:'報告最上面先給兩個數字：<br>風險溫度 63（同一把尺，09/01 是 58），<br>和「離觸發最近的那一條已經跨線」。',
+ so:'兩個數字各答一件事：<b>多痛</b>＝同一個壞消息打下來會多痛；<b>多近</b>＝離出事最近的那一條還有多遠。<br>結論後面是五個彩色標籤，每個接一段答案。',
+ svg:TEMP_SVG,
+ q:'把每個標籤接到 '+ASOF+' 報告裡它的答案（先點左、再點右）：',
+ left:[['a',qtag('①發生什麼','#8e7132')],['b',qtag('②嚴重嗎','#c44e52')],['c',qtag('③什麼位階','#408163')],['d',qtag('④下一步','#4c77ac')],['e',qtag('⑤什麼條件會讓整套判讀作廢','#408163')]],
+ right:[['c','長的後段、中的變差、短的撐住：股價很貴沒變；借錢的成本這個月開始往上；九月中急跌一次又漲回來'],['e','往好：Oracle 的債務保險費降回來；往壞：大型機房的貸款和新股上市，從延後變成取消'],['a','借錢先變貴：聯準會升息，長天期利率一路往上；Oracle、CoreWeave 這一類公司，債市開始另外開價'],['d','十月下旬 Microsoft、Alphabet、Amazon、Meta 公布財報前，先看借錢有沒有從「多收一點」走到「不借了」'],['b','變貴了，門還開著：新債照樣發得出去，三家信評公司也都還沒動作——價錢在重算，不是借不到錢']],
+ fbNo:'有幾條接錯了——正解已經標出來。',
+ fbOk:'五個標籤照順序讀：<b>發生什麼 → 有多嚴重 → 站在哪 → 盯哪裡 → 什麼會讓判斷改口</b>。<br>④ 是告訴你<b>該盯哪一格</b>，不是叫你做什麼；⑤ 往好、往壞兩邊都寫。<br><br>五問後面還有一條「被忽略的那一格」：<br>GPU 的租金九月上旬創今年新高後開始往下，幅度還小、位置仍在高檔——<br>但它是需求最早會說實話的地方。'},
 
- {type:'ab',sky:'sky-clouds',bg:'farhills',label:'§01 · 估值面泡沫指標',title:'估值沒變壞，是撐住它的腿換了材質',
-  text:'三項估值警示同步亮燈——但這一格<b>維持 16 分不動</b>。',
-  layers:[['CAPE','41–42x，歷史極端區'],['ERP 股債溢價','近零——股票沒比債券多給補償'],['巴菲特指標','230%'],['歷史參考','多項估值警示同步觸發後，18 個月內修正中位數 −22%'],['唯一緩衝','PEG——盈餘成長速度還在消化估值'],['為什麼不加分','NVDA 財報：資料中心年增 117%、毛利率回到 75.0%，<b>「盈餘接棒」已無爭議</b>'],['⚠ 但是','同一份財報也把 CapEx 指引再上修，而缺口<b>開始靠借的</b>']],
-  chips:['CAPE 41–42x','ERP 近零','巴菲特指標 230%','評分 16/20 持平'],
-  q:'估值極端、卻維持 16 分不動。報告的理由是？',
-  choices:['估值指標壞掉了，不用看','估值沒有再惡化，而且盈餘接棒兌現——風險改由「錢從哪來」那一格承擔','估值可以擇時，等它降下來再說'],correct:1,
-  fb:['估值仍然是六個維度之一——只是這期沒有再惡化。','對——<b>估值極端但未再惡化</b>，Q2 盈餘接棒兌現、分子還在長。所以這格持平，真正變質的風險被移到 §02：支撐盈餘的資本支出改用外部融資。','估值從來不是擇時工具——它決定的是「壞消息來時摔多重」，不是什麼時候摔。']},
+// ── 一、· place：溫度怎麼算 ─────────────────────────
+{type:'place',sky:'sky-noon',bg:'farhills',label:'一、這份報告怎麼用',short:'溫度公式',
+ title:'五格加分、一格扣分',
+ text:'整份報告只回答三個問題：<br>風險變了多少、為什麼、接下來怎麼辦。<br>溫度 63 是第一題的答案——但它是怎麼來的？',
+ so:'六格各管一個維度：估值、資本支出、集中度、情緒與槓桿、歷史相似、盈餘支撐。<br>溫度＝五項風險相加，再扣掉一項。<br>⚠ 溫度高不是明天崩，是<b>同一個壞消息打下來更痛</b>。',
+ q:'把 '+ASOF+' 六格的分數放進對的那一邊：',
+ cards:[['c','03 集中度 15.7'],['f','06 盈餘支撐 13.1'],['a','01 估值 14.1'],['e','05 歷史相似 17.2'],['b','02 資本支出 16.7'],['d','04 情緒與槓桿 12.5']],
+ slots:[['s1','<b style="color:'+C_UP+'">＋ 加進溫度</b>（五項風險）','a,b,c,d,e'],['s2','<b style="color:'+C_DN+'">− 從溫度扣掉</b>（唯一的減分項）','f']],
+ wide:true,
+ done:'14.1＋16.7＋15.7＋12.5＋17.2 − 13.1 ＝ <b>63.1，四捨五入 63</b>。<br>盈餘是唯一的減分項：讓「這次有真盈餘」的反駁拿到實際權重，不會被五個警示淹掉。<br>這一期公司賺錢的支撐反而更厚（−11.7 → −13.1）。<br><br>報告也事先寫好「什麼證據會讓它下修分數」：<br>例如 CapEx 對營運現金流的比率自 90–100% 回落、巨頭 EPS 共識持續上調、指數廣度改善。'},
 
- {type:'ab',sky:'sky-storm',bg:'peak',label:'§02 · 資本支出過熱',title:'本月唯一真正變質的一格',
-  text:'資本支出從來就很大，這不是新聞。<b>本期變的是它的資金來源</b>。',
-  layers:[['規模','CapEx 年增 <b>77%</b>'],['能力見底','CapEx / 營運現金流達 <b>90–100%</b>——自己賺的錢快不夠付了'],['性質改變','缺口轉由<b>債券市場、GPU 抵押、資產證券化</b>承擔'],['自有資金蓋','蓋錯了，是報酬率難看'],['借錢蓋','蓋錯了，是<b>要在特定時點還錢</b>——而還錢的時間表不看 AI 幾時賺得回來'],['所以升級成','從「賭報酬率」變成<b>「賭再融資窗口一直開著」</b>'],['評分','上修到 <b>19/20</b>——這是本節加分的全部理由']],
-  svg:'<svg viewBox="0 0 300 150" style="width:100%;max-width:290px;margin:0 auto;display:block"><text x="76" y="16" fill="rgba(255,255,255,0.6)" font-size="10" text-anchor="middle">以前</text><text x="224" y="16" fill="#ff8a96" font-size="10" text-anchor="middle" font-weight="700">現在</text><rect x="30" y="30" width="92" height="34" rx="4" fill="rgba(127,208,160,0.25)" stroke="#7fd0a0"/><text x="76" y="51" fill="#c8ecd8" font-size="10" text-anchor="middle">自己賺的錢</text><rect x="178" y="26" width="92" height="24" rx="4" fill="rgba(127,208,160,0.18)" stroke="rgba(127,208,160,0.5)"/><text x="224" y="42" fill="#c8ecd8" font-size="9.5" text-anchor="middle">自己賺的錢</text><rect x="178" y="54" width="92" height="24" rx="4" fill="rgba(255,107,125,0.28)" stroke="#ff6b7d"><animate attributeName="opacity" values="0.55;1;0.55" dur="2s" repeatCount="indefinite"/></rect><text x="224" y="70" fill="#ff8a96" font-size="9.5" text-anchor="middle">＋ 借來的錢</text><path d="M76,74 L76,104" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/><path d="M224,86 L224,104" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/><text x="76" y="120" fill="rgba(255,255,255,0.72)" font-size="9.5" text-anchor="middle">賭報酬率</text><text x="224" y="120" fill="#ff8a96" font-size="9.5" text-anchor="middle" font-weight="700">賭再融資窗口一直開著</text><text x="150" y="142" fill="rgba(255,255,255,0.55)" font-size="9" text-anchor="middle">會計上都叫 CapEx，風險上完全兩回事</text></svg>',
-  q:'同樣是 CapEx，為什麼「借錢蓋」比「自己賺的錢蓋」風險高一級？',
-  choices:['因為借錢利息高，成本比較貴','因為還錢有時間表，而那張時間表不管 AI 幾時賺得回來','沒有差別，會計上都是 CapEx'],correct:1,
-  fb:['利息只是價格——真正的差別是「有沒有人來收錢」。','對——<b>自有資金蓋，蓋錯了只是報酬率難看；借錢蓋，蓋錯了是特定時點必須還錢</b>。還款時間表不會等 AI 賺回來，所以風險從「賭報酬率」升級成「賭再融資窗口一直開著」。','會計上都叫 CapEx，<b>風險上完全是兩回事</b>——這正是本月評分上修的理由。']},
+// ── 01 · hotspot：估值四格 ─────────────────────────
+{type:'hotspot',sky:'sky-clouds',bg:'farhills',label:'01 · 估值面指標',short:'估值',
+ title:'估值是說明書，不是鬧鐘',
+ text:'01 用好幾種算法同時量「現在貴不貴」。<br>你大概只看到 CAPE 41 倍，就覺得要出事了。',
+ so:'估值極端這件事<b>一直沒變</b>——它是背景，不是本月的變數。<br>這一節真正要看的，是哪一格<b>跨過了自己的線</b>。',
+ q:'主表上「離觸發最近」的那一條已經跨線。<br>點出它是哪一格：',
+ need:['v3'],hsFig:valSVG,
+ fbOk:'股票風險溢價：買股票一年約賺 5.26%（前瞻本益比 19.0 倍倒過來算），<br>減掉十年期公債利率 5.29%（9/30）＝<b>約 −0.03%</b>，第一次變成負的。<br>從八月底的 +0.40 一路收窄，連續四次。<br><br>意思是<b>緩衝用完了</b>——同一個壞消息打下來，不會再有那一點好處替它墊著。<br>這一格 13.5 → 14.1，這一項頂到上限。<br>估值告訴你「未來十年報酬會很低」，不告訴你「什麼時候轉」。',
+ fbNo:'CAPE 和巴菲特指標都很高，但它們一直都在高處；<br>這一期跨過門檻 0% 的，是股票風險溢價。'},
 
- {type:'ab',sky:'sky-valley',bg:'range',label:'§03 · 市場集中度風險',title:'它不自己出事，它決定傷害傳多快',
-  text:'集中度這格<b>維持 17 分</b>——因為它目前有基本面在撐。',
-  layers:[['Mag-7 占比','約 <b>31.5%</b>'],['為什麼不加分','盈餘貢獻仍<b>高於</b>市值占比——這個集中度有基本面撐'],['⚠ 真正的作用','集中度不是自己出事，是<b>當別的地方出事時，它決定傷害傳導得多快</b>'],['7 月已實測一次','半導體幾天蒸發 <b>$1.3 兆</b>、NVDA 一家抹掉 $2,380 億——三層照劇本走'],['那次被誰救回','一份財報'],['下次呢','若引信是<b>融資</b>而不是需求，就沒有財報可以救']],
-  svg:'<svg viewBox="0 0 300 140" style="width:100%;max-width:290px;margin:0 auto;display:block"><circle cx="70" cy="60" r="30" fill="rgba(255,107,125,0.3)" stroke="#ff6b7d" stroke-width="2"/><text x="70" y="58" fill="#fff" font-size="11" text-anchor="middle" font-weight="700">Mag-7</text><text x="70" y="72" fill="#ff8a96" font-size="10" text-anchor="middle">31.5%</text><path d="M104,60 L150,60" stroke="rgba(255,255,255,0.35)" stroke-width="2"/><polygon points="150,60 142,55 142,65" fill="rgba(255,255,255,0.35)"/><circle cx="196" cy="60" r="8" fill="rgba(255,107,125,0.5)"><animate attributeName="r" values="8;16;8" dur="2.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;0.15;0.8" dur="2.2s" repeatCount="indefinite"/></circle><circle cx="196" cy="60" r="6" fill="#ff6b7d"/><text x="196" y="92" fill="rgba(255,255,255,0.8)" font-size="10" text-anchor="middle">整個指數</text><text x="150" y="118" fill="rgba(255,255,255,0.85)" font-size="10.5" text-anchor="middle">集中度不是自己出事，是「別處出事時」的放大器</text><text x="150" y="134" fill="rgba(255,255,255,0.55)" font-size="9" text-anchor="middle">7 月已實測：半導體幾天蒸發 $1.3 兆</text></svg>',
-  q:'集中度有盈餘撐、分數不動——那為什麼還要盯它？',
-  choices:['因為它遲早會自己崩','因為它是放大器：別處出事時，它決定傷害傳導得多快','因為 Mag-7 一定會下跌'],correct:1,
-  fb:['報告明說這個集中度<b>有基本面在撐</b>，不是等它自己崩。','對——<b>集中度是放大器，不是引信</b>。7 月那場殺盤已經把這條傳導鏈實測過一次：三層全照劇本走，一個月後被財報救回來。重點是下次的引信如果來自融資端，就沒有財報可以救。','報告不預測個股漲跌——它量的是「一家龍頭出事，指數要陪葬多少」。']},
+// ── 02 · slider：資本支出熱度 ─────────────────────────
+{type:'slider',sky:'sky-storm',bg:'peak',label:'02 · 資本支出熱度',short:'資本支出',
+ title:'蓋機房的錢，自己賺的夠不夠付？',
+ text:'資本支出很大，這不是新聞。<br>你大概只看到「年增 84%」就覺得很兇。',
+ so:'這一節真正問的是：<b>蓋這些機房的錢，是自己賺的還是借的？</b><br>量法很簡單：資本支出 ÷ 本業賺的現金（CapEx ÷ OCF）。<br>兩年前答案是自己賺的——這也是「這次跟 2000 不一樣」的底氣。',
+ chips:['四大雲商 2026 上半年','資本支出年增 84%'],
+ q:'拉桿＝資本支出吃掉本業現金的比例。<br>拉到四大雲商 2026 上半年那一格：',
+ slider:{min:30,max:110,init:40,ans:91,lo:'自己賺的有剩',hi:'要靠借'},
+ fig:capFig,vlab:capLab,correct:function(v){return v>=88&&v<=96;},
+ fbOk:'上半年 <b>91.4%</b>，最新一季單季更到 <b>96.1%</b>；常態約 40%，兩年前不到 50%。<br>缺口轉由債券市場、GPU 抵押、資產證券化承擔。<br><br>自有資金蓋，蓋錯了是報酬率難看；<br><b>借錢蓋，蓋錯了是要在特定時點還錢</b>——還錢的時間表不看 AI 幾時賺得回來。<br>Oracle 是最明顯的一家：一季資本支出 285 億、自由現金流 −54 億，改用 200 億增資補。<br>這一格 16.7，持平。',
+ fbNo:'還沒到——上半年的比例已經逼近 100%：<br>自己賺的錢，快不夠付蓋機房的帳單了。'},
 
- {type:'ab',sky:'sky-night',bg:'peak',label:'§04 · 情緒與槓桿',title:'情緒是建前雜訊，槓桿是真音訊號',
-  text:'這一格<b>15 分</b>，但本節收束寫了一句重話。',
-  layers:[['情緒','建前雜訊——它不決定方向'],['槓桿','真音訊號——它<b>決定轉向時下殺的速度</b>'],['本期關鍵','真音訊號這期<b>第一次轉向</b>：融資餘額自高點回落 5.7%、年增降到 38.6%'],['怎麼讀這個回落','單月回落還不算數，要看<b>能不能連兩個月</b>從高點退'],['參考線','BofA 泡沫風險指標以 0.8 為警戒線']],
-  chips:['融資餘額 −5.7%','年增 38.6%','評分 15/20'],
-  q:'融資餘額從高點回落 5.7%，這是好消息還是壞消息？',
-  choices:['純好消息：槓桿降了，風險解除','要看它能不能連兩個月退——單月回落還不足以確認，但這是真音訊號首度轉向','純壞消息：資金正在逃跑'],correct:1,
-  fb:['單月回落還不能叫「風險解除」——報告要求的是連兩個月從高點退。','對——這是<b>真音訊號第一次轉向</b>，但確認條件寫得很清楚：<b>連兩個月</b>從高點退才算數。這也是 §00「盯什麼」的第一條。','也不必讀成逃跑——槓桿下降本身是降風險；問題只在還沒確認是不是趨勢。']},
+// ── 03 · flip：集中度 ─────────────────────────
+{type:'flip',sky:'sky-valley',bg:'range',label:'03 · 市場集中度風險',short:'集中度',
+ title:'它不自己出事，它決定傷害傳多快',
+ text:'03 是六格裡這一期動最多的：11.2 → 15.7，升了 4.5 分。<br>你大概猜是「前七大又更大了」。',
+ so:'集中度量的是：一家龍頭出事，指數要陪葬多少。<br>它看三件事：前七大占比、市值加權和等權的差、<br>還站在一年高點附近的股票有多少。',
+ chips:['前七大市值佔標普 500 約 35.0%（10/2；7/24 為 31.5%）','前七大的盈餘貢獻 41.8%'],
+ q:'這 4.5 分，主要是哪一件事推的？',
+ bets:[['a','前七大的市值占比又更高'],['b','站在一年高點附近的股票變少，只剩兩成多']],betOk:'b',
+ reveal:NH_SVG,
+ revealTxt:'報告寫的理由是：<b>還站在一年高點附近的股票跌到兩成多，大型股把其他股票甩開</b>。<br>前七大占比那一項，量到 35% 就給滿分，這一期已經頂到上限。<br><br>但前七大的盈餘貢獻 41.8%，高於市值占比 35.0%——這個集中度有基本面在撐。<br>集中度的作用不是自己出事，是<b>別的地方出事時，它決定傷害傳得多快</b>。'},
 
- {type:'ab',sky:'sky-storm',bg:'peak',label:'§05 · 歷史泡沫對比',title:'像 2000，不像 2018——差別在「病因」',
-  text:'兩條相似度曲線一升一降，<b>不是矛盾，是定性</b>。',
-  layers:[['對電信 2000','相似度停在 <b>0.99（飽和）</b>'],['對半導體 2018','連三期下滑，再降到 <b>0.86</b>'],['2018 那次的病','東西堆太多——<b>庫存循環</b>'],['這次的病','錢借太多——<b>資本結構循環</b>'],['⚠ 差別很實際','庫存過剩會自己消化，時間到了就好；<b>資本結構出問題不會自己好</b>，它需要融資窗口一直開著'],['所以追蹤重心','正式固定在「利差與再融資」'],['而它這個月全面動了','CoreWeave 加碼 100–125bp、Oracle CDS 升到約 215bp 歷史新高並遭降評']],
-  svg:'<svg viewBox="0 0 300 150" style="width:100%;max-width:290px;margin:0 auto;display:block"><line x1="40" y1="108" x2="284" y2="108" stroke="rgba(255,255,255,0.25)"/><rect x="70" y="24" width="52" height="84" fill="#ff6b7d"><animate attributeName="opacity" values="0.7;1;0.7" dur="2.2s" repeatCount="indefinite"/></rect><text x="96" y="18" fill="#ff8a96" font-size="11" text-anchor="middle" font-weight="700">0.99</text><text x="96" y="124" fill="rgba(255,255,255,0.8)" font-size="9.5" text-anchor="middle">電信 2000</text><text x="96" y="138" fill="rgba(255,255,255,0.5)" font-size="8.5" text-anchor="middle">飽和</text><rect x="182" y="36" width="52" height="72" fill="rgba(127,208,160,0.6)"/><text x="208" y="30" fill="#7fd0a0" font-size="11" text-anchor="middle">0.86</text><text x="208" y="124" fill="rgba(255,255,255,0.8)" font-size="9.5" text-anchor="middle">半導體 2018</text><text x="208" y="138" fill="rgba(255,255,255,0.5)" font-size="8.5" text-anchor="middle">連三期下滑</text><text x="150" y="146" fill="rgba(255,255,255,0)" font-size="1">.</text></svg>',
-  q:'報告說「這次像 2000 的電信，不像 2018 的半導體」，關鍵差別在哪？',
-  choices:['差在漲幅大小','差在病因：2018 是庫存過剩（會自己消化），這次是資本結構（需要融資窗口一直開著）','差在時間長短'],correct:1,
-  fb:['不是幅度的問題——是「這個病會不會自己好」的問題。','對——<b>庫存病會自己消化，資本結構病不會</b>。前者時間到了就好；後者要靠融資窗口一直開著。這就是為什麼報告把追蹤重心固定在利差與再融資，而不是庫存或出貨量。','時間長短是結果，不是差別的來源——差別在病因的性質。']},
+// ── 04 · place：情緒與槓桿 ─────────────────────────
+{type:'place',sky:'sky-night',bg:'peak',label:'04 · 情緒與槓桿',short:'槓桿',
+ title:'情緒一週變兩次，槓桿才有份量',
+ text:'04 一節裡有兩種東西，很容易混在一起讀。<br>你大概看到「恐懼區」就覺得要跌了。',
+ so:'<b>情緒</b>會一週變兩次，它不決定方向；<br><b>槓桿</b>決定轉向時下殺的速度——那才是有份量的。<br>這一格 11.4 → 12.5。',
+ q:'把四個讀數分進它屬於的那一邊：',
+ cards:[['c','FINRA 融資餘額 8 月月增 +2.58%，約 $1.454 兆'],['a','CNN 恐慌貪婪 31，掉到恐懼區（10/2）'],['d','融資餘額年增回到 +37.2%'],['b','AAII 散戶看空 46.5%（9/30 當週）']],
+ slots:[['s1','<b>情緒</b>：一週會變兩次，不決定方向','a,b'],['s2','<b>槓桿</b>：決定轉向時下殺的速度','c,d']],
+ wide:true,
+ done:'情緒退到恐懼區，但借錢買股的金額八月又往上了。<br><br>七月融資餘額回落 5.7%，是這張表第一次往下；<br>八月沒有接著退，反而回升。<br>報告立的條件是「從高點<b>連兩個月</b>往下退逾 5%」——這次沒有連起來，<br>所以還不能說借錢買股的人在鬆手；下個月的數字出來，再看一次。'},
 
- {type:'ab',sky:'sky-night',bg:'peak',label:'§06 · 破滅觸發條件',title:'觀察哨，不是立場',
-  text:'這節給三個情境的機率，但報告自己說：<b>看它不如看下面那張表</b>。',
-  layers:[['目前情境','中高風險（關鍵閾值已突破）<b>45–55%</b>（本期上修）'],['⚠ 機率怎麼看','三個情境的機率是<b>主觀估計</b>，會隨數據滾動修正'],['觀察哨表的規矩','每一列的<b>左右兩欄都要寫得出來</b>——變好、變壞各是什麼'],['為什麼這樣要求','一個指標若<b>只想得出變壞的方向</b>，那不是觀察哨，是立場'],['本期最值得記','上一版新增三列，兩週內動了兩列——融資利差往壞的動、融資餘額往下走；輝達那列則往好的大幅超標'],['一句話','<b>需求端與融資端第一次明確分家</b>']],
-  chips:['中高風險 45–55%','★本期上修'],
-  q:'報告要求觀察哨「每一列左右兩欄都要寫得出來」，為什麼？',
-  choices:['為了版面對稱好看','因為只想得出變壞方向的指標，那不是觀察哨，是立場','因為要湊滿字數'],correct:1,
-  fb:['不是版面問題——這是防止自己騙自己的機制。','對——<b>觀察哨要能兩邊開牌</b>：什麼數字出現算變好、什麼算變壞，都得先寫下來。只寫得出壞的那一邊，代表你已經預設答案了——那是立場，不是觀察。這也是這份報告可證偽的地方。','跟字數無關——重點是「事前就把兩邊的答案寫死」，事後才不能挑對自己有利的解讀。']},
+// ── 05 · match：歷史泡沫對比 ─────────────────────────
+{type:'match',sky:'sky-storm',bg:'peak',label:'05 · 歷史泡沫對比',short:'歷史',
+ title:'像 2000，不像 2018——差別在病因',
+ text:'05 拿這一輪跟兩段歷史比：2000 年的電信、2018 年的半導體。<br>兩條相似度一升一降，你大概覺得矛盾。',
+ so:'這不是矛盾，是<b>定性</b>。<br>相似度計算器有八個維度，加權最重的兩格量的是「錢從哪來」。<br>10 月起改用加權距離算，0.85 以上才算極高相似。',
+ q:'把每一項接到它的說明（先點左、再點右）：',
+ left:[['a','對電信 2000'],['b','對半導體 2018'],['c','2018 那次的病'],['d','這次的病']],
+ right:[['c','東西堆太多（庫存循環）：時間到了會自己消化'],['a','相似度 0.86：這一輪最像它'],['d','錢借太多（資本結構循環）：不會自己好，要靠借錢的門一直開著'],['b','相似度 0.56：越來越不像']],
+ fbNo:'有幾條接錯了——正解已經標出來。',
+ fbOk:'<b>庫存病會自己消化，資本結構病不會。</b><br>所以報告把追蹤重心固定在利差與再融資，而不是庫存或出貨量。<br>這一格 17.2，持平（季度財報後才更新向量）。<br><br>也回答了一個常見疑問：財報那麼好，為什麼相似度沒往下修？<br>因為財報回答的是「東西賣不賣得掉」，動不了「錢從哪來」那兩格。'},
 
- {type:'ab',sky:'sky-clear',bg:'range',label:'§三 · 完整研判',title:'兩股方向相反的力量，誰先到終點',
-  text:'收束用<b>核心邏輯鍊</b>把整個月串起來。',
-  layers:[['① 現象','財報把需求端的疑問一次打掉，市場用兩年來最大單日漲幅回應'],['① 機制','賣方的營收就是買方的資本支出——<b>證明錢真的花出去了，證明不了收得回來</b>'],['① 含意','需求這題結案，風險整個移到融資端'],['② 現象','保費創歷史新高、放款人要條款、政策月底明確轉鷹'],['② 機制','市場不等評等機構，先用高收益債的價格替借最兇的那家計價'],['③ 兩股反向力量','買方營收大幅上修且在加速（抵消力變強）× 資金愈貴（引信變短）'],['所以盯什麼','8 月融資餘額與後續新券定價——決定溫度往 70 走，還是往 85 走']],
-  q:'「賣方的營收就是買方的資本支出」——這句話在研判裡的作用是？',
-  choices:['證明 AI 需求是真的、可以放心','它證明錢真的花出去了，但證明不了收得回來——所以需求結案不等於風險解除','證明財報造假'],correct:1,
-  fb:['它只證明了一半——錢確實花出去了，這不等於「收得回來」。','對——<b>證明錢真的花出去了，證明不了收得回來</b>。這正是為什麼需求端結案之後，風險沒有消失、而是整個移到融資端：花出去的錢如果是借的，還款時間表就開始倒數。','報告不質疑財報真偽——它質疑的是「這筆支出的錢從哪來、還得起嗎」。']},
+// ── 06 · hotspot：五條路徑 ─────────────────────────
+{type:'hotspot',sky:'sky-night',bg:'peak',label:'06 · 泡沫破滅觸發條件',short:'觸發條件',
+ title:'看記號，不看機率',
+ text:'06 給了幾條路徑與各自的機率。<br>你大概只記得那個百分比。',
+ so:'報告自己說：機率是主觀估計，<b>看它不如看記號</b>。<br>每一條路都列了幾個「出現就亮」的記號——<br>亮了幾個，是這個月真的一個一個量到的。',
+ q:'報告說：這張表上「兩條路同時在亮」，<br>就是股市跟債市講相反的話。點出這兩條：',
+ need:['pB','pC'],hsFig:pathSVG,
+ fbOk:'<b>B 政策收緊·貨幣</b> 四個全亮：升息兌現、實質利率創多年新高、AI 借款人被另外計價、股票風險溢價轉負。<br><b>C 盈餘持續超預期</b> 亮兩個：買方 AI 營收年增逾一倍、前七大 EPS 共識續上修。<br>一條講借錢的成本，一條講公司賺錢——方向相反，同時成立。<br><br>A1 需求失速一個都沒亮：GPU 租金還在今年的高檔、雲商資本支出還在上修。<br>觀察哨每一列都要寫得出<b>兩邊</b>——只想得出變壞方向的，那不是觀察，是立場。',
+ fbNo:'記號亮得多的不只一條：<br>一條在借錢那一端，另一條在公司賺錢那一端。'},
 
- {type:'ab',sky:'sky-clear',bg:'range',label:'§三 · 收束',title:'AI 泡沫評估表，到底幫你做什麼？',
-  text:'六張卡都走過了。',
-  layers:[['它給你','一個<b>可比較、可證偽</b>的風險刻度，不是多空喊話'],['怎麼用','先看溫度（風險變了多少）→ 再翻六張卡（為什麼）→ 最後看觀察哨（接下來盯什麼）'],['⚠ 溫度高 ≠ 明天崩','它說的是「同一個壞消息打下來會更痛」'],['可證偽承諾','報告自己列出「什麼證據會讓我下修分數」——包含 CapEx/OCF 回落、發債與抵押融資同步減少、巨頭 EPS 共識持續上調等'],['守則','只描述市場、不指示動作——買不買，你自己決定']],
-  q:'所以這份報告最適合幫你做的事是？',
-  choices:['告訴我 AI 股什麼時候崩、幾號出場','看懂「風險在哪一格、變了多少、接下來盯什麼」，自己決定要承受多少','告訴我該買哪幾檔 AI 股'],correct:1,
-  fb:['它從不給時間表——泡沫的破點沒有人能標日期，這也是為什麼它量的是溫度不是日期。','對——它給你<b>刻度與證據</b>：風險集中在哪一格（本期是資金成本）、離門檻多遠、什麼數字出現要翻案。決定要不要承受、承受多少，一直是你的事。','它不報明牌——六張卡談的是整體結構風險，不是選股。']}
+// ── 三、· sort：核心邏輯鍊 ─────────────────────────
+{type:'sort',sky:'sky-clear',bg:'range',label:'三、完整研判 · 核心邏輯鍊',short:'邏輯鍊',
+ title:'結論怎麼推出來的，先看這條鍊',
+ text:'三、最前面是一條「🔗 核心邏輯鍊」。<br>你大概直接跳到最後那個分數。',
+ so:'每一條鍊都是三層：<b>現象 → 機制 → 含意</b>。<br>現象是看到什麼，機制是為什麼會這樣，含意才是這對判斷代表什麼。<br>順序顛倒，就會變成先有結論、再找理由。',
+ q:ASOF+' 的第一條鍊被打散了。<br>排回「現象 → 機制 → 含意」的順序（點兩張互換）：',
+ items:['外面的推力都到了：升息真的發生、扣掉通膨的真實利率創多年新高','利率一動，借錢的成本就得跟著重算','「政策收緊」這條路最強的外在條件已經成立，剩下的只是多快傳下去'],
+ shuffle:[2,0,1],
+ fbOk:'現象 → 機制 → 含意。<br>另外兩條鍊：<br>② 錢變貴和借不到是兩回事——現在走到「多收一點」，還沒到「不借了」；<br>③ AI 價格崩得太快——「效率衝擊」前半已經成立，後半（做模型的毛利率跌破四成）還沒有。<br><br>三層循環一句話：<b>長的不變、中的變差、短的持平</b>——這個月動的是中間那一層。'},
+
+// ── 三、· flip＋build：對答案＋主表 ─────────────────────────
+{type:'flip',sky:'sky-clear',bg:'range',label:'三、完整研判 · 對答案',short:'對答案',
+ title:'上一份寫死的，這一份回來對',
+ text:'三、有一張表：上一份（09/01）立的觀察哨，這期的答案。<br>你大概覺得對答案很無聊，直接滑過。',
+ so:'這張表是這份報告最誠實的地方：<br>門檻在上一份就寫死，這一份只能回來對答案，不能回來找理由。',
+ q:'上一份立了一條：「股票風險溢價<b>回到 +0.5% 以上＝補償回來</b>」。<br>這一期開票，你猜？',
+ bets:[['a','✓ 順風邊：補償回來了'],['b','✗ 翻案邊：反而轉負']],betOk:'b',
+ reveal:ERP_SVG,
+ revealTxt:'✗ 翻案邊——9/30 轉負（約 −0.03%），一個多月一路收窄走過來。<br>上一份立的十件事，這期開了九件：三件往好、三件往壞、三件走到一半，雲商財報那件要等十月下旬。<br>往壞的三件在同一條線上：<b>借錢的成本</b>。<br><b>重點不在猜對，而在門檻是上一份就寫死的。</b>',
+ buildTitle:'親手把下一批門檻寫進主表',
+ buildQ:'主表每一列都同時寫出往好和往壞的答案。<br>把六張卡放進對的那一格：',
+ cards:[['c','回落 200bp 以下＝信用市場收回這次重計價'],['f','CapEx 再上修而 AI 營收增速放緩＝缺口擴大且更靠借'],['a','核心月增回落到 0.2% 以下'],['d','突破 250bp＝投資級雲商被正式當高收益債對待'],['b','連兩個月 ≥0.3%'],['e','AI 營收增速連兩季高於 CapEx 增速、CapEx／OCF 回落']],
+ slots:[['s1','10/14 九月 CPI · <b style="color:'+C_UP+'">✓ 順風確認</b>','a'],['s2','10/14 九月 CPI · <b style="color:'+C_DN+'">✗ 翻案訊號</b>','b'],
+   ['s3','Oracle 五年期債務保險費（現約 227bp）· <b style="color:'+C_UP+'">✓ 順風確認</b>','c'],['s4','Oracle 五年期債務保險費 · <b style="color:'+C_DN+'">✗ 翻案訊號</b>','d'],
+   ['s5','十月下旬 雲商 Q3 財報 · <b style="color:'+C_UP+'">✓ 順風確認</b>','e'],['s6','十月下旬 雲商 Q3 財報 · <b style="color:'+C_DN+'">✗ 翻案訊號</b>','f']],
+ done:'這就是主表的樣子：<b>同一個驗證點，兩個方向都事前寫好</b>。<br>日期到了回來對答案；哪一邊的格子先被填滿，天平就往哪邊倒。<br><br>開場你想要一個「是不是泡沫」的答案；<br>現在你手上的是：<b>溫度 63、風險集中在借錢的成本、下一張牌是十月下旬的雲商財報</b>。'}
 ];
-const TRANSITIONS=['抓完重點——先搞懂這份報告怎麼運作。','工具說明完了。<br>接下來六張卡，一張一張看證據。',null,null,null,null,null,'六張卡讀完了——<br>報告怎麼把它們收成一個判斷？',null,null];
 
-let state={idx:-1,score:0,gv:50,cls:[],mChecked:false};
+const TRANSITIONS=[
+ null,
+ '判斷拿到了。<br>先搞懂這份報告怎麼算。',
+ '尺知道怎麼用了。<br>接下來六格，一格一格看證據。',
+ null,
+ null,
+ null,
+ null,
+ null,
+ '六格讀完了——<br>報告怎麼把它們收成一個判斷？',
+ null,
+ null
+];
 
-// 名詞白話＋答案（給我答案用）
+let state={idx:-1,score:0,sv:0,pl:{},plSel:null,plFor:-1,hs:[],hsFor:-1,so:null,soSel:null,soFor:-1,mt:{},mtSel:null,mtFor:-1,fp:0,fpFor:-1,slFor:-1};
+
+// ================= 給我答案：正解 ＋ 這一頁每個術語的白話 =================
 const ANS=[
- {answer:'降的是「爆掉的速度」不是「爆掉的機率」——需求端疑問被財報消掉，風險換位置集中到資金成本。',terms:[
-   ['風險溫度','0–100 的刻度：五項風險相加 − 盈餘抵消；高不等於明天崩，是「同一個壞消息打下來更痛」'],
-   ['速度 vs 機率','速度＝多快爆；機率＝會不會爆。財報只消掉了需求端的疑問，沒消掉融資端的風險'],
-   ['四行標籤','定調／主線／警戒／盯什麼——不想讀完六張卡，先看這四行']]},
- {answer:'讓「這次有真盈餘」的反駁拿到實際權重，不會被五個警示一面倒地淹掉。',terms:[
-   ['三個問題','風險變了多少（溫度）／為什麼（六張卡）／接下來怎麼辦（觀察哨與觸發距離）'],
-   ['六個維度','估值·資本支出·集中度·情緒槓桿·歷史對比·盈餘（唯一減分項）'],
-   ['溫度公式','五項風險相加 − 盈餘抵消 ＝ 風險溫度']]},
- {answer:'估值極端但未再惡化，且盈餘接棒兌現——所以維持 16 分，風險改由「錢從哪來」那一格承擔。',terms:[
-   ['CAPE / ERP / 巴菲特指標','三項同步亮燈；歷史上同步觸發後 18 個月修正中位數 −22%'],
-   ['PEG 是唯一緩衝','盈餘成長速度還在消化估值'],
-   ['腿換了材質','估值沒變壞，但支撐盈餘的資本支出改用外部融資——線接到 §02']]},
- {answer:'因為借錢有還款時間表，而那張時間表不看 AI 幾時賺得回來——風險從「賭報酬率」升級為「賭再融資窗口一直開著」。',terms:[
-   ['CapEx / OCF 90–100%','資本支出幾乎吃掉全部營運現金流——自己賺的錢快不夠付了'],
-   ['缺口誰承擔','債券市場、GPU 抵押、資產證券化'],
-   ['同名不同險','會計上都叫 CapEx，風險上完全兩回事——這是本節上修到 19 分的全部理由']]},
- {answer:'因為它是放大器：集中度不自己出事，但別處出事時，它決定傷害傳導得多快。',terms:[
-   ['Mag-7 約 31.5%','盈餘貢獻高於市值占比＝這個集中度有基本面撐，所以維持 17 分'],
-   ['放大器','引信在別處，集中度負責把傷害放大並加速傳導'],
-   ['7 月實測','半導體幾天蒸發 $1.3 兆、NVDA 抹掉 $2,380 億；那次是財報救回來的']]},
- {answer:'要看能不能連兩個月從高點退——單月回落還不算數，但這是真音訊號第一次轉向。',terms:[
-   ['建前雜訊 / 真音訊號','建前＝場面上的表態（情緒、喊多喊空），聽聽就好；真音＝實際掏錢下去的行為（槓桿），那才是真心話'],
-   ['情緒 vs 槓桿','情緒是建前雜訊、不決定方向；槓桿是真音訊號、決定轉向時下殺的速度'],
-   ['融資餘額','自高點回落 5.7%、年增降到 38.6%——首度轉向'],
-   ['確認條件','連兩個月從高點退（§00「盯什麼」的第一條）']]},
- {answer:'差在病因：2018 是庫存過剩（會自己消化），這次是資本結構（需要融資窗口一直開著）。',terms:[
-   ['相似度','對電信 2000 停在 0.99 飽和；對半導體 2018 連三期降到 0.86'],
-   ['庫存病 vs 資本結構病','庫存過剩時間到了就好；資本結構出問題不會自己好'],
-   ['追蹤重心','正式固定在「利差與再融資」——CoreWeave 加碼 100–125bp、Oracle CDS 約 215bp 歷史新高並遭降評']]},
- {answer:'因為只想得出變壞方向的指標，那不是觀察哨，是立場——兩邊答案都要事前寫下來。',terms:[
-   ['觀察哨表','每列左右兩欄：什麼數字算變好、什麼算變壞，事前寫死'],
-   ['機率是主觀估計','三個情境機率會隨數據滾動修正，看它不如看觀察哨表'],
-   ['本期','新增三列兩週內動了兩列；需求端與融資端第一次明確分家']]},
- {answer:'它證明錢真的花出去了，但證明不了收得回來——所以需求結案不等於風險解除，風險移到融資端。',terms:[
-   ['核心邏輯鍊','現象 → 機制 → 含意，一條條把整個月串起來'],
-   ['兩股反向力量','買方營收上修（抵消力變強）× 資金愈貴（引信變短）——方向相反'],
-   ['決定往哪走','8 月融資餘額與後續新券定價：溫度往 70 走，還是往 85 走']]},
- {answer:'看懂「風險在哪一格、變了多少、接下來盯什麼」，自己決定要承受多少。',terms:[
-   ['可比較的刻度','六個維度各自評分，月月可比——不是多空喊話'],
-   ['可證偽承諾','報告自己列出什麼證據會讓它下修分數'],
-   ['只描述市場','不指示動作——買不買、承受多少，是你的決定']]}
+ {answer:'聯準會升息（9/16）→ 同一天發新模型、降價（9/22）→ 借錢變貴擴散到整個垃圾債（9 月底）→ 補償轉負（9/30）→ 九月就業放慢（10/2）。',terms:[
+   ['一行時間軸','結論後面那一行：只排事實發生的順序，最多五格，不評論'],
+   ['垃圾債','信用評等較低、利息較高的公司債（高收益債）'],
+   ['補償','股票風險溢價：買股票比買公債多拿的那一點好處'],
+   ['營收步調','把最近一段的營收換算成一年的速度（年化營收）'],
+   ['不管用不用得到都要付','長約裡寫死的付款承諾，用不到也得付']]},
+ {answer:'①發生什麼→借錢先變貴；②嚴重嗎→變貴了，門還開著；③什麼位階→長的後段、中的變差、短的撐住；④下一步→盯借錢這一邊；⑤什麼條件會讓整套判讀作廢→往好、往壞兩邊的條件。',terms:[
+   ['風險溫度','0–100 的刻度：同一個壞消息打下來會多痛，不是倒數計時'],
+   ['同一把尺','換過算法後，把上一期用新算法重算一次，兩期才比得起來'],
+   ['債務保險費','信用違約交換（CDS）：投資人買來防一家公司還不出錢的保險'],
+   ['信評公司','替公司借錢的信用打分數的機構'],
+   ['被忽略的那一格','五問後面那一條：大家沒在看、卻在變化的那一格']]},
+ {answer:'01 估值、02 資本支出、03 集中度、04 情緒與槓桿、05 歷史相似 → 加；06 盈餘支撐 → 扣。14.1＋16.7＋15.7＋12.5＋17.2−13.1＝63.1。',terms:[
+   ['六個維度','估值多貴、資本支出多兇、集中度多高、情緒與槓桿多滿、歷史像不像、盈餘撐多少'],
+   ['減分項','盈餘支撐：公司真的在賺錢，抵掉一部分風險'],
+   ['映射表','每一格「讀數多少給幾分」的公開對照表，換一個人算也會得到同一個數'],
+   ['可證偽承諾','報告事先寫好什麼證據出現，就要下修分數']]},
+ {answer:'股票風險溢價：約 5.26% 減十年期 5.29% ＝ 約 −0.03%，第一次轉負。',terms:[
+   ['CAPE','用過去十年平均盈餘算的本益比，看長期貴不貴'],
+   ['巴菲特指標','股市總市值 ÷ 國內生產毛額'],
+   ['股票風險溢價（ERP）','買股票一年預期賺的（本益比倒過來）減掉十年期公債利率'],
+   ['PEG','本益比 ÷ 盈餘成長率：成長能不能消化估值'],
+   ['前瞻本益比','用未來一年預估盈餘算的本益比']]},
+ {answer:'約 91%：四大雲商 2026 上半年 91.4%，最新一季 96.1%。',terms:[
+   ['CapEx','資本支出：蓋機房、買晶片設備花的錢'],
+   ['OCF','營運現金流：本業實際賺進來的現金'],
+   ['自由現金流','本業賺的現金減掉資本支出；負的＝自己賺的不夠付'],
+   ['資產證券化','把一批資產（例如機房租約）包成債券賣給投資人來籌錢'],
+   ['增資','發新股向股東要錢']]},
+ {answer:'站在一年高點附近的股票變少，只剩兩成多（22.6%）。',terms:[
+   ['前七大','Microsoft、Apple、NVIDIA、Alphabet、Amazon、Meta、Tesla 七家大型科技股'],
+   ['市值占比','這七家的市值佔整個標普 500 的比例'],
+   ['盈餘貢獻','這七家的盈餘佔整個標普 500 盈餘的比例'],
+   ['52 週高點 10% 以內','股價離自己一年內最高點不到一成的股票'],
+   ['放大器','引信在別處，集中度負責把傷害放大、加速傳下去']]},
+ {answer:'情緒：CNN 恐慌貪婪 31、AAII 看空 46.5%。槓桿：FINRA 融資餘額 8 月月增 +2.58%、年增 +37.2%。',terms:[
+   ['CNN 恐慌貪婪指數','0–100 的散戶情緒指數，低＝恐懼、高＝貪婪'],
+   ['AAII','美國散戶投資人協會每週的多空調查'],
+   ['FINRA 融資餘額','美國投資人向券商借錢買股票的總金額'],
+   ['連兩個月','報告立的條件：從高點連續兩個月往下退逾 5%，才算借錢買股的人在鬆手']]},
+ {answer:'電信 2000 → 相似度 0.86；半導體 2018 → 0.56；2018 那次 → 庫存循環；這次 → 資本結構循環。',terms:[
+   ['相似度計算器','把「像不像」打成八個維度的分數，跟固定的歷史向量比'],
+   ['加權距離','10 月起的新算法：1 − 加權距離 ÷ 10，0.85 以上才算極高相似'],
+   ['庫存循環','東西做太多、堆在倉庫，賣完就好'],
+   ['資本結構循環','錢借太多，要靠持續借新還舊，借不到才會出事'],
+   ['再融資','借新債來還舊債']]},
+ {answer:'B 政策收緊·貨幣（4／4 全亮）與 C 盈餘持續超預期（2／4）。',terms:[
+   ['路徑','泡沫可能怎麼收場的幾種劇本，每條列出幾個記號'],
+   ['記號','出現了就亮的可觀察條件，不是猜測'],
+   ['實質利率','扣掉通膨之後的利率'],
+   ['效率衝擊','大家照樣在用 AI，但每賺一塊錢需要的算力快速變少'],
+   ['觀察哨','每一列都寫出變好、變壞各是什麼的指標']]},
+ {answer:'現象：外面的推力都到了 → 機制：利率一動，借錢的成本就得重算 → 含意：「政策收緊」最強的外在條件成立，剩下的只是傳導速度。',terms:[
+   ['核心邏輯鍊','完整研判最前面的因果鍊：現象 → 機制 → 含意'],
+   ['現象','看到什麼（利率、利差、價格）'],
+   ['機制','為什麼會這樣，這件事怎麼傳過來'],
+   ['含意','這對判斷代表什麼，以及它能說到哪裡為止'],
+   ['三層循環','大循環八到十年、中循環約兩年、小循環約半年']]},
+ {answer:'上一份的門檻「ERP 回到 +0.5% 以上」→ ✗ 翻案邊（9/30 轉負）。六張卡：CPI 核心月增回落到 0.2% 以下／連兩個月 ≥0.3%；Oracle 保費回落 200bp 以下／突破 250bp；雲商財報 AI 營收增速連兩季高於 CapEx 增速／CapEx 再上修而 AI 營收增速放緩。',terms:[
+   ['主表','本月解析第七節的驗證點總表：全報告只有這一份清單'],
+   ['✓ 順風確認','站在這一邊＝今天的判斷繼續成立'],
+   ['✗ 翻案訊號','翻到這一邊＝判斷要改'],
+   ['bp','基點＝0.01 個百分點'],
+   ['核心 CPI','扣掉食物和能源的消費者物價']]}
 ];
-function giveAnswer(i){const r=ROUNDS[i],a=ANS[i];
- const gloss=`<div style="font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.5);margin:0.85rem 0 0.5rem">名詞白話</div>`+a.terms.map(t=>`<div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,0.9);margin-bottom:0.42rem;text-align:left"><b style="color:#e0a526">${t[0]}</b>：${t[1]}</div>`).join('');
- const box=inner=>`<div style="max-width:480px;margin:0.5rem auto 0;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.28);border-radius:10px;padding:1rem 1.2rem;backdrop-filter:blur(6px)">${inner}</div>`;
- const ansLine=`<div style="font-size:14px;line-height:1.7;color:#fff;text-align:left"><b style="color:#a5d6a7">答案：</b>${a.answer}</div>`;
- if(r.type==='classify'){
-   r.items.forEach((it,k)=>state.cls[k]=it[1]);
-   const rows=r.items.map(it=>`<div class="cls-row right"><div class="cls-name">${it[0]}</div><div class="cls-btns"><button class="cls-btn ${it[1]} on" disabled>${it[1]==='atk'?r.catA:r.catB}</button></div></div>`).join('');
-   G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main">${r.q}</div><div class="cls-list">${rows}</div>${box(ansLine+`<div style="font-size:13px;line-height:1.7;color:rgba(255,255,255,0.86);margin-top:0.55rem;text-align:left">${r.reveal}</div>`+gloss)}<button class="continue-btn" onclick="record(${i})">懂了，繼續 ›</button>`);
- }else if(r.type==='gauge'){
-   G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="gauge-wrap">${gaugeSVG(r.ans,r.left,r.right)}<div class="feedback" style="margin-top:0.6rem">${r.fb(r.ans)}</div></div>${box(ansLine+gloss)}<button class="continue-btn" onclick="record(${i})">懂了，繼續 ›</button>`);
- }else{
-   const ch=r.choices.map((c,k)=>`<div class="choice-btn" style="cursor:default;${k===r.correct?'border-color:#a5d6a7;background:rgba(80,200,110,0.14)':'opacity:0.45'}">${k===r.correct?'✓ ':''}${c}</div>`).join('');
-   G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="choices">${ch}</div><div class="feedback" style="color:#a5d6a7;min-height:auto;font-size:14px">${r.fb[r.correct]}</div>${box(gloss)}<button class="continue-btn" onclick="record(${i})">懂了，繼續 ›</button>`);
- }}
 
+// ================= 引擎（ROUNDS／ANS／TRANSITIONS 三陣列同索引；關數一律由 length 算） =================
 function prog(){PB.style.width=(Math.max(0,state.idx)/ROUNDS.length*100)+'%';}
-function dots(i){return `<div class="step-dots">${ROUNDS.map((_,k)=>`<i class="${k<=i?'on':''}"></i>`).join('')}</div>`;}
-function fade(fn){G.style.transition='opacity .32s';G.style.opacity='0';setTimeout(()=>{fn();G.style.opacity='1';},330);}
-function scene(sky,bgtype,inner){return `<div class="scene ${sky}">${bg(bgtype,sky)}<div class="overlay">${inner}</div></div>`;}
-function head(r){const layers=r.layers?`<div class="layer-list">${r.layers.map(ly=>`<div class="ly"><b>${ly[0]}</b><span>${ly[1]}</span></div>`).join('')}</div>`:'';const chips=r.chips?`<div style="max-width:480px;margin:0 auto 0.4rem">${r.chips.map(c=>`<span class="data-chip">${c}</span>`).join('')}</div>`:'';const fig=r.svg?`<div style="margin:0.5rem auto 0.2rem">${r.svg}</div>`:'';return `<div class="chapter-label t-label">${r.label}</div><div class="chapter-title t-main" style="font-size:22px;margin-bottom:0.9rem">${r.title}</div><div class="round-text t-sub">${r.text}</div>${layers}${chips}${fig}`;}
+function dots(i){return '<div class="step-dots">'+ROUNDS.map(function(_,k){return '<i class="'+(k<=i?'on':'')+'"></i>';}).join('')+'</div>';}
+function fade(fn){G.style.transition='opacity .32s';G.style.opacity='0';setTimeout(function(){fn();G.style.opacity='1';},330);}
+function scene(sky,bgtype,inner){return '<div class="scene '+sky+'">'+bg(bgtype,sky)+'<div class="overlay">'+inner+'</div></div>';}
+function head(r){
+ const layers=r.layers?'<div class="layer-list">'+r.layers.map(function(ly){return '<div class="ly"><b>'+ly[0]+'</b><span>'+ly[1]+'</span></div>';}).join('')+'</div>':'';
+ const chips=r.chips?'<div style="max-width:480px;margin:0 auto 0.4rem">'+r.chips.map(function(c){return '<span class="data-chip">'+c+'</span>';}).join('')+'</div>':'';
+ const so=r.so?'<div class="sowhat">'+r.so+'</div>':'';
+ const fig=r.svg?'<div style="margin:0.5rem auto 0.2rem">'+r.svg+'</div>':'';
+ return '<div class="chapter-label t-label">'+r.label+'</div><div class="chapter-title t-main" style="font-size:22px;margin-bottom:0.9rem">'+r.title+'</div><div class="round-text t-sub">'+r.text+'</div>'+so+layers+chips+fig;}
+function note(r){return r.note?'<div class="fig-note">'+r.note+'</div>':'';}
+function btnGive(i){return '<button class="continue-btn" style="opacity:0.72" onclick="giveAnswer('+i+')">給我答案</button>';}
+function okBox(txt){return '<div style="max-width:480px;margin:0.7rem auto 0;background:rgba(0,0,0,0.36);border:1px solid rgba(255,255,255,0.26);border-radius:10px;padding:0.9rem 1.1rem;font-size:13.5px;line-height:1.8;color:#fff;text-align:left;backdrop-filter:blur(6px)">'+txt+'</div>';}
+function mins(){return Math.max(6,Math.round(ROUNDS.length*0.75));}
 
-function showStart(){G.innerHTML=scene('sky-start','farhills',`
-  <div class="chapter-label t-label" style="margin-bottom:1rem">YODA RESEARCH · 判斷力學校</div>
-  <div class="chapter-title t-main" style="font-size:30px;font-weight:200;letter-spacing:1px;margin-bottom:0.4rem">讀懂 AI 泡沫評估表</div>
-  <div class="t-sub" style="font-size:14px;margin-bottom:0.3rem;font-style:italic">泡沫不是是非題，是溫度題——風險在哪一格？</div>
-  <div class="t-label" style="font-size:12px;margin-bottom:2.6rem">約 6 分鐘 · 跟著報告走一遍（本月解析→六張證據卡→完整研判） · 數據截止 2026-08-28</div>
-  <button class="continue-btn" style="font-size:15px;padding:0.85rem 3.2rem;border-radius:6px;letter-spacing:2px" onclick="fade(startOpening)">開始</button>`);}
+function showStart(){
+ G.innerHTML=scene('sky-start','farhills',
+  '<div class="chapter-label t-label" style="margin-bottom:1rem">YODA RESEARCH · 判斷力學校</div>'
+  +'<div class="chapter-title t-main" style="font-size:30px;font-weight:200;letter-spacing:1px;margin-bottom:0.4rem">讀懂 AI 泡沫評估表</div>'
+  +'<div class="t-sub" style="font-size:14px;margin-bottom:0.3rem;font-style:italic">泡沫不是是非題，是溫度題——風險在哪一環？</div>'
+  +'<div class="t-label" style="font-size:12px;line-height:1.9;margin-bottom:2.6rem">約 '+mins()+' 分鐘 · '+ROUNDS.length+' 站<br>本月解析 → 怎麼用 → 01–06 六格證據 → 完整研判<br>讀數取自 '+ASOF+' 那份 AI 泡沫評估表（截止 '+DATA_DAY+'），用來練讀法</div>'
+  +'<button class="continue-btn" style="font-size:15px;padding:0.85rem 3.2rem;border-radius:6px;letter-spacing:2px" onclick="fade(startOpening)">開始</button>');}
 let oi=0;function startOpening(){oi=0;renderOpening();}
-function renderOpening(){const q=OPENING.quotes[oi],last=oi>=OPENING.quotes.length-1;
- G.innerHTML=scene(OPENING.sky,OPENING.bg,`<div class="chapter-label t-label">${OPENING.label}</div><div class="chapter-title t-main">${OPENING.title}</div><div class="chapter-quote t-sub">${q}</div><button class="continue-btn" onclick="nextOpening()">${last?'開始第一站 ›':'繼續 ›'}</button>`);}
-function nextOpening(){oi++;if(oi>=OPENING.quotes.length)fade(()=>showRound(0));else fade(renderOpening);}
+function renderOpening(){const qs=OPENING.quotes(),q=qs[oi],last=oi>=qs.length-1;
+ G.innerHTML=scene(OPENING.sky,OPENING.bg,'<div class="chapter-label t-label">'+OPENING.label+'</div><div class="chapter-title t-main">'+OPENING.title+'</div><div class="chapter-quote t-sub">'+q+'</div><button class="continue-btn" onclick="nextOpening()">'+(last?'從最上面開始 ›':'繼續 ›')+'</button>');}
+function nextOpening(){oi++;if(oi>=OPENING.quotes().length)fade(function(){showRound(0);});else fade(renderOpening);}
 
 function showRound(i){state.idx=i;prog();const r=ROUNDS[i];
- if(r.type==='gauge')renderGauge(i);else if(r.type==='classify')renderClassify(i);else renderAB(i);}
+ if(r.type==='ab')renderAB(i);
+ else if(r.type==='place')renderPlace(i);
+ else if(r.type==='hotspot')renderHotspot(i);
+ else if(r.type==='slider')renderSlider(i);
+ else if(r.type==='sort')renderSort(i);
+ else if(r.type==='match')renderMatch(i);
+ else if(r.type==='flip')renderFlip(i);}
 
-// 儀表滑桿
-function gaugeSVG(val,leftLbl,rightLbl){const min=0,max=100,f=v=>Math.PI*(1-(v-min)/(max-min)),R=120,ax=250+R*Math.cos(f(val)),ay=170-R*Math.sin(f(val));
- return `<svg viewBox="0 0 500 200" style="width:100%;max-width:320px"><path d="M130,170 A120,120 0 0,1 370,170" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="14"/><line x1="250" y1="170" x2="${ax}" y2="${ay}" stroke="#e0a526" stroke-width="5" stroke-linecap="round"/><circle cx="250" cy="170" r="8" fill="#e0a526"/><text x="250" y="128" fill="#fff" font-size="26" font-weight="300" text-anchor="middle">${val}</text><text x="130" y="192" fill="rgba(91,141,239,0.9)" font-size="11" text-anchor="middle">${leftLbl||'左'}</text><text x="370" y="192" fill="rgba(224,83,83,0.9)" font-size="11" text-anchor="middle">${rightLbl||'右'}</text></svg>`;}
-function renderGauge(i){const r=ROUNDS[i];state.gv=50;
- function draw(){G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main" style="font-size:14.5px">${r.q}</div>
-   <div class="gauge-wrap">${gaugeSVG(state.gv,r.left,r.right)}<input type="range" class="gsl" min="0" max="100" value="${state.gv}" oninput="state.gv=parseInt(this.value);drawGauge()">
-   <div class="gsl-ends"><span>${r.left}</span><span>${r.right}</span></div></div>
-   <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;margin-top:0.6rem"><button class="continue-btn" onclick="gaugeDone(${i})">就這樣 ›</button><button class="continue-btn" style="opacity:0.72" onclick="giveAnswer(${i})">給我答案</button></div>`);}
- window.drawGauge=draw;draw();}
-function gaugeDone(i){const r=ROUNDS[i];if(r.correct(state.gv))state.score++;
- G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="gauge-wrap">${gaugeSVG(state.gv,r.left,r.right)}<div class="feedback" style="margin-top:0.8rem">${r.fb(state.gv)}</div></div><button class="continue-btn" onclick="record(${i})">繼續 ›</button>`);}
-
-// 二選一 / 三選一
+// ── 選擇題 ──
 function renderAB(i){const r=ROUNDS[i];
- G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main">${r.q}</div>
-  <div class="choices">${r.choices.map((c,k)=>`<button class="choice-btn" onclick="abPick(${i},${k})">${c}</button>`).join('')}</div>
-  <button class="continue-btn" style="opacity:0.72" onclick="giveAnswer(${i})">給我答案</button>`);}
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+note(r)+'<div class="round-q t-main">'+r.q+'</div>'
+  +'<div class="choices">'+r.choices.map(function(c,k){return '<button class="choice-btn" onclick="abPick('+i+','+k+')">'+c+'</button>';}).join('')+'</div>'
+  +btnGive(i));}
 function abPick(i,k){const r=ROUNDS[i];if(k===r.correct)state.score++;
  const col=k===r.correct?'#a5d6a7':'#ffcc80';
- G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="feedback" style="color:${col};min-height:auto;font-size:14px">${r.fb[k]}</div><button class="continue-btn" onclick="record(${i})">繼續 ›</button>`);}
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="feedback" style="color:'+col+';min-height:auto;font-size:14px">'+r.fb[k]+'</div><button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');}
 
-// 分類（可以下結論 / 不能）
-function renderClassify(i){const r=ROUNDS[i];if(state.cls.length!==r.items.length)state.cls=r.items.map(()=>null);
- function draw(){const rows=r.items.map((it,k)=>`<div class="cls-row" id="cr${k}"><div class="cls-name">${it[0]}</div><div class="cls-btns">
-   <button class="cls-btn atk ${state.cls[k]==='atk'?'on':''}" onclick="setCls(${k},'atk')">${r.catA}</button>
-   <button class="cls-btn def ${state.cls[k]==='def'?'on':''}" onclick="setCls(${k},'def')">${r.catB}</button></div></div>`).join('');
-  const done=state.cls.every(x=>x!==null);
-  G.innerHTML=scene(r.sky,r.bg,`${dots(i)}${head(r)}<div class="round-q t-main">${r.q}</div><div class="cls-list">${rows}</div>
-   <div class="feedback" id="fbc" style="min-height:24px"></div>
-   <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap">${done?`<button class="continue-btn" onclick="clsCheck(${i})">檢查</button>`:''}<button class="continue-btn" style="opacity:0.72" onclick="giveAnswer(${i})">給我答案</button></div>`);}
- window.drawCls=draw;draw();}
-function setCls(k,v){state.cls[k]=v;window.drawCls();}
-function clsCheck(i){const r=ROUNDS[i];let ok=0;
- r.items.forEach((it,k)=>{const row=document.getElementById('cr'+k);const right=state.cls[k]===it[1];if(right)ok++;row.classList.add(right?'right':'wrong');});
- if(ok>=r.items.length-1)state.score++;
- document.getElementById('fbc').innerHTML=`<span style="color:${ok===r.items.length?'#a5d6a7':'#ffcc80'}">答對 ${ok}/${r.items.length}。${r.reveal}</span>`;
- const cb=G.querySelector('.continue-btn');if(cb)cb.parentElement.outerHTML=`<button class="continue-btn" onclick="record(${i})">繼續 ›</button>`;}
+// ── 兩段式點選歸位（place / build 共用；點選式，不用原生拖曳 API）──
+function placeBody(i,cards,slots,wide,rev,marks){
+ const used={};Object.keys(state.pl).forEach(function(s){state.pl[s].forEach(function(c){used[c]=1;});});
+ const pool=cards.filter(function(c){return !used[c[0]];});
+ let h='<div class="pl-pool">'+(pool.length?pool.map(function(c){
+   return '<div class="pl-card'+(state.plSel===c[0]?' sel':'')+'" onclick="plCard(\''+c[0]+'\')">'+c[1]+'</div>';}).join(''):(rev?'':'<div class="t-label" style="font-size:12px">都放好了 —— 按下面的按鈕</div>'))+'</div>';
+ h+='<div class="pl-slots">'+slots.map(function(s){
+   const got=state.pl[s[0]]||[];
+   const chips=got.map(function(cid){const cc=cards.filter(function(x){return x[0]===cid;})[0];return '<span class="pl-chip">'+cc[1]+'</span>';}).join('');
+   let cls='pl-slot'+(wide?' wide':'');
+   if(marks&&marks[s[0]]!==undefined)cls+=marks[s[0]]?' right':' wrong';
+   else if(state.plSel)cls+=' armed';
+   return '<div class="'+cls+'" onclick="plSlot(\''+s[0]+'\','+i+')"><div class="sl-t">'+s[1]+'</div><div class="sl-v">'+(chips||'<span style="font-size:11.5px;color:rgba(255,255,255,0.45)">點這裡放進來</span>')+'</div></div>';}).join('')+'</div>';
+ return h;}
+function plCard(id){state.plSel=(state.plSel===id?null:id);window.plDraw();}
+function plSlot(sid,i){const r=ROUNDS[i];
+ const cap=r.slots.filter(function(s){return s[0]===sid;})[0][2].split(',').length;
+ if(state.plSel){
+   Object.keys(state.pl).forEach(function(k){state.pl[k]=state.pl[k].filter(function(c){return c!==state.plSel;});});
+   if(!state.pl[sid])state.pl[sid]=[];
+   if(state.pl[sid].length>=cap)state.pl[sid].shift();
+   state.pl[sid].push(state.plSel);state.plSel=null;
+ }else if(state.pl[sid]&&state.pl[sid].length){state.pl[sid].pop();}
+ if(window.plDraw)window.plDraw();}
+function plFull(slots){let n=0;Object.keys(state.pl).forEach(function(k){n+=state.pl[k].length;});
+ let need=0;slots.forEach(function(s){need+=s[2].split(',').length;});return n===need;}
+function plMarks(slots){const m={};slots.forEach(function(s){
+  const want=s[2].split(',').sort().join(',');const got=(state.pl[s[0]]||[]).slice().sort().join(',');m[s[0]]=(want===got);});return m;}
+function renderPlace(i){const r=ROUNDS[i];
+ if(state.plFor!==i){state.plFor=i;state.pl={};state.plSel=null;}
+ function draw(){G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+note(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+   +placeBody(i,r.cards,r.slots,r.wide)
+   +'<div class="btnrow">'+(plFull(r.slots)?'<button class="continue-btn" onclick="plCheck('+i+')">檢查</button>':'')+btnGive(i)+'</div>');}
+ window.plDraw=draw;draw();}
+function plCheck(i){const r=ROUNDS[i];const m=plMarks(r.slots);
+ let ok=0;Object.keys(m).forEach(function(k){if(m[k])ok++;});
+ if(ok===r.slots.length)state.score++;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+placeBody(i,r.cards,r.slots,r.wide,true,m)
+  +'<div class="feedback" style="color:'+(ok===r.slots.length?'#a5d6a7':'#ffcc80')+';min-height:auto;font-size:13.5px">放對 '+ok+'/'+r.slots.length+' 格'+(ok===r.slots.length?'':'（紅框那幾格放錯了）')+'</div>'
+  +okBox(r.done)+'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');}
 
-function record(i){const t=TRANSITIONS[i];if(t)fade(()=>showTrans(t,i));else advance(i);}
-function showTrans(txt,i){G.innerHTML=`<div class="scene" style="background:linear-gradient(180deg,#020408,#0a0714,#141020);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:3rem 1.5rem"><div class="overlay"><div class="transition-quote">${txt}</div><button class="continue-btn" onclick="advance(${i})">繼續 ›</button></div></div>`;}
-function advance(i){const n=i+1;if(n>=ROUNDS.length)fade(showResult);else fade(()=>showRound(n));}
+// ── 點圖熱區 ──
+function hsPick(k){const i=state.hsFor,r=ROUNDS[i];if(!r||r.type!=='hotspot')return;const p=state.hs.indexOf(k);
+ if(p>=0)state.hs.splice(p,1);
+ else{if(state.hs.length>=r.need.length)state.hs.shift();state.hs.push(k);}
+ if(window.hsDraw)window.hsDraw();}
+function renderHotspot(i){const r=ROUNDS[i];
+ if(state.hsFor!==i){state.hsFor=i;state.hs=[];}
+ function draw(){const done=state.hs.length===r.need.length;
+  G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+   +(r.hsFig?r.hsFig(state.hs,null):quadBox(r.quad,state.hs,null))+note(r)
+   +'<div class="btnrow">'+(done?'<button class="continue-btn" onclick="hsCheck('+i+')">檢查</button>':'')+btnGive(i)+'</div>');}
+ window.hsDraw=draw;draw();}
+function hsCheck(i){const r=ROUNDS[i];
+ const ok=r.need.slice().sort().join(',')===state.hs.slice().sort().join(',');
+ if(ok)state.score++;
+ window.hsDraw=null;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+(r.hsFig?r.hsFig(state.hs,r.need):quadBox(r.quad,state.hs,r.need))+note(r)
+  +okBox('<span style="color:'+(ok?'#a5d6a7':'#ffcc80')+'">'+(ok?'答對了。':'差一點——正解已經標出來。')+'</span><br>'+(ok?r.fbOk:r.fbNo+'<br><br>'+r.fbOk))
+  +'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');}
 
+// ── 拉桿 ──
+function slUpd(){const i=state.slFor,r=ROUNDS[i];
+ const f=document.getElementById('slfig');if(f)f.innerHTML=r.fig(state.sv);
+ const l=document.getElementById('slval');if(l)l.innerHTML=r.vlab(state.sv);}
+function renderSlider(i){const r=ROUNDS[i];
+ if(state.slFor!==i){state.slFor=i;state.sv=r.slider.init;}
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+  +'<div id="slfig">'+r.fig(state.sv)+'</div>'+note(r)
+  +'<div class="gauge-wrap" style="max-width:440px"><input type="range" class="gsl" min="'+r.slider.min+'" max="'+r.slider.max+'" value="'+state.sv+'" oninput="state.sv=parseInt(this.value);slUpd()">'
+  +'<div class="gsl-ends"><span>'+r.slider.lo+'</span><span>'+r.slider.hi+'</span></div></div>'
+  +'<div id="slval" class="feedback" style="min-height:38px;font-size:13.5px;color:#fff">'+r.vlab(state.sv)+'</div>'
+  +'<div class="btnrow"><button class="continue-btn" onclick="slDone('+i+')">就這樣 ›</button>'+btnGive(i)+'</div>');}
+function slDone(i){const r=ROUNDS[i];const ok=r.correct(state.sv);if(ok)state.score++;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div id="slfig">'+r.fig(state.sv)+'</div>'+note(r)
+  +'<div class="feedback" style="min-height:auto;font-size:13.5px;color:#fff">'+r.vlab(state.sv)+'</div>'
+  +okBox('<span style="color:'+(ok?'#a5d6a7':'#ffcc80')+'">'+(ok?'到了。':'還沒到——答案在這裡。')+'</span><br>'+(ok?r.fbOk:r.fbNo+'<br><br>'+r.fbOk))
+  +'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');}
+
+// ── 排序（點兩張互換，不用上下鍵）──
+function soPick(k){if(state.soSel===null){state.soSel=k;}
+ else if(state.soSel===k){state.soSel=null;}
+ else{const a=state.so[state.soSel];state.so[state.soSel]=state.so[k];state.so[k]=a;state.soSel=null;}
+ if(window.soDraw)window.soDraw();}
+function soBody(r,marks){return '<div class="st-list">'+state.so.map(function(v,k){
+  let cls='st-row'+(state.soSel===k&&!marks?' sel':'');
+  if(marks)cls+=(v===k?' right':' wrong');
+  return '<div class="'+cls+'" onclick="'+(marks?'':'soPick('+k+')')+'"><b>'+(k+1)+'</b><span>'+r.items[v]+'</span></div>';}).join('')+'</div>';}
+function renderSort(i){const r=ROUNDS[i];
+ if(state.soFor!==i){state.soFor=i;state.so=r.shuffle.slice();state.soSel=null;}
+ function draw(){G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+   +soBody(r)+note(r)
+   +'<div class="btnrow"><button class="continue-btn" onclick="soCheck('+i+')">檢查</button>'+btnGive(i)+'</div>');}
+ window.soDraw=draw;draw();}
+function soCheck(i){const r=ROUNDS[i];let ok=0;state.so.forEach(function(v,k){if(v===k)ok++;});
+ if(ok===r.items.length)state.score++;
+ window.soDraw=null;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+soBody(r,true)
+  +'<div class="feedback" style="color:'+(ok===r.items.length?'#a5d6a7':'#ffcc80')+';min-height:auto;font-size:13.5px">排對 '+ok+'/'+r.items.length+' 格</div>'
+  +okBox((ok===r.items.length?'':'正確順序由上到下：<br>'+r.items.map(function(t,k){return (k+1)+'　'+t;}).join('<br>')+'<br><br>')+r.fbOk)+'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');}
+
+// ── 連連看 ──
+function mtPick(side,k){if(side==='L'){state.mtSel=(state.mtSel===k?null:k);}
+ else if(state.mtSel){
+   Object.keys(state.mt).forEach(function(l){if(state.mt[l]===k)delete state.mt[l];});
+   state.mt[state.mtSel]=k;state.mtSel=null;}
+ if(window.mtDraw)window.mtDraw();}
+function mtLines(){const svg=document.getElementById('mtlines');if(!svg)return;
+ const wrap=document.getElementById('mtwrap');if(!wrap)return;
+ const wb=wrap.getBoundingClientRect();let s='';
+ Object.keys(state.mt).forEach(function(l){
+   const a=document.getElementById('mtL'+l),b=document.getElementById('mtR'+state.mt[l]);
+   if(!a||!b)return;
+   const ra=a.getBoundingClientRect(),rb=b.getBoundingClientRect();
+   const x1=ra.right-wb.left,y1=ra.top-wb.top+ra.height/2,x2=rb.left-wb.left,y2=rb.top-wb.top+rb.height/2;
+   const mid=(x1+x2)/2;
+   s+='<path d="M'+x1+','+y1+' C'+mid+','+y1+' '+mid+','+y2+' '+x2+','+y2+'" fill="none" stroke="rgba(224,165,38,0.85)" stroke-width="2"/>';
+   s+='<circle cx="'+x1+'" cy="'+y1+'" r="3.5" fill="#e0a526"/><circle cx="'+x2+'" cy="'+y2+'" r="3.5" fill="#e0a526"/>';});
+ svg.innerHTML=s;svg.setAttribute('viewBox','0 0 '+Math.max(1,wb.width)+' '+Math.max(1,wb.height));}
+function mtBody(r,marks){
+ let h='<div class="mt-wrap" id="mtwrap"><svg class="mt-lines" id="mtlines" preserveAspectRatio="none"></svg><div class="mt-cols"><div class="mt-col">';
+ h+=r.left.map(function(x){let c='mt-item'+(state.mtSel===x[0]?' sel':'')+(state.mt[x[0]]?' on':'');
+   if(marks)c+=(state.mt[x[0]]===x[0]?' right':' wrong');
+   return '<div class="'+c+'" id="mtL'+x[0]+'" onclick="'+(marks?'':'mtPick(\'L\',\''+x[0]+'\')')+'">'+x[1]+'</div>';}).join('');
+ h+='</div><div class="mt-col">';
+ h+=r.right.map(function(x){const linked=Object.keys(state.mt).filter(function(l){return state.mt[l]===x[0];}).length>0;
+   return '<div class="mt-item'+(linked?' on':'')+'" id="mtR'+x[0]+'" onclick="'+(marks?'':'mtPick(\'R\',\''+x[0]+'\')')+'">'+x[1]+'</div>';}).join('');
+ return h+'</div></div></div>';}
+function renderMatch(i){const r=ROUNDS[i];
+ if(state.mtFor!==i){state.mtFor=i;state.mt={};state.mtSel=null;}
+ function draw(){const done=Object.keys(state.mt).length===r.left.length;
+  G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+   +mtBody(r)+note(r)
+   +'<div class="btnrow">'+(done?'<button class="continue-btn" onclick="mtCheck('+i+')">檢查</button>':'')+btnGive(i)+'</div>');
+  mtLines();}
+ window.mtDraw=draw;draw();}
+function mtCheck(i){const r=ROUNDS[i];let ok=0;r.left.forEach(function(x){if(state.mt[x[0]]===x[0])ok++;});
+ if(ok===r.left.length)state.score++;
+ const wrongOnes=r.left.filter(function(x){return state.mt[x[0]]!==x[0];});
+ const fix=wrongOnes.length?'正解：<br>'+wrongOnes.map(function(x){const rr=r.right.filter(function(y){return y[0]===x[0];})[0];return x[1]+' → '+rr[1];}).join('<br>')+'<br><br>':'';
+ window.mtDraw=null;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+mtBody(r,true)
+  +'<div class="feedback" style="color:'+(ok===r.left.length?'#a5d6a7':'#ffcc80')+';min-height:auto;font-size:13.5px">接對 '+ok+'/'+r.left.length+' 條</div>'
+  +okBox(ok===r.left.length?r.fbOk:r.fbNo+'<br>'+fix+r.fbOk)
+  +'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');
+ mtLines();}
+
+// ── 翻牌 ＋ 建構收尾 ──
+function renderFlip(i){const r=ROUNDS[i];
+ if(state.fpFor!==i){state.fpFor=i;state.fp=0;state.pl={};state.plSel=null;state.plFor=i;}
+ if(state.fp===0){
+   G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+    +'<div class="fp-bets">'+r.bets.map(function(b){return '<button class="fp-bet" onclick="fpBet('+i+',\''+b[0]+'\')">'+b[1]+'</button>';}).join('')+'</div>'
+    +btnGive(i));
+ }else{fpBuild(i);}}
+function fpBet(i,k){const r=ROUNDS[i];if(k===r.betOk)state.score++;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+r.reveal
+  +okBox('<span style="color:'+(k===r.betOk?'#a5d6a7':'#ffcc80')+'">'+(k===r.betOk?'你猜對了。':'猜反了——但重點不在猜對。')+'</span><br>'+r.revealTxt)
+  +(r.buildTitle?'<button class="continue-btn" onclick="fpNext('+i+')">最後一件事 ›</button>':'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>'));}
+function fpNext(i){state.fp=1;state.pl={};state.plSel=null;fade(function(){fpBuild(i);});}
+function fpBuild(i){const r=ROUNDS[i];
+ G.innerHTML=scene('sky-clear','range',dots(i)
+  +'<div class="chapter-label t-label">'+r.label+' · 收尾</div><div class="chapter-title t-main" style="font-size:22px;margin-bottom:0.9rem">'+r.buildTitle+'</div>'
+  +'<div class="round-q t-main" style="font-size:15px">'+r.buildQ+'</div>'
+  +placeBody(i,r.cards,r.slots,true)
+  +'<div class="btnrow">'+(plFull(r.slots)?'<button class="continue-btn" onclick="fpDone('+i+')">排好了 ›</button>':'')+btnGive(i)+'</div>');
+ window.plDraw=function(){fpBuild(i);};}
+function fpDone(i){const r=ROUNDS[i];const m=plMarks(r.slots);
+ let ok=0;Object.keys(m).forEach(function(k){if(m[k])ok++;});
+ window.plDraw=null;
+ G.innerHTML=scene('sky-clear','range',dots(i)
+  +'<div class="chapter-label t-label">'+r.label+' · 收尾</div><div class="chapter-title t-main" style="font-size:22px;margin-bottom:0.9rem">'+r.buildTitle+'</div>'
+  +placeBody(i,r.cards,r.slots,true,true,m)
+  +'<div class="feedback" style="color:'+(ok===r.slots.length?'#a5d6a7':'#ffcc80')+';min-height:auto;font-size:13.5px">放對 '+ok+'/'+r.slots.length+' 格'+(ok===r.slots.length?'':'（紅框那幾格放錯了，正解在「給我答案」也看得到）')+'</div>'
+  +okBox(r.done)+'<button class="continue-btn" onclick="record('+i+')">看我學會了什麼 ›</button>');}
+
+// ── 給我答案：就地揭示 ──
+function giveAnswer(i){const r=ROUNDS[i],a=ANS[i];
+ const gloss='<div style="font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.55);margin:0.9rem 0 0.5rem">名詞白話</div>'
+  +'<div class="layer-list" style="background:none;border:none;padding:0;margin:0">'+a.terms.map(function(t){return '<div class="ly"><b>'+t[0]+'</b><span>'+t[1]+'</span></div>';}).join('')+'</div>';
+ const ansLine='<div style="font-size:14px;line-height:1.75;color:#fff;text-align:left"><b style="color:#a5d6a7">答案：</b>'+a.answer+'</div>';
+ const expl=function(t){return '<div style="font-size:13.5px;line-height:1.8;color:rgba(255,255,255,0.92);text-align:left;max-width:480px;margin:0.5rem auto 0;background:rgba(0,0,0,0.3);border-radius:10px;padding:0.6rem 0.8rem">'+t+'</div>';};
+ let mid='';
+ window.plDraw=null;window.hsDraw=null;window.soDraw=null;window.mtDraw=null;
+ if(r.type==='ab'){
+   mid='<div class="choices">'+r.choices.map(function(c,k){return '<div class="choice-btn" style="cursor:default;'+(k===r.correct?'border-color:#a5d6a7;background:rgba(80,200,110,0.18)':'opacity:0.45')+'">'+(k===r.correct?'✓ ':'')+c+'</div>';}).join('')+'</div>'
+     +'<div class="feedback" style="color:#a5d6a7;min-height:auto;font-size:13.5px">'+r.fb[r.correct]+'</div>';
+ }else if(r.type==='place'){
+   state.pl={};r.slots.forEach(function(s){state.pl[s[0]]=s[2].split(',');});state.plSel=null;
+   mid=placeBody(i,r.cards,r.slots,r.wide,true,plMarks(r.slots))+expl(r.done);
+ }else if(r.type==='hotspot'){
+   state.hs=r.need.slice();mid=(r.hsFig?r.hsFig(state.hs,r.need):quadBox(r.quad,state.hs,r.need))+note(r)+expl(r.fbOk);
+ }else if(r.type==='slider'){
+   state.sv=r.slider.ans;
+   mid='<div id="slfig">'+r.fig(state.sv)+'</div><div class="feedback" style="min-height:auto;font-size:13.5px;color:#fff">'+r.vlab(state.sv)+'</div>'+expl(r.fbOk);
+ }else if(r.type==='sort'){
+   state.so=r.items.map(function(_,k){return k;});state.soSel=null;
+   mid=soBody(r,true)+expl(r.fbOk);
+ }else if(r.type==='match'){
+   state.mt={};r.left.forEach(function(x){state.mt[x[0]]=x[0];});state.mtSel=null;
+   mid=mtBody(r,true)+expl(r.fbOk);
+ }else if(r.type==='flip'){
+   if(state.fp===0){mid=r.reveal+expl(r.revealTxt);}
+   else{state.pl={};r.slots.forEach(function(s){state.pl[s[0]]=s[2].split(',');});state.plSel=null;
+     mid=placeBody(i,r.cards,r.slots,true,true,plMarks(r.slots))+expl(r.done);}
+ }
+ const nextBtn=(r.type==='flip'&&state.fp===0&&r.buildTitle)?'<button class="continue-btn" onclick="fpNext('+i+')">最後一件事 ›</button>':'<button class="continue-btn" onclick="record('+i+')">懂了，繼續 ›</button>';
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+mid+okBox(ansLine+gloss)+nextBtn);
+ if(r.type==='match')mtLines();}
+
+function record(i){const t=TRANSITIONS[i];if(t)fade(function(){showTrans(t,i);});else advance(i);}
+function showTrans(txt,i){G.innerHTML='<div class="scene" style="background:linear-gradient(180deg,#020408,#0a0714,#141020);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:3rem 1.5rem"><div class="overlay"><div class="transition-quote">'+txt+'</div><button class="continue-btn" onclick="advance('+i+')">繼續 ›</button></div></div>';}
+function advance(i){const n=i+1;if(n>=ROUNDS.length)fade(showResult);else fade(function(){showRound(n);});}
+
+// ================= 結果頁 =================
 function showResult(){PB.style.width='100%';const s=state.score,mx=ROUNDS.length;
- const tier=s>=mx-1?'穩':s>=Math.ceil(mx/2)?'入門':'再走一次';
- G.innerHTML=scene('sky-result','range',`
-  <div class="chapter-label t-label" style="margin-bottom:0.8rem">AI 泡沫評估表讀完</div>
-  <div class="result-icon">📊</div>
-  <div class="result-type t-main">你會讀 AI 泡沫評估表了</div><div class="result-vow" style="font-size:19px;font-weight:800;color:#e8c86a;margin:0.35rem auto 0.1rem;max-width:420px;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)">「我不再把『漲多』當『最強』了。」</div>
-  <div class="result-desc t-sub">你剛把 <b>AI 泡沫評估表</b>走了一遍：<br><b>本月解析（定調/主線/警戒/盯什麼）→ 這份報告怎麼用（三問題·六維度·溫度公式）→ 估值面 → 資本支出過熱 → 市場集中度 → 情緒與槓桿 → 歷史泡沫對比 → 破滅觸發條件 → 完整研判</b>。<br><br>核心一句：<b>泡沫不是是非題，是溫度題——風險溫度高，說的是「同一個壞消息打下來會更痛」。</b><br><br>判讀得分：${s} / ${mx}（${tier}）</div>
-  <div class="t-sub" style="font-size:13px;line-height:1.9;margin-bottom:1.3rem;max-width:430px;margin:0 auto 1.3rem">泡沫吵不出答案，但溫度可以量。接下來，拿這把尺去讀真的 AI 泡沫評估表。</div>
-  <div style="display:flex;flex-direction:column;align-items:center;gap:0.65rem;max-width:340px;margin:0 auto">
-    <a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">先訂免費電子報，每天練這套讀法 →</a>
-    <a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">拿這把尺，去讀這期 AI 泡沫評估表 →</a>
-    <button class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0;border:none" id="shareBtn" onclick="shareGame()">分享：讓還在吵「AI 是不是泡沫」的朋友，改用溫度看</button>
-  </div>
-  <a href="javascript:void(0)" onclick="restart()" style="display:inline-block;margin-top:0.9rem;font-size:12px;color:rgba(255,255,255,0.55);text-decoration:underline">重玩一次</a>
-  <div id="sfb" style="font-size:12px;color:rgba(160,220,255,0.7);margin-top:0.5rem;height:16px"></div>
-  <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1.4rem">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" style="color:rgba(224,165,38,0.6);text-decoration:none">BiBiPiano</a></div>`);}
-function restart(){state={idx:-1,score:0,gv:50,cls:[],mChecked:false};oi=0;PB.style.width='0%';fade(showStart);}
-function shareGame(){const url=window.location.href.split('?')[0];const t='我剛玩了《讀懂 AI 泡沫評估表》——泡沫不是是非題，是溫度題。六個維度打分，看風險現在集中在哪一格。';
+ const tier=s>=mx-2?'穩':s>=Math.ceil(mx/2)?'入門':'再走一次';
+ const chain=ROUNDS.map(function(r){return r.short;});
+ G.innerHTML=scene('sky-result','range',
+  '<div class="chapter-label t-label" style="margin-bottom:0.8rem">'+ROUNDS.length+' 站走完</div>'
+  +'<div class="result-icon">📊</div>'
+  +'<div class="result-type t-main">你會讀 AI 泡沫評估表了</div>'
+  +'<div class="result-vow" style="font-size:19px;font-weight:800;color:#e8c86a;margin:0.35rem auto 0.1rem;max-width:430px;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)">「我不再問是不是泡沫，我問風險在哪一環。」</div>'
+  +'<div class="result-desc t-sub">開場那一題是：<b>AI 是不是泡沫？</b><br>現在你知道，它不是是非題，是溫度題：<br><br>'
+    +'<b>'+chain.join(' → ')+'</b><br><br>'
+    +'下次打開報告，先找三件事：<br>① 溫度比上一期升還是降（同一把尺）<br>② 哪一環先動、動的是借錢還是需求<br>③ 主表上，哪一天會先開票<br><br>'
+    +'<b>溫度高，說的是「同一個壞消息打下來會更痛」，<br>不是明天會怎樣。</b><br><br>'
+    +'判讀得分：'+s+' / '+mx+'（'+tier+'）</div>'
+  +'<div class="t-sub" style="font-size:13px;line-height:1.9;max-width:430px;margin:0 auto 1.3rem">你身邊那個還在吵「AI 是不是泡沫」的朋友，<br>缺的就是一把能月月比較的尺。</div>'
+  +'<div style="display:flex;flex-direction:column;align-items:center;gap:0.65rem;max-width:340px;margin:0 auto">'
+  +'<a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">訂電子報，每月陪你把這張評估表讀一遍 →</a>'
+  +'<a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">拿這把尺，去讀這期 AI 泡沫評估表 →</a>'
+  +'<button class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0;border:none" id="shareBtn" onclick="shareGame()">分享：讓還在吵「是不是泡沫」的朋友，改用溫度看</button>'
+  +'</div>'
+  +'<a href="javascript:void(0)" onclick="restart()" style="display:inline-block;margin-top:0.9rem;font-size:12px;color:rgba(255,255,255,0.6);text-decoration:underline">重玩一次</a>'
+  +'<div id="sfb" style="font-size:12px;color:rgba(160,220,255,0.75);margin-top:0.5rem;height:16px"></div>'
+  +'<div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:1.4rem">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" rel="noopener" style="color:rgba(224,165,38,0.7);text-decoration:none">BiBiPiano</a>，版權為原作者所有</div>');}
+function restart(){state={idx:-1,score:0,sv:0,pl:{},plSel:null,plFor:-1,hs:[],hsFor:-1,so:null,soSel:null,soFor:-1,mt:{},mtSel:null,mtFor:-1,fp:0,fpFor:-1,slFor:-1};window.state=state;oi=0;PB.style.width='0%';fade(showStart);}
+function shareGame(){const url=window.location.href.split('?')[0];
+ const t='我剛走完《讀懂 AI 泡沫評估表》'+ROUNDS.length+' 站——泡沫不是是非題，是溫度題。六格打分，看風險現在集中在哪一環。';
  const fb=document.getElementById('sfb');
- if(navigator.share){navigator.share({title:'讀懂 AI 泡沫評估表 · Yoda',text:t,url}).catch(()=>{});return;}
- navigator.clipboard.writeText(url).then(()=>{fb.textContent='網址已複製，貼去分享吧';setTimeout(()=>fb.textContent='',2500);}).catch(()=>{fb.textContent=url;});}
-['startOpening','nextOpening','showRound','renderGauge','gaugeDone','setCls','clsCheck','giveAnswer','abPick','record','advance','showResult','restart','shareGame','fade','renderClassify','renderAB'].forEach(n=>window[n]=eval(n));
+ if(navigator.share){navigator.share({title:'讀懂 AI 泡沫評估表 · Yoda',text:t,url:url}).catch(function(){});return;}
+ try{navigator.clipboard.writeText(url).then(function(){fb.textContent='網址已複製，貼去分享吧';setTimeout(function(){fb.textContent='';},2500);}).catch(function(){fb.textContent=url;});}
+ catch(e){try{const ta=document.createElement('textarea');ta.value=url;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();fb.textContent='網址已複製，貼去分享吧';}catch(e2){fb.textContent=url;}}}
+
+['startOpening','nextOpening','showRound','renderAB','abPick','renderPlace','plCard','plSlot','plCheck',
+ 'renderHotspot','hsPick','hsCheck','renderSlider','slUpd','slDone','renderSort','soPick','soCheck',
+ 'renderMatch','mtPick','mtCheck','mtLines','renderFlip','fpBet','fpNext','fpBuild','fpDone',
+ 'giveAnswer','record','showTrans','advance','showResult','restart','shareGame','fade','startPulse'].forEach(function(n){window[n]=eval(n);});
 window.state=state;
+window.addEventListener('resize',function(){if(document.getElementById('mtwrap'))mtLines();});
+startPulse();
 showStart();
 </script><!-- ===== Yoda 會員檢核徽章模組 · 僅在網址帶 ?cert=TYPE 時啟用（一般遊玩完全不受影響） ===== -->
 <script>

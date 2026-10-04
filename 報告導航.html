@@ -283,9 +283,9 @@ const S=[
  sub:'點下去，用一個小遊戲帶你玩懂那份報告怎麼判讀（會開新分頁）。',
  items:[
   {name:'📊 市場觀察 · 抓大盤方向',desc:'多空天秤偏哪邊、三道防線、破線爆量怎麼讀——七段導覽',url:'看懂市場觀察-七段導覽.html'},
-  {name:'🗽 美股 · 讀懂美股報告',desc:'資金輪動、A 級候選、AI 三圈、廣度實錘——讀懂美股報告',url:'讀懂美股報告.html'},
-  {name:'🏝️ 台股 · 讀懂台股報告',desc:'量價一起看：REL、法人買賣超、AI 三圈——讀懂台股報告',url:'讀懂台股報告.html'},
-  {name:'🌍 總經 · 該積極還是保守',desc:'景氣循環位階、Fed 方向、利率環境——景氣循環的 DNA',url:'景氣循環的DNA-20260901.html'},
+  {name:'🗽 美股 · 讀懂美股報告',desc:'資金在哪些板塊進出、廣度數據怎麼看、市場狀態怎麼分級——讀懂美股報告',url:'讀懂美股報告.html'},
+  {name:'🏝️ 台股 · 讀懂台股報告',desc:'量價一起看：相對強度、法人與整體籌碼統計交叉看——讀懂台股報告',url:'讀懂台股報告.html'},
+  {name:'🌍 總經 · 該積極還是保守',desc:'景氣循環位階、Fed 方向、利率環境——景氣循環的 DNA',url:'景氣循環的DNA-20260904.html'},
   {name:'⚡ 簡報 · 快速看懂今天',desc:'發生什麼、為什麼、接下來注意什麼——看懂簡報',url:'看懂簡報.html'}]},
 // 4 過場
 {type:'mono',sky:'sky-night',bg:'river',lines:['報告，幫你看懂「今天」。','判斷力，要一次次練出來。']},
@@ -480,8 +480,8 @@ const RENDER={
  result:{html:()=>{
    let ratio=state.max?state.score/state.max:0, t;
    if(ratio>=0.8) t={e:'🎯',n:'讀資金流的人',tier:'LV.3 · 讓漏斗幫你選',
-     d:'你已經不再大海撈針——會先讀資金流、鎖啟動期、挑 A 級、要實錘、留退場線。幾千檔進去，剩幾檔出來。',
-     u:'<b>技能解鎖：讀懂美股報告（完整）。</b>輪動→階段→A級→實錘→退場，五關你都握住了。「選誰」不再是憑感覺。'};
+     d:'你已經不再大海撈針——會先讀資金流、鎖啟動期、挑三條件全中、要實錘、留退場線。幾千檔進去，剩幾檔出來。',
+     u:'<b>技能解鎖：讀懂美股報告（完整）。</b>輪動→階段→三條件→實錘→退場，五關你都握住了。「選誰」不再是憑感覺。'};
    else if(ratio>=0.5) t={e:'🧭',n:'漏斗學徒',tier:'LV.2 · 開始會篩',
      d:'你抓到訣竅了：跟著資金流、不憑感覺。剩下的是把五關練熟——尤其「實錘」和「退場線」別漏。',
      u:'<b>技能解鎖：跟著錢走 + 啟動期意識。</b>再把籌碼實錘與退場線練熟，你的漏斗就準了。'};
@@ -494,9 +494,9 @@ const RENDER={
      <p class="body center">${t.d}</p><div class="unlock">${t.u}</div>
      <p class="body center dim" style="font-size:14px">當期（2026-08）台美同一個故事：<b class="warnc">AI／科技退潮、資金輪動</b>——美股錢流非必需消費／金融、台股流金融／航運；都在「破底翻／空方末端」。別追崩的，跟噴的。</p>
      <div class="data-box" style="text-align:left">
-       <div class="row"><b>① 錢往哪流</b><span class="dim">美股:三圈熄→金融/消費　台股:電子崩→金融+29/航運+23</span></div>
+       <div class="row"><b>① 錢往哪流</b><span class="dim">美股:AI 族群熄火→金融/消費　台股:電子崩→金融+29/航運+23</span></div>
        <div class="row"><b>② 何時上車</b><span class="dim">啟動期＝廣度剛擴散&gt;20%、還沒追高</span></div>
-       <div class="row"><b>③ 上哪一檔</b><span class="dim">A級三條件全中；美股生技/資安、台股金融領先</span></div>
+       <div class="row"><b>③ 上哪一檔</b><span class="dim">三條件全中；美股生技/資安、台股金融領先</span></div>
        <div class="row"><b>④ 有沒有實錘</b><span class="dim">台股雙向確認(外資買台積+5.6萬)、吸籌54.2%；美股看廣度</span></div>
        <div class="row"><b>⑤ 退場線</b><span class="dim">資金轉防禦/掉出名單/新低267&gt;151看位置</span></div></div>
      <div class="act-btns">
