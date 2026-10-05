@@ -799,6 +799,8 @@ window.DATA_PATTERNS = [
   // ---------- 儲存 ----------
   function load(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }
   function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* 空間不足或私密模式 */ } }
+  // 科目列（subjects.js）也會寫 ke_settings.subject：存檔時以磁碟上最新的 subject 為準，不要蓋掉
+  function saveSettings() { const cur = load('ke_settings', {}) || {}; S.settings.subject = cur.subject; if (S.settings.subject === undefined) delete S.settings.subject; save('ke_settings', S.settings); }
   const KEYS = ['ke_progress', 'ke_mistakes', 'ke_settings', 'ke_log', 'ke_learned'];
   let S;
   function loadAll() {
@@ -807,7 +809,7 @@ window.DATA_PATTERNS = [
     S.progress = Object.assign({ stars: 0, quizzes: 0 }, S.progress);
     S.settings = Object.assign({ rate: 1, accent: 'en-US', last: null }, S.settings);
     const r0 = S.settings.rate; S.settings.rate = KE.clampRate(r0);
-    if (r0 !== S.settings.rate) save('ke_settings', S.settings);
+    if (r0 !== S.settings.rate) saveSettings();
     if (!Array.isArray(S.log)) S.log = [];
     if (!S.mistakes || typeof S.mistakes !== 'object') S.mistakes = {};
   }
@@ -867,6 +869,7 @@ window.DATA_PATTERNS = [
   window.addEventListener('hashchange', () => { if (location.hash !== rendered) render(); });
   function render() {
     const h = location.hash || '#home'; rendered = h; redraw = null;
+    if (/^#s\//.test(h)) return; // 其他科目由 subjects.js 負責
     const [p, sub] = h.slice(1).split('/');
     const pages = { home: pHome, learn: pLearn, practice: pPractice, quiz: pQuiz, result: pResult, mistakes: pMistakes, bank: pBank, parent: pParent };
     (pages[p] || pHome)(sub);
@@ -895,7 +898,7 @@ window.DATA_PATTERNS = [
   const speedCtl = () => `<div class="speed-ctl"><label class="speed-row">🐢<input type="range" class="speed-range" min="0.5" max="1.3" step="0.1" value="${KE.clampRate(S.settings.rate)}" aria-label="語音速度">🐇<b class="speed-val">${fmtRate(S.settings.rate)}</b></label><div class="speed-quick">${[['慢', 0.6], ['中', 0.8], ['正常', 1]].map(([t, v]) => `<button type="button" class="btn sm" data-rate="${v}">${t} ${v.toFixed(1)}</button>`).join('')}</div></div>`;
   const speedPill = () => /^#(learn|quiz|result|mistakes)/.test(rendered) ? `<div class="speed"><button type="button" class="btn sm speed-pill" data-speed-toggle aria-label="調整語音速度">🐢 <b class="speed-val">${fmtRate(S.settings.rate)}</b></button><div class="speed-pop" hidden>${speedCtl()}</div></div>` : '';
   function setRate(r, preview) {
-    S.settings.rate = KE.clampRate(r); save('ke_settings', S.settings);
+    S.settings.rate = KE.clampRate(r); saveSettings();
     $$('.speed-val').forEach(x => { x.textContent = fmtRate(S.settings.rate); });
     $$('.speed-range').forEach(x => { x.value = S.settings.rate; });
     if (preview) speak('Hello');
@@ -915,7 +918,7 @@ window.DATA_PATTERNS = [
   const vals = name => $$(`input[name="${name}"]`).filter(x => x.checked).map(x => x.value);
   const voiceCard = () => `<section class="card"><h2>🔊 語音設定</h2>${speedCtl()}${radios('accent', [['en-US', '🇺🇸 美式'], ['en-GB', '🇬🇧 英式']], S.settings.accent)}<button class="btn" id="tryv">試聽：<span class="en">Hello! How are you?</span></button>${synth ? '' : '<p class="muted">這個瀏覽器不支援唸英文。</p>'}</section>`;
   function bindVoice() {
-    $$('input[name="accent"]').forEach(el => el.onchange = () => { S.settings.accent = val('accent') || 'en-US'; save('ke_settings', S.settings); });
+    $$('input[name="accent"]').forEach(el => el.onchange = () => { S.settings.accent = val('accent') || 'en-US'; saveSettings(); });
     const t = $('#tryv'); if (t) t.onclick = () => speak('Hello! How are you?');
   }
   // ---------- 學會了 ----------
@@ -1036,7 +1039,7 @@ window.DATA_PATTERNS = [
     $('#start').onclick = () => {
       const allT = $$('input[name="top"]').map(x => x.value), onT = vals('top'), onY = vals('typ');
       const last = { mods: vals('mod'), offT: allT.filter(t => !onT.includes(t)), offY: types.filter(y => !onY.includes(y)), count: +val('count') || 10, ratio: +val('ratio') || 0, lv: val('lv'), src: val('src') };
-      S.settings.last = last; save('ke_settings', S.settings);
+      S.settings.last = last; saveSettings();
       if (!last.mods.length || !onY.length) { alert('請至少選一個單元和一個題型喔！'); return; }
       startQuiz({ modules: last.mods, topics: onT, types: onY, count: last.count, mistakeRatio: last.ratio, mistakes: mistakeIds(), lv: last.lv, src: last.src, allowSpeak: canSpeak });
     };
