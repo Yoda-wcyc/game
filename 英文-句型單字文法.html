@@ -1,0 +1,1202 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="學英文">
+<meta name="theme-color" content="#fff8ec">
+<meta name="color-scheme" content="light">
+<meta name="format-detection" content="telephone=no">
+<title>英文-句型/單字/文法</title>
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23ffd166'/%3E%3Ctext x='90' y='120' font-size='86' text-anchor='middle' font-family='Arial,sans-serif' font-weight='bold' fill='%23263445'%3EAB%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23ffd166'/%3E%3Ctext x='90' y='120' font-size='86' text-anchor='middle' font-family='Arial,sans-serif' font-weight='bold' fill='%23263445'%3EAB%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#fff8ec;--card:#ffffff;--ink:#263445;--muted:#6b7785;--line:#f0e2c8;
+  --pri:#ff8a3d;--pri-ink:#fff;--ok:#2fb36d;--ok-bg:#e6f8ee;--no:#e5484d;--no-bg:#fdecec;
+  --c1:#ffd166;--c2:#8ad3ff;--c3:#ffadad;--c4:#b8e986;--c5:#d5b8ff;
+  --r:20px;--shadow:0 4px 0 rgba(38,52,69,.08),0 8px 20px rgba(38,52,69,.06);
+  color-scheme:light;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:20px/1.55 -apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif}
+#app{max-width:980px;margin:0 auto;padding:12px 16px calc(40px + env(safe-area-inset-bottom))}
+.en{font-family:"Avenir Next","Trebuchet MS",-apple-system,sans-serif;letter-spacing:.01em}
+.say{cursor:pointer;text-decoration:underline dotted rgba(38,52,69,.35);text-underline-offset:4px}
+.say:active{color:var(--pri)}
+h1{font-size:1.5rem;margin:0}
+h2{font-size:1.15rem;margin:0 0 10px}
+.muted{color:var(--muted);font-size:.9rem}
+.center{text-align:center}
+.top{display:flex;align-items:center;gap:12px;margin:4px 0 16px;min-height:52px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:48px;padding:8px 18px;border:2px solid var(--line);border-radius:16px;background:#fff;color:var(--ink);font:inherit;font-size:1rem;font-weight:600;cursor:pointer;box-shadow:0 3px 0 var(--line);touch-action:manipulation}
+.btn:active{transform:translateY(2px);box-shadow:none}
+.btn:disabled{opacity:.45}
+.btn.primary{background:var(--pri);border-color:var(--pri);color:var(--pri-ink);box-shadow:0 3px 0 #d96a22}
+.btn.danger{color:var(--no);border-color:#f5c2c3}
+.btn.big{min-height:60px;font-size:1.15rem;padding:10px 26px}
+.btn.wide{width:100%;margin-top:12px}
+.btn.icon{min-width:52px;padding:0;font-size:1.4rem}
+.btn.sound{margin-top:12px}
+.row{display:flex;gap:12px;align-items:center;margin:14px 0}
+.row.wrap,.wrap{display:flex;flex-wrap:wrap;gap:10px}
+.card{background:var(--card);border-radius:var(--r);padding:18px;margin:0 0 14px;box-shadow:var(--shadow);border:2px solid var(--line)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.stat{background:#fff;border-radius:var(--r);padding:12px;text-align:center;box-shadow:var(--shadow);border:2px solid var(--line)}
+.stat span{font-size:1.6rem;display:block}.stat b{font-size:1.8rem;display:block;line-height:1.1}.stat small{color:var(--muted)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;margin-bottom:16px}
+.tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:150px;border:0;border-radius:24px;font:inherit;color:var(--ink);cursor:pointer;box-shadow:0 5px 0 rgba(38,52,69,.15);padding:14px;touch-action:manipulation}
+.tile:active{transform:translateY(3px);box-shadow:none}
+.tile .ti{font-size:2.6rem}.tile b{font-size:1.4rem}.tile small{font-size:.9rem;opacity:.8}
+.c1{background:var(--c1)}.c2{background:var(--c2)}.c3{background:var(--c3)}.c4{background:var(--c4)}.c5{background:var(--c5)}
+.filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+select{min-height:48px;font:inherit;font-size:1rem;padding:6px 12px;border:2px solid var(--line);border-radius:14px;background:#fff;color:var(--ink)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:10px}
+.cards .card{margin:0}
+.word .w{font-size:1.8rem;font-weight:700;color:#d2601a}
+.word .ipa{color:var(--muted);font-size:1rem}
+.pos{background:#fff2dd;border-radius:8px;padding:0 8px;font-size:.8rem}
+.word .zh{font-size:1.2rem;font-weight:600;margin:4px 0}
+.word .ex{font-size:1rem}.word .exzh{color:var(--muted);font-size:.9rem}
+.root .rh{display:flex;align-items:center;gap:10px}.root .rh b{font-size:1.7rem;color:#2477c9}
+.tag{background:#e8f4ff;color:#2477c9;border-radius:10px;padding:2px 10px;font-size:.85rem}
+.root .rm{font-weight:700;margin:4px 0}
+.root ul{margin:6px 0 0;padding-left:20px}.root li{margin:6px 0}.root i{color:var(--pri);font-style:normal}
+.root .zh{color:var(--muted);font-size:.9rem}
+.gram summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-size:1.15rem}
+.rules li{margin:6px 0}
+.exs div{margin:8px 0}.exs small{display:block;color:var(--muted)}
+.pat .ph{font-size:1.4rem;font-weight:700;color:#7a3fd1}.pat .zh{font-weight:600}
+.mod{border-bottom:1px dashed var(--line);padding:6px 0}
+.mod details summary{cursor:pointer;color:var(--muted);font-size:.9rem;min-height:36px;display:flex;align-items:center}
+.ck{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:4px 12px;border-radius:14px;background:#fff8ec;cursor:pointer;font-weight:600}
+.ck.sm{font-weight:400;font-size:.95rem}
+.ck input{width:24px;height:24px;accent-color:var(--pri)}
+.seg{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 10px}
+.pill input{position:absolute;opacity:0;pointer-events:none}
+.pill span{display:inline-flex;align-items:center;min-height:48px;padding:6px 18px;border-radius:999px;border:2px solid var(--line);background:#fff;cursor:pointer;font-weight:600}
+.pill input:checked+span{background:var(--pri);border-color:var(--pri);color:#fff}
+.pill input:focus-visible+span{outline:3px solid #2477c9}
+.bar{height:14px;background:#f3e6cf;border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#ffb347,var(--pri));border-radius:99px;transition:width .3s}
+.count{text-align:center;color:var(--muted);margin:6px 0 10px}
+.qcard{text-align:center;padding:22px 18px}
+.qtype{display:inline-block;background:#fff2dd;color:#b45309;border-radius:99px;padding:2px 14px;font-size:.9rem;margin-bottom:10px}
+.prompt{font-size:1.7rem;font-weight:700;line-height:1.35;word-break:break-word}
+.prompt.en{font-size:2rem}
+.sub{color:var(--muted);margin-top:8px;font-size:1.05rem}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.opts.one{grid-template-columns:1fr}
+.opt{min-height:72px;border:3px solid var(--line);border-radius:18px;background:#fff;font:inherit;font-size:1.3rem;font-weight:600;color:var(--ink);cursor:pointer;padding:10px;box-shadow:0 4px 0 var(--line);touch-action:manipulation;word-break:break-word}
+.opt:active{transform:translateY(2px);box-shadow:none}
+.opt.right{background:var(--ok-bg);border-color:var(--ok);color:#16784a}
+.opt.wrong{background:var(--no-bg);border-color:var(--no);color:#b4232a}
+.opt:disabled{cursor:default}
+.spell{display:flex;gap:10px}
+.spell input{flex:1;min-width:0;min-height:60px;font-size:1.6rem;padding:8px 16px;border:3px solid var(--line);border-radius:16px;font-family:"Avenir Next","Trebuchet MS",sans-serif}
+.spell input:focus{outline:none;border-color:var(--pri)}
+.placed{min-height:76px;border:3px dashed #f1c27d;border-radius:18px;padding:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:#fffdf7;margin-bottom:12px}
+.pool{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.chip{min-height:52px;min-width:52px;padding:6px 16px;border-radius:14px;border:2px solid #9fd0f5;background:#e8f4ff;font:inherit;font-size:1.25rem;font-weight:600;color:#1d5d99;cursor:pointer;box-shadow:0 3px 0 #9fd0f5;touch-action:manipulation;font-family:"Avenir Next","Trebuchet MS",sans-serif}
+.chip.on{background:#fff;border-color:var(--pri);color:#c2410c;box-shadow:0 3px 0 #f1c27d}
+.chip.used{visibility:hidden}
+.fb{border-radius:var(--r);padding:16px;margin-top:14px;border:3px solid}
+.fb.ok{background:var(--ok-bg);border-color:var(--ok)}
+.fb.no{background:var(--no-bg);border-color:var(--no)}
+.fb.skip{background:#f3f4f6;border-color:#d1d5db}
+.fbh{font-size:1.5rem;font-weight:800;margin-bottom:6px}
+.fb.ok .fbh{color:#16784a}.fb.no .fbh{color:#b4232a}
+.why{margin-top:8px;background:rgba(255,255,255,.7);border-radius:12px;padding:8px 12px}
+.result .stars{font-size:3rem;letter-spacing:6px}
+.result .score{font-size:2.6rem;font-weight:800}
+.list{list-style:none;padding:8px 18px;margin:0 0 14px}
+.list li{padding:10px 0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.list li:last-child{border-bottom:0}
+.badge{background:#eef2ff;color:#4338ca;border-radius:10px;padding:2px 10px;font-size:.8rem;white-space:nowrap}
+.dots{color:var(--ok);letter-spacing:2px}
+.week{display:flex;gap:8px;align-items:flex-end}
+.day{flex:1;text-align:center;font-size:.85rem}
+.day .col{height:120px;background:#fdf3e1;border-radius:10px;display:flex;align-items:flex-end;overflow:hidden}
+.day .col i{display:block;width:100%;background:var(--pri);border-radius:10px 10px 0 0}
+.day small{display:block;color:var(--muted)}
+.tblwrap{overflow-x:auto}
+.tbl{width:100%;border-collapse:collapse;font-size:.95rem}
+.tbl th,.tbl td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left}
+.tbl th{cursor:pointer;user-select:none;-webkit-user-select:none;background:#fff8ec;white-space:nowrap}
+.btn.learn{margin-top:12px;background:var(--ok-bg);border-color:#9fe0bd;color:#16784a;box-shadow:0 3px 0 #9fe0bd}
+.btn.sm{min-height:44px;padding:4px 14px;font-size:.9rem;font-weight:500}
+.learned{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:12px}
+.learned .done{color:#16784a;font-weight:700;font-size:1rem}
+.row .learned,.row .btn.learn{margin-top:0}
+.card.is-learned{border-color:#9fe0bd;background:#fbfffc}
+.lfbar{display:flex;flex-wrap:wrap;align-items:center;gap:4px 16px;margin:6px 0}
+.lfbar .seg{margin:0}
+.prog{margin:0;font-weight:700;color:#16784a}
+.share-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px 14px;margin:18px 0 8px}
+@media (max-width:560px){
+  body{font-size:18px}
+  .tiles{grid-template-columns:1fr 1fr}
+  .tile{min-height:120px}
+  .prompt{font-size:1.4rem}.prompt.en{font-size:1.7rem}
+  .opt{font-size:1.1rem;min-height:64px}
+}
+</style>
+</head>
+<body>
+<main id="app"><p style="text-align:center;margin-top:40px">載入中…</p></main>
+<noscript><p style="text-align:center">需要開啟 JavaScript 才能使用。</p></noscript>
+<script>
+/* 單字資料：教育部國小基本字彙（src:"moe"）。
+   新增課本單字：照同樣格式加一行，src 寫來源（例如 "textbook-4A-L3"），網頁就會出現「來源」篩選。
+   欄位：w 英文、ipa 音標、pos 詞性(n/v/adj/num)、zh 中文、lv 等級(1/2)、tags 主題、ex 例句、exZh 例句中文、src 來源 */
+window.DATA_WORDS = [
+{w:"cat",ipa:"/kæt/",pos:"n",zh:"貓",lv:1,tags:["animal"],ex:"The cat is sleeping.",exZh:"貓在睡覺。",src:"moe"},
+{w:"dog",ipa:"/dɔɡ/",pos:"n",zh:"狗",lv:1,tags:["animal"],ex:"My dog can run fast.",exZh:"我的狗跑得很快。",src:"moe"},
+{w:"bird",ipa:"/bɝd/",pos:"n",zh:"鳥",lv:1,tags:["animal"],ex:"The bird is singing.",exZh:"小鳥在唱歌。",src:"moe"},
+{w:"fish",ipa:"/fɪʃ/",pos:"n",zh:"魚",lv:1,tags:["animal"],ex:"I have two fish.",exZh:"我有兩條魚。",src:"moe"},
+{w:"pig",ipa:"/pɪɡ/",pos:"n",zh:"豬",lv:1,tags:["animal"],ex:"The pig is pink.",exZh:"這隻豬是粉紅色的。",src:"moe"},
+{w:"cow",ipa:"/kaʊ/",pos:"n",zh:"乳牛",lv:1,tags:["animal"],ex:"The cow gives us milk.",exZh:"乳牛給我們牛奶。",src:"moe"},
+{w:"duck",ipa:"/dʌk/",pos:"n",zh:"鴨子",lv:1,tags:["animal"],ex:"The duck can swim.",exZh:"鴨子會游泳。",src:"moe"},
+{w:"horse",ipa:"/hɔrs/",pos:"n",zh:"馬",lv:1,tags:["animal"],ex:"I want to ride a horse.",exZh:"我想騎馬。",src:"moe"},
+{w:"rabbit",ipa:"/ˈræbɪt/",pos:"n",zh:"兔子",lv:1,tags:["animal"],ex:"The rabbit likes carrots.",exZh:"兔子喜歡紅蘿蔔。",src:"moe"},
+{w:"monkey",ipa:"/ˈmʌŋki/",pos:"n",zh:"猴子",lv:1,tags:["animal"],ex:"The monkey is eating a banana.",exZh:"猴子正在吃香蕉。",src:"moe"},
+{w:"tiger",ipa:"/ˈtaɪɡɚ/",pos:"n",zh:"老虎",lv:1,tags:["animal"],ex:"The tiger is very strong.",exZh:"老虎非常強壯。",src:"moe"},
+{w:"lion",ipa:"/ˈlaɪən/",pos:"n",zh:"獅子",lv:1,tags:["animal"],ex:"The lion is the king of animals.",exZh:"獅子是萬獸之王。",src:"moe"},
+{w:"bear",ipa:"/bɛr/",pos:"n",zh:"熊",lv:1,tags:["animal"],ex:"The bear likes honey.",exZh:"熊喜歡蜂蜜。",src:"moe"},
+{w:"elephant",ipa:"/ˈɛləfənt/",pos:"n",zh:"大象",lv:1,tags:["animal"],ex:"An elephant has a long nose.",exZh:"大象有長長的鼻子。",src:"moe"},
+{w:"chicken",ipa:"/ˈtʃɪkɪn/",pos:"n",zh:"雞、雞肉",lv:1,tags:["animal","food"],ex:"We have chicken for dinner.",exZh:"我們晚餐吃雞肉。",src:"moe"},
+{w:"apple",ipa:"/ˈæpəl/",pos:"n",zh:"蘋果",lv:1,tags:["food"],ex:"I eat an apple every day.",exZh:"我每天吃一顆蘋果。",src:"moe"},
+{w:"banana",ipa:"/bəˈnænə/",pos:"n",zh:"香蕉",lv:1,tags:["food"],ex:"Monkeys love bananas.",exZh:"猴子很愛香蕉。",src:"moe"},
+{w:"egg",ipa:"/ɛɡ/",pos:"n",zh:"蛋",lv:1,tags:["food"],ex:"I have an egg for breakfast.",exZh:"我早餐吃一顆蛋。",src:"moe"},
+{w:"milk",ipa:"/mɪlk/",pos:"n",zh:"牛奶",lv:1,tags:["food"],ex:"I drink milk every morning.",exZh:"我每天早上喝牛奶。",src:"moe"},
+{w:"rice",ipa:"/raɪs/",pos:"n",zh:"米飯",lv:1,tags:["food"],ex:"We eat rice for dinner.",exZh:"我們晚餐吃米飯。",src:"moe"},
+{w:"bread",ipa:"/brɛd/",pos:"n",zh:"麵包",lv:1,tags:["food"],ex:"I like bread with jam.",exZh:"我喜歡麵包配果醬。",src:"moe"},
+{w:"cake",ipa:"/keɪk/",pos:"n",zh:"蛋糕",lv:1,tags:["food"],ex:"Happy birthday! Here is your cake.",exZh:"生日快樂！這是你的蛋糕。",src:"moe"},
+{w:"water",ipa:"/ˈwɔtɚ/",pos:"n",zh:"水",lv:1,tags:["food"],ex:"Please give me some water.",exZh:"請給我一些水。",src:"moe"},
+{w:"juice",ipa:"/dʒus/",pos:"n",zh:"果汁",lv:1,tags:["food"],ex:"I want a glass of apple juice.",exZh:"我想要一杯蘋果汁。",src:"moe"},
+{w:"noodles",ipa:"/ˈnudəlz/",pos:"n",zh:"麵條",lv:1,tags:["food"],ex:"My mom cooks noodles for lunch.",exZh:"媽媽午餐煮麵。",src:"moe"},
+{w:"candy",ipa:"/ˈkændi/",pos:"n",zh:"糖果",lv:1,tags:["food"],ex:"Don't eat too much candy.",exZh:"不要吃太多糖果。",src:"moe"},
+{w:"orange",ipa:"/ˈɔrɪndʒ/",pos:"n",zh:"柳橙；橘色",lv:1,tags:["food","color"],ex:"This orange is sweet.",exZh:"這顆柳橙很甜。",src:"moe"},
+{w:"tea",ipa:"/ti/",pos:"n",zh:"茶",lv:1,tags:["food"],ex:"My grandpa drinks tea.",exZh:"我爺爺喝茶。",src:"moe"},
+{w:"hamburger",ipa:"/ˈhæmbɝɡɚ/",pos:"n",zh:"漢堡",lv:1,tags:["food"],ex:"I want a hamburger and fries.",exZh:"我想要一個漢堡和薯條。",src:"moe"},
+{w:"sandwich",ipa:"/ˈsænwɪtʃ/",pos:"n",zh:"三明治",lv:1,tags:["food"],ex:"I make a sandwich for lunch.",exZh:"我午餐做一個三明治。",src:"moe"},
+{w:"red",ipa:"/rɛd/",pos:"adj",zh:"紅色的",lv:1,tags:["color"],ex:"The apple is red.",exZh:"這顆蘋果是紅色的。",src:"moe"},
+{w:"blue",ipa:"/blu/",pos:"adj",zh:"藍色的",lv:1,tags:["color"],ex:"The sky is blue.",exZh:"天空是藍色的。",src:"moe"},
+{w:"green",ipa:"/ɡrin/",pos:"adj",zh:"綠色的",lv:1,tags:["color"],ex:"The grass is green.",exZh:"草是綠色的。",src:"moe"},
+{w:"yellow",ipa:"/ˈjɛloʊ/",pos:"adj",zh:"黃色的",lv:1,tags:["color"],ex:"Bananas are yellow.",exZh:"香蕉是黃色的。",src:"moe"},
+{w:"black",ipa:"/blæk/",pos:"adj",zh:"黑色的",lv:1,tags:["color"],ex:"My cat is black.",exZh:"我的貓是黑色的。",src:"moe"},
+{w:"white",ipa:"/waɪt/",pos:"adj",zh:"白色的",lv:1,tags:["color"],ex:"Snow is white.",exZh:"雪是白色的。",src:"moe"},
+{w:"pink",ipa:"/pɪŋk/",pos:"adj",zh:"粉紅色的",lv:1,tags:["color"],ex:"She has a pink bag.",exZh:"她有一個粉紅色的包包。",src:"moe"},
+{w:"purple",ipa:"/ˈpɝpəl/",pos:"adj",zh:"紫色的",lv:1,tags:["color"],ex:"Grapes are purple.",exZh:"葡萄是紫色的。",src:"moe"},
+{w:"brown",ipa:"/braʊn/",pos:"adj",zh:"棕色的",lv:1,tags:["color"],ex:"I have brown eyes.",exZh:"我有棕色的眼睛。",src:"moe"},
+{w:"one",ipa:"/wʌn/",pos:"num",zh:"一",lv:1,tags:["number"],ex:"I have one brother.",exZh:"我有一個哥哥。",src:"moe"},
+{w:"two",ipa:"/tu/",pos:"num",zh:"二",lv:1,tags:["number"],ex:"I have two hands.",exZh:"我有兩隻手。",src:"moe"},
+{w:"three",ipa:"/θri/",pos:"num",zh:"三",lv:1,tags:["number"],ex:"There are three cats.",exZh:"有三隻貓。",src:"moe"},
+{w:"four",ipa:"/fɔr/",pos:"num",zh:"四",lv:1,tags:["number"],ex:"A dog has four legs.",exZh:"狗有四條腿。",src:"moe"},
+{w:"five",ipa:"/faɪv/",pos:"num",zh:"五",lv:1,tags:["number"],ex:"I see five birds.",exZh:"我看到五隻鳥。",src:"moe"},
+{w:"six",ipa:"/sɪks/",pos:"num",zh:"六",lv:1,tags:["number"],ex:"I get up at six.",exZh:"我六點起床。",src:"moe"},
+{w:"seven",ipa:"/ˈsɛvən/",pos:"num",zh:"七",lv:1,tags:["number"],ex:"There are seven days in a week.",exZh:"一個星期有七天。",src:"moe"},
+{w:"eight",ipa:"/eɪt/",pos:"num",zh:"八",lv:1,tags:["number"],ex:"A spider has eight legs.",exZh:"蜘蛛有八隻腳。",src:"moe"},
+{w:"nine",ipa:"/naɪn/",pos:"num",zh:"九",lv:1,tags:["number"],ex:"My sister is nine years old.",exZh:"我妹妹九歲。",src:"moe"},
+{w:"ten",ipa:"/tɛn/",pos:"num",zh:"十",lv:1,tags:["number"],ex:"I am ten years old.",exZh:"我十歲。",src:"moe"},
+{w:"eleven",ipa:"/ɪˈlɛvən/",pos:"num",zh:"十一",lv:1,tags:["number"],ex:"A soccer team has eleven players.",exZh:"一支足球隊有十一個球員。",src:"moe"},
+{w:"twelve",ipa:"/twɛlv/",pos:"num",zh:"十二",lv:1,tags:["number"],ex:"A year has twelve months.",exZh:"一年有十二個月。",src:"moe"},
+{w:"father",ipa:"/ˈfɑðɚ/",pos:"n",zh:"爸爸、父親",lv:1,tags:["family"],ex:"My father is a doctor.",exZh:"我爸爸是醫生。",src:"moe"},
+{w:"mother",ipa:"/ˈmʌðɚ/",pos:"n",zh:"媽媽、母親",lv:1,tags:["family"],ex:"My mother cooks dinner.",exZh:"我媽媽煮晚餐。",src:"moe"},
+{w:"brother",ipa:"/ˈbrʌðɚ/",pos:"n",zh:"哥哥、弟弟",lv:1,tags:["family"],ex:"My brother likes soccer.",exZh:"我哥哥喜歡足球。",src:"moe"},
+{w:"sister",ipa:"/ˈsɪstɚ/",pos:"n",zh:"姊姊、妹妹",lv:1,tags:["family"],ex:"My sister is very kind.",exZh:"我姊姊很善良。",src:"moe"},
+{w:"grandfather",ipa:"/ˈɡrænˌfɑðɚ/",pos:"n",zh:"爺爺、外公",lv:1,tags:["family"],ex:"My grandfather lives in Tainan.",exZh:"我爺爺住在台南。",src:"moe"},
+{w:"grandmother",ipa:"/ˈɡrænˌmʌðɚ/",pos:"n",zh:"奶奶、外婆",lv:1,tags:["family"],ex:"My grandmother makes good dumplings.",exZh:"我奶奶包的水餃很好吃。",src:"moe"},
+{w:"baby",ipa:"/ˈbeɪbi/",pos:"n",zh:"嬰兒",lv:1,tags:["family"],ex:"The baby is sleeping.",exZh:"小嬰兒在睡覺。",src:"moe"},
+{w:"family",ipa:"/ˈfæməli/",pos:"n",zh:"家人、家庭",lv:1,tags:["family"],ex:"I love my family.",exZh:"我愛我的家人。",src:"moe"},
+{w:"book",ipa:"/bʊk/",pos:"n",zh:"書",lv:1,tags:["school"],ex:"This is my English book.",exZh:"這是我的英文書。",src:"moe"},
+{w:"pen",ipa:"/pɛn/",pos:"n",zh:"原子筆",lv:1,tags:["school"],ex:"Can I use your pen?",exZh:"我可以用你的筆嗎？",src:"moe"},
+{w:"pencil",ipa:"/ˈpɛnsəl/",pos:"n",zh:"鉛筆",lv:1,tags:["school"],ex:"I write with a pencil.",exZh:"我用鉛筆寫字。",src:"moe"},
+{w:"eraser",ipa:"/ɪˈreɪsɚ/",pos:"n",zh:"橡皮擦",lv:1,tags:["school"],ex:"May I borrow your eraser?",exZh:"我可以借你的橡皮擦嗎？",src:"moe"},
+{w:"ruler",ipa:"/ˈrulɚ/",pos:"n",zh:"尺",lv:1,tags:["school"],ex:"I draw a line with a ruler.",exZh:"我用尺畫一條線。",src:"moe"},
+{w:"bag",ipa:"/bæɡ/",pos:"n",zh:"袋子、書包",lv:1,tags:["school"],ex:"My bag is heavy.",exZh:"我的書包很重。",src:"moe"},
+{w:"desk",ipa:"/dɛsk/",pos:"n",zh:"書桌",lv:1,tags:["school"],ex:"The book is on the desk.",exZh:"書在書桌上。",src:"moe"},
+{w:"chair",ipa:"/tʃɛr/",pos:"n",zh:"椅子",lv:1,tags:["school"],ex:"Please sit on the chair.",exZh:"請坐在椅子上。",src:"moe"},
+{w:"teacher",ipa:"/ˈtitʃɚ/",pos:"n",zh:"老師",lv:1,tags:["school"],ex:"Ms. Lin is my English teacher.",exZh:"林老師是我的英文老師。",src:"moe"},
+{w:"student",ipa:"/ˈstudənt/",pos:"n",zh:"學生",lv:1,tags:["school"],ex:"I am a student.",exZh:"我是學生。",src:"moe"},
+{w:"school",ipa:"/skul/",pos:"n",zh:"學校",lv:1,tags:["school"],ex:"I go to school by bike.",exZh:"我騎腳踏車上學。",src:"moe"},
+{w:"class",ipa:"/klæs/",pos:"n",zh:"班級、上課",lv:1,tags:["school"],ex:"We have English class today.",exZh:"我們今天有英文課。",src:"moe"},
+{w:"head",ipa:"/hɛd/",pos:"n",zh:"頭",lv:1,tags:["body"],ex:"Put your hands on your head.",exZh:"把你的手放在頭上。",src:"moe"},
+{w:"eye",ipa:"/aɪ/",pos:"n",zh:"眼睛",lv:1,tags:["body"],ex:"Close your eyes.",exZh:"閉上你的眼睛。",src:"moe"},
+{w:"ear",ipa:"/ɪr/",pos:"n",zh:"耳朵",lv:1,tags:["body"],ex:"Rabbits have long ears.",exZh:"兔子有長耳朵。",src:"moe"},
+{w:"nose",ipa:"/noʊz/",pos:"n",zh:"鼻子",lv:1,tags:["body"],ex:"My nose is cold.",exZh:"我的鼻子好冰。",src:"moe"},
+{w:"mouth",ipa:"/maʊθ/",pos:"n",zh:"嘴巴",lv:1,tags:["body"],ex:"Open your mouth, please.",exZh:"請張開嘴巴。",src:"moe"},
+{w:"hand",ipa:"/hænd/",pos:"n",zh:"手",lv:1,tags:["body"],ex:"Wash your hands before dinner.",exZh:"晚餐前要洗手。",src:"moe"},
+{w:"foot",ipa:"/fʊt/",pos:"n",zh:"腳",lv:1,tags:["body"],ex:"My foot hurts.",exZh:"我的腳好痛。",src:"moe"},
+{w:"leg",ipa:"/lɛɡ/",pos:"n",zh:"腿",lv:1,tags:["body"],ex:"A chicken has two legs.",exZh:"雞有兩條腿。",src:"moe"},
+{w:"arm",ipa:"/ɑrm/",pos:"n",zh:"手臂",lv:1,tags:["body"],ex:"Raise your arms.",exZh:"舉起你的手臂。",src:"moe"},
+{w:"hair",ipa:"/hɛr/",pos:"n",zh:"頭髮",lv:1,tags:["body"],ex:"She has long hair.",exZh:"她有長頭髮。",src:"moe"},
+{w:"sunny",ipa:"/ˈsʌni/",pos:"adj",zh:"晴朗的",lv:1,tags:["weather"],ex:"It is sunny today.",exZh:"今天是晴天。",src:"moe"},
+{w:"rainy",ipa:"/ˈreɪni/",pos:"adj",zh:"下雨的",lv:1,tags:["weather"],ex:"I don't like rainy days.",exZh:"我不喜歡下雨天。",src:"moe"},
+{w:"cloudy",ipa:"/ˈklaʊdi/",pos:"adj",zh:"多雲的、陰天的",lv:1,tags:["weather"],ex:"It is cloudy this morning.",exZh:"今天早上是陰天。",src:"moe"},
+{w:"windy",ipa:"/ˈwɪndi/",pos:"adj",zh:"風很大的",lv:1,tags:["weather"],ex:"It is windy outside.",exZh:"外面風很大。",src:"moe"},
+{w:"hot",ipa:"/hɑt/",pos:"adj",zh:"熱的",lv:1,tags:["weather"],ex:"It is hot in summer.",exZh:"夏天很熱。",src:"moe"},
+{w:"cold",ipa:"/koʊld/",pos:"adj",zh:"冷的",lv:1,tags:["weather"],ex:"It is cold in winter.",exZh:"冬天很冷。",src:"moe"},
+{w:"home",ipa:"/hoʊm/",pos:"n",zh:"家",lv:1,tags:["place"],ex:"I go home at four.",exZh:"我四點回家。",src:"moe"},
+{w:"park",ipa:"/pɑrk/",pos:"n",zh:"公園",lv:1,tags:["place"],ex:"Let's play in the park.",exZh:"我們去公園玩吧。",src:"moe"},
+{w:"zoo",ipa:"/zu/",pos:"n",zh:"動物園",lv:1,tags:["place"],ex:"We see pandas at the zoo.",exZh:"我們在動物園看熊貓。",src:"moe"},
+{w:"store",ipa:"/stɔr/",pos:"n",zh:"商店",lv:1,tags:["place"],ex:"I buy milk at the store.",exZh:"我在商店買牛奶。",src:"moe"},
+{w:"day",ipa:"/deɪ/",pos:"n",zh:"一天、白天",lv:1,tags:["time"],ex:"Have a nice day!",exZh:"祝你有美好的一天！",src:"moe"},
+{w:"morning",ipa:"/ˈmɔrnɪŋ/",pos:"n",zh:"早上",lv:1,tags:["time"],ex:"Good morning, class!",exZh:"同學們早安！",src:"moe"},
+{w:"night",ipa:"/naɪt/",pos:"n",zh:"晚上、夜晚",lv:1,tags:["time"],ex:"Good night, Mom.",exZh:"媽媽晚安。",src:"moe"},
+{w:"today",ipa:"/təˈdeɪ/",pos:"n",zh:"今天",lv:1,tags:["time"],ex:"Today is my birthday!",exZh:"今天是我的生日！",src:"moe"},
+{w:"run",ipa:"/rʌn/",pos:"v",zh:"跑",lv:1,tags:["verb"],ex:"I run in the park.",exZh:"我在公園跑步。",src:"moe"},
+{w:"jump",ipa:"/dʒʌmp/",pos:"v",zh:"跳",lv:1,tags:["verb"],ex:"Rabbits can jump high.",exZh:"兔子可以跳得很高。",src:"moe"},
+{w:"eat",ipa:"/it/",pos:"v",zh:"吃",lv:1,tags:["verb"],ex:"I eat breakfast at seven.",exZh:"我七點吃早餐。",src:"moe"},
+{w:"drink",ipa:"/drɪŋk/",pos:"v",zh:"喝",lv:1,tags:["verb"],ex:"Drink some water.",exZh:"喝點水吧。",src:"moe"},
+{w:"sing",ipa:"/sɪŋ/",pos:"v",zh:"唱歌",lv:1,tags:["verb"],ex:"We sing a song in music class.",exZh:"我們在音樂課唱歌。",src:"moe"},
+{w:"dance",ipa:"/dæns/",pos:"v",zh:"跳舞",lv:1,tags:["verb"],ex:"She likes to dance.",exZh:"她喜歡跳舞。",src:"moe"},
+{w:"swim",ipa:"/swɪm/",pos:"v",zh:"游泳",lv:1,tags:["verb"],ex:"I can swim.",exZh:"我會游泳。",src:"moe"},
+{w:"read",ipa:"/rid/",pos:"v",zh:"讀、閱讀",lv:1,tags:["verb"],ex:"I read a book before bed.",exZh:"我睡前看書。",src:"moe"},
+{w:"write",ipa:"/raɪt/",pos:"v",zh:"寫",lv:1,tags:["verb"],ex:"Write your name here.",exZh:"在這裡寫下你的名字。",src:"moe"},
+{w:"play",ipa:"/pleɪ/",pos:"v",zh:"玩、打（球）",lv:1,tags:["verb"],ex:"Let's play basketball.",exZh:"我們來打籃球吧。",src:"moe"},
+{w:"go",ipa:"/ɡoʊ/",pos:"v",zh:"去",lv:1,tags:["verb"],ex:"I go to school at seven thirty.",exZh:"我七點半去上學。",src:"moe"},
+{w:"see",ipa:"/si/",pos:"v",zh:"看見",lv:1,tags:["verb"],ex:"I can see a bird.",exZh:"我看得到一隻鳥。",src:"moe"},
+{w:"like",ipa:"/laɪk/",pos:"v",zh:"喜歡",lv:1,tags:["verb"],ex:"I like dogs.",exZh:"我喜歡狗。",src:"moe"},
+{w:"have",ipa:"/hæv/",pos:"v",zh:"有",lv:1,tags:["verb"],ex:"I have a new bike.",exZh:"我有一台新腳踏車。",src:"moe"},
+{w:"sleep",ipa:"/slip/",pos:"v",zh:"睡覺",lv:1,tags:["verb"],ex:"I sleep at nine.",exZh:"我九點睡覺。",src:"moe"},
+{w:"big",ipa:"/bɪɡ/",pos:"adj",zh:"大的",lv:1,tags:["adj"],ex:"The elephant is big.",exZh:"大象很大。",src:"moe"},
+{w:"small",ipa:"/smɔl/",pos:"adj",zh:"小的",lv:1,tags:["adj"],ex:"The mouse is small.",exZh:"老鼠很小。",src:"moe"},
+{w:"happy",ipa:"/ˈhæpi/",pos:"adj",zh:"快樂的",lv:1,tags:["adj"],ex:"I am happy today.",exZh:"我今天很開心。",src:"moe"},
+{w:"sad",ipa:"/sæd/",pos:"adj",zh:"難過的",lv:1,tags:["adj"],ex:"Why are you sad?",exZh:"你為什麼難過？",src:"moe"},
+{w:"tall",ipa:"/tɔl/",pos:"adj",zh:"高的",lv:1,tags:["adj"],ex:"My father is tall.",exZh:"我爸爸很高。",src:"moe"},
+{w:"short",ipa:"/ʃɔrt/",pos:"adj",zh:"矮的、短的",lv:1,tags:["adj"],ex:"My pencil is short.",exZh:"我的鉛筆很短。",src:"moe"},
+{w:"long",ipa:"/lɔŋ/",pos:"adj",zh:"長的",lv:1,tags:["adj"],ex:"The giraffe has a long neck.",exZh:"長頸鹿有長長的脖子。",src:"moe"},
+{w:"good",ipa:"/ɡʊd/",pos:"adj",zh:"好的",lv:1,tags:["adj"],ex:"You are a good boy.",exZh:"你是個好孩子。",src:"moe"},
+{w:"new",ipa:"/nu/",pos:"adj",zh:"新的",lv:1,tags:["adj"],ex:"I have new shoes.",exZh:"我有新鞋子。",src:"moe"},
+{w:"old",ipa:"/oʊld/",pos:"adj",zh:"老的、舊的",lv:1,tags:["adj"],ex:"This is an old book.",exZh:"這是一本舊書。",src:"moe"},
+{w:"giraffe",ipa:"/dʒəˈræf/",pos:"n",zh:"長頸鹿",lv:2,tags:["animal"],ex:"The giraffe is very tall.",exZh:"長頸鹿非常高。",src:"moe"},
+{w:"zebra",ipa:"/ˈzibrə/",pos:"n",zh:"斑馬",lv:2,tags:["animal"],ex:"A zebra has black and white stripes.",exZh:"斑馬有黑白條紋。",src:"moe"},
+{w:"panda",ipa:"/ˈpændə/",pos:"n",zh:"熊貓",lv:2,tags:["animal"],ex:"Pandas love to eat bamboo.",exZh:"熊貓很愛吃竹子。",src:"moe"},
+{w:"kangaroo",ipa:"/ˌkæŋɡəˈru/",pos:"n",zh:"袋鼠",lv:2,tags:["animal"],ex:"A kangaroo can jump very far.",exZh:"袋鼠可以跳很遠。",src:"moe"},
+{w:"snake",ipa:"/sneɪk/",pos:"n",zh:"蛇",lv:2,tags:["animal"],ex:"I am afraid of snakes.",exZh:"我怕蛇。",src:"moe"},
+{w:"turtle",ipa:"/ˈtɝtəl/",pos:"n",zh:"烏龜",lv:2,tags:["animal"],ex:"The turtle walks slowly.",exZh:"烏龜走得很慢。",src:"moe"},
+{w:"mouse",ipa:"/maʊs/",pos:"n",zh:"老鼠",lv:2,tags:["animal"],ex:"The mouse is under the bed.",exZh:"老鼠在床底下。",src:"moe"},
+{w:"sheep",ipa:"/ʃip/",pos:"n",zh:"綿羊",lv:2,tags:["animal"],ex:"The sheep are eating grass.",exZh:"綿羊在吃草。",src:"moe"},
+{w:"breakfast",ipa:"/ˈbrɛkfəst/",pos:"n",zh:"早餐",lv:2,tags:["food"],ex:"I eat breakfast at home.",exZh:"我在家吃早餐。",src:"moe"},
+{w:"lunch",ipa:"/lʌntʃ/",pos:"n",zh:"午餐",lv:2,tags:["food"],ex:"What do you want for lunch?",exZh:"你午餐想吃什麼？",src:"moe"},
+{w:"dinner",ipa:"/ˈdɪnɚ/",pos:"n",zh:"晚餐",lv:2,tags:["food"],ex:"We have dinner at six thirty.",exZh:"我們六點半吃晚餐。",src:"moe"},
+{w:"vegetable",ipa:"/ˈvɛdʒtəbəl/",pos:"n",zh:"蔬菜",lv:2,tags:["food"],ex:"Eat more vegetables.",exZh:"多吃蔬菜。",src:"moe"},
+{w:"fruit",ipa:"/frut/",pos:"n",zh:"水果",lv:2,tags:["food"],ex:"I eat fruit every day.",exZh:"我每天吃水果。",src:"moe"},
+{w:"chocolate",ipa:"/ˈtʃɔklət/",pos:"n",zh:"巧克力",lv:2,tags:["food"],ex:"This chocolate is sweet.",exZh:"這塊巧克力很甜。",src:"moe"},
+{w:"cookie",ipa:"/ˈkʊki/",pos:"n",zh:"餅乾",lv:2,tags:["food"],ex:"Grandma makes cookies for us.",exZh:"奶奶做餅乾給我們吃。",src:"moe"},
+{w:"soup",ipa:"/sup/",pos:"n",zh:"湯",lv:2,tags:["food"],ex:"The soup is hot.",exZh:"湯很燙。",src:"moe"},
+{w:"meat",ipa:"/mit/",pos:"n",zh:"肉",lv:2,tags:["food"],ex:"Tigers eat meat.",exZh:"老虎吃肉。",src:"moe"},
+{w:"dumpling",ipa:"/ˈdʌmplɪŋ/",pos:"n",zh:"水餃",lv:2,tags:["food"],ex:"I can eat twenty dumplings.",exZh:"我可以吃二十顆水餃。",src:"moe"},
+{w:"strawberry",ipa:"/ˈstrɔˌbɛri/",pos:"n",zh:"草莓",lv:2,tags:["food"],ex:"Strawberries are red and sweet.",exZh:"草莓又紅又甜。",src:"moe"},
+{w:"watermelon",ipa:"/ˈwɔtɚˌmɛlən/",pos:"n",zh:"西瓜",lv:2,tags:["food"],ex:"We eat watermelon in summer.",exZh:"我們夏天吃西瓜。",src:"moe"},
+{w:"gray",ipa:"/ɡreɪ/",pos:"adj",zh:"灰色的",lv:2,tags:["color"],ex:"The sky is gray today.",exZh:"今天天空灰灰的。",src:"moe"},
+{w:"thirteen",ipa:"/ˌθɝˈtin/",pos:"num",zh:"十三",lv:2,tags:["number"],ex:"My cousin is thirteen.",exZh:"我表哥十三歲。",src:"moe"},
+{w:"fifteen",ipa:"/ˌfɪfˈtin/",pos:"num",zh:"十五",lv:2,tags:["number"],ex:"The bus comes in fifteen minutes.",exZh:"公車十五分鐘後來。",src:"moe"},
+{w:"twenty",ipa:"/ˈtwɛnti/",pos:"num",zh:"二十",lv:2,tags:["number"],ex:"There are twenty students in my class.",exZh:"我們班有二十個學生。",src:"moe"},
+{w:"thirty",ipa:"/ˈθɝti/",pos:"num",zh:"三十",lv:2,tags:["number"],ex:"June has thirty days.",exZh:"六月有三十天。",src:"moe"},
+{w:"fifty",ipa:"/ˈfɪfti/",pos:"num",zh:"五十",lv:2,tags:["number"],ex:"My dad is fifty years old.",exZh:"我爸爸五十歲。",src:"moe"},
+{w:"hundred",ipa:"/ˈhʌndrəd/",pos:"num",zh:"百",lv:2,tags:["number"],ex:"I can count to one hundred.",exZh:"我可以數到一百。",src:"moe"},
+{w:"first",ipa:"/fɝst/",pos:"num",zh:"第一",lv:2,tags:["number"],ex:"I am the first in line.",exZh:"我排第一個。",src:"moe"},
+{w:"second",ipa:"/ˈsɛkənd/",pos:"num",zh:"第二",lv:2,tags:["number"],ex:"February is the second month.",exZh:"二月是第二個月。",src:"moe"},
+{w:"third",ipa:"/θɝd/",pos:"num",zh:"第三",lv:2,tags:["number"],ex:"My classroom is on the third floor.",exZh:"我的教室在三樓。",src:"moe"},
+{w:"zero",ipa:"/ˈzɪroʊ/",pos:"num",zh:"零",lv:2,tags:["number"],ex:"Two minus two is zero.",exZh:"二減二等於零。",src:"moe"},
+{w:"uncle",ipa:"/ˈʌŋkəl/",pos:"n",zh:"叔叔、舅舅",lv:2,tags:["family"],ex:"My uncle is a cook.",exZh:"我叔叔是廚師。",src:"moe"},
+{w:"aunt",ipa:"/ænt/",pos:"n",zh:"阿姨、姑姑",lv:2,tags:["family"],ex:"My aunt lives in Taipei.",exZh:"我阿姨住在台北。",src:"moe"},
+{w:"cousin",ipa:"/ˈkʌzən/",pos:"n",zh:"堂（表）兄弟姊妹",lv:2,tags:["family"],ex:"My cousin and I play games.",exZh:"我和表哥一起玩遊戲。",src:"moe"},
+{w:"son",ipa:"/sʌn/",pos:"n",zh:"兒子",lv:2,tags:["family"],ex:"Mr. Wang has two sons.",exZh:"王先生有兩個兒子。",src:"moe"},
+{w:"daughter",ipa:"/ˈdɔtɚ/",pos:"n",zh:"女兒",lv:2,tags:["family"],ex:"She is their daughter.",exZh:"她是他們的女兒。",src:"moe"},
+{w:"parent",ipa:"/ˈpɛrənt/",pos:"n",zh:"家長、父母",lv:2,tags:["family"],ex:"Your parents love you.",exZh:"你的爸媽很愛你。",src:"moe"},
+{w:"classroom",ipa:"/ˈklæsˌrum/",pos:"n",zh:"教室",lv:2,tags:["school"],ex:"Our classroom is clean.",exZh:"我們的教室很乾淨。",src:"moe"},
+{w:"library",ipa:"/ˈlaɪˌbrɛri/",pos:"n",zh:"圖書館",lv:2,tags:["school","place"],ex:"I borrow books from the library.",exZh:"我從圖書館借書。",src:"moe"},
+{w:"homework",ipa:"/ˈhoʊmˌwɝk/",pos:"n",zh:"功課、作業",lv:2,tags:["school"],ex:"I do my homework after dinner.",exZh:"我晚餐後寫功課。",src:"moe"},
+{w:"lesson",ipa:"/ˈlɛsən/",pos:"n",zh:"一課、課程",lv:2,tags:["school"],ex:"Today's lesson is easy.",exZh:"今天的課很簡單。",src:"moe"},
+{w:"question",ipa:"/ˈkwɛstʃən/",pos:"n",zh:"問題",lv:2,tags:["school"],ex:"May I ask a question?",exZh:"我可以問一個問題嗎？",src:"moe"},
+{w:"answer",ipa:"/ˈænsɚ/",pos:"n",zh:"答案",lv:2,tags:["school"],ex:"I know the answer.",exZh:"我知道答案。",src:"moe"},
+{w:"notebook",ipa:"/ˈnoʊtˌbʊk/",pos:"n",zh:"筆記本",lv:2,tags:["school"],ex:"Write it in your notebook.",exZh:"把它寫在你的筆記本上。",src:"moe"},
+{w:"English",ipa:"/ˈɪŋɡlɪʃ/",pos:"n",zh:"英文",lv:2,tags:["school"],ex:"I study English every day.",exZh:"我每天讀英文。",src:"moe"},
+{w:"math",ipa:"/mæθ/",pos:"n",zh:"數學",lv:2,tags:["school"],ex:"Math is my favorite subject.",exZh:"數學是我最喜歡的科目。",src:"moe"},
+{w:"science",ipa:"/ˈsaɪəns/",pos:"n",zh:"自然科學",lv:2,tags:["school"],ex:"We do experiments in science class.",exZh:"我們在自然課做實驗。",src:"moe"},
+{w:"music",ipa:"/ˈmjuzɪk/",pos:"n",zh:"音樂",lv:2,tags:["school"],ex:"I listen to music.",exZh:"我在聽音樂。",src:"moe"},
+{w:"test",ipa:"/tɛst/",pos:"n",zh:"考試、測驗",lv:2,tags:["school"],ex:"We have a math test tomorrow.",exZh:"我們明天有數學考試。",src:"moe"},
+{w:"finger",ipa:"/ˈfɪŋɡɚ/",pos:"n",zh:"手指",lv:2,tags:["body"],ex:"I have ten fingers.",exZh:"我有十根手指。",src:"moe"},
+{w:"tooth",ipa:"/tuθ/",pos:"n",zh:"牙齒",lv:2,tags:["body"],ex:"My tooth hurts.",exZh:"我的牙齒好痛。",src:"moe"},
+{w:"face",ipa:"/feɪs/",pos:"n",zh:"臉",lv:2,tags:["body"],ex:"Wash your face.",exZh:"洗洗你的臉。",src:"moe"},
+{w:"shoulder",ipa:"/ˈʃoʊldɚ/",pos:"n",zh:"肩膀",lv:2,tags:["body"],ex:"Put your bag on your shoulder.",exZh:"把包包背在肩膀上。",src:"moe"},
+{w:"knee",ipa:"/ni/",pos:"n",zh:"膝蓋",lv:2,tags:["body"],ex:"I hurt my knee.",exZh:"我的膝蓋受傷了。",src:"moe"},
+{w:"stomach",ipa:"/ˈstʌmək/",pos:"n",zh:"肚子、胃",lv:2,tags:["body"],ex:"My stomach is full.",exZh:"我的肚子好飽。",src:"moe"},
+{w:"weather",ipa:"/ˈwɛðɚ/",pos:"n",zh:"天氣",lv:2,tags:["weather"],ex:"How is the weather today?",exZh:"今天天氣怎麼樣？",src:"moe"},
+{w:"snowy",ipa:"/ˈsnoʊi/",pos:"adj",zh:"下雪的",lv:2,tags:["weather"],ex:"It is snowy in Hokkaido in winter.",exZh:"北海道冬天會下雪。",src:"moe"},
+{w:"warm",ipa:"/wɔrm/",pos:"adj",zh:"溫暖的",lv:2,tags:["weather"],ex:"It is warm in spring.",exZh:"春天很溫暖。",src:"moe"},
+{w:"cool",ipa:"/kul/",pos:"adj",zh:"涼爽的",lv:2,tags:["weather"],ex:"It is cool in fall.",exZh:"秋天很涼爽。",src:"moe"},
+{w:"rainbow",ipa:"/ˈreɪnˌboʊ/",pos:"n",zh:"彩虹",lv:2,tags:["weather"],ex:"Look! There is a rainbow.",exZh:"你看！有一道彩虹。",src:"moe"},
+{w:"typhoon",ipa:"/taɪˈfun/",pos:"n",zh:"颱風",lv:2,tags:["weather"],ex:"A typhoon is coming.",exZh:"颱風要來了。",src:"moe"},
+{w:"hospital",ipa:"/ˈhɑspɪtəl/",pos:"n",zh:"醫院",lv:2,tags:["place"],ex:"The doctor works in a hospital.",exZh:"醫生在醫院工作。",src:"moe"},
+{w:"restaurant",ipa:"/ˈrɛstərɑnt/",pos:"n",zh:"餐廳",lv:2,tags:["place"],ex:"Let's eat at a restaurant.",exZh:"我們去餐廳吃飯吧。",src:"moe"},
+{w:"supermarket",ipa:"/ˈsupɚˌmɑrkɪt/",pos:"n",zh:"超級市場",lv:2,tags:["place"],ex:"Mom buys food at the supermarket.",exZh:"媽媽在超市買食物。",src:"moe"},
+{w:"museum",ipa:"/mjuˈziəm/",pos:"n",zh:"博物館",lv:2,tags:["place"],ex:"We visit the museum on Sunday.",exZh:"我們星期天去參觀博物館。",src:"moe"},
+{w:"beach",ipa:"/bitʃ/",pos:"n",zh:"海灘",lv:2,tags:["place"],ex:"Let's play on the beach.",exZh:"我們去海灘玩吧。",src:"moe"},
+{w:"mountain",ipa:"/ˈmaʊntən/",pos:"n",zh:"山",lv:2,tags:["place"],ex:"We climb the mountain on Saturday.",exZh:"我們星期六去爬山。",src:"moe"},
+{w:"kitchen",ipa:"/ˈkɪtʃən/",pos:"n",zh:"廚房",lv:2,tags:["place"],ex:"Mom is cooking in the kitchen.",exZh:"媽媽正在廚房煮飯。",src:"moe"},
+{w:"bedroom",ipa:"/ˈbɛdˌrum/",pos:"n",zh:"臥室、房間",lv:2,tags:["place"],ex:"My bedroom is small.",exZh:"我的房間很小。",src:"moe"},
+{w:"bathroom",ipa:"/ˈbæθˌrum/",pos:"n",zh:"浴室、廁所",lv:2,tags:["place"],ex:"Where is the bathroom?",exZh:"廁所在哪裡？",src:"moe"},
+{w:"station",ipa:"/ˈsteɪʃən/",pos:"n",zh:"車站",lv:2,tags:["place"],ex:"Let's meet at the train station.",exZh:"我們在火車站見面吧。",src:"moe"},
+{w:"city",ipa:"/ˈsɪti/",pos:"n",zh:"城市",lv:2,tags:["place"],ex:"Taipei is a big city.",exZh:"台北是個大城市。",src:"moe"},
+{w:"country",ipa:"/ˈkʌntri/",pos:"n",zh:"國家",lv:2,tags:["place"],ex:"Japan is a beautiful country.",exZh:"日本是個美麗的國家。",src:"moe"},
+{w:"Monday",ipa:"/ˈmʌndeɪ/",pos:"n",zh:"星期一",lv:2,tags:["time"],ex:"I have piano class on Monday.",exZh:"我星期一有鋼琴課。",src:"moe"},
+{w:"Tuesday",ipa:"/ˈtuzdeɪ/",pos:"n",zh:"星期二",lv:2,tags:["time"],ex:"We play basketball on Tuesday.",exZh:"我們星期二打籃球。",src:"moe"},
+{w:"Wednesday",ipa:"/ˈwɛnzdeɪ/",pos:"n",zh:"星期三",lv:2,tags:["time"],ex:"We have a half day on Wednesday.",exZh:"我們星期三只上半天課。",src:"moe"},
+{w:"Thursday",ipa:"/ˈθɝzdeɪ/",pos:"n",zh:"星期四",lv:2,tags:["time"],ex:"I go swimming on Thursday.",exZh:"我星期四去游泳。",src:"moe"},
+{w:"Friday",ipa:"/ˈfraɪdeɪ/",pos:"n",zh:"星期五",lv:2,tags:["time"],ex:"Friday is my favorite day.",exZh:"星期五是我最喜歡的一天。",src:"moe"},
+{w:"Saturday",ipa:"/ˈsætɚdeɪ/",pos:"n",zh:"星期六",lv:2,tags:["time"],ex:"We go to the park on Saturday.",exZh:"我們星期六去公園。",src:"moe"},
+{w:"Sunday",ipa:"/ˈsʌndeɪ/",pos:"n",zh:"星期日",lv:2,tags:["time"],ex:"I sleep late on Sunday.",exZh:"我星期天睡得很晚。",src:"moe"},
+{w:"week",ipa:"/wik/",pos:"n",zh:"星期、週",lv:2,tags:["time"],ex:"I go swimming twice a week.",exZh:"我一個星期游泳兩次。",src:"moe"},
+{w:"month",ipa:"/mʌnθ/",pos:"n",zh:"月",lv:2,tags:["time"],ex:"My birthday is next month.",exZh:"我的生日在下個月。",src:"moe"},
+{w:"year",ipa:"/jɪr/",pos:"n",zh:"年",lv:2,tags:["time"],ex:"Happy New Year!",exZh:"新年快樂！",src:"moe"},
+{w:"afternoon",ipa:"/ˌæftɚˈnun/",pos:"n",zh:"下午",lv:2,tags:["time"],ex:"Good afternoon, Mr. Chen.",exZh:"陳先生午安。",src:"moe"},
+{w:"evening",ipa:"/ˈivnɪŋ/",pos:"n",zh:"傍晚",lv:2,tags:["time"],ex:"I watch TV in the evening.",exZh:"我傍晚看電視。",src:"moe"},
+{w:"listen",ipa:"/ˈlɪsən/",pos:"v",zh:"聽",lv:2,tags:["verb"],ex:"Listen to the teacher.",exZh:"要聽老師說話。",src:"moe"},
+{w:"speak",ipa:"/spik/",pos:"v",zh:"說（語言）",lv:2,tags:["verb"],ex:"Can you speak English?",exZh:"你會說英文嗎？",src:"moe"},
+{w:"study",ipa:"/ˈstʌdi/",pos:"v",zh:"讀書、學習",lv:2,tags:["verb"],ex:"I study for the test.",exZh:"我為了考試讀書。",src:"moe"},
+{w:"cook",ipa:"/kʊk/",pos:"v",zh:"煮、做菜",lv:2,tags:["verb"],ex:"My dad can cook.",exZh:"我爸爸會做菜。",src:"moe"},
+{w:"clean",ipa:"/klin/",pos:"v",zh:"打掃、清潔",lv:2,tags:["verb"],ex:"Let's clean the classroom.",exZh:"我們來打掃教室吧。",src:"moe"},
+{w:"wash",ipa:"/wɑʃ/",pos:"v",zh:"洗",lv:2,tags:["verb"],ex:"I wash the dishes after dinner.",exZh:"我晚餐後洗碗。",src:"moe"},
+{w:"help",ipa:"/hɛlp/",pos:"v",zh:"幫忙",lv:2,tags:["verb"],ex:"Can you help me?",exZh:"你可以幫我嗎？",src:"moe"},
+{w:"buy",ipa:"/baɪ/",pos:"v",zh:"買",lv:2,tags:["verb"],ex:"I want to buy a new pen.",exZh:"我想買一支新筆。",src:"moe"},
+{w:"come",ipa:"/kʌm/",pos:"v",zh:"來",lv:2,tags:["verb"],ex:"Come here, please.",exZh:"請過來。",src:"moe"},
+{w:"walk",ipa:"/wɔk/",pos:"v",zh:"走路",lv:2,tags:["verb"],ex:"I walk to school.",exZh:"我走路上學。",src:"moe"},
+{w:"ride",ipa:"/raɪd/",pos:"v",zh:"騎",lv:2,tags:["verb"],ex:"I ride my bike to the park.",exZh:"我騎腳踏車去公園。",src:"moe"},
+{w:"fly",ipa:"/flaɪ/",pos:"v",zh:"飛",lv:2,tags:["verb"],ex:"Birds can fly.",exZh:"鳥會飛。",src:"moe"},
+{w:"climb",ipa:"/klaɪm/",pos:"v",zh:"爬",lv:2,tags:["verb"],ex:"Monkeys can climb trees.",exZh:"猴子會爬樹。",src:"moe"},
+{w:"draw",ipa:"/drɔ/",pos:"v",zh:"畫（圖）",lv:2,tags:["verb"],ex:"I like to draw cats.",exZh:"我喜歡畫貓。",src:"moe"},
+{w:"open",ipa:"/ˈoʊpən/",pos:"v",zh:"打開",lv:2,tags:["verb"],ex:"Open the window, please.",exZh:"請打開窗戶。",src:"moe"},
+{w:"close",ipa:"/kloʊz/",pos:"v",zh:"關上",lv:2,tags:["verb"],ex:"Close the door, please.",exZh:"請把門關上。",src:"moe"},
+{w:"think",ipa:"/θɪŋk/",pos:"v",zh:"想、認為",lv:2,tags:["verb"],ex:"Let me think.",exZh:"讓我想一想。",src:"moe"},
+{w:"know",ipa:"/noʊ/",pos:"v",zh:"知道",lv:2,tags:["verb"],ex:"I know your name.",exZh:"我知道你的名字。",src:"moe"},
+{w:"want",ipa:"/wɑnt/",pos:"v",zh:"想要",lv:2,tags:["verb"],ex:"I want a puppy.",exZh:"我想要一隻小狗。",src:"moe"},
+{w:"watch",ipa:"/wɑtʃ/",pos:"v",zh:"觀看",lv:2,tags:["verb"],ex:"I watch cartoons on Saturday.",exZh:"我星期六看卡通。",src:"moe"},
+{w:"beautiful",ipa:"/ˈbjutəfəl/",pos:"adj",zh:"美麗的",lv:2,tags:["adj"],ex:"The flowers are beautiful.",exZh:"這些花很漂亮。",src:"moe"},
+{w:"delicious",ipa:"/dɪˈlɪʃəs/",pos:"adj",zh:"好吃的",lv:2,tags:["adj"],ex:"This cake is delicious.",exZh:"這個蛋糕很好吃。",src:"moe"},
+{w:"hungry",ipa:"/ˈhʌŋɡri/",pos:"adj",zh:"餓的",lv:2,tags:["adj"],ex:"I am hungry. Let's eat!",exZh:"我餓了，我們來吃東西吧！",src:"moe"},
+{w:"thirsty",ipa:"/ˈθɝsti/",pos:"adj",zh:"渴的",lv:2,tags:["adj"],ex:"I am thirsty. Can I have some water?",exZh:"我渴了，可以給我一些水嗎？",src:"moe"},
+{w:"tired",ipa:"/taɪɚd/",pos:"adj",zh:"累的",lv:2,tags:["adj"],ex:"I am tired after school.",exZh:"放學後我很累。",src:"moe"},
+{w:"busy",ipa:"/ˈbɪzi/",pos:"adj",zh:"忙碌的",lv:2,tags:["adj"],ex:"My mom is very busy.",exZh:"我媽媽很忙。",src:"moe"},
+{w:"easy",ipa:"/ˈizi/",pos:"adj",zh:"簡單的",lv:2,tags:["adj"],ex:"This question is easy.",exZh:"這個問題很簡單。",src:"moe"},
+{w:"difficult",ipa:"/ˈdɪfɪkəlt/",pos:"adj",zh:"困難的",lv:2,tags:["adj"],ex:"Math is difficult for me.",exZh:"數學對我來說很難。",src:"moe"},
+{w:"interesting",ipa:"/ˈɪntrəstɪŋ/",pos:"adj",zh:"有趣的",lv:2,tags:["adj"],ex:"This story is interesting.",exZh:"這個故事很有趣。",src:"moe"},
+{w:"favorite",ipa:"/ˈfeɪvərɪt/",pos:"adj",zh:"最喜歡的",lv:2,tags:["adj"],ex:"Blue is my favorite color.",exZh:"藍色是我最喜歡的顏色。",src:"moe"},
+{w:"kind",ipa:"/kaɪnd/",pos:"adj",zh:"親切的、善良的",lv:2,tags:["adj"],ex:"She is kind to everyone.",exZh:"她對每個人都很好。",src:"moe"},
+{w:"cute",ipa:"/kjut/",pos:"adj",zh:"可愛的",lv:2,tags:["adj"],ex:"The puppy is so cute!",exZh:"這隻小狗好可愛！",src:"moe"},
+{w:"angry",ipa:"/ˈæŋɡri/",pos:"adj",zh:"生氣的",lv:2,tags:["adj"],ex:"Please don't be angry.",exZh:"請不要生氣。",src:"moe"},
+{w:"careful",ipa:"/ˈkɛrfəl/",pos:"adj",zh:"小心的",lv:2,tags:["adj"],ex:"Be careful!",exZh:"小心！",src:"moe"},
+{w:"excited",ipa:"/ɪkˈsaɪtɪd/",pos:"adj",zh:"興奮的",lv:2,tags:["adj"],ex:"I am excited about the trip.",exZh:"我對這趟旅行很興奮。",src:"moe"}
+];
+</script>
+<script>
+/* 字首／字尾／字根。parts 合起來要等於 w（測試會檢查）。 */
+window.DATA_ROOTS = [
+{p:"un-",t:"prefix",m:"不",words:[{w:"unhappy",zh:"不快樂的",parts:["un","happy"]},{w:"unkind",zh:"不友善的",parts:["un","kind"]},{w:"unfair",zh:"不公平的",parts:["un","fair"]}]},
+{p:"re-",t:"prefix",m:"再一次",words:[{w:"redo",zh:"重做",parts:["re","do"]},{w:"reread",zh:"重讀",parts:["re","read"]},{w:"rewrite",zh:"重寫",parts:["re","write"]}]},
+{p:"dis-",t:"prefix",m:"相反",words:[{w:"dislike",zh:"不喜歡、討厭",parts:["dis","like"]},{w:"disagree",zh:"不同意",parts:["dis","agree"]},{w:"disappear",zh:"消失",parts:["dis","appear"]}]},
+{p:"pre-",t:"prefix",m:"之前、預先",words:[{w:"preview",zh:"預習、預覽",parts:["pre","view"]},{w:"preschool",zh:"幼兒園（上小學之前）",parts:["pre","school"]},{w:"prepay",zh:"先付錢",parts:["pre","pay"]}]},
+{p:"mis-",t:"prefix",m:"錯誤地",words:[{w:"misspell",zh:"拼錯",parts:["mis","spell"]},{w:"misread",zh:"讀錯、看錯",parts:["mis","read"]},{w:"misunderstand",zh:"誤會",parts:["mis","understand"]}]},
+{p:"over-",t:"prefix",m:"太多、過度",words:[{w:"overeat",zh:"吃太多",parts:["over","eat"]},{w:"oversleep",zh:"睡過頭",parts:["over","sleep"]}]},
+{p:"tele-",t:"prefix",m:"遠",words:[{w:"telephone",zh:"電話",parts:["tele","phone"]},{w:"television",zh:"電視",parts:["tele","vision"]},{w:"telescope",zh:"望遠鏡",parts:["tele","scope"]}]},
+{p:"bi-",t:"prefix",m:"二、兩個",words:[{w:"bicycle",zh:"腳踏車（兩個輪子）",parts:["bi","cycle"]},{w:"bilingual",zh:"會說兩種語言的",parts:["bi","lingual"]}]},
+{p:"tri-",t:"prefix",m:"三",words:[{w:"triangle",zh:"三角形",parts:["tri","angle"]},{w:"tricycle",zh:"三輪車",parts:["tri","cycle"]}]},
+{p:"mid-",t:"prefix",m:"中間",words:[{w:"midnight",zh:"半夜",parts:["mid","night"]},{w:"midday",zh:"中午",parts:["mid","day"]},{w:"midterm",zh:"期中考",parts:["mid","term"]}]},
+{p:"super-",t:"prefix",m:"超級",words:[{w:"superstar",zh:"超級巨星",parts:["super","star"]},{w:"supermarket",zh:"超級市場",parts:["super","market"]}]},
+{p:"sub-",t:"prefix",m:"在下面",words:[{w:"subway",zh:"地下鐵",parts:["sub","way"]},{w:"submarine",zh:"潛水艇",parts:["sub","marine"]}]},
+{p:"inter-",t:"prefix",m:"在…之間、互相",words:[{w:"internet",zh:"網際網路",parts:["inter","net"]},{w:"international",zh:"國際的",parts:["inter","national"]}]},
+{p:"-ful",t:"suffix",m:"充滿…的",words:[{w:"helpful",zh:"有幫助的",parts:["help","ful"]},{w:"careful",zh:"小心的",parts:["care","ful"]},{w:"colorful",zh:"色彩豐富的",parts:["color","ful"]}]},
+{p:"-less",t:"suffix",m:"沒有…的",words:[{w:"careless",zh:"粗心的",parts:["care","less"]},{w:"homeless",zh:"無家可歸的",parts:["home","less"]},{w:"useless",zh:"沒有用的",parts:["use","less"]}]},
+{p:"-er",t:"suffix",m:"做…的人",words:[{w:"teacher",zh:"老師",parts:["teach","er"]},{w:"singer",zh:"歌手",parts:["sing","er"]},{w:"player",zh:"球員、玩家",parts:["play","er"]}]},
+{p:"-ly",t:"suffix",m:"…地（形容怎麼做）",words:[{w:"quickly",zh:"快速地",parts:["quick","ly"]},{w:"slowly",zh:"慢慢地",parts:["slow","ly"]},{w:"loudly",zh:"大聲地",parts:["loud","ly"]}]},
+{p:"-ness",t:"suffix",m:"…的狀態（變成名詞）",words:[{w:"kindness",zh:"好心、仁慈",parts:["kind","ness"]},{w:"sadness",zh:"悲傷",parts:["sad","ness"]},{w:"darkness",zh:"黑暗",parts:["dark","ness"]}]},
+{p:"-y",t:"suffix",m:"有…的（天氣常用）",words:[{w:"rainy",zh:"下雨的",parts:["rain","y"]},{w:"windy",zh:"風很大的",parts:["wind","y"]},{w:"cloudy",zh:"多雲的",parts:["cloud","y"]}]},
+{p:"-ist",t:"suffix",m:"…家（專業的人）",words:[{w:"artist",zh:"藝術家",parts:["art","ist"]},{w:"tourist",zh:"觀光客",parts:["tour","ist"]},{w:"violinist",zh:"小提琴家",parts:["violin","ist"]}]},
+{p:"-able",t:"suffix",m:"可以被…的",words:[{w:"washable",zh:"可以洗的",parts:["wash","able"]},{w:"readable",zh:"容易讀的",parts:["read","able"]},{w:"drinkable",zh:"可以喝的",parts:["drink","able"]}]},
+{p:"-ion",t:"suffix",m:"把動作變成名詞",words:[{w:"action",zh:"動作、行動",parts:["act","ion"]},{w:"invention",zh:"發明",parts:["invent","ion"]},{w:"collection",zh:"收藏品",parts:["collect","ion"]}]},
+{p:"-est",t:"suffix",m:"最…",words:[{w:"tallest",zh:"最高的",parts:["tall","est"]},{w:"fastest",zh:"最快的",parts:["fast","est"]},{w:"smallest",zh:"最小的",parts:["small","est"]}]},
+{p:"port",t:"root",m:"搬運",words:[{w:"airport",zh:"機場",parts:["air","port"]},{w:"passport",zh:"護照",parts:["pass","port"]},{w:"transport",zh:"運輸",parts:["trans","port"]}]},
+{p:"graph",t:"root",m:"寫、畫",words:[{w:"photograph",zh:"照片",parts:["photo","graph"]},{w:"autograph",zh:"親筆簽名",parts:["auto","graph"]},{w:"paragraph",zh:"段落",parts:["para","graph"]}]},
+{p:"scope",t:"root",m:"看的工具",words:[{w:"microscope",zh:"顯微鏡",parts:["micro","scope"]},{w:"periscope",zh:"潛望鏡",parts:["peri","scope"]}]}
+];
+</script>
+<script>
+/* 文法：12 個主題。q 題型：fill（填空，a 一定要在 opts 裡）、fix（挑出正確的句子）。 */
+window.DATA_GRAMMAR = [
+{id:"be",title:"be 動詞 am / is / are",
+ rules:["I 配 am。","he、she、it，或「一個」人／東西，配 is。","you、we、they，或「兩個以上」，配 are。","過去式：am、is → was；are → were。"],
+ ex:[{en:"I am ten years old.",zh:"我十歲。"},{en:"They are my friends.",zh:"他們是我的朋友。"},{en:"The cat is very cute.",zh:"這隻貓很可愛。"}],
+ q:[
+ {type:"fill",s:"I ___ a student.",a:"am",opts:["am","is","are","be"],why:"主詞是 I，be 動詞要用 am。"},
+ {type:"fill",s:"My sister ___ tall.",a:"is",opts:["am","is","are","be"],why:"My sister 是一個人（她），用 is。"},
+ {type:"fill",s:"We ___ in the park.",a:"are",opts:["am","is","are","be"],why:"We 是「我們」很多人，用 are。"},
+ {type:"fill",s:"The dogs ___ hungry.",a:"are",opts:["is","are","am","be"],why:"dogs 有 s，是很多隻狗，用 are。"},
+ {type:"fill",s:"Yesterday I ___ sick.",a:"was",opts:["am","was","were","is"],why:"Yesterday 是昨天（過去），I 的過去式用 was。"},
+ {type:"fix",wrong:"He are my brother.",right:"He is my brother.",why:"He 是一個人，要用 is，不是 are。"},
+ {type:"fix",wrong:"You is my best friend.",right:"You are my best friend.",why:"You 一定配 are。"}]},
+{id:"present",title:"現在簡單式（第三人稱單數加 s）",
+ rules:["每天、常常會做的事，用現在簡單式。","主詞是 he、she、it 或「一個」人／東西時，動詞要加 s 或 es。","字尾是 s、sh、ch、x、o 的動詞加 es：go → goes、watch → watches。","子音＋y 結尾：去 y 加 ies，study → studies；have 要變成 has。"],
+ ex:[{en:"She goes to school by bus.",zh:"她搭公車上學。"},{en:"My dad watches TV every night.",zh:"我爸爸每天晚上看電視。"},{en:"I play basketball after school.",zh:"我放學後打籃球。"}],
+ q:[
+ {type:"fill",s:"She ___ to school every day.",a:"goes",opts:["go","goes","going","gos"],why:"She 是第三人稱單數，go 結尾是 o，要加 es 變成 goes。"},
+ {type:"fill",s:"Tom ___ milk every morning.",a:"drinks",opts:["drink","drinks","drinkes","drinking"],why:"Tom 是一個人（他），drink 要加 s。"},
+ {type:"fill",s:"My cat ___ a long tail.",a:"has",opts:["have","has","haves","having"],why:"主詞是 My cat（牠），have 要變成 has。"},
+ {type:"fill",s:"Amy ___ English every day.",a:"studies",opts:["study","studys","studies","studied"],why:"study 是子音 d＋y 結尾，去 y 加 ies。"},
+ {type:"fill",s:"They ___ soccer on Sundays.",a:"play",opts:["play","plays","playes","playing"],why:"They 是很多人，動詞不用加 s。"},
+ {type:"fix",wrong:"He watch TV after dinner.",right:"He watches TV after dinner.",why:"He 後面的動詞要加 s 或 es；watch 結尾是 ch，加 es。"},
+ {type:"fix",wrong:"My mom cook dinner every day.",right:"My mom cooks dinner every day.",why:"My mom 是一個人（她），cook 要加 s。"}]},
+{id:"progressive",title:"現在進行式（正在做）",
+ rules:["正在做的事：am / is / are ＋ 動詞ing。","常和 now、Look!、Listen! 一起出現。","字尾是 e 的，去 e 加 ing：dance → dancing。","短母音＋一個子音結尾，重複最後一個字母再加 ing：run → running、swim → swimming。"],
+ ex:[{en:"I am reading a book now.",zh:"我現在正在看書。"},{en:"Look! The birds are flying.",zh:"你看！鳥兒正在飛。"},{en:"She is dancing in her room.",zh:"她正在房間裡跳舞。"}],
+ q:[
+ {type:"fill",s:"Listen! The baby ___ crying.",a:"is",opts:["is","are","am","be"],why:"The baby 是一個人，用 is ＋ crying。"},
+ {type:"fill",s:"We are ___ in the pool now.",a:"swimming",opts:["swim","swiming","swimming","swims"],why:"swim 是短母音＋m，要重複 m 再加 ing。"},
+ {type:"fill",s:"My dad is ___ lunch now.",a:"making",opts:["make","makeing","making","makes"],why:"make 字尾是 e，去 e 加 ing 變成 making。"},
+ {type:"fill",s:"Look! Two dogs ___ running.",a:"are",opts:["is","are","am","was"],why:"Two dogs 是兩隻，用 are。"},
+ {type:"fix",wrong:"She is sing a song now.",right:"She is singing a song now.",why:"正在做的事：is 後面的動詞要加 ing。"},
+ {type:"fix",wrong:"I reading a book now.",right:"I am reading a book now.",why:"現在進行式一定要有 be 動詞，I 配 am。"},
+ {type:"fix",wrong:"They are runing in the park.",right:"They are running in the park.",why:"run 要重複 n 再加 ing：running。"}]},
+{id:"past",title:"過去式",
+ rules:["已經發生的事用過去式，常和 yesterday、last week、ago 一起出現。","規則動詞加 ed：play → played、dance → danced。","不規則動詞要背：go → went、eat → ate、see → saw、have → had。","問句和否定句用 did / didn't，後面的動詞用原形。"],
+ ex:[{en:"I played soccer yesterday.",zh:"我昨天踢足球。"},{en:"We went to the zoo last Sunday.",zh:"我們上星期天去動物園。"},{en:"She didn't eat breakfast this morning.",zh:"她今天早上沒吃早餐。"}],
+ q:[
+ {type:"fill",s:"I ___ to the park yesterday.",a:"went",opts:["go","goes","went","goed"],why:"yesterday 是過去，go 的過去式是 went（不規則，要背）。"},
+ {type:"fill",s:"We ___ basketball last week.",a:"played",opts:["play","plays","played","playing"],why:"last week 是過去，play 加 ed。"},
+ {type:"fill",s:"She ___ a big fish two days ago.",a:"saw",opts:["see","sees","saw","seed"],why:"two days ago 是過去，see 的過去式是 saw。"},
+ {type:"fill",s:"Did you ___ your homework?",a:"do",opts:["do","did","does","done"],why:"Did 已經表示過去了，後面的動詞用原形 do。"},
+ {type:"fix",wrong:"I eated an apple yesterday.",right:"I ate an apple yesterday.",why:"eat 是不規則動詞，過去式是 ate。"},
+ {type:"fix",wrong:"He didn't went to school.",right:"He didn't go to school.",why:"didn't 後面的動詞要用原形 go。"},
+ {type:"fix",wrong:"Last night we watch a movie.",right:"Last night we watched a movie.",why:"Last night 是過去，watch 要加 ed。"}]},
+{id:"future",title:"未來式 will / be going to",
+ rules:["還沒發生、未來的事：will ＋ 動詞原形。","已經計畫好的事：am / is / are going to ＋ 動詞原形。","常和 tomorrow、next week、tonight 一起出現。","will 不管主詞是誰都不變，後面的動詞不加 s。"],
+ ex:[{en:"I will help you.",zh:"我會幫你。"},{en:"We are going to visit Grandma tomorrow.",zh:"我們明天要去看奶奶。"},{en:"It will rain tonight.",zh:"今天晚上會下雨。"}],
+ q:[
+ {type:"fill",s:"I will ___ you tomorrow.",a:"call",opts:["call","calls","called","calling"],why:"will 後面的動詞用原形。"},
+ {type:"fill",s:"She is going to ___ a cake.",a:"make",opts:["make","makes","made","making"],why:"be going to 後面也用動詞原形。"},
+ {type:"fill",s:"We ___ going to the beach next Sunday.",a:"are",opts:["is","are","am","will"],why:"We 配 are：We are going to…"},
+ {type:"fill",s:"It ___ be sunny tomorrow.",a:"will",opts:["will","is","going","does"],why:"tomorrow 是未來，用 will ＋ be。"},
+ {type:"fix",wrong:"He will goes to the zoo.",right:"He will go to the zoo.",why:"will 後面的動詞不加 s，用原形 go。"},
+ {type:"fix",wrong:"I going to play tennis.",right:"I am going to play tennis.",why:"be going to 要有 be 動詞，I 配 am。"},
+ {type:"fix",wrong:"They will to swim tomorrow.",right:"They will swim tomorrow.",why:"will 後面直接接動詞原形，不用 to。"}]},
+{id:"plural",title:"名詞單數和複數",
+ rules:["一個用單數；兩個以上用複數，通常加 s：cat → cats。","字尾是 s、sh、ch、x 的加 es：box → boxes、watch → watches。","子音＋y 結尾：去 y 加 ies：baby → babies。","特別的要背：man → men、child → children、foot → feet、tooth → teeth、mouse → mice、sheep → sheep。"],
+ ex:[{en:"I have two brothers.",zh:"我有兩個哥哥。"},{en:"There are three boxes on the desk.",zh:"書桌上有三個箱子。"},{en:"The children are playing.",zh:"孩子們正在玩。"}],
+ q:[
+ {type:"fill",s:"I have three ___.",a:"dogs",opts:["dog","dogs","doges","dogies"],why:"三隻狗是複數，dog 加 s。"},
+ {type:"fill",s:"There are two ___ on the table.",a:"boxes",opts:["box","boxs","boxes","boxies"],why:"box 是 x 結尾，複數加 es。"},
+ {type:"fill",s:"The ___ are sleeping.",a:"babies",opts:["baby","babys","babies","babyes"],why:"baby 是子音 b＋y 結尾，去 y 加 ies。"},
+ {type:"fill",s:"I brush my ___ every morning.",a:"teeth",opts:["tooth","tooths","teeth","teeths"],why:"tooth 的複數很特別，是 teeth。"},
+ {type:"fill",s:"Many ___ are playing in the park.",a:"children",opts:["child","childs","children","childrens"],why:"child 的複數是 children，不加 s。"},
+ {type:"fix",wrong:"I have two foots.",right:"I have two feet.",why:"foot 的複數是 feet，是要背的特別字。"},
+ {type:"fix",wrong:"There are five apple.",right:"There are five apples.",why:"five 是五個，apple 要加 s。"}]},
+{id:"article",title:"冠詞 a / an / the",
+ rules:["a 和 an 用在「一個」可以數的東西前面。","子音開頭用 a：a cat、a book。","母音的音開頭（a、e、i、o、u 的音）用 an：an apple、an egg。","大家都知道是哪一個、第二次提到，或世界上只有一個的東西，用 the：the sun。"],
+ ex:[{en:"I have an apple and a banana.",zh:"我有一顆蘋果和一根香蕉。"},{en:"The sun is very hot today.",zh:"今天太陽很大。"},{en:"I see a cat. The cat is black.",zh:"我看到一隻貓。那隻貓是黑色的。"}],
+ q:[
+ {type:"fill",s:"I eat ___ egg every day.",a:"an",opts:["a","an","two","many"],why:"egg 是母音 e 開頭，用 an。"},
+ {type:"fill",s:"She has ___ dog.",a:"a",opts:["a","an","two","many"],why:"dog 是子音 d 開頭，用 a。"},
+ {type:"fill",s:"___ moon is round tonight.",a:"The",opts:["A","An","The","Some"],why:"月亮只有一個，大家都知道是哪一個，用 The。"},
+ {type:"fill",s:"This is ___ orange.",a:"an",opts:["a","an","two","many"],why:"orange 是母音 o 開頭，用 an。"},
+ {type:"fill",s:"I see a bird. ___ bird is blue.",a:"The",opts:["A","An","The","Two"],why:"第二次說到同一隻鳥，用 The。"},
+ {type:"fix",wrong:"I want a umbrella.",right:"I want an umbrella.",why:"umbrella 是母音 u 開頭，用 an。"},
+ {type:"fix",wrong:"She is an teacher.",right:"She is a teacher.",why:"teacher 是子音 t 開頭，用 a。"}]},
+{id:"pronoun",title:"代名詞：主格、受格、所有格",
+ rules:["主格當主詞，放在動詞前面：I、you、he、she、it、we、they。","受格放在動詞或介系詞後面：me、you、him、her、it、us、them。","所有格是「…的」，後面要接名詞：my、your、his、her、its、our、their。","一組一組記：I-me-my、he-him-his、she-her-her、we-us-our、they-them-their。"],
+ ex:[{en:"He likes me.",zh:"他喜歡我。"},{en:"This is her bag.",zh:"這是她的包包。"},{en:"We play with them every day.",zh:"我們每天跟他們玩。"}],
+ q:[
+ {type:"fill",s:"___ is my brother.",a:"He",opts:["He","Him","His","Her"],why:"放在句子最前面當主詞，用主格 He。"},
+ {type:"fill",s:"Please help ___.",a:"me",opts:["I","me","my","mine"],why:"help 是動詞，後面用受格 me。"},
+ {type:"fill",s:"This is ___ book.",a:"my",opts:["I","me","my","mine"],why:"後面接名詞 book，用所有格 my（我的）。"},
+ {type:"fill",s:"I like Amy. I play with ___.",a:"her",opts:["she","her","hers","he"],why:"with 是介系詞，後面用受格 her。"},
+ {type:"fill",s:"They love ___ dog very much.",a:"their",opts:["they","them","their","theirs"],why:"後面接名詞 dog，用所有格 their（他們的）。"},
+ {type:"fix",wrong:"Me am ten years old.",right:"I am ten years old.",why:"當主詞要用主格 I，不能用 me。"},
+ {type:"fix",wrong:"She gave the book to he.",right:"She gave the book to him.",why:"to 後面要用受格 him。"}]},
+{id:"compare",title:"比較級和最高級",
+ rules:["兩個比較用比較級：形容詞＋er ＋ than，tall → taller than。","三個以上、「最…」用最高級：the ＋ 形容詞＋est，the tallest。","長的形容詞用 more / the most：more beautiful、the most interesting。","特別的要背：good → better → best；big → bigger（重複 g）；happy → happier（y 變 i）。"],
+ ex:[{en:"Tom is taller than me.",zh:"湯姆比我高。"},{en:"An elephant is bigger than a dog.",zh:"大象比狗大。"},{en:"This is the best day of my life.",zh:"這是我人生中最棒的一天。"}],
+ q:[
+ {type:"fill",s:"My dad is ___ than me.",a:"taller",opts:["tall","taller","tallest","more tall"],why:"有 than，兩個人比較，用比較級 taller。"},
+ {type:"fill",s:"Ben is the ___ boy in our class.",a:"tallest",opts:["tall","taller","tallest","most tall"],why:"the ＋ 全班裡「最」高，用最高級 tallest。"},
+ {type:"fill",s:"This book is ___ than that one.",a:"more interesting",opts:["interestinger","more interesting","most interesting","interesting"],why:"interesting 很長，比較級用 more interesting。"},
+ {type:"fill",s:"Your cake is ___ than mine.",a:"better",opts:["good","gooder","better","best"],why:"good 的比較級很特別，是 better。"},
+ {type:"fill",s:"A tiger is ___ than a cat.",a:"bigger",opts:["big","biger","bigger","biggest"],why:"big 要重複 g 再加 er：bigger。"},
+ {type:"fix",wrong:"She is more tall than me.",right:"She is taller than me.",why:"tall 是短的形容詞，直接加 er：taller。"},
+ {type:"fix",wrong:"This is the most big house.",right:"This is the biggest house.",why:"big 是短的形容詞，最高級是 biggest。"}]},
+{id:"prep",title:"介系詞 in / on / at",
+ rules:["時間：幾點用 at（at 7:00）；星期幾、日期用 on（on Monday）；月份、年份、季節、早上下午用 in（in May、in the morning）。","地點：在裡面用 in（in the box）；在上面、貼著用 on（on the desk、on the wall）；在某個點用 at（at the bus stop、at home）。"],
+ ex:[{en:"The cat is on the bed.",zh:"貓在床上。"},{en:"I get up at seven o'clock.",zh:"我七點起床。"},{en:"My birthday is in May.",zh:"我的生日在五月。"}],
+ q:[
+ {type:"fill",s:"I get up ___ six thirty.",a:"at",opts:["in","on","at","to"],why:"幾點幾分用 at。"},
+ {type:"fill",s:"We have English class ___ Monday.",a:"on",opts:["in","on","at","to"],why:"星期幾用 on。"},
+ {type:"fill",s:"My birthday is ___ July.",a:"in",opts:["in","on","at","to"],why:"月份用 in。"},
+ {type:"fill",s:"We play soccer ___ the morning.",a:"in",opts:["in","on","at","to"],why:"早上、下午、晚上用 in the morning / afternoon / evening。"},
+ {type:"fill",s:"The picture is ___ the wall.",a:"on",opts:["in","on","at","to"],why:"貼在牆上用 on。"},
+ {type:"fill",s:"My mom is ___ home now.",a:"at",opts:["in","on","at","to"],why:"在家固定說 at home。"},
+ {type:"fix",wrong:"I was born on 2016.",right:"I was born in 2016.",why:"年份用 in。"},
+ {type:"fix",wrong:"See you in Friday!",right:"See you on Friday!",why:"星期幾用 on。"}]},
+{id:"modal",title:"助動詞 can / must / should",
+ rules:["can：會、可以；must：必須、一定要；should：應該。","後面的動詞一律用原形，不加 s、不加 ing、不加 to。","否定：can't（不會、不可以）、mustn't（絕對不可以）、shouldn't（不應該）。","問句把助動詞放最前面：Can you swim?"],
+ ex:[{en:"I can ride a bike.",zh:"我會騎腳踏車。"},{en:"You must wear a seat belt.",zh:"你一定要繫安全帶。"},{en:"You should drink more water.",zh:"你應該多喝水。"}],
+ q:[
+ {type:"fill",s:"She can ___ very well.",a:"swim",opts:["swim","swims","swimming","to swim"],why:"can 後面的動詞用原形 swim。"},
+ {type:"fill",s:"You ___ stop at a red light.",a:"must",opts:["must","musts","must to","musting"],why:"紅燈一定要停，用 must；助動詞不會加 s 或 ing。"},
+ {type:"fill",s:"It's late. You ___ go to bed.",a:"should",opts:["should","shoulds","should to","shoulding"],why:"給別人建議（應該）用 should，後面直接接動詞。"},
+ {type:"fill",s:"___ you play the piano?",a:"Can",opts:["Can","Are","Is","Am"],why:"問「你會…嗎？」把 Can 放句首，後面動詞用原形。"},
+ {type:"fill",s:"You ___ run in the classroom. It's dangerous.",a:"mustn't",opts:["must","mustn't","can","should"],why:"危險、絕對不可以做的事，用 mustn't。"},
+ {type:"fix",wrong:"He can plays basketball.",right:"He can play basketball.",why:"can 後面的動詞不加 s。"},
+ {type:"fix",wrong:"We should to help each other.",right:"We should help each other.",why:"should 後面直接接動詞原形，不加 to。"}]},
+{id:"wh",title:"疑問詞 What / Who / Where / When / Why / How",
+ rules:["What 什麼、Who 誰、Where 哪裡、When 什麼時候、Why 為什麼、How 怎麼樣。","How many 多少個、How old 幾歲、Which 哪一個。","疑問詞放在句子最前面：Where do you live?"],
+ ex:[{en:"What is your name?",zh:"你叫什麼名字？"},{en:"Where do you live?",zh:"你住在哪裡？"},{en:"How old are you?",zh:"你幾歲？"}],
+ q:[
+ {type:"fill",s:"___ is your name? My name is Leo.",a:"What",opts:["What","Who","Where","When"],why:"問名字（什麼）用 What。"},
+ {type:"fill",s:"___ do you live? I live in Tainan.",a:"Where",opts:["What","Who","Where","When"],why:"回答是地方，問「哪裡」用 Where。"},
+ {type:"fill",s:"___ is that man? He is my uncle.",a:"Who",opts:["What","Who","Where","Why"],why:"問「是誰」用 Who。"},
+ {type:"fill",s:"___ are you crying? Because I am sad.",a:"Why",opts:["What","Why","Where","When"],why:"回答有 Because（因為），問「為什麼」用 Why。"},
+ {type:"fill",s:"___ old are you? I am ten.",a:"How",opts:["How","What","Who","When"],why:"問幾歲用 How old。"},
+ {type:"fill",s:"___ is your birthday? It's in May.",a:"When",opts:["When","Where","Who","Why"],why:"回答是時間（五月），問「什麼時候」用 When。"},
+ {type:"fix",wrong:"Where you live?",right:"Where do you live?",why:"一般動詞的問句要加 do：Where do you live?"},
+ {type:"fix",wrong:"How many dog do you have?",right:"How many dogs do you have?",why:"How many 後面的名詞要用複數 dogs。"}]}
+];
+</script>
+<script>
+/* 句型：12 個，每個 5 句例句。 */
+window.DATA_PATTERNS = [
+{id:"there-is",pattern:"There is / There are …",zh:"（某個地方）有…",ex:[
+ {en:"There is a cat under the table.",zh:"桌子下面有一隻貓。"},{en:"There are five people in my family.",zh:"我家有五個人。"},{en:"There is a park near my school.",zh:"我學校附近有一座公園。"},{en:"There are many stars in the sky.",zh:"天空中有很多星星。"},{en:"Is there a store near here?",zh:"這附近有商店嗎？"}]},
+{id:"want-to",pattern:"I want to …",zh:"我想要（做）…",ex:[
+ {en:"I want to eat ice cream.",zh:"我想吃冰淇淋。"},{en:"I want to be a doctor.",zh:"我想當醫生。"},{en:"I want to go to Japan.",zh:"我想去日本。"},{en:"I want to play with my friends.",zh:"我想和朋友玩。"},{en:"Do you want to watch a movie?",zh:"你想看電影嗎？"}]},
+{id:"like-ing",pattern:"I like …ing",zh:"我喜歡做…",ex:[
+ {en:"I like swimming.",zh:"我喜歡游泳。"},{en:"I like reading comic books.",zh:"我喜歡看漫畫書。"},{en:"My brother likes playing video games.",zh:"我哥哥喜歡打電動。"},{en:"We like riding bikes in the park.",zh:"我們喜歡在公園騎腳踏車。"},{en:"Do you like drawing?",zh:"你喜歡畫畫嗎？"}]},
+{id:"time-to",pattern:"It's time to …",zh:"該…的時間了",ex:[
+ {en:"It's time to get up.",zh:"該起床了。"},{en:"It's time to go to school.",zh:"該上學了。"},{en:"It's time to eat dinner.",zh:"該吃晚餐了。"},{en:"It's time to do your homework.",zh:"該寫功課了。"},{en:"It's time to go to bed.",zh:"該睡覺了。"}]},
+{id:"how-many",pattern:"How many …?",zh:"有多少（個）…？",ex:[
+ {en:"How many apples do you have?",zh:"你有幾顆蘋果？"},{en:"How many people are in your family?",zh:"你家有幾個人？"},{en:"How many books are on the desk?",zh:"書桌上有幾本書？"},{en:"How many legs does a spider have?",zh:"蜘蛛有幾隻腳？"},{en:"How many days are in a week?",zh:"一個星期有幾天？"}]},
+{id:"can-you",pattern:"Can you …?",zh:"你可以／你會…嗎？",ex:[
+ {en:"Can you help me?",zh:"你可以幫我嗎？"},{en:"Can you swim?",zh:"你會游泳嗎？"},{en:"Can you open the door, please?",zh:"可以請你開門嗎？"},{en:"Can you say it again?",zh:"你可以再說一次嗎？"},{en:"Can you play the guitar?",zh:"你會彈吉他嗎？"}]},
+{id:"lets",pattern:"Let's …",zh:"我們一起…吧！",ex:[
+ {en:"Let's go!",zh:"我們走吧！"},{en:"Let's play a game.",zh:"我們來玩遊戲吧。"},{en:"Let's sing a song together.",zh:"我們一起唱首歌吧。"},{en:"Let's go to the park after school.",zh:"放學後我們去公園吧。"},{en:"Let's eat lunch now.",zh:"我們現在吃午餐吧。"}]},
+{id:"have-to",pattern:"I have to …",zh:"我必須…",ex:[
+ {en:"I have to go home now.",zh:"我現在必須回家了。"},{en:"I have to finish my homework.",zh:"我必須寫完功課。"},{en:"I have to get up early tomorrow.",zh:"我明天必須早起。"},{en:"She has to clean her room.",zh:"她必須打掃她的房間。"},{en:"Do you have to go to school on Saturday?",zh:"你星期六要上學嗎？"}]},
+{id:"it-is-to",pattern:"It is ___ to …",zh:"做…是很___的",ex:[
+ {en:"It is fun to play soccer.",zh:"踢足球很好玩。"},{en:"It is easy to make a sandwich.",zh:"做三明治很簡單。"},{en:"It is hard to get up early.",zh:"早起很難。"},{en:"It is important to wash your hands.",zh:"洗手很重要。"},{en:"It is dangerous to swim alone.",zh:"一個人游泳很危險。"}]},
+{id:"what-do",pattern:"What do you …?",zh:"你（做）什麼…？",ex:[
+ {en:"What do you want for dinner?",zh:"你晚餐想吃什麼？"},{en:"What do you like to do?",zh:"你喜歡做什麼？"},{en:"What do you have in your bag?",zh:"你的包包裡有什麼？"},{en:"What do you do after school?",zh:"你放學後做什麼？"},{en:"What does your dad do?",zh:"你爸爸是做什麼工作的？"}]},
+{id:"i-think",pattern:"I think …",zh:"我覺得…",ex:[
+ {en:"I think it will rain today.",zh:"我覺得今天會下雨。"},{en:"I think this book is interesting.",zh:"我覺得這本書很有趣。"},{en:"I think you are right.",zh:"我覺得你是對的。"},{en:"I think he is at home.",zh:"我想他在家。"},{en:"I don't think so.",zh:"我不這麼認為。"}]},
+{id:"dont",pattern:"Don't …",zh:"不要…",ex:[
+ {en:"Don't run in the hallway.",zh:"不要在走廊上跑。"},{en:"Don't worry.",zh:"別擔心。"},{en:"Don't be late for school.",zh:"上學不要遲到。"},{en:"Don't touch the hot pan.",zh:"不要碰熱鍋子。"},{en:"Don't forget your homework.",zh:"別忘了你的功課。"}]}
+];
+</script>
+<script>
+/* engine.js — 題目引擎（不碰 DOM；瀏覽器與 Node 都能用） */
+(function (root) {
+  'use strict';
+  const TAGS = { animal: '動物', food: '食物', color: '顏色', number: '數字', family: '家人', school: '學校', body: '身體', weather: '天氣', place: '地方', time: '時間', verb: '動作', adj: '形容詞' };
+  const ROOT_T = { prefix: '字首', suffix: '字尾', root: '字根' };
+  const MODULES = { words: '單字', roots: '字根字首', grammar: '文法', patterns: '句型' };
+  const TYPES = { 'listen-choose': '聽音選字', zh2en: '看中文選英文', en2zh: '看英文選中文', spell: '聽寫拼字', 'root-meaning': '字首字尾的意思', 'root-word': '用字根組單字', 'grammar-fill': '文法填空', 'grammar-fix': '挑出正確的句子', reorder: '句子重組', speak: '開口說說看' };
+  const MOD_TYPES = { words: ['listen-choose', 'zh2en', 'en2zh', 'spell'], roots: ['root-meaning', 'root-word'], grammar: ['grammar-fill', 'grammar-fix', 'reorder', 'speak'], patterns: ['reorder', 'speak'] };
+  const SRC_LABEL = { moe: '教育部基本字彙' };
+
+  function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+  function norm(s) { return String(s == null ? '' : s).trim().toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' '); }
+  function tokens(s) { return norm(s).replace(/[^a-z0-9' ]/g, ' ').split(' ').filter(Boolean); }
+  function slug(s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+  function fillBlank(s, a) { return s.replace(/_{2,}/, a); }
+  // 從分層候選裡挑 n 個不重複、也不等於答案的干擾選項
+  function distract(answer, tiers, n) {
+    const out = [], seen = new Set([answer]);
+    for (const tier of tiers) {
+      for (const v of shuffle(tier)) { if (out.length >= n) return out; if (v != null && v !== '' && !seen.has(v)) { seen.add(v); out.push(v); } }
+    }
+    return out;
+  }
+  function choice(answer, tiers) { return shuffle([answer].concat(distract(answer, tiers, 3))); }
+  function chips(sentence) {
+    const t = sentence.trim().split(/\s+/);
+    if (t.length < 2) return t;
+    let s, k = 0;
+    do { s = shuffle(t); k++; } while (s.join(' ') === t.join(' ') && k < 20);
+    return s;
+  }
+
+  // ---- 學會紀錄（純函式）----
+  const TPE = {};
+  function fmtTaipei(iso, full) {
+    if (!iso) return '';
+    const d = new Date(iso); if (isNaN(d)) return '';
+    const f = TPE.f || (TPE.f = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' }));
+    const p = {}; f.formatToParts(d).forEach(x => { p[x.type] = x.value; });
+    return full ? `${p.year}-${p.month}-${p.day} ${p.hour}:${p.minute}:${p.second}` : `${p.month}/${p.day} ${p.hour}:${p.minute}`;
+  }
+  // 學會紀錄 {itemId:{at}}：回傳新物件，不改原本的
+  function setLearned(L, itemId, iso) { const o = Object.assign({}, L); o[itemId] = { at: iso }; return o; }
+  function unsetLearned(L, itemId) { const o = Object.assign({}, L); delete o[itemId]; return o; }
+  const wordItemId = w => 'word:' + slug(w.w), patternItemId = p => 'pattern:' + p.id, grammarItemId = g => 'grammar:' + g.id, rootItemId = r => 'root:' + slug(r.p);
+
+  function Engine(data) {
+    const D = this.D = { words: data.words || [], roots: data.roots || [], grammar: data.grammar || [], patterns: data.patterns || [] };
+    this.meta = []; this.byId = {};
+    const add = (m, make) => { m.tkey = m.module + ':' + m.topic; m.make = () => Object.assign({ id: m.id, module: m.module, topic: m.topic, tkey: m.tkey, type: m.type, title: m.title, why: '' }, make()); this.meta.push(m); this.byId[m.id] = m; };
+
+    // ---- 單字 ----
+    D.words.forEach(w => {
+      const topic = (w.tags && w.tags[0]) || 'other', key = slug(w.w);
+      const tiers = f => {
+        const lv = D.words.filter(x => x !== w && x.lv === w.lv);
+        return [lv.filter(x => (x.tags || []).some(t => (w.tags || []).includes(t))).map(f), lv.filter(x => x.pos === w.pos).map(f), lv.map(f), D.words.filter(x => x !== w).map(f)];
+      };
+      const why = `${w.w} ${w.ipa || ''} ＝ ${w.zh}`;
+      const base = { module: 'words', topic, lv: w.lv, src: w.src || 'moe', title: `${w.w}　${w.zh}` };
+      add(Object.assign({ id: `w:${key}:listen`, type: 'listen-choose' }, base), () => ({ prompt: '聽聽看，是哪一個字？', options: choice(w.w, tiers(x => x.w)), answer: w.w, speakText: w.w, auto: true, play: true, why }));
+      add(Object.assign({ id: `w:${key}:zh2en`, type: 'zh2en' }, base), () => ({ prompt: w.zh, options: choice(w.w, tiers(x => x.w)), answer: w.w, speakText: w.w, why }));
+      add(Object.assign({ id: `w:${key}:en2zh`, type: 'en2zh' }, base), () => ({ prompt: w.w, en: true, play: true, options: choice(w.zh, tiers(x => x.zh)), answer: w.zh, speakText: w.w, why }));
+      add(Object.assign({ id: `w:${key}:spell`, type: 'spell' }, base), () => ({ prompt: '聽寫：把聽到的字拼出來', sub: `提示：${w.zh}（${w.w.length} 個字母）`, input: 'text', options: null, answer: w.w, speakText: w.w, auto: true, play: true, why }));
+    });
+
+    // ---- 字根字首 ----
+    D.roots.forEach(r => {
+      const ex = r.words[0];
+      add({ id: `r:${slug(r.p)}:meaning`, module: 'roots', topic: r.t, type: 'root-meaning', title: `${r.p}　${r.m}` }, () => ({
+        prompt: `${r.p} 是什麼意思？`, sub: r.words.map(x => x.w).join(', '), subEn: true,
+        options: choice(r.m, [D.roots.filter(x => x !== r && x.t === r.t).map(x => x.m), D.roots.filter(x => x !== r).map(x => x.m)]),
+        answer: r.m, speakText: ex.w, why: `${r.p} ＝ ${r.m}。例：${ex.parts.join(' + ')} ＝ ${ex.w}（${ex.zh}）`
+      }));
+      r.words.forEach(w => {
+        add({ id: `r:${slug(w.w)}:word`, module: 'roots', topic: r.t, type: 'root-word', title: `${w.w}　${w.zh}` }, () => ({
+          prompt: `「${w.zh}」英文怎麼說？`, sub: `提示：${r.p}（${r.m}）`,
+          options: choice(w.w, [r.words.filter(x => x !== w).map(x => x.w), D.roots.filter(x => x !== r && x.t === r.t).flatMap(x => x.words.map(y => y.w)), D.roots.flatMap(x => x.words.map(y => y.w))]),
+          answer: w.w, speakText: w.w, why: `${w.parts.join(' + ')} ＝ ${w.w}（${r.p} ＝ ${r.m}）`
+        }));
+      });
+    });
+
+    // ---- 句子題：文法例句與句型例句共用 ----
+    const sentenceQs = (module, topic, idBase, e, why) => {
+      add({ id: `${idBase}:reorder`, module, topic, type: 'reorder', title: e.en }, () => ({ prompt: e.zh, sub: '把字卡排成正確的英文句子', input: 'chips', options: chips(e.en), answer: e.en, speakText: e.en, why }));
+      add({ id: `${idBase}:speak`, module, topic, type: 'speak', title: e.en }, () => ({ prompt: e.en, en: true, sub: e.zh, input: 'mic', play: true, options: null, answer: e.en, speakText: e.en, why }));
+    };
+
+    // ---- 文法 ----
+    D.grammar.forEach(g => {
+      g.q.forEach((q, i) => {
+        const id = `g:${g.id}:${i}`;
+        if (q.type === 'fill') add({ id, module: 'grammar', topic: g.id, type: 'grammar-fill', title: fillBlank(q.s, q.a) }, () => ({ prompt: q.s, options: shuffle(q.opts), answer: q.a, speakText: fillBlank(q.s, q.a), why: q.why }));
+        else add({ id, module: 'grammar', topic: g.id, type: 'grammar-fix', title: q.right }, () => ({ prompt: '哪一句是對的？', options: shuffle([q.wrong, q.right]), answer: q.right, speakText: q.right, why: q.why }));
+      });
+      g.ex.forEach((e, j) => sentenceQs('grammar', g.id, `g:${g.id}:ex${j}`, e, `文法：${g.title}`));
+    });
+
+    // ---- 句型 ----
+    D.patterns.forEach(p => p.ex.forEach((e, j) => sentenceQs('patterns', p.id, `p:${p.id}:${j}`, e, `句型：${p.pattern}（${p.zh}）`)));
+  }
+
+  Engine.prototype = {
+    get(id) { const m = this.byId[id]; return m ? m.make() : null; },
+    sources() { return [...new Set(this.D.words.map(w => w.src || 'moe'))]; },
+    topics(module) {
+      if (module === 'words') { const s = []; this.D.words.forEach(w => { const t = (w.tags && w.tags[0]) || 'other'; if (!s.includes(t)) s.push(t); }); return s.map(t => ({ key: 'words:' + t, label: TAGS[t] || t })); }
+      if (module === 'roots') return Object.keys(ROOT_T).map(t => ({ key: 'roots:' + t, label: ROOT_T[t] }));
+      if (module === 'grammar') return this.D.grammar.map(g => ({ key: 'grammar:' + g.id, label: g.title }));
+      if (module === 'patterns') return this.D.patterns.map(p => ({ key: 'patterns:' + p.id, label: p.pattern }));
+      return [];
+    },
+    // 學會紀錄的項目資訊：word:apple → {item:'apple', type:'單字'}
+    itemInfo(itemId) {
+      const w = this.D.words.find(x => wordItemId(x) === itemId); if (w) return { item: w.w, zh: w.zh, type: '單字' };
+      const p = this.D.patterns.find(x => patternItemId(x) === itemId); if (p) return { item: p.pattern, zh: p.zh, type: '句型' };
+      const g = this.D.grammar.find(x => grammarItemId(x) === itemId); if (g) return { item: g.title, zh: '', type: '文法' };
+      const r = this.D.roots.find(x => rootItemId(x) === itemId); if (r) return { item: r.p, zh: r.m, type: '字根' };
+      return { item: itemId, zh: '', type: '' };
+    },
+    // 家長頁用：學會紀錄表，預設新到舊
+    learnedRows(L) { return Object.keys(L || {}).filter(id => L[id] && L[id].at).map(id => Object.assign({ itemId: id, at: L[id].at }, this.itemInfo(id))).sort((a, b) => (a.at < b.at ? 1 : a.at > b.at ? -1 : 0)); },
+    topicLabel(tkey) { const m = tkey.split(':')[0]; const t = this.topics(m).find(x => x.key === tkey); return t ? t.label : tkey; },
+    // f: {modules, topics(tkey 陣列), types, src, lv, allowSpeak, ids}
+    list(f) {
+      f = f || {};
+      const src = f.src && f.src.length ? [].concat(f.src) : null;
+      return this.meta.filter(m => (!f.ids || f.ids.includes(m.id)) && (!f.modules || f.modules.includes(m.module)) && (!f.topics || f.topics.includes(m.tkey)) &&
+        (!f.types || f.types.includes(m.type)) && (f.allowSpeak || m.type !== 'speak') &&
+        (m.module !== 'words' || ((!src || src.includes(m.src)) && (!f.lv || String(m.lv) === String(f.lv)))));
+    },
+    // cfg: list 的條件 + count, mistakeRatio(0~1；1 = 只練錯題), mistakes(錯題 id 陣列)
+    buildQuiz(cfg) {
+      cfg = cfg || {};
+      const count = cfg.count || 10, ratio = cfg.mistakeRatio || 0, mset = new Set(cfg.mistakes || []);
+      const pool = this.list(cfg);
+      let mpool = pool.filter(m => mset.has(m.id));
+      if (ratio >= 1 && !mpool.length) mpool = [...mset].map(id => this.byId[id]).filter(m => m && (cfg.allowSpeak || m.type !== 'speak'));
+      const nm = ratio >= 1 ? Math.min(count, mpool.length) : Math.min(Math.round(count * ratio), mpool.length);
+      let chosen = shuffle(mpool).slice(0, nm);
+      if (ratio < 1) {
+        // 依「單元＋題型」分組輪流抽，避免單字題淹沒其他題型
+        const taken = new Set(chosen.map(m => m.id)), groups = {};
+        pool.forEach(m => { if (!taken.has(m.id)) (groups[m.module + '|' + m.type] = groups[m.module + '|' + m.type] || []).push(m); });
+        const gs = shuffle(Object.values(groups).map(shuffle));
+        while (chosen.length < count && gs.some(g => g.length)) gs.forEach(g => { if (g.length && chosen.length < count) chosen.push(g.pop()); });
+      }
+      return shuffle(chosen).map(m => m.make());
+    },
+    check(q, input) {
+      if (q.type === 'speak') {
+        const a = tokens(q.answer), have = {};
+        tokens(input).forEach(x => { have[x] = (have[x] || 0) + 1; });
+        let hit = 0;
+        a.forEach(x => { if (have[x]) { hit++; have[x]--; } });
+        const score = a.length ? hit / a.length : 0;
+        return { ok: score >= 0.7, score };
+      }
+      if (q.type === 'spell' || q.type === 'reorder') return { ok: norm(input) === norm(q.answer) };
+      return { ok: input === q.answer };
+    }
+  };
+
+  const KE = { Engine, TAGS, ROOT_T, MODULES, TYPES, MOD_TYPES, SRC_LABEL, shuffle, norm, tokens, fillBlank, fmtTaipei, setLearned, unsetLearned, wordItemId, patternItemId, grammarItemId, rootItemId, slug };
+  if (typeof module !== 'undefined' && module.exports) module.exports = KE;
+  root.KE = KE;
+})(typeof window !== 'undefined' ? window : globalThis);
+</script>
+<script>
+/* app.js — 畫面、路由、儲存、語音 */
+(function () {
+  'use strict';
+  const D = { words: window.DATA_WORDS || [], roots: window.DATA_ROOTS || [], grammar: window.DATA_GRAMMAR || [], patterns: window.DATA_PATTERNS || [] };
+  const E = new KE.Engine(D);
+  const app = document.getElementById('app');
+  const $ = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const pad = n => String(n).padStart(2, '0');
+  const ymd = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const srcLabel = s => KE.SRC_LABEL[s] || s;
+
+  // ---------- 儲存 ----------
+  function load(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }
+  function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* 空間不足或私密模式 */ } }
+  const KEYS = ['ke_progress', 'ke_mistakes', 'ke_settings', 'ke_log', 'ke_learned'];
+  let S;
+  function loadAll() {
+    S = { progress: load('ke_progress', {}), mistakes: load('ke_mistakes', {}), settings: load('ke_settings', {}), log: load('ke_log', []), learned: load('ke_learned', {}) };
+    if (!S.learned || typeof S.learned !== 'object' || Array.isArray(S.learned)) S.learned = {};
+    S.progress = Object.assign({ stars: 0, quizzes: 0 }, S.progress);
+    S.settings = Object.assign({ rate: 1, accent: 'en-US', last: null }, S.settings);
+    if (!Array.isArray(S.log)) S.log = [];
+    if (!S.mistakes || typeof S.mistakes !== 'object') S.mistakes = {};
+  }
+  loadAll();
+
+  // ---------- 語音 ----------
+  const synth = window.speechSynthesis;
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const canSpeak = !!SR;
+  let voices = [], unlocked = false;
+  function loadVoices() { try { voices = synth ? synth.getVoices() : []; } catch (e) { voices = []; } }
+  if (synth) { loadVoices(); try { synth.addEventListener('voiceschanged', loadVoices); } catch (e) { synth.onvoiceschanged = loadVoices; } }
+  function pickVoice() {
+    const acc = S.settings.accent.toLowerCase(), pref = /Samantha|Ava|Natural|Jenny|Aria|Google|Daniel|Serena|Kate|Libby|Sonia/i;
+    let c = voices.filter(v => (v.lang || '').replace('_', '-').toLowerCase() === acc);
+    if (!c.length) c = voices.filter(v => /^en/i.test(v.lang || ''));
+    return c.find(v => pref.test(v.name)) || c[0] || null;
+  }
+  function speak(text) {
+    if (!synth || !text) return;
+    try {
+      unlocked = true;
+      const busy = synth.speaking || synth.pending;
+      synth.cancel();
+      const u = new SpeechSynthesisUtterance(text), v = pickVoice();
+      if (v) u.voice = v;
+      u.lang = v ? v.lang : S.settings.accent;
+      u.rate = +S.settings.rate || 1;
+      if (busy) setTimeout(() => synth.speak(u), 80); else synth.speak(u);
+    } catch (e) { /* 不支援就安靜 */ }
+  }
+  // iOS 要使用者手勢才能出聲：第一次點擊時先唸一個空字串解鎖
+  document.addEventListener('click', () => { if (unlocked || !synth) return; unlocked = true; try { const u = new SpeechSynthesisUtterance(' '); u.volume = 0; synth.speak(u); } catch (e) { } });
+
+  // ---------- 紀錄與錯題 ----------
+  function record(q, ok) {
+    S.log.push({ t: Date.now(), id: q.id, m: q.module, k: q.tkey, y: q.type, ok: ok ? 1 : 0 });
+    if (S.log.length > 5000) S.log = S.log.slice(-5000);
+    save('ke_log', S.log);
+    const m = S.mistakes;
+    if (!ok) m[q.id] = { c: 0, w: ((m[q.id] || {}).w || 0) + 1, t: Date.now() };
+    else if (m[q.id]) { m[q.id].c++; if (m[q.id].c >= 3) { delete m[q.id]; Q.graduated++; } }
+    save('ke_mistakes', m);
+  }
+  function stats() {
+    const days = new Set(S.log.map(l => ymd(new Date(l.t)))), t = ymd(new Date()), d = new Date();
+    let streak = 0;
+    if (!days.has(t)) d.setDate(d.getDate() - 1);
+    while (days.has(ymd(d))) { streak++; d.setDate(d.getDate() - 1); }
+    return { streak, today: S.log.filter(l => ymd(new Date(l.t)) === t).length };
+  }
+  const mistakeIds = () => Object.keys(S.mistakes).filter(id => E.byId[id] && (canSpeak || E.byId[id].type !== 'speak'));
+
+  // ---------- 路由 ----------
+  let rendered = '', Q = null, redraw = null;
+  function go(h) { if (location.hash !== h) location.hash = h; render(); }
+  window.addEventListener('hashchange', () => { if (location.hash !== rendered) render(); });
+  function render() {
+    const h = location.hash || '#home'; rendered = h; redraw = null;
+    const [p, sub] = h.slice(1).split('/');
+    const pages = { home: pHome, learn: pLearn, practice: pPractice, quiz: pQuiz, result: pResult, mistakes: pMistakes, bank: pBank, parent: pParent };
+    (pages[p] || pHome)(sub);
+    window.scrollTo(0, 0);
+  }
+  document.addEventListener('click', e => {
+    const g = e.target.closest('[data-go]');
+    if (g) { e.preventDefault(); go(g.dataset.go); return; }
+    const lb = e.target.closest('[data-learn],[data-unlearn]');
+    if (lb) {
+      e.preventDefault();
+      if (lb.dataset.learn) S.learned = KE.setLearned(S.learned, lb.dataset.learn, new Date().toISOString());
+      else { if (!confirm('確定要取消「已學會」嗎？')) return; S.learned = KE.unsetLearned(S.learned, lb.dataset.unlearn); }
+      save('ke_learned', S.learned);
+      if (redraw) redraw();
+      return;
+    }
+    if (e.target.closest('[data-share]')) { share(e.target.closest('[data-share]')); return; }
+    const s = e.target.closest('.say');
+    if (s) speak(s.dataset.say || s.textContent);
+  });
+
+  // ---------- 共用 UI ----------
+  const top = (title, back) => `<header class="top">${back === false ? '' : `<button class="btn icon" data-go="${back || '#home'}" aria-label="回上一頁">${back && back !== '#home' ? '⬅️' : '🏠'}</button>`}<h1>${title}</h1></header>`;
+  const tile = (go, icon, name, desc, cls) => `<button class="tile ${cls}" data-go="${go}"><span class="ti">${icon}</span><b>${name}</b><small>${desc}</small></button>`;
+  const radios = (name, opts, cur) => `<div class="seg">${opts.map(([v, t]) => `<label class="pill"><input type="radio" name="${name}" value="${esc(v)}" ${String(v) === String(cur) ? 'checked' : ''}><span>${esc(t)}</span></label>`).join('')}</div>`;
+  const val = name => { const el = $(`input[name="${name}"]:checked`); return el ? el.value : ''; };
+  const vals = name => $$(`input[name="${name}"]`).filter(x => x.checked).map(x => x.value);
+  const voiceCard = () => `<section class="card"><h2>🔊 語音設定</h2>${radios('rate', [['0.7', '🐢 慢慢唸'], ['1', '🐇 正常速度']], S.settings.rate)}${radios('accent', [['en-US', '🇺🇸 美式'], ['en-GB', '🇬🇧 英式']], S.settings.accent)}<button class="btn" id="tryv">試聽：<span class="en">Hello! How are you?</span></button>${synth ? '' : '<p class="muted">這個瀏覽器不支援唸英文。</p>'}</section>`;
+  function bindVoice() {
+    $$('input[name="rate"],input[name="accent"]').forEach(el => el.onchange = () => { S.settings.rate = +val('rate') || 1; S.settings.accent = val('accent') || 'en-US'; save('ke_settings', S.settings); });
+    const t = $('#tryv'); if (t) t.onclick = () => speak('Hello! How are you?');
+  }
+  // ---------- 學會了 ----------
+  const LS = { words: '', roots: '', grammar: '', patterns: '' };
+  const isL = id => !!(S.learned[id] && S.learned[id].at);
+  const lfPass = (page, id) => !LS[page] || (LS[page] === 'yes') === isL(id);
+  const learnUI = id => isL(id) ? `<div class="learned"><span class="done">✅ 已學會 ${esc(KE.fmtTaipei(S.learned[id].at))}</span><button class="btn sm" data-unlearn="${esc(id)}">取消</button></div>` : `<button class="btn learn" data-learn="${esc(id)}">👍 學會了</button>`;
+  const lfBar = page => `<div class="lfbar">${radios('lf-' + page, [['', '全部'], ['yes', '已學會'], ['no', '未學會']], LS[page])}<p class="prog" id="prog"></p></div>`;
+  function bindLf(page, label, ids, draw) {
+    const full = () => { $('#prog').textContent = `${label} ${ids.filter(isL).length}/${ids.length} 已學會`; draw(); };
+    $$(`input[name="lf-${page}"]`).forEach(el => el.onchange = () => { LS[page] = el.value; full(); });
+    redraw = full; full();
+  }
+
+  // ---------- 分享（網址固定用遊戲庫正式網址）----------
+  const SHARE = { title: '英文-句型/單字/文法', text: '單字、字根、文法、句型：聽、選、拼、排句子一起練英文', url: 'https://yoda-wcyc.github.io/game/' + encodeURIComponent('英文-句型單字文法.html') };
+  const shareRow = () => `<div class="share-row"><button class="btn share" data-share>🔗 分享這個網站</button><span class="share-msg muted" role="status" aria-live="polite"></span></div>`;
+  function share(b) {
+    const msg = b.parentNode.querySelector('.share-msg'), say = t => { if (msg) msg.textContent = t; };
+    const copy = () => {
+      const done = () => say('已複製連結 ✓ 可以貼給朋友了');
+      const legacy = () => {
+        const ta = document.createElement('textarea'); let ok = false;
+        ta.value = SHARE.url; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+        document.body.appendChild(ta); ta.select();
+        try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+        ta.remove();
+        if (ok) done(); else say('沒辦法自動複製，請長按複製這個網址：' + SHARE.url);
+      };
+      try { if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(SHARE.url).then(done, legacy); return; } } catch (e) { }
+      legacy();
+    };
+    say('');
+    if (!navigator.share) return copy();
+    try { Promise.resolve(navigator.share({ title: SHARE.title, text: SHARE.text, url: SHARE.url })).catch(err => { if (!err || err.name !== 'AbortError') copy(); }); } catch (e) { copy(); }
+  }
+
+  function startQuiz(cfg) {
+    const list = cfg.ids ? KE.shuffle(cfg.ids).slice(0, cfg.count || 30).map(id => E.get(id)).filter(Boolean) : E.buildQuiz(cfg);
+    if (!list.length) { alert('沒有符合條件的題目，換個選擇試試看！'); return; }
+    Q = { list, i: 0, answers: [], answered: false, cfg, graduated: 0, result: null };
+    go('#quiz');
+  }
+
+  // ---------- 首頁 ----------
+  function pHome() {
+    const st = stats(), mc = mistakeIds().length;
+    app.innerHTML = top('小朋友學英文 🎈', false) + `
+      <div class="stats"><div class="stat"><span>🔥</span><b>${st.streak}</b><small>連續天數</small></div><div class="stat"><span>✏️</span><b>${st.today}</b><small>今天做的題目</small></div><div class="stat"><span>⭐</span><b>${S.progress.stars}</b><small>星星</small></div></div>
+      <div class="tiles">${tile('#learn', '📖', '學習', '單字・字根・文法・句型', 'c1')}${tile('#practice', '🎯', '練習', '自己選題目來挑戰', 'c2')}${tile('#mistakes', '🩹', '錯題庫', mc ? `有 ${mc} 題等你復仇` : '目前沒有錯題', 'c3')}${tile('#bank', '🗂️', '例題庫', `全部 ${E.meta.length} 題`, 'c4')}${tile('#parent', '👨‍👩‍👦', '家長', '學習紀錄與設定', 'c5')}</div>
+      <p class="muted center">小提示：看到英文，點一下就會唸給你聽 👂</p>${shareRow()}`;
+  }
+
+  // ---------- 學習 ----------
+  const LF = { lv: '', tag: '', src: '' };
+  function pLearn(sub) {
+    if (sub === 'words') return pWords();
+    if (sub === 'roots') return pRoots();
+    if (sub === 'grammar') return pGrammar();
+    if (sub === 'patterns') return pPatterns();
+    app.innerHTML = top('學習') + `<div class="tiles">${tile('#learn/words', '🔤', '單字卡', `${D.words.length} 個常用字`, 'c1')}${tile('#learn/roots', '🧩', '字根字首', `${D.roots.length} 組拆字密碼`, 'c2')}${tile('#learn/grammar', '📐', '文法', `${D.grammar.length} 個主題`, 'c3')}${tile('#learn/patterns', '💬', '句型', `${D.patterns.length} 個好用句型`, 'c4')}</div>`;
+  }
+  function pWords() {
+    const srcs = E.sources(), tags = [...new Set(D.words.flatMap(w => w.tags || []))];
+    app.innerHTML = top('單字卡', '#learn') + `<div class="filters">
+      <select id="flv" aria-label="等級"><option value="">全部等級</option><option value="1">等級 1</option><option value="2">等級 2</option></select>
+      <select id="ftag" aria-label="主題"><option value="">全部主題</option>${tags.map(t => `<option value="${esc(t)}">${esc(KE.TAGS[t] || t)}</option>`).join('')}</select>
+      ${srcs.length > 1 ? `<select id="fsrc" aria-label="來源"><option value="">全部來源</option>${srcs.map(s => `<option value="${esc(s)}">${esc(srcLabel(s))}</option>`).join('')}</select>` : ''}
+      <button class="btn primary" id="pw">🎯 練這些字</button></div>${lfBar('words')}<p class="muted" id="wn"></p><div class="cards" id="wl"></div>`;
+    const pick = () => D.words.filter(w => (!LF.lv || String(w.lv) === LF.lv) && (!LF.tag || (w.tags || []).includes(LF.tag)) && (!LF.src || (w.src || 'moe') === LF.src) && lfPass('words', KE.wordItemId(w)));
+    const draw = () => {
+      const L = pick();
+      $('#wn').textContent = `這裡有 ${L.length} 個字，點英文就會唸`;
+      $('#wl').innerHTML = L.map(w => `<div class="card word ${isL(KE.wordItemId(w)) ? 'is-learned' : ''}"><div class="w en say">${esc(w.w)}</div><div class="ipa">${esc(w.ipa)} <span class="pos">${esc(w.pos)}</span></div><div class="zh">${esc(w.zh)}</div>${w.ex ? `<div class="ex en say">${esc(w.ex)}</div><div class="exzh">${esc(w.exZh || '')}</div>` : ''}${learnUI(KE.wordItemId(w))}</div>`).join('');
+    };
+    ['lv', 'tag', 'src'].forEach(k => { const el = $('#f' + k); if (el) { el.value = LF[k]; el.onchange = () => { LF[k] = el.value; draw(); }; } });
+    $('#pw').onclick = () => { const ids = pick().flatMap(w => ['listen', 'zh2en', 'en2zh', 'spell'].map(t => `w:${KE.slug(w.w)}:${t}`)); startQuiz({ ids, count: 10 }); };
+    bindLf('words', '單字', D.words.map(KE.wordItemId), draw);
+  }
+  function pRoots() {
+    app.innerHTML = top('字根字首', '#learn') + `<p class="muted">把長長的單字拆開，就像拼樂高一樣！</p><button class="btn primary" data-act="pr">🎯 練字根字首</button>${lfBar('roots')}<div class="cards" id="rl"></div>`;
+    const draw = () => {
+      $('#rl').innerHTML = D.roots.filter(r => lfPass('roots', KE.rootItemId(r))).map(r => `<div class="card root ${isL(KE.rootItemId(r)) ? 'is-learned' : ''}"><div class="rh"><b class="en">${esc(r.p)}</b><span class="tag">${KE.ROOT_T[r.t]}</span></div><div class="rm">＝ ${esc(r.m)}</div><ul>${r.words.map(w => `<li><span class="en say" data-say="${esc(w.w)}">${w.parts.map(esc).join(' <i>+</i> ')} ＝ <b>${esc(w.w)}</b></span> <span class="zh">${esc(w.zh)}</span></li>`).join('')}</ul>${learnUI(KE.rootItemId(r))}</div>`).join('');
+    };
+    $('[data-act="pr"]').onclick = () => startQuiz({ modules: ['roots'], count: 10 });
+    bindLf('roots', '字根', D.roots.map(KE.rootItemId), draw);
+  }
+  function pGrammar() {
+    app.innerHTML = top('文法', '#learn') + `${lfBar('grammar')}<div id="gl"></div>`;
+    const draw = () => {
+      const open = new Set($$('#gl details[open]').map(d => d.dataset.id));
+      $('#gl').innerHTML = D.grammar.filter(g => lfPass('grammar', KE.grammarItemId(g))).map(g => `<details class="card gram ${isL(KE.grammarItemId(g)) ? 'is-learned' : ''}" data-id="${esc(g.id)}" ${open.has(g.id) ? 'open' : ''}><summary><b>${isL(KE.grammarItemId(g)) ? '✅ ' : ''}${esc(g.title)}</b></summary><ul class="rules">${g.rules.map(r => `<li>${esc(r)}</li>`).join('')}</ul><div class="exs">${g.ex.map(e => `<div><span class="en say">${esc(e.en)}</span><small>${esc(e.zh)}</small></div>`).join('')}</div><div class="row wrap"><button class="btn primary" data-g="${esc(g.id)}">🎯 練這個文法</button>${learnUI(KE.grammarItemId(g))}</div></details>`).join('');
+      $$('[data-g]').forEach(b => b.onclick = () => startQuiz({ modules: ['grammar'], topics: ['grammar:' + b.dataset.g], count: 10, allowSpeak: canSpeak }));
+    };
+    bindLf('grammar', '文法', D.grammar.map(KE.grammarItemId), draw);
+  }
+  function pPatterns() {
+    app.innerHTML = top('句型', '#learn') + `${lfBar('patterns')}<div class="cards" id="pl"></div>`;
+    const draw = () => {
+      $('#pl').innerHTML = D.patterns.filter(p => lfPass('patterns', KE.patternItemId(p))).map(p => `<div class="card pat ${isL(KE.patternItemId(p)) ? 'is-learned' : ''}"><div class="ph en say">${esc(p.pattern)}</div><div class="zh">${esc(p.zh)}</div><div class="exs">${p.ex.map(e => `<div><span class="en say">${esc(e.en)}</span><small>${esc(e.zh)}</small></div>`).join('')}</div><div class="row wrap"><button class="btn primary" data-p="${esc(p.id)}">🎯 練這個句型</button>${learnUI(KE.patternItemId(p))}</div></div>`).join('');
+      $$('[data-p]').forEach(b => b.onclick = () => startQuiz({ modules: ['patterns'], topics: ['patterns:' + b.dataset.p], count: 10, allowSpeak: canSpeak }));
+    };
+    bindLf('patterns', '句型', D.patterns.map(KE.patternItemId), draw);
+  }
+
+  // ---------- 練習設定 ----------
+  function pPractice() {
+    const mods = Object.keys(KE.MODULES), srcs = E.sources();
+    const types = Object.keys(KE.TYPES).filter(y => canSpeak || y !== 'speak');
+    const L = Object.assign({ mods: mods.slice(), offT: [], offY: [], count: 10, ratio: 0, lv: '', src: '' }, S.settings.last || {});
+    app.innerHTML = top('練習設定') + `
+      <section class="card"><h2>1. 選單元</h2>${mods.map(m => `<div class="mod"><label class="ck"><input type="checkbox" name="mod" value="${m}" ${L.mods.includes(m) ? 'checked' : ''}> ${KE.MODULES[m]}</label><details><summary>選主題</summary><div class="wrap">${E.topics(m).map(t => `<label class="ck sm"><input type="checkbox" name="top" value="${esc(t.key)}" ${L.offT.includes(t.key) ? '' : 'checked'}> ${esc(t.label)}</label>`).join('')}</div></details></div>`).join('')}</section>
+      <section class="card"><h2>2. 選題型</h2><div class="wrap">${types.map(y => `<label class="ck"><input type="checkbox" name="typ" value="${y}" ${L.offY.includes(y) ? '' : 'checked'}> ${KE.TYPES[y]}</label>`).join('')}</div>${canSpeak ? '' : '<p class="muted">這台裝置不支援語音辨識，所以沒有「開口說說看」題。</p>'}</section>
+      <section class="card"><h2>3. 單字範圍</h2>${radios('lv', [['', '全部等級'], ['1', '等級 1'], ['2', '等級 2']], L.lv)}${srcs.length > 1 ? radios('src', [['', '全部來源']].concat(srcs.map(s => [s, srcLabel(s)])), L.src) : ''}</section>
+      <section class="card"><h2>4. 題數和錯題</h2>${radios('count', [['10', '10 題'], ['20', '20 題'], ['30', '30 題']], L.count)}${radios('ratio', [['0', '不加錯題'], ['0.3', '加 30% 錯題'], ['1', '只練錯題']], L.ratio)}<p class="muted">錯題庫目前有 ${mistakeIds().length} 題</p></section>
+      ${voiceCard()}<button class="btn primary big wide" id="start">開始 🚀</button>`;
+    bindVoice();
+    $('#start').onclick = () => {
+      const allT = $$('input[name="top"]').map(x => x.value), onT = vals('top'), onY = vals('typ');
+      const last = { mods: vals('mod'), offT: allT.filter(t => !onT.includes(t)), offY: types.filter(y => !onY.includes(y)), count: +val('count') || 10, ratio: +val('ratio') || 0, lv: val('lv'), src: val('src') };
+      S.settings.last = last; save('ke_settings', S.settings);
+      if (!last.mods.length || !onY.length) { alert('請至少選一個單元和一個題型喔！'); return; }
+      startQuiz({ modules: last.mods, topics: onT, types: onY, count: last.count, mistakeRatio: last.ratio, mistakes: mistakeIds(), lv: last.lv, src: last.src, allowSpeak: canSpeak });
+    };
+  }
+
+  // ---------- 作答 ----------
+  function pQuiz() {
+    if (!Q) { app.innerHTML = top('練習') + `<div class="card center"><p>還沒有開始練習喔！</p><button class="btn primary big" data-go="#practice">去選題目</button></div>`; return; }
+    const q = Q.list[Q.i], n = Q.list.length;
+    let body;
+    if (q.input === 'text') body = `<div class="spell"><input id="ans" type="text" inputmode="text" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" enterkeyhint="done" placeholder="在這裡打字"><button class="btn primary" id="ok">確定</button></div>`;
+    else if (q.input === 'chips') body = `<div class="placed" id="placed"></div><div class="pool">${q.options.map((c, i) => `<button class="chip" data-i="${i}">${esc(c)}</button>`).join('')}</div><div class="row"><button class="btn" id="clr">清除</button><button class="btn primary" id="ok">確定</button></div>`;
+    else if (q.input === 'mic') body = `<div class="row"><button class="btn primary big" id="mic">🎤 按我開始說</button><button class="btn" id="skip">跳過</button></div><p class="muted center" id="heard"></p>`;
+    else body = `<div class="opts ${q.options.some(o => o.length > 14) ? 'one' : ''}">${q.options.map(o => `<button class="opt" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div>`;
+    app.innerHTML = top('練習中', '#practice') + `<div class="bar"><i style="width:${Q.i / n * 100}%"></i></div><p class="count">第 ${Q.i + 1} / ${n} 題</p>
+      <div class="card qcard"><div class="qtype">${KE.TYPES[q.type]}</div><div class="prompt ${q.en ? 'en say' : ''}">${esc(q.prompt)}</div>${q.sub ? `<div class="sub ${q.subEn ? 'en' : ''}">${esc(q.sub)}</div>` : ''}${q.play ? `<button class="btn sound" id="play">🔊 ${q.type === 'speak' ? '聽示範' : '再聽一次'}</button>` : ''}</div>
+      ${body}<div id="fb"></div>`;
+    const p = $('#play'); if (p) p.onclick = () => speak(q.speakText);
+    $$('.opt').forEach(b => b.onclick = () => answer(q, b.dataset.v));
+    if (q.input === 'text') {
+      const inp = $('#ans');
+      $('#ok').onclick = () => answer(q, inp.value);
+      inp.onkeydown = e => { if (e.key === 'Enter') answer(q, inp.value); };
+    }
+    if (q.input === 'chips') {
+      let placed = [];
+      const pool = $$('.chip');
+      const draw = () => {
+        $('#placed').innerHTML = placed.map(i => `<button class="chip on" data-p="${i}">${esc(q.options[i])}</button>`).join('') || '<span class="muted">點下面的字卡，排成句子；點上面的字卡可以拿掉</span>';
+        pool.forEach(b => b.classList.toggle('used', placed.includes(+b.dataset.i)));
+        $$('#placed .chip').forEach(b => b.onclick = () => { if (Q.answered) return; placed = placed.filter(x => x !== +b.dataset.p); draw(); });
+      };
+      pool.forEach(b => b.onclick = () => { const i = +b.dataset.i; if (Q.answered || placed.includes(i)) return; placed.push(i); draw(); });
+      $('#clr').onclick = () => { if (!Q.answered) { placed = []; draw(); } };
+      $('#ok').onclick = () => { if (placed.length) answer(q, placed.map(i => q.options[i]).join(' ')); };
+      draw();
+    }
+    if (q.input === 'mic') {
+      const heard = $('#heard');
+      $('#skip').onclick = () => answer(q, '', true);
+      $('#mic').onclick = () => {
+        try {
+          const r = new SR(); r.lang = S.settings.accent; r.interimResults = false; r.maxAlternatives = 3;
+          heard.textContent = '我在聽… 🎧';
+          r.onresult = e => {
+            const alts = Array.from(e.results[0]).map(a => a.transcript);
+            let best = alts[0] || '', bs = -1;
+            alts.forEach(t => { const s = E.check(q, t).score; if (s > bs) { bs = s; best = t; } });
+            heard.textContent = '我聽到：' + best;
+            answer(q, best);
+          };
+          r.onerror = () => { heard.textContent = '麥克風沒辦法用，按「跳過」繼續 👉'; };
+          r.onend = () => { if (!Q.answered && heard.textContent.indexOf('我在聽') === 0) heard.textContent = '沒聽清楚，再按一次 🎤，或按「跳過」'; };
+          if (synth) synth.cancel();
+          r.start();
+        } catch (e) { heard.textContent = '這台裝置不能錄音，按「跳過」繼續 👉'; }
+      };
+    }
+    if (q.auto) speak(q.speakText);
+  }
+  function answer(q, input, skipped) {
+    if (Q.answered) return;
+    Q.answered = true;
+    const res = skipped ? { ok: false } : E.check(q, input);
+    if (!skipped) record(q, res.ok);
+    Q.answers.push({ q, ok: res.ok, skip: !!skipped, input });
+    $$('.opt').forEach(b => { b.disabled = true; if (b.dataset.v === q.answer) b.classList.add('right'); else if (b.dataset.v === input) b.classList.add('wrong'); });
+    $$('#ok,#clr,#mic,#skip,.pool .chip,#ans').forEach(x => { x.disabled = true; });
+    const last = Q.i === Q.list.length - 1;
+    $('#fb').innerHTML = `<div class="fb ${skipped ? 'skip' : res.ok ? 'ok' : 'no'}"><div class="fbh">${skipped ? '⏭️ 先跳過' : res.ok ? '✓ 答對了！太棒了' : '✗ 差一點，再加油！'}</div>
+      ${!res.ok ? `<div>正確答案：<b class="say" data-say="${esc(q.speakText || q.answer)}">${esc(q.answer)}</b> 🔊</div>` : ''}
+      ${!res.ok && !skipped && q.input && input ? `<div class="muted">你的答案：${esc(input)}</div>` : ''}
+      ${res.score != null ? `<div class="muted">唸對了 ${Math.round(res.score * 100)}% 的字（70% 就過關）</div>` : ''}
+      ${q.why ? `<div class="why">💡 ${esc(q.why)}</div>` : ''}
+      <button class="btn primary big wide" id="next">${last ? '看結果 🎉' : '下一題 ➜'}</button></div>`;
+    if (q.speakText && q.type !== 'speak') speak(q.speakText);
+    $('#next').onclick = () => { Q.i++; Q.answered = false; if (Q.i >= Q.list.length) finish(); else { pQuiz(); window.scrollTo(0, 0); } };
+    try { $('#next').scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) { }
+  }
+  function finish() {
+    const graded = Q.answers.filter(a => !a.skip), ok = graded.filter(a => a.ok).length, tot = graded.length, pct = tot ? ok / tot : 0;
+    const stars = tot ? (pct >= 0.9 ? 3 : pct >= 0.6 ? 2 : 1) : 0;
+    S.progress.stars += stars; S.progress.quizzes++; save('ke_progress', S.progress);
+    Q.result = { ok, tot, stars, wrong: Q.answers.filter(a => !a.ok && !a.skip).map(a => a.q) };
+    go('#result');
+  }
+  function pResult() {
+    if (!Q || !Q.result) return go('#home');
+    const r = Q.result, msg = r.stars === 3 ? '超級厲害！🏆' : r.stars === 2 ? '做得很好！👍' : '多練幾次會更棒！💪';
+    app.innerHTML = top('練習結果') + `<div class="card center result"><div class="stars">${'⭐'.repeat(r.stars)}${'☆'.repeat(3 - r.stars)}</div><div class="score">${r.ok} / ${r.tot}</div><p>${msg}</p>${Q.graduated ? `<p>🎓 有 ${Q.graduated} 題錯題畢業了！</p>` : ''}</div>
+      ${r.wrong.length ? `<section class="card"><h2>答錯的題目（點一下聽聽看）</h2><ul class="list">${r.wrong.map(q => `<li><span class="badge">${KE.TYPES[q.type]}</span> <span class="say" data-say="${esc(q.speakText || q.answer)}">${esc(q.title)} 🔊</span></li>`).join('')}</ul></section>` : ''}
+      <div class="row wrap"><button class="btn primary big" id="again">再練一次</button>${r.wrong.length ? '<button class="btn big" id="redo">練答錯的題目</button>' : ''}<button class="btn big" data-go="#home">回首頁</button></div>`;
+    $('#again').onclick = () => startQuiz(Q.cfg);
+    const rd = $('#redo'); if (rd) rd.onclick = () => startQuiz({ ids: r.wrong.map(q => q.id) });
+  }
+
+  // ---------- 錯題庫 ----------
+  function pMistakes() {
+    const ids = mistakeIds().sort((a, b) => S.mistakes[b].t - S.mistakes[a].t);
+    app.innerHTML = top('錯題庫') + `<div class="card"><p>答錯的題目會來這裡。同一題<b>連續答對 3 次</b>就會畢業離開 🎓</p><button class="btn primary big" id="onlym" ${ids.length ? '' : 'disabled'}>只練錯題（${ids.length} 題）</button></div>
+      ${ids.length ? `<ul class="list card">${ids.map(id => { const m = E.byId[id], s = S.mistakes[id]; return `<li><span class="badge">${KE.TYPES[m.type]}</span> <span>${esc(m.title)}</span> <span class="dots">${'●'.repeat(s.c)}${'○'.repeat(3 - s.c)}</span> <small class="muted">錯 ${s.w} 次</small></li>`; }).join('')}</ul>` : '<p class="center muted">太棒了，目前沒有錯題！🎉</p>'}`;
+    $('#onlym').onclick = () => startQuiz({ ids, count: 30 });
+  }
+
+  // ---------- 例題庫 ----------
+  const BF = { m: '', k: '', y: '' };
+  function pBank() {
+    const mods = Object.keys(KE.MODULES);
+    const types = Object.keys(KE.TYPES).filter(y => canSpeak || y !== 'speak');
+    app.innerHTML = top('例題庫') + `<div class="filters"><select id="bm" aria-label="單元"><option value="">全部單元</option>${mods.map(m => `<option value="${m}">${KE.MODULES[m]}</option>`).join('')}</select><select id="bk" aria-label="主題"></select><select id="by" aria-label="題型"><option value="">全部題型</option>${types.map(y => `<option value="${y}">${KE.TYPES[y]}</option>`).join('')}</select><button class="btn primary" id="bgo">🎯 練這些</button></div><p class="muted" id="bn"></p><ul class="list card" id="bl"></ul>`;
+    const pick = () => E.list({ modules: BF.m ? [BF.m] : null, topics: BF.k ? [BF.k] : null, types: BF.y ? [BF.y] : null, allowSpeak: canSpeak });
+    const draw = () => {
+      const tops = BF.m ? E.topics(BF.m) : [];
+      $('#bk').innerHTML = `<option value="">全部主題</option>` + tops.map(t => `<option value="${esc(t.key)}">${esc(t.label)}</option>`).join('');
+      $('#bk').value = BF.k; $('#bk').disabled = !BF.m;
+      const L = pick(), show = L.slice(0, 200);
+      $('#bn').textContent = `共 ${L.length} 題` + (L.length > 200 ? '（先列出前 200 題）' : '');
+      $('#bl').innerHTML = show.map(m => `<li><span class="badge">${KE.TYPES[m.type]}</span> <span>${esc(m.title)}</span> <small class="muted">${esc(E.topicLabel(m.tkey))}</small></li>`).join('');
+    };
+    $('#bm').value = BF.m; $('#by').value = BF.y;
+    $('#bm').onchange = e => { BF.m = e.target.value; BF.k = ''; draw(); };
+    $('#bk').onchange = e => { BF.k = e.target.value; draw(); };
+    $('#by').onchange = e => { BF.y = e.target.value; draw(); };
+    $('#bgo').onclick = () => startQuiz({ ids: pick().map(m => m.id), count: 30 });
+    draw();
+  }
+
+  // ---------- 家長 ----------
+  const PS = { k: 'acc', d: 1 }, PL = { k: 'at', d: -1 };
+  // 可排序表格：cols=[{k,t,f}]，st={k,d} 記住目前排序
+  function sortTable(el, cols, rows, st) {
+    const draw = () => {
+      const s = rows.slice().sort((a, b) => { const x = a[st.k], y = b[st.k]; return (typeof x === 'string' ? x.localeCompare(y, 'zh-Hant') : x - y) * st.d; });
+      el.innerHTML = `<thead><tr>${cols.map(c => `<th data-k="${c.k}">${c.t}${c.k === st.k ? (st.d > 0 ? ' ▲' : ' ▼') : ''}</th>`).join('')}</tr></thead><tbody>${s.length ? s.map(r => `<tr>${cols.map(c => `<td>${esc(c.f ? c.f(r[c.k]) : r[c.k])}</td>`).join('')}</tr>`).join('') : `<tr><td colspan="${cols.length}" class="muted">還沒有紀錄</td></tr>`}</tbody>`;
+      $$('th', el).forEach(th => th.onclick = () => { st.d = st.k === th.dataset.k ? -st.d : 1; st.k = th.dataset.k; draw(); });
+    };
+    draw();
+  }
+  function pParent() {
+    const days = [];
+    for (let i = 6; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); days.push(ymd(d)); }
+    const cnt = {}, per = {};
+    S.log.forEach(l => {
+      const k = ymd(new Date(l.t)); cnt[k] = (cnt[k] || 0) + 1;
+      const p = per[l.k] || (per[l.k] = { k: l.k, n: 0, ok: 0 }); p.n++; p.ok += l.ok;
+    });
+    const mx = Math.max(1, ...days.map(d => cnt[d] || 0));
+    const rows = Object.values(per).map(p => ({ label: E.topicLabel(p.k), mod: KE.MODULES[p.k.split(':')[0]] || '', n: p.n, ok: p.ok, acc: p.ok / p.n }));
+    const weak = rows.filter(r => r.n >= 3).sort((a, b) => a.acc - b.acc).slice(0, 5);
+    const pct = x => Math.round(x * 100) + '%';
+    app.innerHTML = top('家長專區') + `
+      <section class="card"><h2>最近 7 天做題數</h2><div class="week">${days.map(d => `<div class="day"><div class="col"><i style="height:${(cnt[d] || 0) / mx * 100}%"></i></div><b>${cnt[d] || 0}</b><small>${d.slice(5)}</small></div>`).join('')}</div>
+        <p class="muted">累計 ${S.log.length} 題・完成 ${S.progress.quizzes} 回練習・⭐ ${S.progress.stars}・錯題庫 ${mistakeIds().length} 題</p></section>
+      <section class="card"><h2>最需要加強的 5 個主題</h2>${weak.length ? `<ol>${weak.map(r => `<li>${esc(r.label)}（${esc(r.mod)}）— 正確率 ${pct(r.acc)}，做了 ${r.n} 題</li>`).join('')}</ol>` : '<p class="muted">每個主題做滿 3 題後就會出現。</p>'}</section>
+      <section class="card"><h2>各主題正確率（點標題排序）</h2><div class="tblwrap"><table class="tbl" id="tt"></table></div></section>
+      <section class="card"><h2>學會紀錄（${Object.keys(S.learned).length} 項，點標題排序）</h2><div class="tblwrap"><table class="tbl" id="lt"></table></div></section>
+      ${voiceCard()}
+      <section class="card"><h2>備份與重設</h2><div class="row wrap"><button class="btn" id="exp">📤 匯出備份</button><label class="btn">📥 匯入備份<input type="file" id="imp" accept=".json,application/json" hidden></label><button class="btn danger" id="rst">🗑️ 清除全部紀錄</button></div><p class="muted">紀錄只存在這台裝置的瀏覽器裡；換裝置前先匯出備份。</p></section>`;
+    bindVoice();
+    sortTable($('#tt'), [{ k: 'label', t: '主題' }, { k: 'mod', t: '單元' }, { k: 'n', t: '題數' }, { k: 'ok', t: '答對' }, { k: 'acc', t: '正確率', f: pct }], rows, PS);
+    sortTable($('#lt'), [{ k: 'item', t: '項目' }, { k: 'type', t: '類型' }, { k: 'at', t: '學會時間（台北）', f: x => KE.fmtTaipei(x, true) }], E.learnedRows(S.learned), PL);
+    $('#exp').onclick = () => {
+      const data = { app: 'kids-english', at: new Date().toISOString() };
+      KEYS.forEach(k => { data[k] = load(k, null); });
+      try {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 1)], { type: 'application/json' }));
+        a.download = `kids-english-backup-${ymd(new Date()).replace(/-/g, '')}.json`;
+        document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+      } catch (e) { alert('匯出失敗：' + e.message); }
+    };
+    $('#imp').onchange = e => {
+      const f = e.target.files[0]; if (!f) return;
+      const rd = new FileReader();
+      rd.onload = () => {
+        try {
+          const data = JSON.parse(rd.result);
+          if (!KEYS.some(k => k in data)) throw new Error('不是這個網站的備份檔');
+          if (!confirm('匯入會覆蓋目前的紀錄，確定嗎？')) return;
+          KEYS.forEach(k => { if (data[k] != null) save(k, data[k]); });
+          loadAll(); alert('匯入完成！'); render();
+        } catch (err) { alert('匯入失敗：' + err.message); }
+      };
+      rd.readAsText(f);
+    };
+    $('#rst').onclick = () => {
+      if (!confirm('確定要清除全部紀錄（星星、錯題、做題紀錄、學會紀錄、設定）嗎？這個動作不能復原。')) return;
+      KEYS.forEach(k => { try { localStorage.removeItem(k); } catch (e) { } });
+      loadAll(); render();
+    };
+  }
+
+  render();
+})();
+</script>
+<!-- yoda-logo-sig -->
+<img alt="Yoda" src="https://yoda-research-next.vercel.app/yoda-logo.png" style="position:fixed;right:14px;bottom:12px;height:52px;width:auto;opacity:.5;z-index:9990;pointer-events:none">
+<script>(function(){try{var K='yr_vid',v=localStorage.getItem(K);if(!v){v=Date.now().toString(36)+Math.random().toString(36).slice(2,8);localStorage.setItem(K,v);}var seg=location.pathname.split('/').filter(Boolean).pop()||'home';fetch('https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec',{method:'POST',body:JSON.stringify({action:'hit',page:decodeURIComponent(seg),path:location.pathname,host:location.hostname,ref:document.referrer,vid:v})});}catch(e){}})();</script>
+</body>
+</html>
