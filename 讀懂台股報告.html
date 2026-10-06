@@ -124,7 +124,7 @@ input[type=range].gsl::-moz-range-track{height:8px;border-radius:4px;background:
 .fp-bet{flex:1 1 190px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:10px;padding:0.75rem 0.8rem;font-size:13.5px;line-height:1.6;cursor:pointer;transition:all .15s}
 .fp-bet:hover{border-color:rgba(255,255,255,0.7);transform:translateY(-2px)}
 .btnrow{display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap}
-/* ===== 2026-09-26 改版：對齊台股報告 09-24 架構（§00 市場一分鐘／上一份的牌、價十格、族群型態、均線方向、外資波段、邏輯鍊） ===== */
+/* ===== 2026-09-26 改版：對齊台股報告 09-24 架構（§00 市場一分鐘〔「上一份的牌」關 2026-10-06 隨報告刪卡移除〕、價十格、族群型態、均線方向、外資波段、邏輯鍊） ===== */
 .pl-card .sm,.pl-chip .sm{display:block;font-size:11.5px;line-height:1.5;opacity:.78;margin-top:2px}
 .sgp{color:#ff9aa6;font-weight:700}.sgn{color:#8fe6b6;font-weight:700}
 .mt-item svg{display:block;width:100%;max-width:132px;margin:2px 0 0}
@@ -261,14 +261,6 @@ function relBars(a,b,c){
   s+='<text x="'+(x+13)+'" y="72" fill="rgba(255,255,255,0.55)" font-size="8.5" text-anchor="middle">'+lab[k]+'</text>';
   s+='<text x="'+(x+13)+'" y="'+(pos?(Z-h-3).toFixed(1):(Z+h+10).toFixed(1))+'" fill="'+(pos?'#ff9aa6':'#8fe6b6')+'" font-size="9" font-weight="700" text-anchor="middle">'+(v[k]>0?'+':'')+v[k]+'</text>';}
  return s+'</svg>';}
-// §00 上一份的牌 · 今天開出什麼（示意卡，文字取自報告）
-const PREV_SVG='<svg viewBox="0 0 300 118" style="width:100%;max-width:300px;margin:0.4rem auto 0;display:block">'
- +'<rect x="4" y="4" width="292" height="110" rx="9" fill="rgba(6,10,22,0.66)" stroke="rgba(224,165,38,0.55)"/>'
- +'<text x="14" y="22" fill="#e6c463" font-size="10.5" font-weight="700">上一份的牌 · 今天開出什麼（'+ASOF.slice(5).replace('-','/')+'）</text>'
- +'<text x="14" y="46" fill="#fff" font-size="10.5"><tspan fill="#e0c04a" font-weight="700">✓</tspan> 站上月線守不守得住多數：守住第三天</text>'
- +'<text x="14" y="70" fill="#fff" font-size="10.5"><tspan fill="#e0c04a" font-weight="700">◐</tspan> 外資累計守不守得住九月中的低點：前半中</text>'
- +'<text x="14" y="94" fill="#fff" font-size="10.5"><tspan fill="#e0c04a" font-weight="700">✗</tspan> 上漲家數跟不跟得上指數：字面中<tspan fill="rgba(255,255,255,0.48)" font-size="9">（單日尺度）</tspan></text>'
- +'<circle cx="282" cy="66" r="4" fill="#e0c04a" class="gpulse"/></svg>';
 // §07 八段贏面橫條
 function sigBars(){const nm=['訊號輸入／網通接口','高速傳輸／載板','核心運算','記憶體暫存','周邊驅動IC','供電功率','被動濾波','散熱防禦'];
  let s='<svg viewBox="0 0 300 186" style="width:100%;max-width:300px;margin:0.3rem auto 0.4rem;display:block">';
@@ -452,25 +444,6 @@ const ROUNDS=[
  note:'金點＝今天的位置：剛好壓在 30% 那條線上面一點',
  fbOk:'對——<b>順風 · 上行</b>，'+ASOF+' 從前一天的「偏震盪 · 往上」升了一格。<br>但報告同時寫了兩件事：<br>① 效率比 30.15%，<b>剛過 30% 的門檻，跟偏震盪只差一點</b>；<br>② 淨走從 +2.99% 升到 +5.01%，大半是<b>窗口起點換日</b>：起點從 09/01 換成 09/02，起點那天低了 784 點。下一個交易日掉出 09/03，就可能退回偏震盪。<br><b>新高是事實，順風只剛過門檻——兩句一起讀。</b>',
  fbNo:'再看一次：效率比 30.15% 已經在 30% 以上（上排），淨走是 +5.01%（往上），收盤也在月線上——上排右邊那一格。'},
-
-// ── §00 flip：上一份的牌 · 今天開出什麼 ─────────────────────────
-{type:'flip',key:'上一份的牌',sky:'sky-dawn',bg:'farhills',label:'§00 · 今日重點 · 上一份的牌',
- title:'昨天寫下的牌，今天要當眾開',
- text:'你讀昨天的報告時點頭，<br>今天讀新的一份又點頭——<br>從來沒回頭對過：昨天說的那幾件事，到底有沒有發生。',
- so:'報告替你做這件事。<br>今日重點裡有一張卡叫「上一份的牌 · 今天開出什麼」，<br>把上一份寫下的牌<b>逐條開票、一條都不挑</b>。',
- layers:[['✓ 成立','上一份寫的順風條件發生了'],
-   ['✗ 翻案','上一份寫的翻案條件發生了'],
-   ['◐ 半成立','只中一半，或兩邊都沒中——照實寫出來'],
-   ['判定窗','一律用波段判：七月底以來、五日、十日、二十日；當天的買賣只當註腳'],
-   ['單日尺度','只在一天裡成立的結果，旁邊用灰字標出來']],
- chips:['上一份（10/01）的牌：外資這一波的累計，守不守得住九月中的低點？','✓ 順風＝累計續升，期貨轉成連著回補','✗ 翻案＝累計跌破九月中的低點，期貨又連著加空'],
- q:ASOF+'：七月底以來的累計 +2,901.0 → +2,968.6 億（九月中低點 +1,423.2 億）；期貨又加空 989 口，連兩天加空。<br><b>這張牌今天開出什麼？押一個：</b>',
- bets:[['yes','✓ 成立<br><span style="font-size:12px;opacity:.75">累計續升了</span>'],
-   ['no','✗ 翻案<br><span style="font-size:12px;opacity:.75">期貨又加空了</span>'],
-   ['half','◐ 半成立<br><span style="font-size:12px;opacity:.75">前半中、後半沒中</span>']],
- betOk:'half',
- reveal:PREV_SVG,
- revealTxt:'<b>◐ 半成立。</b><br>累計連三天往上、離九月中的低點更遠——順風的<b>前半成立</b>；<br>但期貨又加空，沒有轉成連著回補——<b>後半沒中</b>。翻案要兩件一起發生，所以翻案也沒中。<br>報告兩半都寫，不挑好講的那一半。<br><br>同一張卡還有一條更難看的：「上漲的家數跟不跟得上指數」→ <b>✗ 翻案字面中了</b>：指數連兩天收高，上市連兩天跌多於漲。<br>報告照字面記命中，再補一句：差距從 −129 家縮到 −23 家，上櫃和全市場已經漲多。<br><b>先照字面開票，再講方向；不因為方向在改善，就把翻案說成沒中。</b>'},
 
 // ── §00 match：外資卡四行 · 力道／趨勢／轉向／位階 ─────────────────
 {type:'match',key:'外資卡四行',sky:'sky-dawn',bg:'farhills',label:'§00 · 今日重點 · 外資的現貨、期貨與匯率',
@@ -789,7 +762,7 @@ const ROUNDS=[
  buildQ:'最後一件事，親手做：<br>把驗證點總表的一列排好。<br><b>驗證點：台積電在來回裡的位置</b>（開牌日：每日盤後）<br>先點一張卡，再點它該去的欄位：',
  cards:[['a','近二十日相對大盤·非漲幅 +0.12%；七月底以來外資累計約 +15.4 億（估算）'],['b','外資累計止跌回升，近二十日相對大盤連著守在正的'],['c','七月底以來的外資累計轉成負'],['d','最大的權值會不會拖累指數']],
  slots:[['s1','現值基準','a'],['s2','✓ 順風確認','b'],['s3','✗ 翻案訊號','c'],['s4','牽動哪一環','d']],
- done:'排好了。這一列在事前就寫好了兩個方向：<br>怎樣算順風、怎樣算翻案，<b>還有它會牽動哪一個判斷</b>。<br>報告自己也寫了：這一列<b>離翻案最近</b>，只差一天的賣。<br>下一份報告，「上一份的牌」那張卡就會拿它來開票——<br>你回來對答案，而不是回來找理由。'}
+ done:'排好了。這一列在事前就寫好了兩個方向：<br>怎樣算順風、怎樣算翻案，<b>還有它會牽動哪一個判斷</b>。<br>報告自己也寫了：這一列<b>離翻案最近</b>，只差一天的賣。<br>下一份報告出來，就拿它開票——<br>你回來對答案，而不是回來找理由。'}
 ];
 
 const OPENING={sky:'sky-dawn',bg:'farhills',label:'序',title:'每個數字你都看得懂，判斷卻拼不出來',quotes:[
@@ -801,7 +774,6 @@ const OPENING={sky:'sky-dawn',bg:'farhills',label:'序',title:'每個數字你�
 
 const TRANSITIONS=[
  null,
- '結論和牌都看過了。<br>今日重點還有一張只講外資的卡：<br>四行字，各回答一個問題。',
  '今日重點讀完了。<br>往下是證據——先把單位對上。',
  null,
  '兩把尺分開了。<br>接下來，把整個台股攤成一張圖。',
@@ -829,12 +801,6 @@ const ANS=[
    ['效率比','近 20 日淨走幅 ÷ 路徑總長。淨走＝起點到終點；路徑總長＝每天漲跌幅的絕對值加起來'],
    ['窗口起點換日','20 天的窗每天往前推一天，掉出去的那一天如果特別高或特別低，讀數就會跳'],
    ['接下來的牌','寫好開牌時間的事件；每張牌切成兩到三個情境，各自走到一個結局']]},
- {answer:'◐ 半成立。累計 +2,901.0 → +2,968.6 億續升（順風前半成立），但期貨連兩天加空、沒有轉成連著回補（後半沒中）；翻案要兩件一起發生，也沒中。',terms:[
-   ['上一份的牌 · 今天開出什麼','今日重點裡的一張純文字卡：把上一份驗證點總表寫下的牌逐條開票，一條都不挑'],
-   ['✓ ／ ✗ ／ ◐','成立／翻案／半成立或兩邊都沒中'],
-   ['九月中的低點','外資七月底以來累計買賣超在九月中掉到的最低點（09/16，+1,423.2 億）'],
-   ['判定窗','判一張牌用的時間長度。報告一律用波段（七月底以來、五日、十日、二十日），當天只當註腳'],
-   ['單日尺度','只在一天裡成立的結果，灰字標出來，不拿來改一整段的方向']]},
  {answer:'−28.3 億／五天 −875.5 億 → 力道；這一波 +3,037.6 億 vs 一季 −2,961.1 億 → 趨勢；近二十天第 18 大、翻 10 次 → 轉向；離高點 −1,153.7 億、離低點 +3,461.2 億 → 位階。',terms:[
    ['外資卡','今日重點裡的「外資的現貨、期貨與匯率」：四行判讀在前，① 現貨 ② 期貨 ③ 匯率讀數在後'],
    ['期貨流','期貨淨口數這一天的變化×加權指數×200，把「口」換成「億元」'],
@@ -1333,7 +1299,6 @@ function advance(i){const n=i+1;if(n>=ROUNDS.length)fade(showResult);else fade(f
 // ================= 結果頁：工具牆（一站一件工具，數量由 ROUNDS.length 決定）=================
 const ICONS={
  '環境判定':'<svg viewBox="0 0 100 84"><rect x="10" y="8" width="80" height="64" fill="none" stroke="rgba(255,255,255,0.16)"/><line x1="50" y1="8" x2="50" y2="72" stroke="rgba(255,255,255,0.24)"/><line x1="10" y1="40" x2="90" y2="40" stroke="rgba(255,255,255,0.4)" stroke-dasharray="3 2"/><rect x="50" y="8" width="40" height="32" fill="rgba(255,107,125,0.24)"/><text x="70" y="26" fill="#ff6b7d" font-size="9" text-anchor="middle">順風</text><text x="30" y="26" fill="#7fd0a0" font-size="9" text-anchor="middle">逆風</text><text x="30" y="60" fill="#9ab8ff" font-size="9" text-anchor="middle">震盪</text><text x="70" y="60" fill="#ffd28a" font-size="9" text-anchor="middle">偏震盪</text><circle cx="72" cy="37" r="3.4" fill="#e0b64a" class="gpulse"/></svg>',
- '上一份的牌':'<svg viewBox="0 0 100 84"><rect x="12" y="10" width="76" height="62" rx="6" fill="rgba(0,0,0,0.2)" stroke="rgba(224,165,38,0.55)"/><text x="20" y="30" fill="#e0b64a" font-size="11" font-weight="700">✓</text><text x="20" y="48" fill="#e0b64a" font-size="11" font-weight="700">◐</text><text x="20" y="66" fill="#e0b64a" font-size="11" font-weight="700">✗</text><line x1="34" y1="26" x2="80" y2="26" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/><line x1="34" y1="44" x2="80" y2="44" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/><line x1="34" y1="62" x2="72" y2="62" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/></svg>',
  '外資卡四行':'<svg viewBox="0 0 100 84"><rect x="12" y="8" width="76" height="68" rx="6" fill="rgba(0,0,0,0.2)" stroke="rgba(224,165,38,0.55)"/><g font-size="9" font-weight="700" fill="#e0b64a"><text x="20" y="24">力道</text><text x="20" y="40">趨勢</text><text x="20" y="56">轉向</text><text x="20" y="72">位階</text></g><g stroke="rgba(255,255,255,0.3)" stroke-width="1.4"><line x1="44" y1="21" x2="80" y2="21"/><line x1="44" y1="37" x2="76" y2="37"/><line x1="44" y1="53" x2="80" y2="53"/><line x1="44" y1="69" x2="72" y2="69"/></g></svg>',
  '單位':'<svg viewBox="0 0 100 84"><text x="50" y="30" fill="#e0b64a" font-size="15" font-weight="700" text-anchor="middle">億元</text><text x="26" y="52" fill="rgba(255,255,255,0.42)" font-size="11" text-anchor="middle">口</text><text x="74" y="52" fill="rgba(255,255,255,0.42)" font-size="11" text-anchor="middle">家數</text><text x="50" y="70" fill="rgba(255,255,255,0.42)" font-size="11" text-anchor="middle">%</text><circle cx="50" cy="25" r="17" fill="none" stroke="#e0b64a" stroke-width="1.5" class="gpulse"/></svg>',
  '價的十格':'<svg viewBox="0 0 100 84"><line x1="10" y1="42" x2="90" y2="42" stroke="rgba(255,255,255,0.35)"/><rect x="18" y="24" width="16" height="18" fill="rgba(255,107,125,0.85)"/><rect x="42" y="42" width="16" height="12" fill="rgba(120,200,150,0.8)"/><rect x="66" y="42" width="16" height="20" fill="rgba(120,200,150,0.8)"/><text x="50" y="78" fill="rgba(255,255,255,0.5)" font-size="8.5" text-anchor="middle">5 · 20 · 60</text></svg>',
