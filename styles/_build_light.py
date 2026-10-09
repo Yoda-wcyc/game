@@ -32,6 +32,9 @@ def main():
         total[0] += os.path.getsize(os.path.join(IMG, name))
         return 'img/' + name + m.group(3)
 
+    # 例外：「誌頁」範例是含原作者帳號疊字的社群截圖，公開頁不放圖（之後換成自產樣片時刪掉這兩行即可）
+    zb = base64.b64encode(open(os.path.join(os.path.dirname(SRC), "image-styles", "previews", "zhiye-editorial-flat.png"), "rb").read()).decode()
+    s = s.replace('<img class="pv" src="data:image/png;base64,%s" alt="preview">' % zb, '<div class="pv nopv">尚無公開預覽</div>')
     # src="data:image/...;base64,XXX"
     s = re.sub(r'data:image/([a-z+]+);base64,([A-Za-z0-9+/=\s]+)(["\')])', fix, s)
     s = re.sub(r'<img(?![^>]*loading=)', '<img loading="lazy" decoding="async"', s)
