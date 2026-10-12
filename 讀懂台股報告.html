@@ -130,7 +130,7 @@ input[type=range].gsl::-moz-range-track{height:8px;border-radius:4px;background:
 .mt-item svg{display:block;width:100%;max-width:132px;margin:2px 0 0}
 .pl-slot .sl-t b{font-weight:700}
 .data-chip{background:rgba(8,10,22,0.58);border-color:rgba(224,165,38,0.55);color:#f6dc92;text-shadow:0 1px 2px rgba(0,0,0,.5)}
-/* ===== 2026-09-27：§08 外資姿態與大盤 ETF（四格切窗口＋溢價熱度） ===== */
+/* ===== 2026-09-27：§08 外資姿態與大盤 ETF（四格切窗口＋② 多空力道／避險比重） ===== */
 .fq-seg{display:flex;gap:0.4rem;justify-content:center;max-width:480px;margin:0 auto 0.55rem}
 .fq-seg button{flex:1 1 0;min-width:0;background:rgba(0,0,0,0.32);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:999px;padding:0.45rem 0.3rem;font-size:13px;cursor:pointer;transition:all .15s;white-space:nowrap}
 .fq-seg button:hover{border-color:rgba(255,255,255,0.7)}
@@ -673,7 +673,7 @@ const ROUNDS=[
    ['縱軸 · 期貨','外資台指期淨未平倉的<b>窗內增減</b>（口；大台＋小台折成同一單位）。往上＝往多（加多單或回補空單）、往下＝加空'],
    ['四格','右上 偏多｜右下 避險｜左上 保守調節｜左下 偏空'],
    ['按兵不動帶','期指增減在 ±1,000 口內＝期貨沒動作，只剩現貨那隻手在表態——落在帶裡，點現貨那一邊的任一格都算對'],
-   ['同一章還有','② 外資多空力道／避險比重（下一站）、ETF 溢價熱度（下一站最後一題）']],
+   ['同一章還有','② 外資多空力道／避險比重（下一站）']],
  chips:['資料日 '+ASOF,'報告預設看 20 日窗'],
  q:'下面是 '+FUT.d[FQ_LAST]+' 同一天、'+FQ.length+' 個窗口的讀數。<br>先點上面的窗口，再點圖上它落在哪一格——<b>每個窗口都要點</b>：',
  fbOk:'同一天、'+FQ.length+' 個窗口：<br>'+FQ.map(function(f){return '<b>'+f.n+' → <span style="color:'+FQ_CELL[f.ans].c+'">'+FQ_CELL[f.ans].n+'</span></b>（現貨 '+fqNum(f.x,' 億')+'、期指 '+fqNum(f.y,' 口')+'）';}).join('<br>')
@@ -1085,7 +1085,7 @@ function fpDone(i){const r=ROUNDS[i];const m=plMarks(r.slots);
   +placeBody(i,r.cards,r.slots,true,true,m)
   +okBox(r.done)+'<button class="continue-btn" onclick="record('+i+')">看我學會了什麼 ›</button>');}
 
-// ── 外資四格：點窗口切換 ＋ 點格判讀（§08）；再接一題溢價熱度 ──
+// ── 外資四格：點窗口切換 ＋ 點格判讀（§08）──
 let FQ_TIMER=null;
 function fqAnimate(from,to){if(FQ_TIMER){clearInterval(FQ_TIMER);FQ_TIMER=null;}
  const t0=Date.now(),D=520;
