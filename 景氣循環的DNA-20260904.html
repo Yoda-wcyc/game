@@ -12,6 +12,7 @@
 <title>景氣循環的 DNA｜帶你把 2026-10 總經報告走一遍 · Yoda Research</title>
 <link rel="icon" href="data:,">
 <!-- 2026-10-04 改版：對齊《總經_20261003》（§00 行情推演～§15 財政政策，讀數到 10/02）。檔名沿用 20260904，因為報告 nav 金鈕與 ?cert=macro 入口都連這個檔名。設計表：_design\總經_v2026-10-04_逐關設計.md -->
+<!-- 2026-10-22 小改：報告 10-11 把 §03 四張大卡＋長債四段卡換成「景氣四階段時間軸」，新增第 8 站 hotspot；1103 未定稿，仍對齊 1003。設計表：_design\總經_v2026-10-22_逐關設計.md -->
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100%;min-height:100%;font-family:-apple-system,'PingFang TC','Noto Sans TC','Microsoft JhengHei',sans-serif;background:#000}
@@ -163,6 +164,20 @@ function hsDot(k,x,y,sel,rev){const on=sel&&sel.indexOf(k)>=0,good=rev&&rev.inde
 function hsRect(k,x,y,w,h,sel,rev,inner){const on=sel&&sel.indexOf(k)>=0,good=rev&&rev.indexOf(k)>=0;
   let fill='rgba(0,0,0,0.38)';if(good)fill='rgba(120,220,140,0.24)';else if(on)fill='rgba(224,165,38,0.26)';
   return '<rect class="hz" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="8" fill="'+fill+'" stroke="'+(good?'#7fd6a6':(on?C_G:'rgba(255,255,255,0.32)'))+'" stroke-width="'+(on||good?2:1)+'" onclick="hsPick(\''+k+'\')"/>'+(inner||'');}
+
+// ── §03 景氣四階段 × 長天期公債四段（畫債價；示意，不代表幅度與時間）──
+function phaseFig(sel,rev){
+  let s=svgOpen(206);
+  const ph=[['復甦期',20],['成長期',87],['榮景期',154],['衰退期',221]];
+  ph.forEach(function(p,k){s+='<rect x="'+p[1]+'" y="22" width="67" height="150" fill="rgba(255,255,255,'+(k%2?0.05:0.02)+')" pointer-events="none"/>'+tx(p[1]+33.5,16,p[0],{a:'middle',s:10.5,c:'#fff'});});
+  s+='<line x1="20" y1="62" x2="87" y2="62" stroke="rgba(255,255,255,0.45)" stroke-width="2" stroke-dasharray="4 4" pointer-events="none"/>';
+  s+='<polyline points="87,62 170,130 195,100 221,140 288,48" fill="none" stroke="'+C_G+'" stroke-width="2.6" pointer-events="none"/>';
+  s+=tx(24,52,'報告沒寫方向',{s:8.5,c:'rgba(255,255,255,0.55)'});
+  s+=tx(150,196,'折線＝長天期公債的債價（示意）',{a:'middle',s:9,c:'rgba(255,255,255,0.6)'});
+  const seg=[['down',87,83,'主跌段'],['bounce',170,25,'反彈段'],['retest',195,26,'再修正'],['bull',221,67,'長多段']];
+  seg.forEach(function(g){s+=hsRect(g[0],g[1],150,g[2],28,sel,rev,tx(g[1]+g[2]/2,168,g[3],{a:'middle',s:g[2]<30?8:9.5,c:'#fff'}));});
+  if(rev)s+=tx(208,36,'▼ 現在',{a:'middle',s:10,c:'#7fd6a6',w:'700'});
+  return box(s+'</svg>');}
 
 // ── §00 半年推演圖：實線＝已公布、虛線＝推演；分岔在兩次 FOMC ──
 function outlookFig(sel,rev){
@@ -346,7 +361,7 @@ const DECOMP_SVG=(function(){let s=svgOpen(130);
 const OPENING={sky:'sky-dawn',bg:'farhills',label:'序',title:'你心裡也在問同一句',quotes:function(){return [
  '打開總經報告，最上面那一行問：<br><b>「就業轉弱了，股市為什麼還站在高點附近？」</b><br>你心裡也在問同一句。',
  '往下是十六個段落、幾十張圖。<br>你從頭滑到尾，<br>滑完只記得「數據好像有好有壞」。',
- '不是你看不懂。<br>是同一份報告裡，經濟這一端和股市這一端<br>講的是兩件事——沒人幫你分開。',
+ '不是你看不懂。<br>是同一份報告裡，經濟這一端和股市這一端<br>講的是兩件事——卻常被混成一句。',
  '接下來 '+ROUNDS.length+' 站，一站一張圖，從 §00 走到 §15，<br>最後親手把翻案條件寫進表。<br><span style="opacity:.78;font-size:13px">（讀數取自 '+ASOF+' 那期總經報告，資料到 '+DATA_DAY+'，用來練讀法，不是今天的判斷）</span>'];}};
 
 const ROUNDS=[
@@ -424,6 +439,16 @@ const ROUNDS=[
  cards:[['u','失業率'],['i','初領失業金'],['g','實質 GDP'],['r','CPI 房租'],['n','ISM 新訂單'],['p','ISM 製造業 PMI']],
  slots:[['s1','<b style="color:'+C_Y+'">先行</b><br>還沒發生就先動','i,n'],['s2','<b style="color:'+C_G+'">同步</b><br>跟當下一起動','g,p'],['s3','<b style="color:'+C_O+'">滯後</b><br>轉完才反映','u,r']],
  done:'這張索引拿來量 10/03 這一期：<br>9 月兩邊方向不一——非農放慢，初領反而回落；<br><b>先行與滯後這個月沒有互相確認</b>。<br>所以「失業率升到 4.2%」不能單獨拿來判轉折，它是最後才亮的那盞燈。'},
+
+// 8 ── §03 景氣四階段時間軸 · hotspot（10-11 報告改版新增）──
+{type:'hotspot',sky:'sky-valley',bg:'range',label:'§03 · 景氣四階段時間軸',short:'四階段',
+ title:'同一條線，四段各走各的',
+ text:'§03 第二張是景氣四階段的時間軸：<br>復甦、成長、榮景、衰退排成一排，<br>底下疊著美債、股市、黃金、原油四條線。',
+ so:'讀法是先認階段，再看<b>這個階段每類資產歷史上怎麼走</b>。<br>灰色虛線＝沒有穩定方向，或報告沒寫——不是漏畫。<br>圖只示意方向與轉折，不代表幅度和時間。',
+ q:'§01 把現在定在<b>榮景期末段</b>。<br>點出長天期公債那條線上，對應現在的那一段：',
+ need:['retest'],fig:phaseFig,
+ fbOk:'<b>再修正</b>那一段：榮景期末期，利率暫緩之後最後衝刺一次，<b>債價再跌一段</b>。<br>報告說這是框架和現況第一次對得這麼準的地方：10 年期 10/2 收在 <b>5.28%</b>，長端利率開始自己漲（期限溢價兩個模型都往上）。<br>歷史上這一格是長天期公債長線報酬最好的區間——這是<b>歷史落點</b>，不是預測。<br>同一張圖的另外兩條：黃金看扣掉通膨後的利率和官方買盤，<b>不看景氣階段</b>；原油在升息期沒有穩定方向。<br>要改判成衰退期，看兩個訊號：<b>初領失業金 U 型反轉、非農月增轉負</b>。',
+ fbNo:'先在上面找到「榮景期」那一欄，再看它的最後一小段。'},
 
 // 8 ── §04 利率 vs 企業＋消費端 · flip ──
 {type:'flip',sky:'sky-storm',bg:'peak',label:'§04 · 利率 vs 企業＋消費端',short:'信用利差',
@@ -569,7 +594,7 @@ const TRANSITIONS=[
  '圖是推演。<br>先看現在站在哪。',
  null,null,null,null,
  '主線讀完了。<br>下面的分頁，是查證用的。',
- null,null,null,null,null,
+ null,null,null,null,null,null,
  '景氣、就業、通膨查完了。<br>接下來兩節，拿利率當尺。',
  null,null,null,null,null,null,
  '整份報告讀完了。<br>最後：它什麼情況下會認錯？',
@@ -622,6 +647,12 @@ const ANS=[
    ['滯後指標','景氣轉完才反映——拿來預判一定被騙'],
    ['ISM 新訂單','採購經理人說「新接的單」多不多；50 以上＝擴張'],
    ['CPI 房租','租約半年一年才換，所以比市場租金慢一年以上']]},
+ {answer:'再修正（榮景期末段）：利率暫緩後最後衝刺、債價再跌一段；10 年期 10/2 收在 5.28%。',terms:[
+   ['景氣四階段','復甦 → 成長 → 榮景 → 衰退，一個循環的四個位置'],
+   ['長天期公債四段','主跌段 → 反彈段 → 再修正 → 長多段；折線畫的是債價，不是殖利率'],
+   ['再修正','榮景期末期，利率暫緩後最後衝刺一次，債價再跌一段'],
+   ['灰色虛線','這一段沒有穩定方向，或報告沒寫——不是漏畫'],
+   ['歷史落點','過去循環裡這一段通常怎麼走；拿來對照，不是預測']]},
  {answer:'借錢開始變難一點：第一道裂縫，還沒到銀行收緊放款（離 3.5% 還有 26bp）。',terms:[
    ['信用利差','體質差的公司借錢要比公債多付多少；往上＝借錢變難、利率變高'],
    ['bp','基點＝0.01 個百分點；44bp＝0.44%'],
@@ -1000,7 +1031,7 @@ showStart();
 <script>
 (function(){
   var GAS_URL='https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec';
-  var TYPES={mw:'市場觀察',tw:'台股',us:'美股',key:'簡報',macro:'總經'};
+  var TYPES={mw:'市場觀察',tw:'台股',us:'美股',key:'簡報',macro:'總經',flag:'關鍵',ai:'AI泡沫'};
   var t=new URLSearchParams(location.search).get('cert');
   if(!t||!TYPES[t]) return;                 // 非檢核模式 → 什麼都不做，遊戲照舊
   var name=TYPES[t];

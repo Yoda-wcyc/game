@@ -11,6 +11,9 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>看懂市場觀察（跟著報告走一遍）· Yoda Research</title>
 <!-- 2026-09-26 改版：對齊市場觀察現行架構（市場一分鐘＋§00–§09）。檔名沿用舊名，因為報告 nav 金鈕與各入口都連到這個檔名。 -->
+<!-- 2026-10-14 改版：報告 §07 市場廣度永久刪除（Yoda「刪除07區塊，這部分在美股報告就有了」）→ 廣度那一關拔掉、Gamma 改 §07。 -->
+<!-- 2026-10-22 改版：對齊《市場觀察_20261022》（市場一分鐘＋§00–§07，資料到 10/21 美股收盤），19 關；設計檔 _design/看懂市場觀察_v2026-10-22_逐關設計.md。 -->
+<!-- 2026-10-12 改版：對齊《市場觀察_20261009》（市場一分鐘＋§00–§08；§09 整章 10-11 永久刪除）。讀數基準換到 10/09 那份（資料到 10/08 美股收盤）。 -->
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100%;min-height:100%;font-family:-apple-system,'PingFang TC','Noto Sans TC',sans-serif;background:#000}
@@ -138,9 +141,9 @@ const MOTIFS={
  river:(f,n,l)=>`<path d="M0,90 C300,82 500,86 1200,84 L1200,120 L0,120Z" fill="${f}"/><path d="M470,82 Q540,98 610,82" fill="none" stroke="${l}" stroke-width="1.8" stroke-linecap="round"/><path d="M120,94 q80,-4 160,0 t160,0 M700,96 q80,-4 160,0 t160,0" fill="none" stroke="${l}" stroke-width="1" opacity="0.6"/>`};
 function bg(type,sky){const m=MOTIFS[type];if(!m)return '';const[f,n,l]=inkCols(sky);return `<svg class="ink-bg" viewBox="0 0 1200 120" preserveAspectRatio="none">${m(f,n,l)}</svg>`;}
 
-// ================= 資料錨定：2026-10-03 市場觀察（資料到 10/02 美股收盤） =================
-const ASOF='10/03';
-const DATA_DAY='10/02 美股收盤';
+// ================= 資料錨定：2026-10-22 市場觀察（資料到 10/21 美股收盤） =================
+const ASOF='10/22';
+const DATA_DAY='10/21 美股收盤';
 // 顏色慣例：漲／偏多／強＝紅、跌／偏空／弱＝綠（全報告同一套）；綠色 #a5d6a7 另用於「答對」回饋
 const C_UP='#ff6b7d',C_DN='#7fd0a0',C_Y='#ffd28a',C_O='#ffa060';
 
@@ -151,8 +154,9 @@ function startPulse(){if(PULSE)return;PULSE=setInterval(function(){
   const a=(0.4+0.5*(0.5+0.5*Math.sin(t*3.0))).toFixed(2);
   const els=document.querySelectorAll('.gpulse');for(let i=0;i<els.length;i++)els[i].setAttribute('opacity',a);
 },70);}
+function svgOpen(h,mw){return '<svg viewBox="0 0 300 '+h+'" style="width:100%;max-width:'+(mw||320)+'px;display:block;margin:0.4rem auto 0;background:rgba(6,10,22,0.42);border-radius:12px">';}
 
-// 2×2 象限盒（§03 量價用）：cells 順序＝左上、右上、左下、右下
+// 2×2 象限盒（§03 量價、§05 動態圖共用）：cells 順序＝左上、右上、左下、右下
 function quadBox(o,sel,rev){
   const X0=40,Y0=20,X1=286,Y1=214,mx=(X0+X1)/2,my=(Y0+Y1)/2,cw=(X1-X0)/2,ch=(Y1-Y0)/2;
   const box=[[X0,Y0],[mx,Y0],[X0,my],[mx,my]];
@@ -164,8 +168,9 @@ function quadBox(o,sel,rev){
     let fill='rgba(255,255,255,0.02)';
     if(good)fill='rgba(120,220,140,0.22)';else if(on)fill='rgba(224,165,38,0.24)';
     s+='<rect class="hz" data-k="'+c.k+'" x="'+x+'" y="'+y+'" width="'+cw+'" height="'+ch+'" fill="'+fill+'" stroke="'+((on||good)?(good?'#7fd6a6':'#e0a526'):'rgba(255,255,255,0.10)')+'" stroke-width="'+((on||good)?2:1)+'" onclick="hsPick(\''+c.k+'\')"/>';
-    s+='<text x="'+(x+cw/2)+'" y="'+(y+22)+'" fill="'+(c.col||'rgba(255,255,255,0.86)')+'" font-size="12.5" font-weight="700" text-anchor="middle" pointer-events="none">'+c.n+'</text>';
-    if(c.s)s+='<text x="'+(x+cw/2)+'" y="'+(y+39)+'" fill="rgba(255,255,255,0.66)" font-size="10.5" text-anchor="middle" pointer-events="none">'+c.s+'</text>';
+    const nm=(o.hideNames&&!rev)?'？':c.n,sb=(o.hideNames&&!rev)?'':c.s;
+    s+='<text x="'+(x+cw/2)+'" y="'+(y+22)+'" fill="'+(c.col||'rgba(255,255,255,0.86)')+'" font-size="12.5" font-weight="700" text-anchor="middle" pointer-events="none">'+nm+'</text>';
+    if(sb)s+='<text x="'+(x+cw/2)+'" y="'+(y+39)+'" fill="rgba(255,255,255,0.66)" font-size="10.5" text-anchor="middle" pointer-events="none">'+sb+'</text>';
   }
   s+='<line x1="'+mx+'" y1="'+Y0+'" x2="'+mx+'" y2="'+Y1+'" stroke="rgba(255,255,255,0.3)" pointer-events="none"/>';
   s+='<line x1="'+X0+'" y1="'+my+'" x2="'+X1+'" y2="'+my+'" stroke="rgba(255,255,255,0.3)" pointer-events="none"/>';
@@ -176,333 +181,402 @@ function quadBox(o,sel,rev){
   return s+'</svg>';
 }
 
-// 市場一分鐘：框內第一列環境判定 → 四題（答案膠囊待你接）→ 定調
-const FLOW4_SVG=(function(){
-  const nm=['借錢變難了嗎？','市場還怕嗎？','指數站得住嗎？','底下有人跟嗎？'];
-  let s='<svg viewBox="0 0 300 250" style="width:100%;max-width:300px;display:block;margin:0 auto">';
-  s+='<rect x="6" y="4" width="288" height="26" rx="7" fill="rgba(255,107,125,0.16)" stroke="'+C_UP+'" stroke-opacity="0.7"/>';
-  s+='<text x="150" y="21" fill="#fff" font-size="11" text-anchor="middle">環境判定（框內第一列）· 順風 · 上行</text>';
-  for(let i=0;i<4;i++){const y=42+i*40;
-    s+='<rect x="20" y="'+y+'" width="128" height="26" rx="8" fill="rgba(0,0,0,0.38)" stroke="rgba(224,165,38,0.75)"/>';
-    s+='<text x="84" y="'+(y+17)+'" fill="#f4dc9a" font-size="11" text-anchor="middle">'+nm[i]+'</text>';
-    s+='<line x1="148" y1="'+(y+13)+'" x2="172" y2="'+(y+13)+'" stroke="rgba(255,255,255,0.35)" stroke-dasharray="3 3"/>';
-    s+='<rect x="172" y="'+y+'" width="110" height="26" rx="13" fill="rgba(255,255,255,0.06)" stroke="'+(i===2?'#e6c463':'rgba(255,255,255,0.3)')+'"'+(i===2?' stroke-dasharray="4 3"':'')+'/>';
-    s+='<text x="227" y="'+(y+17)+'" fill="rgba(255,255,255,0.7)" font-size="11" text-anchor="middle">答案 ？</text>';
-    if(i<3)s+='<line x1="84" y1="'+(y+26)+'" x2="84" y2="'+(y+40)+'" stroke="#e0a526" stroke-width="4"/>';}
-  s+='<line x1="84" y1="188" x2="84" y2="202" stroke="#e0a526" stroke-width="4"/>';
-  s+='<polygon points="40,202 270,202 258,236 28,236" fill="rgba(255,107,125,0.2)" stroke="'+C_UP+'"/>';
-  s+='<text x="149" y="223" fill="#fff" font-size="11.5" font-weight="700" text-anchor="middle">偏多 · 壞消息就是好消息</text>';
-  return s+'</svg>';})();
-
-// 市場一分鐘 · 環境判定：淨走幅固定，擺盪幅度由拉桿決定 → 效率比
-function erOf(v){const a=v/10;let L=0;for(let k=0;k<20;k++)L+=Math.abs(0.3+(k%2===0?a:-a));return 6/L*100;}
-function erCat(er){return er>=30?['順風 · 上行',C_UP]:er>=15?['偏震盪 · 往上','#e6c463']:['震盪 · 往上','#cfd6e6'];}
-function erFig(v){const a=v/10,u=11;let x=30,y=160,pts=[[x,y]];
-  for(let k=0;k<20;k++){x+=12.5;y-=(0.3+(k%2===0?a:-a))*u;pts.push([x,y]);}
-  const er=erOf(v),c=erCat(er);
-  let s='<svg viewBox="0 0 300 196" style="width:100%;max-width:320px;display:block;margin:0.3rem auto 0;background:rgba(6,10,22,0.42);border-radius:12px">';
-  s+='<line x1="30" y1="160" x2="'+pts[20][0]+'" y2="'+pts[20][1].toFixed(1)+'" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" stroke-dasharray="4 4"/>';
-  s+='<polyline points="'+pts.map(function(p){return p[0]+','+p[1].toFixed(1);}).join(' ')+'" fill="none" stroke="#e0a526" stroke-width="2.4" stroke-linejoin="round"/>';
-  s+='<circle cx="30" cy="160" r="4" fill="#fff"/><circle cx="'+pts[20][0]+'" cy="'+pts[20][1].toFixed(1)+'" r="5" fill="#e0a526" class="gpulse"/>';
-  s+='<text x="30" y="178" fill="rgba(255,255,255,0.7)" font-size="10" text-anchor="middle">起點</text>';
-  s+='<text x="'+pts[20][0]+'" y="'+(pts[20][1]+20).toFixed(1)+'" fill="rgba(255,255,255,0.7)" font-size="10" text-anchor="middle">終點</text>';
-  s+='<text x="150" y="20" fill="'+c[1]+'" font-size="13" font-weight="700" text-anchor="middle">效率比 '+er.toFixed(0)+'%　'+c[0]+'</text>';
-  s+='<text x="150" y="190" fill="rgba(255,255,255,0.5)" font-size="9.5" text-anchor="middle">虛線＝淨走幅　金線＝實際走過的路</text>';
-  return s+'</svg>';}
-function erLab(v){const er=erOf(v),c=erCat(er);return '效率比 <b>'+er.toFixed(0)+'%</b> → <b style="color:'+c[1]+'">'+c[0]+'</b>';}
-
-// §00 壞消息就是好消息：六格（10/02 同一天的事），點出股市這端
-const TWOEND=[['k1','九月非農偏弱','前兩個月也下修','e'],['k4','標普站回月線','','s'],['k5','保險一口氣撤光','買賣權比掉出常態帶','s'],['k2','信用利差','跨過下一格','e'],['k3','兩年期、十年期','都小升','e'],['k6','半導體整排收紅','','s']];
-function twoEndSVG(sel,rev){
-  let s='<svg viewBox="0 0 300 214" style="width:100%;max-width:320px;display:block;margin:0.4rem auto 0;background:rgba(6,10,22,0.42);border-radius:12px">';
-  TWOEND.forEach(function(t,i){const x=10+(i%2)*144,y=10+Math.floor(i/2)*66;
+// 通用「點格子」熱區圖：tiles＝[key,主字,副字,分組]；cols 欄數；revTag(t)＝揭曉時右上角小字
+function tileSVG(tiles,cols,sel,rev,revTag,revCol){
+  const W=300,gap=8,cw=(W-gap*(cols+1))/cols,chh=56,rows=Math.ceil(tiles.length/cols),H=gap+rows*(chh+gap);
+  let s=svgOpen(H,330);
+  tiles.forEach(function(t,i){const x=gap+(i%cols)*(cw+gap),y=gap+Math.floor(i/cols)*(chh+gap);
     const on=sel&&sel.indexOf(t[0])>=0,good=rev&&rev.indexOf(t[0])>=0;
     let fill='rgba(0,0,0,0.34)',st='rgba(255,255,255,0.3)';
-    if(rev){fill=t[3]==='s'?'rgba(255,107,125,0.20)':'rgba(127,208,160,0.16)';st=t[3]==='s'?C_UP:C_DN;}
+    if(rev){st=revCol?revCol(t):(good?'#7fd6a6':'rgba(255,255,255,0.3)');fill=good?'rgba(120,220,140,0.20)':'rgba(0,0,0,0.30)';}
     else if(on){fill='rgba(224,165,38,0.26)';st='#e0a526';}
-    s+='<rect x="'+x+'" y="'+y+'" width="136" height="58" rx="9" fill="'+fill+'" stroke="'+st+'" stroke-width="'+((on||good)?2.2:1.2)+'" style="cursor:pointer" onclick="hsPick(\''+t[0]+'\')"/>';
-    s+='<text x="'+(x+68)+'" y="'+(y+(t[2]?24:33))+'" fill="#fff" font-size="12" font-weight="700" text-anchor="middle" pointer-events="none">'+t[1]+'</text>';
-    if(t[2])s+='<text x="'+(x+68)+'" y="'+(y+41)+'" fill="rgba(255,255,255,0.72)" font-size="10.5" text-anchor="middle" pointer-events="none">'+t[2]+'</text>';
-    if(rev)s+='<text x="'+(x+130)+'" y="'+(y+14)+'" fill="'+st+'" font-size="9.5" text-anchor="end" pointer-events="none">'+(t[3]==='s'?'股市這端':'經濟·債市這端')+'</text>';});
+    s+='<rect x="'+x.toFixed(1)+'" y="'+y+'" width="'+cw.toFixed(1)+'" height="'+chh+'" rx="9" fill="'+fill+'" stroke="'+st+'" stroke-width="'+((on||good)?2.2:1.2)+'" style="cursor:pointer" onclick="hsPick(\''+t[0]+'\')"/>';
+    const cx=(x+cw/2).toFixed(1),fs=cols>=3?10.5:11.5;
+    s+='<text x="'+cx+'" y="'+(y+(t[2]?24:33))+'" fill="#fff" font-size="'+fs+'" font-weight="700" text-anchor="middle" pointer-events="none">'+t[1]+'</text>';
+    if(t[2])s+='<text x="'+cx+'" y="'+(y+41)+'" fill="rgba(255,255,255,0.74)" font-size="'+(fs-1)+'" text-anchor="middle" pointer-events="none">'+t[2]+'</text>';
+    if(rev&&revTag)s+='<text x="'+(x+cw-5).toFixed(1)+'" y="'+(y+11)+'" fill="'+st+'" font-size="8.5" text-anchor="end" pointer-events="none">'+revTag(t)+'</text>';});
   return s+'</svg>';}
 
-// §02 四條溫度條（前一份 10/01 收盤 → 今天 10/02 收盤）
-const BARS=[['資金流判定',54,50],['情緒很熱觸發',56,80],['Risk-on／off',48,39],['市場廣度',34.9,34.3]];
-function barsSVG(){const L=100,W=186;const px=function(v){return L+W*v/100;};
-  let s='<svg viewBox="0 0 300 190" style="width:100%;max-width:320px;display:block;margin:0 auto">';
-  BARS.forEach(function(b,i){const y=30+i*38;
-    s+='<text x="4" y="'+(y+4)+'" fill="rgba(255,255,255,0.88)" font-size="11">'+b[0]+'</text>';
-    s+='<text x="4" y="'+(y+18)+'" fill="rgba(255,255,255,0.55)" font-size="9.5">'+b[1]+' → '+b[2]+'</text>';
-    s+='<rect x="'+L+'" y="'+(y-4)+'" width="'+W+'" height="8" rx="4" fill="rgba(255,255,255,0.12)"/>';
-    s+='<line x1="'+px(50)+'" y1="'+(y-7)+'" x2="'+px(50)+'" y2="'+(y+7)+'" stroke="rgba(255,255,255,0.25)"/>';
-    s+='<circle cx="'+px(b[1]).toFixed(1)+'" cy="'+y+'" r="4" fill="rgba(255,255,255,0.5)"/>';
-    s+='<circle cx="'+px(b[2]).toFixed(1)+'" cy="'+y+'" r="6" fill="#e0a526" class="gpulse"/>';
-    s+='<text x="'+px(b[2]).toFixed(1)+'" y="'+(y-10)+'" fill="#fff" font-size="10.5" font-weight="700" text-anchor="middle">'+b[2]+'</text>';});
-  s+='<circle cx="120" cy="182" r="4" fill="rgba(255,255,255,0.5)"/><text x="127" y="185" fill="rgba(255,255,255,0.6)" font-size="9">前一份（10/01）</text>';
-  s+='<circle cx="208" cy="182" r="5" fill="#e0a526"/><text x="216" y="185" fill="rgba(255,255,255,0.6)" font-size="9">今天（10/02）</text>';
-  return '<div class="fig-box">'+s+'</svg></div>';}
+// ① 環境判定：示意圖（季線往上、收盤在季線上；五日、十日、月線纏在一起）
+const ENV_SVG=(function(){
+  let s=svgOpen(196,320);
+  s+='<text x="150" y="16" fill="rgba(255,255,255,0.7)" font-size="10" text-anchor="middle">美股大盤（SPY）· 近 60 日 07-29～10-21 · 示意</text>';
+  s+='<polyline points="20,150 80,140 140,128 200,118 280,108" fill="none" stroke="#c9a7ff" stroke-width="1.8"/><text x="282" y="104" fill="#c9a7ff" font-size="9" text-anchor="end">季線（往上）</text>';
+  s+='<polyline points="20,120 70,104 120,92 160,84 200,92 240,100 280,88" fill="none" stroke="#8fb3ff" stroke-width="1.3" stroke-opacity="0.9"/>';
+  s+='<polyline points="20,126 70,100 120,86 160,80 200,102 240,96 280,84" fill="none" stroke="#ffd28a" stroke-width="1.3" stroke-opacity="0.9"/>';
+  s+='<polyline points="20,130 70,96 120,82 160,76 200,110 240,92 280,80" fill="none" stroke="#9fe3c0" stroke-width="1.3" stroke-opacity="0.9"/>';
+  s+='<polyline points="20,134 60,96 110,78 150,70 190,116 220,104 250,86 280,72" fill="none" stroke="#fff" stroke-width="2"/>';
+  s+='<circle cx="280" cy="72" r="5.5" fill="'+C_UP+'" class="gpulse"/><text x="272" y="62" fill="#fff" font-size="9.5" text-anchor="end">10/21 收盤</text>';
+  s+='<text x="150" y="172" fill="rgba(255,255,255,0.62)" font-size="9" text-anchor="middle">白線＝收盤；黃、綠、藍＝五日、十日、月線；紫＝季線</text>';
+  s+='<text x="150" y="188" fill="#f4dc9a" font-size="10" text-anchor="middle">卡片標題列：大方向？｜排列？｜收盤位置？・量能？</text>';
+  return s+'</svg>';})();
 
-// §03 量價四象限：揭曉時才畫出兩顆點（10/02：都在右下格、貼近均量線；那指漲得多、量縮得多一點）
-const VP_DOTS=(function(){
-  const sx=206,sy=130,nx=232,ny=146;
-  return '<circle cx="'+sx+'" cy="'+sy+'" r="6" fill="#5b8def" stroke="#fff" stroke-width="1" class="gpulse"/>'
-   +'<text x="'+(sx-9)+'" y="'+(sy+4)+'" fill="#bcd0ff" font-size="10" text-anchor="end">標普</text>'
-   +'<circle cx="'+nx+'" cy="'+ny+'" r="6" fill="#b18cff" stroke="#fff" stroke-width="1" class="gpulse"/>'
-   +'<text x="'+(nx+9)+'" y="'+(ny+4)+'" fill="#dcc8ff" font-size="10">那指</text>';})();
+// ② 量能那一層：今天的量是前 20 日均量的幾倍（1.3 倍＝帶量的門檻）
+function volFig(v){const x=function(r){return 30+(r-0.5)/1.5*240;};const xr=x(v/100);
+  let s=svgOpen(130,320);
+  s+='<text x="150" y="16" fill="rgba(255,255,255,0.7)" font-size="10" text-anchor="middle">今天的成交量 ÷ 前 20 日均量</text>';
+  s+='<rect x="30" y="48" width="240" height="16" rx="5" fill="rgba(255,255,255,0.1)"/>';
+  s+='<rect x="'+x(1.3).toFixed(1)+'" y="48" width="'+(270-x(1.3)).toFixed(1)+'" height="16" rx="5" fill="rgba(255,107,125,0.22)"/>';
+  s+='<line x1="'+x(1).toFixed(1)+'" y1="42" x2="'+x(1).toFixed(1)+'" y2="70" stroke="rgba(255,255,255,0.45)" stroke-dasharray="3 2"/><text x="'+x(1).toFixed(1)+'" y="84" fill="rgba(255,255,255,0.6)" font-size="9" text-anchor="middle">1 倍＝跟平常一樣</text>';
+  s+='<line x1="'+x(1.3).toFixed(1)+'" y1="40" x2="'+x(1.3).toFixed(1)+'" y2="72" stroke="'+C_UP+'" stroke-width="2"/><text x="'+x(1.3).toFixed(1)+'" y="36" fill="'+C_UP+'" font-size="9.5" text-anchor="middle">1.3 倍</text>';
+  s+='<circle cx="'+xr.toFixed(1)+'" cy="56" r="7" fill="#e0a526" stroke="#fff" class="gpulse"/>';
+  s+='<text x="'+xr.toFixed(1)+'" y="104" fill="#fff" font-size="11" font-weight="700" text-anchor="middle">'+(v/100).toFixed(2)+' 倍</text>';
+  s+='<text x="30" y="124" fill="rgba(255,255,255,0.5)" font-size="9">0.5 倍</text><text x="270" y="124" fill="rgba(255,255,255,0.5)" font-size="9" text-anchor="end">2 倍</text>';
+  return s+'</svg>';}
+function volLab(v){const r=v/100;return r>=1.3?'<b style="color:'+C_UP+'">帶量</b>：到了前 20 日均量的 1.3 倍以上':'<b style="color:'+C_Y+'">量縮</b>：還沒到前 20 日均量的 1.3 倍（'+r.toFixed(2)+' 倍）';}
 
-// §04 兩年期與十年期：非農偏弱，兩端卻一起小升
-function rateSVG(){const X=function(r){return 40+(r-4.75)/0.55*240;};
-  let s='<svg viewBox="0 0 300 150" style="width:100%;max-width:320px;display:block;margin:0 auto">';
-  s+='<line x1="40" y1="118" x2="280" y2="118" stroke="rgba(255,255,255,0.3)"/>';
-  [4.8,4.9,5.0,5.1,5.2,5.3].forEach(function(t){s+='<line x1="'+X(t).toFixed(1)+'" y1="115" x2="'+X(t).toFixed(1)+'" y2="121" stroke="rgba(255,255,255,0.35)"/><text x="'+X(t).toFixed(1)+'" y="133" fill="rgba(255,255,255,0.5)" font-size="9" text-anchor="middle">'+t.toFixed(1)+'%</text>';});
-  const rows=[['兩年期',4.798,4.827,'#8fb3ff',44],['十年期',5.252,5.275,'#e0a526',84]];
-  rows.forEach(function(r){const x0=X(r[1]),x1=X(r[2]),y=r[4];
-    s+='<text x="4" y="'+(y+4)+'" fill="rgba(255,255,255,0.85)" font-size="11">'+r[0]+'</text>';
-    s+='<circle cx="'+x0.toFixed(1)+'" cy="'+y+'" r="4.5" fill="none" stroke="'+r[3]+'" stroke-width="1.5" opacity="0.7"/>';
-    s+='<line x1="'+x0.toFixed(1)+'" y1="'+y+'" x2="'+(x1+12).toFixed(1)+'" y2="'+y+'" stroke="'+r[3]+'" stroke-width="2"/>';
-    s+='<path d="M'+(x1+6).toFixed(1)+','+(y-4)+' L'+(x1+12).toFixed(1)+','+y+' L'+(x1+6).toFixed(1)+','+(y+4)+'" fill="none" stroke="'+r[3]+'" stroke-width="2"/>';
-    s+='<circle cx="'+x1.toFixed(1)+'" cy="'+y+'" r="5" fill="'+r[3]+'" class="gpulse"/>';
-    s+='<text x="'+x1.toFixed(1)+'" y="'+(y-10)+'" fill="'+r[3]+'" font-size="10" text-anchor="middle">'+r[1]+' → '+r[2]+'</text>';});
-  s+='<text x="150" y="147" fill="rgba(255,255,255,0.6)" font-size="10" text-anchor="middle">兩端差距（十年減兩年）：45 → 45bp</text>';
-  return '<div class="fig-box">'+s+'</svg></div>';}
+// ③ 市場一分鐘：四題 → 定調（答案膠囊先蓋住）
+const FLOW4_SVG=(function(){
+  const nm=['借錢變難了嗎？','市場還怕嗎？','科技的反彈站得住嗎？','多數股票跟上了嗎？'];
+  const half=[true,true,false,true];   // 10/22：第一、二、四題是黃框
+  let s='<svg viewBox="0 0 300 250" style="width:100%;max-width:300px;display:block;margin:0 auto">';
+  s+='<rect x="6" y="4" width="288" height="26" rx="7" fill="rgba(255,107,125,0.16)" stroke="'+C_UP+'" stroke-opacity="0.7"/>';
+  s+='<text x="150" y="21" fill="#fff" font-size="10.5" text-anchor="middle">環境判定 · 大方向順風｜均線糾結｜多方轉強・量縮</text>';
+  for(let i=0;i<4;i++){const y=42+i*40;
+    s+='<rect x="12" y="'+y+'" width="146" height="26" rx="8" fill="rgba(0,0,0,0.38)" stroke="rgba(224,165,38,0.75)"/>';
+    s+='<text x="85" y="'+(y+17)+'" fill="#f4dc9a" font-size="10.5" text-anchor="middle">'+nm[i]+'</text>';
+    s+='<line x1="158" y1="'+(y+13)+'" x2="176" y2="'+(y+13)+'" stroke="rgba(255,255,255,0.35)" stroke-dasharray="3 3"/>';
+    s+='<rect x="176" y="'+y+'" width="110" height="26" rx="13" fill="rgba(255,255,255,0.06)" stroke="'+(half[i]?'#e6c463':'rgba(255,255,255,0.3)')+'"'+(half[i]?' stroke-dasharray="4 3"':'')+'/>';
+    s+='<text x="231" y="'+(y+17)+'" fill="rgba(255,255,255,0.7)" font-size="11" text-anchor="middle">答案 ？</text>';
+    if(i<3)s+='<line x1="85" y1="'+(y+26)+'" x2="85" y2="'+(y+40)+'" stroke="#e0a526" stroke-width="4"/>';}
+  s+='<line x1="85" y1="188" x2="85" y2="202" stroke="#e0a526" stroke-width="4"/>';
+  s+='<polygon points="34,202 276,202 264,236 22,236" fill="rgba(127,208,160,0.2)" stroke="'+C_DN+'"/>';
+  s+='<text x="149" y="223" fill="#fff" font-size="11" font-weight="700" text-anchor="middle">分界線失守 · 止跌只差借錢那一關</text>';
+  return s+'</svg>';})();
 
-// §05 動態圖：四格不標名字＋順時針箭頭＋一顆拖尾巴的泡泡
-const ROT_SVG=(function(){
-  let s='<svg viewBox="0 0 300 220" style="width:100%;max-width:290px;display:block;margin:0 auto;background:rgba(6,10,22,0.42);border-radius:12px">';
-  s+='<rect x="40" y="14" width="240" height="180" fill="none" stroke="rgba(255,255,255,0.16)"/>';
-  s+='<line x1="160" y1="14" x2="160" y2="194" stroke="rgba(255,255,255,0.3)"/><line x1="40" y1="104" x2="280" y2="104" stroke="rgba(255,255,255,0.3)"/>';
-  [['左上',100,40],['右上',220,40],['左下',100,180],['右下',220,180]].forEach(function(q){s+='<text x="'+q[1]+'" y="'+q[2]+'" fill="rgba(255,255,255,0.5)" font-size="11" text-anchor="middle">'+q[0]+'</text>';});
-  s+='<path d="M112,70 A62,46 0 0 1 208,70" fill="none" stroke="#e0a526" stroke-width="1.6" stroke-dasharray="4 3"/><path d="M202,64 L209,71 L200,74" fill="none" stroke="#e0a526" stroke-width="1.6"/>';
-  s+='<path d="M216,82 A40,40 0 0 1 216,128" fill="none" stroke="#e0a526" stroke-width="1.6" stroke-dasharray="4 3"/>';
-  s+='<path d="M208,140 A62,46 0 0 1 112,140" fill="none" stroke="#e0a526" stroke-width="1.6" stroke-dasharray="4 3"/>';
-  s+='<path d="M104,128 A40,40 0 0 1 104,82" fill="none" stroke="#e0a526" stroke-width="1.6" stroke-dasharray="4 3"/>';
-  s+='<circle cx="186" cy="58" r="6.5" fill="#e0a526" class="gpulse"/><circle cx="150" cy="64" r="3.4" fill="rgba(224,165,38,0.55)"/><circle cx="122" cy="74" r="2.8" fill="rgba(224,165,38,0.35)"/>';
-  s+='<text x="160" y="210" fill="rgba(255,255,255,0.6)" font-size="9.5" text-anchor="middle">← 弱　相對大盤 SPY　強 →　（上＝加速、下＝減速）</text>';
-  return '<div class="fig-box">'+s+'</svg></div>';})();
+// ④ 前一份 → 今天：四行「今天」（點出卡住定調的那一行）
+const TODAY4=[['k1','科技、半導體領漲','那斯達克站回五十日線'],['k2','標普站回十日線和月線','貼近歷史新高'],['k3','健康照護、必需消費','不動產、通訊轉成落後'],['k4','費半還在一百二十日線下','分界線還差這一條']];
+function todaySVG(sel,rev){return tileSVG(TODAY4,2,sel,rev,function(t){return t[0]==='k4'?'卡住定調的那一條':'';});}
 
-// §07 四格：站上均線的比例（成分股口徑，前一份 10/01 → 今天 10/02）
-const BRD=[['n20','那指 · 20 日線',48.5,44.6],['s20','標普 · 20 日線',22.7,25.0],['n50','那指 · 50 日線',47.5,44.6],['s50','標普 · 50 日線',20.9,22.9]];
-function breadthSVG(sel,rev){
-  let s='<svg viewBox="0 0 300 168" style="width:100%;max-width:320px;display:block;margin:0.4rem auto 0">';
-  BRD.forEach(function(c,i){const x=8+(i%2)*146,y=6+Math.floor(i/2)*74,up=c[3]>c[2],col=up?C_UP:C_DN;
-    const on=sel&&sel.indexOf(c[0])>=0;
-    const st=rev?col:(on?'#e0a526':'rgba(255,255,255,0.35)');
-    s+='<rect x="'+x+'" y="'+y+'" width="138" height="66" rx="9" fill="'+(on&&!rev?'rgba(224,165,38,0.22)':'rgba(0,0,0,0.36)')+'" stroke="'+st+'" stroke-width="'+(on?2.2:1.2)+'" style="cursor:pointer" onclick="hsPick(\''+c[0]+'\')"/>';
-    s+='<text x="'+(x+69)+'" y="'+(y+17)+'" fill="rgba(255,255,255,0.75)" font-size="10.5" text-anchor="middle" pointer-events="none">'+c[1]+'</text>';
-    s+='<text x="'+(x+69)+'" y="'+(y+40)+'" fill="#fff" font-size="17" font-weight="700" text-anchor="middle" pointer-events="none">'+c[3].toFixed(1)+'%</text>';
-    s+='<text x="'+(x+69)+'" y="'+(y+58)+'" fill="'+(rev?col:'rgba(255,255,255,0.6)')+'" font-size="10.5" text-anchor="middle" pointer-events="none">前一份 '+c[2]+(rev?(up?' ↑':' ↓'):'')+'</text>';});
-  s+='<text x="150" y="163" fill="rgba(255,255,255,0.55)" font-size="9.5" text-anchor="middle">成分股口徑 · 10/02 讀數（前一份＝10/01 收盤）</text>';
+// ⑤ 懸念句：止跌四項（翻牌後才揭曉）
+function stopSVG(){const it=[['標普收盤站上十日線',1],['恐慌指數期貨回到近月低於遠月',1],['高收益債對公債不再走弱，AI 公司債沒亮燈',0],['標普、那指站上五十日線的股票都不再減少',1]];
+  let s=svgOpen(176,330);
+  s+='<text x="150" y="18" fill="rgba(255,255,255,0.75)" font-size="10.5" text-anchor="middle">止跌（下面全部同一天成立才算）· 10/21</text>';
+  it.forEach(function(r,i){const y=30+i*34;
+    s+='<rect x="10" y="'+y+'" width="280" height="28" rx="7" fill="rgba(0,0,0,0.32)" stroke="'+(r[1]?C_UP:C_DN)+'"'+(r[1]?'':' class="gpulse"')+'/>';
+    s+='<text x="24" y="'+(y+19)+'" fill="'+(r[1]?C_UP:C_DN)+'" font-size="14" font-weight="700">'+(r[1]?'✓':'✗')+'</text>';
+    s+='<text x="44" y="'+(y+18)+'" fill="#fff" font-size="10.5">'+r[0]+'</text>';});
+  s+='<text x="150" y="172" fill="#f4dc9a" font-size="10.5" text-anchor="middle">過了三項，差借錢那一項</text>';
   return s+'</svg>';}
 
-// §09 開票：九月非農 實際 vs 預期
-const FLIP_SVG=(function(){
-  let s='<svg viewBox="0 0 300 140" style="width:100%;max-width:300px;display:block;margin:0 auto">';
-  const base=110,k=9;
-  s+='<line x1="30" y1="'+base+'" x2="280" y2="'+base+'" stroke="rgba(255,255,255,0.35)"/>';
-  s+='<rect x="70" y="'+(base-8.7*k)+'" width="56" height="'+(8.7*k)+'" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.5)" stroke-dasharray="4 3"/>';
-  s+='<text x="98" y="'+(base-8.7*k-6)+'" fill="rgba(255,255,255,0.75)" font-size="10.5" text-anchor="middle">預期約 +8.4～9.0 萬</text>';
-  s+='<rect x="170" y="'+(base-2.9*k)+'" width="56" height="'+(2.9*k)+'" fill="'+C_DN+'" class="gpulse"/>';
-  s+='<text x="198" y="'+(base-2.9*k-6)+'" fill="#fff" font-size="11" font-weight="700" text-anchor="middle">實際 +2.9 萬</text>';
-  s+='<text x="150" y="128" fill="rgba(255,255,255,0.6)" font-size="9.5" text-anchor="middle">九月非農新增就業（BLS · 10/02 公布）</text>';
-  return '<div class="fig-box">'+s+'</svg></div>';})();
+// ⑥ 時間軸：標普收盤 10/16 → 10/21（離 10/06 歷史收盤新高 7,818.93 差 0.8%）
+const SPX_SVG=(function(){const d=[['10/06',7818.93],['10/16',7659],['10/19',null],['10/20',null],['10/21',7757.17]];
+  const y=function(v){return 120-(v-7640)/(7830-7640)*90;};
+  let s=svgOpen(150,320);
+  s+='<line x1="30" y1="'+y(7818.93).toFixed(1)+'" x2="290" y2="'+y(7818.93).toFixed(1)+'" stroke="'+C_UP+'" stroke-dasharray="4 3" stroke-opacity="0.7"/><text x="290" y="'+(y(7818.93)-4).toFixed(1)+'" fill="'+C_UP+'" font-size="9" text-anchor="end">10/06 歷史收盤新高 7,818.93</text>';
+  s+='<polyline points="40,'+y(7818.93).toFixed(1)+' 150,'+y(7659).toFixed(1)+' 280,'+y(7757.17).toFixed(1)+'" fill="none" stroke="#fff" stroke-width="2"/>';
+  s+='<circle cx="150" cy="'+y(7659).toFixed(1)+'" r="4" fill="'+C_DN+'"/><text x="150" y="'+(y(7659)+16).toFixed(1)+'" fill="'+C_DN+'" font-size="9.5" text-anchor="middle">10/16 7,659</text>';
+  s+='<circle cx="280" cy="'+y(7757.17).toFixed(1)+'" r="5" fill="#e0a526" class="gpulse"/><text x="276" y="'+(y(7757.17)+16).toFixed(1)+'" fill="#f4dc9a" font-size="9.5" text-anchor="end">10/21 7,757.17（差 0.8%）</text>';
+  s+='<text x="150" y="142" fill="rgba(255,255,255,0.55)" font-size="9" text-anchor="middle">標普 500 收盤 · 中間三天怎麼走，下面排回去</text>';
+  return s+'</svg>';})();
 
-// 五問色塊（顏色照報告 §00：金／紅／綠／藍／綠）
-function qtag(t,c){return '<span style="display:inline-block;padding:3px 9px;border-radius:5px;background:'+c+';color:#fff;font-weight:700;font-size:12.5px;line-height:1.5">'+t+'</span>';}
+// ⑧ 條件卡四塊示意
+const CARD_SVG=(function(){const b=[['止跌','同一天全部成立'],['翻多','連兩天成立'],['底線','跌破＝修正擴大'],['轉弱','成立越多、級別越高']];
+  let s=svgOpen(120,320);
+  b.forEach(function(r,i){const x=8+(i%2)*146,y=8+Math.floor(i/2)*54;
+    s+='<rect x="'+x+'" y="'+y+'" width="138" height="46" rx="8" fill="rgba(0,0,0,0.34)" stroke="rgba(224,165,38,0.7)"/>';
+    s+='<text x="'+(x+69)+'" y="'+(y+20)+'" fill="#f4dc9a" font-size="12" font-weight="700" text-anchor="middle">'+r[0]+'</text>';
+    s+='<text x="'+(x+69)+'" y="'+(y+36)+'" fill="rgba(255,255,255,0.72)" font-size="9.5" text-anchor="middle">'+r[1]+'</text>';});
+  return s+'</svg>';})();
+
+// ⑨ 跨資產觀察：八格（相對標普的漲跌差，10/21 收盤；油、債、收息看近五天，金屬、韓國看報告寫的窗口）
+const XA=[['x1','長債','近五天 +3.0','d'],['x2','油','近五天 +5.0','o'],['x3','高股息','近五天 +4.5','d'],['x4','黃金','近一個月 −5.2','m'],['x5','不動產','近五天 +1.0','d'],['x6','韓國','近五天 −5.2','m'],['x7','現金','近五天 +0.7','d'],['x8','白銀','近一個月 −13.9','m']];
+function xaSVG(sel,rev){return tileSVG(XA,4,sel,rev,function(t){return t[3]==='d'?'債券和收息':(t[3]==='o'?'物價那一端':'還在弱');});}
+
+// ⑫ 四條溫度條（前一份 10/20 收盤 → 今天 10/21 收盤），每一列可點
+const BARS=[['b1','資金流判定',54,54],['b2','情緒很熱觸發',52,48],['b3','Risk-on／off',25,49],['b4','市場廣度',57.2,60.5]];
+function barsSVG(sel,rev){const L=104,W=180;const px=function(v){return L+W*v/100;};
+  let s=svgOpen(196,330);
+  BARS.forEach(function(b,i){const y=34+i*40;const on=sel&&sel.indexOf(b[0])>=0,good=rev&&rev.indexOf(b[0])>=0;
+    s+='<rect x="4" y="'+(y-18)+'" width="292" height="36" rx="7" fill="'+(good?'rgba(120,220,140,0.18)':(on?'rgba(224,165,38,0.22)':'rgba(0,0,0,0.001)'))+'" stroke="'+(good?'#7fd6a6':(on?'#e0a526':'rgba(255,255,255,0.08)'))+'" style="cursor:pointer" onclick="hsPick(\''+b[0]+'\')"/>';
+    s+='<text x="10" y="'+(y-1)+'" fill="rgba(255,255,255,0.9)" font-size="11" pointer-events="none">'+b[1]+'</text>';
+    s+='<text x="10" y="'+(y+13)+'" fill="rgba(255,255,255,0.58)" font-size="9.5" pointer-events="none">'+b[2]+' → '+b[3]+'</text>';
+    s+='<rect x="'+L+'" y="'+(y-4)+'" width="'+W+'" height="8" rx="4" fill="rgba(255,255,255,0.12)" pointer-events="none"/>';
+    s+='<line x1="'+px(50)+'" y1="'+(y-7)+'" x2="'+px(50)+'" y2="'+(y+7)+'" stroke="rgba(255,255,255,0.25)" pointer-events="none"/>';
+    s+='<circle cx="'+px(b[2]).toFixed(1)+'" cy="'+y+'" r="4" fill="rgba(255,255,255,0.5)" pointer-events="none"/>';
+    s+='<circle cx="'+px(b[3]).toFixed(1)+'" cy="'+y+'" r="6" fill="#e0a526" class="gpulse" pointer-events="none"/>';});
+  s+='<circle cx="112" cy="188" r="4" fill="rgba(255,255,255,0.5)"/><text x="119" y="191" fill="rgba(255,255,255,0.6)" font-size="9">前一份（10/20）</text>';
+  s+='<circle cx="206" cy="188" r="5" fill="#e0a526"/><text x="214" y="191" fill="rgba(255,255,255,0.6)" font-size="9">今天（10/21）</text>';
+  return s+'</svg>';}
+
+// ⑬ AI 公司債：帳本天數（翻牌後揭曉）
+function bondSVG(){const rows=[['CoreWeave 公司債（2032 年到期）','殖利率 14.79%，比同年期公債高 981 bp'],['Oracle 公司債（2036 年到期）','殖利率 7.99%，比同年期公債高 288 bp']];
+  let s=svgOpen(200,330);
+  rows.forEach(function(r,i){const y=12+i*86;
+    s+='<text x="12" y="'+(y+12)+'" fill="#fff" font-size="11" font-weight="700">'+r[0]+'</text>';
+    s+='<text x="12" y="'+(y+28)+'" fill="rgba(255,255,255,0.75)" font-size="10">'+r[1]+'</text>';
+    [['五天變化',6,y+42],['二十天比同評等',21,y+62]].forEach(function(q){
+      const W=150;s+='<text x="12" y="'+(q[2]+10)+'" fill="rgba(255,255,255,0.7)" font-size="9.5">'+q[0]+'</text>';
+      s+='<rect x="100" y="'+q[2]+'" width="'+W+'" height="12" rx="3" fill="rgba(255,255,255,0.1)"/>';
+      s+='<rect x="100" y="'+q[2]+'" width="'+(W/q[1]).toFixed(1)+'" height="12" rx="3" fill="#e0a526" class="gpulse"/>';
+      s+='<text x="256" y="'+(q[2]+10)+'" fill="#f4dc9a" font-size="9.5">1／'+q[1]+' 天</text>';});});
+  s+='<text x="150" y="194" fill="rgba(255,255,255,0.6)" font-size="9" text-anchor="middle">帳本才記 1 天：兩條線都「資料不足」</text>';
+  return s+'</svg>';}
+
+// ⑭ §03 量價四象限：揭曉時畫出兩顆點（10/21：標普 +0.58%／量 −3.2%、那指 +1.05%／量 −3.4%，都在右下格）
+const VP_DOTS='<circle cx="186" cy="124" r="6" fill="#5b8def" stroke="#fff" stroke-width="1" class="gpulse"/><text x="177" y="128" fill="#bcd0ff" font-size="10" text-anchor="end">標普</text>'
+ +'<circle cx="214" cy="126" r="6" fill="#b18cff" stroke="#fff" stroke-width="1" class="gpulse"/><text x="223" y="130" fill="#dcc8ff" font-size="10">那指</text>';
+
+// ⑱ §07 Gamma：QQQ 收盤夾在兩道牆中間（牆＝10/20 口徑；收盤 08/03～10/21）
+const QQQ_CLOSE=[700.07,723.85,717.3,714.65,723.03,720.87,718.45,723.7,732.07,731.07,729.87,717.51,716.08,710.93,713.44,706.32,710.72,711.37,721.11,716.43,716.76,707.64,709.24,717.67,718.96,718.36,716.31,708.69,714.88,709.18,704.54,704.72,716.92,721.45,741.47,747.46,741.21,741.1,744.5,736.53,737.93,739.77,742.03,749.58,756.2,759.66,757.73,747.58,751.27,746.04,743.57,728.95,728.0,709.8,718.36,717.63];
+function gammaFig(v){const y=function(p){return 196-(p-690)/(810-690)*176;};
+  let s=svgOpen(214,330);
+  s+='<line x1="34" y1="'+y(800).toFixed(1)+'" x2="292" y2="'+y(800).toFixed(1)+'" stroke="'+C_UP+'" stroke-width="2" stroke-dasharray="8 5"/><text x="36" y="'+(y(800)-5).toFixed(1)+'" fill="'+C_UP+'" font-size="9.5">買權牆 800（上方壓力）</text>';
+  s+='<line x1="34" y1="'+y(700).toFixed(1)+'" x2="292" y2="'+y(700).toFixed(1)+'" stroke="'+C_DN+'" stroke-width="2" stroke-dasharray="8 5"/><text x="36" y="'+(y(700)+13).toFixed(1)+'" fill="'+C_DN+'" font-size="9.5">賣權牆 700（下方支撐）· 也是最大痛點</text>';
+  s+='<line x1="34" y1="'+y(725).toFixed(1)+'" x2="292" y2="'+y(725).toFixed(1)+'" stroke="rgba(255,255,255,0.28)" stroke-dasharray="2 3"/><text x="292" y="'+(y(725)-3).toFixed(1)+'" fill="rgba(255,255,255,0.5)" font-size="8.5" text-anchor="end">中間層 725</text>';
+  const pts=QQQ_CLOSE.map(function(p,i){return (34+i*4.2).toFixed(1)+','+y(p).toFixed(1);}).join(' ');
+  s+='<polyline points="'+pts+'" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="1.5"/>';
+  const yv=y(v/10);
+  s+='<circle cx="270" cy="'+yv.toFixed(1)+'" r="6.5" fill="#e0a526" stroke="#fff" class="gpulse"/>';
+  s+='<text x="262" y="'+(yv+4).toFixed(1)+'" fill="#fff" font-size="10.5" font-weight="700" text-anchor="end">10/21 收盤？ '+(v/10).toFixed(1)+'</text>';
+  s+='<text x="150" y="210" fill="rgba(255,255,255,0.55)" font-size="9" text-anchor="middle">白線＝08/03～10/20 每天收盤；最右那一點拉到 10/21</text>';
+  return s+'</svg>';}
+function gammaLab(v){const p=v/10;return 'QQQ '+p.toFixed(1)+'：離賣權牆 '+(((p/700)-1)*100).toFixed(1)+'%、離買權牆 '+(((800/p)-1)*100).toFixed(1)+'%';}
+
+// 2026-10-22：報告 §00 兩塊（10-13）、第 6 步舊訊號列（10-19）、§06 卡片（10-20）、§07 舊價格圖（10-21）都已永久刪除——對應的關已拔，不准重建（原名見設計檔）。
+// 同日：沒有流量資料時，不教「資金去向」類說法（Yoda 10-17）；「接下來的牌」分支圖報告已不畫，只剩「其他的牌」。
 
 const OPENING={sky:'sky-dawn',bg:'farhills',label:'序',title:'你只看了最上面那一句',quotes:function(){return [
- '你打開市場觀察，看了最上面那張圖的定調：<br>「偏多 · 壞消息就是好消息」。<br>然後就關掉了。',
- '可是同一張圖上，「借錢變難了嗎」答的是「是」。<br>下面還有溫度條、量價、廣度、Gamma……<br>你看不出這兩句怎麼同時成立。',
- '定調只是「果」。<br>下面那些段落是它的「因」，<br>也寫著明天它會被哪一格推翻。<br><b>看不懂因，你就只能相信果。</b>',
+ '你打開市場觀察，看了最上面那張圖的定調：<br>「分界線失守」。<br>然後就關掉了，心想「又要跌了」。',
+ '可是同一份報告裡，標普離歷史新高只差 0.8%，<br>站上五十日線的股票連兩天過半。<br>你看不出這兩件事怎麼同時成立。',
+ '定調只是「果」。<br>下面那些段落是它的「因」，<br>也寫著它會被哪一格推翻。<br><b>看不懂因，你就只能相信果。</b>',
  '不是你看不懂，是沒人帶你照順序走過一次。<br>接下來 '+ROUNDS.length+' 站，一站一張圖，從報告最上面走到最下面。<br><span style="opacity:.78;font-size:13px">（讀數取自 '+ASOF+' 那份市場觀察，資料到 '+DATA_DAY+'；用來練讀法，不是今天的判斷）</span>'];}};
 
 const ROUNDS=[
-// ── 市場一分鐘 · slider：環境判定（框內第一列） ─────────────────────────
-{type:'slider',sky:'sky-dawn',bg:'farhills',label:'市場一分鐘 · 環境判定',short:'環境判定',
- title:'路走得直不直，差很多',
- text:'市場一分鐘的框裡，第一列就是環境判定：<br>順風、偏震盪、震盪、逆風四格。<br>你大概以為它在講「漲還是跌」。',
- so:'它量的是<b>這一個月的路走得有多直</b>：<br>淨走幅 ÷ 路徑總長＝效率比。<br>走得直＝方向明確；走了很多路卻回到原點＝在原地磨。<br>它描述現況，不預測下一段。',
- chips:[ASOF+'：美股大盤（SPY）近 20 日（09-03～10-02）· 順風 · 上行'],
- q:'這段路往上的淨距離固定。<br>拉桿決定它來回擺盪得多兇——<br>拉到 '+ASOF+' 那一格：「順風 · 上行」。',
- slider:{min:0,max:30,init:25,ans:3,lo:'走得直',hi:'來回擺盪'},
- fig:erFig,vlab:erLab,correct:function(v){return erOf(v)>=30;},
- fbOk:'效率比 <b>30% 以上</b>＝順風（往上）或逆風（往下）；<br><b>15～30%</b>＝偏震盪；<b>15% 以下</b>＝震盪。<br>'+ASOF+' 的美股大盤是第一種：<br>走的路大多用在同一個方向，回檔淺而短。<br><br>這一格放在市場一分鐘最上面，<br>是你打開報告第一眼看到的那一列。',
- fbNo:'還在來回擺盪——效率比要回到 30% 以上，<br>才是「方向明確、回頭少」。'},
+// ── 1 市場一分鐘 · place：環境判定四層 ─────────────────────────
+{type:'place',sky:'sky-dawn',bg:'farhills',label:'市場一分鐘 · 環境判定',short:'環境判定',
+ title:'一張卡，分四層讀',
+ text:'市場一分鐘的框裡，第一張是環境判定。<br>標題列一串字：「大方向順風｜均線糾結｜多方轉強・量縮」。<br>你大概只看到「順風」兩個字。',
+ so:'它看大盤收盤跟均線，<b>分四層讀</b>：<br>大方向看季線、排列看五條線怎麼排、收盤位置看五日／十日／月線、量能看量有沒有放大。<br>卡片最後的尾巴，看大方向配收盤位置。它描述現況、不預測下一段。',
+ svg:ENV_SVG,
+ q:'把 '+ASOF+' 卡上的四個詞，放回它屬於的那一層：',
+ cards:[['c','多方轉強'],['a','順風'],['d','量縮'],['b','均線糾結']],
+ slots:[['s1','<b>大方向</b><br><span style="font-size:11px;opacity:.75">季線往上還是往下、收盤在上面還是下面</span>','a'],['s2','<b>排列</b><br><span style="font-size:11px;opacity:.75">五日、十日、月線、季線怎麼排</span>','b'],['s3','<b>收盤位置</b><br><span style="font-size:11px;opacity:.75">收盤跟五日、十日、月線</span>','c'],['s4','<b>量能</b><br><span style="font-size:11px;opacity:.75">有沒有到前 20 日均量的 1.3 倍</span>','d']],
+ wide:true,
+ done:'四層各講一件事：<br>季線往上、收盤在季線上＝<b>大方向順風</b>；均線排列亂了＝<b>均線糾結</b>；<br>收盤站上五日、十日線，也在月線上＝<b>多方轉強</b>；量沒放大＝<b>量縮</b>。<br>尾巴寫「對多方有利」——看的是大方向配收盤位置。<br><br>卡片下面還有一句週月層：週線排列是多頭，但<b>週 KD 在死亡交叉之後</b>；月 KD 在八十以上的高檔。<br>日線、週線講的不一樣，報告就照實兩句都寫。'},
 
-// ── 市場一分鐘 · match：四題各看什麼 ─────────────────────────
+// ── 2 市場一分鐘 · slider：量能那一層 ─────────────────────────
+{type:'slider',sky:'sky-dawn',bg:'farhills',label:'市場一分鐘 · 環境判定 · 量能',short:'量能',
+ title:'漲了，量有跟上嗎',
+ text:'第一層說大方向順風，你大概就覺得「這一段漲得很扎實」。',
+ so:'量能那一層只問一件事：<br>今天的成交量，有沒有到<b>前 20 日均量的 1.3 倍</b>。<br>到了＝帶量；沒到＝量縮。',
+ chips:['§03 寫：10/21 標普量少 3.2%、那指少 3.4%'],
+ q:'10/21 標普的量比前 20 日均量少 3.2%。<br>把那一點拉到它的位置：',
+ slider:{min:50,max:200,init:150,ans:97,lo:'0.5 倍',hi:'2 倍'},
+ fig:volFig,vlab:volLab,correct:function(v){return v>=92&&v<=102;},
+ fbOk:'少 3.2%＝<b>0.97 倍</b>，離 1.3 倍還遠——<b>量縮</b>。<br>標普貼近歷史新高，但這一根沒有帶量。<br>§03 拉長五天看：放量的是 10/15、10/16 兩天，10/16 是下跌日；<br>10/19 之後三天的反彈都量縮。<br>報告的門檻寫得很清楚：<b>量能要站回均量之上、連著站住，才算確認</b>——這次反彈還沒有。',
+ fbNo:'少 3.2% 是 0.97 倍左右——比 1 倍再低一點點。'},
+
+// ── 3 市場一分鐘 · match：四題 ─────────────────────────
 {type:'match',sky:'sky-dawn',bg:'farhills',label:'市場一分鐘 · 四題',short:'四題',
  title:'四個問題，各看各的那幾格',
  text:'環境判定下面是一張流程圖：<br>四個問題、一條粗線、最後一格定調。<br>多數人只看最後那一格。',
- so:'每一題後面都寫著它看哪幾格指標，<br>旁邊的膠囊是今天的答案：<b>是／否／大致是</b>。<br>認得每題在看什麼，你才讀得懂那個答案。',
+ so:'每一題後面都寫著它看哪幾格指標，<br>旁邊的膠囊是今天的答案：<b>是／否／大致是</b>。<br>第三題是<b>本期焦點題</b>，主線換了就換題。',
  svg:'<div class="fig-box">'+FLOW4_SVG+'</div>',
  q:'把每一題接到 '+ASOF+' 圖上它的答案（先點左、再點右）：',
- left:[['a','借錢變難了嗎？<br><span style="font-size:11.5px;opacity:.75">信用 · 殖利率</span>'],['b','市場還怕嗎？<br><span style="font-size:11.5px;opacity:.75">恐慌 · 債市波動 · 避險</span>'],['c','指數站得住嗎？<br><span style="font-size:11.5px;opacity:.75">季線 · 月線</span>'],['d','底下有人跟嗎？<br><span style="font-size:11.5px;opacity:.75">等權 · 小型股 · 季線比例</span>']],
- right:[['c','大致是 · 標普站回月線，那指、費半都在兩條線上'],['a','是 · 信用利差跨過下一格，一個月跑贏十年期'],['d','否 · 等權輸了，站上均線的股票兩邊不同調'],['b','是 · 股市不怕了，債市波動還在高處']],
+ left:[['a','借錢變難了嗎？<br><span style="font-size:11.5px;opacity:.75">信用利差 · 一年方向 · 長期水位</span>'],['b','市場還怕嗎？<br><span style="font-size:11.5px;opacity:.75">恐慌 · 債市波動 · 避險</span>'],['c','科技的反彈站得住嗎？<br><span style="font-size:11.5px;opacity:.75">費半 · 那指 · 十日線 · 月線</span>'],['d','多數股票跟上了嗎？<br><span style="font-size:11.5px;opacity:.75">等權 · 小型股 · 五十日線比例</span>']],
+ right:[['c','否 · 費半反彈一天，還在十日線下'],['d','大致是 · 五十日線兩格連兩天過半，但等權今天小輸'],['a','大致是 · 信用利差擴一點，還在這一年的頂端'],['b','大致是 · 股市這邊不怕了，只剩債市波動還在帶外']],
  fbNo:'有幾條接錯了——正解已經標出來。',
- fbOk:'每一題只看自己那幾格：<br>借錢看<b>信用利差和殖利率</b>；怕不怕看<b>恐慌、債市波動、避險</b>；<br>指數看<b>季線、月線</b>；有沒有人跟看<b>等權、小型股、站上季線的比例</b>。<br><br>讀這張圖只要三件事：<br><b>粗線</b>＝今天走的路；<b>黃框</b>＝還沒完全確定（最多一格）；<br><b>點任何方塊</b>，看這一區的重點和條件。<br>'+ASOF+' 粗線最後停在「偏多 · 壞消息就是好消息」。<br>第一題答「是」、定調卻偏多——§00 會講為什麼。'},
+ fbOk:'每一題只看自己那幾格：<br>借錢看<b>信用利差這一年的方向和長期水位</b>（這一期多看 AI 公司債）；怕不怕看<b>恐慌、債市波動、避險</b>；<br>科技的反彈看<b>費半、那指和十日線、月線</b>；有沒有人跟看<b>等權、小型股、站上五十日線的比例</b>。<br><br><b>黃框</b>＝還沒完全確定，'+ASOF+' 有三格：第一、二、四題。<br><b>點任何方塊</b>，浮出卡會寫「留在今天這條路」和「走到另一邊」各要看到什麼。'},
 
-// ── 市場一分鐘 · place：接下來的牌 ─────────────────────────
-{type:'place',sky:'sky-dawn',bg:'farhills',label:'市場一分鐘 · 接下來的牌',short:'牌',
- title:'定調下面那排牌，是它的到期日',
- text:'定調底下還接著一排「接下來的牌」。<br>你大概當它是行事曆，掃一眼日期就滑過去。',
- so:'每一張牌往下分成兩三條路：<br><b>看到什麼 → 改變了哪一題 → 走到哪個結局</b>。<br>偏多的情境紅底、偏空的綠底，<br>而且一定寫出「偏多／偏空」兩個字。',
- chips:['10/14 晚 20:30 九月消費者物價','10/29 凌晨 02:00 下一次利率決策'],
- q:'兩張牌、四條分支。<br>先點一條分支，再點它該去的格子：',
- cards:[['b','物價牌：油進到數據裡'],['a','物價牌：核心回到門檻之下'],['d','利率牌：再升一碼'],['c','利率牌：按兵不動']],
- slots:[['s1','<b style="color:'+C_UP+'">情境 · 偏多</b><br>紅底紅框','a,c'],['s2','<b style="color:'+C_DN+'">情境 · 偏空</b><br>綠底綠框','b,d']],
- done:'四條分支都是 '+ASOF+' 報告上的原文。<br>偏多那兩條：<b>第一題可能退回「否」</b>，今天這條路不變；<br>偏空那兩條：<b>第一題更確定</b>，走到「原判斷被推翻 · 偏空」。<br><br><b>顏色之外一定有字</b>——截圖轉灰、換深淺主題，照樣讀得出多空。<br>分支圖下面還有一行小字「其他的牌」：<br>10/08 九月會議紀要、10/13 第三季財報季起跑、每天在開的油與地緣。'},
+// ── 4 市場一分鐘 · hotspot：前一份 → 今天，誰卡住定調 ─────────────────────────
+{type:'hotspot',sky:'sky-noon',bg:'farhills',label:'市場一分鐘 · 定調',short:'定調',
+ title:'標普貼近新高，為什麼還是「失守」',
+ text:'流程圖旁邊有一塊「前一份 → 今天」：<br>前一份寫「分界線失守 · 偏空」，今天列了四行變化。<br>四行裡有三行看起來都是好消息。',
+ so:'四題之上，還疊著一道<b>股市分界線</b>：<br>費城半導體守不守得住一百二十日線、標普守不守得住五十日線。<br>分界線失守時，四題怎麼答都改不了定調——浮出卡寫的是「<b>改這一題也一樣，股市分界線已經決定</b>」。',
+ q:'這四行都是 10/21 的事。<br><b>點出讓定調還停在「分界線失守」的那一行：</b>',
+ need:['k4'],hsFig:todaySVG,
+ fbOk:'是費半：<b>連六天收在一百二十日線下</b>。<br>標普站回十日線和月線、那指站回五十日線，都還不夠——分界線要兩條都站回去。<br>所以 '+ASOF+' 的定調寫成：<br>「分界線失守：費半連六天守不住一百二十日線；標普站回十日線和月線（科技帶頭反彈，止跌只差借錢那一關）」。<br><br>定調框下面還有一行小字「其他的牌」：10/29 凌晨下一次利率決策、10/29 晚第三季成長與九月消費物價——點開各有利多方、利空方兩條。',
+ fbNo:'前三行都在往好的方向走；<br>要找的是還沒過關的那一條線。'},
 
-// ── §00 · hotspot：壞消息就是好消息 ─────────────────────────
-{type:'hotspot',sky:'sky-noon',bg:'farhills',label:'§00 · 今日重點 · 經濟端與股市端',short:'兩端',
- title:'壞消息，為什麼是好消息？',
- text:'第一題「借錢變難了嗎」答「是」，<br>定調卻寫「偏多 · 壞消息就是好消息」。<br>你大概覺得報告自相矛盾。',
- so:'§00 第一句就在問這件事：<br>「非農變差、信用利差過線，股市該怕還是該高興？」<br>報告的答法是<b>分兩端寫</b>：經濟這端、股市這端，各講各的。',
- q:'六格都是 10/02 這一天的事。<br>點出屬於「股市這端」的三格：',
- need:['k4','k5','k6'],hsFig:twoEndSVG,
- fbOk:'經濟這端：非農偏弱、信用利差跨過下一格——消息是壞的。<br>股市這端：標普站回月線、保險撤光、半導體整排收紅——<br>股市把它讀成「數據轉弱，升息壓力就可能鬆」。<br><b>經濟偏弱，不等於股市偏空。</b><br><br>報告同時寫了兩條但書：<br>① 債市還沒點頭：兩年期、十年期都小升；<br>② 信用的壓力從最弱那層傳到好一點的那層，體質最好的投資級還沒動。<br>這兩條哪一條變了，壞消息就會變回壞消息。',
- fbNo:'兩年期、十年期是債市那一格，不是股市——<br>它們小升，正好說明債市還沒點頭。'},
+// ── 5 §00 · flip：懸念句 ─────────────────────────
+{type:'flip',sky:'sky-noon',bg:'farhills',label:'§00 · 今日重點 · 懸念句',short:'懸念句',
+ title:'止跌了嗎？',
+ text:'§00 一開頭是一句懸念句：<br>「標普站回月線、貼近新高，止跌了嗎？」<br>你大概看到「貼近新高」，就以為答案是「是」。',
+ so:'懸念句下面那一句就是回答，<b>先下判斷、再講還差什麼</b>。<br>它對著的是下面條件卡的「止跌」那一段：四項要<b>同一天全部成立</b>。',
+ chips:['10/21 標普收 7,757.17','10/06 歷史收盤新高 7,818.93'],
+ q:'你猜報告怎麼回答？',
+ bets:[['a','止跌了：標普站回月線、離新高不到 1%'],['b','還差一步：四項過了三項，差一項']],betOk:'b',
+ reveal:stopSVG(),
+ revealTxt:'報告的回答：<b>還差一步</b>。<br>標普站回十日線、恐慌指數期貨維持正價差、站上五十日線的股票連兩天過半——三項過了；<br>只差<b>高收益債還在輸給公債</b>，借錢那一端還沒鬆。<br>分界線也還差半導體那一條。<br><br>回答最後一句寫的是「利空，但已經是這輪修正以來最接近止跌的一天」——<b>判斷和它跟昨天比的位置，一起寫</b>。<br>懸念句下面還有一格<b>警示</b>：這一天亮的是「寬度擴散到中天期」，站上中期均線的股票全面變多。'},
 
-// ── §00 · match：讀者五問（彩色標籤） ─────────────────────────
-{type:'match',sky:'sky-noon',bg:'farhills',label:'§00 · 今日重點 · 讀者五問',short:'五問',
- title:'圖講是什麼，五問講為什麼',
- text:'流程圖下面是五個彩色標籤，<br>每個標籤後面接一段答案。<br>你可能覺得它把圖上的話又講了一遍，直接跳過。',
- so:'兩個分工不同：<br><b>市場一分鐘</b>＝是什麼、往哪走；<br><b>五問</b>＝為什麼、對你代表什麼。<br>五問不放讀數，數字都在後面各段。',
- q:'把每個標籤接到 '+ASOF+' 報告裡它的答案（先點左、再點右）：',
- left:[['a',qtag('①發生什麼','#8e7132')],['b',qtag('②嚴重嗎','#c44e52')],['c',qtag('③什麼位階','#408163')],['d',qtag('④下一步','#4c77ac')],['e',qtag('⑤什麼條件會讓整套判讀作廢','#408163')]],
- right:[['c','標普站回月線（第一天）、也在季線之上；費城半導體離兩條線最遠——三個指數這次同方向'],['e','往壞：利率繼續往上、信用利差拉開跟十年期的差距；往好：兩年期往回走、信用利差停下來'],['a','九月非農偏弱、前兩個月也下修，利率卻小升；股票漲，半導體整排收紅'],['d','這個讀法要兩件事確認：利率真的往回走，信用利差停在這裡不再往上'],['b','經濟這端的消息是壞的；但股市把壞消息讀成好消息，保險一口氣撤光']],
+// ── 6 §00 · sort：時間軸一天一行 ─────────────────────────
+{type:'sort',sky:'sky-noon',bg:'farhills',label:'§00 · 今日重點 · 時間軸',short:'時間軸',
+ title:'一天一行，排回去',
+ text:'警示下面是時間軸。<br>你大概只看最後一行，因為那是今天。',
+ so:'時間軸一個日期一行，<b>照先後排</b>：<br>反彈是怎麼一天一天走出來的，連起來才看得到。',
+ svg:SPX_SVG,
+ q:'把 10/19 到 10/21 三天排回先後順序（點兩張互換）：',
+ items:['科技、半導體反彈一天，恐慌指數期貨倒掛解除','漲勢擴散到等權、小型股和十類類股；標普收回五十日線','科技、半導體領漲；標普站回十日線和月線，那斯達克站回五十日線'],
+ shuffle:[2,0,1],
+ fbOk:'10/19 科技、半導體先反彈一天 → 10/20 漲勢擴散到等權、小型股 → 10/21 又回到科技帶頭。<br>三天串起來看：<b>擴散了一天，又收回到科技和大型股</b>。<br>這就是為什麼第四題只答「大致是」——寬度過半，但等權還沒連著贏。'},
+
+// ── 7 §00 · match：閱讀動線七步 ─────────────────────────
+{type:'match',sky:'sky-valley',bg:'range',label:'§00 · 今日重點 · 閱讀動線七步',short:'七步',
+ title:'七步，一步一句話',
+ text:'時間軸下面是<b>閱讀動線</b>：七個步號，一步一行。<br>你大概以為它是目錄，看一眼就往下滑。',
+ so:'每一步＝<b>步號＋問句＋章名</b>，後面接一句話：今天這一環的狀態。<br>照順序讀：壓力在不在 → 大家怕不怕 → 誰強誰弱 → 有沒有擴散 → 誰接得住 → 何時會變 → 所以呢。<br>第 1 步另附「看圖」：長短利率的走向，和通膨、經濟、資金三塊的變化。',
+ q:'把每一步接到 '+ASOF+' 報告裡它那一句（先點左、再點右）：',
+ left:[['a','1 壓力在不在<br><span style="font-size:11.5px;opacity:.75">利率·資金·信用</span>'],['b','2 大家怕不怕<br><span style="font-size:11.5px;opacity:.75">恐慌·債市波動·避險</span>'],['c','3 誰強誰弱<br><span style="font-size:11.5px;opacity:.75">板塊強弱對位</span>'],['d','4 有沒有擴散<br><span style="font-size:11.5px;opacity:.75">美股報告的市場寬度</span>'],['e','5 誰接得住<br><span style="font-size:11.5px;opacity:.75">均線與選擇權的牆</span>'],['f','6 何時會變<br><span style="font-size:11.5px;opacity:.75">要盯哪些訊號</span>'],['g','7 所以呢<br><span style="font-size:11.5px;opacity:.75">定調</span>']],
+ right:[['d','標普、那指站上五十日線的股票都再升一截，連兩天過半'],['g','分界線失守，但這是這輪修正以來最接近止跌的一天'],['b','恐慌指數再退一點；買賣權比一天跳到常態帶上緣'],['f','條件卡還沒止跌，但止跌那一段只差最後一項'],['a','長端利率沒動、兩年期小升；高收益債連六份輸給公債'],['e','標普站回十日線和月線；費半連六天收在一百二十日線下'],['c','科技、半導體和軟體領漲；等權和小型股小輸']],
  fbNo:'有幾條接錯了——正解已經標出來。',
- fbOk:'五個標籤照順序讀，剛好是一條理解鏈：<br><b>發生什麼 → 有多嚴重 → 站在哪 → 盯哪裡 → 什麼會讓判斷改口</b>。<br>④ 不是叫你做什麼，是告訴你<b>該盯哪一格</b>；<br>⑤ 往好、往壞兩邊都寫，才算誠實。<br><br>五問後面還有一條「被忽略的那一格」：<br>最弱那一層公司借錢愈來愈難，這禮拜開始傳到好一點的那層——<br>股市在漲，這一格卻在變差。'},
+ fbOk:'七步照順序讀，剛好是一條理解鏈：<br><b>壓力 → 情緒 → 誰強誰弱 → 擴散 → 防線 → 什麼時候會變 → 所以呢</b>。<br>每一行只講今天這一環的狀態，數字都在後面各章。<br>第 6 步下面掛的就是條件卡——下一站。'},
 
-// ── §00 · place：今天的結構變化 ─────────────────────────
-{type:'place',sky:'sky-noon',bg:'farhills',label:'§00 · 今日重點 · 今天的結構變化',short:'結構卡',
- title:'四列，各從一章抽出來',
- text:'五問下面是一張卡：「今天的結構變化」。<br>四列、每列一段白話，前面一個 ✓ 或 ◐。<br>你大概只看了打勾那一列。',
- so:'這四列是從後面四章各抽一段：<br>環境判定、板塊強弱對位、市場寬度、Gamma 防線。<br>✓＝這一格今天站得住；◐＝有一半，還不算數。<br>卡上一樣不放讀數。',
- q:'把四段判讀放回它該在的那一列：',
- cards:[['c','標普那邊站上均線的股票小幅回升，那斯達克那邊反而變少；兩邊不同調，還不算擴散'],['a','就業轉弱讓市場把升息壓力往下調，資金回到股市；標普站回月線，三個指數同方向'],['d','四道牆都沒動，指數夾在下方最厚的賣權牆和上方的買權牆中間；選擇權沒有逼著指數往哪邊走'],['b','非必需消費、科技和工業贏大盤，醫療、金融、能源墊底；錢往成長和景氣循環走']],
- slots:[['s1','<b style="color:'+C_UP+'">✓ 大盤方向：順風 · 上行</b>','a'],['s2','<b style="color:'+C_Y+'">◐ 板塊強弱對位</b>','b'],['s3','<b style="color:'+C_Y+'">◐ 市場寬度</b>','c'],['s4','<b style="color:'+C_Y+'">◐ Gamma 防線</b>','d']],
+// ── 8 §00 · place：第 6 步的條件卡 ─────────────────────────
+{type:'place',sky:'sky-storm',bg:'peak',label:'§00 · 今日重點 · 要盯哪些訊號',short:'條件卡',
+ title:'條件卡：四塊，各有各的算法',
+ text:'第 6 步下面掛著一張卡，一排 ✓ 和 ✗。<br>你大概只數了打勾的有幾個。',
+ so:'這張卡<b>每天照數據現算</b>，分四塊：<br><b>止跌</b>（同一天全成立）→ <b>翻多</b>（分界線、大方向、寬度連兩天）→ <b>底線</b>（跌破＝修正擴大）→ <b>轉弱</b>（成立越多項、級別越高）。<br>四塊的算法不一樣，混在一起數就讀錯了。',
+ svg:CARD_SVG,
+ q:'八個條件，先點一張，再點它屬於的那一塊：',
+ cards:[['g','標普季線轉成往下彎'],['a','標普收盤站上十日線'],['e','守住標普季線'],['c','費半和標普都站回分界線'],['h','標普月 KD 轉弱'],['b','恐慌指數期貨回到近月低於遠月'],['f','守住費半年線'],['d','大方向回到往上']],
+ slots:[['s1','<b style="color:'+C_UP+'">止跌</b> · 同一天全部成立','a,b'],['s2','<b style="color:'+C_UP+'">翻多</b> · 連兩天成立','c,d'],['s3','<b style="color:'+C_Y+'">底線</b> · 跌破＝修正擴大','e,f'],['s4','<b style="color:'+C_DN+'">轉弱</b> · 成立越多、級別越高','g,h']],
  wide:true,
- done:'四列各回答一件事：<br><b>大盤往哪走、錢往哪個風格走、底下有沒有跟、選擇權有沒有逼方向</b>。<br>'+ASOF+' 只有大盤方向打 ✓，另外三列都是 ◐——<br>指數在漲，但寬度、對位、防線都還沒一起站出來。<br><br>想看每一列的數字，往下翻到那一章就有。'},
+ done:ASOF+' 這張卡讀起來是：<br><b>止跌</b>四項過三項，差高收益債那一項 → 現在走到「還沒止跌」；<br><b>翻多</b>過兩項（大方向往上、寬度過半），差分界線和半導體加分項；<br><b>底線</b>三條都守住：標普季線 7,691.59（收盤 +0.85%）、QQQ 賣權牆 700（+3.60%）、費半年線 10,658.68（+7.95%）；<br><b>轉弱</b>六項一項都沒成立 → 「調整中」。<br><br>卡上只有今天的 ✓／✗。它<b>不改定調</b>——定調照四題和分界線算。'},
 
-// ── §02 · match：四條溫度條是誰在動 ─────────────────────────
-{type:'match',sky:'sky-clouds',bg:'farhills',label:'§02 · 市場概覽 · 四條溫度條',short:'溫度條',
- title:'分數變了，先問是誰推的',
- text:'§02 是四條溫度條：資金流判定、情緒很熱觸發、<br>Risk-on／off、市場廣度。<br>你大概只看指針停在哪。',
- so:'每條上有一顆淡色的點＝前一份的位置。<br>先看它比上一份鬆了還是緊了，<br>再點開細項，看<b>是哪一格在推</b>。',
- svg:barsSVG(),
- q:'把每一條接到推動它的那一格（先點左、再點右）：',
- left:[['a','資金流判定　54 → 50'],['b','情緒很熱觸發　56 → 80'],['c','Risk-on／off　48 → 39'],['d','市場廣度　34.9 → 34.3']],
- right:[['b','跳 24 分，全部來自買賣權比：0.70 → 0.24，保險一口氣撤光'],['d','小退：標普兩格回升、那斯達克兩格往下'],['a','掉 4 分，全在信用那一格：信用利差 3.12 → 3.24%，跨過 3.2 那條線'],['c','掉 9 分、跌進防禦那一格：兩個動能和品質都由贏翻輸']],
+// ── 9 §00 · hotspot：跨資產觀察 ─────────────────────────
+{type:'hotspot',sky:'sky-valley',bg:'range',label:'§00 · 今日重點 · 跨資產觀察',short:'跨資產',
+ title:'股票之外，誰比較強',
+ text:'閱讀動線下面是「跨資產觀察」。<br>你大概覺得：美股都快回到新高了，其他資產不用看。',
+ so:'這一段把股票跟債、油、金屬、別的國家放在一起，<br>數字都是<b>相對標普的漲跌差</b>，不是漲幅。<br>判讀句寫：美股科技帶頭反彈，但跨資產還站在防守那一邊。',
+ q:'八格都是 10/21 收盤的相對讀數。<br><b>點出報告說「還是贏股票」的債券和收息資產（四格）：</b>',
+ need:['x1','x3','x5','x7'],hsFig:xaSVG,
+ fbOk:'長債、高股息、不動產、現金——<b>債券和收息資產這一週還是贏股票</b>；一個月看，高股息也贏。<br>油近五天 +5.0、近三個月 +23.5：物價那一端的壓力沒退。<br>黃金、白銀還在弱；韓國、台灣今天反彈，但一週看還在弱。<br>判讀句的尾巴是〔偏空〕：<b>股票在漲，旁邊的資產還沒跟著轉</b>。',
+ fbNo:'油也贏股票，但報告把它放在「物價那一端」；<br>要找的是債和收息的那四格。'},
+
+// ── 10 §00 · place：接下來的事件 ─────────────────────────
+{type:'place',sky:'sky-storm',bg:'peak',label:'§00 · 今日重點 · 接下來的事件',short:'事件',
+ title:'每一件都先寫好兩個方向',
+ text:'§00 最後是「接下來的事件」。<br>一整排卡片，你大概只看了日期，當它是行事曆。',
+ so:'最前面四件是<b>每天在開</b>的：管線復不復工、每日油價、隨時的信用利差、十月中起的財報季；<br>後面才接有日期的事件，一路排到 11/17 零售銷售。<br>每一張點開都是三行：<b>利多方／利空方／觀察</b>。',
+ q:'兩件每天在開的事、四種走法。<br>先點一張卡，再點它該去的格子：',
+ cards:[['b','站回百元＝壓力回來'],['c','續收窄＝被重算的只是估值，生意沒事'],['a','續跌＝下一份物價不會那麼難看'],['d','由收窄轉為走闊＝性質改變，每一句都要重讀']],
+ slots:[['s1','每日油價 · <b style="color:'+C_UP+'">利多方</b>','a'],['s2','每日油價 · <b style="color:'+C_DN+'">利空方</b>','b'],['s3','信用利差（高收益相對公債）· <b style="color:'+C_UP+'">利多方</b>','c'],['s4','信用利差（高收益相對公債）· <b style="color:'+C_DN+'">利空方</b>','d']],
+ wide:true,
+ done:'兩個方向事前都寫好：走在利多方＝判讀站得住；走到利空方＝判讀要改。<br>信用利差那一張的觀察寫得最重：<b>由收窄轉走闊＝整套判讀改寫</b>。<br>油那一張的觀察：油價是下一份物價會不會再被推上去的那張牌。<br><br>有日期的事件從 10/29 凌晨的利率決策開始，接著 10/29 晚第三季成長＋九月個人消費支出物價、11/06 非農、11/10 消費者物價……<br>寫到這一行，§00 就結束了：「時間不夠，讀到這一行就可以停」。'},
+
+// ── 11 §01 · match：名詞解釋 ─────────────────────────
+{type:'match',sky:'sky-clouds',bg:'farhills',label:'§01 · 名詞解釋',short:'名詞',
+ title:'先把四個字講白',
+ text:'§01 是一張名詞對照表，預設收著。<br>你大概從來沒點開過。',
+ so:'報告裡的專有名詞都收在這：<b>第一次讀先展開</b>，之後就不用再點。<br>後面幾章的圖，大半要靠這幾個字才看得懂。',
+ svg:'<div class="fig-box"><svg viewBox="0 0 300 70" style="width:100%;display:block"><rect x="10" y="10" width="280" height="50" rx="8" fill="rgba(0,0,0,0.3)" stroke="rgba(224,165,38,0.6)"/><text x="150" y="31" fill="#f4dc9a" font-size="11" text-anchor="middle">點開名詞對照表 ▸</text><text x="150" y="48" fill="rgba(255,255,255,0.65)" font-size="9.5" text-anchor="middle">多空溫度、VIX、三道防線、市場廣度、Gamma／Max Pain、板塊生命週期…</text></svg></div>',
+ q:'把每個名詞接到它的白話（先點左、再點右）：',
+ left:[['a','Max Pain（最大痛點）'],['b','Gamma Flip'],['c','REL5'],['d','買賣權比（P/C）']],
+ right:[['c','板塊近 5 日相對大盤的強弱：報酬減掉大盤，正＝跑贏'],['d','買賣權成交量比：偏高＝搶買下跌保險'],['a','選擇權到期時讓最多買方賠錢的價位'],['b','做市商避險由「壓波動」翻成「放大波動」的分界價']],
  fbNo:'有幾條接錯了——正解已經標出來。',
- fbOk:'情緒跳上去、風險偏好掉下來——<b>今天兩條尺往相反方向走</b>。<br>情緒那條分數高＝熱：保險撤光，就是往熱的一端走。<br>風險偏好掉，是因為指數在漲、出力的卻只有半導體和最大那幾檔。<br><br>細項裡還有一格：債市波動 108.1 → 107.3，<br>只小退，仍在近一年最高的一帶。<br>報告讀成一句：<b>股市把保險丟了，債市還在晃。</b>'},
+ fbOk:'四個字各管一件事：<br>Max Pain 和 Gamma Flip 在 §07 的選擇權牆會用到；<br>REL5 是 §05 動態圖的橫軸；買賣權比是 §02 情緒那一條的一格。<br>對照表裡還有一條「環境判定」，把第一站那四層寫得最完整。'},
 
-// ── §03 · hotspot：量價四象限 ─────────────────────────
+// ── 12 §02 · hotspot：四條溫度條 ─────────────────────────
+{type:'hotspot',sky:'sky-clouds',bg:'farhills',label:'§02 · 市場概覽 · 四條溫度條',short:'溫度條',
+ title:'分數變了，先看是哪一條',
+ text:'§02 是四條溫度條：資金流判定、情緒很熱觸發、<br>Risk-on／off、市場廣度。<br>你大概只看指針停在哪。',
+ so:'每條上有淡色的點＝前面幾份的位置（下圖只畫前一份）。<br>先看它<b>比上一份動了沒</b>，再點開細項，看是哪一格在推。',
+ q:'<b>點出分數比上一份往上的兩條：</b>',
+ need:['b3','b4'],hsFig:barsSVG,
+ fbOk:'往上的是 <b>Risk-on／off（25 → 49）</b>和<b>市場廣度（57.2 → 60.5）</b>。<br>風險偏好從「防禦」回到「中性」：那指動能、高 Beta、標普動能贏，低波動、高股息輸；<br>廣度四格全升，五十日線兩格連兩天過半。<br>資金流 54 → 54 沒動；情緒 52 → 48 小降——買賣權比扣分、那指波動加分，一扣一加。<br><br>點開資金流那一條，第一題多看的那條線也在裡面——下一站。',
+ fbNo:'資金流分數沒動、情緒小降；<br>往上的是另外兩條。'},
+
+// ── 13 §02 · flip：AI 公司債 ─────────────────────────
+{type:'flip',sky:'sky-valley',bg:'range',label:'§02 · 市場概覽 · AI 公司債',short:'AI 公司債',
+ title:'殖利率 14.79%，亮燈了嗎',
+ text:'資金流細項裡，有一段「AI 公司債」：第一題多看的那條線。<br>CoreWeave 公司債殖利率 14.79%、比同年期公債高 981 bp。<br>數字看起來很嚇人。',
+ so:'整體的信用利差是全市場平均，AI 發債大戶的壓力會被稀釋，<br>所以第一題另外看兩條線：<b>AI 高收益線（CoreWeave）</b>、<b>AI 投資級線（Oracle）</b>。<br>亮燈看的是<b>變化</b>，不是水位。',
+ chips:['亮燈＝五天擴大 50 bp 以上','或二十天比同評等指數多擴大 100 bp 以上'],
+ q:'你猜 '+ASOF+' 這兩條線亮了沒？',
+ bets:[['a','亮了：14.79% 已經很高，借錢變難了'],['b','還判不了：帳本才記一天']],betOk:'b',
+ reveal:bondSVG(),
+ revealTxt:'兩條都是<b>「資料不足」</b>：殖利率 10/21 重新記下第一筆，五天變化要 6 天、二十天要 21 天。<br>所以報告寫「AI 兩條線都沒亮」，第一題照整體信用利差答「大致是」。<br><br>水位高不等於亮燈——<b>燈看的是有沒有突然走寬</b>。<br>出處標在最下面：美國金融業監管局成交紀錄；利差＝跟同天期美債比。'},
+
+// ── 14 §03 · hotspot：量價四象限 ─────────────────────────
 {type:'hotspot',sky:'sky-valley',bg:'range',label:'§03 · 量價',short:'量價',
  title:'價格只講方向，量才講有沒有人',
  text:'指數收紅，你大概就當作「今天很好」。',
  so:'價格靠幾張單就推得動，量不行。<br>一根漲跌有沒有意義，要先看它背後有沒有量。<br>§03 只有一張圖：<b>量價四象限</b>。',
- chips:['10/02 標普 +0.74%、量比 20 日均 −1.50%','那指 +1.02%、量 −3.40%'],
- q:'橫軸＝當日漲跌、縱軸＝量比 20 日均（兩軸都以 0 為界）。<br>點出 10/02 美股那兩顆點落在哪一格：',
+ chips:['10/21：標普 +0.58%、量比 20 日均 −3.2%','那指 +1.05%、量 −3.4%'],
+ q:'橫軸＝當日漲跌、縱軸＝量比 20 日均（兩軸都以 0 為界）。<br>點出兩顆點落在哪一格：',
  need:['rb'],
- quad:{cells:[{k:'lt',n:'下跌放量',s:'有人在殺',col:C_DN},{k:'rt',n:'上漲放量',s:'買盤在累積',col:C_UP},{k:'lb',n:'下跌縮量',s:'沒人接，不是有人殺',col:C_Y},{k:'rb',n:'上漲縮量',s:'漲了，但沒人跟',col:C_Y}],
+ quad:{cells:[{k:'lt',n:'下跌放量',s:'跌的時候量放大',col:C_DN},{k:'rt',n:'上漲放量',s:'漲的時候量放大',col:C_UP},{k:'lb',n:'下跌縮量',s:'跌的時候量沒放大',col:C_Y},{k:'rb',n:'上漲縮量',s:'漲的時候量沒放大',col:C_Y}],
   xlab:'← 跌　當日漲跌　漲 →',ylab:'← 縮　量比 20 日均　放 →',extraRev:VP_DOTS},
- fbOk:'上漲縮量——非農公布後這一根漲得不小，<b>但跟著漲的錢沒有比平常多</b>。<br>前一天兩邊的量都在均量之上（標普 +1.60%、那指 +2.90%），今天又縮回均量下面一點。<br>上一份立的門檻是「量能站不站得回均量之上」：<br>前一天站上、今天又退下來——還是沒有連著站住。<br><br>台股同一天：加權 +0.25%、量比 20 日均 +8.6%——那一顆在上漲放量。',
- fbNo:'兩顆點都在右邊（收紅），但量都比 20 日均少——所以是右下格。'},
+ fbOk:'上漲縮量——<b>漲的時候量沒放大</b>。<br>小型股量少了四成，等權、微型跟平常差不多；風格裡沒有一種是帶量在漲。<br>台股同一天：加權指數 +1.28%、量比 20 日均 −9.8%，也是價漲、量縮。<br><br>量只講成交熱不熱，<b>講不出是誰在買、誰在賣</b>。',
+ fbNo:'兩顆點都收紅，但量都比 20 日均少——所以是右下格。'},
 
-// ── §04 · flip：宏觀背景事件的機制欄 ─────────────────────────
-{type:'flip',sky:'sky-valley',bg:'range',label:'§04 · 宏觀背景事件',short:'機制',
- title:'同一個壞消息，利率卻沒照劇本走',
+// ── 15 §04 · match：宏觀背景事件 ─────────────────────────
+{type:'match',sky:'sky-valley',bg:'range',label:'§04 · 宏觀背景事件',short:'機制',
+ title:'先看機制那一欄',
  text:'§04 是一張表：事件、影響層級、透過什麼機制傳到價格。<br>你大概只讀第一欄，看今天發生了哪幾件事。',
- so:'這張表的重點在第三欄：<br><b>這件事怎麼傳到價格上</b>。<br>標題一樣，機制不同，意思就不同。',
- chips:['九月非農：新增就業 +2.9 萬（市場預期約 +8.4～9.0 萬）','七、八月合計下修 6.0 萬；失業率 4.2%'],
- q:'非農這麼弱，照理短端利率該往下退。<br>10/02 收盤，你猜兩年期、十年期怎麼走？',
- bets:[['a','兩端都往下退'],['b','兩端都小升']],betOk:'b',
- reveal:rateSVG(),
- revealTxt:'兩端都小升——十年期 5.252 → 5.275%、兩年期 4.798 → 4.827%，差距 45 → 45bp 沒變。<br>機制那一欄寫的是：<b>市場還沒把「景氣放緩」翻成「升息要停」</b>。<br>長端利率為什麼上，財政與聯準會兩種講法都有證據。<br><br>同一張表還有一列：東芝擴產的消息讓 Seagate、Western Digital 當天大跌，<br>同一天半導體 ETF 照樣漲 +2.18%——被砍的是硬碟那一小塊。<br><b>第一欄是新聞，第三欄才是它對價格的意思。</b>'},
+ so:'這張表的重點在第三欄：<b>這件事怎麼傳到價格上</b>。<br>每一列最後都寫出對股市的方向。',
+ q:'把五件事接到它機制欄的結論（先點左、再點右）：',
+ left:[['a','長短端利率'],['b','信用利差'],['c','AI 題材'],['d','油與進口物價'],['e','工業生產']],
+ right:[['d','油停在 110 美元附近，九月進口燃料一個月漲快 5%——物價壓力還在，利空'],['a','十年期停在 5.1% 上下、兩年期小升——長期借錢的成本停住，中性'],['e','九月月增 0.7%、產能利用率 76.9%——景氣還撐得住，中性'],['b','停在這一年的高處、又擴一點——借錢那一端還沒鬆，利空'],['c','半導體反彈最兇，但費半還在十日線下——在追、還沒回到分界線上，中性']],
+ fbNo:'有幾條接錯了——正解已經標出來。',
+ fbOk:'五件事、兩件利空、三件中性：<br>利空的是<b>信用利差和油</b>——一個在借錢那一端、一個在物價那一端。<br>表裡還有第六列「科技帶頭，標普逼近新高」：寬度連兩天過半是好事，但漲勢又收回科技，中性。<br><b>第一欄是新聞，第三欄才是它對價格的意思。</b>'},
 
-// ── §05 · sort：板塊動態圖的順時針 ─────────────────────────
-{type:'sort',sky:'sky-valley',bg:'range',label:'§05 · 板塊動態圖',short:'動態圖',
- title:'不要看它站哪裡，要看它往哪走',
+// ── 16 §05 · hotspot：板塊動態圖四象限 ─────────────────────────
+{type:'hotspot',sky:'sky-clouds',bg:'range',label:'§05 · 板塊動態圖',short:'動態圖',
+ title:'不要只看它站哪裡',
  text:'第一次看這張泡泡圖，多數人只看誰在最右邊，<br>就結論「那一格最強」。',
- so:'這張圖真正的資訊是<b>尾巴</b>：位置只講現在，尾巴才講方向。<br>右＝比大盤強、上＝動能在加速。<br>資金輪動多半照一個方向繞：順時針。',
- svg:ROT_SVG,
- q:'從「轉強」開始，<br>把四格排回資金順時針走的順序（點兩張互換）：',
- items:['轉強：弱但轉強（左上）','領先：強且加速（右上）','轉弱：強但減速（右下）','落後：弱且續弱（左下）'],
- shuffle:[2,0,3,1],
- fbOk:'轉強 → 領先 → 轉弱 → 落後 → 再回轉強。<br>所以看<b>尾巴往哪拉</b>：往右上＝正走進領先、相對強度在累積；<br>從右上往右下轉＝強度在退，漲勢集中到更少的標的。<br><br>圖上有「跨資產／產業輪動」兩個頁籤，<br>還能切反應速度：快 5、中 20、慢 60。'},
+ so:'橫軸＝相對大盤 SPY 的強弱（越右越強），縱軸＝這個強弱在加速還是減速（越上越加速）。<br>泡泡後面拖著尾巴＝前幾天的位置。<br>所以最右邊的不一定最好：<b>強，但可能在減速</b>。',
+ q:'四格的名字先蓋住了。<br><b>點出「轉弱：強但減速」在哪一格：</b>',
+ need:['rb'],
+ quad:{hideNames:true,cells:[{k:'lt',n:'轉強',s:'弱但轉強',col:C_Y},{k:'rt',n:'領先',s:'強且加速',col:C_UP},{k:'lb',n:'落後',s:'弱且續弱',col:C_DN},{k:'rb',n:'轉弱',s:'強但減速',col:C_O}],
+  xlab:'← 弱　相對大盤 SPY　強 →',ylab:'← 減速　動能　加速 →'},
+ fbOk:'右下：<b>強，但在減速</b>。<br>右上＝領先（強且加速）、左上＝轉強（弱但轉強）、左下＝落後（弱且續弱）。<br>看尾巴往哪拉：從右上往右下轉＝強度在退。<br><br>圖上有「跨資產／產業輪動」兩個頁籤，還能切反應速度：快 5、中 20、慢 60。<br>跨資產頁籤下面的判讀，就是 §00 跨資產觀察那一段的完整版。',
+ fbNo:'右邊＝比大盤強；下面＝在減速。'},
 
-// ── §06 · place：看板四欄 ─────────────────────────
-{type:'place',sky:'sky-clouds',bg:'range',label:'§06 · 板塊強弱對位',short:'看板',
- title:'看板四欄：錢站在哪一邊',
- text:'§06 是一整排卡片，分成四欄。<br>你大概以為卡片上的數字是漲幅。',
- so:'不是。卡片上只有兩個讀數：<b>今日相對、近一週</b>——<br><b>兩個都是相對大盤</b>，不是漲幅。<br>分欄的方法：先看長線贏還是輸大盤，再看今天的相對表現。',
- q:'把 '+ASOF+' 的四張卡放進它該在的那一欄：',
- cards:[['c','記憶體 DRAM：長線還落後，但中線翻正'],['a','半導體 SOXX：今日相對 +1.44、近一週 +3.71，三條均線全站上'],['d','不動產 XLRE：短、中、長三個窗全部輸大盤，三條均線全跌破'],['b','基建建設 PAVE：今日相對 +2.56、明顯領先，但長線還落後']],
- slots:[['s1','<b style="color:'+C_UP+'">強勢</b>','a'],['s2','<b style="color:'+C_Y+'">轉強觀察</b>','b'],['s3','<b style="color:'+C_O+'">中段</b><br>（中線修復）','c'],['s4','<b style="color:'+C_DN+'">弱勢</b>','d']],
- done:'強勢＝長線贏、今天不弱（或短中長三窗全正）；<br>轉強觀察＝今天明顯領先、長線還落後；<br>中段＝長線還落後、但中線翻正（中線修復）；<br>弱勢＝短中長三窗全負。<br><br>看板底下還有一張<b>板塊對位家數</b>四線圖：<br>紅＝三窗全正、黃＝兩窗正、橙＝一窗正、綠＝三窗全負。<br>'+ASOF+'：全負那一條少了三格、全正那一條多一格——<br>最底下那一層往上爬了，但大多停在只有最近幾天是正的那一層。'},
+// ── 17 §06 · place：板塊強弱對位四個分頁 ─────────────────────────
+{type:'place',sky:'sky-clouds',bg:'range',label:'§06 · 板塊強弱對位',short:'對位',
+ title:'四個分頁：先看長線，再看今天',
+ text:'§06 是一排分頁：強勢、轉強、中性、弱勢，最後一頁是家數圖。<br>你大概以為今天漲最多的，就在「強勢」那一頁。',
+ so:'分頁的分法：<b>先看長線贏還是輸大盤，再看今天的相對表現</b>。<br>線圖畫的是相對大盤的強弱，不是漲幅。<br>分頁裡的小結，寫的是這一組最近的近況。',
+ q:'把 '+ASOF+' 的四個板塊放進它在的那一頁：',
+ cards:[['d','半導體 SOXX：三個窗口都是負的，今天反彈'],['a','醫療保健 XLV：三個窗口都領先'],['c','記憶體 DRAM：今天大漲，一個月、三個月看都還落後'],['b','軟體 IGV：一季看還領先，這一週還落後']],
+ slots:[['s1','<b style="color:'+C_UP+'">強勢</b>（15 檔）','a,b'],['s2','<b style="color:'+C_Y+'">轉強</b>（4 檔）','c'],['s3','<b style="color:'+C_DN+'">弱勢</b>（15 檔）','d']],
+ wide:true,
+ done:'強勢這一組有兩種：能源、醫療保健三個窗口都領先；軟體、資安、雲端這些長線科技一季看還領先，這一週還落後——<b>長線贏，就還在強勢</b>。<br>記憶體今天大漲進了轉強，但小結寫「跌深反彈，還談不上轉強」。<br>半導體今天也反彈，三個窗口都負，<b>還在弱勢</b>。<br>中性那一頁今天是空的。<br><br>最後一頁家數圖：三個窗口都贏大盤的從 9 檔掉到 5 檔，三窗全輸的少兩檔——兩頭都變薄、往中間收。'},
 
-// ── §07 · hotspot：市場廣度四格 ─────────────────────────
-{type:'hotspot',sky:'sky-clouds',bg:'farhills',label:'§07 · 市場廣度',short:'廣度',
- title:'指數收紅那天，底下有沒有跟？',
- text:'§07 四張卡：那指、標普成分股<br>站上 20 日、50 日線的比例。<br>指數收紅，你大概覺得底下也一樣好。',
- so:'這一段回答：<b>扣掉最上面那幾檔，其他股票有沒有跟上</b>。<br>它決定行情走得遠不遠。<br>這四格是成分股口徑，不能拿去和全市場的尺互比。',
- q:'10/02 指數收紅，四格兩升兩降。<br>點出往下的那兩格：',
- need:['n20','n50'],hsFig:breadthSVG,
- fbOk:'往下的是<b>那斯達克那兩格</b>；標普那兩格從紀錄最低回升一點。<br>報告原話：標普那一大片在補，那斯達克靠半導體和最大那幾檔撐，<br>底下的股票沒有跟著站上去。<br>位置也還低：標普站上五十日線的仍只有兩成出頭。<br><br>四格下面兩張折線圖，上方有一排鈕：<b>1 月／1 季／2 季</b>（預設 1 季），兩張圖一起切。<br>先拉長看，再判斷今天這一格是不是轉折。',
- fbNo:'看每一格下面的「前一份」：比今天高的，就是往下的那一格。'},
+// ── 18 §07 · slider：Gamma 防線 ─────────────────────────
+{type:'slider',sky:'sky-storm',bg:'peak',label:'§07 · Gamma 防線',short:'Gamma',
+ title:'價格夾在兩道牆中間',
+ text:'§07 是一張線圖：QQQ 每天的收盤，加上幾條選擇權的牆。<br>你大概看不出哪一條才重要。',
+ so:'選擇權堆積出兩道牆：<br><b>上面是買權牆</b>（漲到那裡容易被壓）、<b>下面是賣權牆</b>（跌到那裡容易被接住）。<br>現價夾在中間，看它<b>離哪一道比較近</b>。',
+ chips:['QQQ 收盤 08/03～10/21（57 天）','牆 08/03～10/20 口徑'],
+ q:'10/21 QQQ 收在 725.2。<br>把最右邊那一點拉到它的位置：',
+ slider:{min:6900,max:8100,init:7900,ans:7252,lo:'690',hi:'810'},
+ fig:gammaFig,vlab:gammaLab,correct:function(v){return Math.abs(v-7252)<=40;},
+ fbOk:'725.2：離賣權牆 700 只有 <b>+3.6%</b>，離買權牆 800 還有 10% 以上——<b>貼著下面那一道</b>。<br>10/16 收 709.8，是這一輪最靠近賣權牆的一天。<br>§00 條件卡的「底線」，那斯達克那一條用的就是這一道賣權牆。<br><br>這一段回答的是「<b>跌下去誰接得住、漲上去誰在壓</b>」，<b>不是「會收在哪裡」</b>。',
+ fbNo:'725 在中間層那條虛線附近，比 700 高一點點。'},
 
-// ── §08 · place：Gamma 價格梯 ─────────────────────────
-{type:'place',sky:'sky-storm',bg:'peak',label:'§08 · Gamma 防線',short:'Gamma',
- title:'價格底下的兩道牆',
- text:'§08 是一張價格梯：好幾條橫線、一堆「口」。<br>你大概看不出哪一條才重要。',
- so:'選擇權堆積出兩道牆：<br><b>上面是買權牆</b>（漲到那裡容易被壓）、<b>下面是賣權牆</b>（跌到那裡容易被接住），現價夾在中間。<br>報告是左圖右說明：點左邊任一條線，右邊才出那一條的說明。',
- chips:['QQQ · 12/18 到期（今年最後一個四巫日）','未平倉 10/01 口徑'],
- q:'把四張卡放回價格梯上的位置（由上到下）：',
- cards:[['c','賣權 23,733 口'],['a','買權牆：買權堆最多（47,433 口）'],['d','賣權牆 62,982 口，也是最大痛點'],['b','現價 QQQ']],
- slots:[['s1','<b style="font-family:monospace;font-size:14px">800</b>','a'],['s2','<b style="font-family:monospace;font-size:14px">749.58</b>','b'],['s3','<b style="font-family:monospace;font-size:14px">725</b>','c'],['s4','<b style="font-family:monospace;font-size:14px">700</b>','d']],
- done:'上面是買權牆、下面是賣權牆，現價夾在中間。<br>跟上一份（09/30 口徑）比，<b>四道牆一格沒動</b>，口數只小幅進出；<br>賣權牆 700 仍跟最大痛點站在同一價位。<br><br>這一段回答的是「<b>跌下去誰接得住、漲上去誰在壓</b>」，<br><b>不是「會收在哪裡」</b>。'},
-
-// ── §09 · sort：核心邏輯鍊 ─────────────────────────
-{type:'sort',sky:'sky-clear',bg:'range',label:'§09 · 完整研判 · 核心邏輯鍊',short:'邏輯鍊',
- title:'結論怎麼推出來的，先看這條鍊',
- text:'完整研判最前面，是一條「🔗 核心邏輯鍊」。<br>你大概直接跳到最後一句結論。',
- so:'每一條鍊都是三層：<b>現象 → 機制 → 含意</b>。<br>現象是看到什麼，機制是為什麼會這樣，含意才是這對判斷代表什麼。<br>順序顛倒，就會變成先有結論、再找理由。',
- q:ASOF+' 的第一條鍊被打散了。<br>排回「現象 → 機制 → 含意」的順序（點兩張互換）：',
- items:['九月非農偏弱、前兩個月也下修，信用利差跨過下一格','經濟這一端的消息是壞的','股市讀成「升息壓力會鬆」，資金更願意留在股市——壞消息就是好消息，對股市偏多'],
- shuffle:[2,0,1],
- fbOk:'現象 → 機制 → 含意。<br>'+ASOF+' 另外兩條鍊，剛好是第一條的但書：<br>② 債市還沒點頭——股市先走一步、利率沒跟，要靠利率真的往回走來確認；<br>③ 信用那一段自己在變貴——只要壓力不擴散到投資級，指數就撐得住。<br><b>鍊條會把自己能說到哪裡寫清楚。</b>'},
-
-// ── §09 · flip＋build：驗證點總表 ─────────────────────────
-{type:'flip',sky:'sky-clear',bg:'range',label:'§09 · 完整研判 · 驗證點總表',short:'驗證點',
- title:'判斷要事前寫死，隔天回來開票',
- text:'邏輯鍊下面是一張大表：<br>開牌日、驗證點、現值基準、✓ 順風確認、✗ 翻案訊號、牽動哪一環。<br>你大概覺得它太長，直接滑到底。',
- so:'這張表是整份報告最誠實的地方：<br>每一條判斷都<b>事前</b>寫好兩邊——站在哪一邊算順風、翻到哪一邊算翻案。<br>下一份報告出來，就回來對答案，不是回來找理由。',
- q:'上一份寫死了一條：「9 月非農：<b>放緩＝升息壓力減</b>」。<br>10/02 晚上數據出來，你猜？',
- bets:[['a','✓ 命中：數據放緩'],['b','✗ 沒中：數據強勁']],betOk:'a',
- reveal:FLIP_SVG,
- revealTxt:'✓ 命中——新增就業 +2.9 萬，比預期少一大截，前兩個月也下修。<br>但這一格的後半句寫著：<b>兩年期沒退、反而小升——升息的壓力在市場上沒有真的減</b>。<br>同一張表上，「標普守不守得住月線」✓ 站回月線之上（第一天）；<br>「短端會不會開始跟著退」翻案那一邊今天命中。<br><b>重點不在猜對，而在門檻是上一份就寫死的。</b>',
- buildTitle:'親手把兩個方向寫進驗證點',
- buildQ:'每一條驗證點都有兩個方向。<br>把六張卡放進對的那一格：',
- cards:[['c','兩年期往下走＝升息押注真的在收手'],['f','往上離開這個區間、且高收益債價格跟著跌＝整套翻案'],['a','維持在月線之上＝指數那一題保持成立'],['d','兩年期再往上＝升息的壓力沒鬆'],['b','收回月線之下＝指數那一格退回「大致是」'],['e','留在 2.65–2.71 的寬鬆區間裡＝分母壓力持續鬆']],
- slots:[['s1','標普守不守得住月線 · <b style="color:'+C_UP+'">✓ 順風確認</b>','a'],['s2','標普守不守得住月線 · <b style="color:'+C_DN+'">✗ 翻案訊號</b>','b'],
-   ['s3','短端會不會開始跟著退 · <b style="color:'+C_UP+'">✓ 順風確認</b>','c'],['s4','短端會不會開始跟著退 · <b style="color:'+C_DN+'">✗ 翻案訊號</b>','d'],
-   ['s5','借錢會不會又變難 · <b style="color:'+C_UP+'">✓ 順風確認</b>','e'],['s6','借錢會不會又變難 · <b style="color:'+C_DN+'">✗ 翻案訊號</b>','f']],
- done:'這就是驗證點總表的樣子：<b>同一個驗證點，兩個方向都事前寫好</b>。<br>下一份出來，你不用等我解釋——自己就能對著現值開票：<br>✓、✗，還是 ◐ 還在半路。<br><br>開場你只看最上面那句定調；<br>現在你知道它是從哪幾格推出來的，也知道明天會被哪幾格推翻。'}
+// ── 19 收尾 · build：把一份報告讀成四句 ─────────────────────────
+{type:'build',sky:'sky-clear',bg:'range',label:'收尾 · 自己讀一遍',short:'讀成四句',
+ title:'把這份報告讀成四句',
+ text:'你從最上面的環境判定，一路走到最下面的選擇權牆。<br>最後一站，換你自己把它串起來。',
+ so:'四個位置：<b>定調 → 最接近好的那一邊 → 還差什麼 → 跌破哪裡就改判</b>。<br>每一句都要找得到它在哪一章。',
+ q:'六張卡只用四張。先點一張，再點它的位置：',
+ cards:[['c','還差兩件：費半站回一百二十日線、高收益債不再輸給公債'],['x','量放大了，這一次反彈已經確認'],['a','分界線失守：費半連六天守不住一百二十日線'],['d','跌破標普季線、QQQ 賣權牆或費半年線＝修正擴大'],['y','跨資產已經跟著股票轉強'],['b','標普離新高差 0.8%，站上五十日線的股票連兩天過半']],
+ slots:[['s1','<b>① 定調</b>（市場一分鐘）','a'],['s2','<b>② 最接近好的那一邊</b>（§00 懸念句、第 4 步）','b'],['s3','<b>③ 還差什麼</b>（第 6 步條件卡）','c'],['s4','<b>④ 跌破哪裡就改判</b>（條件卡的底線）','d']],
+ wide:true,
+ done:'四句連起來：<b>分界線失守 → 但這是這輪修正以來最接近止跌的一天 → 還差半導體和借錢那一端 → 底線三條守住</b>。<br>另外兩張是陷阱：§03 寫量縮、反彈還沒確認；§00 跨資產還站在防守那一邊。<br><br>下一份出來，你不用等誰解釋——<br>先看定調，再對著條件卡，看哪一格從 ✗ 變成 ✓。'}
 ];
 
 const TRANSITIONS=[
  null,
+ '環境看完了。<br>四個問題怎麼走到定調？',
  null,
  '圖上講是什麼。<br>下一段講為什麼。',
  null,
  null,
+ null,
+ '條件卡讀懂了。<br>股票之外的資產呢？',
+ null,
  '重點講完了。<br>往下，是數字從哪裡來。',
  null,
+ null,
+ '溫度條看完了。<br>今天這根量有沒有放大？',
  '今天這根量價看完了。<br>盤面在反應哪幾件事？',
- '盤面在反應什麼，知道了。<br>錢往哪裡搬？',
+ '盤面在反應什麼，知道了。<br>哪些族群在動？',
  null,
- '錢站哪一邊，看完了。<br>底下的股票，有沒有跟？',
- null,
- '線索都攤開了。<br>收成一句，而且事前寫死。',
+ '誰強誰弱，看完了。<br>最後一章：選擇權的牆。',
  null,
  null
 ];
@@ -511,106 +585,105 @@ let state={idx:-1,score:0,sv:0,pl:{},plSel:null,plFor:-1,hs:[],hsFor:-1,so:null,
 
 // ================= 給我答案：正解 ＋ 這一頁每個術語的白話 =================
 const ANS=[
- {answer:'把擺盪拉小、效率比回到 30% 以上：終點比起點高，路也大多用在同一個方向＝順風 · 上行。',terms:[
-   ['環境判定','市場一分鐘框內第一列：大盤近 20 日的路走得直不直，分四格'],
-   ['效率比','近 20 日的 淨走幅 ÷ 路徑總長。走得直＝高，走很多路卻回到原點＝低'],
-   ['順風 · 上行','效率比 30% 以上、而且往上：方向明確、回頭少'],
-   ['偏震盪','15～30%：有方向，但走三步退兩步'],
-   ['震盪','15% 以下：走了很多路卻沒去到哪'],
-   ['逆風 · 下行','效率比高、但往下：一樣有方向，只是方向朝下']]},
- {answer:'借錢變難了嗎 → 是（信用利差跨過下一格）；市場還怕嗎 → 是（債市波動還在高處）；指數站得住嗎 → 大致是（標普站回月線）；底下有人跟嗎 → 否（等權輸了）。',terms:[
-   ['市場一分鐘','報告最上面的框：環境判定、四個問題、一條粗線、一格定調、接下來的牌。只講「是什麼、往哪走」，不放讀數'],
-   ['定調','粗線最後停住的那一格＝今天的整體判斷'],
-   ['粗線／淡色方塊','粗線＝今天走的路；淡色方塊＝答案不同會走到哪'],
-   ['黃框','還沒完全確定的那一題，每天最多一格'],
-   ['信用·殖利率','公司借錢要多付多少（信用利差）、公債利率多少（殖利率）'],
-   ['等權','每一檔股票算一樣重的指數，用來看「一般股票」有沒有跟上大盤'],
-   ['利率反映完了沒','定調下面那一列五顆小膠囊（✓ 成立／◐ 一半／✗ 未成立），只描述利率走到哪，不改定調']]},
- {answer:'核心回到門檻之下、按兵不動 → 情境 · 偏多（紅）；油進到數據裡、再升一碼 → 情境 · 偏空（綠）。',terms:[
-   ['接下來的牌','定調下面那一排：接下來會開牌的事件，每張往下分兩三條路'],
-   ['分支','看到什麼 → 改變了哪一題 → 走到哪個結局'],
-   ['核心物價','扣掉油和食物的消費者物價'],
-   ['再升一碼','再升息 0.25 個百分點'],
-   ['偏多紅、偏空綠','報告全篇同一套配色：紅＝偏多、綠＝偏空，而且一定寫出字'],
-   ['其他的牌','分支圖下面那一行小字：還會開、但不畫分支的事件']]},
- {answer:'股市這端：標普站回月線、保險一口氣撤光、半導體整排收紅。經濟·債市這端：非農偏弱、信用利差跨過下一格、兩年期十年期小升。',terms:[
-   ['壞消息就是好消息','經濟數據轉弱，市場讀成「升息壓力會鬆」，股市反而漲'],
-   ['非農','美國每月公布的非農業新增就業人數'],
-   ['信用利差','高收益債比公債多要的利息；往上＝借錢變難'],
-   ['保險撤光','買賣權比大跌：買下跌保險（賣權）的人一口氣變少'],
-   ['債市點頭','利率真的跟著往下走，確認「升息壓力會鬆」這個讀法'],
-   ['投資級','體質最好的公司債；它的利差動了，壓力才算擴散到大公司']]},
- {answer:'①發生什麼→非農偏弱、利率卻小升；②嚴重嗎→經濟端壞、股市讀成好消息；③什麼位階→三個指數同方向站在線上；④下一步→利率往回走、信用利差停住；⑤什麼條件會讓整套判讀作廢→往壞、往好兩邊的條件。',terms:[
-   ['五問','§00 的五個彩色標籤，回答「為什麼、對你代表什麼」'],
-   ['位階','現在站在一段行情的哪個位置'],
-   ['月線／季線','近 20 個／60 個交易日收盤價的平均'],
-   ['費城半導體','半導體股的指數'],
-   ['被忽略的那一格','五問後面那一條：大家沒在看、卻在變化的那一格'],
-   ['重點結束','§00 最後一行：時間不夠讀到那裡就可以停，往下是數字從哪裡來']]},
- {answer:'✓ 大盤方向＝就業轉弱、資金回到股市；◐ 板塊強弱對位＝錢往成長和景氣循環走；◐ 市場寬度＝兩邊不同調；◐ Gamma 防線＝四道牆都沒動。',terms:[
-   ['今天的結構變化','§00 的一張卡：四列、每列約五十字，各從後面一章抽出來'],
-   ['✓／◐','✓＝這一格今天站得住；◐＝有一半，還不算數'],
-   ['擴散','不只最大那幾檔，底下的股票也一起站上均線'],
-   ['買權牆／賣權牆','選擇權未平倉最厚的價位：上方容易被壓、下方容易被接住'],
-   ['景氣循環','跟著經濟好壞起伏最大的那一類股票，例如工業']]},
- {answer:'資金流 → 信用那一格；情緒 → 買賣權比；Risk-on／off → 動能和品質由贏翻輸；廣度 → 兩升兩降。',terms:[
+ {answer:'大方向＝順風；排列＝均線糾結；收盤位置＝多方轉強；量能＝量縮。尾巴「對多方有利」看的是大方向配收盤位置。',terms:[
+   ['環境判定','市場一分鐘框內第一張卡：大盤收盤跟均線，分四層讀；描述現況、不預測下一段'],
+   ['季線','近 60 個交易日收盤價的平均；大方向看它往上還是往下'],
+   ['均線糾結','五日、十日、月線、季線排得亂、擠在一起'],
+   ['多方轉強','收盤在月線上、站回五日和十日線；同一狀態第四天起寫多方延續'],
+   ['量縮','成交量沒到前 20 日均量的 1.3 倍'],
+   ['週 KD／月 KD','用週線、月線算的 KD 指標；K 值在 D 值下方＝走弱的那一側']]},
+ {answer:'少 3.2%＝約 0.97 倍，沒到 1.3 倍＝量縮。',terms:[
+   ['前 20 日均量','過去 20 個交易日成交量的平均'],
+   ['帶量','今天的量到了前 20 日均量的 1.3 倍以上'],
+   ['量縮','沒到 1.3 倍'],
+   ['確認','量能站回均量之上、連著站住，報告才說反彈有量確認']]},
+ {answer:'借錢變難了嗎 → 大致是（信用利差擴一點，還在這一年的頂端）；市場還怕嗎 → 大致是（只剩債市波動還在帶外）；科技的反彈站得住嗎 → 否（費半還在十日線下）；多數股票跟上了嗎 → 大致是（五十日線兩格過半，但等權小輸）。',terms:[
+   ['市場一分鐘','報告最上面的框：環境判定、四個問題、一條粗線、一格定調、其他的牌'],
+   ['黃框','還沒完全確定的那一題（'+ASOF+' 有三格）'],
+   ['本期焦點題','第三題：主線換了就換題'],
+   ['信用利差','公司借錢比公債多付的利息；看這一年的方向，再放回長期歷史看水位'],
+   ['債市波動','債市的恐慌指數：公債價格預期會晃多大'],
+   ['五十日線比例','成分股裡收盤站在自己 50 日均線之上的比例']]},
+ {answer:'費半還在一百二十日線下——股市分界線還差這一條，所以定調停在「分界線失守」。',terms:[
+   ['股市分界線','疊在四題之上的一道關卡：費城半導體的一百二十日線、標普的五十日線'],
+   ['失守','分界線那幾條還沒站回去'],
+   ['費半','費城半導體指數'],
+   ['一百二十日線','近 120 個交易日收盤價的平均'],
+   ['其他的牌','定調框下面一行小字：還會開的事件，點開各有利多方、利空方']]},
+ {answer:'還差一步：止跌四項過三項，差高收益債還在輸給公債（借錢那一端還沒鬆）。',terms:[
+   ['懸念句','§00 第一行：一個問句，下面一句回答'],
+   ['止跌','條件卡第一段：四項同一天全成立才算'],
+   ['恐慌指數期貨正價差','近月低於遠月＝市場覺得眼前平靜'],
+   ['高收益債','體質較弱的公司發的債，利息比較高'],
+   ['警示','懸念句下面那一格：今天規則亮起來的那幾條']]},
+ {answer:'10/19 科技、半導體反彈一天 → 10/20 漲勢擴散到等權、小型股 → 10/21 科技、半導體領漲。',terms:[
+   ['時間軸','§00 警示下面：一個日期一行，照先後排'],
+   ['等權','每一檔股票算一樣重的指數，用來看一般股票有沒有跟上大盤'],
+   ['倒掛','恐慌指數期貨近月高過遠月：大家急著買眼前的保護']]},
+ {answer:'1 長端利率沒動、高收益債連六份輸；2 恐慌再退、買賣權比跳到上緣；3 科技、半導體、軟體領漲；4 五十日線兩格連兩天過半；5 費半還在一百二十日線下；6 條件卡只差最後一項；7 分界線失守、最接近止跌的一天。',terms:[
+   ['閱讀動線','§00 的七個步號：每一步＝步號＋問句＋章名，後面一句話講今天這一環的狀態'],
+   ['看圖','第 1 步下面的展開：長短利率走向，和通膨、經濟、資金三塊的變化'],
+   ['買賣權比','買下跌保險的賣權和押漲的買權之比；常態帶 0.4～1.0'],
+   ['選擇權的牆','選擇權未平倉最厚的價位：上方容易被壓、下方容易被接住']]},
+ {answer:'止跌＝標普站上十日線、恐慌指數期貨近月低於遠月；翻多＝費半和標普站回分界線、大方向回到往上；底線＝守住標普季線、守住費半年線；轉弱＝標普季線往下彎、標普月 KD 轉弱。',terms:[
+   ['條件卡','第 6 步下面的卡：每天照數據現算，只有今天的 ✓／✗'],
+   ['翻多','分界線、大方向、寬度連兩天成立；半導體對標普的相對強弱是加分項'],
+   ['底線','跌破＝修正擴大：標普季線、QQQ 賣權牆、費半年線'],
+   ['轉弱的級別','成立 0～1 項＝調整中；2～3 項＝轉弱警戒；更多＝趨勢轉弱'],
+   ['年線','近 200 個交易日收盤價的平均']]},
+ {answer:'長債、高股息、不動產、現金四格：債券和收息資產這一週還是贏股票。',terms:[
+   ['跨資產觀察','§00 一段：股票跟債、油、金屬、別的國家放一起比'],
+   ['相對標普','它的漲跌減掉標普的漲跌，不是它自己的漲幅'],
+   ['收息資產','高股息、不動產這類主要靠配息的資產'],
+   ['現金','短天期公債 ETF 這類接近現金的資產']]},
+ {answer:'油價：續跌＝利多方、站回百元＝利空方；信用利差：續收窄＝利多方、由收窄轉為走闊＝利空方。',terms:[
+   ['接下來的事件','§00 最後一段：每天在開的事排最前，後面接有日期的事件'],
+   ['利多方／利空方','往這一邊走＝判讀站得住／判讀要改'],
+   ['觀察','白話講這張牌現在走到哪、為什麼要盯'],
+   ['走闊','信用利差由收窄轉為擴大']]},
+ {answer:'Max Pain＝到期時讓最多買方賠錢的價位；Gamma Flip＝做市商避險翻向的分界價；REL5＝近 5 日相對大盤強弱；買賣權比＝買賣權成交量比。',terms:[
+   ['名詞解釋','§01：報告裡專有名詞的白話對照，預設收著'],
+   ['做市商','替選擇權買賣雙方接單、再用股票避險的業者'],
+   ['相對大盤','報酬減掉大盤，正＝跑贏']]},
+ {answer:'往上的兩條：Risk-on／off 25 → 49、市場廣度 57.2 → 60.5。資金流 54 → 54 沒動，情緒 52 → 48 小降。',terms:[
    ['資金流判定','錢整體偏多方還是偏空方的溫度，越右越偏多'],
    ['情緒很熱觸發','市場情緒冷靜還是很熱，越右越熱'],
-   ['Risk-on／off','錢在追風險資產（on）還是躲進避險（off）'],
-   ['買賣權比（P/C）','買下跌保險的賣權和押漲的買權之比；低＝很少人在買保險'],
-   ['動能／品質','最近漲最兇的那一籃／體質好、獲利穩的那一籃股票'],
-   ['債市波動（MOVE）','債市的恐慌指數：公債價格預期會晃多大'],
-   ['淡色的點','前一份報告時的位置，用來看鬆了還是緊了']]},
- {answer:'右下：上漲縮量——漲了，但沒人跟。',terms:[
-   ['量比 20 日均','今天的成交量，比過去 20 天平均多或少幾 %'],
-   ['放量／縮量','量比 20 日均多＝放量；少＝縮量'],
-   ['上漲縮量','價格往上、量卻比平常少：漲了，但沒什麼人跟'],
-   ['下跌縮量','價格往下、量也少：沒人接，不是有人殺'],
+   ['Risk-on／off','追風險資產（on）還是躲進避險（off）的溫度'],
+   ['高 Beta／動能','漲跌比大盤更兇的那一籃／最近漲最兇的那一籃股票'],
+   ['淡色的點','前面幾份報告時的位置，用來看鬆了還是緊了']]},
+ {answer:'還判不了：兩條線帳本都才 1 天，五天變化要 6 天、二十天要 21 天——都是「資料不足」，AI 兩條線都沒亮。',terms:[
+   ['AI 公司債','第一題多看的那條線：AI 發債大戶的公司債對同天期公債的利差'],
+   ['bp','基點，0.01 個百分點'],
+   ['亮燈','五天擴大 50 bp 以上，或二十天比同評等指數多擴大 100 bp 以上'],
+   ['同評等指數','CoreWeave 比單 B 整體、Oracle 比 BBB 整體']]},
+ {answer:'右下：上漲縮量——漲的時候量沒放大（10/21 標普 +0.58%／量 −3.2%、那指 +1.05%／量 −3.4%）。',terms:[
+   ['量比 20 日均','今天的成交量比過去 20 天平均多或少幾 %'],
+   ['放量／縮量','比 20 日均多＝放量；少＝縮量'],
    ['口徑日','這一格的讀數是哪一天收盤的，報告標在最上面']]},
- {answer:'兩端都小升：十年期 5.252 → 5.275%、兩年期 4.798 → 4.827%。市場還沒把「景氣放緩」翻成「升息要停」。',terms:[
-   ['十年期／兩年期','美國公債利率。兩年期多反映對 Fed 的押注；十年期多反映「借你十年要多少補償」'],
-   ['短端／長端利率','短天期（例如兩年期）／長天期（例如十年期）的公債利率'],
-   ['bp','基點＝0.01 個百分點。45bp＝0.45%'],
-   ['影響層級','報告把每件事標成「高」或「留意」，告訴你它對今天盤面的份量'],
-   ['機制','這件事透過什麼路徑傳到價格上——這張表真正要讀的一欄']]},
- {answer:'轉強（左上）→ 領先（右上）→ 轉弱（右下）→ 落後（左下）。',terms:[
+ {answer:'長短端利率→中性；信用利差→利空；AI 題材→中性；油與進口物價→利空；工業生產→中性。',terms:[
+   ['影響層級','報告把每件事標成高、留意或撐得住，告訴你它對今天盤面的份量'],
+   ['機制','這件事透過什麼路徑傳到價格上——這張表真正要讀的一欄'],
+   ['產能利用率','工廠設備用了幾成']]},
+ {answer:'右下＝轉弱：強但減速。右上領先、左上轉強、左下落後。',terms:[
    ['板塊動態圖','把每個族群畫成一個點：位置＝相對強弱、方向＝動能，後面拖一條尾巴'],
-   ['橫軸','跟大盤 SPY 比，越右越強（用近 5 日相對，不是漲幅）'],
+   ['橫軸','跟大盤 SPY 比，越右越強（用 REL5）'],
    ['縱軸','這個強弱正在加速還是減速'],
    ['尾巴','前幾天的位置，看它往哪移動'],
-   ['反應速度','快 5／中 20／慢 60：用幾天的相對強弱來畫，越快越敏感'],
-   ['跨資產頁籤','把股票、債、黃金、美元放一起比，看錢整體偏冒險還是避險']]},
- {answer:'半導體 SOXX→強勢；基建建設 PAVE→轉強觀察；記憶體 DRAM→中段（中線修復）；不動產 XLRE→弱勢。',terms:[
-   ['今日相對','今天這一格比大盤多漲或少漲幾 %，不是它自己的漲跌幅'],
-   ['近一週','近 5 個交易日相對大盤的強弱'],
-   ['長線／中線','近三月、近一月相對大盤的強弱，只拿來分欄'],
-   ['三條均線','月線、季線、年線；卡片上寫它站上或跌破哪幾條'],
-   ['板塊對位家數','120 天裡，三窗全正／兩窗正／一窗正／三窗全負各有幾格']]},
- {answer:'往下的是那指 20 日線（48.5 → 44.6%）與那指 50 日線（47.5 → 44.6%）。',terms:[
-   ['站上 20 日線比例','成分股裡，收盤在自己 20 日均線之上的比例（價，不是量）'],
-   ['那指／標普','那斯達克、標普 500 的成分股'],
-   ['兩升兩降','標普那兩格往上、那斯達克那兩格往下'],
-   ['成分股口徑','這四格只算指數成分股，和全市場的尺不能互比'],
-   ['1 月／1 季／2 季','折線圖的時間窗口鈕，預設 1 季，兩張圖一起切']]},
- {answer:'800 買權牆；749.58 現價；725 賣權；700 賣權牆，也是最大痛點。',terms:[
+   ['反應速度','快 5／中 20／慢 60：用幾天的相對強弱來畫']]},
+ {answer:'醫療保健 XLV、軟體 IGV→強勢；記憶體 DRAM→轉強；半導體 SOXX→弱勢。中性那一頁今天是空的。',terms:[
+   ['板塊強弱對位','§06：分類看今天的相對表現，加上短、中、長三個窗口相對大盤的強弱'],
+   ['三個窗口','近一週、近一月、近一季'],
+   ['家數圖','最後一頁：追蹤名冊 72 檔裡三窗全正、兩窗正、一窗正、三窗全負各有幾檔']]},
+ {answer:'725.2：離賣權牆 700 約 +3.6%，離買權牆 800 還有 10% 以上——貼著下面那一道。',terms:[
    ['買權牆','買權未平倉最厚的價位，漲到那裡容易被壓'],
    ['賣權牆','賣權未平倉最厚的價位，跌到那裡容易被接住'],
-   ['最大痛點','到期時讓最多買方賠錢的價位'],
-   ['口','選擇權合約的單位'],
-   ['未平倉','還沒了結的合約數量，堆越多、那個價位越有份量'],
-   ['四巫日','大量選擇權、期貨同一天結算的日子']]},
- {answer:'現象：非農偏弱、信用利差跨過下一格 → 機制：經濟這一端的消息是壞的 → 含意：股市讀成升息壓力會鬆，對股市偏多。',terms:[
-   ['核心邏輯鍊','完整研判最前面的因果鍊：現象 → 機制 → 含意'],
-   ['現象','看到什麼（價格、利率、量）'],
-   ['機制','為什麼會這樣，這件事怎麼傳過來'],
-   ['含意','這對判斷代表什麼，以及它能說到哪裡為止']]},
- {answer:'上一份的門檻「9 月非農：放緩＝升息壓力減」✓ 命中，但兩年期沒退。六張卡：月線之上／之下；兩年期往下走／再往上；信用利差留在 2.65–2.71／往上離開且高收益債價格跟著跌。',terms:[
-   ['驗證點總表','把每一條判斷拆成事前寫死的門檻，開牌後只有 ✓、✗、◐ 三種結果'],
-   ['✓ 順風確認','站在這一邊＝今天的判斷繼續成立'],
-   ['✗ 翻案訊號','翻到這一邊＝判斷要改'],
-   ['◐','方向對了，但數字還沒到'],
-   ['已開牌','事件已經公布，這一列可以直接對答案'],
-   ['牽動哪一環','這一條開票後，會改變流程圖上的哪一題']]}
+   ['最大痛點','到期時讓最多買方賠錢的價位（'+ASOF+' 跟賣權牆同在 700）'],
+   ['中間層','兩道牆之間次厚的價位'],
+   ['未平倉','還沒了結的合約數量，堆越多、那個價位越有份量']]},
+ {answer:'① 分界線失守：費半連六天守不住一百二十日線；② 標普離新高差 0.8%，五十日線比例連兩天過半；③ 還差費半站回一百二十日線、高收益債不再輸給公債；④ 跌破標普季線、QQQ 賣權牆或費半年線＝修正擴大。',terms:[
+   ['定調','市場一分鐘粗線最後停住的那一格＝今天的整體判斷'],
+   ['條件卡','第 6 步下面：止跌、翻多、底線、轉弱四塊'],
+   ['陷阱卡','量放大（§03 寫量縮）、跨資產轉強（§00 寫還在防守）都跟報告相反']]}
 ];
 
 // ================= 引擎（ROUNDS／ANS／TRANSITIONS 三陣列同索引；關數一律由 length 算） =================
@@ -634,7 +707,7 @@ function showStart(){
   '<div class="chapter-label t-label" style="margin-bottom:1rem">YODA RESEARCH · 判斷力學校</div>'
   +'<div class="chapter-title t-main" style="font-size:30px;font-weight:200;letter-spacing:1px;margin-bottom:0.4rem">看懂市場觀察</div>'
   +'<div class="t-sub" style="font-size:14px;margin-bottom:0.3rem;font-style:italic">定調是果，下面那些段落是因</div>'
-  +'<div class="t-label" style="font-size:12px;line-height:1.9;margin-bottom:2.6rem">約 '+mins()+' 分鐘 · '+ROUNDS.length+' 站<br>從最上面的市場一分鐘，一路走到最後的驗證點總表<br>讀數取自 '+ASOF+' 那份市場觀察（資料到 '+DATA_DAY+'），用來練讀法</div>'
+  +'<div class="t-label" style="font-size:12px;line-height:1.9;margin-bottom:2.6rem">約 '+mins()+' 分鐘 · '+ROUNDS.length+' 站<br>從最上面的市場一分鐘，一路走到最後的 Gamma 防線<br>讀數取自 '+ASOF+' 那份市場觀察（資料到 '+DATA_DAY+'），用來練讀法</div>'
   +'<button class="continue-btn" style="font-size:15px;padding:0.85rem 3.2rem;border-radius:6px;letter-spacing:2px" onclick="fade(startOpening)">開始</button>');}
 let oi=0;function startOpening(){oi=0;renderOpening();}
 function renderOpening(){const qs=OPENING.quotes(),q=qs[oi],last=oi>=qs.length-1;
@@ -643,7 +716,7 @@ function nextOpening(){oi++;if(oi>=OPENING.quotes().length)fade(function(){showR
 
 function showRound(i){state.idx=i;prog();const r=ROUNDS[i];
  if(r.type==='ab')renderAB(i);
- else if(r.type==='place')renderPlace(i);
+ else if(r.type==='place'||r.type==='build')renderPlace(i);
  else if(r.type==='hotspot')renderHotspot(i);
  else if(r.type==='slider')renderSlider(i);
  else if(r.type==='sort')renderSort(i);
@@ -698,7 +771,7 @@ function plCheck(i){const r=ROUNDS[i];const m=plMarks(r.slots);
  if(ok===r.slots.length)state.score++;
  G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+placeBody(i,r.cards,r.slots,r.wide,true,m)
   +'<div class="feedback" style="color:'+(ok===r.slots.length?'#a5d6a7':'#ffcc80')+';min-height:auto;font-size:13.5px">放對 '+ok+'/'+r.slots.length+' 格'+(ok===r.slots.length?'':'（紅框那幾格放錯了）')+'</div>'
-  +okBox(r.done)+'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');}
+  +okBox(r.done)+'<button class="continue-btn" onclick="record('+i+')">'+(r.type==='build'?'看我學會了什麼 ›':'繼續 ›')+'</button>');}
 
 // ── 點圖熱區 ──
 function hsPick(k){const i=state.hsFor,r=ROUNDS[i];if(!r||r.type!=='hotspot')return;const p=state.hs.indexOf(k);
@@ -846,7 +919,7 @@ function giveAnswer(i){const r=ROUNDS[i],a=ANS[i];
  if(r.type==='ab'){
    mid='<div class="choices">'+r.choices.map(function(c,k){return '<div class="choice-btn" style="cursor:default;'+(k===r.correct?'border-color:#a5d6a7;background:rgba(80,200,110,0.18)':'opacity:0.45')+'">'+(k===r.correct?'✓ ':'')+c+'</div>';}).join('')+'</div>'
      +'<div class="feedback" style="color:#a5d6a7;min-height:auto;font-size:13.5px">'+r.fb[r.correct]+'</div>';
- }else if(r.type==='place'){
+ }else if(r.type==='place'||r.type==='build'){
    state.pl={};r.slots.forEach(function(s){state.pl[s[0]]=s[2].split(',');});state.plSel=null;
    mid=placeBody(i,r.cards,r.slots,r.wide,true,plMarks(r.slots))+expl(r.done);
  }else if(r.type==='hotspot'){
@@ -865,7 +938,7 @@ function giveAnswer(i){const r=ROUNDS[i],a=ANS[i];
    else{state.pl={};r.slots.forEach(function(s){state.pl[s[0]]=s[2].split(',');});state.plSel=null;
      mid=placeBody(i,r.cards,r.slots,true,true,plMarks(r.slots))+expl(r.done);}
  }
- const nextBtn=(r.type==='flip'&&state.fp===0&&r.buildTitle)?'<button class="continue-btn" onclick="fpNext('+i+')">最後一件事 ›</button>':'<button class="continue-btn" onclick="record('+i+')">懂了，繼續 ›</button>';
+ const nextBtn=(r.type==='flip'&&state.fp===0&&r.buildTitle)?'<button class="continue-btn" onclick="fpNext('+i+')">最後一件事 ›</button>':'<button class="continue-btn" onclick="record('+i+')">'+(r.type==='build'?'看我學會了什麼 ›':'懂了，繼續 ›')+'</button>';
  G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+mid+okBox(ansLine+gloss)+nextBtn);
  if(r.type==='match')mtLines();}
 
@@ -875,21 +948,25 @@ function advance(i){const n=i+1;if(n>=ROUNDS.length)fade(showResult);else fade(f
 
 // ================= 結果頁：工具牆（件數由 TOOLBOX.length 算） =================
 const TOOLBOX=[
- ['環境判定','<svg viewBox="0 0 100 84"><line x1="10" y1="66" x2="90" y2="30" stroke="rgba(255,255,255,0.5)" stroke-dasharray="3 3"/><polyline points="10,66 18,44 26,70 34,40 42,64 50,36 58,58 66,30 74,52 82,26 90,30" fill="none" stroke="#e0a526" stroke-width="2"/><circle cx="90" cy="30" r="4" fill="#e0a526" class="gpulse"/></svg>'],
- ['四題各看什麼','<svg viewBox="0 0 100 84"><rect x="26" y="6" width="48" height="12" rx="4" fill="none" stroke="#e0a526"/><rect x="26" y="24" width="48" height="12" rx="4" fill="none" stroke="#e0a526"/><rect x="26" y="42" width="48" height="12" rx="4" fill="none" stroke="#e0a526"/><line x1="50" y1="18" x2="50" y2="24" stroke="#e0a526" stroke-width="3"/><line x1="50" y1="36" x2="50" y2="42" stroke="#e0a526" stroke-width="3"/><polygon points="30,62 74,62 68,76 24,76" fill="rgba(224,165,38,0.3)" stroke="#e0a526" class="gpulse"/></svg>'],
- ['接下來的牌','<svg viewBox="0 0 100 84"><rect x="30" y="6" width="40" height="16" rx="4" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.5)"/><path d="M50,22 L20,50 M50,22 L50,50 M50,22 L80,50" stroke="rgba(255,255,255,0.45)"/><rect x="8" y="50" width="24" height="16" rx="4" fill="rgba(255,107,125,0.4)" stroke="#ff6b7d"/><rect x="38" y="50" width="24" height="16" rx="4" fill="rgba(127,208,160,0.35)" stroke="#7fd0a0"/><rect x="68" y="50" width="24" height="16" rx="4" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.4)"/></svg>'],
- ['經濟端·股市端','<svg viewBox="0 0 100 84"><rect x="6" y="18" width="40" height="48" rx="6" fill="rgba(127,208,160,0.2)" stroke="#7fd0a0"/><rect x="54" y="18" width="40" height="48" rx="6" fill="rgba(255,107,125,0.22)" stroke="#ff6b7d" class="gpulse"/><text x="26" y="46" fill="#7fd0a0" font-size="10" text-anchor="middle">經濟</text><text x="74" y="46" fill="#ff6b7d" font-size="10" text-anchor="middle">股市</text></svg>'],
- ['讀者五問','<svg viewBox="0 0 100 84"><g fill="#e0a526"><circle cx="18" cy="14" r="3"/><circle cx="18" cy="28" r="3"/><circle cx="18" cy="42" r="3"/><circle cx="18" cy="56" r="3"/><circle cx="18" cy="70" r="3" class="gpulse"/></g><g stroke="rgba(255,255,255,0.4)" stroke-width="2"><line x1="28" y1="14" x2="84" y2="14"/><line x1="28" y1="28" x2="76" y2="28"/><line x1="28" y1="42" x2="80" y2="42"/><line x1="28" y1="56" x2="70" y2="56"/><line x1="28" y1="70" x2="82" y2="70"/></g></svg>'],
- ['結構變化卡','<svg viewBox="0 0 100 84"><g font-size="11"><text x="10" y="20" fill="#ff6b7d">✓</text><text x="10" y="38" fill="#ffd28a">◐</text><text x="10" y="56" fill="#ffd28a">◐</text><text x="10" y="74" fill="#ffd28a" class="gpulse">◐</text></g><g stroke="rgba(255,255,255,0.4)" stroke-width="2"><line x1="26" y1="16" x2="88" y2="16"/><line x1="26" y1="34" x2="80" y2="34"/><line x1="26" y1="52" x2="84" y2="52"/><line x1="26" y1="70" x2="78" y2="70"/></g></svg>'],
- ['溫度條是誰在推','<svg viewBox="0 0 100 84"><rect x="10" y="38" width="80" height="8" rx="4" fill="rgba(255,255,255,0.15)"/><circle cx="36" cy="42" r="3.5" fill="rgba(255,255,255,0.3)"/><circle cx="48" cy="42" r="4" fill="rgba(255,255,255,0.55)"/><circle cx="64" cy="42" r="6" fill="#e0a526" class="gpulse"/><text x="64" y="30" fill="#fff" font-size="11" text-anchor="middle">80</text></svg>'],
- ['量價四象限','<svg viewBox="0 0 100 84"><rect x="10" y="8" width="80" height="66" fill="none" stroke="rgba(255,255,255,0.2)"/><line x1="50" y1="8" x2="50" y2="74" stroke="rgba(255,255,255,0.3)"/><line x1="10" y1="41" x2="90" y2="41" stroke="rgba(255,255,255,0.3)"/><circle cx="60" cy="52" r="4.5" fill="#5b8def" class="gpulse"/><circle cx="58" cy="46" r="4.5" fill="#b18cff"/></svg>'],
- ['機制那一欄','<svg viewBox="0 0 100 84"><rect x="6" y="30" width="26" height="22" rx="4" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.4)"/><path d="M36,41 L58,41" stroke="#e0a526" stroke-width="2"/><path d="M54,37 L60,41 L54,45" fill="none" stroke="#e0a526" stroke-width="2"/><rect x="64" y="30" width="30" height="22" rx="4" fill="rgba(224,165,38,0.2)" stroke="#e0a526" class="gpulse"/></svg>'],
- ['動態圖順時針','<svg viewBox="0 0 100 84"><rect x="8" y="8" width="84" height="64" fill="none" stroke="rgba(255,255,255,0.16)"/><line x1="50" y1="8" x2="50" y2="72" stroke="rgba(255,255,255,0.22)"/><line x1="8" y1="40" x2="92" y2="40" stroke="rgba(255,255,255,0.22)"/><path d="M22,34 C40,30 56,26 72,22" fill="none" stroke="rgba(224,182,74,0.6)" stroke-width="1.6" stroke-dasharray="3 2"/><circle cx="72" cy="22" r="5" fill="#e0b64a" class="gpulse"/></svg>'],
- ['看板四欄','<svg viewBox="0 0 100 84"><rect x="8" y="12" width="18" height="60" rx="3" fill="rgba(255,107,125,0.35)"/><rect x="30" y="24" width="18" height="48" rx="3" fill="rgba(255,210,138,0.35)"/><rect x="52" y="30" width="18" height="42" rx="3" fill="rgba(255,160,96,0.35)"/><rect x="74" y="18" width="18" height="54" rx="3" fill="rgba(127,208,160,0.35)"/></svg>'],
- ['廣度四格','<svg viewBox="0 0 100 84"><g fill="rgba(0,0,0,0.3)"><rect x="8" y="8" width="40" height="30" rx="4" stroke="#ff6b7d"/><rect x="52" y="8" width="40" height="30" rx="4" stroke="#ff6b7d"/><rect x="8" y="44" width="40" height="30" rx="4" stroke="#7fd0a0"/><rect x="52" y="44" width="40" height="30" rx="4" stroke="#7fd0a0"/></g><text x="28" y="28" fill="#ff6b7d" font-size="12" text-anchor="middle">↑</text><text x="72" y="28" fill="#ff6b7d" font-size="12" text-anchor="middle">↑</text><text x="28" y="64" fill="#7fd0a0" font-size="12" text-anchor="middle">↓</text><text x="72" y="64" fill="#7fd0a0" font-size="12" text-anchor="middle">↓</text></svg>'],
- ['Gamma 價格梯','<svg viewBox="0 0 100 84"><line x1="10" y1="14" x2="90" y2="14" stroke="#e0a526" stroke-width="2"/><line x1="10" y1="34" x2="90" y2="34" stroke="#fff" stroke-width="2"/><line x1="10" y1="52" x2="90" y2="52" stroke="rgba(255,255,255,0.4)" stroke-dasharray="3 2"/><line x1="10" y1="70" x2="90" y2="70" stroke="#8fb3ff" stroke-width="4" class="gpulse"/></svg>'],
- ['核心邏輯鍊','<svg viewBox="0 0 100 84"><rect x="4" y="32" width="26" height="18" rx="4" fill="rgba(224,165,38,0.18)" stroke="#e0a526"/><rect x="37" y="32" width="26" height="18" rx="4" fill="rgba(224,165,38,0.18)" stroke="#e0a526"/><rect x="70" y="32" width="26" height="18" rx="4" fill="rgba(224,165,38,0.18)" stroke="#e0a526" class="gpulse"/><path d="M30,41 L37,41 M63,41 L70,41" stroke="#e0a526" stroke-width="2"/></svg>'],
- ['驗證點總表','<svg viewBox="0 0 100 84"><rect x="18" y="12" width="10" height="10" rx="2" fill="none" stroke="#ff6b7d" stroke-width="1.5"/><path d="M20,17 l2.5,3 l4,-6" fill="none" stroke="#ff6b7d" stroke-width="1.5"/><line x1="36" y1="17" x2="82" y2="17" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/><rect x="18" y="34" width="10" height="10" rx="2" fill="none" stroke="#e0b64a" stroke-width="1.5"/><circle cx="23" cy="39" r="2.4" fill="#e0b64a" class="gpulse"/><line x1="36" y1="39" x2="82" y2="39" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/><rect x="18" y="56" width="10" height="10" rx="2" fill="none" stroke="#7fd0a0" stroke-width="1.5"/><line x1="19" y1="57" x2="27" y2="65" stroke="#7fd0a0" stroke-width="1.5"/><line x1="36" y1="61" x2="82" y2="61" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/></svg>']
+ ['環境四層','<svg viewBox="0 0 100 84"><rect x="10" y="8" width="80" height="13" rx="4" fill="rgba(0,0,0,0.25)" stroke="#e0a526"/><rect x="10" y="26" width="80" height="13" rx="4" fill="rgba(0,0,0,0.25)" stroke="#e0a526"/><rect x="10" y="44" width="80" height="13" rx="4" fill="rgba(0,0,0,0.25)" stroke="#e0a526"/><rect x="10" y="62" width="80" height="13" rx="4" fill="rgba(0,0,0,0.25)" stroke="#e0a526"/><text x="50" y="18" fill="#fff" font-size="9" text-anchor="middle">大方向</text><text x="50" y="36" fill="#fff" font-size="9" text-anchor="middle">排列</text><text x="50" y="54" fill="#fff" font-size="9" text-anchor="middle">收盤位置</text><text x="50" y="72" fill="#fff" font-size="9" text-anchor="middle">量能</text></svg>'],
+ ['量能 1.3 倍','<svg viewBox="0 0 100 84"><rect x="10" y="36" width="80" height="12" rx="4" fill="rgba(0,0,0,0.25)" stroke="rgba(255,255,255,0.5)"/><line x1="68" y1="28" x2="68" y2="56" stroke="#ff6b7d" stroke-width="2"/><circle cx="46" cy="42" r="6" fill="#e0a526" class="gpulse"/><text x="68" y="22" fill="#ff6b7d" font-size="9" text-anchor="middle">1.3</text></svg>'],
+ ['四題各看什麼','<svg viewBox="0 0 100 84"><rect x="26" y="6" width="48" height="10" rx="4" fill="rgba(0,0,0,0.25)" stroke="#e0a526"/><rect x="26" y="20" width="48" height="10" rx="4" fill="rgba(0,0,0,0.25)" stroke="#e0a526"/><rect x="26" y="34" width="48" height="10" rx="4" fill="rgba(0,0,0,0.25)" stroke="#e0a526"/><rect x="26" y="48" width="48" height="10" rx="4" fill="rgba(0,0,0,0.25)" stroke="#e0a526"/><polygon points="30,64 74,64 68,78 24,78" fill="rgba(127,208,160,0.3)" stroke="#7fd0a0" class="gpulse"/></svg>'],
+ ['分界線','<svg viewBox="0 0 100 84"><line x1="8" y1="30" x2="92" y2="30" stroke="#7fd0a0" stroke-width="2"/><polyline points="8,60 30,52 50,44 70,40 92,36" fill="none" stroke="#fff" stroke-width="2"/><circle cx="92" cy="36" r="4" fill="#7fd0a0" class="gpulse"/><text x="50" y="24" fill="#7fd0a0" font-size="9" text-anchor="middle">120 日線</text></svg>'],
+ ['懸念句','<svg viewBox="0 0 100 84"><text x="50" y="30" fill="#f4dc9a" font-size="12" text-anchor="middle">止跌了嗎？</text><text x="34" y="58" fill="#ff6b7d" font-size="13" text-anchor="middle">✓✓✓</text><text x="72" y="58" fill="#7fd0a0" font-size="13" text-anchor="middle">✗</text></svg>'],
+ ['時間軸','<svg viewBox="0 0 100 84"><text x="22" y="20" fill="#e0a526" font-size="9" text-anchor="middle">10/19</text><text x="22" y="42" fill="#e0a526" font-size="9" text-anchor="middle">10/20</text><text x="22" y="64" fill="#e0a526" font-size="9" text-anchor="middle">10/21</text><line x1="40" y1="17" x2="88" y2="17" stroke="rgba(255,255,255,0.45)" stroke-width="2"/><line x1="40" y1="39" x2="88" y2="39" stroke="rgba(255,255,255,0.45)" stroke-width="2"/><line x1="40" y1="61" x2="88" y2="61" stroke="rgba(255,255,255,0.45)" stroke-width="2"/></svg>'],
+ ['閱讀動線七步','<svg viewBox="0 0 100 84"><text x="12" y="12.0" fill="#e0a526" font-size="8" text-anchor="middle">1</text><text x="12" y="22.5" fill="#e0a526" font-size="8" text-anchor="middle">2</text><text x="12" y="33.0" fill="#e0a526" font-size="8" text-anchor="middle">3</text><text x="12" y="43.5" fill="#e0a526" font-size="8" text-anchor="middle">4</text><text x="12" y="54.0" fill="#e0a526" font-size="8" text-anchor="middle">5</text><text x="12" y="64.5" fill="#e0a526" font-size="8" text-anchor="middle">6</text><text x="12" y="75.0" fill="#e0a526" font-size="8" text-anchor="middle">7</text><line x1="22" y1="9.0" x2="80" y2="9.0" stroke="rgba(255,255,255,0.45)" stroke-width="2"/><line x1="22" y1="19.5" x2="84" y2="19.5" stroke="rgba(255,255,255,0.45)" stroke-width="2"/><line x1="22" y1="30.0" x2="88" y2="30.0" stroke="rgba(255,255,255,0.45)" stroke-width="2"/><line x1="22" y1="40.5" x2="80" y2="40.5" stroke="rgba(255,255,255,0.45)" stroke-width="2"/><line x1="22" y1="51.0" x2="84" y2="51.0" stroke="rgba(255,255,255,0.45)" stroke-width="2"/><line x1="22" y1="61.5" x2="88" y2="61.5" stroke="rgba(255,255,255,0.45)" stroke-width="2"/><line x1="22" y1="72.0" x2="80" y2="72.0" stroke="rgba(255,255,255,0.45)" stroke-width="2"/></svg>'],
+ ['條件卡四塊','<svg viewBox="0 0 100 84"><rect x="8" y="8" width="40" height="30" rx="4" fill="rgba(0,0,0,0.25)" stroke="#ff6b7d"/><rect x="52" y="8" width="40" height="30" rx="4" fill="rgba(0,0,0,0.25)" stroke="#ff6b7d"/><rect x="8" y="44" width="40" height="30" rx="4" fill="rgba(0,0,0,0.25)" stroke="#ffd28a"/><rect x="52" y="44" width="40" height="30" rx="4" fill="rgba(0,0,0,0.25)" stroke="#7fd0a0" class="gpulse"/><text x="28" y="27" fill="#fff" font-size="9" text-anchor="middle">止跌</text><text x="72" y="27" fill="#fff" font-size="9" text-anchor="middle">翻多</text><text x="28" y="63" fill="#fff" font-size="9" text-anchor="middle">底線</text><text x="72" y="63" fill="#fff" font-size="9" text-anchor="middle">轉弱</text></svg>'],
+ ['跨資產','<svg viewBox="0 0 100 84"><rect x="8" y="14" width="18" height="24" rx="4" fill="rgba(0,0,0,0.25)" stroke="#7fd6a6"/><rect x="30" y="14" width="18" height="24" rx="4" fill="rgba(0,0,0,0.25)" stroke="rgba(255,255,255,0.4)"/><rect x="52" y="14" width="18" height="24" rx="4" fill="rgba(0,0,0,0.25)" stroke="#7fd6a6"/><rect x="74" y="14" width="18" height="24" rx="4" fill="rgba(0,0,0,0.25)" stroke="rgba(255,255,255,0.4)"/><rect x="8" y="44" width="18" height="24" rx="4" fill="rgba(0,0,0,0.25)" stroke="#7fd6a6"/><rect x="30" y="44" width="18" height="24" rx="4" fill="rgba(0,0,0,0.25)" stroke="rgba(255,255,255,0.4)"/><rect x="52" y="44" width="18" height="24" rx="4" fill="rgba(0,0,0,0.25)" stroke="#7fd6a6"/><rect x="74" y="44" width="18" height="24" rx="4" fill="rgba(0,0,0,0.25)" stroke="rgba(255,255,255,0.4)"/></svg>'],
+ ['接下來的事件','<svg viewBox="0 0 100 84"><rect x="14" y="8" width="72" height="18" rx="4" fill="rgba(0,0,0,0.25)" stroke="rgba(255,255,255,0.5)"/><rect x="14" y="32" width="72" height="18" rx="4" fill="rgba(0,0,0,0.25)" stroke="rgba(255,255,255,0.5)"/><rect x="14" y="56" width="72" height="18" rx="4" fill="rgba(0,0,0,0.25)" stroke="rgba(255,255,255,0.5)"/><rect x="20" y="14" width="22" height="6" rx="2" fill="#ff6b7d"/><rect x="46" y="14" width="22" height="6" rx="2" fill="#7fd0a0" class="gpulse"/></svg>'],
+ ['名詞對照','<svg viewBox="0 0 100 84"><rect x="14" y="14" width="72" height="56" rx="4" fill="rgba(0,0,0,0.25)" stroke="#e0a526"/><text x="50" y="36" fill="#f4dc9a" font-size="9" text-anchor="middle">Max Pain</text><text x="50" y="52" fill="#f4dc9a" font-size="9" text-anchor="middle">REL5</text></svg>'],
+ ['溫度條','<svg viewBox="0 0 100 84"><rect x="10" y="38" width="80" height="8" rx="4" fill="rgba(255,255,255,0.15)"/><circle cx="30" cy="42" r="4" fill="rgba(255,255,255,0.5)"/><circle cx="50" cy="42" r="6" fill="#e0a526" class="gpulse"/><text x="50" y="30" fill="#fff" font-size="9" text-anchor="middle">25→49</text></svg>'],
+ ['AI 公司債','<svg viewBox="0 0 100 84"><rect x="10" y="30" width="80" height="12" rx="4" fill="rgba(0,0,0,0.25)" stroke="rgba(255,255,255,0.5)"/><rect x="10" y="30" width="14" height="12" rx="3" fill="#e0a526" class="gpulse"/><text x="50" y="62" fill="#f4dc9a" font-size="9" text-anchor="middle">1／6 天</text></svg>'],
+ ['量價四象限','<svg viewBox="0 0 100 84"><rect x="10" y="8" width="80" height="66" fill="none" stroke="rgba(255,255,255,0.2)"/><line x1="50" y1="8" x2="50" y2="74" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><line x1="10" y1="41" x2="90" y2="41" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><circle cx="62" cy="46" r="4.5" fill="#5b8def" class="gpulse"/><circle cx="70" cy="47" r="4.5" fill="#b18cff"/></svg>'],
+ ['機制那一欄','<svg viewBox="0 0 100 84"><rect x="6" y="30" width="26" height="22" rx="4" fill="rgba(0,0,0,0.25)" stroke="rgba(255,255,255,0.5)"/><path d="M36,41 L58,41" stroke="#e0a526" stroke-width="2"/><path d="M54,37 L60,41 L54,45" fill="none" stroke="#e0a526" stroke-width="2"/><rect x="64" y="30" width="30" height="22" rx="4" fill="rgba(224,165,38,0.2)" stroke="#e0a526" class="gpulse"/></svg>'],
+ ['動態圖四格','<svg viewBox="0 0 100 84"><rect x="8" y="8" width="84" height="64" fill="none" stroke="rgba(255,255,255,0.16)"/><line x1="50" y1="8" x2="50" y2="72" stroke="rgba(255,255,255,0.22)" stroke-width="1"/><line x1="8" y1="40" x2="92" y2="40" stroke="rgba(255,255,255,0.22)" stroke-width="1"/><rect x="51" y="41" width="40" height="30" fill="rgba(255,160,96,0.3)" class="gpulse"/></svg>'],
+ ['四個分頁','<svg viewBox="0 0 100 84"><rect x="8" y="12" width="18" height="60" rx="3" fill="rgba(255,107,125,0.35)"/><rect x="30" y="30" width="18" height="42" rx="3" fill="rgba(255,210,138,0.35)"/><rect x="52" y="66" width="18" height="6" rx="3" fill="rgba(207,214,230,0.35)"/><rect x="74" y="12" width="18" height="60" rx="3" fill="rgba(127,208,160,0.35)"/></svg>'],
+ ['兩道牆','<svg viewBox="0 0 100 84"><line x1="10" y1="16" x2="90" y2="16" stroke="#ff6b7d" stroke-width="2"/><line x1="10" y1="66" x2="90" y2="66" stroke="#7fd0a0" stroke-width="3"/><polyline points="10,50 30,58 50,44 70,62 90,56" fill="none" stroke="#fff" stroke-width="1.6"/><circle cx="90" cy="56" r="4" fill="#e0a526" class="gpulse"/></svg>'],
+ ['讀成四句','<svg viewBox="0 0 100 84"><rect x="12" y="8" width="76" height="13" rx="4" fill="rgba(0,0,0,0.25)" stroke="#e0a526"/><rect x="12" y="26" width="76" height="13" rx="4" fill="rgba(0,0,0,0.25)" stroke="#e0a526"/><rect x="12" y="44" width="76" height="13" rx="4" fill="rgba(0,0,0,0.25)" stroke="#e0a526"/><rect x="12" y="62" width="76" height="13" rx="4" fill="rgba(0,0,0,0.25)" stroke="#e0a526"/><text x="22" y="18" fill="#f4dc9a" font-size="9" text-anchor="middle">①</text><text x="22" y="36" fill="#f4dc9a" font-size="9" text-anchor="middle">②</text><text x="22" y="54" fill="#f4dc9a" font-size="9" text-anchor="middle">③</text><text x="22" y="72" fill="#f4dc9a" font-size="9" text-anchor="middle">④</text></svg>']
 ];
 function toolboxHTML(){return '<div style="max-width:380px;margin:0.3rem auto 1.5rem">'
  +'<div class="t-label" style="font-size:11px;letter-spacing:2px;margin-bottom:0.2rem">你現在手上有 '+TOOLBOX.length+' 件工具</div>'
@@ -910,7 +987,7 @@ function showResult(){PB.style.width='100%';const s=state.score,mx=ROUNDS.length
   +'<div class="result-vow" style="font-size:19px;font-weight:800;color:#e8c86a;margin:0.35rem auto 0.1rem;max-width:430px;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)">「我不再只看最上面那一句定調。」</div>'
   +'<div class="result-desc t-sub">開場那句是：<b>你只看了最上面那一句，下面全跳過</b>。<br>現在你知道，定調是果，下面那些段落是它的因：<br><br>'
     +'<b>'+chain.join(' → ')+'</b><br><br>'
-    +'下次打開報告，看完定調，再往下找三件事：<br>① 它是從哪幾格推出來的<br>② 今天哪一格在變<br>③ 驗證點總表上，哪一條最先會被開票<br><br>'
+    +'下次打開報告，看完定調，再往下找三件事：<br>① 它是從哪幾格推出來的<br>② 今天哪一格在變<br>③ 第 6 步條件卡，哪一格從 ✗ 變成 ✓<br><br>'
     +'<b>你不是看不懂數字，<br>是之前沒人帶你照順序走過一次。</b><br><br>'
     +'判讀得分：'+s+' / '+mx+'（'+tier+'）</div>'
   +toolboxHTML()
@@ -925,7 +1002,7 @@ function showResult(){PB.style.width='100%';const s=state.score,mx=ROUNDS.length
   +'<div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:1.4rem">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" rel="noopener" style="color:rgba(224,165,38,0.7);text-decoration:none">BiBiPiano</a>，版權為原作者所有</div>');}
 function restart(){state={idx:-1,score:0,sv:0,pl:{},plSel:null,plFor:-1,hs:[],hsFor:-1,so:null,soSel:null,soFor:-1,mt:{},mtSel:null,mtFor:-1,fp:0,fpFor:-1,slFor:-1};window.state=state;oi=0;PB.style.width='0%';fade(showStart);}
 function shareGame(){const url=window.location.href.split('?')[0];
- const t='我剛走完《看懂市場觀察》'+ROUNDS.length+' 站——'+mins()+' 分鐘，從最上面那一句定調，一路讀到最後一張表。';
+ const t='我剛走完《看懂市場觀察》'+ROUNDS.length+' 站——'+mins()+' 分鐘，從最上面那一句定調，一路讀到最下面的 Gamma 防線。';
  const fb=document.getElementById('sfb');
  if(navigator.share){navigator.share({title:'看懂市場觀察 · Yoda',text:t,url:url}).catch(function(){});return;}
  try{navigator.clipboard.writeText(url).then(function(){fb.textContent='網址已複製，貼去分享吧';setTimeout(function(){fb.textContent='';},2500);}).catch(function(){fb.textContent=url;});}
@@ -1046,7 +1123,7 @@ showStart();
 
 <!-- yoda-logo-sig -->
 <img alt="Yoda" src="https://yoda-research-next.vercel.app/yoda-logo.png" style="position:fixed;right:14px;bottom:12px;height:52px;width:auto;opacity:.5;z-index:9990;pointer-events:none">
-<script>(function(){try{var K='yr_vid',v=localStorage.getItem(K);if(!v){v=Date.now().toString(36)+Math.random().toString(36).slice(2,8);localStorage.setItem(K,v);}var seg=location.pathname.split('/').filter(Boolean).pop()||'home';fetch('https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec',{method:'POST',body:JSON.stringify({action:'hit',page:decodeURIComponent(seg),path:location.pathname,host:location.hostname,ref:document.referrer,vid:v})});}catch(e){}})();</script>
+<script>(function(){try{var K='yr_vid',v=localStorage.getItem(K);if(!v){v=Date.now().toString(36)+Math.random().toString(36).slice(2,8);localStorage.setItem(K,v);}var seg=location.pathname.split('/').filter(Boolean).pop()||'home';fetch('https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec',{method:'POST',body:JSON.stringify({action:'hit',page:decodeURIComponent(seg),path:location.pathname,host:location.hostname,ref:document.referrer,vid:v})}).catch(()=>{});}catch(e){}})();</script>
 
 <!-- 法遵統一免責（2026-09-14 Yoda 核定；正本＝subscribe.html 頁尾）x2-06 -->
 <div class="yoda-legal" style="position:relative;z-index:5;max-width:760px;margin:26px auto 84px;padding:15px 18px;border:1px solid rgba(128,128,128,.32);border-radius:10px;font-size:12px;line-height:1.9;color:#8d8d99;font-family:inherit;text-align:left;">
