@@ -116,10 +116,10 @@ input[type=range].gsl::-moz-range-track{height:8px;border-radius:4px;background:
 .fp-bet:hover{border-color:rgba(255,255,255,0.7);transform:translateY(-2px)}
 .btnrow{display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap}
 /* ===== 信號燈小卡（照多空卡兩欄版折線：中線＝門檻、±0.1 步灰、以上紅、以下綠、上下界 ±3 步貼邊；淺色／深色各一組） ===== */
-.udc{--ubg:#0f141c;--ubd:rgba(255,255,255,0.13);--utx:#e6e9ef;--usub:#9aa3b2;--uup:#ff5d73;--udn:#33c48a;--una:#f0b429;--umid:#8a93a3;--uln:rgba(255,255,255,0.28);--uacc:#ff8c1a;
+.udc{--ubg:#0f141c;--ubd:rgba(255,255,255,0.13);--utx:#e6e9ef;--usub:#9aa3b2;--uup:#ff5d73;--udn:#33c48a;--una:#f0b429;--umid:#8a93a3;--uln:rgba(255,255,255,0.28);
  background:var(--ubg);border:1px solid var(--ubd);border-radius:12px;padding:0.55rem 0.7rem;max-width:520px;margin:0.4rem auto 0.5rem;text-align:left;color:var(--utx)}
-@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .udc{--ubg:#ffffff;--ubd:rgba(0,0,0,0.14);--utx:#1d2330;--usub:#5d6675;--uup:#d93b4f;--udn:#1f9d63;--una:#b7791f;--umid:#9aa1ad;--uln:rgba(0,0,0,0.25);--uacc:#c05a00}}
-:root[data-theme="light"] .udc{--ubg:#ffffff;--ubd:rgba(0,0,0,0.14);--utx:#1d2330;--usub:#5d6675;--uup:#d93b4f;--udn:#1f9d63;--una:#b7791f;--umid:#9aa1ad;--uln:rgba(0,0,0,0.25);--uacc:#c05a00}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .udc{--ubg:#ffffff;--ubd:rgba(0,0,0,0.14);--utx:#1d2330;--usub:#5d6675;--uup:#d93b4f;--udn:#1f9d63;--una:#b7791f;--umid:#9aa1ad;--uln:rgba(0,0,0,0.25)}}
+:root[data-theme="light"] .udc{--ubg:#ffffff;--ubd:rgba(0,0,0,0.14);--utx:#1d2330;--usub:#5d6675;--uup:#d93b4f;--udn:#1f9d63;--una:#b7791f;--umid:#9aa1ad;--uln:rgba(0,0,0,0.25)}
 .udc .ur{display:grid;grid-template-columns:1fr auto;column-gap:8px;row-gap:2px;align-items:center;padding:0.35rem 0;border-top:1px solid var(--ubd)}
 .udc .ur:first-child{border-top:none}
 .udc .un{font-size:13px;line-height:1.45;color:var(--utx)}
@@ -137,7 +137,7 @@ input[type=range].gsl::-moz-range-track{height:8px;border-radius:4px;background:
 .sk-up{stroke:var(--uup)}.sk-dn{stroke:var(--udn)}.sk-gr{stroke:var(--umid)}
 .sk-fu{fill:var(--uup);fill-opacity:0.2}.sk-fd{fill:var(--udn);fill-opacity:0.2}
 .sk-dot{fill:#fff;stroke:#1d2330;stroke-width:1.2}
-.sk-acr{fill:none;stroke:var(--uacc,#ff8c1a);stroke-width:2}
+.sk-ref{fill:none;stroke:#e0a526;stroke-width:1.4;stroke-dasharray:2 2}
 .sk-na{fill:var(--una);font-size:10.5px}
 .pl-slot .udc{margin:0.2rem 0 0;max-width:none}
 .st-row .udc,.mt-item .udc{margin:0.25rem 0 0;padding:0.3rem 0.45rem;max-width:none}
@@ -188,7 +188,7 @@ function last20(id){return UD[id].s.slice(40,60);}
 
 // ================= 共用小工具 =================
 let PULSE=null;
-// gpulse＝一般呼吸光；bpulse＝信號燈閃（data-per＝秒；跟報告同一組：1–2 步 0.8 秒、2–3 步 0.4 秒、≥3 步 0.2 秒）
+// gpulse＝一般呼吸光；bpulse＝信號燈閃（data-per＝秒；跟報告同一組：3 天走 1.5–2.5 步 0.8 秒、2.5–3.5 步 0.4 秒、≥3.5 步 0.2 秒）
 function startPulse(){if(PULSE)return;PULSE=setInterval(function(){
   const t=Date.now()/1000;
   const a=(0.4+0.5*(0.5+0.5*Math.sin(t*3.0))).toFixed(2);
@@ -198,14 +198,11 @@ function startPulse(){if(PULSE)return;PULSE=setInterval(function(){
 },50);}
 function svgOpen(h,mw){return '<svg viewBox="0 0 300 '+h+'" style="width:100%;max-width:'+(mw||320)+'px;display:block;margin:0.4rem auto 0;background:rgba(6,10,22,0.42);border-radius:12px">';}
 
-function blinkLv(v){const a=Math.abs(v);return a<1?0:a<2?1:a<3?2:3;}
-const BL_PER=[0,0.8,0.4,0.2],BL_TXT=['不閃','0.8 秒閃一次','0.4 秒閃一次','0.2 秒閃一次'];
-const DEG=['幾乎剛好碰到條件線','離條件線不遠','離條件線比平常遠','離條件線很遠','離條件線非常遠'];
-// 加速閃（＝mw_down.ud_accel：截 ±3、每 3 天比一次、走 ≥1.5 步且比前 3 天快；固定 0.8 秒）→ 's'／'w'／''
-function accel(vs){const n=vs.length,L=3;if(n<2*L+1)return '';const c=function(x){return x===null||x===undefined?null:Math.max(-3,Math.min(3,x));};
- const a=c(vs[n-1]),b=c(vs[n-1-L]),z=c(vs[n-1-2*L]);if(a===null||b===null||z===null)return '';const d1=a-b,d0=b-z;
- return a<-0.1&&d1<=-1.5&&d1<d0?'w':a>0.1&&d1>=1.5&&d1>d0?'s':'';}
-function degOf(v){const a=Math.abs(v);return a<0.1?DEG[0]:DEG[blinkLv(v)+1];}
+const BL_PER=[0,0.8,0.4,0.2],BL_TXT=['不閃','慢閃（0.8 秒）','中閃（0.4 秒）','快閃（0.2 秒）'];
+// 速度閃（＝MW cb1fc06b mw_down.ud_speed／ud_spd_blink）：s＝截 ±3 後「今天−3 天前」；|s| 1.5／2.5／3.5＝慢／中／快；s>0 紅、s<0 綠；跟 ✓ 無關
+function spd(vs){const n=vs.length,c=function(x){return Math.max(-3,Math.min(3,x));};if(n<4)return null;const a=vs[n-1],b=vs[n-4];
+ if(a===null||a===undefined||b===null||b===undefined)return null;return c(a)-c(b);}
+function spdLv(s){return s===null?0:[1.5,2.5,3.5].filter(function(t){return Math.abs(s)>=t;}).length;}
 
 // 小折線（＝env_card_v3.line_svg 兩欄版的畫法：上下界 ±3 步、超過貼邊；中線 ±0.1 步灰、以上紅、以下綠；null＝斷開）
 let SPK=0;
@@ -224,10 +221,10 @@ function spark(vals,o){o=o||{};const W=o.w||268,H=o.h||52,X0=o.x0===undefined?30
  s+='<path d="'+d+'" fill="none" stroke-width="'+sw+'" stroke-linejoin="round" class="sk-gr" clip-path="url(#'+id+'m)"/>';
  s+='<path d="'+d+'" fill="none" stroke-width="'+sw+'" stroke-linejoin="round" class="sk-dn" clip-path="url(#'+id+'d)"/>';
  const lv=vals[n-1];
- if(lv!==null&&lv!==undefined&&!o.nodot){const cx=X(n-1).toFixed(1),cy=Y(lv).toFixed(1),ac=o.acc&&!o.bin?accel(vals):'',bl=o.ok&&!o.bin?blinkLv(lv):0;
-   // ✓ 閃＝紅／綠實心光；沒在閃才看加速＝琥珀色空心框（固定 0.8 秒，＝mw_down mwud-acr）
-   if(bl)s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(o.big?11:8)+'" fill="'+(lv>=0?C_UP:C_DN)+'" class="bpulse" data-per="'+BL_PER[bl]+'"/>';
-   else if(ac)s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(o.big?11:8)+'" class="sk-acr bpulse" data-per="0.8"/>';
+ if(lv!==null&&lv!==undefined&&!o.nodot){const cx=X(n-1).toFixed(1),cy=Y(lv).toFixed(1),sv=o.bin?null:spd(vals),bl=spdLv(sv);
+   if(o.ref&&n>=4&&vals[n-4]!==null&&vals[n-4]!==undefined)s+='<circle cx="'+X(n-4).toFixed(1)+'" cy="'+Y(vals[n-4]).toFixed(1)+'" r="5" class="sk-ref"/><text x="'+X(n-4).toFixed(1)+'" y="'+(Y(vals[n-4])>MY?Y(vals[n-4])-8:Y(vals[n-4])+15).toFixed(1)+'" text-anchor="middle" font-size="9" fill="#e0a526">3 天前</text>';
+   // 閃燈只看最近 3 天走多快（往偏多紅光、往偏空綠光）；是非題／資料不足不閃
+   if(bl)s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(o.big?11:8)+'" fill="'+(sv>0?C_UP:C_DN)+'" class="bpulse" data-per="'+BL_PER[bl]+'"/>';
    s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(o.big?5.5:4)+'" class="sk-dot"/>';
    if(o.lab)s+='<text x="'+(X(n-1)-9).toFixed(1)+'" y="'+(lv>=0?Math.min(H-3,Y(lv)+12):Math.max(9,Y(lv)-6)).toFixed(1)+'" text-anchor="end" font-size="9" font-weight="700" fill="#e0a526">'+o.lab+'</text>';}
  if(o.naTxt)s+='<text x="'+(W-4)+'" y="'+(MY+4)+'" text-anchor="end" class="sk-na">'+o.naTxt+'</text>';
@@ -238,7 +235,7 @@ function rowHTML(id,o){o=o||{};const u=UD[id],L=LAB[id],vals=o.vals||last20(id);
  const m=o.m||u.m,k=o.k||u.k,t=o.t||u.t,v=o.v===undefined?u.v:o.v;
  const end=m==='ok'?'<span class="uend ok">成立 ✓</span>':m==='na'?'<span class="uend na">資料不足</span>':'<span class="uend">—</span>';
  return '<div class="ur"><div class="un">'+(o.noName?'':o.hideName?'？':L[0])+(o.hideGrp?'':'<i>〔'+L[1]+'〕</i>')+'</div><span class="ucp '+k+'">'+t+'</span>'
-  +spark(vals,{ok:m==='ok',bin:!!u.n,lab:o.lab})+end+(o.cap?'<div class="ucap" style="grid-column:1/3">'+o.cap+'</div>':'')+'</div>';}
+  +spark(vals,{bin:!!u.n||m==='na',lab:o.lab})+end+(o.cap?'<div class="ucap" style="grid-column:1/3">'+o.cap+'</div>':'')+'</div>';}
 function card(inner,cls){return '<div class="udc'+(cls?' '+cls:'')+'">'+inner+'</div>';}
 
 // ── ① 認燈：「收盤守住年線」真實小折線放大（10/20～11/17） ──
@@ -260,16 +257,17 @@ function r1Fig(sel,rev){const W=300,H=120,X0=34,X1=W-6,MY=H/2,n=R1V.length;
 // ── ② 拉今天：「收盤站上十日線」前 19 天真實、11/17 那一點由你拉 ──
 const R2V=UD.stop_ma10.s.slice(41,59);
 function r2V(x){return x/10;}
-function r2Fig(x){const v=r2V(x),ok=v>=0,bl=ok?blinkLv(v):0;
+function r2Fig(x){const v=r2V(x),ok=v>=0;
  const vals=R2V.concat([v]);
  const cap=v>0?['up','十日線之上']:['dn','十日線之下'];
  return card('<div class="ur"><div class="un">收盤站上十日線<i>〔止跌〕</i></div><span class="ucp '+cap[0]+'">'+cap[1]+'</span>'
-  +spark(vals,{ok:ok,acc:true})+(ok?'<span class="uend ok">成立 ✓</span>':'<span class="uend">—</span>')
-  +'<div class="ucap" style="grid-column:1/3">'+'最右邊那點跟著拉桿走（真實是 '+UD.stop_ma10.v.toFixed(1)+' 步）</div></div>');}
-function r2Lab(x){const v=r2V(x),ok=v>=0,bl=ok?blinkLv(v):0,a=Math.abs(v);
- const dir=v>0?'<b style="color:'+C_UP+'">中線上面：亮</b>':'<b style="color:'+C_DN+'">中線下面：滅</b>';
- return dir+'<br>離中線 <b>'+a.toFixed(1)+' 步</b>'+(a>=3?'（畫到邊了）':'')
-  +'<br>'+(ok?(bl?'夠遠，白點在閃':'亮了，還不到 1 步'):accel(R2V.concat([v]))==='w'?'還沒亮，但掉得越來越快，外面一圈琥珀色空框在閃':'還沒亮');}
+  +spark(vals,{ref:true})+(ok?'<span class="uend ok">成立 ✓</span>':'<span class="uend">—</span>')
+  +'<div class="ucap" style="grid-column:1/3">'+'最右邊那點跟著拉桿走（真實是 '+UD.stop_ma10.v.toFixed(1)+' 步）；虛線圈＝3 天前（+'+R2V[15].toFixed(1)+' 步）</div></div>');}
+function r2Lab(x){const v=r2V(x),a=Math.abs(v),s=spd(R2V.concat([v])),bl=spdLv(s);
+ const dir=v>0?'<b style="color:'+C_UP+'">中線上面：亮 ✓</b>':'<b style="color:'+C_DN+'">中線下面：滅</b>';
+ return '位置：'+dir+'，離中線 <b>'+a.toFixed(1)+' 步</b>'+(a>=3?'（畫到邊了）':'')
+  +'<br>速度：3 天'+(s>0?'往上':'往下')+'走了 <b>'+Math.abs(s).toFixed(1)+' 步</b>→ '
+  +(bl?'<b style="color:'+(s>0?C_UP:C_DN)+'">'+(s>0?'紅光':'綠光')+BL_TXT[bl]+'</b>':'<b>不閃</b>（不到 1.5 步）');}
 
 // ── ④ 強弱排序：四條真實的燈（不分方向，只看離中線多遠） ──
 // 四列都在 ±3 步內（不貼邊）、同一把刻度；一顆在上方、三顆在下方
@@ -283,7 +281,7 @@ function row8Card(){return ROW8.map(function(g){return '<div style="font-weight:
   +'<div class="ucap" style="text-align:center">'+md(DAYS[40])+'～'+md(DAYS[59])+' · 資料日 '+md(DAYS[59])+'</div>';}
 
 const OPENING={sky:'sky-storm',bg:'range',label:'序',title:'多空卡下面那排小折線，在說什麼？',quotes:function(){return [
- '多空卡下面那排小折線，<br>每一條就是一顆<b>信號燈</b>：<br><b>方向</b>——白點在中線哪一邊；<br><b>強度</b>——離中線幾步。',
+ '多空卡下面那排小折線，<br>每一條就是一顆<b>信號燈</b>：<br><b>方向</b>——白點在中線哪一邊；<br><b>強度</b>——離中線幾步；<br><b>閃燈</b>——最近 3 天走多快。',
  '接下來 '+ROUNDS.length+' 關，都是真實的線。<br><span style="opacity:.78;font-size:13px">（線取自 '+ASOF+' 那份市場觀察的多空卡，資料到 '+DATA_DAY+'；用來練讀法，不是今天的判斷）</span>'];}};
 
 const ROUNDS=[
@@ -299,15 +297,15 @@ const ROUNDS=[
  fbNo:'下面那塊是沒亮的一側。'},
 // ── 2 方向＋強度 · slider ──
 {type:'slider',sky:'sky-valley',bg:'range',label:'方向＋強度 · 拉拉看',short:'方向＋強度',
- title:'把今天拉過中線，再拉遠一點',
- text:'「收盤站上十日線」這一列，<br>今天白點在中線下面。<br>換你來拉。',
- so:'中線上面＝亮，下面＝滅。<br>離中線越遠＝越強。',
- q:'把白點拉到中線上面，至少 1 步',
- slider:{min:-39,max:39,step:2,init:-15,ans:15,lo:'偏空（下）',hi:'偏多（上）'},
- fig:r2Fig,vlab:r2Lab,correct:function(x){return r2V(x)>=1;},
- note:'「幾步」＝離中線多遠。最多畫到 3 步。',
- fbOk:'一過中線，膠囊變紅，出現「成立 ✓」。<br>再往上拉，離中線越遠越強，白點會閃。<br>還沒過門檻、但正在加速變好或變壞，白點外面會多一圈琥珀色空框在閃。<br>上面那幾列在中線下面「轉弱成立」，一樣閃綠光。',
- fbNo:'白點要在中線上面，而且至少 1 步。'},
+ title:'亮了，可是不閃？',
+ text:'「收盤站上十日線」這一列，<br>3 天前在中線上面，今天掉到下面，<br>掉得快，所以白點在閃綠光。',
+ so:'位置＝離門檻多遠、在哪一邊。<br>閃燈＝最近 3 天走多快：往上紅光、往下綠光。',
+ q:'把白點拉到中線上面（成立 ✓），但不要閃',
+ slider:{min:-39,max:39,step:2,init:-15,ans:9,lo:'偏空（下）',hi:'偏多（上）'},
+ fig:r2Fig,vlab:r2Lab,correct:function(x){const v=r2V(x);return v>=0&&spdLv(spd(R2V.concat([v])))===0;},
+ note:'3 天走不到 1.5 步不閃；1.5、2.5、3.5 步以上，慢閃、中閃、快閃。',
+ fbOk:'白點跟 3 天前差不多高，就不閃，就算有 ✓ 也一樣。<br>閃不閃只看最近走多快，跟 ✓ 無關：沒成立但走得快，照樣會閃。<br>11/17 標普：十日線、九月中缺口都在閃綠光；成交量有 ✓，但沒閃。',
+ fbNo:'白點要在中線上面，而且跟 3 天前（虛線圈）差不到 1.5 步。'},
 // ── 3 強度排序 · sort ──
 {type:'sort',sky:'sky-storm',bg:'peak',label:'強度 · 排排看',short:'強度排序',
  title:'四顆燈，哪顆最強？',
@@ -315,8 +313,8 @@ const ROUNDS=[
  so:'離中線越遠＝越強，上下都一樣。<br>貼著中線＝很弱。',
  q:'由最強排到最弱（按住一列拖動）：',
  items:R4.map(r4Item),shuffle:[3,2,0,1],
- note:'四張圖的刻度一樣。',
- fbOk:'① 季線回到往上 −2.71，離最遠。<br>② 十日線 −1.41。<br>③ 成交量 +0.63，亮著，但不遠。<br>④ 年線 −0.04，貼著中線。<br><b>亮的不一定最強。</b>'},
+ note:'四張圖的刻度一樣。閃不閃先別管，那是最近走多快，不是強弱。',
+ fbOk:'① 季線回到往上 −2.71，離最遠。<br>② 十日線 −1.41。<br>③ 成交量 +0.63，亮著，但不遠。<br>④ 年線 −0.04，貼著中線。<br><b>亮的不一定最強；在閃的也不一定最強。</b>'},
 // ── 4 讀一整排 · build ──
 {type:'build',sky:'sky-clear',bg:'range',label:'收尾 · 讀一整排',short:'讀一整排',
  title:'八列一起讀',
@@ -325,17 +323,17 @@ const ROUNDS=[
  cards:[['e0','（八列都沒亮）'],['e1','收盤站上十日線'],['e2','季線回到往上'],['e3','收盤守住年線'],['e4','標普守住九月中缺口'],['e5','站上五十日線的股票不再減少'],['e6','站上五十日線的股票過半'],['e7','近一個月新高不少於新低'],['e8','龍頭有好幾檔創歷史新高']],
  slots:[['v1','<b>亮的</b>（白點在中線上面）','e0'],['v2','<b>最強的</b>（離中線最遠）','e2'],['v3','<b>資料不足</b>（線斷、黃色）','e7,e8']],
  wide:true,
- done:'八列都在中線下面或讀不到，一列都沒亮。<br>離最遠的是季線回到往上（−2.71）。<br>新高新低、龍頭兩列當天讀不到。<br><span style="opacity:.8">這是描述，不是買賣訊號。</span>'}
+ done:'八列都在中線下面或讀不到，一列都沒亮。<br>離最遠的是季線回到往上（−2.71）。<br>新高新低、龍頭兩列當天讀不到。<br>在閃綠光的幾列，是最近 3 天往下走得快。<br><span style="opacity:.8">這是描述，不是買賣訊號。</span>'}
 ];
 ROUNDS[ROUNDS.length-1].svg=row8Card();
 
 const ANS=[
  {answer:'中線＝門檻、白點＝今天、中線上面＝亮的一側。',terms:[['中線','剛好成立的位置'],['白點','今天 11/17'],['貼頂','離太遠，畫到頂']]},
- {answer:'拉到中線上面 1 步以上（例：+1.5 步）。',terms:[['亮／滅','白點在中線上面／下面'],['強弱','離中線越遠越強']]},
+ {answer:'拉到中線上面、0 到 +1.9 步之間（例：+0.9 步），跟 3 天前差不到 1.5 步。',terms:[['亮／滅','白點在中線上面／下面'],['閃燈','最近 3 天走多快，跟 ✓ 無關']]},
  {answer:'季線回到往上（−2.71）→ 十日線（−1.41）→ 成交量（+0.63）→ 年線（−0.04）。',terms:[['強弱','只看離中線多遠，不分上下']]},
  {answer:'亮的：沒有；最強：季線回到往上；資料不足：新高新低、龍頭新高兩列。',terms:[['滅','白點在中線下面'],['資料不足','當天讀不到']]}
 ];
-const TRANSITIONS=['中線是開關，<br>白點是今天。','上面亮，下面滅；<br>越遠越強。','亮的燈，<br>不一定最強。',null];
+const TRANSITIONS=['中線是開關，<br>白點是今天。','位置看離門檻多遠，<br>閃燈看最近走多快。','亮的燈，<br>不一定最強。',null];
 
 // ================= 引擎（ROUNDS／ANS／TRANSITIONS 三陣列同索引；關數一律由 length 算） =================
 function prog(){PB.style.width=(Math.max(0,state.idx)/ROUNDS.length*100)+'%';}
@@ -617,8 +615,8 @@ function showResult(){PB.style.width='100%';const s=state.score,mx=ROUNDS.length
   +'<div class="result-icon">🚦</div>'
   +'<div class="result-type t-main">你會看多空卡的信號燈了</div>'
   +'<div class="result-vow" style="font-size:19px;font-weight:800;color:#e8c86a;margin:0.35rem auto 0.1rem;max-width:430px;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)">「我看得出燈亮不亮、有多強。」</div>'
-  +'<div class="result-desc t-sub">多空卡下面那排小折線，現在看得出三件事：<br><br>'
-    +'<b>中線上面＝亮，下面＝滅</b><br><b>離中線越遠＝越強</b><br><b>資料不足＝當天讀不到</b><br><br>'
+  +'<div class="result-desc t-sub">多空卡下面那排小折線，現在看得出四件事：<br><br>'
+    +'<b>中線上面＝亮，下面＝滅</b><br><b>離中線越遠＝越強</b><br><b>閃燈＝最近 3 天走多快（跟 ✓ 無關）</b><br><b>資料不足＝當天讀不到</b><br><br>'
     +'<b>'+chain.join(' → ')+'</b><br><br>'
     +'<span style="opacity:.8">這是描述，不是買賣訊號。</span><br><br>'
     +'判讀得分：'+s+' / '+mx+'（'+tier+'）</div>'
@@ -644,7 +642,7 @@ function showStart(){
   '<div class="chapter-label t-label" style="margin-bottom:1rem">YODA RESEARCH · 判斷力學校</div>'
   +'<div class="chapter-title t-main" style="font-size:30px;font-weight:200;letter-spacing:1px;margin-bottom:0.4rem">信號燈怎麼看</div>'
   +'<div class="t-sub" style="font-size:14px;margin-bottom:0.3rem;font-style:italic">多空卡下面那排小折線，一條就是一顆燈</div>'
-  +'<div class="t-label" style="font-size:12px;line-height:1.9;margin-bottom:2.6rem">約 '+mins()+' 分鐘 · '+ROUNDS.length+' 關<br>方向看哪一邊，強弱看幾步<br>線取自 '+ASOF+' 那份市場觀察的多空卡（資料到 '+DATA_DAY+'），用來練讀法</div>'
+  +'<div class="t-label" style="font-size:12px;line-height:1.9;margin-bottom:2.6rem">約 '+mins()+' 分鐘 · '+ROUNDS.length+' 關<br>方向看哪一邊，強弱看幾步，閃燈看走多快<br>線取自 '+ASOF+' 那份市場觀察的多空卡（資料到 '+DATA_DAY+'），用來練讀法</div>'
   +'<button class="continue-btn" style="font-size:15px;padding:0.85rem 3.2rem;border-radius:6px;letter-spacing:2px" onclick="fade(startOpening)">開始</button>');}
 
 let state={idx:-1,score:0,sv:0,pl:{},plSel:null,plFor:-1,hs:[],hsFor:-1,so:null,soSel:null,soFor:-1,mt:{},mtSel:null,mtFor:-1,fp:0,fpFor:-1,slFor:-1};
