@@ -116,10 +116,10 @@ input[type=range].gsl::-moz-range-track{height:8px;border-radius:4px;background:
 .fp-bet:hover{border-color:rgba(255,255,255,0.7);transform:translateY(-2px)}
 .btnrow{display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap}
 /* ===== 信號燈小卡（照多空卡兩欄版折線：中線＝門檻、±0.1 步灰、以上紅、以下綠、上下界 ±3 步貼邊；淺色／深色各一組） ===== */
-.udc{--ubg:#0f141c;--ubd:rgba(255,255,255,0.13);--utx:#e6e9ef;--usub:#9aa3b2;--uup:#ff5d73;--udn:#33c48a;--una:#f0b429;--umid:#8a93a3;--uln:rgba(255,255,255,0.28);
+.udc{--ubg:#0f141c;--ubd:rgba(255,255,255,0.13);--utx:#e6e9ef;--usub:#9aa3b2;--uup:#ff5d73;--udn:#33c48a;--una:#f0b429;--umid:#8a93a3;--uln:rgba(255,255,255,0.28);--uacc:#ff8c1a;
  background:var(--ubg);border:1px solid var(--ubd);border-radius:12px;padding:0.55rem 0.7rem;max-width:520px;margin:0.4rem auto 0.5rem;text-align:left;color:var(--utx)}
-@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .udc{--ubg:#ffffff;--ubd:rgba(0,0,0,0.14);--utx:#1d2330;--usub:#5d6675;--uup:#d93b4f;--udn:#1f9d63;--una:#b7791f;--umid:#9aa1ad;--uln:rgba(0,0,0,0.25)}}
-:root[data-theme="light"] .udc{--ubg:#ffffff;--ubd:rgba(0,0,0,0.14);--utx:#1d2330;--usub:#5d6675;--uup:#d93b4f;--udn:#1f9d63;--una:#b7791f;--umid:#9aa1ad;--uln:rgba(0,0,0,0.25)}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .udc{--ubg:#ffffff;--ubd:rgba(0,0,0,0.14);--utx:#1d2330;--usub:#5d6675;--uup:#d93b4f;--udn:#1f9d63;--una:#b7791f;--umid:#9aa1ad;--uln:rgba(0,0,0,0.25);--uacc:#c05a00}}
+:root[data-theme="light"] .udc{--ubg:#ffffff;--ubd:rgba(0,0,0,0.14);--utx:#1d2330;--usub:#5d6675;--uup:#d93b4f;--udn:#1f9d63;--una:#b7791f;--umid:#9aa1ad;--uln:rgba(0,0,0,0.25);--uacc:#c05a00}
 .udc .ur{display:grid;grid-template-columns:1fr auto;column-gap:8px;row-gap:2px;align-items:center;padding:0.35rem 0;border-top:1px solid var(--ubd)}
 .udc .ur:first-child{border-top:none}
 .udc .un{font-size:13px;line-height:1.45;color:var(--utx)}
@@ -137,6 +137,7 @@ input[type=range].gsl::-moz-range-track{height:8px;border-radius:4px;background:
 .sk-up{stroke:var(--uup)}.sk-dn{stroke:var(--udn)}.sk-gr{stroke:var(--umid)}
 .sk-fu{fill:var(--uup);fill-opacity:0.2}.sk-fd{fill:var(--udn);fill-opacity:0.2}
 .sk-dot{fill:#fff;stroke:#1d2330;stroke-width:1.2}
+.sk-acr{fill:none;stroke:var(--uacc,#ff8c1a);stroke-width:2}
 .sk-na{fill:var(--una);font-size:10.5px}
 .pl-slot .udc{margin:0.2rem 0 0;max-width:none}
 .st-row .udc,.mt-item .udc{margin:0.25rem 0 0;padding:0.3rem 0.45rem;max-width:none}
@@ -223,8 +224,10 @@ function spark(vals,o){o=o||{};const W=o.w||268,H=o.h||52,X0=o.x0===undefined?30
  s+='<path d="'+d+'" fill="none" stroke-width="'+sw+'" stroke-linejoin="round" class="sk-gr" clip-path="url(#'+id+'m)"/>';
  s+='<path d="'+d+'" fill="none" stroke-width="'+sw+'" stroke-linejoin="round" class="sk-dn" clip-path="url(#'+id+'d)"/>';
  const lv=vals[n-1];
- if(lv!==null&&lv!==undefined&&!o.nodot){const cx=X(n-1).toFixed(1),cy=Y(lv).toFixed(1),ac=o.acc&&!o.bin?accel(vals):'',bl=o.ok&&!o.bin?blinkLv(lv):0,b2=bl||(ac?1:0);
-   if(b2)s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(o.big?11:8)+'" fill="'+((bl?lv>=0:ac==='s')?C_UP:C_DN)+'" class="bpulse" data-per="'+BL_PER[b2]+'"/>';
+ if(lv!==null&&lv!==undefined&&!o.nodot){const cx=X(n-1).toFixed(1),cy=Y(lv).toFixed(1),ac=o.acc&&!o.bin?accel(vals):'',bl=o.ok&&!o.bin?blinkLv(lv):0;
+   // ✓ 閃＝紅／綠實心光；沒在閃才看加速＝琥珀色空心框（固定 0.8 秒，＝mw_down mwud-acr）
+   if(bl)s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(o.big?11:8)+'" fill="'+(lv>=0?C_UP:C_DN)+'" class="bpulse" data-per="'+BL_PER[bl]+'"/>';
+   else if(ac)s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(o.big?11:8)+'" class="sk-acr bpulse" data-per="0.8"/>';
    s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(o.big?5.5:4)+'" class="sk-dot"/>';
    if(o.lab)s+='<text x="'+(X(n-1)-9).toFixed(1)+'" y="'+(lv>=0?Math.min(H-3,Y(lv)+12):Math.max(9,Y(lv)-6)).toFixed(1)+'" text-anchor="end" font-size="9" font-weight="700" fill="#e0a526">'+o.lab+'</text>';}
  if(o.naTxt)s+='<text x="'+(W-4)+'" y="'+(MY+4)+'" text-anchor="end" class="sk-na">'+o.naTxt+'</text>';
@@ -266,7 +269,7 @@ function r2Fig(x){const v=r2V(x),ok=v>=0,bl=ok?blinkLv(v):0;
 function r2Lab(x){const v=r2V(x),ok=v>=0,bl=ok?blinkLv(v):0,a=Math.abs(v);
  const dir=v>0?'<b style="color:'+C_UP+'">中線上面：亮</b>':'<b style="color:'+C_DN+'">中線下面：滅</b>';
  return dir+'<br>離中線 <b>'+a.toFixed(1)+' 步</b>'+(a>=3?'（畫到邊了）':'')
-  +'<br>'+(ok?(bl?'夠遠，白點在閃':'亮了，還不到 1 步'):accel(R2V.concat([v]))==='w'?'還沒亮，但掉得越來越快，閃綠光':'還沒亮');}
+  +'<br>'+(ok?(bl?'夠遠，白點在閃':'亮了，還不到 1 步'):accel(R2V.concat([v]))==='w'?'還沒亮，但掉得越來越快，外面一圈琥珀色空框在閃':'還沒亮');}
 
 // ── ④ 強弱排序：四條真實的燈（不分方向，只看離中線多遠） ──
 // 四列都在 ±3 步內（不貼邊）、同一把刻度；一顆在上方、三顆在下方
@@ -303,7 +306,7 @@ const ROUNDS=[
  slider:{min:-39,max:39,step:2,init:-15,ans:15,lo:'偏空（下）',hi:'偏多（上）'},
  fig:r2Fig,vlab:r2Lab,correct:function(x){return r2V(x)>=1;},
  note:'「幾步」＝離中線多遠。最多畫到 3 步。',
- fbOk:'一過中線，膠囊變紅，出現「成立 ✓」。<br>再往上拉，離中線越遠越強，白點會閃。<br>還沒過門檻、但正在越變越好或越掉越快，也會閃（紅＝變好、綠＝變壞）。<br>上面那幾列在中線下面「轉弱成立」，一樣閃綠光。',
+ fbOk:'一過中線，膠囊變紅，出現「成立 ✓」。<br>再往上拉，離中線越遠越強，白點會閃。<br>還沒過門檻、但正在加速變好或變壞，白點外面會多一圈琥珀色空框在閃。<br>上面那幾列在中線下面「轉弱成立」，一樣閃綠光。',
  fbNo:'白點要在中線上面，而且至少 1 步。'},
 // ── 3 強度排序 · sort ──
 {type:'sort',sky:'sky-storm',bg:'peak',label:'強度 · 排排看',short:'強度排序',
