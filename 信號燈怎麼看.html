@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="zh-TW"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DFFP3JL6EY"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-DFFP3JL6EY');
+</script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>信號燈怎麼看 · Yoda Research</title>
+<!-- 2026-11-18 新做：教概念型遊戲，教讀者看多空卡四組條件（止跌／翻多／底部／市場）下的小折線＝信號燈（方向＋強度）。
+     讀數取自《市場觀察_20261118》多空卡資料島（資料到 11/17 美股收盤；正本 Skill/ud_cond.py、mw_down.ud_card_html 兩欄折線版）。
+     引擎沿用《看懂市場觀察-七段導覽》；設計檔 _design/信號燈怎麼看_v2026-11-18_逐關設計.md。 -->
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;min-height:100%;font-family:-apple-system,'PingFang TC','Noto Sans TC',sans-serif;background:#000}
+#game{width:100%;min-height:100vh;position:relative;overflow:hidden}
+.scene{width:100%;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:3rem 1.5rem}
+.sky-start{background:linear-gradient(180deg,#0a0a1a,#1a1a3e 45%,#3a2a5e 100%)}
+.sky-dawn{background:linear-gradient(180deg,#1a1a2e,#e8b86d 60%,#f4a261)}
+.sky-noon{background:linear-gradient(180deg,#0d47a1,#1976d2 50%,#bbdefb)}
+.sky-valley{background:linear-gradient(180deg,#1b2631,#2e4057 42%,#5d7a8a)}
+.sky-storm{background:linear-gradient(180deg,#0b0b12,#171733 50%,#33409e)}
+.sky-clouds{background:linear-gradient(180deg,#0d47a1,#1565c0 42%,#90caf9)}
+.sky-clear{background:linear-gradient(180deg,#173a68,#4a7cc0 44%,#a6cff0 82%,#d9edfb)}
+.sky-result{background:linear-gradient(180deg,#003459,#00587a 42%,#0288d1)}
+.ink-bg{position:absolute;bottom:0;left:0;width:100%;height:170px;pointer-events:none}
+.overlay{position:relative;z-index:10;text-align:center;max-width:640px;width:100%}
+.t-main{color:#f2f5ff}.t-sub{color:rgba(228,234,247,0.84)}.t-label{color:rgba(205,214,236,0.58)}
+.sky-dawn .t-main,.sky-start .t-main{color:#fff7e6}.sky-dawn .t-sub,.sky-start .t-sub{color:rgba(255,242,214,0.82)}
+/* 漸層可讀性保底：直接壓在天色漸層上的文字加暗色暈邊（SKILL-game §三） */
+.t-main,.t-sub,.t-label,.chapter-quote,.feedback,.round-q,.round-text{text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)}
+.chapter-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:0.5rem}
+.chapter-title{font-size:27px;font-weight:300;margin-bottom:1rem;line-height:1.3}
+.chapter-quote{font-size:15px;line-height:1.95;margin-bottom:2rem;font-style:italic;max-width:480px;margin:0 auto 2rem}
+.round-text{font-size:15px;line-height:1.85;max-width:480px;margin:0 auto 0.8rem}
+.round-q{font-size:16px;font-weight:400;margin-bottom:1.3rem;line-height:1.5}
+.transition-quote{font-size:17px;max-width:430px;line-height:2.1;font-style:italic;color:rgba(216,228,255,0.86)}
+.choices{display:flex;flex-direction:column;gap:0.7rem;width:100%;max-width:480px;margin:0 auto}
+.choice-btn{background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.28);color:#fff;padding:0.9rem 1.2rem;border-radius:8px;cursor:pointer;font-size:14px;line-height:1.6;text-align:left;transition:all .2s;backdrop-filter:blur(6px)}
+.choice-btn:hover{background:rgba(0,0,0,0.45);border-color:rgba(255,255,255,0.6);transform:translateX(4px)}
+.continue-btn{background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.45);color:rgba(255,255,255,0.92);padding:0.6rem 2rem;border-radius:4px;cursor:pointer;font-size:13px;margin-top:1.3rem;letter-spacing:1px;transition:all .2s}
+.continue-btn:hover{border-color:rgba(255,255,255,0.9);color:#fff}
+.feedback{font-size:13px;line-height:1.8;max-width:460px;margin:0.7rem auto 0;min-height:42px;background:rgba(0,0,0,0.34);border-radius:10px;padding:0.6rem 0.9rem}
+.gauge-wrap{max-width:340px;margin:0 auto}
+input[type=range].gsl{width:100%;-webkit-appearance:none;appearance:none;background:transparent;height:30px;margin-top:0.2rem;touch-action:pan-y}
+input[type=range].gsl::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;cursor:pointer;margin-top:-8px;box-shadow:0 1px 6px rgba(0,0,0,.4)}
+input[type=range].gsl::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:linear-gradient(90deg,#e0a526,#8a8fa3)}
+input[type=range].gsl::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#fff;border:none;cursor:pointer}
+input[type=range].gsl::-moz-range-track{height:8px;border-radius:4px;background:linear-gradient(90deg,#e0a526,#8a8fa3)}
+.gsl-ends{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,0.7);margin-top:0.3rem;text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.result-icon{font-size:50px;margin-bottom:0.5rem}
+.result-type{font-size:23px;font-weight:300;margin-bottom:0.7rem}
+.result-desc{font-size:14px;line-height:1.9;max-width:460px;margin:0 auto 1.3rem}
+.yoda-btn{display:inline-block;background:linear-gradient(135deg,#e0a526,#b8860b);color:#fff;padding:0.85rem 2.2rem;border-radius:6px;font-size:14px;cursor:pointer;text-decoration:none;margin:0.3rem;transition:opacity .2s}
+.yoda-btn:hover{opacity:.88}
+.progress-bar{position:fixed;top:0;left:0;height:2px;background:rgba(224,165,38,0.65);transition:width .4s;z-index:100}
+.mute-btn{position:fixed;top:14px;right:14px;z-index:101;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(6px)}
+.step-dots{display:flex;gap:6px;justify-content:center;margin-bottom:1rem;flex-wrap:wrap}
+.step-dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.25)}
+.step-dots i.on{background:#e0a526}
+/* 詞→解釋兩欄對齊（core-render B-11b） */
+.layer-list{max-width:480px;margin:0 auto 0.7rem;text-align:left;font-size:13.5px;line-height:1.65;color:rgba(255,255,255,0.9);display:grid;grid-template-columns:max-content 1fr;column-gap:13px;row-gap:0.62rem;align-items:start;background:rgba(0,0,0,0.22);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:0.85rem 0.95rem}
+.layer-list .ly{display:contents}
+.layer-list .ly>b{color:#e0a526;white-space:nowrap;position:relative;padding-left:11px}
+.layer-list .ly>b::before{content:'';position:absolute;left:0;top:0.52em;width:5px;height:5px;border-radius:50%;background:#e0a526}
+.layer-list .ly>span{min-width:0}
+.data-chip{display:inline-block;background:rgba(0,0,0,0.3);border:1px solid rgba(224,165,38,0.5);border-radius:6px;padding:2px 9px;margin:2px;font-size:12.5px;color:#f4dc9a}
+.sowhat{max-width:480px;margin:0 auto 0.7rem;font-size:13.5px;line-height:1.8;color:#f4e3b4;border-left:2px solid rgba(224,165,38,0.75);padding:0.35rem 0.6rem 0.35rem 0.7rem;text-align:left;background:rgba(0,0,0,0.22);border-radius:0 8px 8px 0;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)}
+.fig-note{max-width:480px;margin:0.2rem auto 0.6rem;font-size:12px;line-height:1.7;color:rgba(255,255,255,0.7);text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.fig-box{background:rgba(6,10,22,0.42);border-radius:12px;padding:0.35rem 0.2rem;max-width:330px;margin:0.4rem auto 0.5rem}
+/* 兩段式點選歸位 place / build（點選式，不用原生拖曳 API） */
+.pl-pool{display:flex;flex-wrap:wrap;gap:0.45rem;justify-content:center;max-width:500px;margin:0 auto 0.8rem}
+.pl-card{background:rgba(0,0,0,0.34);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:9px;padding:0.5rem 0.75rem;font-size:13px;line-height:1.55;cursor:pointer;transition:all .15s;text-align:left}
+.pl-card:hover{border-color:rgba(255,255,255,0.65)}
+.pl-card.sel{border-color:#e0a526;background:rgba(224,165,38,0.24);box-shadow:0 0 0 1px rgba(224,165,38,0.5)}
+.pl-slots{display:flex;flex-direction:column;gap:0.5rem;max-width:500px;margin:0 auto 0.7rem}
+.pl-slot{display:grid;grid-template-columns:max-content 1fr;column-gap:12px;align-items:center;background:rgba(0,0,0,0.28);border:1px dashed rgba(255,255,255,0.32);border-radius:10px;padding:0.55rem 0.7rem;cursor:pointer;transition:all .15s;text-align:left}
+.pl-slot:hover{border-color:rgba(255,255,255,0.6)}
+.pl-slot.armed{border-color:#e0a526;border-style:solid}
+.pl-slot.right{border-style:solid;border-color:rgba(120,220,140,0.8)}
+.pl-slot.wrong{border-style:solid;border-color:rgba(229,120,120,0.8)}
+.pl-slot .sl-t{font-size:12.5px;line-height:1.5;color:rgba(255,255,255,0.86);white-space:normal;max-width:180px}
+.pl-slot .sl-v{display:flex;flex-wrap:wrap;gap:0.3rem;justify-content:flex-end;min-height:26px;align-items:center}
+.pl-chip{background:rgba(224,165,38,0.2);border:1px solid rgba(224,165,38,0.62);color:#f4dc9a;border-radius:7px;padding:0.28rem 0.55rem;font-size:12.5px;line-height:1.4}
+.pl-slot.wide{grid-template-columns:1fr}
+.pl-slot.wide .sl-t{max-width:none;margin-bottom:0.35rem}
+.pl-slot.wide .sl-v{justify-content:flex-start;min-height:34px}
+/* 排序：點兩張互換（不用上下鍵） */
+.st-list{display:flex;flex-direction:column;gap:0.35rem;max-width:460px;margin:0 auto 0.7rem}
+.st-row{display:grid;grid-template-columns:max-content 1fr;column-gap:10px;align-items:center;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.24);border-radius:8px;padding:0.5rem 0.65rem;cursor:pointer;font-size:13px;line-height:1.55;text-align:left;color:#fff;transition:all .13s}
+.st-row:hover{border-color:rgba(255,255,255,0.6)}
+.st-row.sel{border-color:#e0a526;background:rgba(224,165,38,0.22)}
+.st-row.right{border-color:rgba(120,220,140,0.8)}
+.st-row.wrong{border-color:rgba(229,120,120,0.7)}
+.st-row b{color:#e0a526;font-size:12px;min-width:14px;display:inline-block}
+/* 連連看 */
+.mt-wrap{position:relative;max-width:520px;margin:0 auto 0.7rem}
+.mt-lines{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.mt-cols{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;column-gap:34px;row-gap:0.5rem}
+.mt-col{display:flex;flex-direction:column;gap:0.5rem}
+.mt-item{background:rgba(0,0,0,0.36);border:1px solid rgba(255,255,255,0.26);border-radius:9px;padding:0.5rem 0.6rem;font-size:12.5px;line-height:1.55;color:#fff;cursor:pointer;text-align:left;transition:all .13s}
+.mt-item:hover{border-color:rgba(255,255,255,0.62)}
+.mt-item.sel{border-color:#e0a526;background:rgba(224,165,38,0.24)}
+.mt-item.on{border-color:rgba(224,165,38,0.72)}
+.mt-item.right{border-color:rgba(120,220,140,0.85)}
+.mt-item.wrong{border-color:rgba(229,120,120,0.8)}
+/* 點圖熱區 */
+.hz{cursor:pointer}
+.hz:hover{fill:rgba(255,255,255,0.09)}
+/* 翻牌 */
+.fp-bets{display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;max-width:470px;margin:0 auto 0.6rem}
+.fp-bet{flex:1 1 190px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:10px;padding:0.75rem 0.8rem;font-size:13.5px;line-height:1.6;cursor:pointer;transition:all .15s}
+.fp-bet:hover{border-color:rgba(255,255,255,0.7);transform:translateY(-2px)}
+.btnrow{display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap}
+/* ===== 信號燈小卡（照多空卡兩欄版折線：中線＝門檻、±0.1 步灰、以上紅、以下綠、上下界 ±3 步貼邊；淺色／深色各一組） ===== */
+.udc{--ubg:#0f141c;--ubd:rgba(255,255,255,0.13);--utx:#e6e9ef;--usub:#9aa3b2;--uup:#ff5d73;--udn:#33c48a;--una:#f0b429;--umid:#8a93a3;--uln:rgba(255,255,255,0.28);
+ background:var(--ubg);border:1px solid var(--ubd);border-radius:12px;padding:0.55rem 0.7rem;max-width:520px;margin:0.4rem auto 0.5rem;text-align:left;color:var(--utx)}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .udc{--ubg:#ffffff;--ubd:rgba(0,0,0,0.14);--utx:#1d2330;--usub:#5d6675;--uup:#d93b4f;--udn:#1f9d63;--una:#b7791f;--umid:#9aa1ad;--uln:rgba(0,0,0,0.25)}}
+:root[data-theme="light"] .udc{--ubg:#ffffff;--ubd:rgba(0,0,0,0.14);--utx:#1d2330;--usub:#5d6675;--uup:#d93b4f;--udn:#1f9d63;--una:#b7791f;--umid:#9aa1ad;--uln:rgba(0,0,0,0.25)}
+.udc .ur{display:grid;grid-template-columns:1fr auto;column-gap:8px;row-gap:2px;align-items:center;padding:0.35rem 0;border-top:1px solid var(--ubd)}
+.udc .ur:first-child{border-top:none}
+.udc .un{font-size:13px;line-height:1.45;color:var(--utx)}
+.udc .un i{font-style:normal;font-size:11px;color:var(--usub);margin-left:3px}
+.udc .ucp{font-size:11.5px;border:1px solid;border-radius:999px;padding:1px 10px;white-space:nowrap;justify-self:end}
+.udc .ucp.up{color:var(--uup);border-color:var(--uup)}.udc .ucp.dn{color:var(--udn);border-color:var(--udn)}.udc .ucp.na{color:var(--una);border-color:var(--una)}.udc .ucp.mid{color:var(--umid);border-color:var(--umid)}
+.udc .usp{grid-column:1/2;display:block;width:100%;max-width:300px;height:auto}
+.udc .uend{font-size:12px;color:var(--usub);justify-self:end;white-space:nowrap}
+.udc .uend.ok{color:var(--uup);font-weight:700}.udc .uend.na{color:var(--una)}
+.udc .ucap{font-size:11px;color:var(--usub);margin-top:0.2rem;line-height:1.5}
+.udc.two{max-width:620px}
+@media (min-width:700px){.udc.two{display:grid;grid-template-columns:1fr 1fr;column-gap:16px}.udc.two .ur:nth-child(2){border-top:none}}
+.sk-lab{fill:var(--usub);font-size:10px}
+.sk-mid{stroke:var(--uln);stroke-width:1}
+.sk-up{stroke:var(--uup)}.sk-dn{stroke:var(--udn)}.sk-gr{stroke:var(--umid)}
+.sk-fu{fill:var(--uup);fill-opacity:0.2}.sk-fd{fill:var(--udn);fill-opacity:0.2}
+.sk-dot{fill:#fff;stroke:#1d2330;stroke-width:1.2}
+.sk-na{fill:var(--una);font-size:10.5px}
+.pl-slot .udc{margin:0.2rem 0 0;max-width:none}
+.st-row .udc,.mt-item .udc{margin:0.25rem 0 0;padding:0.3rem 0.45rem;max-width:none}
+.mt-item .udc .usp{max-width:none}
+
+</style></head><body>
+<audio id="bgm" loop preload="auto"><source src="day_one.mp3"></audio>
+<button id="muteBtn" class="mute-btn" onclick="toggleMute()">🔊</button>
+<div class="progress-bar" id="progress"></div>
+<div id="game"></div>
+<script>
+const G=document.getElementById('game'),PB=document.getElementById('progress');
+const BGM=document.getElementById('bgm'),MUTEBTN=document.getElementById('muteBtn');
+let bgmStarted=false,bgmMuted=false;try{bgmMuted=localStorage.getItem('yoda_bgm_muted')==='1';}catch(e){}
+if(BGM)BGM.volume=0.30;
+function mIcon(){if(MUTEBTN)MUTEBTN.textContent=bgmMuted?'🔇':'🔊';}mIcon();
+function toggleMute(){bgmMuted=!bgmMuted;try{localStorage.setItem('yoda_bgm_muted',bgmMuted?'1':'0');}catch(e){}if(bgmMuted){if(BGM)BGM.pause();}else if(BGM)BGM.play().then(()=>bgmStarted=true).catch(()=>{});mIcon();}
+window.toggleMute=toggleMute;
+document.addEventListener('click',()=>{try{if(!bgmStarted&&!bgmMuted&&BGM)BGM.play().then(()=>bgmStarted=true).catch(()=>{});}catch(e){}});
+
+// ===== 水墨背景 bg(type,sky) =====
+function inkCols(sky){const dark=['sky-storm','sky-valley','sky-dawn','sky-dusk','sky-night','sky-start'].includes(sky);
+  return dark?['rgba(210,220,245,0.10)','rgba(180,195,230,0.16)','rgba(222,232,252,0.32)']:['rgba(30,35,60,0.10)','rgba(25,30,55,0.16)','rgba(20,25,50,0.28)'];}
+const MOTIFS={
+ farhills:(f,n,l)=>`<path d="M0,70 C120,50 220,58 340,44 C460,32 560,52 700,40 C840,30 960,50 1080,42 L1200,46 L1200,120 L0,120Z" fill="${f}"/><path d="M0,86 C160,74 300,82 460,70 C640,58 780,76 940,68 C1060,62 1140,72 1200,70 L1200,120 L0,120Z" fill="${n}"/><path d="M0,70 C120,50 220,58 340,44 C460,32 560,52 700,40 C840,30 960,50 1080,42 L1200,46" fill="none" stroke="${l}" stroke-width="1.4"/>`,
+ range:(f,n,l)=>`<path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38 L1200,120 L0,120Z" fill="${f}"/><path d="M0,82 C160,66 320,76 480,60 C640,46 800,70 960,60 C1080,54 1160,64 1200,62 L1200,120 L0,120Z" fill="${n}"/><path d="M0,100 C220,90 420,96 640,86 C860,78 1020,92 1200,84 L1200,120 L0,120Z" fill="${n}"/><path d="M0,64 C180,40 300,52 460,36 C620,20 760,44 920,34 C1040,26 1140,40 1200,38" fill="none" stroke="${l}" stroke-width="1.2" opacity="0.85"/>`,
+ peak:(f,n,l)=>`<path d="M0,104 C260,100 430,94 520,56 C560,40 600,20 640,20 C680,20 720,42 760,60 C860,100 1000,102 1200,100 L1200,120 L0,120Z" fill="${n}"/><path d="M600,28 C612,42 628,54 640,60" fill="none" stroke="${l}" stroke-width="1.4"/><rect x="300" y="62" width="620" height="10" fill="${f}"/><path d="M120,86 h240 M470,86 h180 M760,90 h300" stroke="${f}" stroke-width="8" stroke-linecap="round" opacity="0.7"/>`,
+ river:(f,n,l)=>`<path d="M0,90 C300,82 500,86 1200,84 L1200,120 L0,120Z" fill="${f}"/><path d="M470,82 Q540,98 610,82" fill="none" stroke="${l}" stroke-width="1.8" stroke-linecap="round"/><path d="M120,94 q80,-4 160,0 t160,0 M700,96 q80,-4 160,0 t160,0" fill="none" stroke="${l}" stroke-width="1" opacity="0.6"/>`};
+function bg(type,sky){const m=MOTIFS[type];if(!m)return '';const[f,n,l]=inkCols(sky);return `<svg class="ink-bg" viewBox="0 0 1200 120" preserveAspectRatio="none">${m(f,n,l)}</svg>`;}
+
+// ================= 資料錨定：《市場觀察_20261118》多空卡 · 標普分頁（資料到 11/17 美股收盤）；台股分頁同一份 =================
+// 讀數＝報告 HTML 多空卡資料島的逐日倍數（正本 Skill\ud_cond.py 現算、mw_down.ud_card_html 兩欄折線版），⛔ 不是示意線。
+const ASOF='11/18';
+const DATA_DAY='11/17 美股收盤';
+const C_UP='#ff6b7d',C_DN='#7fd0a0';
+const DAYS=["2026-08-25", "2026-08-26", "2026-08-27", "2026-08-28", "2026-08-31", "2026-09-01", "2026-09-02", "2026-09-03", "2026-09-04", "2026-09-08", "2026-09-09", "2026-09-10", "2026-09-11", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08", "2026-10-09", "2026-10-12", "2026-10-13", "2026-10-14", "2026-10-15", "2026-10-16", "2026-10-19", "2026-10-20", "2026-10-21", "2026-10-22", "2026-10-23", "2026-10-26", "2026-10-27", "2026-10-28", "2026-10-29", "2026-10-30", "2026-11-02", "2026-11-03", "2026-11-04", "2026-11-05", "2026-11-06", "2026-11-09", "2026-11-10", "2026-11-11", "2026-11-12", "2026-11-13", "2026-11-16", "2026-11-17"];
+const DAYS_TW=["2026-08-19", "2026-08-20", "2026-08-21", "2026-08-24", "2026-08-25", "2026-08-26", "2026-08-27", "2026-08-28", "2026-08-31", "2026-09-01", "2026-09-02", "2026-09-03", "2026-09-04", "2026-09-07", "2026-09-08", "2026-09-09", "2026-09-10", "2026-09-11", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08", "2026-10-12", "2026-10-13", "2026-10-14", "2026-10-15", "2026-10-16", "2026-10-19", "2026-10-20", "2026-10-21", "2026-10-22", "2026-10-27", "2026-10-28", "2026-10-29", "2026-10-30", "2026-11-02", "2026-11-03", "2026-11-04", "2026-11-05", "2026-11-06", "2026-11-09", "2026-11-10", "2026-11-11", "2026-11-12", "2026-11-13", "2026-11-16", "2026-11-17"];
+const UD={"stop_ma10":{"m":"-","v":-1.408,"n":0,"t":"十日線之下","k":"dn","s":[-0.32,-0.27,0.29,0.19,0.01,-0.46,-0.08,0.58,0.28,-0.18,-0.51,-0.9,-0.15,-0.45,-0.72,-0.99,-0.05,0.2,1.31,1.22,0.55,0.42,0.74,0.05,-0.18,-0.48,-0.36,0.16,0.68,1.1,0.82,0.37,0.78,0.63,0.46,-0.54,-0.35,-1.19,-0.76,-0.41,0.1,-0.77,-1.03,-0.31,0.29,0.53,0.28,-1.22,-1.49,-1.01,0.38,-2.57,-2.14,-0.32,-0.4,0.61,0.48,0.22,-0.96,-1.41]},"up_long":{"m":"-","v":-3.753,"n":0,"t":"兩個都在長線下","k":"dn","s":[0.63,0.62,0.93,0.35,0.4,0.05,0.08,0.05,0.54,0.73,0.35,-0.13,0.51,-0.55,-0.54,-0.64,0.01,0.36,1.14,1.43,0.8,0.77,1.13,0.45,0.27,0.04,0.16,0.69,1.15,1.54,1.28,0.8,0.77,0.11,0.02,-0.97,-1.17,-1.95,-1.68,-1.78,-1.42,-2.85,-2.96,-2.29,-1.48,-1.15,-1.48,-2.93,-3.56,-3.04,-3.57,-5.41,-4.61,-3.37,-3.43,-2.5,-2.6,-3.09,-3.77,-3.75]},"up_ma60":{"m":"-","v":-2.711,"n":0,"t":"季線往下、收在線下","k":"dn","s":[0.36,0.28,0.27,0.27,0.28,0.38,0.47,0.6,0.78,0.91,0.71,0.27,0.65,0.51,0.15,-0.21,0.5,0.48,0.68,0.89,0.93,0.85,0.96,0.58,0.42,0.23,0.34,0.53,0.52,0.63,0.69,0.7,0.76,0.87,0.92,0.54,0.73,-0.24,0.06,0.28,0.65,-0.39,-0.88,-0.31,0.15,0.47,0.12,-1.41,-1.78,-1.48,-0.35,-3.23,-2.98,-1.19,-1.41,-0.71,-0.71,-0.95,-2.15,-2.71]},"fl_ma60":{"m":"-","v":-2.735,"n":0,"t":"季線之下","k":"dn","s":[1.3,1.28,1.75,1.57,1.32,0.81,1.11,1.8,1.5,1.04,0.63,0.18,0.83,0.42,0.04,-0.34,0.54,0.63,1.71,1.64,1.0,0.96,1.32,0.64,0.49,0.27,0.39,0.96,1.46,1.89,1.67,1.24,1.68,1.62,1.54,0.55,0.77,-0.18,0.1,0.28,0.69,-0.36,-0.84,-0.29,0.19,0.45,0.17,-1.38,-1.77,-1.42,-0.08,-3.19,-2.93,-1.16,-1.4,-0.49,-0.71,-0.98,-2.17,-2.73]},"fl_ma200":{"m":"-","v":-0.036,"n":0,"t":"年線之下","k":"dn","s":[5.6,5.57,5.97,5.81,5.52,5.21,5.5,6.14,5.99,5.64,5.19,4.8,5.41,5.06,4.72,4.28,5.25,5.34,6.3,6.25,5.63,5.69,6.03,5.19,5.08,4.85,4.98,5.57,6.04,6.52,6.3,5.82,6.26,6.34,6.3,5.22,5.42,4.43,4.68,4.84,5.23,4.19,3.84,4.41,5.03,5.5,5.13,3.17,2.69,2.95,4.13,0.31,0.52,2.1,1.8,2.67,2.38,2.08,0.67,-0.04]},"fl_gap":{"m":"-","v":-2.554,"n":0,"t":"缺口下緣之下","k":"dn","s":[0.35,0.36,0.8,0.66,0.45,-0.02,0.29,1.02,0.77,0.39,0.04,-0.42,0.23,-0.12,-0.48,-0.82,0.06,-0.03,1.15,1.16,0.61,0.55,0.98,0.37,0.23,0.07,0.21,0.82,1.37,1.83,1.64,1.28,1.78,1.78,1.78,0.84,1.07,0.14,0.49,0.76,1.19,0.21,-0.23,0.38,0.88,1.25,0.89,-0.71,-1.13,-0.87,0.52,-2.79,-2.6,-0.85,-1.11,-0.2,-0.44,-0.7,-1.94,-2.55]},"stop_br50":{"m":"-","v":-0.993,"n":0,"t":"有一個比昨天少","k":"dn","s":[0.03,-0.11,-0.86,-0.18,-0.49,-0.58,0.18,0.17,-0.66,-0.68,-1.25,-0.23,0.4,-0.12,-0.6,-0.59,-0.12,-0.44,0.35,-0.06,-0.23,0.0,-0.53,0.16,-0.3,0.0,-0.61,-0.39,-0.14,0.34,0.0,-0.21,0.21,-0.52,0.49,-1.48,1.38,-1.48,-0.23,0.95,0.44,-0.72,-0.38,0.21,0.13,-0.27,-0.4,-0.72,0.4,-0.18,0.68,-1.31,-0.14,0.97,-0.14,0.28,-0.29,-0.13,-0.92,-0.99]},"up_br50":{"m":"-","v":-0.835,"n":0,"t":"有一個沒過半","k":"dn","s":[0.11,0.0,-0.23,-0.17,-0.12,-0.66,-0.47,-0.31,-0.85,-1.14,-2.34,-2.4,-1.55,-1.69,-2.18,-2.75,-2.81,-3.25,-2.92,-3.03,-3.23,-3.29,-3.81,-3.7,-4.03,-4.07,-4.65,-4.35,-4.09,-3.77,-3.33,-2.94,-2.42,-2.93,-2.07,-2.38,-0.94,-1.42,-0.97,0.18,0.76,0.06,-0.06,0.31,0.45,0.59,0.2,-0.45,-0.07,-0.2,0.47,-0.47,-0.48,0.48,0.35,0.64,0.76,0.66,-0.07,-0.83]},"up_nhnl":{"m":"na","v":null,"n":0,"t":"資料不足","k":"na","s":[0.28,0.16,-0.12,-0.22,-1.34,-1.79,-0.58,-0.27,-0.29,-0.78,-1.67,-2.19,-1.11,-1.41,-2.02,-2.14,-0.4,-1.33,-0.72,-0.56,-1.5,-1.88,-1.04,-1.7,-1.71,-1.38,-2.14,-0.53,-0.7,-0.36,-1.15,-1.21,null,null,-0.99,-1.91,null,null,-0.99,-0.28,-0.08,-0.1,-0.46,-0.22,-0.03,0.08,0.62,-0.24,0.27,-0.17,0.86,-0.57,-0.68,0.22,-0.21,0.11,-0.32,-0.59,-0.95,null]},"up_leader":{"m":"na","v":null,"n":0,"t":"資料不足","k":"na","s":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,1.79,-0.22,-0.54,null,0.0,0.36,-0.17,null,0.0,-0.39,0.0,-0.21,0.41,-0.2,0.0,-0.6,-0.65,0.0,0.0,0.0,-0.47,0.65,-0.6,-0.63,-0.43,-0.22,0.0,0.0,0.68,0.0,null]},"up_vol":{"m":"ok","v":0.632,"n":0,"t":"量不低於月均量","k":"up","s":[-0.82,-0.7,-0.34,-0.17,0.01,0.24,-0.48,0.47,-0.17,0.6,-0.27,0.43,0.59,0.44,0.55,1.46,0.72,1.72,0.61,-0.44,0.75,0.02,-0.42,-0.08,-0.42,0.95,0.1,0.01,-0.09,-0.52,-0.78,-0.28,-1.15,-1.35,-0.93,0.72,0.07,1.19,-0.14,-0.33,-0.45,0.71,-0.37,-0.44,-0.58,-0.44,0.15,1.99,0.55,-0.31,0.94,2.99,0.39,0.05,-0.26,-0.29,-0.34,-0.27,0.64,0.63]},"up_semi_rs":{"m":"-","v":-1.092,"n":0,"t":"強弱在月線下","k":"dn","s":[-0.38,-0.39,-0.16,-0.66,-0.53,-0.73,-0.72,-0.83,-0.15,0.18,0.34,-0.0,0.2,-0.72,-0.5,-0.26,0.12,0.62,1.13,1.49,1.33,1.21,1.4,1.14,1.38,1.35,1.56,1.79,1.55,1.43,1.11,0.28,-0.01,-0.74,-0.86,-1.67,-1.92,-2.44,-2.15,-2.19,-1.82,-2.98,-2.74,-2.04,-1.14,-0.67,-0.81,-1.92,-2.34,-1.59,-2.37,-3.74,-2.64,-1.51,-1.36,-0.35,-0.31,-0.9,-1.48,-1.09]},"stop_vix":{"m":"ok","v":0.392,"n":0,"t":"近月低於遠月","k":"up","s":[2.98,2.95,3.25,3.08,3.27,2.99,3.39,3.63,3.62,3.53,3.19,2.03,3.37,3.46,3.23,0.89,1.38,1.35,1.43,1.7,1.47,1.51,1.77,1.55,1.44,1.2,1.09,1.46,1.45,null,null,null,null,null,null,null,0.63,-1.34,0.1,0.58,0.41,-0.59,-0.42,0.12,0.13,0.21,-0.32,-1.13,-0.95,-2.02,0.49,-3.7,-2.6,-0.73,0.73,1.0,1.17,0.94,0.43,0.39]},"stop_hy":{"m":"-","v":-0.931,"n":0,"t":"還在漲輸公債","k":"dn","s":[1.07,1.21,1.5,1.51,1.81,0.47,-0.3,-0.27,-1.17,-1.53,-0.06,0.63,1.03,1.14,0.47,1.29,1.14,0.88,0.89,1.39,0.25,-0.23,-2.47,-2.86,-3.99,-4.53,-5.72,-2.98,-2.16,0.11,0.06,0.67,0.53,0.52,-1.78,-2.66,-1.81,-4.2,-3.87,-2.71,-0.31,-2.21,-0.45,-0.3,1.56,1.02,1.75,-0.24,-1.96,-2.56,-1.59,-2.27,-0.56,1.43,1.03,0.93,2.42,2.22,0.12,-0.93]},"stop_aibond":{"m":"-","v":-0.044,"n":0,"t":"亮燈","k":"dn","s":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,1.5,1.5,1.5,1.5,1.5,1.16,1.82,0.73,0.6,0.12,-1.23,-1.66,-0.46,-0.3,1.1,1.8,1.61,1.95,1.4,-0.04]},"mk_oas":{"m":"-","v":-1.145,"n":0,"t":"還在擔心","k":"dn","s":[8.4,8.23,8.78,9.27,9.7,9.1,8.84,8.73,8.94,8.94,9.36,8.88,9.19,9.77,8.43,7.62,8.6,8.71,9.24,9.66,9.49,8.35,6.84,4.29,2.74,1.82,1.21,-0.56,1.32,1.05,2.16,1.37,0.6,1.08,1.1,0.48,-0.58,-0.36,-1.27,-1.04,-1.5,-0.8,-2.18,-1.96,-1.08,0.21,0.63,-0.61,-2.28,-2.18,-1.89,-1.11,-2.45,-1.91,-1.2,-1.2,-0.86,0.0,-0.25,-1.15]},"TW_tw_up_px":{"m":"-","v":-2.81,"n":0,"t":"收盤在月線下","k":"dn","s":[-0.48,-0.66,-0.83,-1.21,-0.92,-0.38,0.2,0.58,0.59,0.93,0.13,-0.08,-0.35,0.18,-0.12,-0.52,-0.72,-0.62,-1.0,-1.11,-0.94,-0.47,0.65,-0.14,0.67,-0.11,-0.56,-0.27,0.16,0.04,0.24,1.23,0.58,0.43,0.17,0.03,-0.98,-0.94,-2.15,-1.78,-2.04,-1.68,-1.47,-1.64,-1.64,-0.8,-1.29,-2.42,-2.56,-3.67,-4.03,-4.64,-5.59,-3.4,-2.19,-0.7,-1.4,-0.74,-2.39,-2.81]},"TW_tw_bt_ma":{"m":"-","v":-1.75,"n":0,"t":"五日線下","k":"dn","s":[-0.5,-0.24,-0.07,-0.35,-0.1,0.29,0.36,0.45,0.15,0.44,-0.09,-0.28,0.15,0.49,0.34,0.26,-0.06,-0.51,-0.54,-0.67,-0.41,-0.14,0.45,0.82,0.6,0.54,0.18,-0.17,0.02,0.24,0.29,0.94,0.7,0.41,-0.08,-0.21,-0.7,-0.36,-1.44,-1.32,-1.44,-1.58,-0.88,-1.25,-1.01,0.01,-0.41,-1.25,-1.34,-2.44,-2.52,-3.29,-4.18,-1.93,-0.71,0.82,0.12,0.48,-1.43,-1.75]},"TW_tw_br20":{"m":"-","v":-0.188,"n":0,"t":"比昨天少","k":"dn","s":[-0.04,0.66,0.26,-0.25,-0.15,0.78,-0.15,-0.33,-0.68,0.19,-0.28,-0.97,0.61,-0.07,-0.71,0.42,-0.45,-0.56,-0.18,-0.44,0.56,0.61,0.89,0.23,-0.34,-0.04,0.0,0.03,0.84,0.07,0.18,-0.45,0.04,0.35,-0.01,0.23,-1.09,0.71,-1.49,0.43,-0.96,-0.36,0.26,-0.63,0.18,0.43,-0.5,-0.71,0.1,-0.68,-0.06,-0.21,-0.16,0.34,0.19,0.39,-0.1,0.62,-0.7,-0.19]},"TW_tw_up_br":{"m":"-","v":-3.353,"n":0,"t":"沒過半、新高少","k":"dn","s":[-0.17,0.34,0.48,0.19,0.11,0.62,0.61,0.31,0.01,0.24,0.01,-0.86,-0.26,-0.33,-1.03,-0.62,-1.07,-1.62,-1.8,-2.22,-1.68,-1.02,-0.11,0.11,-0.23,-0.27,-0.27,-0.25,0.57,0.32,0.37,0.01,-0.04,0.26,0.21,0.37,-0.29,0.53,-0.83,-0.4,-1.35,-1.69,-1.42,-2.02,-1.89,-1.44,-1.92,-2.76,-2.54,-3.21,-3.35,-3.6,-3.78,-3.56,-3.36,-2.98,-3.07,-2.45,-3.1,-3.35]},"TW_tw_fx":{"m":"na","v":null,"n":0,"t":"資料不足","k":"na","s":[-0.34,-0.03,0.24,-0.14,-0.18,0.5,0.3,0.54,-0.14,0.76,-1.49,-0.11,0.51,0.94,-0.3,0.36,-0.64,-0.86,-0.02,-0.58,0.32,-0.26,1.27,0.28,0.33,0.12,-0.48,-0.73,0.45,-0.0,-0.03,1.12,-0.41,-0.01,-1.19,-0.41,-1.85,-0.12,-3.39,-0.04,-0.35,-0.56,0.17,-0.79,0.06,0.31,-0.94,-1.06,-0.3,-1.01,-1.14,-0.87,-0.77,-0.69,-0.31,-0.08,0.27,0.13,-0.27,null]},"TW_tw_up_fx":{"m":"na","v":null,"n":0,"t":"資料不足","k":"na","s":[-0.41,-0.41,0.04,-0.14,-0.18,-0.07,0.26,0.17,-0.27,-0.27,-1.49,-0.75,-0.06,0.12,-0.3,-0.16,-0.64,-0.86,-0.7,-0.72,-0.56,-0.6,0.33,0.19,-0.31,-0.3,-0.48,-0.73,-0.28,-0.0,-0.43,-0.42,-0.41,-0.12,-1.19,-0.89,-1.85,-1.95,-3.39,-2.27,-1.45,-0.64,-0.61,-0.81,-0.84,-0.21,-0.94,-1.06,-1.02,-1.02,-1.43,-1.41,-1.42,-1.39,-0.53,-0.49,-0.24,-0.24,-0.5,null]},"TW_tw_bt_fx":{"m":"na","v":null,"n":0,"t":"資料不足","k":"na","s":[-0.34,-0.34,-0.03,-0.14,-0.18,-0.18,0.3,0.3,-0.14,-0.14,-1.49,-1.52,-0.11,0.5,-0.3,-0.3,-0.64,-0.86,-0.86,-0.58,-0.6,-0.26,-0.25,0.28,0.28,0.12,-0.48,-0.73,-0.72,-0.0,-0.03,-0.03,-0.41,-0.41,-1.19,-1.18,-1.85,-1.96,-3.39,-3.4,-0.35,-0.56,-0.57,-0.79,-0.81,0.05,-0.94,-1.06,-1.07,-1.01,-1.14,-1.11,-0.85,-0.75,-0.68,-0.31,-0.08,0.13,-0.27,null]},"TW_tw_up_elec":{"m":"-","v":-1.0,"n":1,"t":"沒有族群到位","k":"dn","s":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,-1.5,-1.5,-1.5,-1.5,1.5,1.5,-1.5,1.5,-1.5,-1.5,-1.5,-1.5,-1.5,-1.5,-1.5,-1.5,-1.5,1.5,1.5,1.5,-1.5,-1.5]},"TW_tw_bt_twd":{"m":"-","v":-2.121,"n":0,"t":"還沒升值","k":"dn","s":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,-1.85,-2.3,-1.81,-1.89,-1.86,-1.69,-1.12,-1.31,-1.1,-0.99,-1.38,-1.39,-1.96,-1.97,-2.01,-2.05,-1.48,-2.0,-1.99,-2.05,-2.23,-1.98,-2.28,-2.12]},"TW_tw_bt_margin":{"m":"na","v":null,"n":0,"t":"資料不足","k":"na","s":[-1.53,-1.49,-1.4,-1.39,-1.63,-1.99,-1.81,-1.9,-1.66,-1.95,-1.94,-1.19,-1.78,-1.94,-1.5,-1.71,-1.91,-1.45,-1.47,-1.64,-2.0,-2.0,-2.08,-2.4,-1.96,-2.01,-2.43,-2.14,-2.18,-2.39,-2.32,-1.88,-2.27,-2.14,-2.44,-2.5,-1.51,-2.57,-1.87,-2.21,-1.93,-2.08,-2.71,-1.52,-1.57,-3.35,-2.87,-1.87,-2.8,-0.72,-2.47,-0.82,1.1,-1.15,-2.06,-2.73,-1.64,-2.56,-1.22,null]}};
+
+// 列名／組別＝ud_cond.ROWS；卡上〔底部〕＝ud_cond 底線組（GRP 標籤）
+const LAB={stop_ma10:['收盤站上十日線','止跌'],up_long:['費半、標普都站回長線','翻多'],up_ma60:['季線回到往上','翻多'],fl_ma60:['收盤守住季線','底部'],
+ fl_ma200:['收盤守住年線','底部'],fl_gap:['標普守住九月中缺口','底部'],stop_br50:['站上五十日線的股票不再減少','止跌'],up_br50:['站上五十日線的股票過半','翻多'],
+ up_nhnl:['近一個月新高不少於新低','翻多'],up_leader:['龍頭有好幾檔創歷史新高','翻多'],up_vol:['標普成交量不低於月均量','翻多'],up_semi_rs:['半導體對標普的強弱站上月線','翻多'],
+ stop_vix:['恐慌指數期貨近月低於遠月','止跌'],stop_hy:['體質差的公司債不再漲輸公債','止跌'],stop_aibond:['人工智慧公司債沒亮燈','止跌'],mk_oas:['市場不再擔心公司還不起錢','市場'],
+ TW_tw_up_elec:['有電子族群錢跟價同時到位','翻多']};
+const CARD_ORDER=['stop_ma10','up_long','up_ma60','fl_ma60','fl_ma200','fl_gap','stop_br50','up_br50','up_nhnl','up_leader','up_vol','up_semi_rs','stop_vix','stop_hy','stop_aibond','mk_oas'];
+function md(iso){return iso.slice(5).replace('-','/');}
+function last20(id){return UD[id].s.slice(40,60);}
+
+// ================= 共用小工具 =================
+let PULSE=null;
+// gpulse＝一般呼吸光；bpulse＝信號燈閃（data-per＝秒；跟報告同一組：1–2 步 0.8 秒、2–3 步 0.4 秒、≥3 步 0.2 秒）
+function startPulse(){if(PULSE)return;PULSE=setInterval(function(){
+  const t=Date.now()/1000;
+  const a=(0.4+0.5*(0.5+0.5*Math.sin(t*3.0))).toFixed(2);
+  const els=document.querySelectorAll('.gpulse');for(let i=0;i<els.length;i++)els[i].setAttribute('opacity',a);
+  const bs=document.querySelectorAll('.bpulse');for(let i=0;i<bs.length;i++){const p=parseFloat(bs[i].getAttribute('data-per'))||0.8;
+    bs[i].setAttribute('opacity',(0.25+0.75*(0.5+0.5*Math.sin(2*Math.PI*t/p))).toFixed(2));}
+},50);}
+function svgOpen(h,mw){return '<svg viewBox="0 0 300 '+h+'" style="width:100%;max-width:'+(mw||320)+'px;display:block;margin:0.4rem auto 0;background:rgba(6,10,22,0.42);border-radius:12px">';}
+
+function blinkLv(v){const a=Math.abs(v);return a<1?0:a<2?1:a<3?2:3;}
+const BL_PER=[0,0.8,0.4,0.2],BL_TXT=['不閃','0.8 秒閃一次','0.4 秒閃一次','0.2 秒閃一次'];
+const DEG=['幾乎剛好碰到條件線','離條件線不遠','離條件線比平常遠','離條件線很遠','離條件線非常遠'];
+function degOf(v){const a=Math.abs(v);return a<0.1?DEG[0]:DEG[blinkLv(v)+1];}
+
+// 小折線（＝env_card_v3.line_svg 兩欄版的畫法：上下界 ±3 步、超過貼邊；中線 ±0.1 步灰、以上紅、以下綠；null＝斷開）
+let SPK=0;
+function spark(vals,o){o=o||{};const W=o.w||268,H=o.h||52,X0=o.x0===undefined?30:o.x0,X1=W-6,MY=H/2,HY=H/2-4,YM=3,n=vals.length,id='sk'+(++SPK);
+ const X=function(i){return n<2?X1:X0+(X1-X0)*i/(n-1);},Y=function(v){return MY-Math.max(-YM,Math.min(YM,v))/YM*HY;};
+ let segs=[],cur=[];vals.forEach(function(v,i){if(v===null||v===undefined){if(cur.length)segs.push(cur);cur=[];}else cur.push([X(i),Y(v)]);});if(cur.length)segs.push(cur);
+ let d='',a='';segs.forEach(function(s){d+='M'+s[0][0].toFixed(1)+','+s[0][1].toFixed(1)+(s.length===1?'h0':'');a+='M'+s[0][0].toFixed(1)+','+MY+'V'+s[0][1].toFixed(1);
+   s.slice(1).forEach(function(p){d+='L'+p[0].toFixed(1)+','+p[1].toFixed(1);a+='L'+p[0].toFixed(1)+','+p[1].toFixed(1);});a+='V'+MY+'Z';});
+ const yu=Y(0.1),yd=Y(-0.1),sw=o.sw||2;
+ let s='<svg class="usp"'+(o.big?' style="max-width:none"':'')+' viewBox="0 0 '+W+' '+H+'" role="img" aria-label="信號燈小折線">'
+  +'<defs><clipPath id="'+id+'u"><rect x="0" y="0" width="'+W+'" height="'+yu.toFixed(1)+'"/></clipPath><clipPath id="'+id+'m"><rect x="0" y="'+yu.toFixed(1)+'" width="'+W+'" height="'+(yd-yu).toFixed(1)+'"/></clipPath><clipPath id="'+id+'d"><rect x="0" y="'+yd.toFixed(1)+'" width="'+W+'" height="'+(H-yd).toFixed(1)+'"/></clipPath></defs>';
+ if(!o.nolab)s+='<text x="0" y="'+(o.big?14:11)+'" class="sk-lab"'+(o.big?' style="font-size:7px"':'')+'>偏多</text><text x="0" y="'+(H-(o.big?5:3))+'" class="sk-lab"'+(o.big?' style="font-size:7px"':'')+'>偏空</text>';
+ s+='<line x1="'+X0+'" x2="'+W+'" y1="'+MY+'" y2="'+MY+'" class="sk-mid"/>';
+ s+='<path d="'+a+'" class="sk-fu" clip-path="url(#'+id+'u)"/><path d="'+a+'" class="sk-fd" clip-path="url(#'+id+'d)"/>';
+ s+='<path d="'+d+'" fill="none" stroke-width="'+sw+'" stroke-linejoin="round" class="sk-up" clip-path="url(#'+id+'u)"/>';
+ s+='<path d="'+d+'" fill="none" stroke-width="'+sw+'" stroke-linejoin="round" class="sk-gr" clip-path="url(#'+id+'m)"/>';
+ s+='<path d="'+d+'" fill="none" stroke-width="'+sw+'" stroke-linejoin="round" class="sk-dn" clip-path="url(#'+id+'d)"/>';
+ const lv=vals[n-1];
+ if(lv!==null&&lv!==undefined&&!o.nodot){const cx=X(n-1).toFixed(1),cy=Y(lv).toFixed(1),bl=o.ok&&!o.bin?blinkLv(lv):0;
+   if(bl)s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(o.big?11:8)+'" fill="'+(lv>=0?C_UP:C_DN)+'" class="bpulse" data-per="'+BL_PER[bl]+'"/>';
+   s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(o.big?5.5:4)+'" class="sk-dot"/>';}
+ if(o.naTxt)s+='<text x="'+(W-4)+'" y="'+(MY+4)+'" text-anchor="end" class="sk-na">'+o.naTxt+'</text>';
+ return s+(o.extra||'')+'</svg>';}
+
+// 一列（照卡上順序：白話名〔組〕＋狀態膠囊／小折線＋列尾）
+function rowHTML(id,o){o=o||{};const u=UD[id],L=LAB[id],vals=o.vals||last20(id);
+ const m=o.m||u.m,k=o.k||u.k,t=o.t||u.t,v=o.v===undefined?u.v:o.v;
+ const end=m==='ok'?'<span class="uend ok">成立 ✓</span>':m==='na'?'<span class="uend na">資料不足</span>':'<span class="uend">—</span>';
+ return '<div class="ur"><div class="un">'+(o.noName?'':o.hideName?'？':L[0])+(o.hideGrp?'':'<i>〔'+L[1]+'〕</i>')+'</div><span class="ucp '+k+'">'+t+'</span>'
+  +spark(vals,{ok:m==='ok',bin:!!u.n})+end+(o.cap?'<div class="ucap" style="grid-column:1/3">'+o.cap+'</div>':'')+'</div>';}
+function card(inner,cls){return '<div class="udc'+(cls?' '+cls:'')+'">'+inner+'</div>';}
+
+// ── ① 認燈：「收盤守住年線」真實小折線放大（10/20～11/17） ──
+const R1V=last20('fl_ma200');
+function r1Fig(sel,rev){const W=300,H=120,X0=34,X1=W-6,MY=H/2,n=R1V.length;
+ const cx=X1,cy=(MY-Math.max(-3,Math.min(3,R1V[n-1]))/3*(H/2-4));
+ const on=function(k){return sel&&sel.indexOf(k)>=0;},good=function(k){return rev&&rev.indexOf(k)>=0;};
+ const st=function(k){return good(k)?'#7fd6a6':on(k)?'#e0a526':'rgba(128,128,128,0.0)';};
+ let ex='';
+ ex+='<rect x="'+X0+'" y="2" width="'+(X1-X0-14)+'" height="'+(MY-8)+'" rx="6" fill="'+(good('up')?'rgba(120,220,140,0.16)':on('up')?'rgba(224,165,38,0.18)':'rgba(0,0,0,0.001)')+'" stroke="'+st('up')+'" stroke-width="2" style="cursor:pointer" onclick="hsPick(\'up\')"/>';
+ ex+='<rect x="'+X0+'" y="'+(MY+6)+'" width="'+(X1-X0-14)+'" height="'+(MY-8)+'" rx="6" fill="'+(on('dn')?'rgba(224,165,38,0.18)':'rgba(0,0,0,0.001)')+'" stroke="'+st('dn')+'" stroke-width="2" style="cursor:pointer" onclick="hsPick(\'dn\')"/>';
+ ex+='<rect x="'+X0+'" y="'+(MY-6)+'" width="'+(X1-X0-14)+'" height="12" rx="4" fill="'+(good('mid')?'rgba(120,220,140,0.3)':on('mid')?'rgba(224,165,38,0.3)':'rgba(0,0,0,0.001)')+'" stroke="'+st('mid')+'" stroke-width="2" style="cursor:pointer" onclick="hsPick(\'mid\')"/>';
+ ex+='<circle cx="'+cx+'" cy="'+cy.toFixed(1)+'" r="11" fill="'+(good('dot')?'rgba(120,220,140,0.35)':on('dot')?'rgba(224,165,38,0.4)':'rgba(0,0,0,0.001)')+'" stroke="'+st('dot')+'" stroke-width="2" style="cursor:pointer" onclick="hsPick(\'dot\')"/>';
+ if(rev){ex+='<text x="'+(X0+6)+'" y="18" fill="#7fd6a6" font-size="11" font-weight="700">燈亮那一側（偏多）</text><text x="'+(X0+6)+'" y="'+(MY-9)+'" fill="#7fd6a6" font-size="10.5">開關線＝門檻</text><text x="'+(cx-14)+'" y="'+(cy+20).toFixed(1)+'" fill="#7fd6a6" font-size="10.5" text-anchor="end">今天 11/17</text>';}
+ return card('<div class="un" style="margin-bottom:0.2rem">收盤守住年線<i>〔底部〕</i>　<span class="ucp dn" style="font-size:11px;border:1px solid;border-radius:999px;padding:1px 8px">年線之下</span></div>'
+   +spark(R1V,{w:W,h:H,x0:X0,big:true,sw:2.6,extra:ex})
+   +'<div class="ucap">'+md(DAYS[40])+'～'+md(DAYS[59])+' · 每一點＝那天的讀數</div>');}
+
+// ── ② 拉今天：「收盤站上十日線」前 19 天真實、11/17 那一點由你拉 ──
+const R2V=UD.stop_ma10.s.slice(41,59);
+function r2V(x){return x/10;}
+function r2Fig(x){const v=r2V(x),ok=v>=0,bl=ok?blinkLv(v):0;
+ const vals=R2V.concat([v]);
+ const cap=v>0?['up','十日線之上']:['dn','十日線之下'];
+ return card('<div class="ur"><div class="un">收盤站上十日線<i>〔止跌〕</i></div><span class="ucp '+cap[0]+'">'+cap[1]+'</span>'
+  +spark(vals,{ok:ok})+(ok?'<span class="uend ok">成立 ✓</span>':'<span class="uend">—</span>')
+  +'<div class="ucap" style="grid-column:1/3">'+md(DAYS[41])+'～'+md(DAYS[58])+' 真實讀數；最右邊 11/17 那一點跟著拉桿走（真實是 '+UD.stop_ma10.v.toFixed(1)+' 步）</div></div>');}
+function r2Lab(x){const v=r2V(x),ok=v>=0,bl=ok?blinkLv(v):0,a=Math.abs(v);
+ const dir=v>0?'<b style="color:'+C_UP+'">中線上方＝偏多那一邊，燈亮</b>':'<b style="color:'+C_DN+'">中線下方＝偏空那一邊，燈沒亮</b>';
+ return dir+'<br>離中線 <b>'+a.toFixed(1)+' 步</b>'+(a>=3?'（超過 3 步，線貼在邊上）':'')+'：'+degOf(v)
+  +'<br>'+(ok?(bl?'今天的點會閃：'+BL_TXT[bl]+'（越遠閃越快）':'達到門檻，但不到 1 步，不閃'):'沒成立，不閃');}
+
+// ── ④ 強弱排序：四條真實的燈（不分方向，只看離中線多遠） ──
+const R4=['up_long','fl_gap','up_vol','fl_ma200'];
+function r4Item(id){const u=UD[id];return LAB[id][0]+' <span style="opacity:.7;font-size:11.5px">〔'+LAB[id][1]+'〕</span>'+card(rowHTML(id,{hideGrp:true,noName:true}));}
+
+// ── ⑤ 四種形狀：真實窗口 ──
+const SHAPES=[
+ ['a','fl_ma200',UD.fl_ma200.s.slice(30,50),DAYS[30],DAYS[49],'收盤守住年線'],
+ ['b','stop_hy',UD.stop_hy.s.slice(40,60),DAYS[40],DAYS[59],'體質差的公司債不再漲輸公債'],
+ ['c','stop_br50',UD.stop_br50.s.slice(40,60),DAYS[40],DAYS[59],'站上五十日線的股票不再減少'],
+ ['d','up_long',UD.up_long.s.slice(40,60),DAYS[40],DAYS[59],'費半、標普都站回長線']];
+function shapeFig(sh){return '<div style="font-size:11.5px;opacity:.85">'+sh[5]+' · '+md(sh[3])+'～'+md(sh[4])+'</div>'+card(spark(sh[2],{}),'');}
+
+// ── ⑦ 特殊燈三種 ──
+function sp7(kind){
+ if(kind==='bin'){const v=UD.TW_tw_up_elec.s.slice(40,60);
+   return card(rowHTML('TW_tw_up_elec',{vals:v,cap:'台股分頁 · '+md(DAYS_TW[40])+'～'+md(DAYS_TW[59])+'（名稱先蓋住）',hideName:true}));}
+ if(kind==='two'){const v=UD.up_vol.s.slice(40,59);
+   return card(rowHTML('up_vol',{vals:v,m:'-',k:'up',cap:'標普 · 停在 11/16 那天：白點在中線上方，列尾卻還是「—」（名稱先蓋住）',hideName:true}));}
+ const v=UD.up_nhnl.s.slice(40,60);
+ return card(rowHTML('up_nhnl',{vals:v,cap:'標普 · 到 11/17：線在最後一天斷掉、沒有白點（名稱先蓋住）',hideName:true}));}
+
+// ── ⑧ 整張卡（標普分頁，11/17） ──
+function fullCard(){return card(CARD_ORDER.map(function(id){return rowHTML(id);}).join(''),'two');}
+function grpCount(){const G={止跌:[0,0,0],翻多:[0,0,0],底部:[0,0,0],市場:[0,0,0]};
+ CARD_ORDER.forEach(function(id){const g=G[LAB[id][1]],m=UD[id].m;g[0]++;if(m==='ok')g[1]++;if(m==='na')g[2]++;});return G;}
+const GC=grpCount();
+function gcLine(){return ['止跌','翻多','底部','市場'].map(function(g){const c=GC[g];return g+'組 '+c[0]+' 顆亮 '+c[1]+' 顆'+(c[2]?'、資料不足 '+c[2]+' 顆':'');}).join('；');}
+
+const OPENING={sky:'sky-storm',bg:'range',label:'序',title:'那一排小折線，你都跳過了',quotes:function(){return [
+ '打開多空卡，上面那一格定調你會看。<br>下面「止跌、翻多、底部、市場」四組，<br>每一列都拖著一條小折線。<br>你大概直接滑過去了。',
+ '卡上沒有圖例、沒有說明，<br>線有紅有綠、有的貼頂、有的斷掉。<br>你不確定紅色是好還是壞，<br>也不知道貼頂代表什麼。',
+ '其實每一條小折線，就是一顆<b>信號燈</b>。<br>它告訴你兩件事：<br><b>方向</b>——白點在中線哪一邊；<br><b>強度</b>——離中線幾步。',
+ '接下來 '+ROUNDS.length+' 關，一關一條真實的線。<br>玩完，你會一眼看出哪顆燈亮、亮得多強、哪顆快翻了。<br><span style="opacity:.78;font-size:13px">（線取自 '+ASOF+' 那份市場觀察的多空卡，資料到 '+DATA_DAY+'；用來練讀法，不是今天的判斷）</span>'];}};
+
+const ROUNDS=[
+// ── 1 認燈 · hotspot ──
+{type:'hotspot',sky:'sky-storm',bg:'farhills',label:'第一眼 · 認燈',short:'認燈',
+ title:'一條線，先找三個東西',
+ text:'這是多空卡上真的一列：「收盤守住年線」。<br>中間那條橫線、最右邊的白點、上下兩塊，<br>各是什麼意思？',
+ so:'讀燈只要三個東西：<br><b>中線</b>＝開關（條件剛好成立的那條線）、<b>白點</b>＝今天、<b>中線上方</b>＝條件成立的那一側（偏多，塗紅）。',
+ q:'在圖上點出：開關線、今天、燈亮的那一側（點三個）',
+ hsFig:r1Fig,need:['mid','dot','up'],
+ note:'紅＝偏多那一邊、綠＝偏空那一邊（台灣紅漲綠跌，跟報告同一套）。',
+ fbOk:'中線＝門檻，這列的門檻是「收盤剛好等於年線」。白點落在中線下面一點點＝11/17 收盤在年線下面一點點，所以膠囊寫「年線之下」、列尾是「—」（還沒成立）。<br>前面那一段<b>貼在最上面、平平的</b>：不是指數不動，是離年線超過 3 步、被截在邊上。',
+ fbNo:'下面那塊（綠色那一側）是條件沒成立的那一邊。'},
+// ── 2 方向＋強度 · slider ──
+{type:'slider',sky:'sky-valley',bg:'range',label:'方向＋強度 · 拉拉看',short:'方向＋強度',
+ title:'把今天拉過中線，再拉遠一點',
+ text:'「收盤站上十日線」這一列，<br>11/17 白點在中線下面 1.4 步。<br>現在換你來拉今天那一點。',
+ so:'白點在中線<b>哪一邊</b>＝方向；離中線<b>幾步</b>＝強度。<br>剛過中線＝燈亮了但很弱；拉到 1 步以上，白點開始閃，越遠閃越快。',
+ q:'把今天拉到「燈亮，而且強度至少 1 步」的位置（白點會開始閃）',
+ slider:{min:-39,max:39,step:2,init:-15,ans:15,lo:'偏空（下）',hi:'偏多（上）'},
+ fig:r2Fig,vlab:r2Lab,correct:function(x){return r2V(x)>=1;},
+ note:'一步＝這個指標平常一週會走的距離（近 60 天平均一天的變動 × √5）。超過 3 步，線就貼在上下邊。',
+ fbOk:'過中線那一刻，膠囊從綠色「十日線之下」變成紅色「十日線之上」，列尾變「成立 ✓」——這是<b>方向</b>。<br>再往上拉，白點離中線越遠＝這個方向的訊號越強：不到 1 步不閃、1～2 步 0.8 秒閃一次、2～3 步 0.4 秒、3 步以上 0.2 秒——這是<b>強度</b>。只有成立的列會閃。',
+ fbNo:'差一點：燈要亮（白點在中線上方），強度還要到 1 步以上。'},
+// ── 3 同一把尺 · match ──
+{type:'match',sky:'sky-valley',bg:'river',label:'同一把尺 · 換算成步',short:'同一把尺',
+ title:'單位不一樣，怎麼放在一起比？',
+ text:'季線差 4.18%、利差差 0.14 個百分點、年線差 0.05%。<br>三個數字單位不同，<br>誰離翻轉比較遠？',
+ so:'卡上每條線都先換成「步」：（現值 − 門檻）÷ 平常一週會走的距離。<br>指標平常走得少，差一點點就是好幾步。',
+ q:'把左邊的真實讀數（11/17），連到右邊換算後的步數：',
+ left:[['a','收盤守住季線<br>標普在季線下 <b>4.18%</b>'],['b','市場不再擔心公司還不起錢<br>高收益債利差 3.34%，門檻 3.2%<br>多了 <b>0.14 個百分點</b>'],['c','收盤守住年線<br>標普在年線下 <b>0.05%</b>']],
+ right:[['c','−0.04 步（幾乎貼著中線）'],['a','−2.7 步'],['b','−1.1 步']],
+ note:'利差那一列用的是 11/16 的數字（這個數據隔一天才公布），卡上照實標。',
+ fbOk:'標普平常一天走約 0.68%，一週的步伐約 1.5%，所以季線差 4.18%＝約 2.7 步。<br>利差平常一天只動約 0.055 個百分點，一週約 0.12，所以只差 0.14 也有 1.1 步。<br>換成同一把尺之後，十日線、寬度、利差就能放在同一張卡上比：<b>誰離中線遠，誰離翻轉就遠</b>。',
+ fbNo:'不要直接比原始數字的大小，要先除以「平常一週會走多少」。'},
+// ── 4 強度排序 · sort ──
+{type:'sort',sky:'sky-storm',bg:'peak',label:'強度 · 排排看',short:'強度排序',
+ title:'四顆燈，哪顆訊號最強？',
+ text:'四條都是 11/17 標普分頁的真實線。<br>有的在上、有的在下。<br>先不管方向，只看離中線多遠。',
+ so:'強度只看<b>離中線幾步</b>，不分上下：離得越遠，那個方向的訊號越強；貼著中線＝訊號弱、方向還不穩。',
+ q:'由「訊號最強」排到「訊號最弱」（點兩列互換）：',
+ items:R4.map(r4Item),shuffle:[3,2,0,1],
+ note:'貼在邊上的線＝超過 3 步，實際比 3 步還遠。',
+ fbOk:'① 費半、標普都站回長線：−3.8 步，貼底，偏空最強。② 標普守住九月中缺口：−2.6 步。③ 標普成交量不低於月均量：+0.6 步，在上面、燈亮，但不到 1 步，不閃。④ 收盤守住年線：−0.04 步，幾乎貼線，方向最不穩。<br>注意第 ③ 名：<b>亮著的燈不一定最強</b>，方向和強度要分開看。'},
+// ── 5 四種形狀 · match ──
+{type:'match',sky:'sky-valley',bg:'farhills',label:'形狀 · 一眼認出來',short:'四種形狀',
+ title:'看形狀，說一句白話',
+ text:'線不只看今天那一點。<br>整段怎麼走，也在講故事。<br>四段都是真實的線。',
+ so:'<b>長期貼頂</b>＝穩穩成立；<b>剛從上面掉到中線下</b>＝燈剛滅；<b>貼著中線上下來回</b>＝快翻了、不穩；<b>遠遠在下面</b>＝離翻轉還很遠。',
+ q:'把每一段線，連到它的白話：',
+ left:SHAPES.map(function(sh){return [sh[0],shapeFig(sh)];}),
+ right:[['c','快翻了、還不穩'],['a','穩穩成立'],['d','離翻轉還很遠'],['b','燈剛滅']],
+ fbOk:'收盤守住年線（10/07～11/03）整段貼頂＝穩穩成立；公司債那列前幾天還在上面、11/17 掉到中線下＝燈剛滅；五十日線股票數一直在中線附近來回＝快翻、不穩；費半、標普站回長線一路在下面、最後貼底＝離翻轉還很遠。',
+ fbNo:'先看最後那一點在哪一邊，再看前面那一段是貼邊、來回、還是剛穿過去。'},
+// ── 6 四組 · place ──
+{type:'place',sky:'sky-valley',bg:'range',label:'四組 · 各管什麼',short:'四組歸位',
+ title:'這顆燈屬於哪一組？',
+ text:'卡上每列後面都有一個〔組別〕。<br>先蓋起來，<br>你猜得出它管的是哪件事嗎？',
+ so:'<b>止跌</b>＝跌勢先停下來的跡象（只看今天）；<b>翻多</b>＝轉成偏多要的條件（大多要連兩天）；<b>底部</b>＝跌深時守不守得住的那條線；<b>市場</b>＝信用面的情緒。',
+ q:'把六顆燈放回它的組：',
+ cards:[['c1','收盤站上十日線'],['c2','季線回到往上'],['c3','收盤守住年線'],['c4','市場不再擔心公司還不起錢'],['c5','恐慌指數期貨近月低於遠月'],['c6','站上五十日線的股票過半']],
+ slots:[['s1','<b>止跌</b><br><span style="font-size:11px;opacity:.75">跌勢先停下來</span>','c1,c5'],['s2','<b>翻多</b><br><span style="font-size:11px;opacity:.75">轉成偏多要的條件</span>','c2,c6'],['s3','<b>底部</b><br><span style="font-size:11px;opacity:.75">守不守得住的線</span>','c3'],['s4','<b>市場</b><br><span style="font-size:11px;opacity:.75">信用面的情緒</span>','c4']],
+ done:'十日線、恐慌指數期貨＝止跌（短線先停下來）；季線往上、五十日線過半＝翻多（要連兩天）；年線＝底部；高收益債利差＝市場。<br>四組各自讀：同一組裡亮了幾顆、哪幾顆還差多遠。'},
+// ── 7 特殊燈 · place ──
+{type:'place',sky:'sky-storm',bg:'farhills',label:'特殊燈 · 三種例外',short:'特殊燈',
+ title:'這三條線，怎麼長得不一樣？',
+ text:'大部分的線是連續的。<br>但有三種燈，<br>畫法或規則不一樣。',
+ so:'<b>是非題燈</b>：沒有連續的量，只畫在上下兩個位置（成立＝上、不成立＝下），不閃。<br><b>連兩天燈</b>：線和膠囊看今天，但今天和前一天都成立才打 ✓。<br><b>資料不足</b>：當天讀不到，線斷掉、膠囊變黃，不沿用舊值。',
+ q:'把三個名字，放到對應的那條線：',
+ cards:[['k1','是非題燈'],['k2','連兩天燈'],['k3','資料不足']],
+ slots:[['t1',sp7('bin'),'k1'],['t2',sp7('two'),'k2'],['t3',sp7('na'),'k3']],
+ wide:true,
+ done:'第一條是台股分頁「有電子族群錢跟價同時到位」：每天只有「有／沒有」，所以只畫在兩個位置。<br>第二條是標普「標普成交量不低於月均量」：11/16 白點已經在上面，但前一天（11/13）還在下面，所以列尾是「—」；11/17 連兩天都在上面，才變「成立 ✓」。<br>第三條是「近一個月新高不少於新低」：11/17 讀不到，線斷掉、膠囊寫「資料不足」。'},
+// ── 8 整張卡 · build ──
+{type:'build',sky:'sky-clear',bg:'range',label:'收尾 · 讀一整張卡',short:'讀整張卡',
+ title:'11/17 標普分頁，整張讀一遍',
+ text:'這是 '+ASOF+' 市場觀察多空卡、標普分頁的四組條件（資料到 '+DATA_DAY+'）。<br>用前面學的，把燈分三類。',
+ q:'把燈放進三格（有兩張不屬於任何一格，留在上面就好）：',
+ cards:[['u1','標普成交量不低於月均量'],['u2','恐慌指數期貨近月低於遠月'],['u3','收盤守住年線'],['u4','人工智慧公司債沒亮燈'],['u5','近一個月新高不少於新低'],['u6','龍頭有好幾檔創歷史新高'],['u7','收盤站上十日線'],['u8','費半、標普都站回長線']],
+ slots:[['v1','<b>燈亮的</b>（成立 ✓）','u1,u2'],['v2','<b>貼著中線、快翻的</b>（離中線不到 0.1 步）','u3,u4'],['v3','<b>資料不足</b>','u5,u6']],
+ wide:true,
+ done:'這張卡在 11/17 的樣子：'+gcLine()+'。<br>亮的兩顆（成交量、恐慌指數期貨）都在中線上方，但都不到 1 步、沒有閃；年線和人工智慧公司債貼著中線；新高新低、龍頭新高兩列當天讀不到。<br><span style="opacity:.8">這只是描述條件走到哪裡，不是買賣訊號。</span>'}
+];
+ROUNDS[7].svg=fullCard();
+
+const ANS=[
+ {answer:'中線＝開關線（門檻）、最右邊白點＝今天、中線上方＝燈亮那一側（偏多）。',terms:[['中線','條件剛好成立的那條線，這列是「收盤＝年線」'],['白點','今天（資料日 11/17）的位置'],['貼頂','超過 3 步，被截在邊上']]},
+ {answer:'把 11/17 那一點拉到中線上方至少 1 步（例：+1.5 步）：方向偏多、燈亮，開始閃。',terms:[['方向','白點在中線哪一邊'],['強度','離中線幾步；越遠越強'],['一步','這個指標平常一週會走的距離'],['閃','只有成立的列才閃；不到 1 步不閃，越遠閃越快']]},
+ {answer:'季線 4.18% → −2.7 步；利差多 0.14 個百分點 → −1.1 步；年線 0.05% → −0.04 步。',terms:[['步','（現值 − 門檻）÷（近 60 天平均一天的變動 × √5）'],['百分點','利率、利差這類本身就是 % 的東西，相減的單位']]},
+ {answer:'由強到弱：費半、標普都站回長線（−3.8）→ 標普守住九月中缺口（−2.6）→ 標普成交量不低於月均量（+0.6）→ 收盤守住年線（−0.04）。',terms:[['強度','只看離中線多遠，不分上下'],['貼底','超過 −3 步，實際更遠']]},
+ {answer:'長期貼頂＝穩穩成立；剛掉到中線下＝燈剛滅；在中線附近來回＝快翻、不穩；遠在下面＝離翻轉還很遠。',terms:[['形狀','看整段，不只看今天那一點']]},
+ {answer:'止跌：十日線、恐慌指數期貨；翻多：季線往上、五十日線過半；底部：年線；市場：高收益債利差。',terms:[['止跌','跌勢先停下來的跡象'],['翻多','轉成偏多的條件，大多要連兩天'],['底部','跌深時守不守得住的線'],['市場','信用面的情緒']]},
+ {answer:'只畫在兩個位置＝是非題燈；白點在上面但列尾還是「—」＝連兩天燈；線斷掉、膠囊黃色＝資料不足。',terms:[['是非題燈','沒有連續的量，不閃'],['連兩天燈','今天和前一天都成立才打 ✓'],['資料不足','當天讀不到，不沿用舊值']]},
+ {answer:'燈亮：成交量、恐慌指數期貨；貼著中線：年線、人工智慧公司債；資料不足：新高新低、龍頭新高。十日線、長線兩張不屬於這三格。',terms:[['列尾 ✓','條件成立'],['列尾 —','還沒成立'],['列尾 資料不足','當天讀不到']]}
+];
+const TRANSITIONS=['開關在中線。<br>今天在白點。','方向看哪一邊，<br>強弱看幾步。','單位不同，<br>步伐一樣。','亮著的燈，<br>不一定最強。','形狀，<br>是一段日子。','先分組，<br>再數燈。','例外，<br>也有規則。',null];
+
+// ================= 引擎（ROUNDS／ANS／TRANSITIONS 三陣列同索引；關數一律由 length 算） =================
+function prog(){PB.style.width=(Math.max(0,state.idx)/ROUNDS.length*100)+'%';}
+function dots(i){return '<div class="step-dots">'+ROUNDS.map(function(_,k){return '<i class="'+(k<=i?'on':'')+'"></i>';}).join('')+'</div>';}
+function fade(fn){G.style.transition='opacity .32s';G.style.opacity='0';setTimeout(function(){fn();G.style.opacity='1';},330);}
+function scene(sky,bgtype,inner){return '<div class="scene '+sky+'">'+bg(bgtype,sky)+'<div class="overlay">'+inner+'</div></div>';}
+function head(r){
+ const layers=r.layers?'<div class="layer-list">'+r.layers.map(function(ly){return '<div class="ly"><b>'+ly[0]+'</b><span>'+ly[1]+'</span></div>';}).join('')+'</div>':'';
+ const chips=r.chips?'<div style="max-width:480px;margin:0 auto 0.4rem">'+r.chips.map(function(c){return '<span class="data-chip">'+c+'</span>';}).join('')+'</div>':'';
+ const so=r.so?'<div class="sowhat">'+r.so+'</div>':'';
+ const fig=r.svg?'<div style="margin:0.5rem auto 0.2rem">'+r.svg+'</div>':'';
+ return '<div class="chapter-label t-label">'+r.label+'</div><div class="chapter-title t-main" style="font-size:22px;margin-bottom:0.9rem">'+r.title+'</div><div class="round-text t-sub">'+r.text+'</div>'+so+layers+chips+fig;}
+function note(r){return r.note?'<div class="fig-note">'+r.note+'</div>':'';}
+function btnGive(i){return '<button class="continue-btn" style="opacity:0.72" onclick="giveAnswer('+i+')">給我答案</button>';}
+function okBox(txt){return '<div style="max-width:480px;margin:0.7rem auto 0;background:rgba(0,0,0,0.36);border:1px solid rgba(255,255,255,0.26);border-radius:10px;padding:0.9rem 1.1rem;font-size:13.5px;line-height:1.8;color:#fff;text-align:left;backdrop-filter:blur(6px)">'+txt+'</div>';}
+function mins(){return Math.max(6,Math.round(ROUNDS.length*0.75));}
+
+let oi=0;function startOpening(){oi=0;renderOpening();}
+function renderOpening(){const qs=OPENING.quotes(),q=qs[oi],last=oi>=qs.length-1;
+ G.innerHTML=scene(OPENING.sky,OPENING.bg,'<div class="chapter-label t-label">'+OPENING.label+'</div><div class="chapter-title t-main">'+OPENING.title+'</div><div class="chapter-quote t-sub">'+q+'</div><button class="continue-btn" onclick="nextOpening()">'+(last?'從最上面開始 ›':'繼續 ›')+'</button>');}
+function nextOpening(){oi++;if(oi>=OPENING.quotes().length)fade(function(){showRound(0);});else fade(renderOpening);}
+
+function showRound(i){state.idx=i;prog();const r=ROUNDS[i];
+ if(r.type==='ab')renderAB(i);
+ else if(r.type==='place'||r.type==='build')renderPlace(i);
+ else if(r.type==='hotspot')renderHotspot(i);
+ else if(r.type==='slider')renderSlider(i);
+ else if(r.type==='sort')renderSort(i);
+ else if(r.type==='match')renderMatch(i);
+ else if(r.type==='flip')renderFlip(i);}
+
+// ── 選擇題 ──
+function renderAB(i){const r=ROUNDS[i];
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+note(r)+'<div class="round-q t-main">'+r.q+'</div>'
+  +'<div class="choices">'+r.choices.map(function(c,k){return '<button class="choice-btn" onclick="abPick('+i+','+k+')">'+c+'</button>';}).join('')+'</div>'
+  +btnGive(i));}
+function abPick(i,k){const r=ROUNDS[i];if(k===r.correct)state.score++;
+ const col=k===r.correct?'#a5d6a7':'#ffcc80';
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="feedback" style="color:'+col+';min-height:auto;font-size:14px">'+r.fb[k]+'</div><button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');}
+
+// ── 兩段式點選歸位（place / build 共用；點選式，不用原生拖曳 API）──
+function placeBody(i,cards,slots,wide,rev,marks){
+ const used={};Object.keys(state.pl).forEach(function(s){state.pl[s].forEach(function(c){used[c]=1;});});
+ const pool=cards.filter(function(c){return !used[c[0]];});
+ let h='<div class="pl-pool">'+(pool.length?pool.map(function(c){
+   return '<div class="pl-card'+(state.plSel===c[0]?' sel':'')+'" onclick="plCard(\''+c[0]+'\')">'+c[1]+'</div>';}).join(''):(rev?'':'<div class="t-label" style="font-size:12px">都放好了 —— 按下面的按鈕</div>'))+'</div>';
+ h+='<div class="pl-slots">'+slots.map(function(s){
+   const got=state.pl[s[0]]||[];
+   const chips=got.map(function(cid){const cc=cards.filter(function(x){return x[0]===cid;})[0];return '<span class="pl-chip">'+cc[1]+'</span>';}).join('');
+   let cls='pl-slot'+(wide?' wide':'');
+   if(marks&&marks[s[0]]!==undefined)cls+=marks[s[0]]?' right':' wrong';
+   else if(state.plSel)cls+=' armed';
+   return '<div class="'+cls+'" onclick="plSlot(\''+s[0]+'\','+i+')"><div class="sl-t">'+s[1]+'</div><div class="sl-v">'+(chips||'<span style="font-size:11.5px;color:rgba(255,255,255,0.45)">點這裡放進來</span>')+'</div></div>';}).join('')+'</div>';
+ return h;}
+function plCard(id){state.plSel=(state.plSel===id?null:id);window.plDraw();}
+function plSlot(sid,i){const r=ROUNDS[i];
+ const cap=r.slots.filter(function(s){return s[0]===sid;})[0][2].split(',').length;
+ if(state.plSel){
+   Object.keys(state.pl).forEach(function(k){state.pl[k]=state.pl[k].filter(function(c){return c!==state.plSel;});});
+   if(!state.pl[sid])state.pl[sid]=[];
+   if(state.pl[sid].length>=cap)state.pl[sid].shift();
+   state.pl[sid].push(state.plSel);state.plSel=null;
+ }else if(state.pl[sid]&&state.pl[sid].length){state.pl[sid].pop();}
+ if(window.plDraw)window.plDraw();}
+function plFull(slots){let n=0;Object.keys(state.pl).forEach(function(k){n+=state.pl[k].length;});
+ let need=0;slots.forEach(function(s){need+=s[2].split(',').length;});return n===need;}
+function plMarks(slots){const m={};slots.forEach(function(s){
+  const want=s[2].split(',').sort().join(',');const got=(state.pl[s[0]]||[]).slice().sort().join(',');m[s[0]]=(want===got);});return m;}
+function renderPlace(i){const r=ROUNDS[i];
+ if(state.plFor!==i){state.plFor=i;state.pl={};state.plSel=null;}
+ function draw(){G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+note(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+   +placeBody(i,r.cards,r.slots,r.wide)
+   +'<div class="btnrow">'+(plFull(r.slots)?'<button class="continue-btn" onclick="plCheck('+i+')">檢查</button>':'')+btnGive(i)+'</div>');}
+ window.plDraw=draw;draw();}
+function plCheck(i){const r=ROUNDS[i];const m=plMarks(r.slots);
+ let ok=0;Object.keys(m).forEach(function(k){if(m[k])ok++;});
+ if(ok===r.slots.length)state.score++;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+placeBody(i,r.cards,r.slots,r.wide,true,m)
+  +'<div class="feedback" style="color:'+(ok===r.slots.length?'#a5d6a7':'#ffcc80')+';min-height:auto;font-size:13.5px">放對 '+ok+'/'+r.slots.length+' 格'+(ok===r.slots.length?'':'（紅框那幾格放錯了）')+'</div>'
+  +okBox(r.done)+'<button class="continue-btn" onclick="record('+i+')">'+(r.type==='build'?'看我學會了什麼 ›':'繼續 ›')+'</button>');}
+
+// ── 點圖熱區 ──
+function hsPick(k){const i=state.hsFor,r=ROUNDS[i];if(!r||r.type!=='hotspot')return;const p=state.hs.indexOf(k);
+ if(p>=0)state.hs.splice(p,1);
+ else{if(state.hs.length>=r.need.length)state.hs.shift();state.hs.push(k);}
+ if(window.hsDraw)window.hsDraw();}
+function renderHotspot(i){const r=ROUNDS[i];
+ if(state.hsFor!==i){state.hsFor=i;state.hs=[];}
+ function draw(){const done=state.hs.length===r.need.length;
+  G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+   +(r.hsFig?r.hsFig(state.hs,null):quadBox(r.quad,state.hs,null))+note(r)
+   +'<div class="btnrow">'+(done?'<button class="continue-btn" onclick="hsCheck('+i+')">檢查</button>':'')+btnGive(i)+'</div>');}
+ window.hsDraw=draw;draw();}
+function hsCheck(i){const r=ROUNDS[i];
+ const ok=r.need.slice().sort().join(',')===state.hs.slice().sort().join(',');
+ if(ok)state.score++;
+ window.hsDraw=null;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+(r.hsFig?r.hsFig(state.hs,r.need):quadBox(r.quad,state.hs,r.need))+note(r)
+  +okBox('<span style="color:'+(ok?'#a5d6a7':'#ffcc80')+'">'+(ok?'答對了。':'差一點——正解已經標出來。')+'</span><br>'+(ok?r.fbOk:r.fbNo+'<br><br>'+r.fbOk))
+  +'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');}
+
+// ── 拉桿 ──
+function slUpd(){const i=state.slFor,r=ROUNDS[i];
+ const f=document.getElementById('slfig');if(f)f.innerHTML=r.fig(state.sv);
+ const l=document.getElementById('slval');if(l)l.innerHTML=r.vlab(state.sv);}
+function renderSlider(i){const r=ROUNDS[i];
+ if(state.slFor!==i){state.slFor=i;state.sv=r.slider.init;}
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+  +'<div id="slfig">'+r.fig(state.sv)+'</div>'+note(r)
+  +'<div class="gauge-wrap" style="max-width:440px"><input type="range" class="gsl" min="'+r.slider.min+'" max="'+r.slider.max+'"'+(r.slider.step?' step="'+r.slider.step+'"':'')+' value="'+state.sv+'" oninput="state.sv=parseInt(this.value);slUpd()">'
+  +'<div class="gsl-ends"><span>'+r.slider.lo+'</span><span>'+r.slider.hi+'</span></div></div>'
+  +'<div id="slval" class="feedback" style="min-height:38px;font-size:13.5px;color:#fff">'+r.vlab(state.sv)+'</div>'
+  +'<div class="btnrow"><button class="continue-btn" onclick="slDone('+i+')">就這樣 ›</button>'+btnGive(i)+'</div>');}
+function slDone(i){const r=ROUNDS[i];const ok=r.correct(state.sv);if(ok)state.score++;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div id="slfig">'+r.fig(state.sv)+'</div>'+note(r)
+  +'<div class="feedback" style="min-height:auto;font-size:13.5px;color:#fff">'+r.vlab(state.sv)+'</div>'
+  +okBox('<span style="color:'+(ok?'#a5d6a7':'#ffcc80')+'">'+(ok?'到了。':'還沒到——答案在這裡。')+'</span><br>'+(ok?r.fbOk:r.fbNo+'<br><br>'+r.fbOk))
+  +'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');}
+
+// ── 排序（點兩張互換，不用上下鍵）──
+function soPick(k){if(state.soSel===null){state.soSel=k;}
+ else if(state.soSel===k){state.soSel=null;}
+ else{const a=state.so[state.soSel];state.so[state.soSel]=state.so[k];state.so[k]=a;state.soSel=null;}
+ if(window.soDraw)window.soDraw();}
+function soBody(r,marks){return '<div class="st-list">'+state.so.map(function(v,k){
+  let cls='st-row'+(state.soSel===k&&!marks?' sel':'');
+  if(marks)cls+=(v===k?' right':' wrong');
+  return '<div class="'+cls+'" onclick="'+(marks?'':'soPick('+k+')')+'"><b>'+(k+1)+'</b><span>'+r.items[v]+'</span></div>';}).join('')+'</div>';}
+function renderSort(i){const r=ROUNDS[i];
+ if(state.soFor!==i){state.soFor=i;state.so=r.shuffle.slice();state.soSel=null;}
+ function draw(){G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+   +soBody(r)+note(r)
+   +'<div class="btnrow"><button class="continue-btn" onclick="soCheck('+i+')">檢查</button>'+btnGive(i)+'</div>');}
+ window.soDraw=draw;draw();}
+function soCheck(i){const r=ROUNDS[i];let ok=0;state.so.forEach(function(v,k){if(v===k)ok++;});
+ if(ok===r.items.length)state.score++;
+ window.soDraw=null;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+soBody(r,true)
+  +'<div class="feedback" style="color:'+(ok===r.items.length?'#a5d6a7':'#ffcc80')+';min-height:auto;font-size:13.5px">排對 '+ok+'/'+r.items.length+' 格</div>'
+  +okBox((ok===r.items.length?'':'正確順序由上到下：<br>'+r.items.map(function(t,k){return (k+1)+'　'+t;}).join('<br>')+'<br><br>')+r.fbOk)+'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');}
+
+// ── 連連看 ──
+function mtPick(side,k){if(side==='L'){state.mtSel=(state.mtSel===k?null:k);}
+ else if(state.mtSel){
+   Object.keys(state.mt).forEach(function(l){if(state.mt[l]===k)delete state.mt[l];});
+   state.mt[state.mtSel]=k;state.mtSel=null;}
+ if(window.mtDraw)window.mtDraw();}
+function mtLines(){const svg=document.getElementById('mtlines');if(!svg)return;
+ const wrap=document.getElementById('mtwrap');if(!wrap)return;
+ const wb=wrap.getBoundingClientRect();let s='';
+ Object.keys(state.mt).forEach(function(l){
+   const a=document.getElementById('mtL'+l),b=document.getElementById('mtR'+state.mt[l]);
+   if(!a||!b)return;
+   const ra=a.getBoundingClientRect(),rb=b.getBoundingClientRect();
+   const x1=ra.right-wb.left,y1=ra.top-wb.top+ra.height/2,x2=rb.left-wb.left,y2=rb.top-wb.top+rb.height/2;
+   const mid=(x1+x2)/2;
+   s+='<path d="M'+x1+','+y1+' C'+mid+','+y1+' '+mid+','+y2+' '+x2+','+y2+'" fill="none" stroke="rgba(224,165,38,0.85)" stroke-width="2"/>';
+   s+='<circle cx="'+x1+'" cy="'+y1+'" r="3.5" fill="#e0a526"/><circle cx="'+x2+'" cy="'+y2+'" r="3.5" fill="#e0a526"/>';});
+ svg.innerHTML=s;svg.setAttribute('viewBox','0 0 '+Math.max(1,wb.width)+' '+Math.max(1,wb.height));}
+function mtBody(r,marks){
+ let h='<div class="mt-wrap" id="mtwrap"><svg class="mt-lines" id="mtlines" preserveAspectRatio="none"></svg><div class="mt-cols"><div class="mt-col">';
+ h+=r.left.map(function(x){let c='mt-item'+(state.mtSel===x[0]?' sel':'')+(state.mt[x[0]]?' on':'');
+   if(marks)c+=(state.mt[x[0]]===x[0]?' right':' wrong');
+   return '<div class="'+c+'" id="mtL'+x[0]+'" onclick="'+(marks?'':'mtPick(\'L\',\''+x[0]+'\')')+'">'+x[1]+'</div>';}).join('');
+ h+='</div><div class="mt-col">';
+ h+=r.right.map(function(x){const linked=Object.keys(state.mt).filter(function(l){return state.mt[l]===x[0];}).length>0;
+   return '<div class="mt-item'+(linked?' on':'')+'" id="mtR'+x[0]+'" onclick="'+(marks?'':'mtPick(\'R\',\''+x[0]+'\')')+'">'+x[1]+'</div>';}).join('');
+ return h+'</div></div></div>';}
+function renderMatch(i){const r=ROUNDS[i];
+ if(state.mtFor!==i){state.mtFor=i;state.mt={};state.mtSel=null;}
+ function draw(){const done=Object.keys(state.mt).length===r.left.length;
+  G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+   +mtBody(r)+note(r)
+   +'<div class="btnrow">'+(done?'<button class="continue-btn" onclick="mtCheck('+i+')">檢查</button>':'')+btnGive(i)+'</div>');
+  mtLines();}
+ window.mtDraw=draw;draw();}
+function mtCheck(i){const r=ROUNDS[i];let ok=0;r.left.forEach(function(x){if(state.mt[x[0]]===x[0])ok++;});
+ if(ok===r.left.length)state.score++;
+ const wrongOnes=r.left.filter(function(x){return state.mt[x[0]]!==x[0];});
+ const fix=wrongOnes.length?'正解：<br>'+wrongOnes.map(function(x){const rr=r.right.filter(function(y){return y[0]===x[0];})[0];return x[1]+' → '+rr[1];}).join('<br>')+'<br><br>':'';
+ window.mtDraw=null;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+mtBody(r,true)
+  +'<div class="feedback" style="color:'+(ok===r.left.length?'#a5d6a7':'#ffcc80')+';min-height:auto;font-size:13.5px">接對 '+ok+'/'+r.left.length+' 條</div>'
+  +okBox(ok===r.left.length?r.fbOk:r.fbNo+'<br>'+fix+r.fbOk)
+  +'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');
+ mtLines();}
+
+// ── 翻牌 ＋ 建構收尾 ──
+function renderFlip(i){const r=ROUNDS[i];
+ if(state.fpFor!==i){state.fpFor=i;state.fp=0;state.pl={};state.plSel=null;state.plFor=i;}
+ if(state.fp===0){
+   G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
+    +'<div class="fp-bets">'+r.bets.map(function(b){return '<button class="fp-bet" onclick="fpBet('+i+',\''+b[0]+'\')">'+b[1]+'</button>';}).join('')+'</div>'
+    +btnGive(i));
+ }else{fpBuild(i);}}
+function fpBet(i,k){const r=ROUNDS[i];if(k===r.betOk)state.score++;
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+r.reveal
+  +okBox('<span style="color:'+(k===r.betOk?'#a5d6a7':'#ffcc80')+'">'+(k===r.betOk?'你猜對了。':'猜反了——但重點不在猜對。')+'</span><br>'+r.revealTxt)
+  +(r.buildTitle?'<button class="continue-btn" onclick="fpNext('+i+')">最後一件事 ›</button>':'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>'));}
+function fpNext(i){state.fp=1;state.pl={};state.plSel=null;fade(function(){fpBuild(i);});}
+function fpBuild(i){const r=ROUNDS[i];
+ G.innerHTML=scene('sky-clear','range',dots(i)
+  +'<div class="chapter-label t-label">'+r.label+' · 收尾</div><div class="chapter-title t-main" style="font-size:22px;margin-bottom:0.9rem">'+r.buildTitle+'</div>'
+  +'<div class="round-q t-main" style="font-size:15px">'+r.buildQ+'</div>'
+  +placeBody(i,r.cards,r.slots,true)
+  +'<div class="btnrow">'+(plFull(r.slots)?'<button class="continue-btn" onclick="fpDone('+i+')">排好了 ›</button>':'')+btnGive(i)+'</div>');
+ window.plDraw=function(){fpBuild(i);};}
+function fpDone(i){const r=ROUNDS[i];const m=plMarks(r.slots);
+ let ok=0;Object.keys(m).forEach(function(k){if(m[k])ok++;});
+ window.plDraw=null;
+ G.innerHTML=scene('sky-clear','range',dots(i)
+  +'<div class="chapter-label t-label">'+r.label+' · 收尾</div><div class="chapter-title t-main" style="font-size:22px;margin-bottom:0.9rem">'+r.buildTitle+'</div>'
+  +placeBody(i,r.cards,r.slots,true,true,m)
+  +'<div class="feedback" style="color:'+(ok===r.slots.length?'#a5d6a7':'#ffcc80')+';min-height:auto;font-size:13.5px">放對 '+ok+'/'+r.slots.length+' 格'+(ok===r.slots.length?'':'（紅框那幾格放錯了，正解在「給我答案」也看得到）')+'</div>'
+  +okBox(r.done)+'<button class="continue-btn" onclick="record('+i+')">看我學會了什麼 ›</button>');}
+
+// ── 給我答案：就地揭示 ──
+function giveAnswer(i){const r=ROUNDS[i],a=ANS[i];
+ const gloss='<div style="font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.55);margin:0.9rem 0 0.5rem">名詞白話</div>'
+  +'<div class="layer-list" style="background:none;border:none;padding:0;margin:0">'+a.terms.map(function(t){return '<div class="ly"><b>'+t[0]+'</b><span>'+t[1]+'</span></div>';}).join('')+'</div>';
+ const ansLine='<div style="font-size:14px;line-height:1.75;color:#fff;text-align:left"><b style="color:#a5d6a7">答案：</b>'+a.answer+'</div>';
+ const expl=function(t){return '<div style="font-size:13.5px;line-height:1.8;color:rgba(255,255,255,0.92);text-align:left;max-width:480px;margin:0.5rem auto 0;background:rgba(0,0,0,0.3);border-radius:10px;padding:0.6rem 0.8rem">'+t+'</div>';};
+ let mid='';
+ window.plDraw=null;window.hsDraw=null;window.soDraw=null;window.mtDraw=null;
+ if(r.type==='ab'){
+   mid='<div class="choices">'+r.choices.map(function(c,k){return '<div class="choice-btn" style="cursor:default;'+(k===r.correct?'border-color:#a5d6a7;background:rgba(80,200,110,0.18)':'opacity:0.45')+'">'+(k===r.correct?'✓ ':'')+c+'</div>';}).join('')+'</div>'
+     +'<div class="feedback" style="color:#a5d6a7;min-height:auto;font-size:13.5px">'+r.fb[r.correct]+'</div>';
+ }else if(r.type==='place'||r.type==='build'){
+   state.pl={};r.slots.forEach(function(s){state.pl[s[0]]=s[2].split(',');});state.plSel=null;
+   mid=placeBody(i,r.cards,r.slots,r.wide,true,plMarks(r.slots))+expl(r.done);
+ }else if(r.type==='hotspot'){
+   state.hs=r.need.slice();mid=(r.hsFig?r.hsFig(state.hs,r.need):quadBox(r.quad,state.hs,r.need))+note(r)+expl(r.fbOk);
+ }else if(r.type==='slider'){
+   state.sv=r.slider.ans;
+   mid='<div id="slfig">'+r.fig(state.sv)+'</div><div class="feedback" style="min-height:auto;font-size:13.5px;color:#fff">'+r.vlab(state.sv)+'</div>'+expl(r.fbOk);
+ }else if(r.type==='sort'){
+   state.so=r.items.map(function(_,k){return k;});state.soSel=null;
+   mid=soBody(r,true)+expl(r.fbOk);
+ }else if(r.type==='match'){
+   state.mt={};r.left.forEach(function(x){state.mt[x[0]]=x[0];});state.mtSel=null;
+   mid=mtBody(r,true)+expl(r.fbOk);
+ }else if(r.type==='flip'){
+   if(state.fp===0){mid=r.reveal+expl(r.revealTxt);}
+   else{state.pl={};r.slots.forEach(function(s){state.pl[s[0]]=s[2].split(',');});state.plSel=null;
+     mid=placeBody(i,r.cards,r.slots,true,true,plMarks(r.slots))+expl(r.done);}
+ }
+ const nextBtn=(r.type==='flip'&&state.fp===0&&r.buildTitle)?'<button class="continue-btn" onclick="fpNext('+i+')">最後一件事 ›</button>':'<button class="continue-btn" onclick="record('+i+')">'+(r.type==='build'?'看我學會了什麼 ›':'懂了，繼續 ›')+'</button>';
+ G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+mid+okBox(ansLine+gloss)+nextBtn);
+ if(r.type==='match')mtLines();}
+
+function record(i){const t=TRANSITIONS[i];if(t)fade(function(){showTrans(t,i);});else advance(i);}
+function showTrans(txt,i){G.innerHTML='<div class="scene" style="background:linear-gradient(180deg,#020408,#0a0714,#141020);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:3rem 1.5rem"><div class="overlay"><div class="transition-quote">'+txt+'</div><button class="continue-btn" onclick="advance('+i+')">繼續 ›</button></div></div>';}
+function advance(i){const n=i+1;if(n>=ROUNDS.length)fade(showResult);else fade(function(){showRound(n);});}
+// ================= 結果頁：工具牆（件數由 TOOLBOX.length 算） =================
+const TOOLBOX=[
+ ['開關線＋白點','<svg viewBox="0 0 100 84"><line x1="8" y1="42" x2="92" y2="42" stroke="rgba(255,255,255,0.45)"/><polyline points="8,30 30,26 52,36 74,48 88,50" fill="none" stroke="#7fd0a0" stroke-width="2"/><circle cx="88" cy="50" r="4.5" fill="#fff"/></svg>'],
+ ['方向＋強度','<svg viewBox="0 0 100 84"><line x1="8" y1="42" x2="92" y2="42" stroke="rgba(255,255,255,0.45)"/><line x1="70" y1="42" x2="70" y2="14" stroke="#e0a526" stroke-width="1.5" stroke-dasharray="3 2"/><circle cx="70" cy="14" r="5" fill="#ff6b7d" class="gpulse"/><text x="50" y="72" fill="#f4dc9a" font-size="10" text-anchor="middle">幾步？</text></svg>'],
+ ['同一把尺','<svg viewBox="0 0 100 84"><rect x="10" y="34" width="80" height="14" rx="3" fill="rgba(0,0,0,0.25)" stroke="#e0a526"/><path d="M26,34v6M42,34v6M58,34v6M74,34v6" stroke="#e0a526"/><text x="50" y="66" fill="#f4dc9a" font-size="10" text-anchor="middle">一步＝一週</text></svg>'],
+ ['強弱排序','<svg viewBox="0 0 100 84"><rect x="14" y="10" width="72" height="12" rx="3" fill="#7fd0a0"/><rect x="14" y="28" width="52" height="12" rx="3" fill="#7fd0a0" opacity=".8"/><rect x="14" y="46" width="22" height="12" rx="3" fill="#ff6b7d"/><rect x="14" y="64" width="4" height="12" rx="2" fill="rgba(255,255,255,0.6)"/></svg>'],
+ ['四種形狀','<svg viewBox="0 0 100 84"><polyline points="6,14 46,14" stroke="#ff6b7d" stroke-width="2"/><polyline points="54,14 80,16 94,30" fill="none" stroke="#7fd0a0" stroke-width="2"/><polyline points="6,60 16,52 26,62 36,54 46,60" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2"/><polyline points="54,64 94,76" stroke="#7fd0a0" stroke-width="2"/></svg>'],
+ ['四組','<svg viewBox="0 0 100 84"><rect x="8" y="8" width="40" height="30" rx="4" fill="rgba(0,0,0,0.25)" stroke="#e0a526"/><rect x="52" y="8" width="40" height="30" rx="4" fill="rgba(0,0,0,0.25)" stroke="#e0a526"/><rect x="8" y="44" width="40" height="30" rx="4" fill="rgba(0,0,0,0.25)" stroke="#e0a526"/><rect x="52" y="44" width="40" height="30" rx="4" fill="rgba(0,0,0,0.25)" stroke="#e0a526"/><text x="28" y="27" fill="#fff" font-size="9" text-anchor="middle">止跌</text><text x="72" y="27" fill="#fff" font-size="9" text-anchor="middle">翻多</text><text x="28" y="63" fill="#fff" font-size="9" text-anchor="middle">底部</text><text x="72" y="63" fill="#fff" font-size="9" text-anchor="middle">市場</text></svg>'],
+ ['三種例外','<svg viewBox="0 0 100 84"><path d="M8,20h12M24,40h12M40,20h12" stroke="#ff6b7d" stroke-width="2"/><text x="78" y="26" fill="#f0b429" font-size="9" text-anchor="middle">資料不足</text><text x="50" y="68" fill="#f4dc9a" font-size="10" text-anchor="middle">連兩天 ✓</text></svg>'],
+ ['整張卡','<svg viewBox="0 0 100 84"><rect x="10" y="8" width="80" height="14" rx="3" fill="rgba(0,0,0,0.25)" stroke="rgba(255,255,255,0.4)"/><rect x="10" y="26" width="80" height="14" rx="3" fill="rgba(0,0,0,0.25)" stroke="#ff6b7d"/><rect x="10" y="44" width="80" height="14" rx="3" fill="rgba(0,0,0,0.25)" stroke="rgba(255,255,255,0.4)"/><rect x="10" y="62" width="80" height="14" rx="3" fill="rgba(0,0,0,0.25)" stroke="#f0b429"/></svg>']
+];
+function toolboxHTML(){return '<div style="max-width:380px;margin:0.3rem auto 1.5rem">'
+ +'<div class="t-label" style="font-size:11px;letter-spacing:2px;margin-bottom:0.2rem">你現在手上有 '+TOOLBOX.length+' 件工具</div>'
+ +'<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem">'
+ +TOOLBOX.map(function(t){return '<div style="background:rgba(0,0,0,0.26);border:1px solid rgba(255,255,255,0.12);border-radius:9px;padding:0.35rem 0.3rem 0.4rem">'
+   +'<div style="width:100%;max-width:70px;margin:0 auto">'+t[1]+'</div>'
+   +'<div style="font-size:10.5px;color:rgba(255,255,255,0.78);margin-top:0.15rem;line-height:1.3">'+t[0]+'</div></div>';}).join('')
+ +'</div></div>';}
+
+function showResult(){PB.style.width='100%';const s=state.score,mx=ROUNDS.length;
+ const tier=s>=mx-1?'穩':s>=Math.ceil(mx/2)?'入門':'再玩一次';
+ const chain=ROUNDS.map(function(r){return r.short;});
+ G.innerHTML=scene('sky-result','range',
+  '<div class="chapter-label t-label" style="margin-bottom:0.8rem">'+ROUNDS.length+' 關走完</div>'
+  +'<div class="result-icon">🚦</div>'
+  +'<div class="result-type t-main">你會看多空卡的信號燈了</div>'
+  +'<div class="result-vow" style="font-size:19px;font-weight:800;color:#e8c86a;margin:0.35rem auto 0.1rem;max-width:430px;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)">「我看得出燈在哪一邊、亮得多強。」</div>'
+  +'<div class="result-desc t-sub">開場那句是：<b>那一排小折線，你都跳過了</b>。<br>現在每一條你都讀得出兩件事：<br><br>'
+    +'<b>方向</b>：白點在中線上面＝偏多那一邊、下面＝偏空那一邊<br><b>強度</b>：離中線幾步，越遠越強；貼著中線＝還不穩<br><br>'
+    +'<b>'+chain.join(' → ')+'</b><br><br>'
+    +'下次打開多空卡，四組各數一次：亮了幾顆、哪顆貼著中線、哪顆資料不足。<br><span style="opacity:.8">這是在描述條件走到哪裡，不是買賣訊號。</span><br><br>'
+    +'判讀得分：'+s+' / '+mx+'（'+tier+'）</div>'
+  +toolboxHTML()
+  +'<div class="t-sub" style="font-size:13px;line-height:1.9;max-width:430px;margin:0 auto 1.3rem">你身邊那個只看「偏多」「偏空」兩個字的朋友，<br>缺的就是「離中線幾步」這一眼。</div>'
+  +'<div style="display:flex;flex-direction:column;align-items:center;gap:0.65rem;max-width:340px;margin:0 auto">'
+  +'<a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://iamtwispin.substack.com" target="_blank" rel="noopener">訂電子報，每週陪你把多空卡讀一遍 →</a>'
+  +'<a class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0" href="https://yoda-research-next.vercel.app/" target="_blank" rel="noopener">燈會看了——去看這一期的多空卡 →</a>'
+  +'<button class="yoda-btn" style="width:100%;box-sizing:border-box;margin:0;border:none" id="shareBtn" onclick="shareGame()">分享：送給那個只看紅綠兩個字的朋友</button>'
+  +'</div>'
+  +'<a href="javascript:void(0)" onclick="restart()" style="display:inline-block;margin-top:0.9rem;font-size:12px;color:rgba(255,255,255,0.6);text-decoration:underline">重玩一次</a>'
+  +'<div id="sfb" style="font-size:12px;color:rgba(160,220,255,0.75);margin-top:0.5rem;height:16px"></div>'
+  +'<div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:1.4rem">背景音樂 by <a href="https://www.youtube.com/@BiBiPiano" target="_blank" rel="noopener" style="color:rgba(224,165,38,0.7);text-decoration:none">BiBiPiano</a>，版權為原作者所有</div>');}
+function restart(){state={idx:-1,score:0,sv:0,pl:{},plSel:null,plFor:-1,hs:[],hsFor:-1,so:null,soSel:null,soFor:-1,mt:{},mtSel:null,mtFor:-1,fp:0,fpFor:-1,slFor:-1};window.state=state;oi=0;PB.style.width='0%';fade(showStart);}
+function shareGame(){const url=window.location.href.split('?')[0];
+ const t='我剛玩完《信號燈怎麼看》'+ROUNDS.length+' 關——多空卡下面那排小折線，現在看得出方向和強弱了。';
+ const fb=document.getElementById('sfb');
+ if(navigator.share){navigator.share({title:'信號燈怎麼看 · Yoda',text:t,url:url}).catch(function(){});return;}
+ try{navigator.clipboard.writeText(url).then(function(){fb.textContent='網址已複製，貼去分享吧';setTimeout(function(){fb.textContent='';},2500);}).catch(function(){fb.textContent=url;});}
+ catch(e){try{const ta=document.createElement('textarea');ta.value=url;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();fb.textContent='網址已複製，貼去分享吧';}catch(e2){fb.textContent=url;}}}
+function showStart(){
+ G.innerHTML=scene('sky-start','farhills',
+  '<div class="chapter-label t-label" style="margin-bottom:1rem">YODA RESEARCH · 判斷力學校</div>'
+  +'<div class="chapter-title t-main" style="font-size:30px;font-weight:200;letter-spacing:1px;margin-bottom:0.4rem">信號燈怎麼看</div>'
+  +'<div class="t-sub" style="font-size:14px;margin-bottom:0.3rem;font-style:italic">多空卡下面那排小折線，一條就是一顆燈</div>'
+  +'<div class="t-label" style="font-size:12px;line-height:1.9;margin-bottom:2.6rem">約 '+mins()+' 分鐘 · '+ROUNDS.length+' 關<br>方向看哪一邊，強弱看幾步<br>線取自 '+ASOF+' 那份市場觀察的多空卡（資料到 '+DATA_DAY+'），用來練讀法</div>'
+  +'<button class="continue-btn" style="font-size:15px;padding:0.85rem 3.2rem;border-radius:6px;letter-spacing:2px" onclick="fade(startOpening)">開始</button>');}
+
+let state={idx:-1,score:0,sv:0,pl:{},plSel:null,plFor:-1,hs:[],hsFor:-1,so:null,soSel:null,soFor:-1,mt:{},mtSel:null,mtFor:-1,fp:0,fpFor:-1,slFor:-1};
+['startOpening','nextOpening','showRound','renderAB','abPick','renderPlace','plCard','plSlot','plCheck',
+ 'renderHotspot','hsPick','hsCheck','renderSlider','slUpd','slDone','renderSort','soPick','soCheck',
+ 'renderMatch','mtPick','mtCheck','mtLines','renderFlip','fpBet','fpNext','fpBuild','fpDone',
+ 'giveAnswer','record','showTrans','advance','showResult','restart','shareGame','fade','startPulse'].forEach(function(n){window[n]=eval(n);});
+window.state=state;
+window.addEventListener('resize',function(){if(document.getElementById('mtwrap'))mtLines();});
+startPulse();
+showStart();
+
+</script>
+<!-- yoda-logo-sig -->
+<img alt="Yoda" src="https://yoda-research-next.vercel.app/yoda-logo.png" style="position:fixed;right:14px;bottom:12px;height:52px;width:auto;opacity:.5;z-index:9990;pointer-events:none">
+<script>(function(){try{var K='yr_vid',v=localStorage.getItem(K);if(!v){v=Date.now().toString(36)+Math.random().toString(36).slice(2,8);localStorage.setItem(K,v);}var seg=location.pathname.split('/').filter(Boolean).pop()||'home';fetch('https://script.google.com/macros/s/AKfycbwQQ02EzseXtzvHxH3yegvgvQKncv7ReoGaqqsVxzco6cdagOCW13Tr7KlwX2UJtPc7/exec',{method:'POST',body:JSON.stringify({action:'hit',page:decodeURIComponent(seg),path:location.pathname,host:location.hostname,ref:document.referrer,vid:v})}).catch(()=>{});}catch(e){}})();</script>
+
+<!-- 法遵統一免責（2026-09-14 Yoda 核定；正本＝subscribe.html 頁尾）x2-06 -->
+<div class="yoda-legal" style="position:relative;z-index:5;max-width:760px;margin:26px auto 84px;padding:15px 18px;border:1px solid rgba(128,128,128,.32);border-radius:10px;font-size:12px;line-height:1.9;color:#8d8d99;font-family:inherit;text-align:left;">
+  本頁為報告閱讀教學與投資教育內容，僅供研究學習參考，不構成投資建議、要約或個別有價證券之推介、分析意見或買賣建議，亦不構成任何買賣、進出場或部位建議。本服務非證券投資顧問事業，撰稿者未具證券投資分析人員資格，不提供代客操作或獲利保證；頁內示範數據為特定日期之歷史資料，不代表現況，文中個股僅為讀數示範，不代表推薦。投資均有風險，決策與盈虧由用戶自行判斷並承擔。<br>
+  © 2026 Yoda Research · 獨立研究者，個人觀點與市場資料整理分享
+</div>
+<!-- 語言切換「繁體中文｜English」浮動鈕（共用 yoda-lang.js · 2026-10-09） -->
+<script src="https://yoda-research-next.vercel.app/yoda-lang-boot.js" data-float="bottom-left" data-game="1" defer></script>
+<script src="https://yoda-research-next.vercel.app/yoda-game-badge.js" defer></script>
+</body></html>
