@@ -182,7 +182,6 @@ const LAB={stop_ma10:['收盤站上十日線','止跌'],up_long:['費半、標�
  up_nhnl:['近一個月新高不少於新低','翻多'],up_leader:['龍頭有好幾檔創歷史新高','翻多'],up_vol:['標普成交量不低於月均量','翻多'],up_semi_rs:['半導體對標普的強弱站上月線','翻多'],
  stop_vix:['恐慌指數期貨近月低於遠月','止跌'],stop_hy:['體質差的公司債不再漲輸公債','止跌'],stop_aibond:['人工智慧公司債沒亮燈','止跌'],mk_oas:['市場不再擔心公司還不起錢','市場'],
  TW_tw_up_elec:['有電子族群錢跟價同時到位','翻多']};
-const CARD_ORDER=['stop_ma10','up_long','up_ma60','fl_ma60','fl_ma200','fl_gap','stop_br50','up_br50','up_nhnl','up_leader','up_vol','up_semi_rs','stop_vix','stop_hy','stop_aibond','mk_oas'];
 function md(iso){return iso.slice(5).replace('-','/');}
 function last20(id){return UD[id].s.slice(40,60);}
 
@@ -270,41 +269,17 @@ function r2Lab(x){const v=r2V(x),ok=v>=0,bl=ok?blinkLv(v):0,a=Math.abs(v);
 const R4=['up_ma60','stop_ma10','up_vol','fl_ma200'];
 function r4Item(id){const u=UD[id];return LAB[id][0]+' <span style="opacity:.7;font-size:11.5px">〔'+LAB[id][1]+'〕</span>'+card(rowHTML(id,{hideGrp:true,noName:true,lab:'離中線 '+Math.abs(u.v).toFixed(2)+' 步'}));}
 
-// ── ⑤ 四種形狀：真實窗口 ──
-const SHAPES=[
- ['a','fl_ma200',UD.fl_ma200.s.slice(30,50),DAYS[30],DAYS[49],'收盤守住年線'],
- ['b','stop_hy',UD.stop_hy.s.slice(40,60),DAYS[40],DAYS[59],'體質差的公司債不再漲輸公債'],
- ['c','stop_br50',UD.stop_br50.s.slice(40,60),DAYS[40],DAYS[59],'站上五十日線的股票不再減少'],
- ['d','up_long',UD.up_long.s.slice(40,60),DAYS[40],DAYS[59],'費半、標普都站回長線']];
-function shapeFig(sh){return '<div style="font-size:11.5px;opacity:.85">'+sh[5]+' · '+md(sh[3])+'～'+md(sh[4])+'</div>'+card(spark(sh[2],{}),'');}
-
-// ── ⑦ 特殊燈三種 ──
-function sp7(kind){
- if(kind==='bin'){const v=UD.TW_tw_up_elec.s.slice(40,60);
-   return card(rowHTML('TW_tw_up_elec',{vals:v,cap:'台股分頁 · '+md(DAYS_TW[40])+'～'+md(DAYS_TW[59])+'（名稱先蓋住）',hideName:true}));}
- if(kind==='two'){const v=UD.up_vol.s.slice(40,59);
-   return card(rowHTML('up_vol',{vals:v,m:'-',k:'up',cap:'標普 · 停在 11/16 那天：白點在中線上方，列尾卻還是「—」（名稱先蓋住）',hideName:true}));}
- const v=UD.up_nhnl.s.slice(40,60);
- return card(rowHTML('up_nhnl',{vals:v,cap:'標普 · 到 11/17：線在最後一天斷掉、沒有白點（名稱先蓋住）',hideName:true}));}
-
 // ── 整排八列：截圖那一段（技術面 4 列＋市場寬度 4 列，標普分頁 11/17） ──
 const ROW8=[['技術面',['stop_ma10','up_ma60','fl_ma200','fl_gap']],['市場寬度',['stop_br50','up_br50','up_nhnl','up_leader']]];
 function row8Card(){return ROW8.map(function(g){return '<div style="font-weight:700;font-size:14px;color:rgba(255,255,255,0.92);margin:0.5rem 0 0.2rem;border-left:3px solid #8aa0c8;padding-left:6px">'+g[0]+'</div>'
   +card(g[1].map(function(id){return rowHTML(id);}).join(''),'two');}).join('')
   +'<div class="ucap" style="text-align:center">'+md(DAYS[40])+'～'+md(DAYS[59])+' · 資料日 '+md(DAYS[59])+'</div>';}
 
-// ── ⑧ 整張卡（標普分頁，11/17） ──
-function fullCard(){return card(CARD_ORDER.map(function(id){return rowHTML(id);}).join(''),'two');}
-function grpCount(){const G={止跌:[0,0,0],翻多:[0,0,0],底部:[0,0,0],市場:[0,0,0]};
- CARD_ORDER.forEach(function(id){const g=G[LAB[id][1]],m=UD[id].m;g[0]++;if(m==='ok')g[1]++;if(m==='na')g[2]++;});return G;}
-const GC=grpCount();
-function gcLine(){return ['止跌','翻多','底部','市場'].map(function(g){const c=GC[g];return g+'組 '+c[0]+' 顆亮 '+c[1]+' 顆'+(c[2]?'、資料不足 '+c[2]+' 顆':'');}).join('；');}
-
 const OPENING={sky:'sky-storm',bg:'range',label:'序',title:'那一排小折線，你都跳過了',quotes:function(){return [
  '打開多空卡，上面那一格定調你會看。<br>下面「止跌、翻多、底部、市場」四組，<br>每一列都拖著一條小折線。<br>你大概直接滑過去了。',
  '卡上沒有圖例、沒有說明，<br>線有紅有綠、有的貼頂、有的斷掉。<br>你不確定紅色是好還是壞，<br>也不知道貼頂代表什麼。',
  '其實每一條小折線，就是一顆<b>信號燈</b>。<br>它告訴你兩件事：<br><b>方向</b>——白點在中線哪一邊；<br><b>強度</b>——離中線幾步。',
- '接下來 '+ROUNDS.length+' 關，一關一條真實的線。<br>玩完，你會一眼看出哪顆燈亮、亮得多強、哪顆快翻了。<br><span style="opacity:.78;font-size:13px">（線取自 '+ASOF+' 那份市場觀察的多空卡，資料到 '+DATA_DAY+'；用來練讀法，不是今天的判斷）</span>'];}};
+ '接下來 '+ROUNDS.length+' 關，每一關都是真實的線。<br>玩完，你會一眼看出哪顆燈亮、亮得多強、哪顆快翻了。<br><span style="opacity:.78;font-size:13px">（線取自 '+ASOF+' 那份市場觀察的多空卡，資料到 '+DATA_DAY+'；用來練讀法，不是今天的判斷）</span>'];}};
 
 const ROUNDS=[
 // ── 1 認燈 · hotspot ──
@@ -317,16 +292,6 @@ const ROUNDS=[
  note:'紅＝偏多那一邊、綠＝偏空那一邊（台灣紅漲綠跌，跟報告同一套）。',
  fbOk:'中線＝門檻，這列的門檻是「收盤剛好等於年線」。白點落在中線下面一點點＝11/17 收盤在年線下面一點點，所以膠囊寫「年線之下」、列尾是「—」（還沒成立）。<br>前面那一段<b>貼在最上面、平平的</b>：不是指數不動，是離年線超過 3 步、被截在邊上。',
  fbNo:'下面那塊（綠色那一側）是條件沒成立的那一邊。'},
-// ── 1b 整排八列 · place ──
-{type:'place',sky:'sky-valley',bg:'range',label:'整排讀一遍 · 八列',short:'整排八列',
- title:'技術面、市場寬度，八列一起讀',
- text:'這是多空卡標普分頁「技術面」4 列＋「市場寬度」4 列（資料日 '+md(DAYS[59])+'）。<br>每列看三件事：白點在中線哪一邊（燈亮／滅）、離中線多遠、列尾寫什麼。',
- so:'白點在中線<b>上方</b>＝燈亮、列尾「成立 ✓」；在<b>下方</b>＝滅、列尾「—」。<br>再看白點離中線多遠：貼著中線＝快翻、離得越遠＝離翻轉越遠。<br>線斷掉、沒有白點、膠囊變黃＝<b>資料不足</b>。',
- q:'這八列在 '+md(DAYS[59])+' 都沒亮。把八列按「離中線多遠」放進四格：',
- cards:[['e1','收盤站上十日線'],['e2','季線回到往上'],['e3','收盤守住年線'],['e4','標普守住九月中缺口'],['e5','站上五十日線的股票不再減少'],['e6','站上五十日線的股票過半'],['e7','近一個月新高不少於新低'],['e8','龍頭有好幾檔創歷史新高']],
- slots:[['f1','<b>滅，貼著中線</b><br><span style="font-size:11px;opacity:.75">不到 0.1 步，快翻</span>','e3'],['f2','<b>滅，離中線不到 1 步</b>','e5,e6'],['f3','<b>滅，離中線 1 步以上</b>','e1,e2,e4'],['f4','<b>資料不足</b><br><span style="font-size:11px;opacity:.75">線斷、沒白點</span>','e7,e8']],
- wide:true,
- done:'技術面：十日線 −1.4 步、季線往上 −2.7 步、九月中缺口 −2.6 步，都在中線下面 1 步以上；年線 −0.04 步，貼著中線。<br>市場寬度：五十日線不再減少 −1.0 步、五十日線過半 −0.8 步，在中線下面一點；新高新低、龍頭新高兩列 '+md(DAYS[59])+' 讀不到，線斷掉、膠囊黃色。<br>八列沒有一列亮，所以都不閃。'},
 // ── 2 方向＋強度 · slider ──
 {type:'slider',sky:'sky-valley',bg:'range',label:'方向＋強度 · 拉拉看',short:'方向＋強度',
  title:'把今天拉過中線，再拉遠一點',
@@ -338,18 +303,7 @@ const ROUNDS=[
  note:'一步＝這個指標平常一週會走的距離（近 60 天平均一天的變動 × √5）。超過 3 步，線就貼在上下邊。',
  fbOk:'過中線那一刻，膠囊從綠色「十日線之下」變成紅色「十日線之上」，列尾變「成立 ✓」——這是<b>方向</b>。<br>再往上拉，白點離中線越遠＝這個方向的訊號越強：不到 1 步不閃、1～2 步 0.8 秒閃一次、2～3 步 0.4 秒、3 步以上 0.2 秒——這是<b>強度</b>。只有成立的列會閃。',
  fbNo:'差一點：燈要亮（白點在中線上方），強度還要到 1 步以上。'},
-// ── 3 同一把尺 · match ──
-{type:'match',sky:'sky-valley',bg:'river',label:'同一把尺 · 換算成步',short:'同一把尺',
- title:'單位不一樣，怎麼放在一起比？',
- text:'季線差 4.18%、利差差 0.14 個百分點、年線差 0.05%。<br>三個數字單位不同，<br>誰離翻轉比較遠？',
- so:'卡上每條線都先換成「步」：（現值 − 門檻）÷ 平常一週會走的距離。<br>指標平常走得少，差一點點就是好幾步。',
- q:'把左邊的真實讀數（11/17），連到右邊換算後的步數：',
- left:[['a','收盤守住季線<br>標普在季線下 <b>4.18%</b>'],['b','市場不再擔心公司還不起錢<br>高收益債利差 3.34%，門檻 3.2%<br>多了 <b>0.14 個百分點</b>'],['c','收盤守住年線<br>標普在年線下 <b>0.05%</b>']],
- right:[['c','−0.04 步（幾乎貼著中線）'],['a','−2.7 步'],['b','−1.1 步']],
- note:'利差那一列用的是 11/16 的數字（這個數據隔一天才公布），卡上照實標。',
- fbOk:'標普平常一天走約 0.68%，一週的步伐約 1.5%，所以季線差 4.18%＝約 2.7 步。<br>利差平常一天只動約 0.055 個百分點，一週約 0.12，所以只差 0.14 也有 1.1 步。<br>換成同一把尺之後，十日線、寬度、利差就能放在同一張卡上比：<b>誰離中線遠，誰離翻轉就遠</b>。',
- fbNo:'不要直接比原始數字的大小，要先除以「平常一週會走多少」。'},
-// ── 4 強度排序 · sort ──
+// ── 3 強度排序 · sort ──
 {type:'sort',sky:'sky-storm',bg:'peak',label:'強度 · 排排看',short:'強度排序',
  title:'四顆燈，哪顆訊號最強？',
  text:'四條都是 11/17 標普分頁的真實線，刻度一樣（上下界都是 ±3 步）。<br>有的在上、有的在下。<br>先不管方向，只看白點離中線多遠。',
@@ -358,59 +312,25 @@ const ROUNDS=[
  items:R4.map(r4Item),shuffle:[3,2,0,1],
  note:'四張小圖用同一把刻度：中線在同一高度，上下界都是 ±3 步。',
  fbOk:'排法只看白點離中線的距離（取絕對值）：① 季線回到往上 −2.71 步，白點離中線最遠，偏空最強。② 收盤站上十日線 −1.41 步。③ 標普成交量不低於月均量 +0.63 步，在上面、燈亮，但不到 1 步，不閃。④ 收盤守住年線 −0.04 步，幾乎貼線，方向最不穩。<br>第 ③ 名在中線上方、其他三顆在下方，但強度不分上下：<b>亮著的燈不一定最強</b>，方向和強度要分開看。'},
-// ── 5 四種形狀 · match ──
-{type:'match',sky:'sky-valley',bg:'farhills',label:'形狀 · 一眼認出來',short:'四種形狀',
- title:'看形狀，說一句白話',
- text:'線不只看今天那一點。<br>整段怎麼走，也在講故事。<br>四段都是真實的線。',
- so:'<b>長期貼頂</b>＝穩穩成立；<b>剛從上面掉到中線下</b>＝燈剛滅；<b>貼著中線上下來回</b>＝快翻了、不穩；<b>遠遠在下面</b>＝離翻轉還很遠。',
- q:'把每一段線，連到它的白話：',
- left:SHAPES.map(function(sh){return [sh[0],shapeFig(sh)];}),
- right:[['c','快翻了、還不穩'],['a','穩穩成立'],['d','離翻轉還很遠'],['b','燈剛滅']],
- fbOk:'收盤守住年線（10/07～11/03）整段貼頂＝穩穩成立；公司債那列前幾天還在上面、11/17 掉到中線下＝燈剛滅；五十日線股票數一直在中線附近來回＝快翻、不穩；費半、標普站回長線一路在下面、最後貼底＝離翻轉還很遠。',
- fbNo:'先看最後那一點在哪一邊，再看前面那一段是貼邊、來回、還是剛穿過去。'},
-// ── 6 四組 · place ──
-{type:'place',sky:'sky-valley',bg:'range',label:'四組 · 各管什麼',short:'四組歸位',
- title:'這顆燈屬於哪一組？',
- text:'卡上每列後面都有一個〔組別〕。<br>先蓋起來，<br>你猜得出它管的是哪件事嗎？',
- so:'<b>止跌</b>＝跌勢先停下來的跡象（只看今天）；<b>翻多</b>＝轉成偏多要的條件（大多要連兩天）；<b>底部</b>＝跌深時守不守得住的那條線；<b>市場</b>＝信用面的情緒。',
- q:'把六顆燈放回它的組：',
- cards:[['c1','收盤站上十日線'],['c2','季線回到往上'],['c3','收盤守住年線'],['c4','市場不再擔心公司還不起錢'],['c5','恐慌指數期貨近月低於遠月'],['c6','站上五十日線的股票過半']],
- slots:[['s1','<b>止跌</b><br><span style="font-size:11px;opacity:.75">跌勢先停下來</span>','c1,c5'],['s2','<b>翻多</b><br><span style="font-size:11px;opacity:.75">轉成偏多要的條件</span>','c2,c6'],['s3','<b>底部</b><br><span style="font-size:11px;opacity:.75">守不守得住的線</span>','c3'],['s4','<b>市場</b><br><span style="font-size:11px;opacity:.75">信用面的情緒</span>','c4']],
- done:'十日線、恐慌指數期貨＝止跌（短線先停下來）；季線往上、五十日線過半＝翻多（要連兩天）；年線＝底部；高收益債利差＝市場。<br>四組各自讀：同一組裡亮了幾顆、哪幾顆還差多遠。'},
-// ── 7 特殊燈 · place ──
-{type:'place',sky:'sky-storm',bg:'farhills',label:'特殊燈 · 三種例外',short:'特殊燈',
- title:'這三條線，怎麼長得不一樣？',
- text:'大部分的線是連續的。<br>但有三種燈，<br>畫法或規則不一樣。',
- so:'<b>是非題燈</b>：沒有連續的量，只畫在上下兩個位置（成立＝上、不成立＝下），不閃。<br><b>連兩天燈</b>：線和膠囊看今天，但今天和前一天都成立才打 ✓。<br><b>資料不足</b>：當天讀不到，線斷掉、膠囊變黃，不沿用舊值。',
- q:'把三個名字，放到對應的那條線：',
- cards:[['k1','是非題燈'],['k2','連兩天燈'],['k3','資料不足']],
- slots:[['t1',sp7('bin'),'k1'],['t2',sp7('two'),'k2'],['t3',sp7('na'),'k3']],
+// ── 4 讀一整排 · build ──
+{type:'build',sky:'sky-clear',bg:'range',label:'收尾 · 讀一整排',short:'讀一整排',
+ title:'技術面、市場寬度，八列一起讀',
+ text:'這是 '+ASOF+' 市場觀察多空卡、標普分頁「技術面」4 列＋「市場寬度」4 列（資料日 '+md(DAYS[59])+'）。<br>用前面學的：白點在哪一邊、離中線多遠、線有沒有斷。',
+ q:'把卡片放進三格（用不到的留在上面就好）：',
+ cards:[['e0','（八列都沒亮）'],['e1','收盤站上十日線'],['e2','季線回到往上'],['e3','收盤守住年線'],['e4','標普守住九月中缺口'],['e5','站上五十日線的股票不再減少'],['e6','站上五十日線的股票過半'],['e7','近一個月新高不少於新低'],['e8','龍頭有好幾檔創歷史新高']],
+ slots:[['v1','<b>燈亮的</b>（白點在中線上方、成立 ✓）','e0'],['v2','<b>訊號最強的</b>（離中線最遠）','e2'],['v3','<b>資料不足</b>（線斷、沒白點、膠囊黃色）','e7,e8']],
  wide:true,
- done:'第一條是台股分頁「有電子族群錢跟價同時到位」：每天只有「有／沒有」，所以只畫在兩個位置。<br>第二條是標普「標普成交量不低於月均量」：11/16 白點已經在上面，但前一天（11/13）還在下面，所以列尾是「—」；11/17 連兩天都在上面，才變「成立 ✓」。<br>第三條是「近一個月新高不少於新低」：11/17 讀不到，線斷掉、膠囊寫「資料不足」。'},
-// ── 8 整張卡 · build ──
-{type:'build',sky:'sky-clear',bg:'range',label:'收尾 · 讀一整張卡',short:'讀整張卡',
- title:'11/17 標普分頁，整張讀一遍',
- text:'這是 '+ASOF+' 市場觀察多空卡、標普分頁的四組條件（資料到 '+DATA_DAY+'）。<br>用前面學的，把燈分三類。',
- q:'把燈放進三格（有兩張不屬於任何一格，留在上面就好）：',
- cards:[['u1','標普成交量不低於月均量'],['u2','恐慌指數期貨近月低於遠月'],['u3','收盤守住年線'],['u4','人工智慧公司債沒亮燈'],['u5','近一個月新高不少於新低'],['u6','龍頭有好幾檔創歷史新高'],['u7','收盤站上十日線'],['u8','費半、標普都站回長線']],
- slots:[['v1','<b>燈亮的</b>（成立 ✓）','u1,u2'],['v2','<b>貼著中線、快翻的</b>（離中線不到 0.1 步）','u3,u4'],['v3','<b>資料不足</b>','u5,u6']],
- wide:true,
- done:'這張卡在 11/17 的樣子：'+gcLine()+'。<br>亮的兩顆（成交量、恐慌指數期貨）都在中線上方，但都不到 1 步、沒有閃；年線和人工智慧公司債貼著中線；新高新低、龍頭新高兩列當天讀不到。<br><span style="opacity:.8">這只是描述條件走到哪裡，不是買賣訊號。</span>'}
+ done:'這一排在 '+md(DAYS[59])+' 的樣子：八列的白點都在中線下方或讀不到，沒有一列亮、也沒有一列閃。<br>離中線最遠的是季線回到往上（−2.71 步），其次九月中缺口（−2.55）、十日線（−1.41）；五十日線兩列不到 1 步；年線 −0.04 步，貼著中線。<br>新高新低、龍頭新高兩列當天讀不到，線斷掉、膠囊黃色。<br><span style="opacity:.8">這只是描述條件走到哪裡，不是買賣訊號。</span>'}
 ];
-ROUNDS[1].svg=row8Card();ROUNDS[ROUNDS.length-1].svg=fullCard();
+ROUNDS[ROUNDS.length-1].svg=row8Card();
 
 const ANS=[
  {answer:'中線＝開關線（門檻）、最右邊白點＝今天、中線上方＝燈亮那一側（偏多）。',terms:[['中線','條件剛好成立的那條線，這列是「收盤＝年線」'],['白點','今天（資料日 11/17）的位置'],['貼頂','超過 3 步，被截在邊上']]},
- {answer:'貼著中線：收盤守住年線（−0.04）；不到 1 步：五十日線不再減少（−0.99）、五十日線過半（−0.8）；1 步以上：十日線（−1.4）、季線往上（−2.7）、九月中缺口（−2.6）；資料不足：新高新低、龍頭新高。',terms:[['燈滅','白點在中線下方，列尾「—」'],['資料不足','當天讀不到，線斷、膠囊黃色'],['九月中缺口','MW 標普分頁也會顯示，只顯示、不進判定']]},
  {answer:'把 11/17 那一點拉到中線上方至少 1 步（例：+1.5 步）：方向偏多、燈亮，開始閃。',terms:[['方向','白點在中線哪一邊'],['強度','離中線幾步；越遠越強'],['一步','這個指標平常一週會走的距離'],['閃','只有成立的列才閃；不到 1 步不閃，越遠閃越快']]},
- {answer:'季線 4.18% → −2.7 步；利差多 0.14 個百分點 → −1.1 步；年線 0.05% → −0.04 步。',terms:[['步','（現值 − 門檻）÷（近 60 天平均一天的變動 × √5）'],['百分點','利率、利差這類本身就是 % 的東西，相減的單位']]},
  {answer:'由強到弱：季線回到往上（−2.71）→ 收盤站上十日線（−1.41）→ 標普成交量不低於月均量（+0.63）→ 收盤守住年線（−0.04）。',terms:[['強度','只看離中線多遠（絕對值），不分上下'],['刻度','四張圖都是 ±3 步，中線同一高度']]},
- {answer:'長期貼頂＝穩穩成立；剛掉到中線下＝燈剛滅；在中線附近來回＝快翻、不穩；遠在下面＝離翻轉還很遠。',terms:[['形狀','看整段，不只看今天那一點']]},
- {answer:'止跌：十日線、恐慌指數期貨；翻多：季線往上、五十日線過半；底部：年線；市場：高收益債利差。',terms:[['止跌','跌勢先停下來的跡象'],['翻多','轉成偏多的條件，大多要連兩天'],['底部','跌深時守不守得住的線'],['市場','信用面的情緒']]},
- {answer:'只畫在兩個位置＝是非題燈；白點在上面但列尾還是「—」＝連兩天燈；線斷掉、膠囊黃色＝資料不足。',terms:[['是非題燈','沒有連續的量，不閃'],['連兩天燈','今天和前一天都成立才打 ✓'],['資料不足','當天讀不到，不沿用舊值']]},
- {answer:'燈亮：成交量、恐慌指數期貨；貼著中線：年線、人工智慧公司債；資料不足：新高新低、龍頭新高。十日線、長線兩張不屬於這三格。',terms:[['列尾 ✓','條件成立'],['列尾 —','還沒成立'],['列尾 資料不足','當天讀不到']]}
+ {answer:'燈亮的：沒有，八列都沒亮；訊號最強：季線回到往上（−2.71 步）；資料不足：近一個月新高不少於新低、龍頭有好幾檔創歷史新高。',terms:[['燈滅','白點在中線下方，列尾「—」'],['資料不足','當天讀不到，線斷、膠囊黃色，不沿用舊值'],['九月中缺口','MW 標普分頁也會顯示，只顯示、不進判定']]}
 ];
-const TRANSITIONS=['開關在中線。<br>今天在白點。','一整排，<br>一列一列讀。','方向看哪一邊，<br>強弱看幾步。','單位不同，<br>步伐一樣。','亮著的燈，<br>不一定最強。','形狀，<br>是一段日子。','先分組，<br>再數燈。','例外，<br>也有規則。',null];
+const TRANSITIONS=['開關在中線。<br>今天在白點。','方向看哪一邊，<br>強弱看幾步。','亮著的燈，<br>不一定最強。',null];
 
 // ================= 引擎（ROUNDS／ANS／TRANSITIONS 三陣列同索引；關數一律由 length 算） =================
 function prog(){PB.style.width=(Math.max(0,state.idx)/ROUNDS.length*100)+'%';}
@@ -673,12 +593,8 @@ function advance(i){const n=i+1;if(n>=ROUNDS.length)fade(showResult);else fade(f
 const TOOLBOX=[
  ['開關線＋白點','<svg viewBox="0 0 100 84"><line x1="8" y1="42" x2="92" y2="42" stroke="rgba(255,255,255,0.45)"/><polyline points="8,30 30,26 52,36 74,48 88,50" fill="none" stroke="#7fd0a0" stroke-width="2"/><circle cx="88" cy="50" r="4.5" fill="#fff"/></svg>'],
  ['方向＋強度','<svg viewBox="0 0 100 84"><line x1="8" y1="42" x2="92" y2="42" stroke="rgba(255,255,255,0.45)"/><line x1="70" y1="42" x2="70" y2="14" stroke="#e0a526" stroke-width="1.5" stroke-dasharray="3 2"/><circle cx="70" cy="14" r="5" fill="#ff6b7d" class="gpulse"/><text x="50" y="72" fill="#f4dc9a" font-size="10" text-anchor="middle">幾步？</text></svg>'],
- ['同一把尺','<svg viewBox="0 0 100 84"><rect x="10" y="34" width="80" height="14" rx="3" fill="rgba(0,0,0,0.25)" stroke="#e0a526"/><path d="M26,34v6M42,34v6M58,34v6M74,34v6" stroke="#e0a526"/><text x="50" y="66" fill="#f4dc9a" font-size="10" text-anchor="middle">一步＝一週</text></svg>'],
  ['強弱排序','<svg viewBox="0 0 100 84"><rect x="14" y="10" width="72" height="12" rx="3" fill="#7fd0a0"/><rect x="14" y="28" width="52" height="12" rx="3" fill="#7fd0a0" opacity=".8"/><rect x="14" y="46" width="22" height="12" rx="3" fill="#ff6b7d"/><rect x="14" y="64" width="4" height="12" rx="2" fill="rgba(255,255,255,0.6)"/></svg>'],
- ['四種形狀','<svg viewBox="0 0 100 84"><polyline points="6,14 46,14" stroke="#ff6b7d" stroke-width="2"/><polyline points="54,14 80,16 94,30" fill="none" stroke="#7fd0a0" stroke-width="2"/><polyline points="6,60 16,52 26,62 36,54 46,60" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2"/><polyline points="54,64 94,76" stroke="#7fd0a0" stroke-width="2"/></svg>'],
- ['四組','<svg viewBox="0 0 100 84"><rect x="8" y="8" width="40" height="30" rx="4" fill="rgba(0,0,0,0.25)" stroke="#e0a526"/><rect x="52" y="8" width="40" height="30" rx="4" fill="rgba(0,0,0,0.25)" stroke="#e0a526"/><rect x="8" y="44" width="40" height="30" rx="4" fill="rgba(0,0,0,0.25)" stroke="#e0a526"/><rect x="52" y="44" width="40" height="30" rx="4" fill="rgba(0,0,0,0.25)" stroke="#e0a526"/><text x="28" y="27" fill="#fff" font-size="9" text-anchor="middle">止跌</text><text x="72" y="27" fill="#fff" font-size="9" text-anchor="middle">翻多</text><text x="28" y="63" fill="#fff" font-size="9" text-anchor="middle">底部</text><text x="72" y="63" fill="#fff" font-size="9" text-anchor="middle">市場</text></svg>'],
- ['三種例外','<svg viewBox="0 0 100 84"><path d="M8,20h12M24,40h12M40,20h12" stroke="#ff6b7d" stroke-width="2"/><text x="78" y="26" fill="#f0b429" font-size="9" text-anchor="middle">資料不足</text><text x="50" y="68" fill="#f4dc9a" font-size="10" text-anchor="middle">連兩天 ✓</text></svg>'],
- ['整張卡','<svg viewBox="0 0 100 84"><rect x="10" y="8" width="80" height="14" rx="3" fill="rgba(0,0,0,0.25)" stroke="rgba(255,255,255,0.4)"/><rect x="10" y="26" width="80" height="14" rx="3" fill="rgba(0,0,0,0.25)" stroke="#ff6b7d"/><rect x="10" y="44" width="80" height="14" rx="3" fill="rgba(0,0,0,0.25)" stroke="rgba(255,255,255,0.4)"/><rect x="10" y="62" width="80" height="14" rx="3" fill="rgba(0,0,0,0.25)" stroke="#f0b429"/></svg>']
+ ['讀一整排','<svg viewBox="0 0 100 84"><rect x="10" y="8" width="80" height="14" rx="3" fill="rgba(0,0,0,0.25)" stroke="rgba(255,255,255,0.4)"/><rect x="10" y="26" width="80" height="14" rx="3" fill="rgba(0,0,0,0.25)" stroke="#ff6b7d"/><rect x="10" y="44" width="80" height="14" rx="3" fill="rgba(0,0,0,0.25)" stroke="rgba(255,255,255,0.4)"/><rect x="10" y="62" width="80" height="14" rx="3" fill="rgba(0,0,0,0.25)" stroke="#f0b429"/></svg>']
 ];
 function toolboxHTML(){return '<div style="max-width:380px;margin:0.3rem auto 1.5rem">'
  +'<div class="t-label" style="font-size:11px;letter-spacing:2px;margin-bottom:0.2rem">你現在手上有 '+TOOLBOX.length+' 件工具</div>'
@@ -699,7 +615,7 @@ function showResult(){PB.style.width='100%';const s=state.score,mx=ROUNDS.length
   +'<div class="result-desc t-sub">開場那句是：<b>那一排小折線，你都跳過了</b>。<br>現在每一條你都讀得出兩件事：<br><br>'
     +'<b>方向</b>：白點在中線上面＝偏多那一邊、下面＝偏空那一邊<br><b>強度</b>：離中線幾步，越遠越強；貼著中線＝還不穩<br><br>'
     +'<b>'+chain.join(' → ')+'</b><br><br>'
-    +'下次打開多空卡，四組各數一次：亮了幾顆、哪顆貼著中線、哪顆資料不足。<br><span style="opacity:.8">這是在描述條件走到哪裡，不是買賣訊號。</span><br><br>'
+    +'下次打開多空卡，一列一列看：亮了幾顆、哪顆離中線最遠、哪顆貼著中線、哪顆資料不足。<br><span style="opacity:.8">這是在描述條件走到哪裡，不是買賣訊號。</span><br><br>'
     +'判讀得分：'+s+' / '+mx+'（'+tier+'）</div>'
   +toolboxHTML()
   +'<div class="t-sub" style="font-size:13px;line-height:1.9;max-width:430px;margin:0 auto 1.3rem">你身邊那個只看「偏多」「偏空」兩個字的朋友，<br>缺的就是「離中線幾步」這一眼。</div>'
