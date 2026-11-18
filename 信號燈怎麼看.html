@@ -275,8 +275,8 @@ function row8Card(){return ROW8.map(function(g){return '<div style="font-weight:
   +card(g[1].map(function(id){return rowHTML(id);}).join(''),'two');}).join('')
   +'<div class="ucap" style="text-align:center">'+md(DAYS[40])+'～'+md(DAYS[59])+' · 資料日 '+md(DAYS[59])+'</div>';}
 
-const OPENING={sky:'sky-storm',bg:'range',label:'序',title:'那一排小折線，你都跳過了',quotes:function(){return [
- '多空卡下面那排小折線，你大概都滑過去了。<br>其實每一條就是一顆<b>信號燈</b>：<br><b>方向</b>——白點在中線哪一邊；<br><b>強度</b>——離中線幾步。',
+const OPENING={sky:'sky-storm',bg:'range',label:'序',title:'多空卡下面那排小折線，在說什麼？',quotes:function(){return [
+ '多空卡下面那排小折線，<br>每一條就是一顆<b>信號燈</b>：<br><b>方向</b>——白點在中線哪一邊；<br><b>強度</b>——離中線幾步。',
  '接下來 '+ROUNDS.length+' 關，都是真實的線。<br><span style="opacity:.78;font-size:13px">（線取自 '+ASOF+' 那份市場觀察的多空卡，資料到 '+DATA_DAY+'；用來練讀法，不是今天的判斷）</span>'];}};
 
 const ROUNDS=[
@@ -610,7 +610,7 @@ function showResult(){PB.style.width='100%';const s=state.score,mx=ROUNDS.length
   +'<div class="result-icon">🚦</div>'
   +'<div class="result-type t-main">你會看多空卡的信號燈了</div>'
   +'<div class="result-vow" style="font-size:19px;font-weight:800;color:#e8c86a;margin:0.35rem auto 0.1rem;max-width:430px;text-shadow:0 1px 2px rgba(0,0,0,.6),0 0 5px rgba(0,0,0,.45)">「我看得出燈在哪一邊、亮得多強。」</div>'
-  +'<div class="result-desc t-sub">開場那句是：<b>那一排小折線，你都跳過了</b>。<br>現在每一條你都讀得出兩件事：<br><br>'
+  +'<div class="result-desc t-sub">開場問的是：<b>多空卡下面那排小折線，在說什麼？</b><br>現在每一條你都讀得出兩件事：<br><br>'
     +'<b>方向</b>：白點在中線上面＝偏多那一邊、下面＝偏空那一邊<br><b>強度</b>：離中線幾步，越遠越強；貼著中線＝還不穩<br><br>'
     +'<b>'+chain.join(' → ')+'</b><br><br>'
     +'下次打開多空卡，一列一列看：亮了幾顆、哪顆離中線最遠、哪顆貼著中線、哪顆資料不足。<br><span style="opacity:.8">這是在描述條件走到哪裡，不是買賣訊號。</span><br><br>'
