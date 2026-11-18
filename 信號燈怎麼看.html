@@ -222,7 +222,8 @@ function spark(vals,o){o=o||{};const W=o.w||268,H=o.h||52,X0=o.x0===undefined?30
  const lv=vals[n-1];
  if(lv!==null&&lv!==undefined&&!o.nodot){const cx=X(n-1).toFixed(1),cy=Y(lv).toFixed(1),bl=o.ok&&!o.bin?blinkLv(lv):0;
    if(bl)s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(o.big?11:8)+'" fill="'+(lv>=0?C_UP:C_DN)+'" class="bpulse" data-per="'+BL_PER[bl]+'"/>';
-   s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(o.big?5.5:4)+'" class="sk-dot"/>';}
+   s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(o.big?5.5:4)+'" class="sk-dot"/>';
+   if(o.lab)s+='<text x="'+(X(n-1)-9).toFixed(1)+'" y="'+(lv>=0?Math.min(H-3,Y(lv)+12):Math.max(9,Y(lv)-6)).toFixed(1)+'" text-anchor="end" font-size="9" font-weight="700" fill="#e0a526">'+o.lab+'</text>';}
  if(o.naTxt)s+='<text x="'+(W-4)+'" y="'+(MY+4)+'" text-anchor="end" class="sk-na">'+o.naTxt+'</text>';
  return s+(o.extra||'')+'</svg>';}
 
@@ -231,7 +232,7 @@ function rowHTML(id,o){o=o||{};const u=UD[id],L=LAB[id],vals=o.vals||last20(id);
  const m=o.m||u.m,k=o.k||u.k,t=o.t||u.t,v=o.v===undefined?u.v:o.v;
  const end=m==='ok'?'<span class="uend ok">成立 ✓</span>':m==='na'?'<span class="uend na">資料不足</span>':'<span class="uend">—</span>';
  return '<div class="ur"><div class="un">'+(o.noName?'':o.hideName?'？':L[0])+(o.hideGrp?'':'<i>〔'+L[1]+'〕</i>')+'</div><span class="ucp '+k+'">'+t+'</span>'
-  +spark(vals,{ok:m==='ok',bin:!!u.n})+end+(o.cap?'<div class="ucap" style="grid-column:1/3">'+o.cap+'</div>':'')+'</div>';}
+  +spark(vals,{ok:m==='ok',bin:!!u.n,lab:o.lab})+end+(o.cap?'<div class="ucap" style="grid-column:1/3">'+o.cap+'</div>':'')+'</div>';}
 function card(inner,cls){return '<div class="udc'+(cls?' '+cls:'')+'">'+inner+'</div>';}
 
 // ── ① 認燈：「收盤守住年線」真實小折線放大（10/20～11/17） ──
@@ -265,8 +266,9 @@ function r2Lab(x){const v=r2V(x),ok=v>=0,bl=ok?blinkLv(v):0,a=Math.abs(v);
   +'<br>'+(ok?(bl?'今天的點會閃：'+BL_TXT[bl]+'（越遠閃越快）':'達到門檻，但不到 1 步，不閃'):'沒成立，不閃');}
 
 // ── ④ 強弱排序：四條真實的燈（不分方向，只看離中線多遠） ──
-const R4=['up_long','fl_gap','up_vol','fl_ma200'];
-function r4Item(id){const u=UD[id];return LAB[id][0]+' <span style="opacity:.7;font-size:11.5px">〔'+LAB[id][1]+'〕</span>'+card(rowHTML(id,{hideGrp:true,noName:true}));}
+// 四列都在 ±3 步內（不貼邊）、同一把刻度；一顆在上方、三顆在下方
+const R4=['up_ma60','stop_ma10','up_vol','fl_ma200'];
+function r4Item(id){const u=UD[id];return LAB[id][0]+' <span style="opacity:.7;font-size:11.5px">〔'+LAB[id][1]+'〕</span>'+card(rowHTML(id,{hideGrp:true,noName:true,lab:'離中線 '+Math.abs(u.v).toFixed(2)+' 步'}));}
 
 // ── ⑤ 四種形狀：真實窗口 ──
 const SHAPES=[
@@ -350,12 +352,12 @@ const ROUNDS=[
 // ── 4 強度排序 · sort ──
 {type:'sort',sky:'sky-storm',bg:'peak',label:'強度 · 排排看',short:'強度排序',
  title:'四顆燈，哪顆訊號最強？',
- text:'四條都是 11/17 標普分頁的真實線。<br>有的在上、有的在下。<br>先不管方向，只看離中線多遠。',
+ text:'四條都是 11/17 標普分頁的真實線，刻度一樣（上下界都是 ±3 步）。<br>有的在上、有的在下。<br>先不管方向，只看白點離中線多遠。',
  so:'強度只看<b>離中線幾步</b>，不分上下：離得越遠，那個方向的訊號越強；貼著中線＝訊號弱、方向還不穩。',
- q:'由「訊號最強」排到「訊號最弱」（點兩列互換）：',
+ q:'由「訊號最強」排到「訊號最弱」（按住一列拖到想要的位置）：',
  items:R4.map(r4Item),shuffle:[3,2,0,1],
- note:'貼在邊上的線＝超過 3 步，實際比 3 步還遠。',
- fbOk:'① 費半、標普都站回長線：−3.8 步，貼底，偏空最強。② 標普守住九月中缺口：−2.6 步。③ 標普成交量不低於月均量：+0.6 步，在上面、燈亮，但不到 1 步，不閃。④ 收盤守住年線：−0.04 步，幾乎貼線，方向最不穩。<br>注意第 ③ 名：<b>亮著的燈不一定最強</b>，方向和強度要分開看。'},
+ note:'四張小圖用同一把刻度：中線在同一高度，上下界都是 ±3 步。',
+ fbOk:'排法只看白點離中線的距離（取絕對值）：① 季線回到往上 −2.71 步，白點離中線最遠，偏空最強。② 收盤站上十日線 −1.41 步。③ 標普成交量不低於月均量 +0.63 步，在上面、燈亮，但不到 1 步，不閃。④ 收盤守住年線 −0.04 步，幾乎貼線，方向最不穩。<br>第 ③ 名在中線上方、其他三顆在下方，但強度不分上下：<b>亮著的燈不一定最強</b>，方向和強度要分開看。'},
 // ── 5 四種形狀 · match ──
 {type:'match',sky:'sky-valley',bg:'farhills',label:'形狀 · 一眼認出來',short:'四種形狀',
  title:'看形狀，說一句白話',
@@ -402,7 +404,7 @@ const ANS=[
  {answer:'貼著中線：收盤守住年線（−0.04）；不到 1 步：五十日線不再減少（−0.99）、五十日線過半（−0.8）；1 步以上：十日線（−1.4）、季線往上（−2.7）、九月中缺口（−2.6）；資料不足：新高新低、龍頭新高。',terms:[['燈滅','白點在中線下方，列尾「—」'],['資料不足','當天讀不到，線斷、膠囊黃色'],['九月中缺口','MW 標普分頁也會顯示，只顯示、不進判定']]},
  {answer:'把 11/17 那一點拉到中線上方至少 1 步（例：+1.5 步）：方向偏多、燈亮，開始閃。',terms:[['方向','白點在中線哪一邊'],['強度','離中線幾步；越遠越強'],['一步','這個指標平常一週會走的距離'],['閃','只有成立的列才閃；不到 1 步不閃，越遠閃越快']]},
  {answer:'季線 4.18% → −2.7 步；利差多 0.14 個百分點 → −1.1 步；年線 0.05% → −0.04 步。',terms:[['步','（現值 − 門檻）÷（近 60 天平均一天的變動 × √5）'],['百分點','利率、利差這類本身就是 % 的東西，相減的單位']]},
- {answer:'由強到弱：費半、標普都站回長線（−3.8）→ 標普守住九月中缺口（−2.6）→ 標普成交量不低於月均量（+0.6）→ 收盤守住年線（−0.04）。',terms:[['強度','只看離中線多遠，不分上下'],['貼底','超過 −3 步，實際更遠']]},
+ {answer:'由強到弱：季線回到往上（−2.71）→ 收盤站上十日線（−1.41）→ 標普成交量不低於月均量（+0.63）→ 收盤守住年線（−0.04）。',terms:[['強度','只看離中線多遠（絕對值），不分上下'],['刻度','四張圖都是 ±3 步，中線同一高度']]},
  {answer:'長期貼頂＝穩穩成立；剛掉到中線下＝燈剛滅；在中線附近來回＝快翻、不穩；遠在下面＝離翻轉還很遠。',terms:[['形狀','看整段，不只看今天那一點']]},
  {answer:'止跌：十日線、恐慌指數期貨；翻多：季線往上、五十日線過半；底部：年線；市場：高收益債利差。',terms:[['止跌','跌勢先停下來的跡象'],['翻多','轉成偏多的條件，大多要連兩天'],['底部','跌深時守不守得住的線'],['市場','信用面的情緒']]},
  {answer:'只畫在兩個位置＝是非題燈；白點在上面但列尾還是「—」＝連兩天燈；線斷掉、膠囊黃色＝資料不足。',terms:[['是非題燈','沒有連續的量，不閃'],['連兩天燈','今天和前一天都成立才打 ✓'],['資料不足','當天讀不到，不沿用舊值']]},
@@ -528,15 +530,20 @@ function slDone(i){const r=ROUNDS[i];const ok=r.correct(state.sv);if(ok)state.sc
   +okBox('<span style="color:'+(ok?'#a5d6a7':'#ffcc80')+'">'+(ok?'到了。':'還沒到——答案在這裡。')+'</span><br>'+(ok?r.fbOk:r.fbNo+'<br><br>'+r.fbOk))
   +'<button class="continue-btn" onclick="record('+i+')">繼續 ›</button>');}
 
-// ── 排序（點兩張互換，不用上下鍵）──
-function soPick(k){if(state.soSel===null){state.soSel=k;}
- else if(state.soSel===k){state.soSel=null;}
- else{const a=state.so[state.soSel];state.so[state.soSel]=state.so[k];state.so[k]=a;state.soSel=null;}
- if(window.soDraw)window.soDraw();}
-function soBody(r,marks){return '<div class="st-list">'+state.so.map(function(v,k){
-  let cls='st-row'+(state.soSel===k&&!marks?' sel':'');
+// ── 排序（pointer events 拖曳；不用原生 draggable，觸控才不會壞）──
+function soDown(e,k){const row=e.currentTarget,list=row.parentNode,rows=[].slice.call(list.children);
+ const h=rows.length>1?rows[1].getBoundingClientRect().top-rows[0].getBoundingClientRect().top:row.offsetHeight;
+ const y0=e.clientY;let to=k;row.setPointerCapture(e.pointerId);row.classList.add('sel');row.style.zIndex=5;row.style.position='relative';
+ function mv(ev){const dy=ev.clientY-y0;to=Math.max(0,Math.min(rows.length-1,k+Math.round(dy/h)));
+   row.style.transform='translateY('+dy+'px)';
+   rows.forEach(function(r2,j){if(j===k)return;let sh=0;if(k<to&&j>k&&j<=to)sh=-h;if(k>to&&j<k&&j>=to)sh=h;r2.style.transition='transform .15s';r2.style.transform=sh?'translateY('+sh+'px)':'';});}
+ function up(){row.removeEventListener('pointermove',mv);row.removeEventListener('pointerup',up);row.removeEventListener('pointercancel',up);
+   const v=state.so.splice(k,1)[0];state.so.splice(to,0,v);if(window.soDraw)window.soDraw();}
+ row.addEventListener('pointermove',mv);row.addEventListener('pointerup',up);row.addEventListener('pointercancel',up);e.preventDefault();}
+function soBody(r,marks){return '<div class="st-list"'+(marks?'':' style="touch-action:none"')+'>'+state.so.map(function(v,k){
+  let cls='st-row';
   if(marks)cls+=(v===k?' right':' wrong');
-  return '<div class="'+cls+'" onclick="'+(marks?'':'soPick('+k+')')+'"><b>'+(k+1)+'</b><span>'+r.items[v]+'</span></div>';}).join('')+'</div>';}
+  return '<div class="'+cls+'"'+(marks?'':' style="touch-action:none;cursor:grab;user-select:none" onpointerdown="soDown(event,'+k+')"')+'><b>'+(k+1)+'</b><span>'+r.items[v]+'</span></div>';}).join('')+'</div>';}
 function renderSort(i){const r=ROUNDS[i];
  if(state.soFor!==i){state.soFor=i;state.so=r.shuffle.slice();state.soSel=null;}
  function draw(){G.innerHTML=scene(r.sky,r.bg,dots(i)+head(r)+'<div class="round-q t-main" style="font-size:15px">'+r.q+'</div>'
@@ -721,7 +728,7 @@ function showStart(){
 
 let state={idx:-1,score:0,sv:0,pl:{},plSel:null,plFor:-1,hs:[],hsFor:-1,so:null,soSel:null,soFor:-1,mt:{},mtSel:null,mtFor:-1,fp:0,fpFor:-1,slFor:-1};
 ['startOpening','nextOpening','showRound','renderAB','abPick','renderPlace','plCard','plSlot','plCheck',
- 'renderHotspot','hsPick','hsCheck','renderSlider','slUpd','slDone','renderSort','soPick','soCheck',
+ 'renderHotspot','hsPick','hsCheck','renderSlider','slUpd','slDone','renderSort','soDown','soCheck',
  'renderMatch','mtPick','mtCheck','mtLines','renderFlip','fpBet','fpNext','fpBuild','fpDone',
  'giveAnswer','record','showTrans','advance','showResult','restart','shareGame','fade','startPulse'].forEach(function(n){window[n]=eval(n);});
 window.state=state;
