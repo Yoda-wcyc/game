@@ -200,6 +200,10 @@ function svgOpen(h,mw){return '<svg viewBox="0 0 300 '+h+'" style="width:100%;ma
 function blinkLv(v){const a=Math.abs(v);return a<1?0:a<2?1:a<3?2:3;}
 const BL_PER=[0,0.8,0.4,0.2],BL_TXT=['不閃','0.8 秒閃一次','0.4 秒閃一次','0.2 秒閃一次'];
 const DEG=['幾乎剛好碰到條件線','離條件線不遠','離條件線比平常遠','離條件線很遠','離條件線非常遠'];
+// 加速閃（＝mw_down.ud_accel：截 ±3、每 3 天比一次、走 ≥1.5 步且比前 3 天快；固定 0.8 秒）→ 's'／'w'／''
+function accel(vs){const n=vs.length,L=3;if(n<2*L+1)return '';const c=function(x){return x===null||x===undefined?null:Math.max(-3,Math.min(3,x));};
+ const a=c(vs[n-1]),b=c(vs[n-1-L]),z=c(vs[n-1-2*L]);if(a===null||b===null||z===null)return '';const d1=a-b,d0=b-z;
+ return a<-0.1&&d1<=-1.5&&d1<d0?'w':a>0.1&&d1>=1.5&&d1>d0?'s':'';}
 function degOf(v){const a=Math.abs(v);return a<0.1?DEG[0]:DEG[blinkLv(v)+1];}
 
 // 小折線（＝env_card_v3.line_svg 兩欄版的畫法：上下界 ±3 步、超過貼邊；中線 ±0.1 步灰、以上紅、以下綠；null＝斷開）
@@ -219,8 +223,8 @@ function spark(vals,o){o=o||{};const W=o.w||268,H=o.h||52,X0=o.x0===undefined?30
  s+='<path d="'+d+'" fill="none" stroke-width="'+sw+'" stroke-linejoin="round" class="sk-gr" clip-path="url(#'+id+'m)"/>';
  s+='<path d="'+d+'" fill="none" stroke-width="'+sw+'" stroke-linejoin="round" class="sk-dn" clip-path="url(#'+id+'d)"/>';
  const lv=vals[n-1];
- if(lv!==null&&lv!==undefined&&!o.nodot){const cx=X(n-1).toFixed(1),cy=Y(lv).toFixed(1),bl=o.ok&&!o.bin?blinkLv(lv):0;
-   if(bl)s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(o.big?11:8)+'" fill="'+(lv>=0?C_UP:C_DN)+'" class="bpulse" data-per="'+BL_PER[bl]+'"/>';
+ if(lv!==null&&lv!==undefined&&!o.nodot){const cx=X(n-1).toFixed(1),cy=Y(lv).toFixed(1),ac=o.acc&&!o.bin?accel(vals):'',bl=o.ok&&!o.bin?blinkLv(lv):0,b2=bl||(ac?1:0);
+   if(b2)s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(o.big?11:8)+'" fill="'+((bl?lv>=0:ac==='s')?C_UP:C_DN)+'" class="bpulse" data-per="'+BL_PER[b2]+'"/>';
    s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+(o.big?5.5:4)+'" class="sk-dot"/>';
    if(o.lab)s+='<text x="'+(X(n-1)-9).toFixed(1)+'" y="'+(lv>=0?Math.min(H-3,Y(lv)+12):Math.max(9,Y(lv)-6)).toFixed(1)+'" text-anchor="end" font-size="9" font-weight="700" fill="#e0a526">'+o.lab+'</text>';}
  if(o.naTxt)s+='<text x="'+(W-4)+'" y="'+(MY+4)+'" text-anchor="end" class="sk-na">'+o.naTxt+'</text>';
@@ -257,12 +261,12 @@ function r2Fig(x){const v=r2V(x),ok=v>=0,bl=ok?blinkLv(v):0;
  const vals=R2V.concat([v]);
  const cap=v>0?['up','十日線之上']:['dn','十日線之下'];
  return card('<div class="ur"><div class="un">收盤站上十日線<i>〔止跌〕</i></div><span class="ucp '+cap[0]+'">'+cap[1]+'</span>'
-  +spark(vals,{ok:ok})+(ok?'<span class="uend ok">成立 ✓</span>':'<span class="uend">—</span>')
+  +spark(vals,{ok:ok,acc:true})+(ok?'<span class="uend ok">成立 ✓</span>':'<span class="uend">—</span>')
   +'<div class="ucap" style="grid-column:1/3">'+'最右邊那點跟著拉桿走（真實是 '+UD.stop_ma10.v.toFixed(1)+' 步）</div></div>');}
 function r2Lab(x){const v=r2V(x),ok=v>=0,bl=ok?blinkLv(v):0,a=Math.abs(v);
  const dir=v>0?'<b style="color:'+C_UP+'">中線上面：亮</b>':'<b style="color:'+C_DN+'">中線下面：滅</b>';
  return dir+'<br>離中線 <b>'+a.toFixed(1)+' 步</b>'+(a>=3?'（畫到邊了）':'')
-  +'<br>'+(ok?(bl?'夠遠，白點在閃':'亮了，還不到 1 步'):'還沒亮');}
+  +'<br>'+(ok?(bl?'夠遠，白點在閃':'亮了，還不到 1 步'):accel(R2V.concat([v]))==='w'?'還沒亮，但掉得越來越快，閃綠光':'還沒亮');}
 
 // ── ④ 強弱排序：四條真實的燈（不分方向，只看離中線多遠） ──
 // 四列都在 ±3 步內（不貼邊）、同一把刻度；一顆在上方、三顆在下方
@@ -299,7 +303,7 @@ const ROUNDS=[
  slider:{min:-39,max:39,step:2,init:-15,ans:15,lo:'偏空（下）',hi:'偏多（上）'},
  fig:r2Fig,vlab:r2Lab,correct:function(x){return r2V(x)>=1;},
  note:'「幾步」＝離中線多遠。最多畫到 3 步。',
- fbOk:'一過中線，膠囊變紅，出現「成立 ✓」。<br>再往上拉，離中線越遠越強，白點會閃。',
+ fbOk:'一過中線，膠囊變紅，出現「成立 ✓」。<br>再往上拉，離中線越遠越強，白點會閃。<br>還沒過門檻、但正在越變越好或越掉越快，也會閃（紅＝變好、綠＝變壞）。<br>上面那幾列在中線下面「轉弱成立」，一樣閃綠光。',
  fbNo:'白點要在中線上面，而且至少 1 步。'},
 // ── 3 強度排序 · sort ──
 {type:'sort',sky:'sky-storm',bg:'peak',label:'強度 · 排排看',short:'強度排序',
